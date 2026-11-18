@@ -1,0 +1,109 @@
+{
+ "dungeonId": 120,
+ "dungeon": "Trône de Sang",
+ "guide": "https://www.dofuspourlesnoobs.com/trone-de-sang.html",
+ "guideUpdated": "21/01/2026",
+ "status": "draft",
+ "strategy": "L'Olgoth est invulnérable au CaC au-dessus de 50 % PV et à distance en dessous. Le Trancharnier se téléporte sur toi ; chaque coup reçu accélère la Frappe Cardinale du Ravalame.",
+ "monsters": {
+  "6014": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "tant que des monstres vivent"
+    },
+    {
+     "id": "big_damage",
+     "param": "zone, via ses armes"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pacifiste",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "une arme tous les 20 % PV"
+    },
+    {
+     "id": "state",
+     "param": "Brave : une seule cible 2 tours"
+    }
+   ],
+   "detail": "Avant chaque seuil de 20 % PV, se placer hors de portée de l'arme qui apparaît et la tuer avant le tour de Guerre (sinon résistances, PM, soins). En Brave, seul le Brave la tape sans être Pacifiste. Hors Brave, elle échange avec ses armes."
+  },
+  "6025": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Critique",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "dommages finaux autour"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte à PO infinie"
+    }
+   ]
+  },
+  "6024": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "pousse, attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "6023": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "au CaC au-dessus de 50 % PV"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    }
+   ],
+   "detail": "Réduit les dommages de sa cible sur les Olgoth."
+  },
+  "6022": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "résistances au CaC"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PA autour de lui"
+    },
+    {
+     "id": "moves",
+     "param": "attire vers sa cible"
+    }
+   ]
+  },
+  "6021": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO"
+    },
+    {
+     "id": "steals",
+     "param": "fuite"
+    }
+   ],
+   "detail": "Chaque coup reçu réduit la relance de Frappe Cardinale, qui touche les 4 personnages les plus proches."
+  }
+ }
+}

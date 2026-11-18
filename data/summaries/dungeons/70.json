@@ -1,0 +1,125 @@
+{
+ "dungeonId": 70,
+ "dungeon": "Laboratoire de Nileza",
+ "guide": "https://www.dofuspourlesnoobs.com/laboratoire-de-nileza.html",
+ "guideUpdated": "21/06/2026",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "3397": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "à 2 PO autour de lui"
+    },
+    {
+     "id": "heals",
+     "param": "lui-même, si frappé au CaC"
+    },
+    {
+     "id": "big_damage",
+     "param": "en ligne, plus fort à bas PV"
+    },
+    {
+     "id": "swaps_on_hit",
+     "param": "frappé à distance"
+    },
+    {
+     "id": "flees"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, échange de place",
+     "source": "spells"
+    }
+   ],
+   "detail": "Ne jamais finir au contact d'un allié : il meurt. Le taper au CaC aux tours 3, 6, 9… Dès le tour 3, tours impairs, Pacifiste aux personnages loin de lui, de plus en plus près. Le glyphe rose de l'échange retire Fuite et Tacle."
+  },
+  "3396": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "repoussent qui les frappe"
+    }
+   ]
+  },
+  "3395": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "au CaC, retire des PA"
+    },
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "poison_mp",
+     "param": "Neutre",
+     "source": "spells"
+    }
+   ],
+   "detail": "Glusure : poison qui tape pour chaque PM utilisé pendant le tour."
+  },
+  "3394": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Soins",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "te téléporte",
+     "source": "spells"
+    }
+   ]
+  },
+  "3393": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "déplacé : boost, Pesanteur à toi"
+    }
+   ]
+  },
+  "3392": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "lui et ses alliés au contact"
+    },
+    {
+     "id": "moves",
+     "param": "attire, pousse",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

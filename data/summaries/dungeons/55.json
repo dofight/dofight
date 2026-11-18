@@ -1,0 +1,125 @@
+{
+ "dungeonId": 55,
+ "dungeon": "Excavation du Mansot Royal",
+ "guide": "https://www.dofuspourlesnoobs.com/excavation-du-mansot-royal.html",
+ "guideUpdated": "21/06/2026",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "2848": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "soigner un perso collé à lui"
+    },
+    {
+     "id": "spread_out",
+     "param": "les soins blessent les voisins"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "plus fort à chaque allié mort"
+    }
+   ],
+   "detail": "Soigner un personnage collé à lui le rend vulnérable 6 tours ; il redevient invulnérable si le soigné meurt. Le pousser ou l'attirer permet de se soigner des dégâts qu'on lui inflige pendant 1 tour."
+  },
+  "2858": {
+   "tags": [
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages (alliés collés)"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place, se téléporte",
+     "source": "spells"
+    }
+   ]
+  },
+  "2857": {
+   "tags": [
+    {
+     "id": "revives",
+     "param": "avec 10 % de leurs PV"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM, Critique, Dommages, Soins",
+     "source": "spells"
+    }
+   ],
+   "detail": "Le monstre ressuscité meurt avec elle."
+  },
+  "2856": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "attire, échange de place",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Bouclier",
+     "source": "spells"
+    }
+   ]
+  },
+  "2855": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "une caractéristique au hasard"
+    },
+    {
+     "id": "steals",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Affaibli",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place",
+     "source": "spells"
+    }
+   ]
+  },
+  "2849": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "Dommages",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, échange de place",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,137 @@
+{
+ "dungeonId": -104,
+ "dungeon": "Cratère Minus (Grozilla et Grasmera Fatigués)",
+ "guide": "https://www.dofuspourlesnoobs.com/grozilla-et-grasmera.html",
+ "guideUpdated": "21/07/2023",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "3296": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "50 % PV si touché par les deux"
+    },
+    {
+     "id": "lock",
+     "param": "bloque son rush"
+    },
+    {
+     "id": "moves",
+     "param": "fonce sur sa cible"
+    },
+    {
+     "id": "summons",
+     "param": "Krokille Juvénile au hasard"
+    }
+   ],
+   "detail": "Inoffensif à distance : jouer à distance ou le tacler.",
+   "mechanics": [
+    "grozilla-grasmera"
+   ]
+  },
+  "3293": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "50 % PV si touché par les deux"
+    },
+    {
+     "id": "lock",
+     "param": "bloque son attirance"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ],
+   "detail": "Inoffensif à distance : jouer à distance ou le tacler.",
+   "mechanics": [
+    "grozilla-grasmera"
+   ]
+  },
+  "3159": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Dommages",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, échange de place",
+     "source": "spells"
+    },
+    {
+     "id": "invisible",
+     "source": "spells"
+    }
+   ]
+  },
+  "3158": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "retire PA, donne PA aux alliés"
+    }
+   ]
+  },
+  "3157": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "Soins",
+     "source": "spells"
+    }
+   ]
+  },
+  "3156": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Vitalité",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "3155": {
+   "tags": [
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    },
+    {
+     "id": "poison_mp",
+     "param": "Neutre",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages, Bouclier, PA, PM",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

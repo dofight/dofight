@@ -1,0 +1,172 @@
+{
+ "dungeonId": 46,
+ "dungeon": "Repaire de Skeunk",
+ "guide": "https://www.dofuspourlesnoobs.com/repaire-de-skeunk.html",
+ "guideWarning": "Cette page nécessite une révision qui sera faite dès que possible.",
+ "status": "draft",
+ "strategy": "Faire exploser la Poupée Affamée en la nourrissant d'invocations ou en lui donnant des PA. Ne jamais finir son tour au CaC d'une Poupée Mortelle.",
+ "monsters": {
+  "780": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui-même et ses alliés"
+    },
+    {
+     "id": "removes",
+     "param": "PM"
+    }
+   ]
+  },
+  "676": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "tous les monstres, chaque tour"
+    },
+    {
+     "id": "team_damage",
+     "param": "en explosant à 8 PA"
+    }
+   ],
+   "detail": "La nourrir d'invocations (2 par tour au plus) ou lui donner des PA : à 8 PA elle explose et tape feu toute l'équipe."
+  },
+  "674": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA"
+    }
+   ]
+  },
+  "783": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC"
+    },
+    {
+     "id": "no_melee_end"
+    }
+   ]
+  },
+  "745": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Workette",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PO, Vitalité",
+     "source": "spells"
+    }
+   ]
+  },
+  "756": {
+   "tags": [
+    {
+     "id": "invisible"
+    }
+   ]
+  },
+  "744": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    }
+   ]
+  },
+  "749": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "754": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Blop Reinette invoqué",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "681": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "sa Poupée Mortelle, au CaC"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur sur l'équipe, Affaibli"
+    },
+    {
+     "id": "summons",
+     "param": "Poupée Mortelle"
+    }
+   ],
+   "detail": "Si elle te tape au CaC, tu ne peux plus attaquer au CaC (état affaibli). Désinvoque les invocations à son contact."
+  },
+  "677": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA et PM (totem) à son CaC"
+    },
+    {
+     "id": "no_melee_end"
+    },
+    {
+     "id": "summons",
+     "param": "totems de soin et de boost"
+    }
+   ]
+  },
+  "675": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA"
+    },
+    {
+     "id": "invisible"
+    }
+   ]
+  },
+  "673": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "échange de place"
+    }
+   ]
+  }
+ }
+}

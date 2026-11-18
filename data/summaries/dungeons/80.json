@@ -1,0 +1,122 @@
+{
+ "dungeonId": 80,
+ "dungeon": "Volière de la Haute Truche",
+ "guide": "https://www.dofuspourlesnoobs.com/voliegravere-de-la-haute-truche.html",
+ "guideWarning": "Cette page nécessite une révision qui sera faite dès que possible.",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "3618": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "2 tours si frappée à l'arme CaC"
+    },
+    {
+     "id": "removes",
+     "param": "PM, Résistance, Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    }
+   ],
+   "detail": "Les dégâts d'arme la rendent invulnérable : la frapper avec des sorts. Ne pas grouper l'équipe dans ses zones (retrait de Puissance, érosion)."
+  },
+  "3619": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "avance",
+     "source": "spells"
+    }
+   ]
+  },
+  "3620": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM, Fuite, Tacle, Résistance",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Affaibli",
+     "source": "spells"
+    }
+   ]
+  },
+  "3621": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Rés. Poussée autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "Force",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "3622": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PO, Retrait PA, Retrait PM",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "3623": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Invulnérabilité, PM, Crit., Rés."
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

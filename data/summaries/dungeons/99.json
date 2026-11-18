@@ -1,0 +1,153 @@
+{
+ "dungeonId": 99,
+ "dungeon": "Palais de Dantinéa",
+ "guide": "https://www.dofuspourlesnoobs.com/palais-de-dantineacutea.html",
+ "guideUpdated": "05/10/2026",
+ "status": "draft",
+ "strategy": "Ne pas finir en vue de la Poulpée. Taper le Tryde chaque tour pour le révéler.",
+ "bossSummons": {
+  "4444": [
+   4447
+  ]
+ },
+ "monsters": {
+  "4444": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "Grokillage vivant tours 6, 11…"
+    },
+    {
+     "id": "big_damage",
+     "param": "en ligne avec un Grokillage"
+    },
+    {
+     "id": "moves",
+     "param": "échange avec un Grokillage"
+    },
+    {
+     "id": "summons",
+     "param": "Grokillages, un par personnage"
+    }
+   ],
+   "detail": "Réinvoque ses Grokillages tous les 5 tours. La tuer tue tous les Grokillages, définitivement."
+  },
+  "4447": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "son personnage, aux tours 6, 11…"
+    },
+    {
+     "id": "removes",
+     "param": "1 PM par tour à son personnage"
+    },
+    {
+     "id": "state",
+     "param": "lié à un personnage"
+    }
+   ],
+   "detail": "Lié à un personnage (une rune montre où il apparaît) : tant qu'il vit, ce personnage ne fait que la moitié de ses dégâts et perd 1 PM par tour. 0 PA, 0 PM : il ne bouge pas."
+  },
+  "4443": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "si Pacifiste et poussé"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "4442": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "si Affaibli, en ligne à 2 PO"
+    },
+    {
+     "id": "moves",
+     "param": "s'attire sur sa cible"
+    },
+    {
+     "id": "glyphs",
+     "param": "Pesanteur et dégâts Feu"
+    }
+   ]
+  },
+  "4441": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "se téléporte derrière sa cible"
+    },
+    {
+     "id": "glyphs",
+     "param": "piège qui retient au centre"
+    },
+    {
+     "id": "invisible",
+     "param": "chaque tour, +Puissance"
+    }
+   ],
+   "detail": "Le frapper le rend visible et remet sa Puissance à zéro : le chercher chaque tour."
+  },
+  "4440": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "poison_mp",
+     "param": "Eau",
+     "source": "spells"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "Insoignable puis -PM"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place",
+     "source": "spells"
+    }
+   ]
+  },
+  "4439": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "si tu es Insoignable"
+    },
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pacifiste",
+     "source": "spells"
+    },
+    {
+     "id": "no_melee_end",
+     "param": "attire, Pacifiste au CaC"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

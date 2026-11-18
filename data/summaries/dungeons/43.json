@@ -1,0 +1,99 @@
+{
+ "dungeonId": 43,
+ "dungeon": "Sousouricière du Rat Noir",
+ "guide": "https://www.dofuspourlesnoobs.com/sousouriciere-du-rat-noir.html",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "939": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "Kackitu puis dégâts Terre/Neutre"
+    },
+    {
+     "id": "big_damage",
+     "param": "si soigné sous Peste Noire"
+    },
+    {
+     "id": "heals",
+     "param": "allié tapé Terre ou Neutre"
+    },
+    {
+     "id": "no_melee_end"
+    }
+   ],
+   "detail": "Kackitu (au CaC, tous les 7 tours) tue sa cible si elle subit du Terre ou Neutre ce tour-là : lui laisser une invocation au CaC. Ne pas soigner sous Peste Noire (le vol de vie ne compte pas). Ne pas taper Terre/Neutre sous Kackisoigne."
+  },
+  "6742": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    }
+   ]
+  },
+  "6739": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Rat Molo",
+     "source": "spells"
+    },
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    }
+   ]
+  },
+  "937": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM, PO",
+     "source": "spells"
+    }
+   ]
+  },
+  "936": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire, te téléporte",
+     "source": "spells"
+    }
+   ]
+  },
+  "935": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages finaux",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

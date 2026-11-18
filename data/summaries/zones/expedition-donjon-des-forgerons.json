@@ -1,0 +1,76 @@
+{
+ "zone": "Expédition - Donjon des Forgerons",
+ "dungeonId": 21,
+ "dungeon": "Donjon des Forgerons",
+ "guide": "https://www.dofuspourlesnoobs.com/donjon-des-forgerons.html",
+ "guideUpdated": "12/11/2024",
+ "status": "draft",
+ "strategy": "Les monstres sont inoffensifs à distance mais tapent très fort au CaC : les garder à distance.",
+ "roomTags": [
+  {
+   "id": "no_melee_end",
+   "param": "monstres très forts au CaC"
+  }
+ ],
+ "monsters": {
+  "7795": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "tant qu'un monstre vit"
+    },
+    {
+     "id": "one_shot",
+     "param": "le perso qui tue un monstre"
+    },
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ],
+   "detail": "Au début de son tour, il tue les monstres à 10 % PV ou moins (même loin) et gagne PM et dommages : les descendre à 10 % sans les achever. Une invocation peut achever un monstre sans risque."
+  },
+  "7794": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC"
+    },
+    {
+     "id": "removes",
+     "param": "PA autour de lui",
+     "source": "spells"
+    }
+   ]
+  },
+  "7793": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "7792": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "Retrait PA",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

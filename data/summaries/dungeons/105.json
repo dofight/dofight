@@ -1,0 +1,103 @@
+{
+ "dungeonId": 105,
+ "dungeon": "Chapiteau des Magik Riktus",
+ "guide": "https://www.dofuspourlesnoobs.com/chapiteau-des-magik-riktus.html",
+ "status": "draft",
+ "strategy": "Le retrait PM ou PO sert peu : les sorts portent à 12 PO et plus.",
+ "monsters": {
+  "4860": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Tacle",
+     "source": "spells"
+    },
+    {
+     "id": "poison_mp",
+     "param": "Terre",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place, pousse"
+    },
+    {
+     "id": "flees"
+    }
+   ],
+   "detail": "Début de tour : échange de place avec un personnage à son contact ; en Pesanteur ou Enraciné, celui-ci subit des dégâts Feu à la place. Vinriktus fait échanger sa cible avec l'allié le plus proche d'elle. Sous Reste assis, se déplacer peu."
+  },
+  "4865": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM"
+    },
+    {
+     "id": "glyphs",
+     "param": "pièges : PA, PM, Pesanteur"
+    }
+   ]
+  },
+  "4864": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Puissance"
+    }
+   ]
+  },
+  "4863": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    }
+   ]
+  },
+  "4862": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "4861": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PO"
+    },
+    {
+     "id": "removes",
+     "param": "Puissance"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "bouclier et Puissance"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place"
+    }
+   ]
+  }
+ }
+}

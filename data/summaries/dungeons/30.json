@@ -1,0 +1,209 @@
+{
+ "dungeonId": 30,
+ "dungeon": "Caverne du Koulosse",
+ "guide": "https://www.dofuspourlesnoobs.com/caverne-du-koulosse.html",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "670": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "tous les PA, 1 tour (Souffle)"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "jamais en ligne avec lui"
+    },
+    {
+     "id": "reduce_range",
+     "param": "ses sorts deviennent CaC"
+    },
+    {
+     "id": "moves",
+     "param": "attire en ligne"
+    },
+    {
+     "id": "summons",
+     "param": "Bouftou des cavernes, Boufcoul"
+    }
+   ],
+   "detail": "Ne tape pas, mais son Souffle (dès le tour 2, en ligne à 5 PO, avec ligne de vue) change un personnage en Boufcoul sans PA 1 tour : éviter ses lignes, se cacher, désenvoûter. Un Boufcoul invoqué rend ses alliés invisibles avec 5 PM."
+  },
+  "763": {
+   "tags": [
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    }
+   ]
+  },
+  "755": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Dok Alako, Koalak Coco",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "671": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM à distance"
+    },
+    {
+     "id": "flees"
+    }
+   ]
+  },
+  "784": {
+   "tags": [
+    {
+     "id": "poison_ap",
+     "param": "Neutre",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    }
+   ]
+  },
+  "754": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Blop Reinette invoqué",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "753": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Blop Griotte invoqué",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "Soins",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "752": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Blop Coco invoqué",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "751": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Blop Indigo invoqué",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "746": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Workette",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PO, Vitalité",
+     "source": "spells"
+    }
+   ]
+  },
+  "747": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "Résistance",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Résistance Terre",
+     "source": "spells"
+    }
+   ]
+  },
+  "748": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

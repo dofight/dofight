@@ -1,0 +1,111 @@
+{
+ "dungeonId": 118,
+ "dungeon": "Fers de la Tyrannie",
+ "guide": "https://www.dofuspourlesnoobs.com/fers-de-la-tyrannie.html",
+ "guideUpdated": "26/03/2024",
+ "status": "draft",
+ "strategy": "Les Écaptifs gagnent 3 PM et 100 % de dommages au tour 4. Taper 3 fois le Boularbin retire les résistances qu'il donne. Le Tambourreau booste ses alliés à mesure qu'il perd des PV.",
+ "monsters": {
+  "5955": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "200 %, sauf en état Traître"
+    },
+    {
+     "id": "removes",
+     "param": "PA, Tacle",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Armécréante, tours impairs"
+    },
+    {
+     "id": "phase",
+     "param": "monture à 50 %, soin 25 % à 1 PV"
+    },
+    {
+     "id": "moves",
+     "param": "attire, échange de place"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "bouclier et PM"
+    }
+   ],
+   "detail": "Traître : finir son tour sur un glyphe blanc ; taper ensuite un de ses alliés ajoute 1 charge (5 max), chaque coup sur Servitude en consomme une. À 1 PV, ramène tout le monde au départ et se soigne de 25 %, sauf s'il est Insoignable."
+  },
+  "5989": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "à partir du tour 4"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "reflect",
+     "param": "au CaC"
+    }
+   ]
+  },
+  "5983": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "résistances au CaC"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "100 % résistances à un allié"
+    },
+    {
+     "id": "removes",
+     "param": "Fuite"
+    }
+   ],
+   "detail": "Ses résistances données se retirent en tapant 3 fois le Boularbin."
+  },
+  "5980": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "tacle et fuite",
+     "source": "spells"
+    }
+   ]
+  },
+  "5979": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Iopprimé si pas tapée"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, te ramène au départ"
+    }
+   ],
+   "detail": "La taper une fois par tour l'empêche d'invoquer un Iopprimé (2 max). Pesanteur, Enraciné ou Indéplaçable empêchent le renvoi au début du tour."
+  },
+  "5978": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "plus il perd de PV"
+    },
+    {
+     "id": "removes",
+     "param": "PO et critique"
+    }
+   ]
+  }
+ }
+}

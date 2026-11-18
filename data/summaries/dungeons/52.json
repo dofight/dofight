@@ -1,0 +1,93 @@
+{
+ "dungeonId": 52,
+ "dungeon": "Château du Wa Wabbit",
+ "guide": "https://www.dofuspourlesnoobs.com/chateau-du-wa-wabbit.html",
+ "guideUpdated": "21/06/2026",
+ "status": "reviewed",
+ "strategy": "Se disperser : les Grand Pa Wabbit tapent et entravent en cercle de 2.",
+ "monsters": {
+  "180": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "puissance à toute l'équipe"
+    },
+    {
+     "id": "dispel",
+     "param": "malus de puissance"
+    },
+    {
+     "id": "flees"
+    }
+   ],
+   "detail": "Ne fait mal qu'en critique : sa Cawotte Woyale lui en donne (+10 %) et pose un glyphe qui soigne les monstres et rend insoignable : ne pas commencer ni finir son tour dedans."
+  },
+  "99": {
+   "tags": [
+    {
+     "id": "area_damage",
+     "param": "cercle de 2, dégâts et entrave"
+    }
+   ],
+   "detail": "Beaucoup de PV pour leur niveau, mais peu de dégâts."
+  },
+  "97": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Tiwabbits, 2 au maximum"
+    }
+   ]
+  },
+  "65": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "64": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PA, PM, PO",
+     "source": "spells"
+    }
+   ]
+  },
+  "68": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "96": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "Puissance, Dommages",
+     "source": "spells"
+    }
+   ]
+  },
+  "72": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

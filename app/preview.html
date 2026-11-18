@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-i18n="preview.windowTitle">Dofight – Aperçu</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+    <style>#preview a { pointer-events: none; } /* the title bar as tall as the panel's (its buttons are 26 px) */ .topbar > span { min-height: 26px; display: flex; align-items: center; justify-content: center; }</style>
+    <script type="module" src="/src/previewPage.ts" defer></script>
+  </head>
+  <body>
+    <div id="app">
+      <header class="topbar"><span></span><span class="title" data-i18n="settings.preview">Aperçu</span><span></span></header>
+      <main class="view">
+        <p id="label" class="hint"></p>
+        <div id="preview"></div>
+      </main>
+    </div>
+  </body>
+</html>

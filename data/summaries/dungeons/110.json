@@ -1,0 +1,141 @@
+{
+ "dungeonId": 110,
+ "dungeon": "Brasserie du roi Dazak",
+ "guide": "https://www.dofuspourlesnoobs.com/brasserie-du-roi-dazak.html",
+ "guideUpdated": "08/06/2020",
+ "status": "draft",
+ "strategy": "Un monstre qui ne touche aucun personnage monte en Nimpatience, jusqu'à 3 : le laisser toucher un personnage l'empêche de monter. Éviter les lignes du Boufbos.",
+ "roomTags": [
+  {
+   "id": "state",
+   "param": "Nimpatience s'il ne tape pas"
+  }
+ ],
+ "monsters": {
+  "5319": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "le déplacer après Nimpatience 3"
+    },
+    {
+     "id": "big_damage",
+     "param": "CaC, retire des résistances"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PM, Résistance",
+     "source": "spells"
+    },
+    {
+     "id": "dispel",
+     "param": "Nintrépidité (PM, bouclier)"
+    },
+    {
+     "id": "moves",
+     "param": "bond de 5 cases, tours pairs"
+    }
+   ],
+   "detail": "Plus de 100 % de rés. : le garder loin, attendre sa Nimpatience 3. Les 2 tours suivants, chaque poussée ou attirance lui ôte 5 % de rés. (gardés) ; un dommage de poussée en rend 10 %. Une invocation à 2 cases réduit son bond à 1 case."
+  },
+  "5318": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO, et tous les PM (Nimpat. 3)"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    }
+   ],
+   "detail": "Sa Nimpatience lui donne de la PO."
+  },
+  "5317": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA autour de lui, et critique"
+    },
+    {
+     "id": "moves",
+     "param": "pousse et s'attire"
+    }
+   ]
+  },
+  "5316": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "Vitalité (Nimpatience 3)"
+    },
+    {
+     "id": "moves",
+     "param": "s'attire sur sa cible en ligne"
+    }
+   ]
+  },
+  "5315": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "en ligne, de 3 à 12 PO"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pacifiste",
+     "source": "spells"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "pas en ligne avec lui"
+    },
+    {
+     "id": "lock",
+     "param": "contre un mur"
+    },
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse et recule"
+    }
+   ],
+   "detail": "Taclé et dos à un mur, il ne peut plus reculer ni taper (il tape de 3 PO minimum)."
+  },
+  "5314": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "redirects",
+     "param": "en échangeant avec un allié"
+    },
+    {
+     "id": "moves",
+     "param": "4 persos à son CaC (Nimp. 3)"
+    }
+   ],
+   "detail": "Chaque Nimpatience réduit ses dégâts subis."
+  }
+ }
+}

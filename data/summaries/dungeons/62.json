@@ -1,0 +1,136 @@
+{
+ "dungeonId": 62,
+ "dungeon": "Donjon de la mine de Sakaï",
+ "guide": "https://www.dofuspourlesnoobs.com/donjon-de-la-mine-de-sakaiuml.html",
+ "guideUpdated": "12/04/2024",
+ "status": "draft",
+ "strategy": "Ne jamais rester en ligne avec un Gobus.",
+ "monsters": {
+  "2942": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "tuer un Zombi Instant à son CaC"
+    },
+    {
+     "id": "heals",
+     "param": "lui-même (Banquise)"
+    },
+    {
+     "id": "removes",
+     "param": "PO"
+    },
+    {
+     "id": "revives",
+     "param": "le dernier mort, en Zombi"
+    },
+    {
+     "id": "no_ap_mp_removal",
+     "param": "retrait PM : énormes résistances"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place",
+     "source": "spells"
+    }
+   ],
+   "detail": "Gelée blanche donne Instant au Zombi : le tuer au CaC de Grolloum le rend vulnérable jusqu'au tour suivant du tueur."
+  },
+  "2937": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "en ligne, selon PV manquants"
+    },
+    {
+     "id": "inflicts",
+     "param": "Affaibli au CaC"
+    },
+    {
+     "id": "no_melee_end"
+    },
+    {
+     "id": "moves",
+     "param": "attire en ligne"
+    }
+   ]
+  },
+  "2936": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "Gobus : en ligne avec lui"
+    },
+    {
+     "id": "summons",
+     "param": "Gobus"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages, jets maximum"
+    }
+   ],
+   "detail": "Le Gobus tue les personnages en ligne avec lui au bout de son 2e tour. Une invocation en ligne le fait exploser. Le poison du Perkü frappe quand la cible est soignée."
+  },
+  "2935": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM"
+    },
+    {
+     "id": "dodges_melee",
+     "param": "lui et ses voisins"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages"
+    },
+    {
+     "id": "moves",
+     "param": "pousse"
+    }
+   ],
+   "detail": "Sous Escamotage, lui et ses voisins esquivent les coups au CaC et gagnent des dommages à chaque coup reçu."
+  },
+  "2934": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "erodes"
+    },
+    {
+     "id": "no_melee_end"
+    }
+   ],
+   "detail": "Sous Shatte, chaque coup reçu lui donne un bonus aléatoire (PA, PM, dommages, critique ou soin)."
+  },
+  "2933": {
+   "tags": [
+    {
+     "id": "no_melee_end"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place"
+    }
+   ],
+   "detail": "Sous Nowel, chaque coup reçu frappe tout ce qui est à son CaC : ne pas le frapper si un allié y est."
+  },
+  "2932": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,129 @@
+{
+ "dungeonId": 67,
+ "dungeon": "Transporteur de Sylargh",
+ "guide": "https://www.dofuspourlesnoobs.com/transporteur-de-sylargh.html",
+ "guideUpdated": "05/10/2026",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "3409": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "Zombi tué à 5-10 PO de lui"
+    },
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    },
+    {
+     "id": "reduce_range",
+     "param": "et lui retirer des PM"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages, Tacle",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ],
+   "detail": "Les monstres tués reviennent en Zombi ; achevé, un Zombi explose (5 PO) et rend Pacifiste qui a 90 % PV ou plus. Achever le premier tue la chaîne. Mortier : sa cible prend de l'Eau à chaque coup reçu au CaC."
+  },
+  "3408": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Résistances Poussée",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages",
+     "source": "spells"
+    },
+    {
+     "id": "redirects",
+     "param": "entités à 2 PO de lui"
+    }
+   ]
+  },
+  "3407": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, autour de lui si frappé"
+    }
+   ]
+  },
+  "3406": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "à ceux alignés avec lui"
+    },
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "erodes",
+     "param": "autour de lui"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "3405": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "à 2 PO"
+    },
+    {
+     "id": "moves",
+     "param": "attire en ligne"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "s'il est frappé au CaC"
+    }
+   ]
+  },
+  "3404": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "renvoie à la case précédente"
+    }
+   ],
+   "detail": "Sous Retour historique, chaque coup reçu renvoie l'attaquant à sa position précédente ; un téléfrag inflige de gros dégâts Eau."
+  }
+ }
+}

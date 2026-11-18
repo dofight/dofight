@@ -1,0 +1,33 @@
+# Posts a release's announcement on Discord by hand (Actions tab, or `gh workflow run announce.yml -f tag=vX.Y.Z`),
+# for a release whose announcement failed. Same post as the `release` workflow's.
+name: announce
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release to announce, e.g. v1.0.0"
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  announce:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.inputs.tag }}
+      RELEASE_REPO: ${{ vars.RELEASE_REPO || github.repository }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.inputs.tag }}
+      - name: Announce on Discord
+        env:
+          WEBHOOK: ${{ secrets.DOFIGHT_ANNOUNCE_WEBHOOK }}
+        run: |
+          set -euo pipefail
+          [ -n "$WEBHOOK" ] || { echo "No DOFIGHT_ANNOUNCE_WEBHOOK"; exit 1; }
+          node tools/announce.mjs "$TAG" "docs/release-notes/$TAG.md" announce.json
+          curl -fsS -H "Content-Type: application/json" -d @announce.json "$WEBHOOK"
+          echo "Announced $TAG on Discord"

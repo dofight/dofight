@@ -1,0 +1,100 @@
+{
+ "dungeonId": 54,
+ "dungeon": "Serre du Royalmouth",
+ "guide": "https://www.dofuspourlesnoobs.com/serre-du-royalmouth.html",
+ "guideUpdated": "21/06/2026",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "2854": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "le pousser (1 tour)"
+    },
+    {
+     "id": "one_shot",
+     "param": "dommages de poussée sur lui"
+    },
+    {
+     "id": "removes",
+     "param": "PM autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire autour de lui"
+    },
+    {
+     "id": "summons",
+     "param": "un monstre du donjon"
+    }
+   ],
+   "detail": "Pousser sans dommages de poussée le rend vulnérable jusqu'au tour suivant (+4 PM). Des dommages de poussée sur lui, même via un allié poussé contre lui, tuent ceux en ligne avec lui. Chaque invocation lui donne un bonus, sa mort un malus."
+  },
+  "2853": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "Agilité",
+     "source": "spells"
+    }
+   ]
+  },
+  "2852": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "2851": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "50 % de résistances"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages",
+     "source": "spells"
+    }
+   ]
+  },
+  "2850": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "donné à un allié"
+    },
+    {
+     "id": "steals",
+     "param": "PO",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

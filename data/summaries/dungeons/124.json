@@ -1,0 +1,125 @@
+{
+ "dungeonId": 124,
+ "dungeon": "Fabrique de foux d'artifice",
+ "guide": "https://www.dofuspourlesnoobs.com/fabrique-de-foux-d-artifice.html",
+ "guideUpdated": "05/10/2026",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "6249": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "éteindre les 8 feux"
+    },
+    {
+     "id": "removes",
+     "param": "PA, PM, PO, Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "bleu : Extinction des feux"
+    },
+    {
+     "id": "summons",
+     "param": "Lanterne qui explose"
+    },
+    {
+     "id": "invisible",
+     "param": "une fois vulnérable"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Fuite",
+     "source": "spells"
+    }
+   ],
+   "detail": "La case marron à droite d'un feu l'éteint (sous Extinction des feux). Les 8 éteints, tous les ennemis restent vulnérables ; avant, un feu se rallume en 8 tours. Chaque feu éteint lui donne PM, PO et dommages 4 tours."
+  },
+  "6255": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM, PO",
+     "source": "spells"
+    },
+    {
+     "id": "no_melee_end",
+     "param": "frappe tous ceux à son contact"
+    },
+    {
+     "id": "glyphs",
+     "param": "retire des PM"
+    }
+   ]
+  },
+  "6254": {
+   "tags": [
+    {
+     "id": "glyphs",
+     "param": "érosion, dommages aux alliés"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Bouclier",
+     "source": "spells"
+    }
+   ]
+  },
+  "6253": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "retire 6 PO"
+    }
+   ]
+  },
+  "6252": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM, Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "frappe Feu en fin de tour"
+    }
+   ]
+  },
+  "6251": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Dommages finaux",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "retire des PA"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PO",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

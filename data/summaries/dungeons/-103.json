@@ -1,0 +1,124 @@
+{
+ "dungeonId": -103,
+ "dungeon": "Cratère Minus (Grozilla et Grasmera Épuisés)",
+ "guide": "https://www.dofuspourlesnoobs.com/grozilla-et-grasmera.html",
+ "guideUpdated": "21/07/2023",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "3297": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "50 % PV sur un Tyrannisé"
+    },
+    {
+     "id": "lock",
+     "param": "l'empêche de se ruer"
+    },
+    {
+     "id": "moves",
+     "param": "se rue sur sa cible en ligne"
+    },
+    {
+     "id": "summons",
+     "param": "Krokilles Juvéniles"
+    }
+   ],
+   "detail": "Inoffensif à distance ; ne se rue qu'à 2 PO ou plus : jouer à distance ou le tacler. Pas de one-shot dans cette version.",
+   "mechanics": [
+    "grozilla-grasmera"
+   ]
+  },
+  "3294": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "50 % PV sur un Météoroïde"
+    },
+    {
+     "id": "lock",
+     "param": "l'empêche d'attirer"
+    },
+    {
+     "id": "moves",
+     "param": "attire en ligne"
+    }
+   ],
+   "detail": "Inoffensif à distance ; n'attire qu'à 2 PO ou plus : jouer à distance ou le tacler. Pas de one-shot dans cette version.",
+   "mechanics": [
+    "grozilla-grasmera"
+   ]
+  },
+  "3154": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place",
+     "source": "spells"
+    },
+    {
+     "id": "invisible"
+    }
+   ]
+  },
+  "3153": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA à distance"
+    }
+   ]
+  },
+  "3152": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable",
+     "source": "spells"
+    }
+   ],
+   "detail": "Peut donner à un allié un état qui le soigne beaucoup s'il est tapé dans un élément qu'il résiste."
+  },
+  "3151": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "Dommages",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire en ligne"
+    }
+   ]
+  },
+  "3150": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM"
+    },
+    {
+     "id": "poison_mp",
+     "param": "Neutre",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance, Tacle, Soins",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

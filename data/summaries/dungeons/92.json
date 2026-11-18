@@ -1,0 +1,121 @@
+{
+ "dungeonId": 92,
+ "dungeon": "Arbre de Moon",
+ "guide": "https://www.dofuspourlesnoobs.com/arbre-de-moon.html",
+ "status": "draft",
+ "strategy": "Ne pas finir au CaC du Gloutovore.",
+ "bossSummons": {
+  "226": [
+   225
+  ]
+ },
+ "monsters": {
+  "226": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "totem sur le glyphe assorti"
+    },
+    {
+     "id": "removes",
+     "param": "PA, PM, PO",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "téléporte symétriquement"
+    },
+    {
+     "id": "summons",
+     "param": "Darkli Moon"
+    }
+   ],
+   "detail": "100 % de résistances partout. Le Moon perd sa résistance dans un élément quand le totem de cet élément, invoqué par Darkli Moon, est posé sur le glyphe de sa couleur."
+  },
+  "225": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "4 totems et leurs glyphes"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "+100 Puissance au Moon si frappé"
+    }
+   ],
+   "detail": "Totems : rouge Feu, vert Air, bleu Eau, jaune Terre, chacun avec un glyphe de sa couleur. Taper un totem en ligne dans son élément l'attire à ton contact. Frapper Darkli Moon t'échange de place avec lui."
+  },
+  "4163": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "Dommages Poussée, PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Dodounes"
+    }
+   ]
+  },
+  "4162": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "217": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, toute la PO"
+    }
+   ]
+  },
+  "216": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC (Gobage)"
+    },
+    {
+     "id": "heals",
+     "param": "lui-même"
+    },
+    {
+     "id": "no_ap_mp_removal"
+    },
+    {
+     "id": "moves",
+     "param": "attire en ligne"
+    }
+   ],
+   "detail": "Chaque tentative de retrait PM soigne les monstres de 15 % de leurs PV ; chaque tentative de retrait PA lui donne 1 PM pour le combat."
+  },
+  "215": {
+   "tags": [
+    {
+     "id": "glyphs",
+     "param": "retire tous les PM"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

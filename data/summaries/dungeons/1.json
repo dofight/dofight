@@ -1,0 +1,69 @@
+{
+ "dungeonId": 1,
+ "dungeon": "Cour du Bouftou Royal",
+ "guide": "https://www.dofuspourlesnoobs.com/cour-du-bouftou-royal.html",
+ "guideUpdated": "04/11/2024",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "147": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "no_melee_end",
+     "param": "rester à 7 cases ou plus"
+    },
+    {
+     "id": "flees"
+    }
+   ],
+   "detail": "Ne tape qu'au CaC, puis recule. Soigne ses alliés jusqu'à 6 PO, pas lui-même. Un personnage ou une invocation près de lui sert d'appât : il frappe puis recule ; les autres restent hors de portée. Pas d'appât à fort tacle."
+  },
+  "4822": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "attire en ligne"
+    }
+   ]
+  },
+  "148": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "fonce sur sa cible en ligne"
+    }
+   ]
+  },
+  "149": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    }
+   ]
+  },
+  "134": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    }
+   ]
+  },
+  "101": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "PM",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

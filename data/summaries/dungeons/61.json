@@ -1,0 +1,134 @@
+{
+ "dungeonId": 61,
+ "dungeon": "Antichambre des Gloursons",
+ "guide": "https://www.dofuspourlesnoobs.com/antichambre-des-gloursons.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "Sous leur état, frapper le Glouragan attire ce qui est en ligne avec lui ; frapper le Glourmand lui donne des dommages de poussée.",
+ "monsters": {
+  "2864": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "tout dommage de poussée"
+    },
+    {
+     "id": "revives",
+     "param": "si déplacé ou -PM/PO, PV pleins"
+    },
+    {
+     "id": "invulnerable",
+     "param": "le frapper au CaC (ce tour-là)"
+    },
+    {
+     "id": "big_damage",
+     "param": "CaC, selon ses PV manquants"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Tacle",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place",
+     "source": "spells"
+    }
+   ],
+   "detail": "Le frapper au CaC repousse de 4 ceux en ligne à 4 PO : un obstacle derrière tue. Le premier coup ne fait pas de dégâts. Sous Taclours, rater sa fuite d'un monstre tue."
+  },
+  "2989": {
+   "tags": [
+    {
+     "id": "redirects",
+     "param": "un allié, 1 tour"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Vitalité"
+    }
+   ]
+  },
+  "2988": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire en ligne si frappé"
+    }
+   ],
+   "detail": "Sous Glours poursuite, le frapper attire tout ce qui est en ligne avec lui : ne pas le frapper aligné avec le Glourséleste, qui, attiré, ressuscite ses alliés. Sa zone touche aussi ses alliés."
+  },
+  "2987": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "poussé contre un obstacle"
+    },
+    {
+     "id": "dispel",
+     "param": "Gloursbi-boulga"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, se téléporte"
+    }
+   ],
+   "detail": "Gloursbi-boulga : chaque coup reçu lui donne des dommages de poussée. Le désenvoûter ou ne pas le frapper."
+  },
+  "2863": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "flees"
+    }
+   ],
+   "detail": "Gagne des dommages à chaque coup reçu et vole beaucoup de PV au CaC."
+  },
+  "2862": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM si on lui en retire"
+    }
+   ]
+  },
+  "2861": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés, si frappé au CaC"
+    },
+    {
+     "id": "removes",
+     "param": "Soins"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

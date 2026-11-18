@@ -1,0 +1,136 @@
+{
+ "dungeonId": 41,
+ "dungeon": "Goulet du Rasboul",
+ "guide": "https://www.dofuspourlesnoobs.com/goulet-du-rasboul.html",
+ "guideWarning": "Cette page nécessite une révision qui sera faite dès que possible.",
+ "status": "draft",
+ "strategy": "",
+ "bossSummons": {
+  "1071": [
+   1084
+  ]
+ },
+ "monsters": {
+  "1071": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "l'amener à 14 PA (Hololole)"
+    },
+    {
+     "id": "removes",
+     "param": "Résistances autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance, Résistance Neutre",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place"
+    },
+    {
+     "id": "summons",
+     "param": "Rasboul Mineur, chaque tour"
+    }
+   ],
+   "detail": "L'amener à 14 PA (lui retirer des PA lui en fait gagner, lui en donner aussi) : il lance Hololole, 2 tours où chaque coup lui retire de la résistance dans l'élément du coup et lui en donne dans les autres. Taper toujours le même élément."
+  },
+  "1084": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "un allié au CaC, tous ses PV"
+    }
+   ],
+   "detail": "Jusqu'à 2 par tour. 75 % de résistances, sauf -75 % dans un élément au hasard. Le garder loin du Rasboul : il lui rendrait tous ses PV."
+  },
+  "1070": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "no_melee_end",
+     "param": "au CaC, fait passer le tour"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte"
+    }
+   ]
+  },
+  "1019": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO, Soins",
+     "source": "spells"
+    },
+    {
+     "id": "flees"
+    }
+   ]
+  },
+  "1025": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Critique",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "PA, PM",
+     "source": "spells"
+    }
+   ]
+  },
+  "1069": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "1068": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Soins",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PO, Dommages, PM",
+     "source": "spells"
+    }
+   ]
+  },
+  "1026": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO, Résistance",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

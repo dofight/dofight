@@ -1,0 +1,92 @@
+{
+ "zone": "Expédition - Clairière du Chêne Mou",
+ "dungeonId": 10,
+ "dungeon": "Clairière du Chêne Mou",
+ "guide": "https://www.dofuspourlesnoobs.com/clairiegravere-du-checircne-mou.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "Les Branches restent invulnérables tant que le Chêne Mou vit.",
+ "monsters": {
+  "7919": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, échange de place",
+     "source": "spells"
+    }
+   ]
+  },
+  "7924": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "25 % Résistance"
+    },
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    }
+   ]
+  },
+  "7922": {
+   "tags": [
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance, Critique",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    }
+   ]
+  },
+  "7921": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "tant que le Chêne Mou vit"
+    },
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    }
+   ],
+   "detail": "Sa cible soigne le monstre le plus proche à chaque déplacement, pas à chaque PM : se déplacer en une seule fois, près d'un monstre qui n'a pas perdu de PV."
+  },
+  "7920": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "tant que le Chêne Mou vit"
+    },
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "un monstre tous les 2 tours"
+    }
+   ]
+  }
+ }
+}

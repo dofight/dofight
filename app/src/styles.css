@@ -1,0 +1,373 @@
+/* Dofight overlay, styled like Ganymède so players feel at home: slate window, rounded cards, gold accents. */
+:root{
+  --win:30,40,49;            /* window background (rgb, with --alpha) */
+  --bar:62,70,80;            /* title bar (rgb) */
+  --bg:#3e4650; --card:#21303c; --line:#3a4856; --fg:#e8edf2; --muted:#9aa6b2;
+  --gold:#e3b54f; --gold-soft:rgba(227,181,79,.16); --yellow:#f2d54b; --blue:#63adf2;
+  --danger-bg:rgba(230,80,70,.18); --danger-fg:#ff9d92;
+  --tip-bg:rgba(99,173,242,.16); --tip-fg:#8cc4f7;
+  --mech-bg:rgba(170,130,255,.16); --mech-fg:#c9a7ff; /* « Mécanique » badges: their own violet in every theme */
+  --warn-bg:rgba(242,213,75,.14); --warn-fg:#f2d54b; /* warnings: a reading that is blocked, a spell shape to watch */
+  --n:#c4c4c4; --e:#d39a58; --f:#ff7a5c; --w:#5cb8ff; --a:#7fd67f; --neg:#ff8f8f;
+  --body:"Segoe UI Variable Text","Segoe UI",system-ui,sans-serif;
+  color-scheme:dark;
+}
+html{zoom:var(--zoom,1)} /* Paramètres > Apparence > Taille du texte (theme.ts applyTextSize) */
+html,body{margin:0;height:100%;background:transparent;color:var(--fg);font:14px/1.4 var(--body);overflow:hidden}
+#app{position:relative;display:grid;grid-template-rows:auto minmax(0,1fr);height:100%;background:rgba(var(--win),var(--alpha,1));border-radius:10px;border:1px solid var(--line);box-sizing:border-box;user-select:none}
+button{font:inherit}
+
+/* title bar */
+.topbar{z-index:3;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding:3px 6px;background:rgb(var(--bar)); /* always opaque, like Ganymède: the opacity is for the area below */ border-bottom:1px solid var(--line);border-radius:9px 9px 0 0} /* 9 = the frame's 10 minus its 1 px border: no double edge in the corners */
+.title{display:flex;align-items:center;gap:6px;font-weight:700;font-size:14px;letter-spacing:.01em}
+.actions{justify-self:end;display:flex;gap:0}
+.brand{justify-self:start;display:flex;align-items:center} /* like Ganymède: the logo on the left, the name in the middle, settings, hide and quit on the right, a compact bar */
+/* every control shows the hand on hover (buttons, links, switches, pickers, rows that fold) */
+button:not(:disabled),a[href],[role=button],[role=radio],[role=option],select,input[type=checkbox]:not(:disabled),input[type=range],summary{cursor:pointer}
+.tb{display:inline-flex;align-items:center;justify-content:center;background:none;border:0;color:var(--fg);font-size:15px;line-height:1;padding:3px 4px;min-width:24px;min-height:26px;border-radius:6px;cursor:pointer}
+.tb:hover{background:var(--card)}
+.tb:active{background:var(--line)}
+/* one keyboard focus ring for every control, visible on any theme */
+:is(button,a,select,textarea,input,[tabindex]):focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.logo{position:relative;display:block;width:20px;height:20px}
+.logo img{position:absolute;pointer-events:none}
+.logo #logo{inset:0;width:20px;height:20px}
+
+/* views */
+.view{display:grid;gap:8px;padding:10px 6px 10px 10px;align-content:start;min-width:0;overflow-y:auto;overflow-x:hidden;scrollbar-gutter:stable}
+/* scrollbar inside the overlay, thin and rounded like Ganymède */
+.view::-webkit-scrollbar{width:8px}
+.view::-webkit-scrollbar-track{background:transparent;margin:6px 0}
+.view::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--muted) 45%,var(--card));border-radius:8px;border:2px solid transparent;background-clip:padding-box}
+.view::-webkit-scrollbar-thumb:hover{background:var(--muted)}
+.view::-webkit-scrollbar-button{display:none}
+.view[hidden]{display:none}
+#q{width:100%;box-sizing:border-box;background:var(--card);border:1px solid var(--line);color:var(--fg);padding:8px 11px;border-radius:8px;font:inherit;user-select:text}
+#q:focus-visible{outline-offset:0}
+#q::placeholder,.text::placeholder{color:var(--muted)}
+.results{display:grid;gap:4px}
+.res-item{display:flex;justify-content:space-between;gap:8px;align-items:baseline;text-align:left;width:100%;box-sizing:border-box;min-width:0;background:var(--card);border:1px solid var(--line);border-radius:8px;color:var(--fg);padding:7px 10px;cursor:pointer}
+.res-item:hover,.res-item:focus-visible,.res-item[aria-selected="true"]{border-color:var(--gold);outline:none}
+.res-item[aria-selected="true"]{background:var(--gold-soft)}
+.res-item small{color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:0 1 auto} /* the info gives way first */
+.res-item>span{flex:0 0 auto;max-width:75%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.res-item>span:only-child{max-width:100%} /* no info: the label takes the row */
+/* the suggestion's subject: the same results as the search, under its field */
+.subject-list{display:grid;gap:4px;margin-top:4px}
+.res-item .kind{color:var(--gold);font-size:11px;text-transform:uppercase;letter-spacing:.06em;margin-right:6px}
+.status,.hint{font-size:12.5px;color:var(--muted);margin:0}
+/* a message that blocks the reading (no zone header, no French OCR): a warning line the player sees */
+#view-main>.status.warn:not(:empty){font-size:13px;padding:6px 10px;border-radius:8px;background:var(--warn-bg);color:var(--warn-fg);text-shadow:none}
+.empty{font-size:13px;color:var(--muted);font-style:italic}
+#room>.empty.intro{margin:4px 0;font-style:normal;line-height:1.5} /* the first screen: what shows here, and the search */
+
+/* room and monster cards */
+.room{display:grid;gap:8px}
+.dj{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 8px}
+.dj b{font-size:16px;color:var(--yellow)}
+.dj small{color:var(--muted)}
+.roomhead{display:grid;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.strat{font-size:13.5px}
+.guide{display:inline-flex;align-items:center;gap:3px;justify-self:start;font-size:12.5px;color:var(--blue)} /* the link is as wide as its text */
+.guide .ic{width:14px;height:14px;transition:transform .15s ease}
+/* how to get there: the nearest zaap, then the /travel command to copy */
+.trip{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;font-size:12.5px}
+.trip .go{color:var(--muted)}
+/* like Ganymède: the coordinates in brackets and the zaap are links that copy their command */
+.travel{display:inline-flex;align-items:center;gap:4px;padding:1px 4px;border:0;border-radius:5px;background:transparent;color:var(--blue);font:inherit;cursor:pointer}
+.travel:hover{background:color-mix(in srgb,var(--blue) 14%,transparent)}
+.travel img{width:16px;height:16px}
+.travel:not(.zaap) .lbl{font-weight:700} /* the [x,y] position, bold like Ganymède */
+.travel.zaap .lbl{color:var(--fg)}
+.travel.copied,.travel.copied .lbl{color:var(--blue)}
+.travel .ic-copy{width:12px;height:12px;opacity:.75;vertical-align:0}
+.travel:hover .ic-copy,.travel.copied .ic-copy{opacity:1}
+.tripmsg{flex-basis:100%;color:var(--blue);font-size:12px}
+.tripmsg:empty{display:none}
+.guide:hover .ic{transform:translate(1px,-1px)}
+.mob{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px;display:grid;gap:6px;min-width:0}
+.mob.boss{border-color:var(--gold)}
+.mob.summon{margin-left:8px;border-style:dashed} /* a boss's key summon, right under it: part of its fight */
+.mh{display:flex;align-items:center;justify-content:flex-start;gap:8px;font-weight:700}
+.mname{min-width:0;overflow-wrap:anywhere}
+.mob.boss .mname{color:var(--yellow)}
+.thumb{width:36px;height:36px;object-fit:contain;flex:none}
+.stats{display:flex;gap:10px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+.stats span{display:inline-flex;align-items:center;gap:3px}
+.stats img{width:16px;height:16px}
+.tags{display:flex;flex-wrap:wrap;gap:4px}
+.tag{font-size:12.5px;padding:2px 8px;border-radius:10px;font-weight:600}
+.tag.danger{background:var(--danger-bg);color:var(--danger-fg)}
+.tag.tip{background:var(--tip-bg);color:var(--tip-fg)}
+.tag.mechanic{background:var(--mech-bg);color:var(--mech-fg)}
+.detail{font-size:13px;color:var(--muted)}
+/* a summary of several sentences: one bullet each */
+.bullets{margin:0;padding-left:16px;display:grid;gap:2px}
+.bullets li::marker{color:var(--muted)}
+sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised without moving the line */
+.resrow{display:flex;gap:2px 7px;font-size:12px;font-variant-numeric:tabular-nums;flex-wrap:wrap} /* the 5 elements on one line */
+.r{display:inline-flex;align-items:center;gap:1px;font-weight:600;white-space:nowrap}
+.r img{width:16px;height:16px}
+.r.neg{color:var(--neg)}
+.r.zero{color:var(--muted)}
+
+/* spells */
+.spells{display:flex;gap:5px;flex-wrap:wrap}
+.sp{min-width:40px;padding:3px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:1px;border-radius:8px;background:var(--bg);border:1px solid var(--line);color:var(--gold);font-size:11px;font-weight:600;cursor:pointer}
+.sp:hover{border-color:var(--muted);background:color-mix(in srgb,var(--bg) 80%,var(--fg))}
+.sp[aria-pressed="true"],.sp:focus-visible{border-color:var(--gold);background:var(--gold-soft)} /* the keyboard keeps the gold focus ring too */
+.sp>img{width:32px;height:32px;border-radius:5px;display:block}
+.abbr{padding-top:9px}
+.cats{display:flex;gap:1px;height:15px}
+.cats img{width:15px;height:15px;border-radius:50%}
+/* the range under a spell's icon (« 1–8 », « CaC », « soi ») and how it is shaped: in a line, in a diagonal, no line of sight */
+.rng{display:flex;align-items:center;gap:1px;color:var(--fg);font-size:11px;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.rng .mk{display:inline-flex;color:var(--warn-fg);margin-left:2px}.rng .ic{width:12px;height:12px;vertical-align:0}
+.shape .ic{width:14px;height:14px;vertical-align:0}
+.sp.off>img,.sp.off .abbr{opacity:.5}.sp.off .rng{color:var(--muted);font-weight:600} /* cannot touch you: a buff, a summon */
+.prange{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.prange .po{font-size:19px;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.pshape{display:flex;gap:4px;flex-wrap:wrap}
+.shape{display:inline-flex;align-items:center;gap:4px;font-size:12px;border-radius:5px;padding:1px 7px;background:color-mix(in srgb,var(--line) 70%,transparent)}
+.shape.warn{background:var(--warn-bg);color:var(--warn-fg)}
+.shape .zone{flex:none}
+.pop{background:var(--bg);border:1px solid var(--gold);border-radius:10px;padding:8px 10px;font-size:13px;display:grid;gap:4px;user-select:text}
+.pop .k{color:var(--muted)}
+.pname{font-size:14px;color:var(--yellow)}
+.pstats{display:flex;gap:12px;flex-wrap:wrap;font-weight:600;font-size:12.5px}
+.pstats span,.eff{display:flex;align-items:center;gap:5px}
+.pstats img{width:16px;height:16px}
+.effs{display:grid;gap:3px;border-block:1px solid var(--line);padding-block:5px}
+.eff img{width:18px;height:18px}.eff i{width:18px}
+.eff span{flex:1;min-width:0}
+.eff .disp{width:16px;height:16px;filter:brightness(1.9) saturate(1.3) drop-shadow(0 0 2px rgba(214,170,255,.8))} /* « désenvoûtable »: lighter so it stands out on the dark card */
+.plim,.pcond{display:grid;gap:1px;font-size:12.5px}
+
+/* settings (Ganymède-like cards with gold switches) */
+.back{display:flex;align-items:center;gap:6px;font-size:14px}
+.back>.tb{margin-left:-6px} /* the arrow lines up with the cards below, not the button's padding */
+/* settings and suggestion: the back bar stays visible while the page scrolls */
+.view>.back{display:flex;align-items:center;gap:6px;padding:3px 8px 3px 10px;min-height:32px;box-sizing:border-box;background:rgba(var(--win),max(var(--alpha,1),.94));border-bottom:1px solid var(--line)}
+/* settings and suggestion: the back bar spans the whole width; only the page below it scrolls (its scrollbar too) */
+.view.paged{display:grid;grid-template-rows:auto minmax(0,1fr);gap:0;padding:0;overflow:hidden;scrollbar-gutter:auto}
+.view.paged[hidden]{display:none}
+.view.paged>.pagebody{display:grid;gap:8px;padding:10px 6px 10px 10px;align-content:start;min-width:0;overflow-y:auto;overflow-x:hidden;scrollbar-gutter:stable}
+.view.paged>.pagebody::-webkit-scrollbar{width:8px}.view.paged>.pagebody::-webkit-scrollbar-track{background:transparent;margin:6px 0}.view.paged>.pagebody::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--muted) 45%,var(--card));border-radius:8px;border:2px solid transparent;background-clip:padding-box}.view.paged>.pagebody::-webkit-scrollbar-button{display:none}
+.eye{margin-left:auto;display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:12.5px;font-weight:600;padding:2px 9px;cursor:pointer}
+.eye:hover,.eye:focus-visible{border-color:var(--gold);outline:none}
+.eye svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.eye[aria-pressed="true"]{color:var(--gold);border-color:var(--gold)}
+.eye[aria-pressed="true"] .off,.eye[aria-pressed="false"] .on{display:none}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:grid;gap:8px}
+.card h2{margin:0;font-size:15px;font-weight:700}
+.switch.cardtitle{justify-content:flex-start;gap:6px} /* a card title with its « i » */
+.opts{display:grid;gap:8px}
+.switch{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13.5px}
+/* the switch: the knob slides with a small overshoot, stretches while pressed, the track fades to the accent */
+.switch input{appearance:none;flex:none;width:36px;height:20px;border-radius:10px;background:color-mix(in srgb,var(--muted) 65%,var(--card));position:relative;cursor:pointer;margin:0;transition:background-color .2s ease,box-shadow .2s ease}
+.switch input::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:7px;background:#f2f4f7;box-shadow:0 1px 2px rgba(0,0,0,.45);transition:transform .25s cubic-bezier(.34,1.45,.55,1),width .15s ease}
+.switch input:hover{box-shadow:0 0 0 3px var(--gold-soft)}
+.switch input::before{content:"";position:absolute;inset:-4px -2px} /* a 24 px tall hit area, same look */
+.switch input:active::after{width:18px}
+.switch input:checked{background:var(--gold)}
+.switch input:checked::after{transform:translateX(16px);background:rgb(var(--win))} /* a dark knob on the accent: light accents keep it visible */
+.switch input:checked:active::after{transform:translateX(12px)}
+@media (prefers-reduced-motion:reduce){.switch input,.switch input::after{transition:none}}
+.slider{font-size:13.5px}
+#opacity{width:100%;accent-color:var(--gold)}
+.pill{background:var(--bg);border:1px solid var(--line);border-radius:999px;color:var(--fg);padding:7px 12px}
+.pill:hover:where(:not(:disabled)){border-color:var(--muted)} /* (0,2,0): the coloured pills below keep their border */
+#preview .room{gap:6px}
+.mh{cursor:pointer}
+.mh:focus-visible{border-radius:6px}
+/* navigation icons (render/icons.ts): one stroke in the text colour, sized here */
+.ic{display:inline-block;width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-3px}
+.tb .ic{width:16px;height:16px}
+/* the chevron of a folding row or picker: it points right when folded and turns down when open */
+.chev{margin-left:auto;display:inline-flex;align-items:center;flex:none;color:var(--muted)}
+.chev .ic{transition:transform .18s ease}
+[aria-expanded="true"]>.chev .ic{transform:rotate(90deg)}
+.mh:hover .chev,.theme-current:hover .chev{color:var(--fg)}
+/* a row folded or unfolded is drawn again: its chevron still turns (main.ts sets the class after the render) */
+.chev.turn .ic{animation:chev-fold .18s ease}
+[aria-expanded="true"]>.chev.turn .ic{animation-name:chev-unfold}
+@keyframes chev-fold{from{transform:rotate(90deg)}to{transform:rotate(0)}}
+@keyframes chev-unfold{from{transform:rotate(0)}to{transform:rotate(90deg)}}
+@media (prefers-reduced-motion:reduce){.chev .ic,.guide .ic{transition:none;animation:none}}
+.mob[data-open="false"]{padding:6px 10px}
+.tag{display:inline-flex;align-items:center;gap:4px}
+/* badge icons sit on a light disc: several are drawn dark for a light page and vanished on the dark card */
+.tag img,.cats img{background:rgba(255,255,255,.88);border-radius:50%;padding:1px;box-sizing:border-box;object-fit:contain}
+.tag img{width:16px;height:16px}
+.tag .dot{flex:none;width:8px;height:8px;margin:0 4px;border-radius:50%;background:currentColor;opacity:.8}
+/* a folded monster's danger badges, as icons before the arrow */
+.mdanger{margin-left:auto;display:inline-flex;align-items:center;gap:3px;flex:none;color:var(--danger-fg);font-size:11px;font-weight:700}
+.mdanger+.chev{margin-left:2px}
+.ic-d{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--danger-bg);box-shadow:inset 0 0 0 1px var(--danger-fg)}
+.ic-d img{width:14px;height:14px;background:rgba(255,255,255,.88);border-radius:50%;padding:1px;box-sizing:border-box;object-fit:contain}
+.ic-d .dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.select{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--fg);font:inherit;padding:6px 8px}
+.eff .who{flex:none;font-size:11px;font-weight:700;border-radius:999px;padding:0 6px;line-height:16px}
+.who.enemies{background:var(--danger-bg);color:var(--danger-fg)}
+.who.allies{background:rgba(127,214,127,.16);color:var(--a)}
+.who.self{background:var(--gold-soft);color:var(--gold)}
+.who.all{background:var(--bg);color:var(--muted);border:1px solid var(--line)}
+.zone{flex:none}
+.zone rect.off{fill:color-mix(in srgb,var(--line) 85%,var(--fg))}
+.zone rect.on{fill:var(--gold)}
+.zone rect.caster{fill:var(--danger-fg)}
+.zone rect.target{fill:var(--yellow);stroke:var(--fg);stroke-width:.5}
+.zone rect.caster:not(.on),.zone rect.target:not(.on){fill:color-mix(in srgb,var(--line) 85%,var(--fg));stroke-width:.7}
+.zone rect.caster:not(.on){stroke:var(--danger-fg)}
+
+.suggest{justify-self:start;min-height:24px;background:none;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:12px;padding:3px 10px;cursor:pointer}
+.suggest:hover{color:var(--fg);border-color:var(--gold)}
+.suggest{display:inline-flex;align-items:center;gap:6px}
+.suggest .ic{width:14px;height:14px;color:var(--gold);vertical-align:0}
+#report-count{text-align:right;margin-top:-4px}
+#report-count:empty{display:none}
+.text{width:100%;box-sizing:border-box;background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--fg);font:inherit;padding:7px 9px;resize:vertical;user-select:text}
+.row{display:flex;gap:8px}
+/* settings buttons in a narrow panel: side by side when they fit, else one per line; a button whose text wraps
+   keeps rounded corners instead of turning into an egg */
+.card .row{flex-wrap:wrap}
+.card .row>.pill{flex:1 1 140px;min-width:0} /* side by side when both fit, else one per line (its text may wrap) */
+.card .pill{border-radius:10px}
+.pill.primary{color:var(--fg);border-color:var(--gold)}
+.pill:disabled{opacity:.5}
+/* the last settings card: three actions, the same icon size and place, each in its own colour */
+.pill.act{display:flex;align-items:center;justify-content:center;gap:9px;color:var(--fg)}
+.pill.act .act-ic{display:inline-flex;flex:none;width:18px;height:18px}
+.pill.act .act-ic .ic,.pill.act svg.act-ic{width:18px;height:18px;vertical-align:0}
+#report-app{border-color:var(--gold)}
+#report-app .act-ic{color:var(--gold)}
+#report-app:hover{background:var(--gold-soft)}
+.pill.discord{border-color:#5865f2} /* Discord's blurple */
+.pill.discord .act-ic{color:#5865f2}
+.pill.support{border-color:#ff5e5b} /* Ko-fi's red */
+.pill.support .act-ic{color:#ff5e5b}
+.pill.support .act-ic .ic{fill:currentColor}
+.pill.discord:hover{background:color-mix(in srgb,#5865f2 18%,var(--bg))}
+.pill.support:hover{background:color-mix(in srgb,#ff5e5b 18%,var(--bg))}
+/* text sitting on the see-through background (not in a card) keeps a dark outline, like Ganymède, so it stays
+   readable over a bright map at any opacity */
+#room>.empty,.room>.empty,#view-main>.status,.view>.back b{text-shadow:0 0 2px rgba(0,0,0,.95),0 1px 3px rgba(0,0,0,.9)}
+#room>.empty,.room>.empty,#view-main>.status{color:color-mix(in srgb,var(--fg) 80%,var(--muted))}
+/* the French texts wait for the chosen language before showing (no French flash for English players) */
+.i18n-pending #app{visibility:hidden}
+/* an empty message line takes no room (it stays in the page so screen readers hear what comes in) */
+/* empty message slots and results take no room (absolute: out of the grid, still in the page for screen readers) */
+#view-main>.status:empty,#view-main>.results:empty{position:absolute}
+.songe-reset{display:inline-flex;align-items:center;gap:4px;flex:none;align-self:center;background:none;border:1px solid var(--line);border-radius:8px;color:var(--muted);font:inherit;font-size:12px;padding:3px 8px;cursor:pointer}
+.songe-reset[hidden]{display:none}
+.songe-reset:hover{border-color:var(--gold);color:var(--fg)}
+.songe-reset:active{background:var(--gold-soft)}
+.songe-reset .bz-icon{display:inline-flex;color:var(--gold)}
+.songe-reset .ic{width:14px;height:14px} /* the same undo icon as « Revenir à ta zone » */
+/* theme picker (Paramètres > Apparence): one small card per Dofus theme */
+.themes{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:6px}
+.theme{display:grid;gap:4px;justify-items:start;padding:6px;border-radius:8px;border:1px solid var(--line);background:color-mix(in srgb,var(--tb) 45%,#111);color:var(--fg);cursor:pointer;font-size:11.5px;text-align:left}
+.theme i{display:block;width:100%;height:4px;border-radius:2px;background:var(--ta)}
+.theme span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.theme[aria-checked="true"]{border-color:var(--ta);box-shadow:0 0 0 1px var(--ta)}
+/* the name, then its kind (« Avis de recherche »…) stacked under it */
+.mtitle{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0}
+.mline{display:flex;align-items:baseline;min-width:0}
+.mkind{flex:none;font-size:11px;font-weight:400;line-height:1.4;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0 6px}
+.backzone{justify-self:start;display:flex;gap:4px;align-items:center;max-width:100%;min-height:28px;box-sizing:border-box;white-space:nowrap;background:var(--card);border:1px solid var(--line);border-radius:999px;color:var(--fg);font-size:12.5px;line-height:1.3;padding:4px 10px;cursor:pointer}
+.backzone[hidden]{display:none}
+.backzone:hover{border-color:var(--gold)}
+.backzone:active{background:var(--gold-soft)}
+.backzone .bz-icon{display:inline-flex;color:var(--gold)}
+.backzone .ic{width:14px;height:14px}
+.backzone .bz-name{color:var(--yellow);min-width:0;overflow:hidden;text-overflow:ellipsis} /* only the zone name is cut when too long */
+.theme-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 10px;font-size:13.5px} /* narrow panel: the control goes under its label */
+.theme-row>span{flex:1 1 150px}
+.theme-row>button{flex:1 1 110px;max-width:100%}
+.theme-current{display:flex;align-items:center;gap:7px;min-width:110px;padding:5px 9px;border-radius:8px;border:1px solid var(--line);background:color-mix(in srgb,var(--tb) 45%,#111);color:var(--fg);cursor:pointer;font-size:12.5px}
+.theme-current:hover{border-color:var(--ta)}
+.theme-current i{width:12px;height:12px;border-radius:50%;background:var(--ta);flex:none}
+.themes[hidden]{display:none}
+.card h4.subcap{margin:2px 0 0;font-size:12px;font-weight:600;color:var(--muted)} /* a sub-group: its options are indented */
+.opts.sub{padding-left:14px}
+.switch.always input{cursor:default;opacity:.55} /* always on: shown for the full picture, not a choice */
+.switch.always input:hover{box-shadow:none}
+.card h3{margin:4px 0 0;font-size:13px;font-weight:700;color:var(--muted)}
+/* search bar with the « Songe » toggle beside it */
+.searchrow{display:flex;gap:6px;align-items:stretch}
+.searchrow #q{flex:1;min-width:0}
+.songe{flex:none;display:flex;align-items:center;gap:5px;padding:0 10px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer;font-size:12.5px}
+.songe:hover{color:var(--fg);border-color:var(--gold)}
+.songe[aria-pressed="true"]{color:var(--fg);border-color:var(--gold);background:var(--gold-soft)}
+.mcount{flex:none;color:var(--gold);font-size:12px;font-weight:700;margin-left:4px}
+/* an option's « i »: why something must be set in the game, on hover or keyboard focus */
+.switch{position:relative}
+.optname{display:flex;align-items:center;gap:6px}
+.switch label{cursor:pointer} /* the name toggles its switch */
+/* 18 px drawn, 26 px to hit */
+.info{position:relative;flex:none;width:18px;height:18px;padding:0;border-radius:50%;border:1px solid var(--muted);background:none;color:var(--muted);font:italic 700 11px/16px Georgia,serif;cursor:help}
+.info::before{content:"";position:absolute;inset:-4px}
+.info:hover,.info:focus-visible{color:var(--fg);border-color:var(--gold)}
+.switch .bubble{display:none;position:absolute;z-index:5;top:calc(100% + 2px);left:0;right:0;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:12.5px;line-height:1.4;box-shadow:0 6px 18px rgba(0,0,0,.45)}
+.switch:has(.info:hover) .bubble,.switch:has(.info:focus-visible) .bubble,.switch .bubble:hover{display:block}
+.switch.tip-closed .bubble{display:none!important}
+/* the update downloading, in the panel (no Windows installer window) */
+#app>.view{grid-row:2;grid-column:1} /* every view in the same cell, so the update can lie over them */
+.update{grid-row:2;grid-column:1;z-index:4;display:grid;place-items:center;padding:24px;background:rgb(var(--win));border-radius:0 0 9px 9px} /* over the whole panel below the title bar, opaque */
+.update[hidden]{display:none}
+#quit-confirm{z-index:5} /* above an update screen */
+#quit-confirm .row{display:flex;gap:8px;justify-content:center}
+#quit:hover{background:#c0392b;color:#fff} /* the one red control: it closes Dofight */
+.update-box{display:grid;justify-items:center;gap:10px;width:100%;max-width:260px;text-align:center}
+.update-logo{width:56px;height:56px}
+.update h2{margin:0;font-size:16px;color:var(--gold)}
+.update p{margin:0;font-size:13px;color:var(--fg)}
+.update .update-pct{color:var(--muted);font-size:12px;min-height:1.4em;font-variant-numeric:tabular-nums}
+.update progress{width:100%;height:8px;appearance:none;border:none;border-radius:4px;background:var(--line);overflow:hidden}
+.update progress[hidden]{display:none}
+.update progress::-webkit-progress-bar{background:var(--line);border-radius:4px}
+.update progress::-webkit-progress-value{background:var(--gold);border-radius:4px;transition:width .2s}
+.update progress:not([value])::-webkit-progress-bar{background:linear-gradient(90deg,var(--line) 0 30%,var(--gold) 30% 60%,var(--line) 60%) 0 0/250% 100%;animation:update-wait 1.4s linear -.6s infinite} /* size not known yet: a moving band */
+@keyframes update-wait{from{background-position:100% 0}to{background-position:-50% 0}}
+@media (prefers-reduced-motion:reduce){.update progress:not([value])::-webkit-progress-bar{animation:none}}
+/* the Songe spiral: gold, brighter when the mode is on */
+.songe-icon{flex:none;color:var(--gold);opacity:.75}
+.songe[aria-pressed="true"] .songe-icon{opacity:1}
+/* language picker: two buttons with a small flag */
+.langs{display:flex;gap:6px}
+.theme-row>.langs{flex:1 1 150px}
+.sizes .lang{padding:6px 4px;font-size:12.5px;font-variant-numeric:tabular-nums}
+.langs[hidden]{display:none}
+.lang{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--fg);font:inherit;padding:6px 8px;cursor:pointer}
+.lang:hover{border-color:var(--muted)}
+.lang[aria-checked="true"]{border-color:var(--gold);color:var(--gold)}
+.flag{width:21px;height:14px;border-radius:2px;flex:none;box-shadow:0 0 0 1px rgba(0,0,0,.35)}
+/* hover preview window (peek.html): only the card */
+#peek{padding:0}
+.mob.peek{border-radius:10px} /* no shadow: the window is exactly the card's size */
+/* a mechanic's chip in the room header (hover: its sheet in the preview window) */
+.mechs{display:flex;flex-wrap:wrap;gap:4px}
+.mech{display:inline-flex;align-items:center;gap:4px;font:inherit;font-size:12.5px;font-weight:600;padding:2px 8px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--fg);cursor:pointer}
+.mech .ic{width:14px;height:14px;color:var(--blue)}
+.mech:hover{border-color:var(--muted)}
+.mech[aria-expanded="true"]{border-color:var(--gold);background:var(--gold-soft)}
+.mech-sheet{display:grid;gap:6px;font-size:13px}
+.mech-sheet b{color:var(--yellow);font-size:14px}
+.mech-sheet .gist{color:var(--fg)}
+.mech-sheet li b{color:var(--fg);font-size:inherit}
+/* the ☰ menu (like Ganymède's): under the title bar, on the left */
+.menu{position:absolute;z-index:6;top:34px;left:6px;min-width:220px;display:grid;gap:2px;padding:5px;border-radius:9px;border:1px solid var(--line);background:var(--card);box-shadow:0 8px 22px rgba(0,0,0,.5)}
+.menu[hidden]{display:none}
+.menu button{display:flex;align-items:center;gap:10px;width:100%;padding:8px 10px;border:0;border-radius:6px;background:none;color:var(--fg);font:inherit;font-size:13.5px;text-align:left}
+.menu button:hover,.menu button:focus-visible{background:var(--bg)}
+.menu .act-ic{display:inline-flex;flex:none;width:17px;height:17px}
+.menu .act-ic .ic,.menu .act-ic svg{width:17px;height:17px}
+.menu .discord-ic{color:#5865f2}
+.menu hr{width:100%;margin:3px 0;border:0;border-top:1px solid var(--line)}
+.menu .support{border:1px solid #ff5e5b;color:var(--fg)} /* outlined like the settings button: Ko-fi's red on the icon */
+.menu .support .act-ic{color:#ff5e5b}
+.menu .support:hover,.menu .support:focus-visible{background:color-mix(in srgb,#ff5e5b 18%,var(--card))}
+.menu .support .ic{fill:currentColor}
+#menu-btn[aria-expanded="true"]{background:var(--card)}
+#shortcut-hint:empty{display:none} /* only while the shortcut is being changed */

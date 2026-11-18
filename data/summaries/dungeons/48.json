@@ -1,0 +1,150 @@
+{
+ "dungeonId": 48,
+ "dungeon": "Donjon des Tofus",
+ "guide": "https://www.dofuspourlesnoobs.com/donjon-des-tofus.html",
+ "guideUpdated": "16/05/2025",
+ "status": "draft",
+ "strategy": "Dès son 2e tour, le Tofukaz rend invisibles lui et ses alliés autour de lui. Reculer pour attirer les Tofus fuyards.",
+ "monsters": {
+  "800": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Tofu Fugace et Tofu Noir"
+    },
+    {
+     "id": "flees"
+    }
+   ],
+   "detail": "Ses Tofus Fugaces meurent seuls à la fin de leur 2e tour."
+  },
+  "806": {
+   "tags": [
+    {
+     "id": "invisible",
+     "param": "lui et ses alliés, dès le tour 2"
+    }
+   ]
+  },
+  "804": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "poison_ap",
+     "param": "Neutre",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PA",
+     "source": "spells"
+    }
+   ]
+  },
+  "5224": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "poison_ap",
+     "param": "Neutre",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PA",
+     "source": "spells"
+    }
+   ]
+  },
+  "808": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "Vitalité, PA, Agilité, 4 tours"
+    }
+   ]
+  },
+  "796": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui-même",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    }
+   ],
+   "detail": "Érode : ceux invoqués par le Batofu valent la peine d'être tués si le combat dure."
+  },
+  "5223": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui-même",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    }
+   ],
+   "detail": "Érode : à tuer si le combat dure."
+  },
+  "4824": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui-même",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    }
+   ]
+  },
+  "98": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "Fuite",
+     "source": "spells"
+    }
+   ]
+  },
+  "5222": {
+   "tags": []
+  }
+ }
+}

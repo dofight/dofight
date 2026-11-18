@@ -1,0 +1,161 @@
+{
+ "zone": "Expédition - Antre du Dragon Cochon",
+ "dungeonId": 6,
+ "dungeon": "Antre du Dragon Cochon",
+ "guide": "https://www.dofuspourlesnoobs.com/antre-du-dragon-cochon.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "Garder à distance les Cochons de Farle : 3 tours après leur arrivée, ils explosent au CaC.",
+ "roomTags": [
+  {
+   "id": "phase",
+   "param": "2 vagues, la 2e au tour 10 max"
+  }
+ ],
+ "monsters": {
+  "7863": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "2 tours après son coup au CaC"
+    },
+    {
+     "id": "removes",
+     "param": "Résistance",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Bouclier, PM, Puissance, Tacle",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "7862": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Cochon de Farle",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "te téléporte, pousse",
+     "source": "spells"
+    }
+   ],
+   "detail": "Tuée, elle donne à l'équipe 1 PA, 1 PM, 2 PO, 500 résistances de poussée et un soin de 10 % des PV tous les 2 tours ; une seule Gorgouille tuée suffit à dominer le combat. Elle a 75 % de résistances à distance."
+  },
+  "7861": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Cochon de Farle",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "te téléporte",
+     "source": "spells"
+    }
+   ],
+   "detail": "Tuée, elle donne à l'équipe 1 PA, 1 PM, 2 PO, 20 % de résistances et 4 000 de bouclier tous les 3 tours ; une seule Gorgouille tuée suffit à dominer le combat. Peu de PV."
+  },
+  "7860": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui-même",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Cochon de Farle",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, attire",
+     "source": "spells"
+    }
+   ],
+   "detail": "Tuée, elle donne à l'équipe 1 PA, 1 PM, 2 PO, 200 % de vitalité et 200 % de dommages finaux ; une seule Gorgouille tuée suffit à dominer le combat. Beaucoup de PV et 12 PM : difficile à garder à distance."
+  },
+  "7868": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "PO, Dommages",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "7867": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "7866": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Cochon de Farle",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "avance",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

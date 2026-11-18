@@ -1,0 +1,192 @@
+{
+ "zone": "Expédition - Antre du Blop Multicolore Royal",
+ "dungeonId": 49,
+ "dungeon": "Antre du Blop Multicolore Royal",
+ "guide": "https://www.dofuspourlesnoobs.com/antre-du-blop-multicolore-royal.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "7785": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "tuer le Blop Royal de l'élément"
+    },
+    {
+     "id": "team_damage",
+     "param": "poison, tous les 3 tours"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable 1 tour"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "dispel",
+     "param": "poison, Puissance, résistances"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "300 Puissance aux Blops Royaux"
+    }
+   ],
+   "detail": "Il perd ses 100 % de résistances dans l'élément de chaque Blop Royal tué : Reinette Terre, Indigo Eau, Griotte Feu, Coco Air."
+  },
+  "7784": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "distance, 2 fois par tour"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "reduce_range",
+     "param": "ne tape alors qu'au CaC"
+    },
+    {
+     "id": "summons",
+     "param": "Blop de sa couleur"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "100 % rés. de son élément"
+    }
+   ],
+   "detail": "Il tape jusqu'à 6 PO : rester hors de sa portée. Son Blop invoqué pose un glyphe blanc qui retire 2 PM et tue le personnage qui finit son tour dedans."
+  },
+  "7783": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "distance, 2 fois par tour"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "reduce_range",
+     "param": "ne tape alors qu'au CaC"
+    },
+    {
+     "id": "summons",
+     "param": "Blop de sa couleur"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "100 % rés. de son élément"
+    }
+   ],
+   "detail": "Il tape jusqu'à 6 PO : rester hors de sa portée. Son Blop invoqué pose un glyphe blanc qui retire 2 PM et tue le personnage qui finit son tour dedans."
+  },
+  "7782": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "distance, 2 fois par tour"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "reduce_range",
+     "param": "ne tape alors qu'au CaC"
+    },
+    {
+     "id": "summons",
+     "param": "Blop de sa couleur"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "100 % rés. de son élément"
+    }
+   ],
+   "detail": "Il tape jusqu'à 6 PO : rester hors de sa portée. Son Blop invoqué pose un glyphe blanc qui retire 2 PM et tue le personnage qui finit son tour dedans."
+  },
+  "7781": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "distance, 2 fois par tour"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "reduce_range",
+     "param": "ne tape alors qu'au CaC"
+    },
+    {
+     "id": "summons",
+     "param": "Blop de sa couleur"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "100 % rés. de son élément"
+    }
+   ],
+   "detail": "Il tape jusqu'à 6 PO : rester hors de sa portée. Son Blop invoqué pose un glyphe blanc qui retire 2 PM et tue le personnage qui finit son tour dedans."
+  },
+  "7788": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC"
+    },
+    {
+     "id": "steals",
+     "param": "PM, Vitalité",
+     "source": "spells"
+    }
+   ],
+   "detail": "Gagne 1 000 Vitalité et 2 PM pour chaque personnage ou invocation tué."
+  },
+  "7787": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM, Esquive PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "7786": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,41 @@
+{
+ "dungeonId": -101,
+ "dungeon": "Caverne de Cire Momore",
+ "guide": "https://www.dofuspourlesnoobs.com/caverne-de-cire-momore.html",
+ "guideUpdated": "11/02/2023",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "7222": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "à 2 PO de lui en début de tour"
+    },
+    {
+     "id": "invulnerable",
+     "param": "sauf pour qui est à 2 PO de lui"
+    },
+    {
+     "id": "removes",
+     "param": "PM, PO et soins reçus"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "Fatalité de 3 à 10 PO"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ],
+   "detail": "Vulnérable seulement à 2 PO : y entrer pour le taper, ressortir avant son tour. OS l'équipe au tour 25. Ni déplaçable ni retrait PM : un tank en vue, à l'écart, l'occupe. Sous 80 % PV, chaque perso caché le soigne : se cacher quand même."
+  }
+ }
+}

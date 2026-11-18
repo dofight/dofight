@@ -1,0 +1,133 @@
+{
+ "zone": "Expédition - Caverne du Koulosse",
+ "dungeonId": 30,
+ "dungeon": "Caverne du Koulosse",
+ "guide": "https://www.dofuspourlesnoobs.com/caverne-du-koulosse.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "7896": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "placer des Boufcools à 2 cases"
+    },
+    {
+     "id": "one_shot",
+     "param": "tes Boufcools si on le retape"
+    },
+    {
+     "id": "heals",
+     "param": "l'allié avec qui il échange"
+    },
+    {
+     "id": "state",
+     "param": "Boufcool : 0 PA, Pacifiste"
+    },
+    {
+     "id": "invisible",
+     "param": "1 tour sur 4",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Bouftou des cavernes",
+     "source": "spells"
+    }
+   ],
+   "detail": "Aucune résistance de poussée.",
+   "mechanics": [
+    "kewlitude"
+   ]
+  },
+  "7897": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM, Puissance, Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur, Affaibli",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "boosté en Kewlitude"
+    }
+   ],
+   "detail": "En ligne (tour pair) ou en diagonale (tour impair) avec le Koulosse quand il est tapé, il passe en Kewlitude : +3 PA, +3 PM, +100 % de dommages finaux et soin chaque tour. Pas dangereux sans ce bonus."
+  },
+  "763": {
+   "tags": [
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    }
+   ]
+  },
+  "755": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Dok Alako, Koalak Coco",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "746": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Workette",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PO, Vitalité",
+     "source": "spells"
+    }
+   ]
+  },
+  "747": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "Résistance",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Résistance Terre",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

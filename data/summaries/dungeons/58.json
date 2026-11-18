@@ -1,0 +1,122 @@
+{
+ "dungeonId": 58,
+ "dungeon": "Tanière Givrefoux",
+ "guide": "https://www.dofuspourlesnoobs.com/taniegravere-givrefoux.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "La plupart des monstres tapent au CaC ou à courte portée : rester à distance. La Kami ne tape qu'en diagonale : rester en ligne avec elle.",
+ "monsters": {
+  "3234": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC (Progéniture)"
+    },
+    {
+     "id": "heals",
+     "param": "elle et ses alliés autour d'elle"
+    },
+    {
+     "id": "erodes"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages, PM à chaque mort"
+    }
+   ],
+   "detail": "Ne tape qu'en diagonale : rester en ligne avec elle. Chaque monstre tué donne 1 PM à tous les monstres et beaucoup de dommages à Fuji et au Tengu pour 1 tour. Remplace une cible tuée au CaC par un monstre."
+  },
+  "2967": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "Yomi en ligne, Yokaï diagonale"
+    },
+    {
+     "id": "one_shot",
+     "param": "au CaC en Fulguration seule"
+    },
+    {
+     "id": "erodes",
+     "param": "tous, en Floutage seul"
+    },
+    {
+     "id": "summons",
+     "param": "Yomi ou Yokaï, tous les 3 tours"
+    },
+    {
+     "id": "moves",
+     "param": "attire en ligne sans vue"
+    }
+   ],
+   "detail": "Le même tour : taper à l'arme le Yomi aligné avec lui (Fulguration) et pousser ou attirer le Yokaï dans sa diagonale (Floutage). Avec les deux états, il perd l'invulnérabilité 4 tours."
+  },
+  "2982": {
+   "tags": [],
+   "detail": "Ne tape qu'en diagonale : rester en ligne avec elle."
+  },
+  "2891": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM"
+    },
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "erodes",
+     "param": "en ligne si frappé à l'arme"
+    },
+    {
+     "id": "no_melee_end"
+    }
+   ]
+  },
+  "2890": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "soin ou dégâts x2 si frappé"
+    }
+   ]
+  },
+  "2889": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC, touche aussi ses alliés"
+    },
+    {
+     "id": "no_melee_end"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Tacle, Fuite"
+    },
+    {
+     "id": "moves",
+     "param": "attire"
+    }
+   ]
+  },
+  "2888": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC, selon ses PV manquants"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte"
+    }
+   ],
+   "detail": "Poussé ou attiré, il rend Affaiblis (pas d'arme) les personnages dans sa diagonale."
+  }
+ }
+}

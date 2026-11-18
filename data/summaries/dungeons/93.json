@@ -1,0 +1,107 @@
+{
+ "dungeonId": 93,
+ "dungeon": "Miausolée du Pounicheur",
+ "guide": "https://www.dofuspourlesnoobs.com/miausoleacutee-du-pounicheur.html",
+ "status": "draft",
+ "strategy": "",
+ "roomTags": [],
+ "mechanics": [
+  "dimension-waves",
+  "ecaflipus-modifiers"
+ ],
+ "monsters": {
+  "4278": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "sur toute l'équipe"
+    },
+    {
+     "id": "moves",
+     "param": "pousse autour de lui"
+    },
+    {
+     "id": "summons",
+     "param": "3 puces invulnérables"
+    }
+   ],
+   "detail": "Renvoie les dégâts tant que ses 3 puces n'ont pas le même état (I, II, III), sauf poisons et coup fatal. Taper une puce depuis sa case de contact monte son état et baisse celui des deux autres."
+  },
+  "4295": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Dommages finaux",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "4294": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Résistance, cumulable"
+    },
+    {
+     "id": "steals",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "flees"
+    }
+   ]
+  },
+  "4293": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur, Indéplaçable",
+     "source": "spells"
+    },
+    {
+     "id": "poison_ap",
+     "param": "Feu",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "fonce sur sa cible"
+    }
+   ],
+   "detail": "Le taper depuis son contact blesse le personnage sous Ectoparasite. Déjection : poison qui blesse selon les PA utilisés."
+  },
+  "4292": {
+   "tags": [
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place"
+    }
+   ],
+   "detail": "Gagne de la Puissance à chaque coup reçu."
+  },
+  "4291": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

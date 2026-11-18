@@ -1,0 +1,109 @@
+{
+ "dungeonId": 108,
+ "dungeon": "Tour de Bethel",
+ "guide": "https://www.dofuspourlesnoobs.com/tour-de-bethel.html",
+ "guideUpdated": "05/10/2026",
+ "status": "draft",
+ "strategy": "Lancer Nécronyx sur chaque monstre avant de le tuer : ressuscité, il ne jouera plus. Dès le tour 2, finir à 6 PO ou moins d'un monstre, sinon tous gagnent 2 PM et 1 PO.",
+ "roomTags": [
+  {
+   "id": "state",
+   "param": "Aquazomb : ressuscitent"
+  }
+ ],
+ "monsters": {
+  "5110": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "équipe, s'il meurt sans Nécronyx"
+    },
+    {
+     "id": "invulnerable",
+     "param": "tapé seulement par ton Dagon"
+    },
+    {
+     "id": "summons",
+     "param": "Monolithe et Dagon"
+    },
+    {
+     "id": "moves",
+     "param": "repousse dans le glyphe de bord"
+    },
+    {
+     "id": "glyphs",
+     "param": "Étoile : retire PA et PM"
+    },
+    {
+     "id": "glyphs",
+     "param": "bord de carte : -100 PM"
+    }
+   ],
+   "detail": "Tuer le Monolithe (invulnérable à distance) fait passer le Dagon dans ton camp : lui seul frappe Bethel, au CaC. Avant, pousser le Dagon chaque tour pour qu'il ne s'attire pas. Nécronyx sur Bethel dès le tour 1, puis tous les 3 tours."
+  },
+  "5115": {
+   "tags": [
+    {
+     "id": "poison_ap",
+     "param": "Terre",
+     "source": "spells"
+    }
+   ]
+  },
+  "5114": {
+   "tags": [
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "piège en zone, 6 PO minimum"
+    }
+   ]
+  },
+  "5113": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "Piquants, 2 tours"
+    },
+    {
+     "id": "removes",
+     "param": "PO au-delà de 9 PO"
+    },
+    {
+     "id": "poison_mp",
+     "param": "Eau",
+     "source": "spells"
+    }
+   ]
+  },
+  "5112": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM, fuite et tacle"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "5111": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Puissance, rés. poussée"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM et PO",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,41 @@
+{
+ "zone": "Expédition - Tanière du Meulou",
+ "dungeonId": 15,
+ "dungeon": "Tanière du Meulou",
+ "guide": "https://www.dofuspourlesnoobs.com/taniere-du-meulou.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "7790": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC au début de son tour"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable",
+     "source": "spells"
+    },
+    {
+     "id": "spread_out"
+    },
+    {
+     "id": "phase",
+     "param": "à 30 % PV : PM et dommages"
+    },
+    {
+     "id": "summons",
+     "param": "Mulou",
+     "source": "spells"
+    }
+   ],
+   "detail": "Il change ce qu'il tue en Mulou. Tous les 3 tours, il tue ses Mulous pour se soigner ; sans Mulou, il perd des résistances : les tuer chaque tour. Coincé par 2 invocations, il les change en Mulous qui le bloquent : les tuer, en remettre 2."
+  }
+ }
+}

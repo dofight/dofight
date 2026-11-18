@@ -1,0 +1,94 @@
+{
+ "dungeonId": 123,
+ "dungeon": "Vallée de la Dame des eaux",
+ "guide": "https://www.dofuspourlesnoobs.com/vallee-de-la-dame-des-eaux.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "Tous les monstres invoquent des Bombombres, dont le glyphe frappe.",
+ "monsters": {
+  "6256": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "à distance : la rejoindre"
+    },
+    {
+     "id": "heals",
+     "param": "tous les monstres"
+    },
+    {
+     "id": "moves",
+     "param": "renvoie hors de son îlot"
+    },
+    {
+     "id": "summons",
+     "param": "Bombombre",
+     "source": "spells"
+    }
+   ],
+   "detail": "Attendre une Bombombre à Eau, la placer au bord devant l'îlot et la taper au CaC sans la tuer : le personnage est téléporté sur l'îlot. Pas au contact de Nagate à son tour, il est renvoyé."
+  },
+  "6247": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Bombombre (glyphe qui frappe)"
+    },
+    {
+     "id": "moves",
+     "param": "avance vers la cible, pousse"
+    }
+   ],
+   "detail": "Salle 3 : les monstres sont invulnérables à distance tant qu'il vit. Salle 4 : il double les PV de tous les monstres."
+  },
+  "6231": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Bombombre (glyphe qui frappe)"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "6230": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Bombombre (glyphe qui frappe)"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte derrière la cible"
+    }
+   ]
+  },
+  "6229": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Bombombre (glyphe qui frappe)"
+    },
+    {
+     "id": "moves",
+     "param": "attire de loin, pousse"
+    }
+   ]
+  },
+  "6203": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Bombombre (glyphe qui frappe)"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place, pousse"
+    }
+   ]
+  }
+ }
+}

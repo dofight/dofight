@@ -1,0 +1,98 @@
+{
+ "dungeonId": 19,
+ "dungeon": "Château Ensablé",
+ "guide": "https://www.dofuspourlesnoobs.com/chateau-ensable.html",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "928": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "dispels_you",
+     "param": "autour de lui",
+     "source": "spells"
+    }
+   ],
+   "detail": "Son attaque en ligne ignore la ligne de vue : ne pas s'aligner avec lui, même derrière un obstacle."
+  },
+  "924": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "un peu, 1 tour"
+    }
+   ]
+  },
+  "923": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Force autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "922": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Agilité autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Fuite, Tacle",
+     "source": "spells"
+    }
+   ]
+  },
+  "921": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM, Chance",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Résistance",
+     "source": "spells"
+    }
+   ]
+  },
+  "920": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "Intelligence autour de lui",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

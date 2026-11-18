@@ -1,0 +1,112 @@
+{
+ "dungeonId": 75,
+ "dungeon": "Grotte de Kanigroula",
+ "guide": "https://www.dofuspourlesnoobs.com/grotte-de-kanigroula.html",
+ "guideUpdated": "25/09/2022",
+ "status": "draft",
+ "strategy": "Taper l'Orfélin à distance, le Kanihilan au CaC (il renvoie les sorts à distance).",
+ "monsters": {
+  "3556": {
+   "tags": [
+    {
+     "id": "area_damage",
+     "param": "autour d'elle, selon ses PV"
+    },
+    {
+     "id": "removes",
+     "param": "PM, Résistance Eau, Fuite"
+    },
+    {
+     "id": "removes",
+     "param": "Résistances, Puissance par mort"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PA, PM, Tacle"
+    },
+    {
+     "id": "flees"
+    }
+   ],
+   "detail": "La taper à distance. À sa mort, les monstres restants gagnent PM, Puissance et résistances pour tout le combat. Les monstres à 2 cases d'un personnage gagnent Puissance et critique. Tue une invocation ciblée à partir du tour 3."
+  },
+  "3557": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "sorts à distance, 1 tour"
+    },
+    {
+     "id": "removes",
+     "param": "PM autour de lui"
+    },
+    {
+     "id": "moves",
+     "param": "fonce sur sa cible"
+    }
+   ],
+   "detail": "Son renvoi ne s'applique pas aux coups portés au CaC."
+  },
+  "3562": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC"
+    },
+    {
+     "id": "steals",
+     "param": "Force",
+     "source": "spells"
+    },
+    {
+     "id": "erodes"
+    },
+    {
+     "id": "no_melee_end"
+    }
+   ],
+   "detail": "Boubou réduit fortement les dégâts qu'il subit au CaC pendant 2 tours : le taper à distance."
+  },
+  "3561": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "distance, selon ses PV"
+    },
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "steals",
+     "param": "Intelligence"
+    },
+    {
+     "id": "flees"
+    }
+   ],
+   "detail": "Après Griffes enflammées, être poussé ou subir des dommages de poussée te fait passer ton tour."
+  },
+  "3560": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Chance"
+    }
+   ],
+   "detail": "Tue les invocations dans un cercle de 2 autour de lui."
+  },
+  "3559": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO, Tacle, Résistance"
+    },
+    {
+     "id": "steals",
+     "param": "Agilité"
+    }
+   ]
+  }
+ }
+}

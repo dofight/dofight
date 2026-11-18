@@ -1,0 +1,92 @@
+{
+ "dungeonId": 45,
+ "dungeon": "Donjon des Scarafeuilles",
+ "guide": "https://www.dofuspourlesnoobs.com/donjon-des-scarafeuilles.html",
+ "guideUpdated": "17/06/2024",
+ "status": "draft",
+ "strategy": "Le Scarafeuille Noir rend lui et ses alliés proches invisibles dès son 2e tour. Rester à distance : les monstres tapent surtout à courte portée. Les Immatures se transforment au bout de 2 tours.",
+ "monsters": {
+  "797": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui-même et ses alliés"
+    },
+    {
+     "id": "removes",
+     "param": "PM et PO à toute l'équipe"
+    },
+    {
+     "id": "summons",
+     "param": "Scarafeuille Immature"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "795": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM"
+    },
+    {
+     "id": "invisible",
+     "param": "lui et ses alliés, dès le tour 2"
+    }
+   ]
+  },
+  "241": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Flammèche"
+    }
+   ],
+   "detail": "Immunisé à l'Air."
+  },
+  "240": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Flammèche"
+    }
+   ],
+   "detail": "Immunisé à la Terre."
+  },
+  "198": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Flammèche"
+    }
+   ],
+   "detail": "Immunisé à l'Eau."
+  },
+  "194": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Flammèche"
+    }
+   ],
+   "detail": "Immunisé au Feu."
+  },
+  "798": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui-même et ses alliés"
+    },
+    {
+     "id": "phase",
+     "param": "se transforme au bout de 2 tours"
+    }
+   ],
+   "detail": "Devient le Scarafeuille de son élément de résistance, plus dangereux."
+  }
+ }
+}

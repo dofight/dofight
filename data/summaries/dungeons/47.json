@@ -1,0 +1,84 @@
+{
+ "dungeonId": 47,
+ "dungeon": "Donjon des Squelettes",
+ "guide": "https://www.dofuspourlesnoobs.com/donjon-des-squelettes.html",
+ "guideUpdated": "12/11/2024",
+ "status": "draft",
+ "strategy": "Les 2 Chafer Draugr sont la vraie menace : rester à distance, leur retirer de la PO, peu de PM sous Hel.",
+ "monsters": {
+  "3238": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "4 illusions dès le tour 2"
+    }
+   ],
+   "detail": "Taper une illusion la fait disparaître, taper le vrai les fait toutes disparaître. Pour le trouver : un sort de zone, ou un poison de fin de tour posé sur lui dès le tour 1 (il se révèle en le subissant)."
+  },
+  "3240": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Fuite, Résistances Eau, dommages",
+     "source": "spells"
+    }
+   ]
+  },
+  "108": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "un peu, 2 tours"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "396": {
+   "tags": [],
+   "harmless": true
+  },
+  "54": {
+   "tags": [],
+   "harmless": true
+  },
+  "110": {
+   "tags": [
+    {
+     "id": "invisible",
+     "source": "spells"
+    }
+   ]
+  },
+  "3239": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "poison PM (Hel), 7 PO"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "poison_mp",
+     "param": "Air",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "ne pas finir dedans"
+    },
+    {
+     "id": "moves",
+     "param": "pousse de 5 en ligne"
+    }
+   ],
+   "detail": "Sous Hel, utiliser peu de PM (dégâts par PM utilisé) ; désenvoûter si possible. Rester à distance et lui retirer de la PO. Éviter les murs : la poussée fait de gros dégâts."
+  }
+ }
+}

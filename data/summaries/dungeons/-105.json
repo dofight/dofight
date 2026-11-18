@@ -1,0 +1,125 @@
+{
+ "dungeonId": -105,
+ "dungeon": "Cratère Minus (Grozilla et Grasmera)",
+ "guide": "https://www.dofuspourlesnoobs.com/grozilla-et-grasmera.html",
+ "guideUpdated": "21/07/2023",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "3143": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "un par tour si Grozilla est mort"
+    },
+    {
+     "id": "lock",
+     "param": "bloque son rush"
+    },
+    {
+     "id": "moves",
+     "param": "s'attire sur sa cible"
+    },
+    {
+     "id": "summons",
+     "param": "Krokilles Juvéniles",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "passe ton tour si Tyrannisé"
+    }
+   ],
+   "mechanics": [
+    "grozilla-grasmera"
+   ]
+  },
+  "3142": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "un par tour si Grasmera est mort"
+    },
+    {
+     "id": "lock",
+     "param": "bloque son attirance"
+    },
+    {
+     "id": "moves",
+     "param": "attire en ligne",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "passe ton tour si Météoroïde"
+    }
+   ],
+   "mechanics": [
+    "grozilla-grasmera"
+   ]
+  },
+  "3164": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "3163": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "PA",
+     "source": "spells"
+    }
+   ]
+  },
+  "3162": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés en zone"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable au CaC"
+    }
+   ]
+  },
+  "3161": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "Vitalité",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    }
+   ]
+  },
+  "3160": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages, Bouclier, PA, PM",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

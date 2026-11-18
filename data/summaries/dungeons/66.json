@@ -1,0 +1,116 @@
+{
+ "dungeonId": 66,
+ "dungeon": "Potager d'Halouine",
+ "guide": "https://www.dofuspourlesnoobs.com/potager-dhalouine.html",
+ "guideUpdated": "29/10/2024",
+ "status": "draft",
+ "strategy": "Ne pas finir son tour dans le glyphe du Cauchemarakne.",
+ "monsters": {
+  "3306": {
+   "tags": [
+    {
+     "id": "revives",
+     "param": "avec 1 % de leurs PV"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "no_melee_end",
+     "param": "au CaC il gagne de la Vitalité"
+    },
+    {
+     "id": "dispel",
+     "param": "son bonus de Vitalité"
+    },
+    {
+     "id": "reduce_range",
+     "param": "l'empêche d'attirer"
+    },
+    {
+     "id": "moves",
+     "param": "attire en ligne, pousse"
+    }
+   ],
+   "detail": "Ressuscite dès le tour 3 un monstre à 1 % PV, Invulnérable 1 tour (désenvoûtable). Peste Issyde : la cible renvoie la moitié des dégâts subis à ses alliés proches."
+  },
+  "3307": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM, Fuite, Vitalité",
+     "source": "spells"
+    }
+   ],
+   "detail": "Malheur : si un personnage touché est soigné, tous ceux touchés perdent la moitié de leur Vitalité 2 tours."
+  },
+  "3308": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Résistance"
+    },
+    {
+     "id": "inflicts",
+     "param": "Affaibli (pas d'arme)"
+    },
+    {
+     "id": "glyphs",
+     "param": "retire 4 PM en fin de tour"
+    }
+   ]
+  },
+  "3309": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Critique, Résistances Poussée",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, attire"
+    }
+   ]
+  },
+  "3310": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "invisible"
+    }
+   ],
+   "detail": "Subterfuge : invisible 1 tour, empoisonne ceux à son contact selon ses PV manquants."
+  },
+  "3311": {
+   "tags": [
+    {
+     "id": "poison_mp",
+     "param": "Air",
+     "source": "spells"
+    },
+    {
+     "id": "dodges_melee",
+     "param": "50 %, 2 tours"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Tacle",
+     "source": "spells"
+    }
+   ],
+   "detail": "Pus des Pieds : poison qui blesse selon les PM utilisés."
+  }
+ }
+}

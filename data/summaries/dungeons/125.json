@@ -1,0 +1,98 @@
+{
+ "dungeonId": 125,
+ "dungeon": "Bambusaie de Damadrya",
+ "guide": "https://www.dofuspourlesnoobs.com/bambusaie-de-damadrya.html",
+ "status": "draft",
+ "strategy": "",
+ "bossSummons": {
+  "6326": [
+   6328
+  ]
+ },
+ "monsters": {
+  "6326": {
+   "tags": [
+    {
+     "id": "erodes",
+     "param": "toute l'équipe (Sangsuc)"
+    },
+    {
+     "id": "removes",
+     "param": "PM, Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "no_melee_end",
+     "param": "soigne le monstre au contact"
+    },
+    {
+     "id": "summons",
+     "param": "Bourgeon, un par tour"
+    }
+   ],
+   "detail": "Sangsuc (tout le combat) : érosion et vol de vie à chaque fin de tour. Finir son tour au CaC d'un monstre le soigne, ou lui donne un bouclier s'il a tous ses PV."
+  },
+  "6328": {
+   "tags": [],
+   "detail": "20 PM : il court à ton contact et explose (dégâts dans un élément au hasard), puis meurt. Difficile à éviter."
+  },
+  "6323": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui-même",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "Agilité",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    }
+   ]
+  },
+  "6322": {
+   "tags": []
+  },
+  "6321": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Soins reçus",
+     "source": "spells"
+    }
+   ],
+   "detail": "Bulbronce : l'allié ciblé, frappé, renvoie une partie des dégâts sur les cases à son contact."
+  },
+  "6320": {
+   "tags": [
+    {
+     "id": "dispels_you"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "6318": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,108 @@
+{
+ "zone": "Expédition - Pitons Rocheux des Craqueleurs",
+ "dungeonId": 18,
+ "dungeon": "Pitons Rocheux des Craqueleurs",
+ "guide": "https://www.dofuspourlesnoobs.com/pitons-rocheux-des-craqueleurs.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "Les monstres posent en fin de tour un glyphe noir qui met en Craqueboulisation. Frapper l'allié touché au CaC ou en poussée la lui retire et ôte la Couche Rocailleuse des monstres proches.",
+ "roomTags": [
+  {
+   "id": "glyphs",
+   "param": "noirs : -100 PM, dégâts subis x2"
+  },
+  {
+   "id": "state",
+   "param": "Rocailleuse : rés. et esquive"
+  }
+ ],
+ "monsters": {
+  "7842": {
+   "tags": [
+    {
+     "id": "team_damage",
+     "param": "à 20 PA, retire 6 PA à tous"
+    },
+    {
+     "id": "dispel",
+     "param": "son gain de PA"
+    },
+    {
+     "id": "no_ap_mp_removal",
+     "param": "inutile, 500 esquive PA"
+    },
+    {
+     "id": "summons",
+     "param": "Craquelope, Craqueboule",
+     "source": "spells"
+    }
+   ],
+   "detail": "16 PA au départ, +1 PA par tour pendant 5 tours : le désenvoûter chaque tour. À 20 PA, il lance chaque tour Pierre Étourdissante (gros dégâts, -6 PA et Craqueboulisation à tous). Le taper en Neutre donne un gros bouclier à ses alliés."
+  },
+  "7846": {
+   "tags": [
+    {
+     "id": "inflicts",
+     "param": "Indéplaçable",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Bouclier",
+     "source": "spells"
+    }
+   ]
+  },
+  "7845": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PA, PM",
+     "source": "spells"
+    }
+   ]
+  },
+  "7844": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC"
+    },
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "Chance",
+     "source": "spells"
+    }
+   ]
+  },
+  "7843": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

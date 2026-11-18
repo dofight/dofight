@@ -1,0 +1,120 @@
+{
+ "dungeonId": 38,
+ "dungeon": "Maison du Papa Nowel",
+ "guide": "https://www.dofuspourlesnoobs.com/maison-du-papa-nowel.html",
+ "guideUpdated": "01/12/2022",
+ "status": "draft",
+ "strategy": "La Peluche wabbit soigne énormément ses alliés. En butin 5 ou plus, les Cadob' invoquent un Cadob'Omb qui tue à 2 cases.",
+ "monsters": {
+  "1194": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC"
+    },
+    {
+     "id": "big_damage",
+     "param": "distance, à 8 PO ou plus"
+    },
+    {
+     "id": "no_ap_mp_removal",
+     "param": "chaque retrait lui donne 1 PM"
+    },
+    {
+     "id": "heals",
+     "param": "lui-même, vers 30 % PV"
+    },
+    {
+     "id": "summons",
+     "param": "Poutch Ingball ou marionnette"
+    },
+    {
+     "id": "moves",
+     "param": "attire en ligne"
+    }
+   ],
+   "detail": "Le finir en un tour dès 35 % PV, avant son soin (vers 30 %). Un Poutch boosté deux fois en PA tue toute l'équipe : le tuer avant la relance (3 tours)."
+  },
+  "3109": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "removes",
+     "param": "Soins autour de sa Cawotte"
+    },
+    {
+     "id": "summons",
+     "param": "Cawotte"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Tacle, Fuite"
+    },
+    {
+     "id": "moves",
+     "param": "attire vers sa Cawotte"
+    }
+   ]
+  },
+  "3108": {
+   "tags": [
+    {
+     "id": "erodes",
+     "param": "cible tapée par une invocation"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    }
+   ],
+   "detail": "Ne frappe qu'au CaC. Gagne de la Vitalité quand on se détacle d'elle."
+  },
+  "3107": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM"
+    }
+   ],
+   "detail": "Pique-Couic : se détacler partiellement minimise ensuite tes jets."
+  },
+  "906": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "Cadob'Omb, à 2 cases"
+    },
+    {
+     "id": "summons",
+     "param": "cadeau : soin, boost ou bombe"
+    }
+   ],
+   "detail": "Présent en butin 5 ou plus. Son cadeau Cadob'Omb, invoqué à 1 PO de lui, tue les personnages à 2 cases."
+  },
+  "869": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable",
+     "source": "spells"
+    }
+   ]
+  },
+  "839": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Fuite"
+    }
+   ]
+  }
+ }
+}

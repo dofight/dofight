@@ -1,0 +1,79 @@
+{
+ "dungeonId": 8,
+ "dungeon": "Grange du Tournesol Affamé",
+ "guide": "https://www.dofuspourlesnoobs.com/grange-du-tournesol-affame.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "799": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "un monstre du donjon"
+    }
+   ],
+   "detail": "Invoque un monstre du donjon tous les 6 tours."
+  },
+  "4821": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance",
+     "source": "spells"
+    }
+   ]
+  },
+  "4820": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Puissance autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "79": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    }
+   ]
+  },
+  "78": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM",
+     "source": "spells"
+    }
+   ]
+  },
+  "48": {
+   "tags": [
+    {
+     "id": "poison_ap",
+     "param": "Feu",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

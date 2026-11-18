@@ -1,0 +1,124 @@
+{
+ "zone": "Expédition - Donjon des Squelettes",
+ "dungeonId": 47,
+ "dungeon": "Donjon des Squelettes",
+ "guide": "https://www.dofuspourlesnoobs.com/donjon-des-squelettes.html",
+ "guideUpdated": "12/11/2024",
+ "status": "draft",
+ "strategy": "Toute entité devient Tas d'Os à 1 % PV : un monstre revit après 2 tours, un personnage meurt à son tour. Sur un glyphe noir (les taper les attire), l'allié revit et l'ennemi reste figé. Tous figés : victoire.",
+ "roomTags": [
+  {
+   "id": "state",
+   "param": "Tas d'Os à 1 % PV (tous)"
+  },
+  {
+   "id": "glyphs",
+   "param": "noirs : y placer les Tas d'Os"
+  }
+ ],
+ "monsters": {
+  "7879": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "sauf s'il débute sur glyphe noir"
+    },
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place, pousse",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "crée des illusions"
+    }
+   ],
+   "detail": "Taper le vrai Chafer Rōnin fait disparaître ses illusions."
+  },
+  "7884": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "Rip au CaC si poussée bloquée"
+    },
+    {
+     "id": "no_melee_end"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ],
+   "detail": "Rip bloqué par un obstacle retire 99 % des PV et passe la cible en Tas d'Os."
+  },
+  "7883": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui-même",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place",
+     "source": "spells"
+    },
+    {
+     "id": "invisible",
+     "source": "spells"
+    }
+   ]
+  },
+  "7882": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM, Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    }
+   ]
+  },
+  "7881": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable",
+     "source": "spells"
+    }
+   ]
+  },
+  "7880": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Critique",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,161 @@
+{
+ "dungeonId": 164,
+ "dungeon": "Breuil du Vénérable",
+ "guide": "https://www.dofuspourlesnoobs.com/breuil-du-venerable.html",
+ "guideUpdated": "13/10/2026",
+ "status": "draft",
+ "strategy": "Les monstres dorment 2 tours puis jouent 2 tours, en alternance ; les taper les réveille 2 tours. Taper ou tuer un monstre alerte aussi les monstres à 3 PO de lui.",
+ "roomTags": [
+  {
+   "id": "state",
+   "param": "Apathique puis Alerté, 2 tours"
+  },
+  {
+   "id": "state",
+   "param": "Troupeau : partage à 3 PO"
+  }
+ ],
+ "mechanics": [
+  "dimension-waves",
+  "osavora-seasons"
+ ],
+ "monsters": {
+  "8047": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "tuer la Monture du Vénérable"
+    },
+    {
+     "id": "team_damage",
+     "param": "et attire de 4 cases"
+    },
+    {
+     "id": "removes",
+     "param": "PA et PM en zone"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "derrière un obstacle au réveil"
+    },
+    {
+     "id": "summons",
+     "param": "Monture, booste les monstres"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, pousse, attire",
+     "source": "spells"
+    }
+   ],
+   "detail": "Ne jamais taper ni tuer un monstre à 3 PO de lui : il se réveille 2 tours. Sa Monture tuée, il reste réveillé et vulnérable. La Pesanteur bloque sa téléportation. Plus fort sous 50 % PV."
+  },
+  "8046": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Bébé Amphibouc"
+    },
+    {
+     "id": "moves",
+     "param": "avance, se téléporte, attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "8045": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "critique et dommages critiques"
+    },
+    {
+     "id": "summons",
+     "param": "Bébé Gropotam"
+    },
+    {
+     "id": "moves",
+     "param": "fonce et repousse"
+    }
+   ]
+  },
+  "8044": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Bébé Brutapir"
+    },
+    {
+     "id": "moves",
+     "param": "attire, pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "8043": {
+   "tags": [
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Bébé Lapilope"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, pousse, échange"
+    }
+   ]
+  },
+  "8042": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "distance, sans ligne de vue"
+    },
+    {
+     "id": "removes",
+     "param": "PO et critique"
+    },
+    {
+     "id": "reduce_range"
+    },
+    {
+     "id": "summons",
+     "param": "Bébé Gyrafor"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ],
+   "detail": "Le plus dangereux des monstres, surtout à 4 PO ou moins."
+  }
+ }
+}

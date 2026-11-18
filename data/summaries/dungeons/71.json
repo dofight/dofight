@@ -1,0 +1,210 @@
+{
+ "dungeonId": 71,
+ "dungeon": "Donjon du Comte Harebourg",
+ "guide": "https://www.dofuspourlesnoobs.com/donjon-du-comte-harebourg.html",
+ "guideUpdated": "02/03/2026",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "3416": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "début de tour dans son glyphe"
+    },
+    {
+     "id": "invulnerable",
+     "param": "sauf échange de place, tour pair"
+    },
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "renvoie à la case de début"
+    },
+    {
+     "id": "state",
+     "param": "Confusion : tes sorts redirigés"
+    }
+   ],
+   "detail": "Le frapper : tour impair, tu passes de l'autre côté de lui ; tour pair, c'est lui. Case d'arrivée impossible : l'équipe meurt. Sorts en ligne ou en diagonale pour gérer la confusion. Vulnérable : Pesanteur contre ses téléportations."
+  },
+  "3409": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages, Tacle",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ],
+   "detail": "Rester sous 90 % PV avant de tuer un monstre réinvoqué. Placer le zombie à 5 à 10 cases de lui et s'éloigner de son explosion avant de le finir."
+  },
+  "3397": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui-même",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, échange de place",
+     "source": "spells"
+    }
+   ]
+  },
+  "3391": {
+   "tags": [
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM",
+     "source": "spells"
+    }
+   ],
+   "detail": "Marcher sur une congère repousse les entités en ligne ou en diagonale autour de toi ; un ennemi repoussé est vulnérable 1 tour. Attention aux dommages de poussée sur l'équipe."
+  },
+  "3384": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Tacle, Dommages",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, attire",
+     "source": "spells"
+    }
+   ],
+   "detail": "Finir ses tours sur les glyphes blancs dès le tour 2. Pousser un personnage contre lui le rend vulnérable. Tuer les autres monstres avant le tour 3 donne un tour de plus avant Pacifiste."
+  },
+  "3415": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "frappé au CaC, en zone"
+    },
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable, Affaibli",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "s'attire sur sa cible"
+    }
+   ]
+  },
+  "3414": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "invisible",
+     "param": "tous autour de lui, si frappé"
+    },
+    {
+     "id": "flees"
+    }
+   ]
+  },
+  "3412": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire, échange de place",
+     "source": "spells"
+    }
+   ],
+   "detail": "Cyclaustrophobe : toute entité de la zone frappée au CaC revient à sa case de début de tour et gagne des dommages."
+  },
+  "3411": {
+   "tags": [
+    {
+     "id": "team_damage",
+     "param": "si tapé à distance (Strident)"
+    },
+    {
+     "id": "removes",
+     "param": "Fuite autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "reduce_range"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place",
+     "source": "spells"
+    },
+    {
+     "id": "flees"
+    }
+   ]
+  },
+  "3410": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "distance, selon PV manquants"
+    },
+    {
+     "id": "steals",
+     "param": "Intelligence",
+     "source": "spells"
+    },
+    {
+     "id": "swaps_on_hit",
+     "param": "à distance, tape autour"
+    },
+    {
+     "id": "flees"
+    }
+   ]
+  }
+ }
+}

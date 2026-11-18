@@ -1,0 +1,167 @@
+{
+ "dungeonId": 4,
+ "dungeon": "Centre du Labyrinthe du Minotoror",
+ "guide": "https://www.dofuspourlesnoobs.com/centre-du-labyrinthe-du-minotoror.html",
+ "guideUpdated": "06/05/2024",
+ "status": "draft",
+ "strategy": "Rester loin des monstres, dangereux surtout au CaC. Éviter d'invoquer : la Malédiction du Mominotor tue les invocations et retire des PM à toute l'équipe.",
+ "monsters": {
+  "827": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "dispels_you",
+     "param": "autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Tofu lancé",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Agilité, PM",
+     "source": "spells"
+    }
+   ]
+  },
+  "829": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PA, PM, PO, Résistance Eau",
+     "source": "spells"
+    }
+   ]
+  },
+  "668": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages, PM",
+     "source": "spells"
+    }
+   ]
+  },
+  "121": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC, poussé contre un obstacle"
+    },
+    {
+     "id": "no_melee_end"
+    },
+    {
+     "id": "summons",
+     "param": "Tofu lancé, chaque tour"
+    }
+   ],
+   "detail": "Sabotage repousse de 6 cases : les dégâts de poussée s'ajoutent si un obstacle est derrière. Peut booster ses invocations en Vitalité et dommages."
+  },
+  "830": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "lui et ses alliés proches"
+    },
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "heals",
+     "param": "lui et ses alliés autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Résistances, PA"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "832": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM, Puissance"
+    },
+    {
+     "id": "no_melee_end"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "831": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM à toute l'équipe"
+    },
+    {
+     "id": "moves",
+     "param": "attire en ligne"
+    },
+    {
+     "id": "summons",
+     "param": "Dégelée"
+    }
+   ],
+   "detail": "Malédiction (s'il existe une invocation ennemie, tous les 6 tours) : tue toutes les invocations et retire des PM à toute l'équipe. Il n'invoque qu'en ligne à 2 PO : bloquer ses 4 cases autour l'en empêche."
+  },
+  "3740": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Mur",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

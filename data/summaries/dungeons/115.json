@@ -1,0 +1,90 @@
+{
+ "dungeonId": 115,
+ "dungeon": "Repaire du Kharnozor",
+ "guide": "https://www.dofuspourlesnoobs.com/repaire-du-kharnozor.html",
+ "guideUpdated": "17/05/2025",
+ "status": "draft",
+ "strategy": "Chaque monstre qui meurt donne des résistances aux autres monstres.",
+ "roomTags": [
+  {
+   "id": "buffs_allies",
+   "param": "en mourant : résistances"
+  }
+ ],
+ "monsters": {
+  "5819": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable, Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "no_melee_end",
+     "param": "le taper à plus de 2 PO"
+    },
+    {
+     "id": "moves",
+     "param": "fonce sur sa cible, attire"
+    },
+    {
+     "id": "state",
+     "param": "il est Indéplaçable"
+    }
+   ],
+   "detail": "Le taper à 2 PO ou moins attire au CaC et déclenche Mort sûre à chaque coup. Son Cri déchirant (7 PO autour de lui) te rend Assourdi : Mort sûre met alors Insoignable et Pesanteur. Gagne Vitalité et dommages à chaque mort de monstre."
+  },
+  "5820": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "caractéristiques"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ],
+   "detail": "Prend l'apparence d'un allié et tape dans son élément."
+  },
+  "905": {
+   "tags": []
+  },
+  "879": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO"
+    },
+    {
+     "id": "moves",
+     "param": "téléporte symétriquement"
+    }
+   ]
+  },
+  "878": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "858": {
+   "tags": [],
+   "harmless": true
+  }
+ }
+}

@@ -1,0 +1,146 @@
+{
+ "dungeonId": 136,
+ "dungeon": "Bataille de l'Aurore Pourpre",
+ "guide": "https://www.dofuspourlesnoobs.com/bataille-de-l-aurore-pourpre.html",
+ "guideUpdated": "12/04/2024",
+ "status": "draft",
+ "strategy": "Tant que des monstres vivent, finir son tour en vue d'un ennemi, sinon un Cauchemar apparaît près de toi pour un tour.",
+ "roomTags": [
+  {
+   "id": "summons",
+   "param": "Cauchemar si aucun ennemi en vue"
+  },
+  {
+   "id": "invisible",
+   "param": "monstres en vue d'un monstre tué"
+  }
+ ],
+ "monsters": {
+  "6792": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "tuer Bonraphin ou Brâklotin"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PA, PO",
+     "source": "spells"
+    },
+    {
+     "id": "phase",
+     "param": "état X : Colère et Haine à 10"
+    },
+    {
+     "id": "summons",
+     "param": "Bonraphin et Brâklotin"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, attire, bondit à 3 PO"
+    }
+   ],
+   "detail": "Frapper Bonraphin à distance et Brâklotin au CaC monte Colère et Haine ; à 10 les deux, état X : vulnérable 2 tours, gros bouclier et gros dégâts. Bonraphin tué : vulnérable à distance ; Brâklotin tué : au CaC."
+  },
+  "6791": {
+   "tags": [
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "dispel",
+     "param": "poisons et érosion"
+    },
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Enraciné",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "-2 PA et fuite si on entre"
+    }
+   ]
+  },
+  "6790": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "summons",
+     "param": "copies de lui-même"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "bouclier et critique"
+    }
+   ]
+  },
+  "6789": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "à distance, 2 tours"
+    },
+    {
+     "id": "heals",
+     "param": "ses alliés autour de sa cible"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    }
+   ]
+  },
+  "6788": {
+   "tags": [
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "6787": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Force",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Affaibli",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "fonce sur sa cible en ligne"
+    }
+   ]
+  }
+ }
+}

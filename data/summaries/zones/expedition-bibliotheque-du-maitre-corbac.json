@@ -1,0 +1,117 @@
+{
+ "zone": "Expédition - Bibliothèque du Maître Corbac",
+ "dungeonId": 3,
+ "dungeon": "Bibliothèque du Maître Corbac",
+ "guide": "https://www.dofuspourlesnoobs.com/bibliotheque-du-maitre-corbac.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "Chaque sort de monstre pose une rune sous sa cible : ne pas finir son tour dessus, elle blesse les personnages et soigne les monstres. L'érosion limite ces soins.",
+ "roomTags": [
+  {
+   "id": "glyphs",
+   "param": "runes : blessent ou soignent"
+  }
+ ],
+ "monsters": {
+  "7827": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "sous Carapace d'Ailes"
+    },
+    {
+     "id": "team_damage",
+     "param": "Carapace d'Ailes, vol de vie"
+    },
+    {
+     "id": "dispel",
+     "param": "Carapace d'Ailes"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "50 % rés. à ses alliés"
+    },
+    {
+     "id": "summons",
+     "param": "Corbac",
+     "source": "spells"
+    }
+   ],
+   "detail": "Dès le tour 3, Carapace d'Ailes 2 tours : il ne joue plus, renvoie les dégâts et vole de la vie à tous. À son tour, il déclenche toutes les runes, pas seulement les siennes. Sa mort retire les 50 % de résistances de ses alliés."
+  },
+  "7831": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "100 % rés. d'un élément"
+    },
+    {
+     "id": "steals",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "dispel",
+     "param": "le perso qui a perdu 100 % rés."
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PO",
+     "source": "spells"
+    }
+   ]
+  },
+  "7830": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "distance, en ligne"
+    },
+    {
+     "id": "moves",
+     "param": "attire puis repousse de 12"
+    }
+   ]
+  },
+  "7829": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "distance"
+    },
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    }
+   ]
+  },
+  "7828": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PA, PM",
+     "source": "spells"
+    },
+    {
+     "id": "dispel",
+     "param": "Buvette (75 % rés.)"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Résistance",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

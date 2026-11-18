@@ -1,0 +1,125 @@
+{
+ "dungeonId": 119,
+ "dungeon": "Sentence de la Balance",
+ "guide": "https://www.dofuspourlesnoobs.com/sentence-de-la-balance.html",
+ "guideUpdated": "17/06/2020",
+ "status": "draft",
+ "strategy": "Retirer PA, PM ou PO donne 10 Esquive PA et PM au monstre visé. Une entité qui meurt laisse une Charogne, qui soigne un monstre commençant son tour à 4 PO ou moins d'elle.",
+ "roomTags": [
+  {
+   "id": "state",
+   "param": "Charognes : soignent à 4 PO"
+  },
+  {
+   "id": "state",
+   "param": "retrait : +esquive au monstre"
+  }
+ ],
+ "monsters": {
+  "5990": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Puissance, en zone"
+    },
+    {
+     "id": "removes",
+     "param": "PA, PM, Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "derrière un obstacle"
+    },
+    {
+     "id": "phase",
+     "param": "à 50 % PV, monte sur son vautour"
+    },
+    {
+     "id": "moves",
+     "param": "attire tous à chaque coup reçu"
+    }
+   ],
+   "detail": "En début de tour, vole les stats des monstres en état Collecte qu'elle voit ; elle les perd à leur mort. Les Charognes lui donnent du bouclier. Dakhma (2 PO) retire tes PA et PM : taper l'allié touché l'annule. Sous 50 % PV, la finir vite."
+  },
+  "5995": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "critique et Force"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pacifiste par dommages poussée"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "5994": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "distance, se boost en volant"
+    },
+    {
+     "id": "steals",
+     "param": "PO et Intelligence"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "5993": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM et Agilité"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte au CaC de sa cible"
+    }
+   ]
+  },
+  "5992": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PA et Chance"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "5991": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC, le plus fort des monstres"
+    },
+    {
+     "id": "steals",
+     "param": "Vitalité et dommages"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "bouclier autour de lui"
+    },
+    {
+     "id": "moves",
+     "param": "attire en ligne"
+    }
+   ]
+  }
+ }
+}

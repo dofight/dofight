@@ -1,0 +1,102 @@
+{
+ "dungeonId": 113,
+ "dungeon": "Fonderie des Waddicts",
+ "guide": "https://www.dofuspourlesnoobs.com/fonderie-des-waddicts.html",
+ "guideUpdated": "22/04/2025",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "5653": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM, Résistance Terre",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Twakeuf",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "Chocomatose où un ennemi meurt"
+    },
+    {
+     "id": "moves",
+     "param": "repousse autour de lui"
+    }
+   ],
+   "detail": "Chocomatose : +300 puissance et +3 PA pendant 2 tours, monstres compris. Tant qu'un joueur l'a, les monstres (sauf lui) peuvent se téléporter au CaC d'un ennemi."
+  },
+  "5692": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "PM, Dommages finaux, Résistance",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte (Chocomatose)"
+    }
+   ]
+  },
+  "5691": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte (Chocomatose)"
+    }
+   ]
+  },
+  "5690": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Puissance"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte (Chocomatose)"
+    }
+   ]
+  },
+  "5689": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire, s'attire, se téléporte"
+    }
+   ]
+  },
+  "5652": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Tacle",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "Vitalité",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte (Chocomatose)"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,88 @@
+{
+ "dungeonId": 89,
+ "dungeon": "Antre de la Reine Nyée",
+ "guide": "https://www.dofuspourlesnoobs.com/antre-de-la-reine-nyeacutee.html",
+ "status": "draft",
+ "strategy": "Libérer un Cocon en tapant l'allié enfermé, sinon l'Arapex peut le tuer. Garder la Dardalaine et la Néfileuse à distance.",
+ "monsters": {
+  "3996": {
+   "tags": [
+    {
+     "id": "spread_out"
+    },
+    {
+     "id": "summons",
+     "param": "Oeufs de Trégénaire"
+    }
+   ],
+   "detail": "La taper quand des Trégénaires vivent les rend Dévouées : elles viennent exploser en zone au CaC d'un personnage. Taper un Oeuf te soigne de la moitié des dégâts infligés."
+  },
+  "3995": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Tacle",
+     "source": "spells"
+    }
+   ]
+  },
+  "3994": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, se téléporte",
+     "source": "spells"
+    }
+   ]
+  },
+  "3993": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA et PM (Cocon, 2 tours)"
+    },
+    {
+     "id": "moves",
+     "param": "attire en ligne"
+    },
+    {
+     "id": "summons",
+     "param": "Toile, glyphe qui retire les PM"
+    }
+   ],
+   "detail": "Un Cocon se retire en tapant l'allié une fois avec un sort faible. Tuer la Toile supprime son glyphe. Rester loin et hors de ses lignes."
+  },
+  "3992": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "si tapée au CaC"
+    },
+    {
+     "id": "removes",
+     "param": "puissance (Sécrétion acide)"
+    },
+    {
+     "id": "inflicts",
+     "param": "Empoisonné",
+     "source": "spells"
+    }
+   ],
+   "detail": "La taper à distance. Sorts surtout en ligne : rester hors de ses lignes et lui retirer des PM."
+  },
+  "3991": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "sur un personnage en Cocon"
+    }
+   ],
+   "detail": "Exécution se lance à 2 PO sans ligne de vue : la repousser loin d'un Cocon et lui retirer des PM."
+  }
+ }
+}

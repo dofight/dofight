@@ -1,0 +1,114 @@
+{
+ "dungeonId": 6,
+ "dungeon": "Antre du Dragon Cochon",
+ "guide": "https://www.dofuspourlesnoobs.com/antre-du-dragon-cochon.html",
+ "guideWarning": "Cette page nécessite une révision qui sera faite dès que possible.",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "3137": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO, Résistances Poussée",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "retirent des PA en début de tour"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, échange de place"
+    }
+   ],
+   "detail": "Ne peut pas être portée. Ses glyphes entourent l'équipe dès le début du combat et il pousse ou échange de place pour t'y envoyer."
+  },
+  "113": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "en utilisant des PA (poison)"
+    },
+    {
+     "id": "removes",
+     "param": "PA, tous les PM"
+    },
+    {
+     "id": "poison_ap",
+     "param": "Neutre",
+     "source": "spells"
+    },
+    {
+     "id": "no_melee_end",
+     "param": "ne frappe qu'au CaC"
+    },
+    {
+     "id": "moves",
+     "param": "pousse"
+    }
+   ],
+   "detail": "Tour 1 : Étourderie Mortelle empoisonne tous les personnages 2 tours. Attendre sans utiliser de PA ou se désenvoûter. Le garder loin avec du retrait PM. Pousse contre un obstacle : dégâts en plus."
+  },
+  "601": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "caractéristiques"
+    },
+    {
+     "id": "summons",
+     "param": "Cochon de Farle"
+    }
+   ]
+  },
+  "600": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "Critique"
+    },
+    {
+     "id": "moves",
+     "param": "attire au CaC"
+    }
+   ]
+  },
+  "603": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA"
+    },
+    {
+     "id": "poison_ap",
+     "param": "Feu",
+     "source": "spells"
+    }
+   ]
+  },
+  "3304": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Affaibli (pas d'arme)"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM, PO",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

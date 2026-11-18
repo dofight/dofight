@@ -1,0 +1,186 @@
+{
+ "dungeonId": 32,
+ "dungeon": "Nid du Kwakwa",
+ "guide": "https://www.dofuspourlesnoobs.com/nid-du-kwakwa.html",
+ "guideUpdated": "17/06/2024",
+ "status": "draft",
+ "strategy": "Des dommages de poussée retirent 10 % de résistances à un monstre pendant 3 tours.",
+ "roomTags": [
+  {
+   "id": "state",
+   "param": "poussés, perdent 10 % de rés."
+  }
+ ],
+ "monsters": {
+  "2995": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "poussée, croît par monstre tué"
+    },
+    {
+     "id": "removes",
+     "param": "Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "reduce_range"
+    },
+    {
+     "id": "summons",
+     "param": "4 Bwaks, un par élément"
+    },
+    {
+     "id": "state",
+     "param": "-40 % rés. par monstre tué"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PA, Puissance",
+     "source": "spells"
+    }
+   ],
+   "detail": "Kwayauté : chaque monstre tué (invocations comprises) lui retire 40 % de résistance dans son élément et lui donne 40 dommages de poussée. Repousse de 4 cases en ligne jusqu'à 7 PO : éviter ses lignes et les murs."
+  },
+  "3284": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "3283": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "3282": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "3281": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "272": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Puissance"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "271": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Puissance"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "270": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Puissance"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "269": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Puissance"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "235": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Force"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "84": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Chance"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "83": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Intelligence"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "81": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Agilité"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

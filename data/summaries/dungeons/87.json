@@ -1,0 +1,131 @@
+{
+ "dungeonId": 87,
+ "dungeon": "Œil de Vortex",
+ "guide": "https://www.dofuspourlesnoobs.com/oeil-de-vortex.html",
+ "guideUpdated": "05/10/2026",
+ "status": "draft",
+ "strategy": "",
+ "roomTags": [
+  {
+   "id": "phase",
+   "param": "2e vague au tour 7"
+  }
+ ],
+ "mechanics": [
+  "dimension-waves",
+  "xelorium-modifiers"
+ ],
+ "monsters": {
+  "3835": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "toutes les vagues éliminées"
+    },
+    {
+     "id": "big_damage",
+     "param": "en ligne avec l'Auroraire"
+    },
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pacifiste en ligne, 8 PO"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte sur l'Auroraire"
+    }
+   ],
+   "detail": "Vulnérable, le jouer à distance, hors de ses lignes. Ressuscite chaque monstre tué ; un monstre tué deux fois à la même heure de l'Auroraire reste mort (étoile jaune). Tous les 3 tours, il se téléporte contre l'Auroraire : s'en éloigner."
+  },
+  "3839": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM, Résistances Poussée",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, te téléporte",
+     "source": "spells"
+    }
+   ]
+  },
+  "3838": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ceux qui frappent sa cible"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    }
+   ]
+  },
+  "3837": {
+   "tags": [
+    {
+     "id": "team_damage",
+     "param": "poison sur toute l'équipe"
+    },
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "prochain coup reçu doublé"
+    }
+   ],
+   "detail": "Le poison de Petit poison se retire en étant soigné."
+  },
+  "3836": {
+   "tags": [
+    {
+     "id": "inflicts",
+     "param": "Pacifiste, en ligne à 3 PO"
+    },
+    {
+     "id": "no_melee_end",
+     "param": "la garder à distance"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place, pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "3834": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "Agilité, Intelligence, Force",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

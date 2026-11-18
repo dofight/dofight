@@ -1,0 +1,84 @@
+{
+ "dungeonId": 88,
+ "dungeon": "Cache de Kankreblath",
+ "guide": "https://www.dofuspourlesnoobs.com/cache-de-kankreblath.html",
+ "guideUpdated": "04/11/2024",
+ "status": "draft",
+ "strategy": "Le Pyrasite est le vrai danger : gros dégâts et boost PM et puissance de tous les monstres. Rester à distance, tous tapent de près.",
+ "monsters": {
+  "3945": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "un monstre de la zone, au hasard"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    },
+    {
+     "id": "invisible",
+     "source": "spells"
+    }
+   ],
+   "detail": "Sfvc%$*$R ? (relance 3 tours, dès le tour 2) : au hasard, il devient invisible, se téléporte ou invoque un monstre de la zone jusqu'à 6 PO."
+  },
+  "3944": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "retire PM et fuite, tape Terre"
+    }
+   ]
+  },
+  "3943": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Poupoussière",
+     "source": "spells"
+    }
+   ]
+  },
+  "3942": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "3941": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "cône au CaC, poison"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM et puissance, tous"
+    }
+   ]
+  },
+  "3940": {
+   "tags": []
+  }
+ }
+}

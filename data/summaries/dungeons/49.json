@@ -1,0 +1,131 @@
+{
+ "dungeonId": 49,
+ "dungeon": "Antre du Blop Multicolore Royal",
+ "guide": "https://www.dofuspourlesnoobs.com/antre-du-blop-multicolore-royal.html",
+ "guideWarning": "Cette page nécessite une révision qui sera faite dès que possible.",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "1188": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "dommages et PM aux Blops royaux"
+    }
+   ],
+   "detail": "Rend toute l'équipe Insoignable 1 tour (tous les 3 tours) : ne pas compter sur les soins. Frappe jusqu'à 4 PO dans les 4 éléments en volant vie et PM."
+  },
+  "1187": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "un Blop"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "100 % Résistance Terre"
+    }
+   ]
+  },
+  "1186": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "un Blop"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "100 % Résistance Eau"
+    }
+   ]
+  },
+  "1185": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "un Blop"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "100 % Résistance Feu"
+    }
+   ]
+  },
+  "1184": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "un Blop"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "100 % Résistance Air"
+    }
+   ]
+  },
+  "1183": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM, Esquive PM",
+     "source": "spells"
+    }
+   ]
+  },
+  "1182": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "poison_mp",
+     "param": "Terre",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

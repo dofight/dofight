@@ -1,0 +1,141 @@
+{
+ "dungeonId": 102,
+ "dungeon": "Boyau du Père Ver",
+ "guide": "https://www.dofuspourlesnoobs.com/boyau-du-pere-ver.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "4726": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "à distance : le taper au CaC"
+    },
+    {
+     "id": "erodes",
+     "param": "toute l'équipe, tant qu'il vit"
+    },
+    {
+     "id": "poison_mp",
+     "param": "Neutre",
+     "source": "spells"
+    },
+    {
+     "id": "redirects",
+     "param": "partage avec un monstre"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM, Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire de 4 ceux en vue"
+    }
+   ],
+   "detail": "Tape toute l'équipe tous les 2 tours (poison par PM utilisé) et ceux à son contact à chaque début de tour. Chaque monstre mort le soigne mais lui retire des résistances. Lui vivant, finir dans son glyphe marron de début de tour soigne.",
+   "mechanics": [
+    "traumatic-death"
+   ]
+  },
+  "4731": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA si sa cible est déplacée"
+    },
+    {
+     "id": "glyphs",
+     "param": "autour de lui, tous les 4 tours"
+    },
+    {
+     "id": "moves",
+     "param": "attire de 8 en étoile"
+    }
+   ],
+   "detail": "Tous les 4 tours, se met sur le dos 2 tours : immobile, prend plus de dégâts et pose un glyphe 3x3 qui frappe, retire des PM et met Pesanteur à qui y commence son tour."
+  },
+  "4730": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Tacle, Résist. critiques, soins"
+    },
+    {
+     "id": "moves",
+     "param": "fonce et passe derrière sa cible"
+    }
+   ],
+   "detail": "Gagne de la Puissance à chaque fois qu'un personnage subit des dégâts. Ne peut être ni poussé ni attiré."
+  },
+  "4729": {
+   "tags": [
+    {
+     "id": "invisible",
+     "param": "invulnérable, 100 % critique"
+    },
+    {
+     "id": "removes",
+     "param": "PM"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Esquive PA et PM"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte"
+    }
+   ],
+   "detail": "En sortant d'invisibilité (Surgissement), les touchés passent en Pesanteur et renvoient la moitié des dégâts qu'ils subissent autour d'eux 2 tours."
+  },
+  "4728": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC et à 2 PO"
+    },
+    {
+     "id": "removes",
+     "param": "Puissance"
+    },
+    {
+     "id": "erodes",
+     "param": "Crachat Amer"
+    },
+    {
+     "id": "inflicts",
+     "param": "Affaibli (pas d'arme)"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ],
+   "detail": "Crachat Amer ne vise qu'une cible déjà touchée par Avalement et Coups de Langues. Beaucoup d'initiative."
+  },
+  "4727": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA"
+    },
+    {
+     "id": "reflect",
+     "param": "Pik Ver, 2 tours"
+    },
+    {
+     "id": "glyphs",
+     "param": "dégâts et -2 PA en début de tour"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place"
+    }
+   ]
+  }
+ }
+}

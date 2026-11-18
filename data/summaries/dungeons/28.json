@@ -1,0 +1,138 @@
+{
+ "dungeonId": 28,
+ "dungeon": "Canopée du Kimbo",
+ "guide": "https://www.dofuspourlesnoobs.com/canopeacutee-du-kimbo.html",
+ "guideUpdated": "22/04/2025",
+ "status": "draft",
+ "strategy": "Placement critique : commencer son tour sur une Bave du Kaskargo tue. Le Kaskargo et le Bitouf Aérien échangent ou poussent pour t'y mettre.",
+ "bossSummons": {
+  "1045": [
+   1088
+  ]
+ },
+ "monsters": {
+  "1045": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "hors glyphe du Disciple"
+    },
+    {
+     "id": "summons",
+     "param": "Disciple du Kimbo"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, se téléporte",
+     "source": "spells"
+    }
+   ],
+   "detail": "400 % de résistances partout.",
+   "mechanics": [
+    "kimbo-glyphs"
+   ]
+  },
+  "1088": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "CaC, début de tour sur glyphe"
+    },
+    {
+     "id": "invulnerable",
+     "param": "ne peut pas être tué"
+    },
+    {
+     "id": "glyphs",
+     "param": "distance paire ou impaire"
+    },
+    {
+     "id": "moves",
+     "param": "repousse de 3 cases"
+    }
+   ],
+   "detail": "Après ses glyphes, il bouge d'1 case : les cases sans glyphe en auront au tour suivant. Le repousser d'un nombre impair de cases, ou finir son tour sur une case glyphée (si on garde le même duo d'éléments)."
+  },
+  "1047": {
+   "tags": [
+    {
+     "id": "dispels_you",
+     "param": "au CaC"
+    },
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "no_melee_end"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance, répété si frappé"
+    }
+   ],
+   "detail": "Éviter de frapper un monstre sous Radicelle : le boost se répète à chaque coup."
+  },
+  "1044": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "début de tour sur sa Bave"
+    },
+    {
+     "id": "removes",
+     "param": "PM et Fuite autour de lui"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place vers sa Bave"
+    },
+    {
+     "id": "glyphs",
+     "param": "Bave, 2 par tour"
+    }
+   ],
+   "detail": "Il pose sa Bave puis échange de place pour y mettre un ennemi : le déplacer avant son tour. Relance tous les 3 tours, pas au tour 1. Un personnage Enraciné ou en Pesanteur ne peut pas être échangé."
+  },
+  "1020": {
+   "tags": [
+    {
+     "id": "reduce_range",
+     "param": "Aéroportage"
+    },
+    {
+     "id": "moves",
+     "param": "pousse de 3, échange de place"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM",
+     "source": "spells"
+    }
+   ],
+   "detail": "Peut pousser ou échanger un personnage sur une Bave du Kaskargo ou un glyphe du Disciple."
+  },
+  "1046": {
+   "tags": [
+    {
+     "id": "spread_out",
+     "param": "pas alignés (Meurtrissure)"
+    }
+   ]
+  },
+  "1043": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM, PO"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

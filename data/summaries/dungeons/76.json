@@ -1,0 +1,118 @@
+{
+ "dungeonId": 76,
+ "dungeon": "Palais du roi Nidas",
+ "guide": "https://www.dofuspourlesnoobs.com/palais-du-roi-nidas.html",
+ "guideUpdated": "21/06/2026",
+ "status": "draft",
+ "strategy": "Jouer à distance. Le personnage visé par Reflets placides doit être le premier à frapper le Lévitrof avant son propre tour suivant.",
+ "roomTags": [
+  {
+   "id": "phase",
+   "param": "nouvelle vague tous les 5 tours"
+  }
+ ],
+ "mechanics": [
+  "dimension-waves",
+  "enurado-modifiers"
+ ],
+ "monsters": {
+  "3648": {
+   "tags": [
+    {
+     "id": "dispels_you",
+     "param": "via la Zizanie"
+    },
+    {
+     "id": "no_melee_end",
+     "param": "le tenir à distance"
+    },
+    {
+     "id": "spread_out",
+     "param": "Zizanie : pas d'allié à 2 PO"
+    },
+    {
+     "id": "moves",
+     "param": "attire, échange de place",
+     "source": "spells"
+    }
+   ],
+   "detail": "La Boubourse booste les monstres. À 1 PV, elle passe dans ton camp 2 tours, puis revient au contact du Roi Nidas."
+  },
+  "3657": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "invocations au CaC"
+    },
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "bouclier autour s'il est frappé"
+    }
+   ]
+  },
+  "3656": {
+   "tags": [
+    {
+     "id": "lock",
+     "param": "taclé, il ne joue pas"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Invulnérable, Puissance"
+    },
+    {
+     "id": "flees"
+    }
+   ]
+  },
+  "3655": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "si la cible ne le frappe pas"
+    },
+    {
+     "id": "reduce_range",
+     "param": "il devient inoffensif"
+    },
+    {
+     "id": "flees"
+    }
+   ],
+   "detail": "Reflets placides : le personnage marqué (vert) doit être le premier à frapper le Lévitrof avant son propre tour suivant, sinon ce personnage meurt au tour du Lévitrof. Tuer le Lévitrof annule l'effet."
+  },
+  "3654": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "plus fort à chaque lancer"
+    },
+    {
+     "id": "state",
+     "param": "Super saillant : PM, Puissance"
+    }
+   ]
+  },
+  "3653": {
+   "tags": [
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, attire en ligne"
+    },
+    {
+     "id": "state",
+     "param": "Pesanteur à 4 PO de lui"
+    }
+   ]
+  }
+ }
+}

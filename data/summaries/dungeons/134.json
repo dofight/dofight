@@ -1,0 +1,128 @@
+{
+ "dungeonId": 134,
+ "dungeon": "Souvenir d'Imagiro",
+ "guide": "https://www.dofuspourlesnoobs.com/souvenir-d-imagiro.html",
+ "guideUpdated": "26/03/2024",
+ "status": "draft",
+ "strategy": "À 10 % PV, un monstre passe en Lotus (invulnérable, se soigne) et invoque son double : le tuer avant le 4e tour du Lotus, sinon il revient soigné.",
+ "roomTags": [
+  {
+   "id": "state",
+   "param": "Lotus à 10 % PV, tuer son double"
+  }
+ ],
+ "mechanics": [
+  "dimension-waves"
+ ],
+ "monsters": {
+  "6478": {
+   "tags": [
+    {
+     "id": "dispel",
+     "param": "poisons (5 tours, cumulables)"
+    },
+    {
+     "id": "lock",
+     "param": "~200 tacle, obstacle derrière"
+    },
+    {
+     "id": "phase",
+     "param": "à 75, 50 et 25 % PV"
+    },
+    {
+     "id": "glyphs",
+     "param": "frappent au tour suivant"
+    },
+    {
+     "id": "moves",
+     "param": "pousse en cône, recule"
+    }
+   ],
+   "detail": "À chaque seuil : invulnérable 5 tours et revient à 100 % PV ; le Roi Imagami t'aide pendant ces 5 tours. Son glyphe tue les monstres de papier restés dedans à son réveil. Rester hors de sa ligne et de sa diagonale."
+  },
+  "6477": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "distance, plus il perd de PV"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM, PO, dommages distance"
+    },
+    {
+     "id": "moves",
+     "param": "pousse"
+    }
+   ]
+  },
+  "6476": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "Intacleur, frappe si on entre"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, échange de place"
+    }
+   ],
+   "detail": "Gagne des PM chaque tour. La Pesanteur l'empêche d'échanger de place."
+  },
+  "6475": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Kinkutsubram"
+    },
+    {
+     "id": "moves",
+     "param": "fonce et repousse"
+    }
+   ]
+  },
+  "6474": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "dommages"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "bouclier et fuite"
+    },
+    {
+     "id": "glyphs",
+     "param": "frappe si on entre"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "6473": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "distance, croît chaque tour"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

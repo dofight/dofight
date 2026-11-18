@@ -1,0 +1,77 @@
+{
+ "dungeonId": 35,
+ "dungeon": "Laboratoire de Brumen Tinctorias",
+ "guide": "https://www.dofuspourlesnoobs.com/laboratoire-de-brumen-tinctorias.html",
+ "guideWarning": "Cette page nécessite une révision qui sera faite dès que possible.",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "3100": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ceux qui frappent sa cible"
+    },
+    {
+     "id": "removes",
+     "param": "PM, Résistance",
+     "source": "spells"
+    }
+   ],
+   "detail": "Vole de la vie."
+  },
+  "3096": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "PM, PO",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "301": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "300": {
+   "tags": [
+    {
+     "id": "inflicts",
+     "param": "Affaibli",
+     "source": "spells"
+    }
+   ]
+  },
+  "299": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    }
+   ]
+  },
+  "298": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "les 4 caractéristiques"
+    }
+   ]
+  }
+ }
+}

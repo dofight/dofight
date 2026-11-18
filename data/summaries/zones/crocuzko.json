@@ -1,0 +1,57 @@
+{
+ "zone": "Crocuzko",
+ "dungeonId": 114,
+ "guide": "https://www.dofuspourlesnoobs.com/sanctuaire-de-torkelonia.html#fonctionnement-cycle-lunaire",
+ "guideUpdated": "05/10/2026",
+ "dungeon": "Sanctuaire de Torkélonia",
+ "status": "draft",
+ "mechanics": [
+  "lunar-cycle"
+ ],
+ "monsters": {
+  "5808": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "se téléporte au CaC de sa cible"
+    }
+   ]
+  },
+  "5809": {
+   "tags": [
+    {
+     "id": "inflicts",
+     "param": "Cible lunaire : -PA, Insoignable"
+    },
+    {
+     "id": "removes",
+     "param": "PA et PM"
+    },
+    {
+     "id": "glyphs",
+     "param": "-20 % résistances autour de toi"
+    }
+   ]
+  },
+  "5810": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "steals",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "critique"
+    }
+   ]
+  },
+  "5811": {
+   "tags": []
+  }
+ }
+}

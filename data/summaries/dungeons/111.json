@@ -1,0 +1,123 @@
+{
+ "dungeonId": 111,
+ "dungeon": "Temple du dieu Kao",
+ "guide": "https://www.dofuspourlesnoobs.com/temple-du-dieu-kao.html",
+ "guideUpdated": "25/04/2025",
+ "status": "draft",
+ "strategy": "Taper un Éclat Kao donne Chocolathée 3 tours (les monstres te frappent plus fort) : l'achever d'un coup, au poison ou par une bombe l'évite.",
+ "roomTags": [
+  {
+   "id": "summons",
+   "param": "Éclat Kao : protège les monstres"
+  },
+  {
+   "id": "state",
+   "param": "Chocolathée si on tape l'Éclat"
+  }
+ ],
+ "monsters": {
+  "5666": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "tuer 3 Éclats Kao"
+    },
+    {
+     "id": "team_damage",
+     "param": "tours impairs, selon Chocolathée"
+    },
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages",
+     "source": "spells"
+    }
+   ],
+   "detail": "Chaque Éclat tué augmente ses dommages : en tuer 3 une fois les monstres morts. Elle en invoque un tous les 2 tours, qui la rend de nouveau invulnérable : après 3 Éclats tués (compteur III), tuer le nouveau suffit à la rendre vulnérable."
+  },
+  "5672": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "attire (4 cases si Chocolathée)"
+    },
+    {
+     "id": "glyphs",
+     "param": "piège invisible, frappe en zone"
+    }
+   ]
+  },
+  "5671": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pacifiste si ses 2 états cumulés"
+    },
+    {
+     "id": "glyphs",
+     "param": "Pesanteur et poison"
+    }
+   ]
+  },
+  "5670": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "-20 % dégâts subis, bouclier"
+    }
+   ]
+  },
+  "5669": {
+   "tags": [
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable au CaC"
+    },
+    {
+     "id": "moves",
+     "param": "s'attire et repousse"
+    }
+   ]
+  },
+  "5668": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM et PO"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, échange de place"
+    }
+   ],
+   "detail": "La Pesanteur l'empêche d'échanger de place (Ganache)."
+  }
+ }
+}

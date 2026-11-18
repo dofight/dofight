@@ -1,0 +1,115 @@
+{
+ "dungeonId": 101,
+ "dungeon": "Caverne d'El Piko",
+ "guide": "https://www.dofuspourlesnoobs.com/caverne-d-el-piko.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "Jouer à distance, beaucoup de sorts se lancent au CaC. Les Lévitos retirent PA et PM et gênent tout le combat.",
+ "monsters": {
+  "4609": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "à chaque ligne de dégâts"
+    },
+    {
+     "id": "steals",
+     "param": "PA, PM, PO, Vitalité, caracs"
+    },
+    {
+     "id": "spread_out",
+     "param": "ne pas finir collé à un allié"
+    },
+    {
+     "id": "state",
+     "param": "Tactique : élément et bonus"
+    }
+   ],
+   "detail": "Guerillero (tout le combat) : un personnage qui finit son tour blesse les alliés collés à lui."
+  },
+  "4608": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM, PO, Puissance"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur, Indéplaçable",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "4607": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PV max (désenvoûtable)"
+    }
+   ]
+  },
+  "4606": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, avance, se téléporte",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "invisible",
+     "source": "spells"
+    }
+   ]
+  },
+  "4605": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "tous les sorts pendant 1 tour"
+    },
+    {
+     "id": "dispel",
+     "param": "Pixor (renvoi des sorts)"
+    }
+   ],
+   "detail": "Taper avec une arme au CaC le booste en puissance et renvoie une partie des dégâts autour de lui."
+  },
+  "4604": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "retrait PA et PM, Puissance"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable, Pacifiste, Affaibli",
+     "source": "spells"
+    },
+    {
+     "id": "poison_ap",
+     "param": "Feu, Eau, Air, Terre",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PA, Puissance",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,65 @@
+{
+ "dungeonId": 21,
+ "dungeon": "Donjon des Forgerons",
+ "guide": "https://www.dofuspourlesnoobs.com/donjon-des-forgerons.html",
+ "guideUpdated": "12/11/2024",
+ "status": "draft",
+ "strategy": "Les monstres tapent surtout au CaC : rester à distance.",
+ "monsters": {
+  "252": {
+   "tags": [
+    {
+     "id": "team_damage",
+     "param": "plus il perd de PV, plus il tape"
+    },
+    {
+     "id": "steals",
+     "param": "PA au CaC"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "dommages, chaque tour"
+    },
+    {
+     "id": "flees"
+    }
+   ],
+   "detail": "Ne le taper qu'au moment de le tuer en un tour, juste après son tour : moins il a de PV, plus il tape toute l'équipe. Tchaiste ne touche qu'à 4 PO ou plus : finir à 3 PO ou moins, le bloquer entre 2 invocations."
+  },
+  "119": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "repousse de 5 cases"
+    }
+   ]
+  },
+  "118": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA autour de lui",
+     "source": "spells"
+    }
+   ]
+  },
+  "155": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    }
+   ]
+  },
+  "153": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

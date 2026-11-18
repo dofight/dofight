@@ -1,0 +1,105 @@
+{
+ "dungeonId": 59,
+ "dungeon": "Antre du Korriandre",
+ "guide": "https://www.dofuspourlesnoobs.com/antre-du-korriandre.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "2968": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "Sporakne finit sur un glyphe"
+    },
+    {
+     "id": "big_damage",
+     "param": "Hairpay : sa cible à chaque coup"
+    },
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "reduce_range"
+    },
+    {
+     "id": "summons",
+     "param": "Sporakne"
+    },
+    {
+     "id": "moves",
+     "param": "attire, se téléporte"
+    }
+   ],
+   "detail": "Chaque personnage pose en début de tour un glyphe qui tue qui y commence ou finit son tour. La Sporakne perd 1 PM par coup reçu (3 max) : la frapper ou lui retirer des PM pour qu'elle finisse sur l'un d'eux. Tuée, elle revient en 3 tours."
+  },
+  "2900": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Soins au CaC"
+    }
+   ],
+   "detail": "La frapper avec un sort déclenche un Raulebaque (pas avec une arme au CaC). Tape en ligne."
+  },
+  "2898": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, en zone"
+    },
+    {
+     "id": "summons",
+     "param": "Motte"
+    }
+   ],
+   "detail": "La Motte ne frappe que si on la tape, et alors toute l'équipe. L'Abrazif gagne des dommages quand on le frappe au CaC."
+  },
+  "2897": {
+   "tags": [
+    {
+     "id": "team_damage",
+     "param": "selon ses PV manquants"
+    },
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages",
+     "source": "spells"
+    }
+   ]
+  },
+  "2896": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés, avec ses PV"
+    }
+   ]
+  },
+  "2895": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui-même"
+    },
+    {
+     "id": "steals",
+     "param": "PM au CaC"
+    },
+    {
+     "id": "poison_ap",
+     "param": "Neutre",
+     "source": "spells"
+    }
+   ],
+   "detail": "Son poison inflige des dégâts par PA utilisé : éviter de jouer quand il est actif."
+  }
+ }
+}

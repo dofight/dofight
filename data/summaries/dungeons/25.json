@@ -1,0 +1,136 @@
+{
+ "dungeonId": 25,
+ "dungeon": "Grotte Hesque",
+ "guide": "https://www.dofuspourlesnoobs.com/grotte-hesque.html",
+ "guideUpdated": "12/11/2024",
+ "status": "draft",
+ "strategy": "Les Palmifleurs retirent 100 % de résistances : désenvoûter la cible.",
+ "monsters": {
+  "1027": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC, sous Coraillement"
+    },
+    {
+     "id": "removes",
+     "param": "Agilité",
+     "source": "spells"
+    },
+    {
+     "id": "no_melee_end"
+    }
+   ],
+   "detail": "Inoffensif à distance. Coraillement Magistral : +12 PA mais 0 PM pendant 4 tours (relance 5 tours), il ne peut presque pas avancer. Beaucoup de PV, peu de résistances."
+  },
+  "1022": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM, Résistance Eau",
+     "source": "spells"
+    }
+   ]
+  },
+  "1067": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "100 % résistances, 2 tours"
+    },
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "dispel",
+     "param": "Décapsulation"
+    }
+   ]
+  },
+  "1066": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "100 % résistances, 2 tours"
+    },
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "dispel",
+     "param": "Décapsulation"
+    }
+   ]
+  },
+  "1065": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "100 % résistances, 2 tours"
+    },
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "dispel",
+     "param": "Décapsulation"
+    }
+   ]
+  },
+  "1064": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "100 % résistances, 2 tours"
+    },
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "dispel",
+     "param": "Décapsulation"
+    }
+   ]
+  },
+  "1063": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "dommages, résistance Air"
+    }
+   ]
+  },
+  "1062": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "dommages, résistance Feu"
+    }
+   ]
+  },
+  "1061": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "dommages, résistance Terre"
+    }
+   ]
+  },
+  "1060": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "dommages, résistance Eau"
+    }
+   ]
+  }
+ }
+}

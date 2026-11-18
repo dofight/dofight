@@ -1,0 +1,165 @@
+{
+ "dungeonId": 83,
+ "dungeon": "Trône de la Cour Sombre",
+ "guide": "https://www.dofuspourlesnoobs.com/trone-de-la-cour-sombre.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "Garder les monstres à distance. Éloigner la Bombe Illicale des alliés.",
+ "mechanics": [
+  "dimension-waves",
+  "srambad-modifiers"
+ ],
+ "monsters": {
+  "3726": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "Mort en sursis, après 6 tours"
+    },
+    {
+     "id": "poison_mp",
+     "param": "Eau",
+     "source": "spells"
+    },
+    {
+     "id": "no_melee_end",
+     "param": "la garder à distance"
+    },
+    {
+     "id": "moves",
+     "param": "s'attire, échange de place"
+    },
+    {
+     "id": "invisible",
+     "param": "dans sa Brume"
+    },
+    {
+     "id": "state",
+     "param": "-10 % dégâts par Bonbombe"
+    }
+   ],
+   "detail": "Mort en sursis se lève si une Bonbombe bleue soigne le personnage ou si la Reine meurt. À sa mort, l'équipe subit plus de dégâts.",
+   "mechanics": [
+    "bonbombs"
+   ]
+  },
+  "3750": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "tous autour de sa cible"
+    },
+    {
+     "id": "reduce_range",
+     "param": "pour ses pièges"
+    },
+    {
+     "id": "glyphs",
+     "param": "piège : -10 PM et soin"
+    },
+    {
+     "id": "state",
+     "param": "frapper ses alliés empoisonne"
+    }
+   ]
+  },
+  "3749": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "invocations au CaC"
+    },
+    {
+     "id": "big_damage",
+     "param": "CaC"
+    },
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "3748": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place, pousse",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "un double qui explose"
+    },
+    {
+     "id": "invisible",
+     "source": "spells"
+    }
+   ]
+  },
+  "3747": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "Bombe Illicale (2 PO autour)"
+    },
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Bombe Illicale",
+     "source": "spells"
+    }
+   ],
+   "detail": "La Bombe Illicale explose à son tour suivant ou à sa mort ; elle se rapproche de 3 cases de qui frappe un monstre. Retirer des PM au Terristocrate."
+  },
+  "3746": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "reduce_range"
+    },
+    {
+     "id": "glyphs",
+     "param": "pièges autour de la cible"
+    }
+   ]
+  }
+ }
+}

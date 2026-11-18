@@ -1,0 +1,113 @@
+{
+ "dungeonId": 106,
+ "dungeon": "Manoir des Katrepat",
+ "guide": "https://www.dofuspourlesnoobs.com/manoir-des-katrepat.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "Taper un seul monstre à la fois : les autres avancent vers qui frappe.",
+ "roomTags": [
+  {
+   "id": "moves",
+   "param": "les monstres avancent si on tape"
+  }
+ ],
+ "monsters": {
+  "4882": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "sauf à 3 Goules ou si érodée"
+    },
+    {
+     "id": "state",
+     "param": "te change en Goule à 3 PO"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM et dommages finaux"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte au CaC d'une Goule"
+    }
+   ],
+   "detail": "À 3 PO, elle change un personnage en Goule (+50 % dégâts subis) ; un coup d'un allié ou de lui-même l'en sort. Chaque Goule augmente ses dégâts subis : normaux à 3 Goules. Sinon, la garder loin et l'éroder."
+  },
+  "4881": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "se téléporte, attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "4880": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "zone"
+    },
+    {
+     "id": "heals",
+     "param": "ses alliés près de sa cible"
+    },
+    {
+     "id": "moves",
+     "param": "attire en ligne vers sa cible"
+    }
+   ],
+   "detail": "Le plus dangereux des monstres. Rester loin de lui et ne pas invoquer près des monstres qu'on tape."
+  },
+  "4879": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA"
+    },
+    {
+     "id": "state",
+     "param": "Pacifiste en ligne de sa cible"
+    },
+    {
+     "id": "reduce_range",
+     "param": "inoffensif à plus de 5 PO"
+    }
+   ]
+  },
+  "4878": {
+   "tags": [
+    {
+     "id": "dispel",
+     "param": "partage des dommages"
+    },
+    {
+     "id": "steals",
+     "param": "PM autour d'elle"
+    },
+    {
+     "id": "moves",
+     "param": "échange avec le monstre tapé"
+    }
+   ],
+   "detail": "Dès le tour 2, partage les dommages entre tous les monstres (2 tours, relance 3 tours)."
+  },
+  "4877": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC, 3 fois par tour"
+    },
+    {
+     "id": "removes",
+     "param": "dommages finaux",
+     "source": "spells"
+    },
+    {
+     "id": "no_melee_end"
+    }
+   ],
+   "detail": "Gagne 4 PM tous les 3 tours."
+  }
+ }
+}

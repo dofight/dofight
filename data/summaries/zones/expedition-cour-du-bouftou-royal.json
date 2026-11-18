@@ -1,0 +1,103 @@
+{
+ "zone": "Expédition - Cour du Bouftou Royal",
+ "dungeonId": 1,
+ "dungeon": "Cour du Bouftou Royal",
+ "guide": "https://www.dofuspourlesnoobs.com/cour-du-bouftou-royal.html",
+ "guideUpdated": "04/11/2024",
+ "status": "draft",
+ "strategy": "Frisette : chacun gagne 20 % de dégâts par ennemi en ligne avec lui et en perd 20 % par allié en ligne : ne pas rester en ligne avec un allié.",
+ "roomTags": [
+  {
+   "id": "spread_out",
+   "param": "pas en ligne avec un allié"
+  }
+ ],
+ "monsters": {
+  "7835": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui-même, 100 % chaque tour"
+    },
+    {
+     "id": "big_damage",
+     "param": "si on le rend Insoignable"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "-30 % dégâts subis, Indéplaçable"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place",
+     "source": "spells"
+    }
+   ],
+   "detail": "Il se soigne entièrement à chaque tour : l'éroder ou le tuer en un tour. Rendu Insoignable, il retire l'état et gagne 1 000 Puissance pour tout le combat."
+  },
+  "7840": {
+   "tags": []
+  },
+  "7839": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM, PO",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Critique",
+     "source": "spells"
+    }
+   ]
+  },
+  "7838": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PO",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance",
+     "source": "spells"
+    }
+   ]
+  },
+  "7837": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM",
+     "source": "spells"
+    }
+   ]
+  },
+  "7836": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "Bouclier",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

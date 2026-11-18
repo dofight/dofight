@@ -1,0 +1,123 @@
+{
+ "dungeonId": 97,
+ "dungeon": "Vaisseau du Capitaine Meno",
+ "guide": "https://www.dofuspourlesnoobs.com/vaisseau-du-capitaine-meno.html",
+ "guideUpdated": "05/10/2026",
+ "status": "draft",
+ "strategy": "Les monstres sont invulnérables : ils perdent 25 % PV par tour (morts en 4 tours) et sont plus dangereux à bas PV. Les ralentir (retrait PM, poussées). Soigner les cibles de l'Éclair Obscur (Mantaze) retire Conducteur.",
+ "roomTags": [
+  {
+   "id": "invulnerable",
+   "param": "meurent seuls en 4 tours"
+  },
+  {
+   "id": "state",
+   "param": "plus forts à bas PV (Mutation)"
+  }
+ ],
+ "monsters": {
+  "4460": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui-même, des dégâts infligés"
+    },
+    {
+     "id": "spread_out",
+     "param": "en diagonale, pas en ligne"
+    },
+    {
+     "id": "glyphs",
+     "param": "bouclier si tu es dessus"
+    },
+    {
+     "id": "summons",
+     "param": "2 monstres par tour"
+    },
+    {
+     "id": "state",
+     "param": "-50 % dégâts reçus sauf poisons"
+    }
+   ],
+   "detail": "Se placer sur ses glyphes de Crystalisation (bouclier), en diagonale : au début de son tour, il frappe les personnages alignés à 5 PO ou moins d'une entité sur glyphe. Tous les personnages gagnent des dommages finaux chaque tour."
+  },
+  "4459": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "piège : le téléporte au contact"
+    }
+   ]
+  },
+  "4458": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "sur les cibles Conducteur"
+    },
+    {
+     "id": "state",
+     "param": "Conducteur, retiré par un soin"
+    }
+   ]
+  },
+  "4457": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "avance, pousse, te téléporte",
+     "source": "spells"
+    }
+   ]
+  },
+  "4456": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC, plus fort à bas PV"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place, attire",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Étoile Swagante (renvoi)"
+    }
+   ]
+  },
+  "4455": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM, Vitalité",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

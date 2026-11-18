@@ -1,0 +1,109 @@
+{
+ "dungeonId": 9,
+ "dungeon": "Domaine Ancestral",
+ "guide": "https://www.dofuspourlesnoobs.com/domaine-ancestral.html",
+ "guideWarning": "Cette page nécessite une révision qui sera faite dès que possible.",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "173": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui-même, dès le tour 4"
+    },
+    {
+     "id": "removes",
+     "param": "PA, Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "poison_ap",
+     "param": "Neutre",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Arakne Majeure"
+    }
+   ],
+   "detail": "Branche Paralysante : poison de 3 tours qui blesse pour chaque PA utilisé, désenvoûtable."
+  },
+  "651": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Résistance",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Champas Sombres"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Critique",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte"
+    }
+   ]
+  },
+  "253": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, Tacle"
+    },
+    {
+     "id": "poison_ap",
+     "param": "Neutre",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Tronknyde, Arbre Collant"
+    }
+   ]
+  },
+  "917": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM, Tacle",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance, PO, Critique"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    }
+   ]
+  },
+  "254": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui-même",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PA, PM",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

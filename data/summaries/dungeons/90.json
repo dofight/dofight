@@ -1,0 +1,56 @@
+{
+ "dungeonId": 90,
+ "dungeon": "Crypte de Kardorim",
+ "guide": "https://www.dofuspourlesnoobs.com/crypte-de-kardorim.html",
+ "guideUpdated": "04/11/2024",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "4051": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Kardorib, repousse de 2 cases"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM",
+     "source": "spells"
+    }
+   ],
+   "detail": "Ne tape qu'au CaC et a peu de PV. Invoque le Kardorib au tour 1, puis tous les 6 tours : le garder à distance, il tape au CaC et repousse de 2 cases (dégâts de poussée contre un obstacle)."
+  },
+  "4050": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "Puissance",
+     "source": "spells"
+    }
+   ]
+  },
+  "4049": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "Dommages",
+     "source": "spells"
+    }
+   ]
+  },
+  "4048": {
+   "tags": []
+  },
+  "4047": {
+   "tags": [
+    {
+     "id": "invisible",
+     "source": "spells"
+    }
+   ]
+  },
+  "4046": {
+   "tags": []
+  }
+ }
+}

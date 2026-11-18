@@ -1,0 +1,123 @@
+{
+ "dungeonId": 95,
+ "dungeon": "Défi du Chalœil",
+ "guide": "https://www.dofuspourlesnoobs.com/defi-du-chaloeil.html",
+ "guideUpdated": "29/06/2023",
+ "status": "draft",
+ "strategy": "Une vague tous les 5 tours. Les Soldats de Fortune tapent à distance.",
+ "roomTags": [
+  {
+   "id": "erodes",
+   "param": "si même Dé qu'un monstre"
+  },
+  {
+   "id": "state",
+   "param": "Routourne : bonus selon le tour"
+  }
+ ],
+ "mechanics": [
+  "catseye-dice",
+  "dimension-waves",
+  "ecaflipus-modifiers"
+ ],
+ "monsters": {
+  "4263": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "jusqu'au tour 21"
+    },
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "selon leur case de Dé"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place, pousse",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Dés et glyphes qui soignent"
+    }
+   ],
+   "detail": "Le garder sur une case 6 dans un coin, loin des vagues, en lui retirant des PM. Pour qu'il n'échange pas de place avec les monstres, les tenir loin de lui, leur retirer des PM ou les mettre en Pesanteur."
+  },
+  "4287": {
+   "tags": [],
+   "detail": "Ses coups laissent un poison indébuffable qui frappe un ou deux tours plus tard."
+  },
+  "4286": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés si on tape sa cible"
+    },
+    {
+     "id": "spread_out",
+     "param": "autour d'une cible marquée"
+    }
+   ]
+  },
+  "4285": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Intacleur",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "4284": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "dommages de poussée"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, attire, avance",
+     "source": "spells"
+    }
+   ]
+  },
+  "4283": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pacifiste (retiré par un soin)"
+    }
+   ]
+  }
+ }
+}

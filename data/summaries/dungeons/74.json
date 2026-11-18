@@ -1,0 +1,127 @@
+{
+ "dungeonId": 74,
+ "dungeon": "Pyramide d'Ombre",
+ "guide": "https://www.dofuspourlesnoobs.com/pyramide-dombre.html",
+ "guideUpdated": "22/04/2025",
+ "status": "draft",
+ "strategy": "Le Sombléro booste ses alliés et tape à distance ; le Caznoar retire des PA et arrive vite au CaC.",
+ "monsters": {
+  "3564": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "sauf Silhouette au glyphe blanc"
+    },
+    {
+     "id": "removes",
+     "param": "Fuite et Tacle (glyphe)"
+    },
+    {
+     "id": "moves",
+     "param": "attire, se téléporte"
+    },
+    {
+     "id": "summons",
+     "param": "Globilum et Silhouette"
+    },
+    {
+     "id": "state",
+     "param": "Indéplaçable si déplacé"
+    }
+   ],
+   "detail": "Vulnérable si la Silhouette est dans le glyphe blanc du Globilum et lui dehors. Un seul déplacement par tour sur lui et sur la Silhouette, qui fuit après avoir frappé. Le Globilum, invulnérable, bouge d'une case par tour."
+  },
+  "3570": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Résistance",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Invulnérabilité, Puissance, PO"
+    }
+   ]
+  },
+  "3569": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "3568": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Résistances Poussée",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur sur toute l'équipe"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place",
+     "source": "spells"
+    }
+   ]
+  },
+  "3567": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "reflect"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    },
+    {
+     "id": "invisible",
+     "param": "lui et ses alliés proches"
+    }
+   ]
+  },
+  "3566": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés autour de lui"
+    },
+    {
+     "id": "erodes",
+     "param": "autour de lui"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire, pousse",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

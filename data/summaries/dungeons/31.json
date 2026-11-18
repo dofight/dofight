@@ -1,0 +1,157 @@
+{
+ "dungeonId": 31,
+ "dungeon": "Antre du Kralamoure Géant",
+ "guide": "https://www.dofuspourlesnoobs.com/antre-du-kralamoure-geacuteant.html",
+ "guideUpdated": "13/10/2026",
+ "status": "draft",
+ "strategy": "",
+ "bossSummons": {
+  "423": [
+   424,
+   1092,
+   1091,
+   1090
+  ]
+ },
+ "monsters": {
+  "423": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "sauf 1 tour, via 4 tentacules"
+    },
+    {
+     "id": "one_shot",
+     "param": "quand il perd ses résistances"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "tentacule Primaire devant lui"
+    },
+    {
+     "id": "summons",
+     "param": "tentacule de l'élément tapé"
+    }
+   ],
+   "detail": "Vulnérable 1 tour : le tuer dans ce tour. Le frapper Eau, Feu, Terre puis Air pour invoquer les 4 tentacules, qui le rendent vulnérable. Ne pas le désenvoûter.",
+   "mechanics": [
+    "kralove-tentacles"
+   ]
+  },
+  "424": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC, sauf à son 1er tour"
+    }
+   ],
+   "detail": "Invoqué quand le Kralamoure est frappé Air."
+  },
+  "1092": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC, Kralamoure vulnérable"
+    },
+    {
+     "id": "removes",
+     "param": "Soins à son contact"
+    }
+   ],
+   "detail": "Invoqué quand le Kralamoure est frappé Terre. +2 PM quand le Kralamoure est vulnérable."
+  },
+  "1091": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC, Kralamoure vulnérable"
+    },
+    {
+     "id": "removes",
+     "param": "PA, PM, PO, caractéristiques"
+    }
+   ],
+   "detail": "Invoqué quand le Kralamoure est frappé Feu. +2 PM quand le Kralamoure est vulnérable."
+  },
+  "1090": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC, Kralamoure vulnérable"
+    },
+    {
+     "id": "no_melee_end",
+     "param": "il fait passer ton tour"
+    }
+   ],
+   "detail": "Invoqué quand le Kralamoure est frappé Eau. +2 PM quand le Kralamoure est vulnérable."
+  },
+  "1057": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM, Puissance, Soins, Agilité",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance",
+     "source": "spells"
+    }
+   ]
+  },
+  "1058": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Critique",
+     "source": "spells"
+    }
+   ]
+  },
+  "1059": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "1096": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place",
+     "source": "spells"
+    }
+   ],
+   "detail": "Abnégation : les alliés proches de lui sont sacrifiés 2 tours, c'est lui qui prend leurs dégâts."
+  }
+ }
+}

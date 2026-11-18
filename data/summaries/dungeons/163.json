@@ -1,0 +1,129 @@
+{
+ "dungeonId": 163,
+ "dungeon": "Poste de contrôle du Supervizœuf",
+ "guide": "https://www.dofuspourlesnoobs.com/poste-de-controle-du-supervizoeuf.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "Monstres et Zoeufs explosent en mourant : rester hors des zones. Les morts du Toubibz et de son Zoeuf soignent autour d'eux.",
+ "roomTags": [
+  {
+   "id": "area_damage",
+   "param": "chaque monstre explose à sa mort"
+  }
+ ],
+ "mechanics": [
+  "dimension-waves",
+  "osavora-seasons"
+ ],
+ "monsters": {
+  "8052": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "tuer 4 Zoeufs près de lui"
+    },
+    {
+     "id": "area_damage",
+     "param": "à sa mort, autour de lui"
+    },
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "phase",
+     "param": "vulnérable : se téléporte, clone"
+    },
+    {
+     "id": "summons",
+     "param": "Kabombz, puis un clone"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, attire, pousse"
+    }
+   ],
+   "detail": "Vulnérable, il se téléporte chaque tour sur le personnage le plus proche et invoque un clone qui explose au bout de 2 tours. Il fait aussi éclore les Zoeufs."
+  },
+  "8051": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM, PO"
+    },
+    {
+     "id": "summons",
+     "param": "Zoeuf de Quadrabz"
+    }
+   ]
+  },
+  "8050": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "zone, et fonce en ligne"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "pas en ligne avec lui"
+    },
+    {
+     "id": "summons",
+     "param": "Zoeuf de Kamikabz"
+    },
+    {
+     "id": "moves",
+     "param": "fonce sur sa cible en ligne"
+    }
+   ]
+  },
+  "8049": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable (désenvoûtable)"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PA, Fuite, Puissance"
+    },
+    {
+     "id": "summons",
+     "param": "Zoeuf de Toubibz"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte"
+    }
+   ],
+   "detail": "Sa mort et celle de son Zoeuf soignent autour d'eux : les achever loin des monstres."
+  },
+  "8048": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Tacle",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "bouclier"
+    },
+    {
+     "id": "summons",
+     "param": "Zoeuf de Balebz"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place à sa mort"
+    }
+   ],
+   "detail": "En mourant, lui et son Zoeuf échangent de place avec l'entité la plus proche et la frappent."
+  }
+ }
+}

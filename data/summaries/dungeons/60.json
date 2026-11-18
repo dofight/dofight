@@ -1,0 +1,139 @@
+{
+ "dungeonId": 60,
+ "dungeon": "Cavernes du Kolosso",
+ "guide": "https://www.dofuspourlesnoobs.com/cavernes-du-kolosso.html",
+ "guideWarning": "Cette page nécessite une révision qui sera faite dès que possible.",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "Sous leur état, frapper au CaC le Blérice retire 100 PM à l'équipe et le Fleuro vole des PV.",
+ "monsters": {
+  "2992": {
+   "tags": [
+    {
+     "id": "revives",
+     "param": "avec 25 % de leurs PV"
+    },
+    {
+     "id": "removes",
+     "param": "PA"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages par coup reçu"
+    }
+   ],
+   "detail": "Un tour sur deux (Kirbili) : frapper un monstre lui donne des dommages mais soigne les personnages proches de ce monstre. Sa mort renforce le Kolosso."
+  },
+  "2986": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "coup d'une invocation : 1 tour"
+    },
+    {
+     "id": "big_damage",
+     "param": "cône depuis son CaC"
+    },
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "phase",
+     "param": "à la mort du Professeur Xa"
+    },
+    {
+     "id": "moves",
+     "param": "attire"
+    }
+   ],
+   "detail": "Aucun soin possible de tout le combat, sauf par le Kirbili du Professeur Xa. Razepoutine ne part que si quelqu'un est à son CaC, en cône, plus fort à bas PV. Mort de Xa : +1 PM, Puissance et un sort à distance qui retire de la Fuite."
+  },
+  "2966": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM à tous si frappé au CaC"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, attire"
+    }
+   ],
+   "detail": "Sous Frostiz, le frapper au CaC retire 100 PM à toute l'équipe pour 1 tour."
+  },
+  "2965": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Dommages"
+    }
+   ],
+   "detail": "Sous Brûlis, le frapper au CaC te vole des PV. Empoisonne aussi en Feu."
+  },
+  "2886": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PO"
+    },
+    {
+     "id": "invisible",
+     "param": "si frappé sous Fugue"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place"
+    }
+   ]
+  },
+  "2885": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui-même par coup reçu"
+    },
+    {
+     "id": "moves",
+     "param": "attire"
+    }
+   ]
+  },
+  "2884": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui-même si on rate sa fuite"
+    },
+    {
+     "id": "inflicts",
+     "param": "Affaibli",
+     "source": "spells"
+    },
+    {
+     "id": "redirects",
+     "param": "tous ses alliés, 1 tour",
+     "source": "spells"
+    }
+   ]
+  },
+  "2883": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM"
+    },
+    {
+     "id": "moves",
+     "param": "bondit, pousse"
+    }
+   ],
+   "detail": "Hanque : gagne des PV à chaque coup reçu pendant 4 tours."
+  }
+ }
+}

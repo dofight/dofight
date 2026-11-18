@@ -1,0 +1,136 @@
+{
+ "dungeonId": 22,
+ "dungeon": "Temple du Grand Ougah",
+ "guide": "https://www.dofuspourlesnoobs.com/temple-du-grand-ougah.html",
+ "guideUpdated": "25/09/2022",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "1159": {
+   "tags": [
+    {
+     "id": "area_damage",
+     "param": "croix, et poison Air"
+    },
+    {
+     "id": "heals",
+     "param": "lui-même, entièrement"
+    },
+    {
+     "id": "poison_ap",
+     "param": "Neutre",
+     "source": "spells"
+    },
+    {
+     "id": "dispel",
+     "param": "Spore Hanchambre, Bizarrerie"
+    },
+    {
+     "id": "summons",
+     "param": "monstres de la zone, 1 par tour"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance par dégât subi"
+    }
+   ],
+   "detail": "Le désenvoûter quand il se booste : Spore Hanchambre le soigne entièrement s'il est frappé, ou si on lui retire PA ou PM (un des trois, visible en prévisualisation). Sirop Spore : poison par PA utilisé."
+  },
+  "1158": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO"
+    },
+    {
+     "id": "summons",
+     "param": "Champa Explosif"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM quand ils sont frappés"
+    }
+   ]
+  },
+  "1157": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Résistances"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PO"
+    }
+   ]
+  },
+  "1156": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés au CaC"
+    },
+    {
+     "id": "reflect",
+     "param": "buff donné à ses alliés"
+    },
+    {
+     "id": "removes",
+     "param": "Tacle",
+     "source": "spells"
+    }
+   ]
+  },
+  "1155": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC, selon ses PV"
+    },
+    {
+     "id": "steals",
+     "param": "PA"
+    },
+    {
+     "id": "no_melee_end"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages quand ils sont frappés"
+    }
+   ]
+  },
+  "1154": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "soins reçus autour de lui"
+    }
+   ]
+  },
+  "1153": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Dommages"
+    },
+    {
+     "id": "reflect",
+     "source": "spells"
+    },
+    {
+     "id": "poison_ap",
+     "param": "Air",
+     "source": "spells"
+    }
+   ]
+  },
+  "1178": {
+   "tags": [],
+   "detail": "N'a qu'un PM ; frappe autour de lui dans un cercle de 3 et gagne des dommages chaque tour."
+  },
+  "59": {
+   "tags": []
+  }
+ }
+}

@@ -1,0 +1,115 @@
+{
+ "dungeonId": 140,
+ "dungeon": "Chambre des maléfices",
+ "guide": "https://www.dofuspourlesnoobs.com/chambre-des-malefices.html",
+ "guideUpdated": "02/03/2026",
+ "status": "draft",
+ "strategy": "Un monstre qui voit un personnage à plus de 4 PO en début de tour se téléporte sur lui et se booste : rester hors de sa vue, ou à 4 PO ou moins.",
+ "monsters": {
+  "7210": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "tant que des monstres vivent"
+    },
+    {
+     "id": "one_shot",
+     "param": "glyphes noirs"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable",
+     "source": "spells"
+    },
+    {
+     "id": "poison_ap",
+     "param": "Neutre",
+     "source": "spells"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "quand elle est sur son îlot"
+    },
+    {
+     "id": "phase",
+     "param": "à 50 % PV"
+    }
+   ],
+   "detail": "À 50 % PV, retour sur son îlot, monstres revenus. Elle se téléporte sur le plus éloigné : y mettre le tank. Ensorcellement explosif : ne pas frapper le monstre à flamèche « 2 » (échange de place), puis s'en écarter (gros dégâts feu)."
+  },
+  "7209": {
+   "tags": [
+    {
+     "id": "out_of_sight",
+     "param": "ou rester à 4 PO ou moins"
+    },
+    {
+     "id": "glyphs",
+     "param": "retire les PM en fin de tour"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place"
+    }
+   ]
+  },
+  "7208": {
+   "tags": [
+    {
+     "id": "out_of_sight",
+     "param": "ou rester à 4 PO ou moins"
+    },
+    {
+     "id": "moves",
+     "param": "attire en croix (Poing aqueux)"
+    },
+    {
+     "id": "flees"
+    }
+   ],
+   "detail": "Ne pas laisser d'invocation en ligne avec un personnage : il la frappe et attire tout le monde dessus, en vue des autres monstres."
+  },
+  "7207": {
+   "tags": [
+    {
+     "id": "dispel",
+     "param": "Partage Épineux"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "ou rester à 4 PO ou moins"
+    }
+   ],
+   "detail": "Partage Épineux : partage ses dégâts avec un allié en ligne et gagne de la vitalité à chaque coup reçu."
+  },
+  "7206": {
+   "tags": [
+    {
+     "id": "out_of_sight",
+     "param": "ou rester à 4 PO ou moins"
+    },
+    {
+     "id": "moves",
+     "param": "pousse et se téléporte"
+    }
+   ],
+   "detail": "L'état Pesanteur l'empêche de se téléporter sur tes personnages."
+  },
+  "7205": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA et PM"
+    },
+    {
+     "id": "inflicts",
+     "param": "Enraciné (casse le tacle)"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "ou rester à 4 PO ou moins"
+    }
+   ]
+  }
+ }
+}

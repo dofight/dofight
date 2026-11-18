@@ -1,0 +1,137 @@
+{
+ "dungeonId": 73,
+ "dungeon": "Aquadôme de Merkator",
+ "guide": "https://www.dofuspourlesnoobs.com/aquadocircme-de-merkator.html",
+ "guideUpdated": "04/10/2025",
+ "status": "draft",
+ "strategy": "Ne jamais finir dans le glyphe de l'Eskoglyphe.",
+ "monsters": {
+  "3534": {
+   "tags": [
+    {
+     "id": "ranged_resist",
+     "param": "50 %"
+    },
+    {
+     "id": "revives",
+     "param": "avec 50 % de leurs PV, tour 7"
+    },
+    {
+     "id": "removes",
+     "param": "PV",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "no_melee_end",
+     "param": "rester loin de lui"
+    },
+    {
+     "id": "moves",
+     "param": "attire en ligne, tours impairs"
+    }
+   ],
+   "detail": "Lui et ses monstres sont Indéplaçables tout le combat ; tenter de leur retirer des PM te blesse (Feu, vol de vie). Sous Baphe Thysca, chaque coup reçu renforce Sondage de Bronze : ne pas le taper à ce moment, ou rester hors de sa portée."
+  },
+  "3544": {
+   "tags": [
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire, pousse",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "bouclier si frappé au CaC"
+    }
+   ]
+  },
+  "3543": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "fin de tour dans son glyphe"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM s'il est frappé à distance"
+    },
+    {
+     "id": "glyphs",
+     "param": "croix autour de lui, 3 tours"
+    }
+   ]
+  },
+  "3542": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "à distance, sur ceux à 4 PO"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire, renvoie si frappé"
+    }
+   ]
+  },
+  "3538": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "5-12 PO quand il est boosté"
+    },
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "ou à moins de 5 PO de lui"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "3535": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "selon PV manquants, toute map"
+    },
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place, attire",
+     "source": "spells"
+    }
+   ],
+   "detail": "Par ici attire l'équipe en croix ; au tour suivant il tape fort en zone autour de lui. Le tuer en un tour une fois entamé."
+  }
+ }
+}

@@ -1,0 +1,114 @@
+{
+ "dungeonId": 18,
+ "dungeon": "Pitons Rocheux des Craqueleurs",
+ "guide": "https://www.dofuspourlesnoobs.com/pitons-rocheux-des-craqueleurs.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "669": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "tous les PA, toute la carte"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "résistances, moins de dégâts"
+    },
+    {
+     "id": "summons",
+     "param": "un Craqueleur, tous les 3 tours"
+    },
+    {
+     "id": "dispel",
+     "param": "protections de ses alliés"
+    }
+   ],
+   "detail": "Sa Frappe touche aussi ses alliés autour de la cible."
+  },
+  "4573": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte à ton CaC"
+    }
+   ]
+  },
+  "483": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "reflect",
+     "param": "autour de lui (Manteau)",
+     "source": "spells"
+    }
+   ]
+  },
+  "293": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Soins",
+     "source": "spells"
+    }
+   ]
+  },
+  "106": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM",
+     "source": "spells"
+    }
+   ]
+  },
+  "826": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Soins",
+     "source": "spells"
+    }
+   ]
+  },
+  "4570": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM, Résistance Terre",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

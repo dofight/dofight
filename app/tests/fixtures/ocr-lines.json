@@ -1,0 +1,110 @@
+{
+ "combat_end_full_3_7": [
+  {
+   "text": "Brâkmar (Haras de Brâkmar)",
+   "x": 8,
+   "y": 43,
+   "w": 285,
+   "h": 14
+  },
+  {
+   "text": "-26. 41 - Niveau 60 ü 390\"",
+   "x": 9,
+   "y": 69,
+   "w": 212,
+   "h": 12
+  },
+  {
+   "text": "Combat terminé",
+   "x": 830,
+   "y": 111,
+   "w": 156,
+   "h": 13
+  }
+ ],
+ "fight_prep_muldos": [
+  {
+   "text": "Baie de des Muldos)",
+   "x": 8,
+   "y": 43,
+   "w": 352,
+   "h": 14
+  },
+  {
+   "text": "20. 23 - NivcauKO",
+   "x": 8,
+   "y": 60,
+   "w": 157,
+   "h": 22
+  },
+  {
+   "text": "CHOISIR LES",
+   "x": 1350,
+   "y": 930,
+   "w": 105,
+   "h": 10
+  },
+  {
+   "text": "CHALLENGES",
+   "x": 1346,
+   "y": 948,
+   "w": 113,
+   "h": 10
+  }
+ ],
+ "out_of_fight_3_7": [
+  {
+   "text": "Brâkmar (Haras de Brâkmar)",
+   "x": 8,
+   "y": 43,
+   "w": 285,
+   "h": 14
+  },
+  {
+   "text": "-26. a 1 - Niveau 60 ü 380,4",
+   "x": 9,
+   "y": 69,
+   "w": 213,
+   "h": 12
+  }
+ ],
+ "turn1": [
+  {
+   "text": "Ile des Wabbits (Laboratoires abandonnés",
+   "x": 8,
+   "y": 43,
+   "w": 409,
+   "h": 14
+  },
+  {
+   "text": "-15 - Nivcau 110",
+   "x": 38,
+   "y": 70,
+   "w": 129,
+   "h": 11
+  },
+  {
+   "text": "FIN DE TOUR",
+   "x": 1388,
+   "y": 881,
+   "w": 105,
+   "h": 10
+  }
+ ],
+ "dungeon_bouftou": [
+  {
+   "text": "Cour du Bouftou Royal - Première salle",
+   "x": 7,
+   "y": 66,
+   "w": 381,
+   "h": 17
+  },
+  {
+   "text": "2. -34",
+   "x": 8,
+   "y": 92,
+   "w": 50,
+   "h": 12
+  }
+ ]
+}

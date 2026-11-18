@@ -1,0 +1,151 @@
+{
+ "dungeonId": 135,
+ "dungeon": "Rituel de Kabahal",
+ "guide": "https://www.dofuspourlesnoobs.com/rituel-de-kabahal.html",
+ "guideUpdated": "26/03/2024",
+ "status": "draft",
+ "strategy": "Ne pas rester dans le glyphe d'un Bras démoniaque à son tour.",
+ "roomTags": [
+  {
+   "id": "state",
+   "param": "Instabilité Chaotique"
+  },
+  {
+   "id": "summons",
+   "param": "Bras démoniaques sur les runes"
+  }
+ ],
+ "mechanics": [
+  "demonic-arms"
+ ],
+ "monsters": {
+  "6654": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "seuls les Bras le blessent"
+    },
+    {
+     "id": "one_shot",
+     "param": "toute l'équipe si 5 Bras"
+    },
+    {
+     "id": "big_damage",
+     "param": "CaC, Insoignable"
+    },
+    {
+     "id": "heals",
+     "param": "ceux qui frappent sa cible"
+    },
+    {
+     "id": "summons",
+     "param": "Bras, 2 monstres dès le tour 5"
+    },
+    {
+     "id": "moves",
+     "param": "attire au CaC d'un Bras en ligne"
+    }
+   ],
+   "detail": "Les Bras tapent Neutre : chaque coup Neutre lui retire 5 % de résistance Neutre. Le placer à portée d'un Bras. Tuer un Bras évite le 5e."
+  },
+  "6656": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA"
+    },
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "poison_mp",
+     "param": "Eau",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PA et dommages à tous"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place, pousse",
+     "source": "spells"
+    }
+   ],
+   "detail": "Le plus dangereux des monstres. La Pesanteur l'empêche d'échanger de place."
+  },
+  "6653": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Tacle",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "bouclier et dommages poussée"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, s'attire et recule"
+    }
+   ]
+  },
+  "6652": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC"
+    },
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "Pesanteur autour de lui"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "tacle et dommages mêlée"
+    },
+    {
+     "id": "moves",
+     "param": "attire en ligne (5 PO)"
+    }
+   ]
+  },
+  "6651": {
+   "tags": [
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, attire, pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "6650": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM et dommages"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    },
+    {
+     "id": "flees"
+    }
+   ]
+  }
+ }
+}

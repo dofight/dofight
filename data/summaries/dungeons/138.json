@@ -1,0 +1,83 @@
+{
+ "dungeonId": 138,
+ "dungeon": "Akadémie des Gobs",
+ "guide": "https://www.dofuspourlesnoobs.com/akademie-des-gobs.html",
+ "guideUpdated": "03/07/2023",
+ "status": "draft",
+ "strategy": "Séparer les gobelins : chacun gagne des dommages par gobelin proche au début de son tour. Rester à distance : seul le Gobaliste tape de loin.",
+ "roomTags": [
+  {
+   "id": "buffs_allies",
+   "param": "gobelins groupés, + de dommages"
+  }
+ ],
+ "monsters": {
+  "6903": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Dagobert (vole des PA)"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire ses alliés vers sa cible"
+    }
+   ],
+   "detail": "Invoque Dagobert, qui vole des PA, de nouveau tous les 4 tours."
+  },
+  "6902": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "Bouclier",
+     "source": "spells"
+    }
+   ]
+  },
+  "6901": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Tacle",
+     "source": "spells"
+    }
+   ]
+  },
+  "6900": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "s'attire sur sa cible"
+    }
+   ]
+  },
+  "178": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "62": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

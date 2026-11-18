@@ -1,0 +1,248 @@
+{
+ "zone": "Expédition - Donjon des Scarafeuilles",
+ "dungeonId": 45,
+ "dungeon": "Donjon des Scarafeuilles",
+ "guide": "https://www.dofuspourlesnoobs.com/donjon-des-scarafeuilles.html",
+ "guideUpdated": "17/06/2024",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "7808": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "élément : tuer son Scarafeuille"
+    },
+    {
+     "id": "team_damage",
+     "param": "poison selon Scarafeuilles morts"
+    },
+    {
+     "id": "removes",
+     "param": "PA, PM, PO",
+     "source": "spells"
+    },
+    {
+     "id": "dispel",
+     "param": "Brouillard Empoisonné"
+    },
+    {
+     "id": "summons",
+     "param": "Scarafeuille Immature",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ],
+   "mechanics": [
+    "golden-scarabugly-leaves"
+   ]
+  },
+  "7822": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "toutes les caractéristiques",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "sa mort : boss perd rés. Feu"
+    }
+   ]
+  },
+  "7821": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "toutes les caractéristiques",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "sa mort : boss perd rés. Eau"
+    }
+   ]
+  },
+  "7820": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "toutes les caractéristiques",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "sa mort : boss perd rés. Terre"
+    }
+   ]
+  },
+  "7819": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "toutes les caractéristiques",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "sa mort : boss perd rés. Air"
+    }
+   ]
+  },
+  "7818": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "toutes les caractéristiques",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    },
+    {
+     "id": "invisible",
+     "param": "lui et ses alliés proches",
+     "source": "spells"
+    }
+   ],
+   "detail": "Ne pas le tuer tant que le Scarabosse Doré vit : sa mort lui donne un gros bonus de dommages."
+  },
+  "7817": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "Résistances Poussée",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM, Critique, Intaclable",
+     "source": "spells"
+    },
+    {
+     "id": "phase",
+     "param": "devient Scarafeuille en 2 tours"
+    }
+   ],
+   "detail": "S'il prend la couleur d'un Scarafeuille déjà tué, le Scarabosse Doré regagne cette résistance. Envolupté rend le Scarabosse Doré Intaclable avec 4 PM, 1 tour : le désenvoûter s'il est taclé."
+  },
+  "795": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages",
+     "source": "spells"
+    },
+    {
+     "id": "invisible",
+     "source": "spells"
+    }
+   ]
+  },
+  "241": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Flammèche Feu, Flammèche Eau",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages",
+     "source": "spells"
+    }
+   ]
+  },
+  "240": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Flammèche Feu, Flammèche Eau",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages",
+     "source": "spells"
+    }
+   ]
+  },
+  "198": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Flammèche Feu, Flammèche Eau",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages",
+     "source": "spells"
+    }
+   ]
+  },
+  "194": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Flammèche Feu, Flammèche Eau",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages",
+     "source": "spells"
+    }
+   ]
+  },
+  "798": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Flammèche Feu, Flammèche Eau",
+     "source": "spells"
+    },
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages, PM",
+     "source": "spells"
+    },
+    {
+     "id": "invisible",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,132 @@
+{
+ "dungeonId": 132,
+ "dungeon": "Tombe du Shogun Tofugawa",
+ "guide": "https://www.dofuspourlesnoobs.com/tombe-du-shogun-tofugawa.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "Garder les Kabushido à distance : au CaC, leurs coups montent avec leurs PV manquants.",
+ "monsters": {
+  "6388": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "sauf Lanterne à 3 PO (2 tours)"
+    },
+    {
+     "id": "dispels_you",
+     "param": "1 tour d'envoûtements"
+    },
+    {
+     "id": "summons",
+     "param": "2 Assaïshin si vulnérable"
+    },
+    {
+     "id": "invisible",
+     "param": "monstres hors de la Lanterne"
+    },
+    {
+     "id": "moves",
+     "param": "attire en ligne"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages",
+     "source": "spells"
+    }
+   ],
+   "detail": "La Lanterne des Spiritueurs le rend vulnérable mais repousse les monstres de son glyphe ; hors du glyphe ils deviennent invisibles 2 tours. Le bloquer contre un obstacle pour qu'il reste visible."
+  },
+  "6387": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC, selon ses PV manquants"
+    },
+    {
+     "id": "erodes"
+    },
+    {
+     "id": "no_melee_end"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, se téléporte"
+    },
+    {
+     "id": "state",
+     "param": "Indéplaçable sans ennemi à 4 PO"
+    }
+   ],
+   "detail": "En fin de tour, gagne bouclier et tacle par ennemi à 4 PO de lui. Une invocation à sa portée l'occupe un tour ou deux."
+  },
+  "6386": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM, PO à qui le frappe"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable (désenvoûtable)"
+    },
+    {
+     "id": "moves",
+     "param": "attire qui le frappe"
+    }
+   ]
+  },
+  "6385": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "removes",
+     "param": "PA, Puissance"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, échange de place"
+    }
+   ]
+  },
+  "6384": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO, Critique, Fuite"
+    },
+    {
+     "id": "summons",
+     "param": "un monstre de la zone"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM, bouclier"
+    },
+    {
+     "id": "moves",
+     "param": "fonce sur sa cible, pousse"
+    }
+   ]
+  },
+  "6383": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM"
+    },
+    {
+     "id": "reflect",
+     "param": "Croissant Réflecteur, 1 tour"
+    },
+    {
+     "id": "moves",
+     "param": "attire ou repousse (lune)"
+    }
+   ],
+   "detail": "Tours impairs : +3 PO et attire de 2 les ennemis à 7 cases de lui ; tours pairs : les repousse de 2. Tsukuyomi gagne en dégâts à chaque tour."
+  }
+ }
+}

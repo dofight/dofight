@@ -1,0 +1,123 @@
+{
+ "dungeonId": 98,
+ "dungeon": "Temple de Koutoulou",
+ "guide": "https://www.dofuspourlesnoobs.com/temple-de-koutoulou.html",
+ "guideUpdated": "05/10/2026",
+ "status": "draft",
+ "strategy": "Surveiller la Folie (mort à Folie 10) : le Klûtiste, le Grofond et le Li-Fo en ajoutent en frappant. Taper un allié lui retire une Folie.",
+ "roomTags": [
+  {
+   "id": "one_shot",
+   "param": "en Folie 10"
+  }
+ ],
+ "monsters": {
+  "4453": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC"
+    },
+    {
+     "id": "swaps_on_hit",
+     "param": "toi et l'entité la plus proche"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "sinon téléporté au CaC, Folie"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place",
+     "source": "spells"
+    }
+   ],
+   "detail": "Chaque coup direct t'échange avec l'entité la plus proche ; deux fois la même dans un tour : une Folie. Préférer poisons et sorts à une ligne. En Pesanteur, il n'échange pas avec ses alliés et tu n'es pas téléporté à son CaC."
+  },
+  "4452": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "reduce_range"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM, Vitalité, Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "4451": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Vitalité",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "double d'un monstre à 3 PO"
+    }
+   ]
+  },
+  "4450": {
+   "tags": [
+    {
+     "id": "no_melee_end",
+     "param": "rester loin de lui"
+    },
+    {
+     "id": "summons",
+     "param": "doubles de tes personnages"
+    }
+   ],
+   "detail": "Ton double te renvoie les dégâts qu'il subit et ajoute de la Folie quand il joue : le tuer en le poussant contre un monstre."
+  },
+  "4449": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire en ligne (4 PO)"
+    },
+    {
+     "id": "summons",
+     "param": "Miasme Polarisateur",
+     "source": "spells"
+    }
+   ]
+  },
+  "4448": {
+   "tags": [
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

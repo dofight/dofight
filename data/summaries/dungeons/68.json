@@ -1,0 +1,162 @@
+{
+ "dungeonId": 68,
+ "dungeon": "Salons privés de Klime",
+ "guide": "https://www.dofuspourlesnoobs.com/salons-priveacutes-de-klime.html",
+ "guideUpdated": "25/09/2022",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "3384": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "entité poussée contre lui"
+    },
+    {
+     "id": "big_damage",
+     "param": "CaC, plus fort à bas PV"
+    },
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "dispel",
+     "param": "ses dommages gagnés sur glyphe"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, attire",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Tacle, Dommages",
+     "source": "spells"
+    }
+   ],
+   "detail": "Ne peut devenir vulnérable qu'à partir du tour 3. Vulnérable, il lance Cuir à feu doux : lui et ses alliés reviennent à leur case de début de tour avec Tacle et Dommages ; un personnage sur la case échange de place et perd 6 PM.",
+   "mechanics": [
+    "klime-carcassetagne"
+   ]
+  },
+  "3383": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "en ligne, sans vue, 11 PO"
+    },
+    {
+     "id": "heals",
+     "param": "lui-même",
+     "source": "spells"
+    },
+    {
+     "id": "poison_mp",
+     "param": "Eau",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire, pousse",
+     "source": "spells"
+    }
+   ],
+   "detail": "Gonflage : poison qui tape selon les PM utilisés, s'il t'a à 5 PO ou moins."
+  },
+  "3382": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire, échange de place",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "se prépare 1 tour puis tape fort"
+    }
+   ]
+  },
+  "3381": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM, Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "Intelligence",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Affaibli autour de lui"
+    }
+   ]
+  },
+  "3380": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "à 5 PO, un tour sur deux"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM à tous autour, si frappé"
+    }
+   ]
+  },
+  "3379": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés, un tour sur deux"
+    },
+    {
+     "id": "reflect",
+     "param": "aux entités à 6 PO de lui"
+    },
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "lock",
+     "param": "il ne tape pas de près"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

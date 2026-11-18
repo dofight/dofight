@@ -1,0 +1,118 @@
+{
+ "dungeonId": 36,
+ "dungeon": "Donjon de Nowel",
+ "guide": "https://www.dofuspourlesnoobs.com/donjon-de-nowel.html",
+ "guideUpdated": "28/11/2022",
+ "status": "draft",
+ "strategy": "",
+ "roomTags": [],
+ "monsters": {
+  "1179": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Critique, Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "tape à portée infinie"
+    },
+    {
+     "id": "summons",
+     "param": "un Kipik par tour, 5 au plus"
+    },
+    {
+     "id": "state",
+     "param": "0 PM, ne bouge pas"
+    }
+   ]
+  },
+  "901": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Intelligence",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    },
+    {
+     "id": "phase",
+     "param": "à 50 % PV, sorts plus forts"
+    }
+   ],
+   "detail": "Gelé au début : sous 50 % PV il passe en Dégel et change de sorts (gros coup Feu, boost puissance de tous)."
+  },
+  "899": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM, PO",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place"
+    },
+    {
+     "id": "phase",
+     "param": "à 50 % PV, sorts plus forts"
+    }
+   ]
+  },
+  "896": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM et puissance, tous"
+    },
+    {
+     "id": "phase",
+     "param": "à 50 % PV, sorts plus forts"
+    }
+   ],
+   "detail": "Gelé, il donne 2 PM à tous ses alliés, Sapik compris, tous les 3 tours. Sous 50 % PV (Dégel), il tape à 11 PO sans ligne de vue."
+  },
+  "868": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    }
+   ]
+  },
+  "849": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "Critique",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

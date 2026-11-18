@@ -1,0 +1,128 @@
+{
+ "dungeonId": 57,
+ "dungeon": "Hypogée de l'Obsidiantre",
+ "guide": "https://www.dofuspourlesnoobs.com/hypogeacutee-de-lobsidiantre.html",
+ "guideUpdated": "15/04/2018",
+ "status": "draft",
+ "strategy": "L'Atomystique ressuscite le dernier monstre mort tous les 2 tours ; le monstre ressuscité meurt avec lui.",
+ "monsters": {
+  "2924": {
+   "tags": [
+    {
+     "id": "revives",
+     "param": "avec 10 % de leurs PV"
+    },
+    {
+     "id": "one_shot",
+     "param": "Pougnette : à plus de 7 PO"
+    },
+    {
+     "id": "invulnerable",
+     "param": "pousser un perso contre lui"
+    },
+    {
+     "id": "big_damage",
+     "param": "distance, en ligne (Objection)"
+    },
+    {
+     "id": "summons",
+     "param": "Pougnette, tous les 3 tours"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place",
+     "source": "spells"
+    }
+   ],
+   "detail": "La Pougnette explose à son 5e tour et tue les ennemis à plus de 7 PO : se placer à 1-7 PO d'elle ou la tuer (elle renvoie des dégâts). Pousser un personnage contre lui le rend vulnérable 3 tours ; y pousser un monstre le soigne."
+  },
+  "2869": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "heals",
+     "param": "ses alliés quand on le frappe"
+    }
+   ],
+   "detail": "Sous Solfasoin, le frapper soigne ses alliés dans un cercle de 3 autour de lui."
+  },
+  "2868": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "PO",
+     "source": "spells"
+    }
+   ]
+  },
+  "2867": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "soin ou dégâts x2 si frappé"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    }
+   ]
+  },
+  "2866": {
+   "tags": [
+    {
+     "id": "revives",
+     "param": "avec 10 % de leurs PV"
+    },
+    {
+     "id": "inflicts",
+     "param": "Affaibli",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages",
+     "source": "spells"
+    }
+   ],
+   "detail": "Ressuscite le dernier monstre mort avec 10 % de ses PV, tous les 2 tours. S'il meurt, le monstre ressuscité meurt aussi."
+  },
+  "2865": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "removes",
+     "param": "PA autour de lui"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM, Dommages"
+    },
+    {
+     "id": "moves",
+     "param": "attire"
+    }
+   ]
+  }
+ }
+}

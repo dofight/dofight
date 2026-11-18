@@ -1,0 +1,168 @@
+{
+ "zone": "Expédition - Sousouricière du Rat Noir",
+ "dungeonId": 43,
+ "dungeon": "Sousouricière du Rat Noir",
+ "guide": "https://www.dofuspourlesnoobs.com/sousouriciere-du-rat-noir.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "Ne pas rester groupés face au Rate Atinée : il tape en zone jusqu'à 3 fois par tour et soigne ses alliés dans la zone.",
+ "monsters": {
+  "7899": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "poison Air cumulable"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "Rappel de la mort"
+    },
+    {
+     "id": "glyphs",
+     "param": "attire vers le centre",
+     "source": "spells"
+    }
+   ],
+   "detail": "Peu de PV, pas d'invulnérabilité. Kackitu met Rappel de la mort : au tour suivant, il se téléporte sur ce personnage, le tape et le rend Insoignable : le protéger. Soigner un personnage lui retire le poison Air (Peste Noire)."
+  },
+  "7904": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "dommages finaux, -résistances",
+     "source": "spells"
+    }
+   ]
+  },
+  "7903": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire, te téléporte",
+     "source": "spells"
+    }
+   ]
+  },
+  "7902": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "spread_out"
+    },
+    {
+     "id": "reduce_range"
+    }
+   ]
+  },
+  "7901": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC"
+    },
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "no_melee_end"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "augmente les dommages mêlée",
+     "source": "spells"
+    }
+   ]
+  },
+  "7900": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM, PO",
+     "source": "spells"
+    }
+   ]
+  },
+  "6742": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    }
+   ]
+  },
+  "6739": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Rat Molo",
+     "source": "spells"
+    },
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    }
+   ]
+  },
+  "936": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire, te téléporte",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

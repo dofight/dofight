@@ -1,0 +1,101 @@
+{
+ "dungeonId": 114,
+ "dungeon": "Sanctuaire de Torkélonia",
+ "guide": "https://www.dofuspourlesnoobs.com/sanctuaire-de-torkelonia.html",
+ "guideUpdated": "05/10/2026",
+ "status": "draft",
+ "strategy": "",
+ "roomTags": [
+  {
+   "id": "state",
+   "param": "cycle lunaire à chaque tour"
+  }
+ ],
+ "mechanics": [
+  "lunar-cycle"
+ ],
+ "monsters": {
+  "5806": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "frapper depuis le glyphe bleu"
+    },
+    {
+     "id": "one_shot",
+     "param": "qui la tue, hors Nouvelle/Pleine"
+    },
+    {
+     "id": "erodes",
+     "param": "sur Cible lunaire"
+    },
+    {
+     "id": "removes",
+     "param": "PA sur Cible lunaire"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    }
+   ],
+   "detail": "Sa Lunorbe rend tout ennemi invulnérable : une ligne de dégâts depuis le glyphe bleu lève cet état sur la cible pour ton tour. La tuer en Nouvelle ou Pleine lune, ou par une invocation, évite le one-shot ; morte, tout devient vulnérable."
+  },
+  "5811": {
+   "tags": []
+  },
+  "5810": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "steals",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "critique"
+    }
+   ]
+  },
+  "5809": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA et PM"
+    },
+    {
+     "id": "glyphs",
+     "param": "-20 % résistances autour de toi"
+    },
+    {
+     "id": "state",
+     "param": "Cible lunaire : sorts renforcés"
+    }
+   ]
+  },
+  "5808": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "se téléporte au CaC de sa cible"
+    }
+   ]
+  },
+  "5807": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "attire en ligne et diagonale"
+    },
+    {
+     "id": "glyphs",
+     "param": "piège qui repousse"
+    }
+   ]
+  }
+ }
+}

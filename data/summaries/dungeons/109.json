@@ -1,0 +1,117 @@
+{
+ "dungeonId": 109,
+ "dungeon": "Tour de Solar",
+ "guide": "https://www.dofuspourlesnoobs.com/tour-de-solar.html",
+ "guideUpdated": "05/10/2026",
+ "status": "draft",
+ "strategy": "Nécronyx sur chaque monstre avant de le tuer : sans lui ils ressuscitent et renvoient les dégâts autour d'eux.",
+ "roomTags": [
+  {
+   "id": "state",
+   "param": "Pyrozomb : ressuscitent"
+  },
+  {
+   "id": "reflect",
+   "param": "autour du monstre, sauf Nécronyx"
+  },
+  {
+   "id": "area_damage",
+   "param": "à la mort d'un monstre"
+  }
+ ],
+ "monsters": {
+  "5100": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "équipe, s'il meurt sans Nécronyx"
+    },
+    {
+     "id": "invulnerable",
+     "param": "hors état Nadir"
+    },
+    {
+     "id": "heals",
+     "param": "lui et ses alliés (Aurore)"
+    },
+    {
+     "id": "removes",
+     "param": "PO à toute l'équipe (Zénith)"
+    },
+    {
+     "id": "poison_ap",
+     "param": "Air",
+     "source": "spells"
+    },
+    {
+     "id": "phase",
+     "param": "tous les 3 tours ou Nécronyx"
+    }
+   ],
+   "detail": "4 états de 3 tours (Aurore, Zénith, Crépuscule, Nadir) ; Nécronyx : état suivant. Zénith : la Pesanteur l'immobilise ; rester hors de sa poussée. Nadir : lui remettre Nécronyx, le tuer avant son tour. Le glyphe du bord frappe qui y débute."
+  },
+  "5105": {
+   "tags": [
+    {
+     "id": "erodes",
+     "source": "spells"
+    }
+   ]
+  },
+  "5104": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "bouclier autour de lui"
+    }
+   ]
+  },
+  "5103": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO, Puissance, soins reçus"
+    }
+   ]
+  },
+  "5102": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "à distance : le taper au CaC"
+    },
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "s'attire sur sa cible"
+    }
+   ]
+  },
+  "5101": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire ceux à plus de 4 PO"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "-50 % dégâts subis à son CaC"
+    }
+   ]
+  }
+ }
+}

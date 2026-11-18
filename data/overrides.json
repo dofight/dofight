@@ -1,0 +1,8 @@
+{
+  "dungeons": {
+    "47": {
+      "addMonsters": [3239],
+      "why": "Chafer Draugr: main threat of the Donjon des Squelettes in the DPLN guide, missing from Dofensive's dungeon list (user, 2026-11-07, https://dofensive.com/fr/monster/3239)"
+    }
+  }
+}

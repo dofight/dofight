@@ -1,0 +1,133 @@
+{
+ "dungeonId": 84,
+ "dungeon": "Ventre de la Baleine",
+ "guide": "https://www.dofuspourlesnoobs.com/ventre-de-la-baleine.html",
+ "guideUpdated": "05/10/2026",
+ "status": "draft",
+ "strategy": "Monstres (Krobes) invulnérables : les taper blesse la Malamibe, qui tue l'équipe si elle vit 2 tours complets. Chaque Krobe meurt quand sa condition est tenue 3 tours de suite.",
+ "roomTags": [
+  {
+   "id": "one_shot",
+   "param": "Malamibe en vie 2 tours"
+  },
+  {
+   "id": "invulnerable",
+   "param": "meurt si condition tenue 3 tours"
+  }
+ ],
+ "monsters": {
+  "3828": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire, pousse",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "meurt après 6 tours en Infection"
+    }
+   ],
+   "detail": "Le premier coup du tour donné en ligne l'attire au contact : le faire passer dans un glyphe violet le met en Infection 3 tours. Le remettre dans un glyphe au moins tous les 2 tours."
+  },
+  "3827": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "meurt si tapé dans 4 éléments"
+    }
+   ]
+  },
+  "3826": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "invocations au CaC"
+    },
+    {
+     "id": "big_damage",
+     "param": "selon ses PM restants"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "meurt si ni déplacée ni -PM"
+    }
+   ],
+   "detail": "La pousser contre un obstacle lui retire 1 PM pour le combat sans casser sa condition ; à 0 PM elle passe ses tours. Tenir le Tabacille loin d'elle."
+  },
+  "3825": {
+   "tags": [
+    {
+     "id": "dispels_you",
+     "param": "si à plus de 5 PO d'elle"
+    },
+    {
+     "id": "removes",
+     "param": "PM, PO",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "meurt si personne à 5 PO"
+    }
+   ]
+  },
+  "3824": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "meurt si un perso à son contact"
+    }
+   ]
+  },
+  "3823": {
+   "tags": [
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "meurt si aucun soin"
+    }
+   ]
+  }
+ }
+}

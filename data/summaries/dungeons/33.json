@@ -1,0 +1,70 @@
+{
+ "dungeonId": 33,
+ "dungeon": "Donjon des Larves",
+ "guide": "https://www.dofuspourlesnoobs.com/donjon-des-larves.html",
+ "guideUpdated": "21/06/2026",
+ "status": "reviewed",
+ "strategy": "La Larve Saphir soigne beaucoup un allié par tour.",
+ "monsters": {
+  "457": {
+   "tags": [
+    {
+     "id": "no_melee_end"
+    },
+    {
+     "id": "summons",
+     "param": "larve Émeraude, Rubis ou Saphir"
+    }
+   ],
+   "detail": "Enlisement (tour 2 puis tous les 3 tours) : 0 PM mais +4 PA pour tout le monde. Se placer le tour d'avant pour en profiter."
+  },
+  "456": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    }
+   ]
+  },
+  "414": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    }
+   ]
+  },
+  "413": {
+   "tags": [],
+   "harmless": true
+  },
+  "412": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    }
+   ]
+  },
+  "3358": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    }
+   ]
+  },
+  "3359": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

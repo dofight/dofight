@@ -1,0 +1,132 @@
+{
+ "dungeonId": -102,
+ "dungeon": "Cratère Minus (Grozilla et Grasmera Somnambules)",
+ "guide": "https://www.dofuspourlesnoobs.com/grozilla-et-grasmera.html",
+ "guideUpdated": "21/07/2023",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "3298": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "50 % PV si Grozilla a tapé"
+    },
+    {
+     "id": "lock",
+     "param": "bloque son rush (2 PO mini)"
+    },
+    {
+     "id": "summons",
+     "param": "Krokille Juvénile au hasard"
+    },
+    {
+     "id": "moves",
+     "param": "fonce sur sa cible"
+    }
+   ],
+   "detail": "Inoffensif à distance : jouer à distance ou le tacler.",
+   "mechanics": [
+    "grozilla-grasmera"
+   ]
+  },
+  "3295": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "50 % PV si Grasmera a tapé"
+    },
+    {
+     "id": "lock",
+     "param": "bloque son attirance (2 PO mini)"
+    },
+    {
+     "id": "moves",
+     "param": "attire de 4 cases"
+    }
+   ],
+   "detail": "Inoffensif à distance : jouer à distance ou le tacler.",
+   "mechanics": [
+    "grozilla-grasmera"
+   ]
+  },
+  "3149": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Dommages",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "3148": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "retire PA, donne PA aux monstres"
+    }
+   ]
+  },
+  "3147": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "Soins",
+     "source": "spells"
+    }
+   ]
+  },
+  "3146": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    }
+   ]
+  },
+  "3145": {
+   "tags": [
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance, Tacle, Soins",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

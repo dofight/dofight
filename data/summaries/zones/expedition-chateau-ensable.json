@@ -1,0 +1,141 @@
+{
+ "zone": "Expédition - Château Ensablé",
+ "dungeonId": 19,
+ "dungeon": "Château Ensablé",
+ "guide": "https://www.dofuspourlesnoobs.com/chateau-ensable.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "Sortir du glyphe rouge du Pichon Orange avant la fin du tour.",
+ "monsters": {
+  "7872": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "taper les Pichons, en zone"
+    },
+    {
+     "id": "big_damage",
+     "param": "à 2 PO sur un Dégraissé"
+    },
+    {
+     "id": "heals",
+     "param": "lui-même",
+     "source": "spells"
+    },
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Pichon Kloune"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ],
+   "detail": "Il subit les dégâts infligés aux Pichons et perd 1 % de résistance par ligne ; sa mort gagne le combat. Dégraissage (3 PO min., ligne de vue) rend Dégraissé : il tape alors très fort à 2 PO. Le tacler ou se cacher. 0 rés. poussée."
+  },
+  "7877": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "fin de tour dans le glyphe rouge"
+    },
+    {
+     "id": "erodes",
+     "param": "glyphe rouge"
+    },
+    {
+     "id": "removes",
+     "param": "Intelligence à tous"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "rouge : -10 PM, Pesanteur"
+    }
+   ],
+   "detail": "Son glyphe rouge apparaît autour de chaque personnage : en sortir avant la fin du tour. Pesanteur empêche la téléportation, un gain de PM ou un Dofus Abyssal aide."
+  },
+  "7876": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM, Chance",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Intacleur"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Critique",
+     "source": "spells"
+    }
+   ]
+  },
+  "7875": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Agilité autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Tacle, Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "monstres invisibles, -4 PO"
+    }
+   ]
+  },
+  "7874": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, Force",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance",
+     "source": "spells"
+    }
+   ]
+  },
+  "7873": {
+   "tags": [
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "Soins reçus",
+     "source": "spells"
+    },
+    {
+     "id": "invisible",
+     "param": "quand il est tapé"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ],
+   "detail": "Tué, il revient dans ton camp sous le contrôle de son tueur. Sa Klounerie double les dégâts renvoyés au Mob l'Éponge. Le protéger : tué par un monstre, il repasse à l'ennemi."
+  }
+ }
+}

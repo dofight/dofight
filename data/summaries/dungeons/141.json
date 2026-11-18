@@ -1,0 +1,127 @@
+{
+ "dungeonId": 141,
+ "dungeon": "Bastion des Marteaux-Aigris",
+ "guide": "https://www.dofuspourlesnoobs.com/bastion-des-marteaux-aigris.html",
+ "guideUpdated": "22/04/2025",
+ "status": "draft",
+ "strategy": "Chaque ligne de dégâts qu'un monstre inflige à un personnage donne à ce monstre une Nimpatience (dommages, puis nouveaux sorts au niveau III) : les garder à distance, le retrait PM aide.",
+ "roomTags": [
+  {
+   "id": "state",
+   "param": "Nimpatience : boost s'ils tapent"
+  }
+ ],
+ "monsters": {
+  "7219": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC dès Nimpatience III"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "no_melee_end",
+     "param": "la garder à distance"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, échange de place"
+    },
+    {
+     "id": "state",
+     "param": "+20 % rés. si on la pousse"
+    }
+   ],
+   "detail": "Le premier personnage touché dans le tour prend l'état Clochecuivre : elle échange de place avec lui et lui retire tous ses PM. La taper au CaC retire l'état ; Pesanteur bloque l'échange."
+  },
+  "7218": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Vitalité",
+     "source": "spells"
+    },
+    {
+     "id": "dispel",
+     "param": "Ninspiration"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "bouclier dès Nimpatience III"
+    },
+    {
+     "id": "redirects",
+     "param": "partage, échange de place"
+    }
+   ]
+  },
+  "7217": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, Résistance",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "Pesanteur, -PM et dégâts"
+    }
+   ]
+  },
+  "7216": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "dès Nimpatience III"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "7215": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés autour"
+    }
+   ],
+   "detail": "Ninsipide touche toute une ligne, même de loin : le bloquer ou le repousser hors de tes lignes."
+  },
+  "7214": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Fuite et Tacle"
+    },
+    {
+     "id": "erodes"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "Indéplaçable et bouclier"
+    }
+   ]
+  }
+ }
+}

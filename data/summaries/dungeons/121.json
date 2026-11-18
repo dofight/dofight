@@ -1,0 +1,198 @@
+{
+ "dungeonId": 121,
+ "dungeon": "Tempête de l'Eliocalypse",
+ "guide": "https://www.dofuspourlesnoobs.com/tempete-de-l-eliocalypse.html",
+ "guideUpdated": "08/07/2024",
+ "status": "draft",
+ "strategy": "Le Feu Primordial booste l'équipe : son invocateur (1er en initiative) ne doit pas mourir.",
+ "roomTags": [
+  {
+   "id": "state",
+   "param": "Peau pourrissante : se soigner"
+  }
+ ],
+ "monsters": {
+  "6026": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA et puissance"
+    },
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "maladie aléatoire (monté)"
+    },
+    {
+     "id": "phase",
+     "param": "soin d'un allié à son CaC"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, échange de place"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Bouclier",
+     "source": "spells"
+    }
+   ],
+   "detail": "Lui retirer Kissiphrot le retire à tous les ennemis et le fait descendre de sa monture 3 tours. La Pesanteur l'empêche alors d'échanger de place. Soigner retire les maladies.",
+   "mechanics": [
+    "kissiphrot"
+   ]
+  },
+  "6014": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "tant qu'elle n'est pas seule"
+    },
+    {
+     "id": "big_damage",
+     "param": "zone, via ses armes"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pacifiste",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "une arme tous les 20 % PV"
+    },
+    {
+     "id": "state",
+     "param": "Brave : une seule cible 2 tours"
+    }
+   ],
+   "detail": "Une arme tuée après le tour de Guerre lui donne résistances, PM et soins. Brave se lance jusqu'à 3 PO : rester plus loin l'évite. En Brave, les autres deviennent Pacifistes en la tapant."
+  },
+  "5990": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Puissance, en zone"
+    },
+    {
+     "id": "removes",
+     "param": "PA, PM, Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "derrière un obstacle"
+    },
+    {
+     "id": "phase",
+     "param": "à 50 % PV, monte sur son vautour"
+    },
+    {
+     "id": "moves",
+     "param": "attire tous à chaque coup reçu"
+    }
+   ],
+   "detail": "Invulnérable 1 tour en montant sur sa monture, puis à finir avant qu'elle rejoue. Dakhma (2 PO) retire tes PA et PM : taper l'allié touché l'annule. Coincée avec des invocations à son contact, elle les tue en Charognes qui la bloquent."
+  },
+  "5955": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "200 %, sauf en état Traître"
+    },
+    {
+     "id": "removes",
+     "param": "PA, Tacle",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Armécréante, tours impairs"
+    },
+    {
+     "id": "phase",
+     "param": "monture à 50 %, soin 25 % à 1 PV"
+    },
+    {
+     "id": "moves",
+     "param": "attire, échange de place"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "bouclier et PM"
+    }
+   ],
+   "detail": "Traître : finir son tour sur un glyphe blanc ; taper ensuite un de ses alliés ajoute 1 charge (5 max), chaque coup sur Servitude en consomme une. Insoignable avant 1 PV évite son soin."
+  },
+  "6027": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PV, puissance, critique, tacle"
+    },
+    {
+     "id": "redirects",
+     "param": "ses alliés autour de lui"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM et vitalité"
+    }
+   ]
+  },
+  "6023": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "au CaC au-dessus de 50 % PV"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    }
+   ],
+   "detail": "Invulnérable au CaC au-dessus de 50 % PV, à distance en dessous."
+  },
+  "5991": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC, le plus fort des monstres"
+    },
+    {
+     "id": "steals",
+     "param": "Vitalité et dommages"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "bouclier autour de lui"
+    },
+    {
+     "id": "moves",
+     "param": "attire en ligne"
+    }
+   ]
+  },
+  "5979": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Iopprimé si pas tapée"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, te ramène au départ"
+    }
+   ],
+   "detail": "La taper une fois par tour l'empêche d'invoquer un Iopprimé (2 max). Pesanteur, Enraciné ou Indéplaçable empêchent le renvoi au début du tour."
+  }
+ }
+}

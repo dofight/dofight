@@ -1,0 +1,148 @@
+{
+ "dungeonId": 69,
+ "dungeon": "Forgefroide de Missiz Frizz",
+ "guide": "https://www.dofuspourlesnoobs.com/forgefroide-de-missiz-frizz.html",
+ "guideUpdated": "25/09/2022",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "3391": {
+   "tags": [
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "spread_out",
+     "param": "aucun allié aligné avec elle"
+    },
+    {
+     "id": "no_ap_mp_removal",
+     "param": "Cristallisation : +3 PM"
+    },
+    {
+     "id": "moves",
+     "param": "attire les alignés si frappée"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "Surgelé : Sang froid tape plus"
+    }
+   ],
+   "detail": "Frappée, elle attire à son contact les personnages en ligne ou en diagonale avec elle et les rend Surgelés.",
+   "mechanics": [
+    "missiz-frizz-snowdrifts"
+   ]
+  },
+  "3390": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC, selon ses PV manquants"
+    },
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "boosté s'il est déplacé"
+    }
+   ]
+  },
+  "3389": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "à 5 PO, s'il est tapé de loin"
+    },
+    {
+     "id": "removes",
+     "param": "PA, PM",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "3387": {
+   "tags": [
+    {
+     "id": "inflicts",
+     "param": "Pesanteur autour, tapé de loin"
+    },
+    {
+     "id": "removes",
+     "param": "PM, PO",
+     "source": "spells"
+    },
+    {
+     "id": "flees"
+    }
+   ]
+  },
+  "3386": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "à distance, autour de lui"
+    },
+    {
+     "id": "erodes",
+     "param": "autour de lui"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "avance, échange de place",
+     "source": "spells"
+    }
+   ]
+  },
+  "3385": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "à distance, croix autour de lui"
+    },
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire, échange de place",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "boosté si frappé à distance"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,134 @@
+{
+ "dungeonId": 82,
+ "dungeon": "Cave du Toxoliath",
+ "guide": "https://www.dofuspourlesnoobs.com/cave-du-toxoliath.html",
+ "guideUpdated": "10/02/2022",
+ "status": "draft",
+ "strategy": "Jouer à distance. Les Morfrelon tapent de très loin ; attendre la fin du Poison Incurable des Scoliopode ; infliger des dommages de poussée aux Lucrane avant de les taper.",
+ "roomTags": [],
+ "mechanics": [
+  "dimension-waves",
+  "srambad-modifiers"
+ ],
+ "monsters": {
+  "3752": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "poison par PM si on le frappe"
+    },
+    {
+     "id": "removes",
+     "param": "PA (Poison Volatile, tour 6)"
+    },
+    {
+     "id": "erodes"
+    },
+    {
+     "id": "poison_ap",
+     "param": "Neutre",
+     "source": "spells"
+    },
+    {
+     "id": "heals",
+     "param": "ceux qui frappent sa cible"
+    },
+    {
+     "id": "dispel",
+     "param": "ses poisons sur tes alliés"
+    }
+   ],
+   "detail": "Le frapper sans utiliser de PM ; son poison Toxmose (2 tours) disparaît à sa mort. Le tuer avant le tour 6 : Poison Volatile pose un glyphe qui augmente les dégâts subis. Venin Salvateur : le ciblé prend plus et soigne qui le frappe."
+  },
+  "3739": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PO"
+    },
+    {
+     "id": "reduce_range"
+    },
+    {
+     "id": "flees"
+    }
+   ],
+   "detail": "Gagne de la Puissance à chaque coup reçu pendant Puissance Cible."
+  },
+  "3738": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "distance, sans ligne de vue"
+    },
+    {
+     "id": "removes",
+     "param": "PA, PM"
+    },
+    {
+     "id": "glyphs",
+     "param": "Pesanteur, -PM, dégâts en plus"
+    }
+   ]
+  },
+  "3737": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "et empoisonne qui la frappe"
+    },
+    {
+     "id": "removes",
+     "param": "50 % des PV actuels, 1 tour"
+    },
+    {
+     "id": "moves",
+     "param": "fonce sur sa cible"
+    }
+   ],
+   "detail": "Lui infliger des dommages de poussée retire Carapace Gardée 1 tour (elle devient Indéplaçable)."
+  },
+  "3736": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC, selon ses PV manquants"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, attire"
+    }
+   ]
+  },
+  "3735": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM à qui le frappe"
+    },
+    {
+     "id": "erodes"
+    },
+    {
+     "id": "poison_mp",
+     "param": "Terre",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "Insoignable à qui le frappe"
+    },
+    {
+     "id": "moves",
+     "param": "attire"
+    }
+   ],
+   "detail": "Ces effets durent tant que Poison Incurable est actif (2 tours) : attendre la fin si on ne peut pas le tuer en un tour. Tue les invocations au CaC."
+  }
+ }
+}

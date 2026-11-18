@@ -1,0 +1,129 @@
+{
+ "dungeonId": 14,
+ "dungeon": "Grotte du Bworker",
+ "guide": "https://www.dofuspourlesnoobs.com/grotte-du-bworker.html",
+ "guideUpdated": "19/08/2018",
+ "status": "draft",
+ "strategy": "Rester hors de portée des Flammèches des Bworks Élémentaires, qui attirent et explosent au CaC.",
+ "monsters": {
+  "478": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC, très fort"
+    },
+    {
+     "id": "no_melee_end"
+    },
+    {
+     "id": "moves",
+     "param": "pousse"
+    }
+   ],
+   "detail": "Ne frappe qu'au CaC, très fort : le tenir à distance (retrait PM, poussées) ou le bloquer dans un coin, avec des monstres autres que le Cybwork (qui prend ses dégâts) et la Mama Bwork (qui le soigne)."
+  },
+  "488": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "pas en ligne avec lui"
+    },
+    {
+     "id": "redirects",
+     "param": "alliés à 2 cases de lui"
+    }
+   ]
+  },
+  "487": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "Flammèche, explose au CaC"
+    },
+    {
+     "id": "erodes"
+    },
+    {
+     "id": "summons",
+     "param": "Flammèche Terreuse"
+    }
+   ],
+   "detail": "Sa Flammèche attire de 4 cases puis explose au CaC : la tuer vite ou rester hors de sa portée."
+  },
+  "486": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "Flammèche, explose au CaC"
+    },
+    {
+     "id": "removes",
+     "param": "Puissance, Tacle, Fuite"
+    },
+    {
+     "id": "summons",
+     "param": "Flammèche Venteuse"
+    }
+   ],
+   "detail": "Sa Flammèche attire de 4 cases puis explose au CaC : la tuer vite ou rester hors de sa portée."
+  },
+  "485": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "Flammèche, explose au CaC"
+    },
+    {
+     "id": "removes",
+     "param": "PM"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable, Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Flammèche Aqueuse"
+    }
+   ],
+   "detail": "Sa Flammèche attire de 4 cases puis explose au CaC : la tuer vite ou rester hors de sa portée."
+  },
+  "484": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "Flammèche, explose au CaC"
+    },
+    {
+     "id": "removes",
+     "param": "PA en zone"
+    },
+    {
+     "id": "spread_out"
+    },
+    {
+     "id": "summons",
+     "param": "Flammèche Fumeuse"
+    }
+   ],
+   "detail": "Sa Flammèche attire de 4 cases puis explose au CaC : la tuer vite ou rester hors de sa portée."
+  },
+  "479": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "elle-même et ses alliés"
+    },
+    {
+     "id": "no_melee_end"
+    }
+   ],
+   "detail": "Cri de Reconstitution (relance 7 tours) soigne beaucoup, elle ou un allié, puis la rend Insoignable 3 tours : la blesser un peu, l'isoler, et l'entamer une fois le sort lancé."
+  }
+ }
+}

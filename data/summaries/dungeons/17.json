@@ -1,0 +1,106 @@
+{
+ "dungeonId": 17,
+ "dungeon": "Terrier du Wa Wabbit",
+ "guide": "https://www.dofuspourlesnoobs.com/terrier-du-wa-wabbit.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "Le Black Wo Wabbit met Pesanteur et attire ; le Tiwobot pousse beaucoup.",
+ "monsters": {
+  "3460": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Wobot Tamponneur"
+    },
+    {
+     "id": "moves",
+     "param": "attire, pousse, échange de place",
+     "source": "spells"
+    }
+   ],
+   "detail": "Les Tamponneurs (150 % rés.) renvoient de 6 cases ce qu'on pousse dessus : poussé entre deux Tamponneurs à 5 cases en ligne, il rebondit jusqu'à sa mort. Ne pas finir son tour à leur contact. +30 % rés. au tour 3 puis tous les 5 tours."
+  },
+  "3474": {
+   "tags": [
+    {
+     "id": "inflicts",
+     "param": "Affaibli",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "3463": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "removes",
+     "param": "PM, PO",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM, PO",
+     "source": "spells"
+    }
+   ],
+   "detail": "Mawtyw : tapé à distance, lui et toutes les entités à 2 cases gagnent 1 PA et des dommages pendant 2 tours."
+  },
+  "3462": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire autour de lui, avance"
+    }
+   ]
+  },
+  "3461": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "3 PM si tapé au CaC"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Cawotte Woyale",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire de 10 cases"
+    }
+   ],
+   "detail": "Tapé au CaC, il repousse l'attaquant de 3 cases. Le Wa Wobot change sa Cawotte en Wobot Tamponneur."
+  },
+  "181": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM, Résistances Poussée",
+     "source": "spells"
+    },
+    {
+     "id": "reflect",
+     "param": "si poussé ou échangé de place"
+    }
+   ]
+  }
+ }
+}

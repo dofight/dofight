@@ -1,0 +1,101 @@
+{
+ "dungeonId": 81,
+ "dungeon": "Ring du Capitaine Ekarlatte",
+ "guide": "https://www.dofuspourlesnoobs.com/ring-du-capitaine-ekarlatte.html",
+ "guideWarning": "Cette page nécessite une révision qui sera faite dès que possible.",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "",
+ "roomTags": [],
+ "mechanics": [
+  "dimension-waves",
+  "srambad-modifiers"
+ ],
+ "monsters": {
+  "3753": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM, Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "hit_to_heal"
+    },
+    {
+     "id": "moves",
+     "param": "attire, échange, téléporte"
+    }
+   ],
+   "detail": "Se téléporte à chaque coup reçu : la Pesanteur l'en empêche."
+  },
+  "3734": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    }
+   ]
+  },
+  "3733": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "piège qui pousse de 2 cases"
+    }
+   ]
+  },
+  "3732": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "3731": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "3730": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

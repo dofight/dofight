@@ -1,0 +1,201 @@
+{
+ "dungeonId": 24,
+ "dungeon": "Gelaxième Dimension",
+ "guide": "https://www.dofuspourlesnoobs.com/gelaxieme-dimension.html",
+ "guideUpdated": "17/06/2024",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "430": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Puissance"
+    },
+    {
+     "id": "summons",
+     "param": "Gelée Citron"
+    },
+    {
+     "id": "glyphs",
+     "param": "affaiblit les autres Gelées"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    }
+   ],
+   "detail": "Si elle commence son tour dans le glyphe d'une Gelée d'une autre couleur, elle perd des résistances dans l'élément de ce glyphe."
+  },
+  "86": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Soins"
+    },
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Gelée Fraise"
+    },
+    {
+     "id": "glyphs",
+     "param": "affaiblit les autres Gelées"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    }
+   ],
+   "detail": "Si elle commence son tour dans le glyphe d'une Gelée d'une autre couleur, elle perd des résistances dans l'élément de ce glyphe."
+  },
+  "85": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Gelée Menthe"
+    },
+    {
+     "id": "glyphs",
+     "param": "affaiblit les autres Gelées"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    }
+   ],
+   "detail": "Si elle commence son tour dans le glyphe d'une Gelée d'une autre couleur, elle perd des résistances dans l'élément de ce glyphe."
+  },
+  "58": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Gelée Bleuet"
+    },
+    {
+     "id": "glyphs",
+     "param": "affaiblit les autres Gelées"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    }
+   ],
+   "detail": "Si elle commence son tour dans le glyphe d'une Gelée d'une autre couleur, elle perd des résistances dans l'élément de ce glyphe."
+  },
+  "429": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Agilité"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "affaiblit les autres Gelées"
+    }
+   ]
+  },
+  "57": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "Intelligence, Soins reçus",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "affaiblit les autres Gelées"
+    }
+   ]
+  },
+  "56": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Force",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "affaiblit les autres Gelées"
+    }
+   ]
+  },
+  "55": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Chance",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "affaiblit les autres Gelées"
+    }
+   ]
+  }
+ }
+}

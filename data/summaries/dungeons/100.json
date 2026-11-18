@@ -1,0 +1,125 @@
+{
+ "dungeonId": 100,
+ "dungeon": "Cimetière des Mastodontes",
+ "guide": "https://www.dofuspourlesnoobs.com/cimetiere-des-mastodontes.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "La Léolhyène tue au 2e coup de Mort Sûre sur la même cible, 2 tours après le premier.",
+ "monsters": {
+  "4621": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui-même, sur un perso en Sursis"
+    },
+    {
+     "id": "inflicts",
+     "param": "Enraciné",
+     "source": "spells"
+    },
+    {
+     "id": "no_melee_end"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "tours 1, 6, 11 (attirance)"
+    },
+    {
+     "id": "moves",
+     "param": "attire toute l'équipe de 3 cases"
+    }
+   ],
+   "detail": "Ne pas se faire frapper au CaC deux tours de suite : Sursis le soigne. Tapé à distance, il recule d'une case ; s'il ne peut pas, -50 % de résistance mais +200 puissance. Tapé au CaC, il ne bouge pas."
+  },
+  "4620": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Résistance",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "4619": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "2e Mort Sûre sur la même cible"
+    },
+    {
+     "id": "poison_ap",
+     "param": "Feu",
+     "source": "spells"
+    },
+    {
+     "id": "no_melee_end"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance",
+     "source": "spells"
+    }
+   ],
+   "detail": "Mort Sûre marque la cible (tête de mort bleue) : un second coup après la relance de 2 tours la tue."
+  },
+  "4617": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "s'attire sur sa cible"
+    }
+   ]
+  },
+  "4616": {
+   "tags": [
+    {
+     "id": "poison_mp",
+     "param": "Eau",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Vitalité, Puissance",
+     "source": "spells"
+    }
+   ]
+  },
+  "4615": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM, Tacle, Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "invisible",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "retire vitalité et PM"
+    }
+   ]
+  }
+ }
+}

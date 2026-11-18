@@ -1,0 +1,121 @@
+{
+ "dungeonId": 79,
+ "dungeon": "Galerie du Phossile",
+ "guide": "https://www.dofuspourlesnoobs.com/galerie-du-phossile.html",
+ "guideUpdated": "21/06/2026",
+ "status": "draft",
+ "strategy": "Jouer à distance.",
+ "roomTags": [
+  {
+   "id": "phase",
+   "param": "nouvelle vague tous les 5 tours"
+  }
+ ],
+ "mechanics": [
+  "dimension-waves",
+  "enurado-modifiers"
+ ],
+ "monsters": {
+  "3651": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "à 3 PO, tours 5, 9, 13…"
+    },
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "+30 % dégâts subis (déplacés)"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, attire"
+    }
+   ],
+   "detail": "Rester à moins de 8 PO de lui : en fin de tour d'un personnage, les monstres à plus de 8 PO de ce personnage gagnent 1 PM et un bouclier. Toute entité poussée ou attirée laisse sous elle un glyphe rouge."
+  },
+  "3662": {
+   "tags": [
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "heals",
+     "param": "ses alliés (Phormage)"
+    },
+    {
+     "id": "no_melee_end",
+     "param": "des monstres en Phobie"
+    }
+   ]
+  },
+  "3661": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "PM si frappés à distance"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "3660": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "alliés autour si frappé au CaC"
+    },
+    {
+     "id": "removes",
+     "param": "Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place, attire",
+     "source": "spells"
+    }
+   ],
+   "detail": "La Pesanteur sur lui ou sur le Phossile empêche l'échange de place."
+  },
+  "3659": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "réduit dégâts à distance"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "3658": {
+   "tags": [
+    {
+     "id": "glyphs",
+     "param": "-50 % dégâts subis des monstres"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, attire ses alliés"
+    }
+   ],
+   "detail": "Sortir un monstre de ce glyphe avant de le taper. Ses autres glyphes donnent 2 PA ou soignent qui y finit son tour."
+  }
+ }
+}

@@ -1,0 +1,87 @@
+{
+ "dungeonId": 165,
+ "dungeon": "Autel de la Déchireuse",
+ "guide": "https://www.dofuspourlesnoobs.com/autel-de-la-dechireuse.html",
+ "status": "draft",
+ "strategy": "Après 5 attaques subies, chaque monstre déclenche un effet selon la saison. Vagues aux tours 1, 6, 11…",
+ "mechanics": [
+  "seasonal-reaction",
+  "dimension-waves",
+  "osavora-seasons"
+ ],
+ "monsters": {
+  "8037": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "2e téléportation sur un perso"
+    },
+    {
+     "id": "invulnerable",
+     "param": "sauf réaction de saison (Autel)"
+    },
+    {
+     "id": "poison_mp",
+     "param": "Feu",
+     "source": "spells"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "se téléporte en ligne de vue"
+    },
+    {
+     "id": "phase",
+     "param": "à 1 PV, récupère tous ses PV"
+    }
+   ],
+   "detail": "Vulnérable quand l'Autel rejoue sur elle la réaction (5 coups) du Voracle en Naissances, de la Domptueuse en Chasse, de l'Ébourifauve en Repos. +1 PM définitif par monstre en ligne avec elle. Désenvoûter le partage de Brutank. Inérodable."
+  },
+  "8040": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "big_damage",
+     "param": "distance"
+    }
+   ],
+   "detail": "Ses sorts sont à PO modifiable : lui retirer de la PO réduit fortement son efficacité."
+  },
+  "8039": {
+   "tags": [
+    {
+     "id": "dispel",
+     "param": "échange de Martignasse"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place"
+    }
+   ],
+   "detail": "Martignasse échange de place, puis te ramène en fin de tour (Pesanteur ou désenvoûtement l'empêchent). Sa réaction passe ton tour (Naissances) ou échange de place (Chasse)."
+  },
+  "8038": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC, touche aussi le plus proche"
+    },
+    {
+     "id": "reflect",
+     "param": "réaction en saison du Repos"
+    },
+    {
+     "id": "dispel",
+     "param": "résistances données"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "résistances"
+    }
+   ],
+   "detail": "Ne pas placer d'invocation près de lui : son coup au CaC touche aussi l'entité la plus proche de la cible."
+  }
+ }
+}

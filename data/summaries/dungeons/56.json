@@ -1,0 +1,153 @@
+{
+ "dungeonId": 56,
+ "dungeon": "Épave du Grolandais violent",
+ "guide": "https://www.dofuspourlesnoobs.com/epave-du-grolandais-violent.html",
+ "guideUpdated": "13/04/2018",
+ "status": "draft",
+ "strategy": "Frappée, la Pitraille de la Fantomalamère explose à 4 cases.",
+ "monsters": {
+  "2877": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "sauf Hamrack explosé à son CaC"
+    },
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Hamrack"
+    }
+   ],
+   "detail": "Le Hamrack (2 PM, indéplaçable) doit exploser à son CaC (vulnérable 5 tours) : pousser Ben vers lui et bloquer Ben. Tenter de retirer des PM au Hamrack lui en donne 3 : il rejoint Ben plus vite. L'explosion blesse les personnages autour."
+  },
+  "2881": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PO autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PO, Dommages",
+     "source": "spells"
+    }
+   ]
+  },
+  "2880": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "frappé : repousse ceux en ligne"
+    }
+   ]
+  },
+  "2878": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ceux qui frappent sa cible"
+    },
+    {
+     "id": "steals",
+     "param": "Agilité",
+     "source": "spells"
+    },
+    {
+     "id": "poison_ap",
+     "param": "Feu",
+     "source": "spells"
+    }
+   ]
+  },
+  "2876": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "plus il est blessé"
+    },
+    {
+     "id": "removes",
+     "param": "PM, Soins",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place",
+     "source": "spells"
+    }
+   ]
+  },
+  "2875": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "Pitraille frappée : 4 cases"
+    },
+    {
+     "id": "heals",
+     "param": "lui et ses alliés autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Pitraille",
+     "source": "spells"
+    }
+   ],
+   "detail": "Sa Pitraille explose à 4 cases autour d'elle quand on la frappe : la laisser tranquille et s'en éloigner."
+  },
+  "2874": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

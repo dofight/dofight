@@ -1,0 +1,126 @@
+# Builds the signed Windows installer on a version tag (vX.Y.Z) and publishes it, with latest.json for the
+# auto-updater, to this repository's releases.
+# Publishing uses the gh CLI, which also writes latest.json and the plain exe for the auto-updater.
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing tag to (re)build and publish, e.g. v1.0.1"
+        required: true
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    permissions:
+      contents: write # publishing to this repo itself, once it is the release repo
+    env:
+      TAG: ${{ github.event.inputs.tag || github.ref_name }}
+      RELEASE_REPO: ${{ vars.RELEASE_REPO || github.repository }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.inputs.tag || github.ref }}
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 12
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: app/pnpm-lock.yaml
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: app/src-tauri
+      - run: pnpm install --frozen-lockfile
+        working-directory: app
+      - run: pnpm vitest run
+        working-directory: app
+
+      - name: Version matches the tag
+        shell: bash
+        run: |
+          v=$(node -p "require('./app/src-tauri/tauri.conf.json').version")
+          test "v$v" = "$TAG" || { echo "tauri.conf.json says $v but the tag is $TAG"; exit 1; }
+
+      - name: Build the signed installer
+        working-directory: app
+        run: pnpm tauri build
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          DOFIGHT_WEBHOOK: ${{ secrets.DOFIGHT_WEBHOOK }} # Discord #suggestions-in-app webhook; empty = the « Suggestion » button says it is not set up
+
+      # the plain exe, signed like the installer: a copy kept outside the install folder (Desktop) replaces its own
+      # exe with it (selfupdate.rs), so its path and shortcuts stay
+      - name: Sign the plain exe
+        working-directory: app
+        shell: bash
+        run: |
+          set -euo pipefail
+          v="${TAG#v}"
+          cp src-tauri/target/release/dofight.exe "src-tauri/target/release/bundle/nsis/Dofight_${v}_x64.exe"
+          pnpm tauri signer sign "src-tauri/target/release/bundle/nsis/Dofight_${v}_x64.exe"
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+
+      - name: Publish the release
+        id: publish
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          v="${TAG#v}"
+          dir=app/src-tauri/target/release/bundle/nsis
+          exe="Dofight_${v}_x64-setup.exe"
+          plain="Dofight_${v}_x64.exe"
+          test -f "$dir/$exe" && test -f "$dir/$exe.sig" && test -f "$dir/$plain" && test -f "$dir/$plain.sig"
+          notes="docs/release-notes/$TAG.md"
+          [ -f "$notes" ] || { notes=$(mktemp); echo "Download \`$exe\` and run it. Dofight then updates itself." > "$notes"; }
+          # latest.json: what the auto-updater of every installed Dofight reads
+          node -e '
+            const fs = require("fs");
+            const [v, exe, sigFile, notesFile, out, plain, plainSig] = process.argv.slice(1);
+            const url = (file) => `https://github.com/${process.env.RELEASE_REPO}/releases/download/v${v}/${file}`;
+            fs.writeFileSync(out, JSON.stringify({
+              version: v,
+              notes: (fs.readFileSync(notesFile, "utf8").split("\n").find((l) => l.trim()) || "").trim(),
+              pub_date: new Date().toISOString().replace(/\.\d+Z$/, "Z"),
+              platforms: {
+                "windows-x86_64": { signature: fs.readFileSync(sigFile, "utf8").trim(), url: url(exe) },
+                // a copy outside the install folder: the plain exe (selfupdate.rs PORTABLE_TARGET)
+                "windows-x86_64-portable": { signature: fs.readFileSync(plainSig, "utf8").trim(), url: url(plain) },
+              },
+            }, null, 2));
+          ' "$v" "$exe" "$dir/$exe.sig" "$notes" "$dir/latest.json" "$plain" "$dir/$plain.sig"
+          files=("$dir/$exe" "$dir/$exe.sig" "$dir/$plain" "$dir/$plain.sig" "$dir/latest.json")
+          if gh release view "$TAG" -R "$RELEASE_REPO" >/dev/null 2>&1; then
+            gh release upload "$TAG" -R "$RELEASE_REPO" --clobber "${files[@]}"
+          else
+            gh release create "$TAG" -R "$RELEASE_REPO" --target main --title "Dofight $TAG" --notes-file "$notes" \
+              "${files[@]}"
+            echo "created=true" >> "$GITHUB_OUTPUT"
+          fi
+          echo "https://github.com/$RELEASE_REPO/releases/tag/$TAG"
+
+      # a new release (not a re-run) is announced on the Discord: the notes in French and English, and a link
+      - name: Announce on Discord
+        if: steps.publish.outputs.created == 'true'
+        continue-on-error: true # the release is already out: a Discord hiccup must not mark it failed
+        shell: bash
+        env:
+          WEBHOOK: ${{ secrets.DOFIGHT_ANNOUNCE_WEBHOOK }} # the #annonces webhook; empty = no announcement
+        run: |
+          set -euo pipefail
+          [ -n "$WEBHOOK" ] || { echo "No DOFIGHT_ANNOUNCE_WEBHOOK: not announced"; exit 0; }
+          notes="docs/release-notes/$TAG.md"
+          [ -f "$notes" ] || { echo "No release notes: not announced"; exit 0; }
+          node tools/announce.mjs "$TAG" "$notes" announce.json
+          curl -fsS -H "Content-Type: application/json" -d @announce.json "$WEBHOOK"
+          echo "Announced on Discord"

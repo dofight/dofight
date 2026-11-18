@@ -1,0 +1,12 @@
+# Dofight's « Suggestion » relay (Cloudflare Worker). Deploy from this folder: `npx wrangler deploy`.
+# The Discord webhook is a secret, never in this file: `npx wrangler secret put DISCORD_WEBHOOK`.
+name = "dofight-relay"
+main = "worker.mjs"
+compatibility_date = "2025-09-01"
+workers_dev = true
+
+# at most 3 reports a minute from one connection (the app itself allows one a minute)
+[[ratelimits]]
+name = "LIMITER"
+namespace_id = "1001"
+simple = { limit = 3, period = 60 }

@@ -1,0 +1,154 @@
+{
+ "dungeonId": 131,
+ "dungeon": "Demeure des Esprits",
+ "guide": "https://www.dofuspourlesnoobs.com/demeure-des-esprits.html",
+ "guideUpdated": "26/03/2024",
+ "status": "draft",
+ "strategy": "La Lanterne des Spiritueurs (sort spécial du donjon) agit sur les monstres : elle révèle le Kaonashi, retire l'état du Madura et tue les copies du Bakazako dans son glyphe.",
+ "monsters": {
+  "6394": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "tuer les 2 Kitsounebi même tour"
+    },
+    {
+     "id": "big_damage",
+     "param": "si un seul Kitsounebi meurt"
+    },
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "removes",
+     "param": "PM, PO, Intelligence"
+    },
+    {
+     "id": "summons",
+     "param": "2 Kitsounebi, poison, invisibles"
+    },
+    {
+     "id": "invisible",
+     "source": "spells"
+    }
+   ],
+   "detail": "Sous 50 % PV en début de tour, il devient invisible puis se soigne et gagne un bouclier : le laisser à 55-60 % PV puis le tuer au tour suivant, ou le rendre Insoignable. Marcher sur un glyphe bleu révèle le Kitsounebi."
+  },
+  "6393": {
+   "tags": [
+    {
+     "id": "inflicts",
+     "param": "Insoignable (At-oni)"
+    },
+    {
+     "id": "glyphs",
+     "param": "ligne, boost selon la couleur"
+    }
+   ],
+   "detail": "Son glyphe traverse la carte : selon sa couleur, il boost tout le monde, lui-même ou les personnages dedans. La Lanterne change son orientation."
+  },
+  "6392": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés"
+    },
+    {
+     "id": "removes",
+     "param": "PM, PO"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "il se boost par perso en vue"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire"
+    }
+   ],
+   "detail": "Chaque personnage dans sa ligne de vue lui donne PO, dommages et PV (3 fois max). Chaque effet de Lanterne lui retire 2 de ces boosts."
+  },
+  "6391": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "si son tas d'or est tué"
+    },
+    {
+     "id": "removes",
+     "param": "Vitalité"
+    },
+    {
+     "id": "summons",
+     "param": "tas d'or au CaC d'un ennemi"
+    },
+    {
+     "id": "invisible",
+     "param": "si son tas d'or est tué"
+    },
+    {
+     "id": "moves",
+     "param": "échange avec son tas d'or"
+    }
+   ],
+   "detail": "Ne pas tuer son tas d'or : il devient invisible, gagne des PM et peut retirer une grosse part des PV du tueur. La Lanterne le révèle."
+  },
+  "6390": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "copies qui partagent ses dégâts"
+    },
+    {
+     "id": "glyphs",
+     "param": "dégâts à distance réduits dedans"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "bouclier"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte"
+    }
+   ],
+   "detail": "Le pousser ou l'attirer annule Hogo et retire son glyphe. La Lanterne tue ses copies présentes dans son glyphe."
+  },
+  "6389": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "lui et sa cible de Negai"
+    },
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM"
+    },
+    {
+     "id": "moves",
+     "param": "téléporte symétriquement"
+    }
+   ],
+   "detail": "Hitomi réduit ses dégâts subis et en renvoie une partie. Après Negai, lui et sa cible échangent de place dès que l'un est frappé : la Lanterne sur eux retire l'état."
+  }
+ }
+}

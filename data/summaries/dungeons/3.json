@@ -1,0 +1,173 @@
+{
+ "dungeonId": 3,
+ "dungeon": "Bibliothèque du Maître Corbac",
+ "guide": "https://www.dofuspourlesnoobs.com/bibliotheque-du-maitre-corbac.html",
+ "status": "draft",
+ "strategy": "Éloigner le Buveur de ses alliés : il leur donne des résistances. Éviter la ligne du Corbac Apprivoisé.",
+ "monsters": {
+  "289": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "sous Carapace d'Ailes"
+    },
+    {
+     "id": "big_damage",
+     "param": "CaC, doublés en critique"
+    },
+    {
+     "id": "dispel",
+     "param": "Carapace d'Ailes"
+    },
+    {
+     "id": "summons",
+     "param": "Corbac"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Critique",
+     "source": "spells"
+    }
+   ],
+   "detail": "Le garder à distance. Dès le tour 3 puis tous les 4 tours, Carapace d'Ailes 2 tours : il bouge à peine, renvoie les dégâts, vole de la vie à tous. Ne pas le taper alors : la désenvoûter. Son Corbac désenvoûte et revient s'il est tué."
+  },
+  "4572": {
+   "tags": [
+    {
+     "id": "dodges_melee",
+     "param": "lui et alliés à 5 PO, 1 tour"
+    },
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "Agilité",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Fuite, PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "825": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM en zone"
+    },
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "dispel",
+     "param": "Buvette (résistances)"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "résistances au contact"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "824": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "en ligne jusqu'à 12 PO"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "hors de sa ligne"
+    },
+    {
+     "id": "moves",
+     "param": "attire puis repousse de 12"
+    }
+   ]
+  },
+  "823": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "100 % résistance d'un élément"
+    },
+    {
+     "id": "steals",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PO",
+     "source": "spells"
+    }
+   ],
+   "detail": "Désenvoûter le malus de résistance, surtout en Terre ou Air."
+  },
+  "4580": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "en ligne jusqu'à 12 PO"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "hors de sa ligne"
+    },
+    {
+     "id": "moves",
+     "param": "attire puis repousse de 12"
+    }
+   ]
+  },
+  "4579": {
+   "tags": [
+    {
+     "id": "dispels_you"
+    }
+   ]
+  },
+  "4578": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM en zone"
+    },
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "dispel",
+     "param": "Buvette (résistances)"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "résistances au contact"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

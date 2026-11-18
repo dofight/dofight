@@ -1,0 +1,121 @@
+{
+ "dungeonId": 10,
+ "dungeon": "Clairière du Chêne Mou",
+ "guide": "https://www.dofuspourlesnoobs.com/clairiegravere-du-checircne-mou.html",
+ "guideWarning": "Cette page nécessite une révision qui sera faite dès que possible.",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "Les Branches gênent beaucoup : la Soignante soigne fort, l'Invocatrice invoque des monstres du donjon.",
+ "monsters": {
+  "257": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "attire en ligne puis frappe Eau"
+    },
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "dispel",
+     "param": "son bonus de PO"
+    },
+    {
+     "id": "reduce_range"
+    },
+    {
+     "id": "moves",
+     "param": "attire en ligne, pousse"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance, PO, Critique",
+     "source": "spells"
+    }
+   ],
+   "detail": "Rester hors de sa ligne. Placer les personnages fragiles au fond de la carte et lui retirer PM et PO. Sans personne en ligne, il tape Terre à distance en retirant des PA."
+  },
+  "260": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés"
+    }
+   ]
+  },
+  "258": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "monstres du donjon, Branches"
+    }
+   ]
+  },
+  "992": {
+   "tags": [
+    {
+     "id": "dispels_you",
+     "param": "au CaC"
+    },
+    {
+     "id": "removes",
+     "param": "PA, Résistance"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Critique",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Champa Vert Irascible",
+     "source": "spells"
+    }
+   ]
+  },
+  "990": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM, Tacle",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance, PO, Critique",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    }
+   ]
+  },
+  "991": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, Tacle",
+     "source": "spells"
+    },
+    {
+     "id": "poison_ap",
+     "param": "Neutre",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Tronknyde, Arbre Collant"
+    }
+   ]
+  }
+ }
+}

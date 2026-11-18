@@ -1,0 +1,147 @@
+{
+ "dungeonId": 117,
+ "dungeon": "Arbre de Mort",
+ "guide": "https://www.dofuspourlesnoobs.com/arbre-de-mort.html",
+ "guideUpdated": "05/10/2026",
+ "status": "draft",
+ "strategy": "Peau pourrissante (-90 % de tes dégâts) part au 1er soin reçu. Maladies : 3 soins ou vol de vie.",
+ "roomTags": [
+  {
+   "id": "state",
+   "param": "Peau pourrissante : 1 soin l'ôte"
+  }
+ ],
+ "monsters": {
+  "6026": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA et puissance"
+    },
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "maladie aléatoire (monté)"
+    },
+    {
+     "id": "phase",
+     "param": "soin d'un allié à son CaC"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, échange de place"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Bouclier",
+     "source": "spells"
+    }
+   ],
+   "detail": "Descend de sa monture 3 tours, puis remet Kissiphrot à tous. Bombe Bactériologique donne bouclier et maladie à un monstre, qui explose autour de lui en fin de tour. La Pesanteur l'empêche d'échanger de place.",
+   "mechanics": [
+    "kissiphrot"
+   ]
+  },
+  "6031": {
+   "tags": [
+    {
+     "id": "state",
+     "param": "Gangrainyte : -soins, contagieux"
+    },
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "steals",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "6030": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM et bouclier"
+    },
+    {
+     "id": "moves",
+     "param": "téléporte symétriquement"
+    }
+   ]
+  },
+  "6029": {
+   "tags": [
+    {
+     "id": "state",
+     "param": "Brutalyte, blesse tes alliés"
+    },
+    {
+     "id": "removes",
+     "param": "PA autour de lui"
+    },
+    {
+     "id": "summons",
+     "param": "Germinion"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "6028": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PM si tapé au CaC"
+    },
+    {
+     "id": "state",
+     "param": "Tétanyte : dégâts si déplacé"
+    }
+   ]
+  },
+  "6027": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PV, puissance, critique, tacle"
+    },
+    {
+     "id": "redirects",
+     "param": "ses alliés autour de lui"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM et vitalité"
+    }
+   ],
+   "detail": "S'il a encore Kissiphrot, taper un allié qu'il protège donne quand même le poison."
+  }
+ }
+}

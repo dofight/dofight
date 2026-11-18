@@ -1,0 +1,139 @@
+{
+ "dungeonId": 122,
+ "dungeon": "Dojo du Vent",
+ "guide": "https://www.dofuspourlesnoobs.com/dojo-du-vent.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "6212": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire au CaC, téléporte"
+    },
+    {
+     "id": "state",
+     "param": "partage les dégâts avec Shihan"
+    },
+    {
+     "id": "phase",
+     "param": "+PM à 2 seuils de PV"
+    }
+   ],
+   "detail": "Réduit de 50 % les dégâts au CaC : le taper à distance. Jufang bloque sa cible à son CaC (Pesanteur, Indéplaçable)."
+  },
+  "6204": {
+   "tags": [
+    {
+     "id": "ranged_resist",
+     "param": "50 %"
+    },
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, téléporte à son CaC"
+    },
+    {
+     "id": "glyphs",
+     "param": "retire PM et esquive"
+    },
+    {
+     "id": "state",
+     "param": "partage les dégâts avec Hanshi"
+    }
+   ],
+   "detail": "Le taper au CaC. Son piège téléporte l'ennemi le plus proche à son CaC."
+  },
+  "6217": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "un allié invulnérable à distance"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    }
+   ]
+  },
+  "6216": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    }
+   ]
+  },
+  "6215": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages finaux, Vitalité, PM"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, pousse",
+     "source": "spells"
+    },
+    {
+     "id": "invisible",
+     "param": "tant que son allié boosté vit"
+    }
+   ]
+  },
+  "6214": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "PM, Esquive PM",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "piège : rend un allié invisible"
+    }
+   ]
+  },
+  "6213": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM et dommages à mi-PV"
+    },
+    {
+     "id": "moves",
+     "param": "fonce au CaC"
+    },
+    {
+     "id": "glyphs",
+     "param": "retire de la PO"
+    }
+   ]
+  }
+ }
+}

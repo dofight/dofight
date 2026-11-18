@@ -1,0 +1,121 @@
+{
+ "dungeonId": 91,
+ "dungeon": "Bateau du Chouque",
+ "guide": "https://www.dofuspourlesnoobs.com/bateau-du-chouque.html",
+ "status": "draft",
+ "strategy": "Jouer à distance. L'Ivremor tape à distance et pose des glyphes Feu ; le Nakunbra gagne 1 PM à chaque coup reçu ; le Ricanif (5 PM) arrive vite au CaC.",
+ "monsters": {
+  "230": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "à son tour, si tu as ≤ 30 % PV"
+    },
+    {
+     "id": "removes",
+     "param": "Puissance"
+    },
+    {
+     "id": "inflicts",
+     "param": "Maudit",
+     "source": "spells"
+    },
+    {
+     "id": "no_melee_end",
+     "param": "garder à 6 cases ou plus"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place avec un allié"
+    },
+    {
+     "id": "summons",
+     "param": "un pirate si cible sous 50 % PV"
+    }
+   ],
+   "detail": "À son début de tour, le plus proche et ceux qu'il a rendus Maudits (coup au CaC) font leurs jets minimum et prennent de l'Eau ; à 30 % PV ou moins, ils meurent. La Pesanteur bloque son échange de place ; seul, il n'est plus dangereux."
+  },
+  "4161": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "distance, cumule l'Intelligence"
+    },
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "dégâts Feu en début de tour"
+    },
+    {
+     "id": "flees"
+    }
+   ]
+  },
+  "4160": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    }
+   ]
+  },
+  "231": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Résistance autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse"
+    },
+    {
+     "id": "flees"
+    }
+   ]
+  },
+  "229": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC, cible à 50 % PV max"
+    },
+    {
+     "id": "moves",
+     "param": "attire tout en ligne"
+    }
+   ],
+   "detail": "Ne pas finir son tour en ligne avec lui. Gagne 1 PM chaque fois qu'il subit des dégâts."
+  },
+  "228": {
+   "tags": [
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Critique",
+     "source": "spells"
+    },
+    {
+     "id": "invisible",
+     "param": "lui et ses alliés proches"
+    },
+    {
+     "id": "flees"
+    }
+   ]
+  }
+ }
+}

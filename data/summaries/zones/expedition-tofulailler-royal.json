@@ -1,0 +1,122 @@
+{
+ "zone": "Expédition - Tofulailler Royal",
+ "dungeonId": 50,
+ "dungeon": "Tofulailler Royal",
+ "guide": "https://www.dofuspourlesnoobs.com/tofulailler-royal.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "Chaque coup que tu portes au CaC retire 1 PM au monstre touché pour tout le combat (5 par tour au plus). Les monstres se boostent tous les 2 tours, en cycle : +50 % de dommages (tour 2), bouclier, Intaclable, soin.",
+ "roomTags": [
+  {
+   "id": "state",
+   "param": "boost des monstres 1 tour sur 2"
+  }
+ ],
+ "monsters": {
+  "7852": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "sauf s'il n'utilise aucun PM"
+    },
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "lock",
+     "param": "l'entourer (il pousse)"
+    },
+    {
+     "id": "summons",
+     "param": "Feu",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "soigne et protège les monstres",
+     "source": "spells"
+    }
+   ],
+   "detail": "L'entourer hors de son glyphe (qui le soigne et réduit les dégâts à distance) : s'il n'utilise aucun PM, il devient vulnérable 2 tours."
+  },
+  "7857": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "jusqu'à 3 PO, très mobile"
+    },
+    {
+     "id": "redirects",
+     "param": "ses alliés proches",
+     "source": "spells"
+    }
+   ]
+  },
+  "7856": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Tacle",
+     "source": "spells"
+    }
+   ]
+  },
+  "7855": {
+   "tags": [
+    {
+     "id": "inflicts",
+     "param": "Affaibli",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "crée des illusions",
+     "source": "spells"
+    }
+   ]
+  },
+  "7854": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "distance, zone"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    }
+   ]
+  },
+  "7853": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Rés. Poussée autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, avance",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

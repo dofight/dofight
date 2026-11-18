@@ -1,0 +1,100 @@
+{
+ "dungeonId": 77,
+ "dungeon": "Fabrique de Malléfisk",
+ "guide": "https://www.dofuspourlesnoobs.com/fabrique-mallefisk.html",
+ "guideWarning": "Cette page nécessite une révision qui sera faite dès que possible.",
+ "status": "draft",
+ "strategy": "",
+ "roomTags": [
+  {
+   "id": "phase",
+   "param": "nouvelle vague tous les 5 tours"
+  }
+ ],
+ "mechanics": [
+  "dimension-waves",
+  "enurado-modifiers"
+ ],
+ "monsters": {
+  "3652": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place"
+    }
+   ],
+   "detail": "Intérêts : lui et celui qui le tape gagnent de la Puissance à chaque coup. Sous 50 % PV, gagne du bouclier par ligne de dégâts reçue : le taper avec de gros coups à une ligne."
+  },
+  "3667": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "3666": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "1 tour, désenvoûtable"
+    },
+    {
+     "id": "removes",
+     "param": "PA"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place, attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "3665": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Force",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    }
+   ]
+  },
+  "3664": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM, Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "3663": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés"
+    }
+   ],
+   "detail": "Tact : le taper soigne tout ce qui est à 2 cases de lui du double des dégâts reçus."
+  }
+ }
+}

@@ -1,0 +1,122 @@
+{
+ "dungeonId": 139,
+ "dungeon": "Tertre du long sommeil",
+ "guide": "https://www.dofuspourlesnoobs.com/tertre-du-long-sommeil.html",
+ "guideUpdated": "28/02/2023",
+ "status": "draft",
+ "strategy": "Chaque monstre devient invisible à son 1er tour et invoque son Malterego (autres sorts, moins de PV). Tué avant son 1er tour, il n'en invoque pas ; son Malterego mort, il redevient visible et affaibli.",
+ "roomTags": [
+  {
+   "id": "summons",
+   "param": "Malterego au 1er tour"
+  },
+  {
+   "id": "invisible",
+   "param": "tant que son Malterego vit"
+  }
+ ],
+ "monsters": {
+  "107": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "6 attaques des éléments de Rage"
+    },
+    {
+     "id": "big_damage",
+     "param": "dommages de poussée"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, pousse, attire",
+     "source": "spells"
+    }
+   ],
+   "detail": "À 6 de Rage, vulnérable et bien plus forte : pas avant la mort des monstres.",
+   "mechanics": [
+    "hell-mina-rage"
+   ]
+  },
+  "6874": {
+   "tags": [
+    {
+     "id": "glyphs",
+     "param": "-6 PO, frappe en début de tour"
+    }
+   ]
+  },
+  "6873": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "Bouclier, Tacle",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    }
+   ]
+  },
+  "6872": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Force",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    }
+   ]
+  },
+  "6871": {
+   "tags": [
+    {
+     "id": "poison_ap",
+     "param": "Neutre, par son Malterego"
+    },
+    {
+     "id": "removes",
+     "param": "PA, PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place"
+    }
+   ],
+   "detail": "Son Malterego donne 3 PA contre un poison par PA utilisé : en utiliser peu ou tuer le Malterego avant la fin du tour. Pesanteur ou Enraciné empêche son échange de place."
+  },
+  "6864": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "Intelligence",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Vitalité",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,133 @@
+{
+ "dungeonId": 126,
+ "dungeon": "Atelier du Tanukouï San",
+ "guide": "https://www.dofuspourlesnoobs.com/atelier-du-tanukoui-san.html",
+ "guideUpdated": "26/03/2024",
+ "status": "draft",
+ "strategy": "Chaque Tanuki est invulnérable sur un géoglyphe : le frapper à distance l'attire de 2 cases, au CaC le repousse de 2. Éloigner les monstres les uns des autres pour que leurs géoglyphes ne se recouvrent pas.",
+ "roomTags": [
+  {
+   "id": "invulnerable",
+   "param": "les sortir de leur géoglyphe"
+  }
+ ],
+ "monsters": {
+  "6218": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui-même, entre deux phases"
+    },
+    {
+     "id": "removes",
+     "param": "Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, se téléporte",
+     "source": "spells"
+    },
+    {
+     "id": "phase",
+     "param": "3 phases selon ses PV"
+    }
+   ],
+   "detail": "Son géoglyphe grandit à chaque phase (carré 7x7, damier, étoile infinie). Juste avant chaque seuil, il se soigne au début de son tour : le passer à la phase suivante avant qu'il joue."
+  },
+  "6223": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "poteries autour de la cible"
+    }
+   ]
+  },
+  "6222": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "tous les PA (Théière)"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place, se téléporte"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Fuite",
+     "source": "spells"
+    }
+   ],
+   "detail": "Taper l'allié changé en Théière annule l'effet."
+  },
+  "6221": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire, pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "6220": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "param": "autour de lui"
+    },
+    {
+     "id": "moves",
+     "param": "avance, pousse",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "pierres (bouclier pour lui)"
+    }
+   ]
+  },
+  "6219": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, crée des doubles"
+    }
+   ]
+  }
+ }
+}

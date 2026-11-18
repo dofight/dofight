@@ -1,0 +1,133 @@
+{
+ "dungeonId": 107,
+ "dungeon": "Belvédère d'Ilyzaelle",
+ "guide": "https://www.dofuspourlesnoobs.com/belvedere-d-ilyzaelle.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "Garder les monstres à distance. Déplacer un monstre donne Brûlure : le Crâme renvoie alors à la case de départ et augmente les dommages subis.",
+ "roomTags": [
+  {
+   "id": "state",
+   "param": "Brûlure si on déplace un monstre"
+  }
+ ],
+ "monsters": {
+  "4967": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "zone, se téléporte à 3 PO"
+    },
+    {
+     "id": "erodes",
+     "param": "autour de sa téléportation"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pacifiste",
+     "source": "spells"
+    },
+    {
+     "id": "phase",
+     "param": "à 75 % et 50 % PV"
+    },
+    {
+     "id": "summons",
+     "param": "2 ou 3 monstres tous les 3 tours"
+    },
+    {
+     "id": "moves",
+     "param": "attire l'équipe tous les 3 tours"
+    }
+   ],
+   "detail": "Sous 75 % et 50 % PV, passe dans ton camp 2 tours (invulnérable, son glyphe booste tes dégâts et tue les monstres) ; la 2e fois, survivre gagne le combat. Aux tours 3, 6, 9, rester derrière un obstacle. Ne pas l'éroder ni la soigner."
+  },
+  "4972": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "renvoie à la case de départ"
+    },
+    {
+     "id": "state",
+     "param": "+PM et dégâts s'il n'a pas tapé"
+    }
+   ],
+   "detail": "Sur un personnage en Brûlure : le renvoie à sa case de début de tour et augmente ses dommages subis 2 tours."
+  },
+  "4971": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "Critique",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, s'attire en ligne"
+    }
+   ]
+  },
+  "4970": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "en ligne, s'il n'a pas bougé"
+    },
+    {
+     "id": "steals",
+     "param": "Puissance"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable",
+     "source": "spells"
+    }
+   ]
+  },
+  "4969": {
+   "tags": [
+    {
+     "id": "area_damage",
+     "param": "croix autour d'un perso Brûlé"
+    },
+    {
+     "id": "spread_out",
+     "param": "s'écarter d'un perso en Brûlure"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    }
+   ]
+  },
+  "4968": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA et critique"
+    },
+    {
+     "id": "redirects",
+     "param": "partage avec un allié (Flâmi)"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance si l'autre meurt"
+    }
+   ],
+   "detail": "Ne pas la laisser approcher d'Ilyzaelle : elle partagerait ses dommages."
+  }
+ }
+}

@@ -1,0 +1,85 @@
+{
+ "dungeonId": 13,
+ "dungeon": "Donjon des Bworks",
+ "guide": "https://www.dofuspourlesnoobs.com/donjon-des-bworks.html",
+ "guideUpdated": "22/04/2025",
+ "status": "draft",
+ "strategy": "Garder le Bwork à distance : il n'est dangereux qu'au CaC.",
+ "monsters": {
+  "2680": {
+   "tags": [
+    {
+     "id": "revives",
+     "param": "avec 100 % de leurs PV"
+    },
+    {
+     "id": "removes",
+     "param": "Soins",
+     "source": "spells"
+    },
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place",
+     "source": "spells"
+    }
+   ],
+   "detail": "Présente dans la fosse du cachot seulement pendant l'invasion de la Montagne Basse des Craqueleurs. Inutile de l'affronter : remonter par l'échelle."
+  },
+  "791": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui-même",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PA, PM",
+     "source": "spells"
+    }
+   ]
+  },
+  "792": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "elle-même et ses alliés"
+    },
+    {
+     "id": "area_damage",
+     "param": "Mot Croisé, croix de taille 3"
+    }
+   ],
+   "detail": "La garder à distance, équipe espacée (Mot Croisé en croix jusqu'à 9 PO). Reconstitution Bwork (relance 6 tours) : laisser un monstre bas en PV pour qu'elle la lance dessus, puis la tuer dans les 6 tours. Sensible au retrait PM."
+  },
+  "876": {
+   "tags": [
+    {
+     "id": "no_melee_end",
+     "param": "dangereux seulement au CaC"
+    }
+   ],
+   "detail": "Peut servir d'appât : le laisser bas en PV pour que la Bworkette utilise sa Reconstitution dessus."
+  },
+  "53": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Tofu Maléfique"
+    }
+   ]
+  },
+  "74": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "Dommages, Puissance"
+    }
+   ]
+  }
+ }
+}

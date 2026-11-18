@@ -1,0 +1,110 @@
+{
+ "dungeonId": 86,
+ "dungeon": "Horologium de XLII",
+ "guide": "https://www.dofuspourlesnoobs.com/horologium-de-xlii.html",
+ "guideUpdated": "01/10/2022",
+ "status": "draft",
+ "strategy": "Chaque monstre change d'effet sous 50 % PV : le Trantroa gagne alors de la Vitalité à chaque ligne de dégâts, à finir avec de gros coups à une ligne.",
+ "roomTags": [],
+ "mechanics": [
+  "dimension-waves",
+  "xelorium-modifiers"
+ ],
+ "monsters": {
+  "3849": {
+   "tags": [
+    {
+     "id": "dispels_you",
+     "param": "autour de lui"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pacifiste, à 3 PO"
+    },
+    {
+     "id": "no_melee_end",
+     "param": "rester à plus de 3 PO"
+    },
+    {
+     "id": "summons",
+     "param": "Auroraire (dégâts selon l'heure)"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place si déplacé"
+    }
+   ],
+   "detail": "Son Auroraire règle les dégâts de tous : faibles jusqu'à la 5e heure, forts de la 6e à la 11e ; tuer XLII avant la 12e heure (ils rebaissent). Déplacé, il échange avec un allié : le mettre en Pesanteur. Sa mort supprime l'Auroraire."
+  },
+  "3844": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO à qui le frappe"
+    },
+    {
+     "id": "poison_ap",
+     "param": "Air",
+     "source": "spells"
+    }
+   ],
+   "detail": "Au-dessus de 50 % PV, retire 2 PO à qui le frappe ; en dessous, gagne PM et Fuite à chaque coup reçu. Pose des poisons à distance."
+  },
+  "3843": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "en critique sous 50 % PV"
+    },
+    {
+     "id": "moves",
+     "param": "attire qui le frappe"
+    }
+   ],
+   "detail": "Au-dessus de 50 % PV, attire son attaquant de 1 case ; en dessous, gagne des dommages critiques à chaque ligne de dégâts reçue."
+  },
+  "3842": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "zone, selon ses PV manquants"
+    },
+    {
+     "id": "dispel",
+     "param": "bonus de Vitalité"
+    }
+   ],
+   "detail": "Sous 50 % PV, chaque ligne de dégâts lui donne de la Vitalité : le finir avec de gros coups à une ligne. Désenvoûter ce bonus peut le tuer."
+  },
+  "3841": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés quand on le frappe"
+    },
+    {
+     "id": "removes",
+     "param": "PA"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    }
+   ],
+   "detail": "Au-dessus de 50 % PV, chaque coup reçu soigne ses alliés autour de lui ; en dessous, la moitié des dégâts infligés est répartie autour de lui, alliés compris."
+  },
+  "3840": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable au CaC"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,104 @@
+{
+ "zone": "Expédition - Arbre de Moon",
+ "dungeonId": 92,
+ "dungeon": "Arbre de Moon",
+ "guide": "https://www.dofuspourlesnoobs.com/arbre-de-moon.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "7802": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "placer 4 Totems sur leur glyphe"
+    },
+    {
+     "id": "one_shot",
+     "param": "début de tour sur glyphe noir"
+    },
+    {
+     "id": "summons",
+     "param": "Darkli Moon",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PA, PM, PO",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "te téléporte",
+     "source": "spells"
+    }
+   ],
+   "detail": "En fin de tour, on échange avec le Totem le plus proche, qui laisse un glyphe noir. Tuer les 4 Totems (500 PV) : plus d'échanges avant leur retour au tour 6 (puis tous les 5 tours). Taper un Totem en ligne dans son élément l'attire."
+  },
+  "7813": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "7812": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC",
+     "source": "spells"
+    },
+    {
+     "id": "heals",
+     "param": "lui-même",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "7811": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PO",
+     "source": "spells"
+    }
+   ]
+  },
+  "7810": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "7809": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Dokachu, Dolbinos, Dolivar",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages Poussée, PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

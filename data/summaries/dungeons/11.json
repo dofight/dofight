@@ -1,0 +1,212 @@
+{
+ "dungeonId": 11,
+ "dungeon": "Clos des Blops",
+ "guide": "https://www.dofuspourlesnoobs.com/clos-des-blops.html",
+ "guideUpdated": "12/11/2024",
+ "status": "draft",
+ "strategy": "Ne pas finir son tour dans les glyphes blancs du Blop. Le Blopignon tape fort à distance.",
+ "monsters": {
+  "1187": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "un blop du donjon, au hasard"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "résistance Terre"
+    }
+   ]
+  },
+  "1186": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "un blop du donjon, au hasard"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "résistance Eau"
+    }
+   ]
+  },
+  "1185": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "un blop du donjon, au hasard"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "résistance Feu"
+    }
+   ]
+  },
+  "1184": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "un blop du donjon, au hasard"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "résistance Air"
+    }
+   ]
+  },
+  "1183": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM, Esquive PM",
+     "source": "spells"
+    }
+   ]
+  },
+  "1182": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "distance, en croix"
+    },
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "poison_mp",
+     "param": "Terre",
+     "source": "spells"
+    }
+   ]
+  },
+  "1181": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC, alliés compris"
+    },
+    {
+     "id": "steals",
+     "param": "PM, Vitalité",
+     "source": "spells"
+    },
+    {
+     "id": "no_melee_end"
+    }
+   ],
+   "detail": "Ne peut pas tuer les Blops Royaux ni les autres Gloutoblops. Chaque entité mangée lui donne des PM et de la vitalité."
+  },
+  "276": {
+   "tags": [
+    {
+     "id": "glyphs",
+     "param": "retire 1 PM, tape en fin de tour"
+    },
+    {
+     "id": "summons",
+     "param": "Biblop Reinette",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "rend ses invocations invisibles"
+    },
+    {
+     "id": "flees"
+    }
+   ]
+  },
+  "275": {
+   "tags": [
+    {
+     "id": "glyphs",
+     "param": "retire 1 PM, tape en fin de tour"
+    },
+    {
+     "id": "summons",
+     "param": "Biblop Griotte",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "rend ses invocations invisibles"
+    },
+    {
+     "id": "flees"
+    }
+   ]
+  },
+  "274": {
+   "tags": [
+    {
+     "id": "glyphs",
+     "param": "retire 1 PM, tape en fin de tour"
+    },
+    {
+     "id": "summons",
+     "param": "Biblop Indigo",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "rend ses invocations invisibles"
+    },
+    {
+     "id": "flees"
+    }
+   ]
+  },
+  "273": {
+   "tags": [
+    {
+     "id": "glyphs",
+     "param": "retire 1 PM, tape en fin de tour"
+    },
+    {
+     "id": "summons",
+     "param": "Biblop Coco",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "rend ses invocations invisibles"
+    },
+    {
+     "id": "flees"
+    }
+   ]
+  }
+ }
+}

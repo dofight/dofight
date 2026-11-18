@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dofight</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+    <script type="module" src="/src/main.ts" defer></script>
+  </head>
+  <body class="i18n-pending">
+    <div id="app">
+      <header class="topbar">
+        <span class="brand"><button id="menu-btn" class="tb" aria-haspopup="menu" aria-expanded="false" aria-controls="menu" title="Menu" aria-label="Menu" data-i18n-title="app.menu" data-i18n-aria="app.menu" data-icon="menu"></button></span><span class="title"><span class="logo"><img id="logo" alt="" /></span>Dofight</span>
+        <span class="actions">
+          <button id="gear" class="tb" title="Paramètres" aria-label="Paramètres" data-i18n-title="app.settings" data-i18n-aria="app.settings" data-icon="gear"></button>
+          <button id="hide" class="tb" title="Masquer le panneau" aria-label="Masquer le panneau" data-i18n-title="app.hide" data-i18n-aria="app.hide" data-icon="minus"></button>
+          <button id="quit" class="tb" title="Quitter Dofight" aria-label="Quitter Dofight" data-i18n-title="app.quit" data-i18n-aria="app.quit" data-icon="close"></button>
+        </span>
+      </header>
+      <!-- the ☰ menu, like Ganymède's: what is not the monster list -->
+      <div id="menu" class="menu" role="menu" aria-labelledby="menu-btn" hidden>
+        <button type="button" role="menuitem" data-go="report-app"><span class="act-ic" data-icon="edit" aria-hidden="true"></span><span data-i18n="settings.report">Envoyer une suggestion</span></button>
+        <button type="button" role="menuitem" data-go="discord"><span class="act-ic discord-ic" aria-hidden="true"></span><span data-i18n="settings.discord">Rejoindre le Discord</span></button>
+        <hr />
+        <button type="button" role="menuitem" class="support" data-go="support"><span class="act-ic" data-icon="heart" aria-hidden="true"></span><span data-i18n="settings.support">Soutenir le projet</span></button>
+      </div>
+
+      <main id="view-main" class="view">
+        <div class="searchrow">
+          <input id="q" placeholder="Monstre, sous-zone ou donjon…" autocomplete="off" aria-label="Rechercher" data-i18n-placeholder="main.searchPlaceholder" data-i18n-aria="main.search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="results" />
+          <button id="songe" class="songe" aria-pressed="false" title="Mode Songe : survole un groupe de monstres sur la carte pour l'afficher ici" data-i18n-title="songe.hint"><svg class="songe-icon" viewBox="0 0 20 20" width="15" height="15" aria-hidden="true" focusable="false"><path d="M9.40 10.00 L9.32 9.89 L9.27 9.76 L9.24 9.60 L9.25 9.44 L9.29 9.26 L9.37 9.09 L9.49 8.93 L9.64 8.78 L9.83 8.65 L10.05 8.56 L10.30 8.50 L10.56 8.49 L10.84 8.52 L11.12 8.61 L11.39 8.75 L11.64 8.94 L11.87 9.19 L12.05 9.47 L12.20 9.80 L12.28 10.16 L12.31 10.54 L12.27 10.94 L12.17 11.33 L11.99 11.72 L11.74 12.08 L11.43 12.40 L11.06 12.68 L10.64 12.90 L10.17 13.04 L9.67 13.12 L9.16 13.11 L8.64 13.01 L8.13 12.82 L7.64 12.55 L7.20 12.19 L6.81 11.75 L6.49 11.25 L6.25 10.69 L6.11 10.08 L6.06 9.45 L6.12 8.80 L6.29 8.16 L6.56 7.54 L6.94 6.96 L7.41 6.44 L7.98 6.00 L8.62 5.64 L9.32 5.40 L10.07 5.26 L10.84 5.25 L11.61 5.37 L12.37 5.61 L13.10 5.98 L13.76 6.47 L14.35 7.07 L14.84 7.76 L15.21 8.54 L15.46 9.39 L15.58 10.27 L15.54 11.18 L15.36 12.08 L15.03 12.95 L14.56 13.77 L13.96 14.52 L13.23 15.16 L12.39 15.69 L11.47 16.08 L10.49 16.32 L9.46 16.40 L8.42 16.32 L7.40 16.06 L6.42 15.64 L5.51 15.06 L4.69 14.33 L4.00 13.47 L3.44 12.49 L3.04 11.43 L2.82 10.30 L2.78 9.14 L2.93 7.97 L3.27 6.83 L3.79 5.75 L4.49 4.75 L5.35 3.87 L6.35 3.13 L7.47 2.56 L8.67 2.16 L9.94 1.97 L11.24 1.98 L12.53 2.20" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="songe.button">Songe</span></button>
+        </div>
+        <div id="results" class="results" role="listbox" aria-label="Résultats" data-i18n-aria="main.results"></div>
+        <!-- messages above the list, where a scrolled player still sees them -->
+        <div id="status" class="status" role="status">Chargement des données…</div>
+        <div id="zone" class="status" role="status"></div>
+        <button id="backzone" class="backzone" hidden title="Revenir aux monstres de ta sous-zone" data-i18n-title="main.backZoneTitle"><span class="bz-icon" data-icon="undo" aria-hidden="true"></span><span class="bz-label" data-i18n="main.backZone">Revenir à ta zone :</span><span id="backzone-name" class="bz-name"></span></button>
+        <button id="songe-reset" class="songe-reset" hidden title="Effacer le groupe survolé" data-i18n-title="songe.resetTitle"><span class="bz-icon" data-icon="undo" aria-hidden="true"></span><span data-i18n="songe.reset">Réinitialiser</span></button>
+        <div id="room"></div>
+      </main>
+
+      <section id="view-settings" class="view paged" hidden>
+        <div class="back"><button id="back" class="tb" aria-label="Retour" data-i18n-aria="app.back" data-icon="back"></button><b data-i18n="app.settings">Paramètres</b><button id="eye" class="eye" aria-pressed="true" title="Afficher ou masquer l'aperçu" data-i18n-title="settings.previewToggle">
+            <svg class="on" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.6 5.1A10 10 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-2.6 3.4M6.6 6.6A17 17 0 0 0 2 12s3.6 7 10 7a9.7 9.7 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/><path d="M2 2l20 20"/></svg>
+            <span data-i18n="settings.preview">Aperçu</span></button></div>
+        <div class="pagebody">
+        <div class="card"><div class="switch cardtitle"><h2 data-i18n="settings.combat">Lecture de l'écran</h2><button type="button" class="info" aria-label="Pourquoi ?" data-i18n-aria="opt.info" aria-describedby="tip-screen">i</button><span class="bubble" role="tooltip" id="tip-screen" data-i18n="settings.combat.info"></span></div><div id="opts-combat" class="opts"></div>
+          <label class="slider" for="reference" data-i18n="settings.reference">Fenêtre Dofus à lire</label>
+          <select id="reference" class="select"></select>
+          <p class="hint" data-i18n="settings.referenceHint">Si tu joues plusieurs comptes, Dofight ne lit que la fenêtre de ce personnage. Par défaut, la première trouvée.</p></div>
+        <div class="card"><h2 data-i18n="settings.display">Affichage</h2><h3 data-i18n="settings.list">Liste des monstres</h3><div id="opts-display" class="opts"></div>
+          <h4 class="subcap" data-i18n="settings.kinds">Types de monstres</h4><div id="opts-kinds" class="opts sub"></div>
+          <h3 data-i18n="settings.card">Fiche d'un monstre</h3><div id="opts-card" class="opts"></div>
+          <h4 class="subcap" data-i18n="settings.badges">Badges</h4><div id="opts-badges" class="opts sub"></div>
+          <div id="opts-card2" class="opts"></div></div>
+        <div class="card">
+          <h2 data-i18n="settings.window">Fenêtre</h2>
+          <div id="opts-window" class="opts"></div>
+          <div class="theme-row"><span data-i18n="settings.shortcut">Raccourci pour afficher ou masquer</span><button id="shortcut" class="theme-current shortcut" title="Clique, puis appuie sur la combinaison voulue" data-i18n-title="settings.shortcutTitle"></button></div>
+          <p id="shortcut-hint" class="hint" aria-live="polite"></p>
+          <label class="slider" for="opacity"><span data-i18n="settings.opacity">Opacité du fond :</span> <span id="opacity-value"></span></label>
+          <input id="opacity" type="range" min="0" max="1" step="0.05" />
+        </div>
+        <div class="card">
+          <h2 data-i18n="settings.look">Apparence</h2>
+          <div class="theme-row"><span id="lang-label" data-i18n="settings.language">Langue</span><div id="lang" class="langs" role="radiogroup" aria-labelledby="lang-label"><button type="button" class="lang" role="radio" aria-checked="true" data-lang="fr" lang="fr"><svg class="flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#0055a4"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ef4135"/></svg>Français</button><button type="button" class="lang" role="radio" aria-checked="false" tabindex="-1" data-lang="en" lang="en"><svg class="flag" viewBox="0 0 60 30" preserveAspectRatio="none" aria-hidden="true"><clipPath id="uk-t"><path d="M30,15h30v15zv15h-30zh-30v-15zv-15h30z"/></clipPath><path d="M0,0v30h60v-30z" fill="#012169"/><path d="M0,0L60,30M60,0L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0L60,30M60,0L0,30" clip-path="url(#uk-t)" stroke="#c8102e" stroke-width="4"/><path d="M30,0v30M0,15h60" stroke="#fff" stroke-width="10"/><path d="M30,0v30M0,15h60" stroke="#c8102e" stroke-width="6"/></svg>English</button></div></div>
+          <div class="theme-row"><span data-i18n="settings.theme">Thème</span><button id="theme-current" class="theme-current" aria-expanded="false" aria-controls="themes" title="Changer de thème" data-i18n-title="settings.themeChange"><i></i><span></span><span class="chev" data-icon="chevron" aria-hidden="true"></span></button></div>
+          <div id="themes" class="themes" role="radiogroup" aria-label="Thème" data-i18n-aria="settings.theme" hidden></div>
+          <div class="theme-row"><span id="size-label" data-i18n="settings.textSize">Taille du texte</span><div id="text-size" class="langs sizes" role="radiogroup" aria-labelledby="size-label"></div></div>
+        </div>
+        <div class="card">
+          <h2 data-i18n="settings.diagnostic">Diagnostic</h2>
+          <div class="row"><button id="log-copy" class="pill" data-i18n="settings.logCopy">Copier le journal</button><button id="log-open" class="pill" data-i18n="settings.logOpen">Ouvrir le dossier du journal</button></div>
+          <p id="log-status" class="status" role="status"></p>
+        </div>
+        <div class="card">
+          <button id="report-app" class="pill act"><span class="act-ic" data-icon="edit" aria-hidden="true"></span><span data-i18n="settings.report">Envoyer une suggestion</span></button>
+          <button id="discord" class="pill act discord" title="Les nouveautés, et un endroit pour discuter de tes suggestions" data-i18n-title="settings.discordTitle"><svg class="act-ic brand-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg><span data-i18n="settings.discord">Rejoindre le Discord</span></button>
+          <button id="support" class="pill act support" title="Ko-fi : un don, sans compte, par carte ou PayPal" data-i18n-title="settings.supportTitle"><span class="act-ic" data-icon="heart" aria-hidden="true"></span><span data-i18n="settings.support">Soutenir le projet</span></button>
+          <p class="hint" data-i18n="settings.credits">Crédits : Dofensive, DofusDB, Dofus pour les Noobs.</p>
+          <p class="hint" id="version"></p>
+        </div>
+  </div>
+      </section>
+
+      <section id="view-report" class="view paged" hidden>
+        <div class="back"><button id="report-back" class="tb" aria-label="Retour" data-i18n-aria="app.back" data-icon="back"></button><b id="report-title" data-i18n="report.title">Suggestion</b></div>
+        <div class="pagebody">
+        <div class="card">
+          <label class="slider" for="report-subject" data-i18n="report.subject">Sujet (facultatif)</label>
+          <div class="subject"><input id="report-subject" class="text" autocomplete="off" placeholder="Donjon, sous-zone, monstre…" data-i18n-placeholder="report.subjectPlaceholder"><div id="report-subject-list" class="subject-list" hidden></div></div>
+          <label class="slider" for="report-kind" data-i18n="report.kind">Type</label>
+          <select id="report-kind" class="select"></select>
+          <label class="slider" for="report-text" data-i18n="report.text">Ton message</label>
+          <textarea id="report-text" class="text" rows="6" maxlength="1000" placeholder="Ex. : il retire aussi 2 PM en zone" data-i18n-placeholder="report.placeholder" aria-describedby="report-count"></textarea>
+          <p id="report-count" class="hint count" aria-live="polite"></p>
+          <div class="switch"><label for="report-state" data-i18n="report.attach">Joindre l'état de Dofight (sous-zone lue, combat, version, paramètres)</label><input id="report-state" type="checkbox" role="switch" aria-label="Joindre l'état de Dofight" data-i18n-aria="report.attachShort" checked></div>
+          <div class="switch"><label for="report-log" data-i18n="report.attachLog">Joindre le journal de diagnostic (ce que Dofight a lu et fait ces 10 dernières minutes, sans chat ni noms)</label><input id="report-log" type="checkbox" role="switch" aria-label="Joindre le journal de diagnostic" data-i18n-aria="report.attachLogShort" checked></div>
+          <div class="row"><button id="report-send" class="pill primary" data-i18n="report.send">Envoyer</button><button id="report-cancel" class="pill" data-i18n="report.cancel">Annuler</button></div>
+          <p id="report-status" class="status" role="status"></p>
+          <p id="report-hint" class="hint" data-i18n="report.anonymous">Envoyé anonymement à l'équipe Dofight. Pour une réponse, passe par le Discord.</p>
+        </div>
+  </div>
+      </section>
+      <!-- quitting asks first (the × of the title bar, or « Fermer la fenêtre » on the taskbar button) -->
+      <div id="quit-confirm" class="update" role="alertdialog" aria-modal="true" aria-labelledby="quit-title" aria-describedby="quit-text" hidden>
+        <div class="update-box">
+          <h2 id="quit-title" data-i18n="quit.title">Quitter Dofight ?</h2>
+          <p id="quit-text" data-i18n="quit.text">Le panneau ne s'ouvrira plus en combat.</p>
+          <div class="row"><button id="quit-cancel" class="pill" data-i18n="quit.cancel">Annuler</button><button id="quit-yes" class="pill primary" data-i18n="quit.confirm">Quitter</button></div>
+        </div>
+      </div>
+      <!-- an update covers the whole panel until Dofight restarts (or until « Continuer » after a failure) -->
+      <div id="update" class="update" role="alertdialog" aria-modal="true" aria-labelledby="update-title" aria-describedby="update-text" hidden>
+        <div class="update-box">
+          <img id="update-logo" class="update-logo" alt="" />
+          <h2 id="update-title" data-i18n="update.title">Mise à jour de Dofight</h2>
+          <p id="update-text"></p>
+          <progress id="update-bar" max="1" aria-labelledby="update-title"></progress>
+          <p id="update-pct" class="update-pct"></p>
+          <button id="update-continue" class="pill primary" data-i18n="update.continue" hidden>Continuer</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

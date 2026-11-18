@@ -1,0 +1,108 @@
+{
+ "dungeonId": 96,
+ "dungeon": "Temple Maudit d'Araknas",
+ "guide": null,
+ "guideUpdated": null,
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "3519": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui-même",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages, PO, PA",
+     "source": "spells"
+    }
+   ]
+  },
+  "3518": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Résistance, Tacle",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    }
+   ]
+  },
+  "3517": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "les 4 caractéristiques",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "3516": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO, Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "reflect",
+     "param": "lui et ses alliés autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Affaibli",
+     "source": "spells"
+    },
+    {
+     "id": "poison_mp",
+     "param": "Terre",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "1195": {
+   "tags": [
+    {
+     "id": "revives",
+     "param": "avec 100 % de leurs PV"
+    },
+    {
+     "id": "heals",
+     "param": "ceux qui frappent sa cible",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "Fuite autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Diablotins ; ressuscite un mort",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages, Puissance",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

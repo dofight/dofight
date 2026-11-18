@@ -1,0 +1,120 @@
+{
+ "dungeonId": 72,
+ "dungeon": "Théâtre de Dramak",
+ "guide": "https://www.dofuspourlesnoobs.com/theacuteacirctre-de-dramak.html",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "3476": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "tant qu'une Marionnette vit"
+    },
+    {
+     "id": "dispels_you",
+     "param": "quand il est vulnérable"
+    },
+    {
+     "id": "steals",
+     "param": "caractéristiques"
+    },
+    {
+     "id": "summons",
+     "param": "5 Marionnettes"
+    }
+   ],
+   "detail": "Réinvoque les Marionnettes dès le tour 5 puis tous les 4 tours. Bunraku : taper l'allié ciblé, sinon une Petite Marionnette (copie de ses stats) apparaît à son contact."
+  },
+  "3482": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "Dénouement du Pantin contrôlé"
+    },
+    {
+     "id": "removes",
+     "param": "tous les PA et PM"
+    },
+    {
+     "id": "summons",
+     "param": "Pantin"
+    },
+    {
+     "id": "moves",
+     "param": "pousse autour de lui"
+    }
+   ],
+   "detail": "Taper le Pantin jusqu'à 10 % PV : le personnage le plus proche le contrôle et lance Dénouement sur le Dramak (2 PO) pour le rendre vulnérable 2 tours."
+  },
+  "3484": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "fonce sur sa cible, pousse"
+    },
+    {
+     "id": "state",
+     "param": "ni poussé ni attiré"
+    }
+   ]
+  },
+  "3485": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Bouclier",
+     "source": "spells"
+    }
+   ]
+  },
+  "3486": {
+   "tags": [
+    {
+     "id": "dispels_you"
+    },
+    {
+     "id": "removes",
+     "param": "Résistances Poussée",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "3487": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO"
+    },
+    {
+     "id": "poison_mp",
+     "param": "Eau",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "poison Eau en fin de tour"
+    },
+    {
+     "id": "moves",
+     "param": "fonce sur sa cible en ligne"
+    }
+   ],
+   "detail": "Morzyloeil : poison qui blesse selon les PM utilisés."
+  }
+ }
+}

@@ -1,0 +1,139 @@
+{
+ "dungeonId": 39,
+ "dungeon": "Cale de l'Arche d'Otomaï",
+ "guide": "https://www.dofuspourlesnoobs.com/arche-dotomaiuml.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "Ne jamais finir au CaC du Flib : chaque coup fait passer ton tour.",
+ "bossSummons": {
+  "1051": [
+   1080
+  ]
+ },
+ "monsters": {
+  "231": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Résistance autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "229": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC (Tranchage Mortel)"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "228": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "Critique",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "invisible",
+     "source": "spells"
+    }
+   ]
+  },
+  "1051": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "200 % rés. sans Tonneau collé"
+    },
+    {
+     "id": "big_damage",
+     "param": "zone à distance, et au CaC"
+    },
+    {
+     "id": "removes",
+     "param": "Critique",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Tonneau Pirate, chaque tour"
+    }
+   ],
+   "detail": "Le rendre vulnérable avec un Tonneau Pirate collé à lui : bloque ses autres côtés (Tonneaux, personnages ou obstacles)."
+  },
+  "1080": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "200 % rés. à qui le touche"
+    },
+    {
+     "id": "heals",
+     "param": "lui et ses alliés autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages",
+     "source": "spells"
+    }
+   ],
+   "detail": "100 % de résistance dans un élément au hasard. Invoqué depuis 3 tours, il met à son tour -200 % de résistance dans cet élément à ce qui le touche, pour 3 tours : le coller au Gourlo. Garder ceux de ton élément."
+  },
+  "1049": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "échange de place, toute la carte"
+    }
+   ]
+  },
+  "1048": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM, Agilité",
+     "source": "spells"
+    }
+   ]
+  },
+  "1050": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Puissance autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "no_melee_end",
+     "param": "il fait passer ton tour"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "invisible",
+     "param": "tous les combattants"
+    }
+   ]
+  }
+ }
+}

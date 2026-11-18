@@ -1,0 +1,13 @@
+.cache/
+node_modules/
+app/dist/
+app/src-tauri/target/
+__pycache__/
+.venv/
+.superpowers/
+app/node_modules/
+# the owner's private tools and docs (their own repo), and the owner's local Claude instructions
+private/
+CLAUDE.local.md
+relay/.wrangler/
+/CLAUDE.md

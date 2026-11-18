@@ -1,0 +1,231 @@
+{
+ "dungeonId": 44,
+ "dungeon": "Repaire de Sphincter Cell",
+ "guide": "https://www.dofuspourlesnoobs.com/donjon-des-rats-du-chacircteau-damakna.html",
+ "guideWarning": "Cette page nécessite une révision qui sera faite dès que possible.",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "",
+ "bossSummons": {
+  "943": [
+   944,
+   945,
+   946,
+   947
+  ]
+ },
+ "monsters": {
+  "943": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "sauf tortue collée (-200 %)"
+    },
+    {
+     "id": "big_damage",
+     "param": "dans tous les éléments"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "tortues (faiblesse d'élément)"
+    }
+   ],
+   "detail": "Le mettre en Pesanteur et à 0 PM pour qu'il ne bondisse pas loin des tortues collées à lui.",
+   "mechanics": [
+    "sphincter-turtles"
+   ]
+  },
+  "944": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "200 % rés. à son contact"
+    },
+    {
+     "id": "remove_mp",
+     "param": "la garder collée au Cell"
+    }
+   ]
+  },
+  "945": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "200 % rés. à son contact"
+    },
+    {
+     "id": "remove_mp",
+     "param": "la garder collée au Cell"
+    }
+   ]
+  },
+  "946": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "200 % rés. à son contact"
+    },
+    {
+     "id": "remove_mp",
+     "param": "la garder collée au Cell"
+    }
+   ]
+  },
+  "947": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "200 % rés. à son contact"
+    },
+    {
+     "id": "remove_mp",
+     "param": "la garder collée au Cell"
+    }
+   ]
+  },
+  "3352": {
+   "tags": [
+    {
+     "id": "inflicts",
+     "param": "Affaibli (pas de CaC)"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages",
+     "source": "spells"
+    }
+   ]
+  },
+  "3351": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "PM",
+     "source": "spells"
+    }
+   ]
+  },
+  "3350": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Résistance Feu, Résistance Terre",
+     "source": "spells"
+    }
+   ]
+  },
+  "3349": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Retrait PM",
+     "source": "spells"
+    },
+    {
+     "id": "poison_mp",
+     "param": "Air",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PA",
+     "source": "spells"
+    }
+   ]
+  },
+  "3348": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "3347": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "3346": {
+   "tags": []
+  },
+  "3345": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PA, Intelligence, Agilité, Force"
+    },
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM, Force",
+     "source": "spells"
+    }
+   ]
+  },
+  "940": {
+   "tags": [
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "50 % rés. à l'élément reçu"
+    }
+   ],
+   "detail": "Sous Rascasse (2 tours), chaque coup lui donne 50 % de résistance dans l'élément reçu : le désenvoûter. Soigner une cible sous Peste Blanche la désenvoûte."
+  },
+  "939": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "Kackitu puis dégâts Terre/Neutre"
+    },
+    {
+     "id": "big_damage",
+     "param": "si soigné sous Peste Noire"
+    },
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    }
+   ],
+   "detail": "Protéger des dégâts Terre et Neutre les personnages sous Kackitu. Ne pas soigner un personnage sous Peste Noire. Ne pas frapper en Terre ou Neutre un monstre sous Kackisoigne."
+  }
+ }
+}

@@ -1,0 +1,120 @@
+{
+ "dungeonId": 103,
+ "dungeon": "Chambre de Tal Kasha",
+ "guide": "https://www.dofuspourlesnoobs.com/chambre-de-tal-kasha.html",
+ "guideUpdated": "20/07/2020",
+ "status": "draft",
+ "strategy": "Frapper un monstre donne Maudification à son plus proche voisin (-50 % de dégâts à distance).",
+ "roomTags": [],
+ "monsters": {
+  "4744": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "la placer sur 3 glyphes de morts"
+    },
+    {
+     "id": "big_damage",
+     "param": "CaC, depuis n'importe quel allié"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "pas en ligne avec un monstre"
+    },
+    {
+     "id": "moves",
+     "param": "attire ; téléporte si vulnérable"
+    },
+    {
+     "id": "moves",
+     "param": "échange avec qui lui retire PM"
+    }
+   ],
+   "detail": "Frappe comme si elle était à la place de n'importe quel allié : ne jamais rester en ligne avec un monstre. Ressuscite au tour suivant chaque monstre tué (-1 PM), sur son glyphe : l'éroder le fait revenir avec peu de PV."
+  },
+  "4743": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "dommages de poussée cumulés"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, téléporte en diagonale"
+    }
+   ],
+   "detail": "Chaque sort augmente ses dommages de poussée. Ne pas rester près d'un obstacle ni en diagonale avec lui."
+  },
+  "4742": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Puissance"
+    },
+    {
+     "id": "no_melee_end",
+     "param": "rester à plus de 4 PO"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place",
+     "source": "spells"
+    }
+   ]
+  },
+  "4741": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "résistances s'il a les 4 états"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur, Affaibli au CaC"
+    },
+    {
+     "id": "no_melee_end"
+    },
+    {
+     "id": "flees"
+    }
+   ],
+   "detail": "Chaque élément tapé réduit de 50 % ses dommages subis dans cet élément pendant 1 tour. Avec les 4 états élémentaires, il perd cette réduction mais ses sorts frappent plus fort."
+  },
+  "4740": {
+   "tags": [
+    {
+     "id": "erodes",
+     "param": "et empoisonne si on le pousse"
+    },
+    {
+     "id": "steals",
+     "param": "Puissance, autour de lui"
+    },
+    {
+     "id": "moves",
+     "param": "s'attire sur sa cible en ligne"
+    }
+   ],
+   "detail": "Le porter, l'attirer, le transposer ou le faire pousser par une invocation évite l'érosion et le poison."
+  },
+  "4739": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA et PM à PO infinie"
+    },
+    {
+     "id": "big_damage",
+     "param": "CaC, le tour après être frappé"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pacifiste",
+     "source": "spells"
+    }
+   ],
+   "detail": "Le frapper une fois par tour l'empêche de retirer PA et PM au tour suivant, mais il gagne 10 PM et frappe fort au CaC. Il ne lance son retrait que 3 fois par tour : des invocations peuvent l'absorber."
+  }
+ }
+}

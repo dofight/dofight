@@ -1,0 +1,122 @@
+{
+ "dungeonId": 34,
+ "dungeon": "Maison Fantôme",
+ "guide": "https://www.dofuspourlesnoobs.com/maison-fantome.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "",
+ "bossSummons": {
+  "2975": [
+   2976
+  ]
+ },
+ "monsters": {
+  "2975": {
+   "tags": [
+    {
+     "id": "revives",
+     "param": "avec 100 % de leurs PV"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PA autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Ashi-magari, à 3 PO"
+    },
+    {
+     "id": "moves",
+     "param": "repousse de 3 cases"
+    }
+   ],
+   "detail": "Indéplaçable. L'Enfer des Zombies : ressuscite chaque tour un monstre mort du donjon."
+  },
+  "2976": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "tous les PM à son contact"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    }
+   ]
+  },
+  "111": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Tacle",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable",
+     "source": "spells"
+    }
+   ]
+  },
+  "3235": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    },
+    {
+     "id": "invisible",
+     "source": "spells"
+    }
+   ]
+  },
+  "498": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Puissance",
+     "source": "spells"
+    }
+   ]
+  },
+  "154": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    }
+   ]
+  },
+  "127": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Force, Chance",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

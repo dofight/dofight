@@ -1,0 +1,100 @@
+{
+ "dungeonId": 85,
+ "dungeon": "Mégalithe de Fraktale",
+ "guide": "https://www.dofuspourlesnoobs.com/meacutegalithe-de-fraktale.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "Ne pas finir au CaC du Gromorso.",
+ "roomTags": [
+  {
+   "id": "reflect",
+   "param": "en zone autour du monstre frappé"
+  },
+  {
+   "id": "phase",
+   "param": "nouvelle vague tous les 5 tours"
+  }
+ ],
+ "mechanics": [
+  "dimension-waves",
+  "xelorium-modifiers"
+ ],
+ "monsters": {
+  "3852": {
+   "tags": [
+    {
+     "id": "phase",
+     "param": "à 50 % PV"
+    },
+    {
+     "id": "summons",
+     "param": "Auroraire"
+    }
+   ],
+   "detail": "Au-dessus de 50 % PV : garder Fraktale à plus de 4 cases de l'Auroraire, sinon tes sorts de frappe soignent au lieu de blesser. Sous 50 % PV, l'inverse : la garder à 4 cases ou moins."
+  },
+  "3858": {
+   "tags": [
+    {
+     "id": "erodes",
+     "source": "spells"
+    }
+   ]
+  },
+  "3857": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "pousse, avance",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "frappé en ligne : te recule"
+    }
+   ]
+  },
+  "3856": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "heals",
+     "param": "ceux qui frappent sa cible"
+    }
+   ]
+  },
+  "3855": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "sa cible subit 150 % des dégâts"
+    }
+   ]
+  },
+  "3854": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC"
+    },
+    {
+     "id": "no_melee_end"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

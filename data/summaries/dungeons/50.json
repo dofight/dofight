@@ -1,0 +1,141 @@
+{
+ "dungeonId": 50,
+ "dungeon": "Tofulailler Royal",
+ "guide": "https://www.dofuspourlesnoobs.com/tofulailler-royal.html",
+ "guideWarning": "Cette page nécessite une révision qui sera faite dès que possible.",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "Le Tofutoflamme rend ses alliés invisibles.",
+ "monsters": {
+  "382": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Tofuzmo",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PA, Vitalité",
+     "source": "spells"
+    }
+   ],
+   "detail": "Avec 30 PM, il atteint toute l'équipe et tape au CaC et en zone autour de lui en retirant de la Vitalité."
+  },
+  "5221": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "poison_ap",
+     "param": "Feu",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PA",
+     "source": "spells"
+    }
+   ]
+  },
+  "3302": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, Agilité",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Vitalité, PA, Agilité",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    }
+   ]
+  },
+  "3301": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "poison_ap",
+     "param": "Feu",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PA",
+     "source": "spells"
+    }
+   ]
+  },
+  "807": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    }
+   ]
+  },
+  "3300": {
+   "tags": [
+    {
+     "id": "invisible",
+     "param": "lui et ses alliés"
+    }
+   ]
+  },
+  "5220": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "Agilité",
+     "source": "spells"
+    }
+   ]
+  },
+  "3299": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "Agilité",
+     "source": "spells"
+    }
+   ]
+  },
+  "98": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "Fuite",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

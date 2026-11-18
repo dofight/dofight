@@ -1,0 +1,357 @@
+{
+ "lunar-cycle": {
+  "title": "Cycle lunaire",
+  "gist": "Chaque tour, tous les monstres gagnent le bonus de la phase en cours. Tuer un monstre donne ce bonus aux autres pour tout le combat.",
+  "points": [
+   "Nouvelle lune : frapper un monstre renvoie 20 % des dégâts aux alliés à 2 cases de toi ; tuer un monstre soigne les autres.",
+   "Premier croissant : les monstres subissent 20 % de dommages en moins.",
+   "Premier quartier : 500 de bouclier.",
+   "Gibbeuse montante : +2 PM.",
+   "Pleine lune : renvoie 200 dommages ; tuer un monstre soigne les autres.",
+   "Gibbeuse descendante : +2 PA.",
+   "Dernier quartier : +50 dommages.",
+   "Dernier croissant : +20 % de dommages finaux.",
+   "Ne pas tuer de monstre en Pleine lune (surtout) ni en Premier croissant."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/sanctuaire-de-torkelonia.html#fonctionnement-cycle-lunaire",
+  "status": "draft"
+ },
+ "sphincter-turtles": {
+  "title": "Tortues du Sphincter Cell",
+  "gist": "Le Sphincter Cell a 200 % de résistances partout : ses Tortues les lui retirent, une couleur par élément.",
+  "points": [
+   "Rouge : Feu ; jaune : Air ; verte : Terre ; bleue : Eau.",
+   "Une Tortue au contact du Cell, avec un personnage à son contact : à son tour, -200 % de résistance dans son élément au Cell et à ce personnage, 2 tours.",
+   "Sans personnage au contact de la Tortue, rien.",
+   "Le Cell bondit : le mettre en Pesanteur et à 0 PM, et la Tortue à 0 PM."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/donjon-des-rats-du-chacircteau-damakna.html",
+  "status": "draft"
+ },
+ "tynrils": {
+  "title": "Tynrils",
+  "gist": "Quatre Tynrils, 200 % de résistances sauf dans leur élément ; ils ne frappent qu'au CaC, dans cet élément.",
+  "points": [
+   "Perfide : Feu ; Déconcerté : Eau ; Consterné : Air ; Ahuri : Terre.",
+   "Chacun met -2000 % de résistance dans son élément au personnage le plus proche : son CaC le tue ensuite.",
+   "Deux Tynrils au contact l'un de l'autre se soignent.",
+   "À chaque tour, un Tynril échange de place avec un autre.",
+   "Placer les personnages importants loin d'eux, retirer des PM, repousser."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/laboratoire-du-tynril.html",
+  "status": "draft"
+ },
+ "kralove-tentacles": {
+  "title": "Tentacules du Kralamoure",
+  "gist": "900 % de résistances : le frapper dans un élément invoque, au tour suivant, le Tentacule de cet élément. Les quatre le rendent vulnérable 1 tour.",
+  "points": [
+   "Tour 1, Eau : Quaternaire (fait passer le tour).",
+   "Tour 2, Feu : Tertiaire (retire 6 PM).",
+   "Tour 3, Terre : Secondaire (malus de soins).",
+   "Tour 4, Air : Primaire, en dernier (OS au CaC, sauf à son 1er tour).",
+   "Bloquer les trois autres autour d'une invocation protégée : ils doivent la frapper tous les trois le même tour sans la tuer.",
+   "Placer le Primaire devant le Kralamoure pour lui couper la vue ; le Primaire doit tuer une invocation cachée derrière lui, 2 tours de suite.",
+   "Le Kralamoure perd alors ses résistances 1 tour mais tous frappent très fort : le tuer dans le tour, sinon replacer le Primaire devant lui.",
+   "Ne pas le désenvoûter : il reprend ses résistances."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/antre-du-kralamoure-geacuteant.html",
+  "status": "draft"
+ },
+ "crocabulia-shells": {
+  "title": "Coquilles",
+  "gist": "Tous les 4 tours (tours 1, 5, 9…), un monstre invoque une Coquille : elle renforce ses alliés à chaque tour et meurt seule après 4 tours.",
+  "points": [
+   "Brutale : +10 % de dommages finaux (20 % à la Crocabulia). Tuée avant ses 4 tours : frappe Terre, -20 % de dommages finaux.",
+   "Protectrice : bouclier (double pour la Crocabulia). Tuée avant : frappe Eau, +20 % de dommages subis.",
+   "Soigneuse : soigne de 10 % des PV (20 % la Crocabulia). Tuée avant : frappe Feu, Insoignable.",
+   "Véloce : +2 PM (4 à la Crocabulia). Tuée avant : frappe Air, -4 PM.",
+   "Le malus touche dans un cercle de 8 autour d'elle, plus fort et plus long si elle meurt tôt : l'achever à plus de 8 PO, ou la laisser mourir."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/antre-de-crocabulia.html",
+  "status": "draft"
+ },
+ "grozilla-grasmera": {
+  "title": "Tyrannisé et Météoroïde",
+  "gist": "Grozilla met Tyrannisé, Grasmera met Météoroïde : chacun punit l'état que l'autre a mis.",
+  "points": [
+   "Tyrannisation (Grozilla, au CaC) met Tyrannisé ; sur une cible Météoroïde, retire aussi 50 % de ses PV actuels.",
+   "Météore (Grasmera, jusqu'à 4 PO) met Météoroïde ; sur une cible Tyrannisée, retire aussi 50 % de ses PV actuels.",
+   "Gravité (Grozilla) attire de 4 cases ; sur une cible Météoroïde, annule son prochain tour.",
+   "Magnétisme : Grasmera s'attire de 4 cases sur toi ; une cible Tyrannisée passe son prochain tour.",
+   "Niveau 190 seulement : celui qui survit à l'autre OS un personnage par tour : les tuer dans le même tour global.",
+   "Niveau 190 seulement : aux tours 6, 11, 16…, Grozilla doit commencer son tour à 2 PO ou moins de Grasmera, sinon Apocalypse OS toute l'équipe."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/grozilla-et-grasmera.html",
+  "status": "draft"
+ },
+ "seasonal-reaction": {
+  "title": "Réaction saisonnière",
+  "gist": "Après 5 attaques subies, chaque monstre déclenche un effet selon la saison. Face à la Déchireuse, l'Autel de la Chasse le rejoue, affaibli, en fin de tour.",
+  "points": [
+   "Naissances : Ébourifauve -1 PO à tous ; Voracle invisible et soigné ; Domptueuse passe ton tour ; Déchireuse attire d'1 case.",
+   "Chasse : Ébourifauve pose un glyphe (50 % des PV actuels) ; Voracle +10 % critique aux monstres ; Domptueuse échange de place ; Déchireuse +200 Puissance.",
+   "Repos : Ébourifauve renvoie le prochain sort ; Voracle repousse de 3 ; Domptueuse téléporte symétriquement ; Déchireuse désenvoûte tout le monde.",
+   "Bonus de saison pour tout le combat : Naissances +1 PM, Chasse +20 % de dommages finaux, Repos +20 % de vitalité.",
+   "Achever un monstre à 4 attaques subies évite son effet."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/autel-de-la-dechireuse.html",
+  "status": "draft"
+ },
+ "kimbo-glyphs": {
+  "title": "Glyphes du Disciple",
+  "gist": "Les glyphes du Disciple du Kimbo retirent au Kimbo 400 % de résistances dans deux éléments pour 1 tour.",
+  "points": [
+   "Frapper le Kimbo Terre ou Eau : glyphes à distance impaire du Disciple.",
+   "Frapper le Kimbo Air ou Feu : glyphes à distance paire.",
+   "Commencer son tour sur un de ces glyphes tue : se placer à l'autre parité avant le tour du Disciple, hors de son CaC.",
+   "Le Kimbo qui commence son tour sur un glyphe perd 400 % de résistances dans ces deux éléments (et en gagne dans les deux autres) pour 1 tour.",
+   "Le Disciple bouge ensuite d'1 case : les glyphes suivants changent de place."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/canopeacutee-du-kimbo.html",
+  "status": "draft"
+ },
+ "catseye-dice": {
+  "title": "Dés du Chalœil",
+  "gist": "Chaque case porte un chiffre de 1 à 6 ; chacun prend l'état du Dé de la case où il finit son tour.",
+  "points": [
+   "En fin de tour, le Chalœil invoque des Dés (2 000 PV) sur les cases de son chiffre à distance paire, et pose des glyphes blancs à distance impaire.",
+   "Finir son tour sur un glyphe blanc soigne entièrement.",
+   "Dès le tour 2, chaque monstre (sauf le Chalœil) érode et frappe les personnages qui ont le même Dé que lui : finir sur un autre chiffre.",
+   "Gros Yeux (tours 3, 6, 9…) : lui et ses alliés gagnent un bonus selon leur Dé, 1 tour.",
+   "Dé 1 : 200 Esquive PM ; Dé 2 : +5 PO ; Dé 3 : Indéplaçable.",
+   "Dé 4 : +3 PM ; Dé 5 : soin de 20 % des PV ; Dé 6 : +600 Puissance.",
+   "Routourne : chaque monstre du Grand Jeu a un bonus différent à chaque tour, en cycle de 3 tours ; seul le bonus en cours se désenvoûte."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/defi-du-chaloeil.html",
+  "status": "draft"
+ },
+ "hell-mina-rage": {
+  "title": "Rage d'Hell Mina",
+  "gist": "Hell Mina est Lourde et invulnérable jusqu'à 6 attaques dans les éléments qu'elle impose.",
+  "points": [
+   "À chacun de ses tours, chaque personnage reçoit un élément (état Rage Terre, Eau, Feu ou Air).",
+   "Un sort de cet élément, même lancé dans le vide, ajoute 1 à sa Rage : une fois par personnage et par élément reçu.",
+   "Sans attaque de l'élément reçu : des dégâts dans cet élément, et rien n'est ajouté.",
+   "À 5, plus aucun état n'est affiché : une dernière attaque de l'élément suffit.",
+   "À 6, elle devient vulnérable, avec +3 PM, +40 % de dommages finaux et +50 % de critique : tuer les monstres avant."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/tertre-du-long-sommeil.html",
+  "status": "draft"
+ },
+ "demonic-arms": {
+  "title": "Bras démoniaques",
+  "gist": "Un monstre proche de toi pose une rune ; à son tour suivant, un Bras démoniaque y apparaît avec un glyphe de rayon 2.",
+  "points": [
+   "La rune te retire 100 Puissance 1 tour, ou donne +200 Puissance à un monstre proche. Une seule rune tous les 3 tours.",
+   "Entrer dans le glyphe d'un Bras déclenche un de ses sorts (gros dégâts Neutre) : repousse de 2, téléporte symétriquement, ou frappe en cercle de 2.",
+   "Un personnage sur la rune quand le monstre commence son tour subit des dégâts Feu, empêche le Bras et contrôle tous les Bras ce tour-là (sans leurs glyphes).",
+   "Instabilité Chaotique : chaque ligne de dégâts retire 5 % de résistance dans l'élément frappé et en donne au hasard ailleurs (élément, poussée, critique)."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/rituel-de-kabahal.html",
+  "status": "draft"
+ },
+ "moonesque-blessing": {
+  "title": "Bénédiction Moonesque",
+  "gist": "Le Kanniboul Ebil la donne à tous les monstres : quand l'un d'eux subit des dégâts, les monstres à 2 cases ou moins de lui sont soignés de la moitié.",
+  "points": [
+   "Séparer les monstres : qu'aucun ne soit à 2 cases ou moins de celui que tu frappes.",
+   "Ne jamais taper un Kanniboul à 2 cases ou moins du Kanniboul Ebil : celui-ci serait soigné de la moitié des dégâts.",
+   "Taper un seul monstre à la fois, à l'écart des autres, limite ces soins."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/village-kanniboul.html#principe-combat",
+  "status": "draft"
+ },
+ "klime-carcassetagne": {
+  "title": "Carcassetagne",
+  "gist": "À partir du tour 3, chaque personnage qui n'a pas fini son tour précédent dans un glyphe blanc devient Pacifiste pour 1 tour.",
+  "points": [
+   "Les 2 premiers tours, Peau lisse protège les personnages : finir dans un glyphe blanc dès le tour 2.",
+   "Klime et chaque monstre posent en début de tour un glyphe blanc d'une case, qui dure 2 tours ; un monstre tué emporte ses glyphes.",
+   "Finir son tour dans un glyphe donne Peau lisse. Klime ou un monstre qui y finit gagne des dommages pour 2 tours : les désenvoûter.",
+   "Pas assez de glyphes : un personnage qui joue après peut en sortir un allié qui a déjà joué pour prendre sa place.",
+   "Un personnage qui ne frappe pas peut rester Pacifiste.",
+   "Tous les monstres tués avant le tour 3 : Pacifiste seulement à partir du tour 4, mais finir dans un glyphe au tour 3."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/salons-priveacutes-de-klime.html#principe-combat",
+  "status": "draft"
+ },
+ "missiz-frizz-snowdrifts": {
+  "title": "Congères de Missiz Frizz",
+  "gist": "Missiz Frizz et ses monstres sont Lourds et invulnérables : un ennemi poussé (congère ou sort) devient vulnérable 1 tour, mais il est soigné.",
+  "points": [
+   "À chaque début de tour d'un personnage, une congère (glyphe noir) apparaît sur les 4 cases autour de lui ; les invocations n'en font pas.",
+   "Y marcher te soigne, te repousse d'une case, puis repousse d'une case les entités en croix (6 cases) et en diagonale (3 cases) autour de toi.",
+   "Monogel (tout le monde) : une entité poussée par un sort est soignée et repousse d'une case les entités en ligne et en diagonale à 6 PO ou moins.",
+   "Pas de monstre à ton contact en début de tour : bouger dans la congère le pousserait et le soignerait.",
+   "Un personnage qui subit des dommages de poussée prend de l'érosion pour tout le combat, et de gros dégâts Neutre en plus tant que Missiz Frizz vit.",
+   "Indéplaçable, Enraciné ou Inébranlable empêchent d'être poussé par les congères ; sur Missiz Frizz, ils l'empêchent d'être soignée."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/forgefroide-de-missiz-frizz.html#principe-combat",
+  "status": "draft"
+ },
+ "bonbombs": {
+  "title": "Bonbombes",
+  "gist": "Chaque personnage invoque à chaque tour une Bonbombe à 2 PO devant lui ; une rouge qui explose tue tous les personnages en ligne avec elle.",
+  "points": [
+   "Dès qu'un personnage a 2 Bonbombes, la plus ancienne explose à son tour et fait exploser celles en ligne avec elle, de proche en proche.",
+   "Rouge : tue les personnages et invocations en ligne jusqu'à 10 PO et frappe les monstres de cette zone.",
+   "Une Bonbombe en diagonale d'une explosion devient bleue : elle soigne entièrement les personnages en ligne et frappe les monstres.",
+   "Une rouge dans ta ligne te tue même si une bleue te soigne.",
+   "Elles sont invulnérables : on peut les pousser, pas les porter (Lourd). Une icône bleue à triangle blanc annonce l'explosion.",
+   "Sans place à 2 PO devant toi, elle apparaît sur la case suivante dans le sens des aiguilles d'une montre.",
+   "La Reine des Voleurs n'est pas blessée par les bombes et subit 10 % de dégâts en moins par Bonbombe posée : la taper quand peu sont posées.",
+   "Placer les monstres dans les lignes des Bonbombes."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/trone-de-la-cour-sombre.html#bonbombes",
+  "status": "draft"
+ },
+ "traumatic-death": {
+  "title": "Décès Traumatisant",
+  "gist": "Dans le combat du Père Ver, un monstre qui meurt frappe tous les personnages dans sa ligne de vue.",
+  "points": [
+   "Avant d'achever un monstre, couper sa ligne de vue vers tes personnages.",
+   "Chaque monstre mort retire des résistances au Père Ver pour tout le combat, mais le soigne."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/boyau-du-pere-ver.html#sorts-boss",
+  "status": "draft"
+ },
+ "kissiphrot": {
+  "title": "Kissiphrot Sipique",
+  "gist": "Corruption le donne à lui et à tous ses alliés : chaque ligne de dégâts que tu infliges à l'un d'eux te donne un gros poison Terre en fin de tour.",
+  "points": [
+   "Le poison se cumule : impossible de gagner sans retirer Kissiphrot.",
+   "Soigner un allié, une invocation ou toi-même au CaC d'un monstre retire Kissiphrot à ce monstre, et le repousse d'une case.",
+   "Retiré à Corruption, il descend de sa monture pour 3 tours ; s'il vit encore, il remonte et remet Kissiphrot à lui et à tous ses alliés."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/arbre-de-mort.html#principe-combat",
+  "status": "draft"
+ },
+ "kewlitude": {
+  "title": "Kewlitude",
+  "gist": "Frappé, le Koulosse change en Boufcool pour 1 tour les entités en ligne avec lui (tour pair) ou en diagonale (tour impair).",
+  "points": [
+   "Un Bouftou des cavernes en Kewlitude gagne PA, PM, dommages et des soins ; sans ce bonus, ils ne sont pas dangereux.",
+   "Tant qu'ils vivent, ne pas taper le Koulosse quand un Bouftou est en ligne (tour pair) ou en diagonale (tour impair) avec lui.",
+   "Un personnage ou une invocation en Boufcool perd ses PA, devient Pacifiste, Intaclable et Intacleur, et est un peu soigné.",
+   "Un Boufcool qui commence son tour à 2 cases ou moins d'une entité lui retire 20 % de résistances 2 tours : c'est ainsi qu'on affaiblit le Koulosse.",
+   "Placer des invocations peu chères dans sa ligne ou sa diagonale (selon le tour) à 2 cases de lui, puis le taper une seule fois.",
+   "Le retaper alors qu'un Boufcool est encore aligné le passe en Kewlitude Maximale : un personnage ou une invocation en meurt.",
+   "Un Bouftou en Kewlitude Maximale gagne un sort, et le Koulosse invoque plus souvent."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/caverne-du-koulosse.html#fonctionnement-expedition",
+  "status": "draft"
+ },
+ "golden-scarabugly-leaves": {
+  "title": "Scarafeuilles du Scarabosse Doré",
+  "gist": "Le Scarabosse Doré résiste fort partout sauf en Neutre : chaque Scarafeuille tué lui retire 50 % de résistance dans son élément.",
+  "points": [
+   "Blanc : Air ; Vert : Terre ; Bleu : Eau ; Rouge : Feu.",
+   "Chaque Scarafeuille mort le booste aussi (PM, dommages de poussée, caractéristique de son élément) : n'en tuer que 1 ou 2.",
+   "Chacun laisse une Flammèche de son élément qui tape fort autour d'elle : la tuer avant son tour.",
+   "Il invoque un Scarafeuille Immature au tour 1 puis tous les 5 tours ; en 2 tours, l'Immature devient un Scarafeuille aléatoire.",
+   "S'il prend la couleur d'un Scarafeuille mort, le Scarabosse Doré regagne cette résistance.",
+   "Butin 6 et plus : le Scarafeuille Noir, mort, donne de gros dommages au Scarabosse Doré : ne pas le tuer tant que celui-ci vit."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/donjon-des-scarafeuilles.html#fonctionnement-expedition",
+  "status": "draft"
+ },
+ "dimension-waves": {
+  "title": "Vagues de monstres",
+  "gist": "Le combat se joue dans une seule salle : les monstres arrivent par vagues, à des tours fixés ou dès que la vague en cours est tuée.",
+  "points": [
+   "Au début : le boss et autant d'ennemis en tout que de personnages. Chaque vague compte autant de monstres que de personnages.",
+   "5 vagues en tout (3 dans la Mémoire d'Orukam et le Souvenir d'Imagiro), chacune à un tour fixé par le donjon.",
+   "Tuer tous les monstres d'une vague avant ce tour lance tout de suite la suivante.",
+   "En bas à droite de la timeline : le tour d'arrivée de la prochaine vague et la vague en cours.",
+   "Une nouvelle vague est invulnérable 1 tour, jusqu'à la fin de son premier tour.",
+   "Les vagues réapparaissent sur les cases de départ des monstres. Si des monstres sont encore là, les nouveaux jouent en fin de timeline.",
+   "À Osavora, dans la Cave du Toxoliath et le Palais du roi Nidas, les monstres arrivés à partir de la vague 2 ont 25 % de PV en moins.",
+   "Tuer chaque vague vite : sinon les vagues s'accumulent et tu affrontes 10 monstres ou plus à la fois."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/cave-du-toxoliath.html#particularites-dimensions",
+  "status": "draft"
+ },
+ "srambad-modifiers": {
+  "title": "Modificateurs du Srambad",
+  "gist": "L'icône en combat montre le modificateur actif de Srambad (10 possibles). Il ne change que quand le donjon niveau 200, Trône de la Cour Sombre, est terminé.",
+  "points": [
+   "Coups Bas : tes dommages indirects (glyphes, pièges, poisons, invocations, bombes) gagnent +25 %.",
+   "Invocations incapacitantes : les dommages de tes invocations non statiques retirent 1 tour d'envoûtement aux monstres.",
+   "Berserker : un personnage sous 50 % de ses PV au début de son tour gagne +33 % de dommages.",
+   "Disparitions détonantes : un monstre qui meurt blesse les monstres autour de lui, selon ses PV max.",
+   "Jeu dangereux : au début de son tour, chaque personnage pose à ses pieds un piège qui ne blesse que les monstres.",
+   "Poussées revigorantes : une fois par tour, un monstre qui subit des dommages de poussée soigne tes personnages autour de lui.",
+   "Larcin : tes attaques en mêlée volent de la vie aux monstres.",
+   "Liaison longue portée : 20 % des dommages subis par un monstre sont renvoyés aux monstres à plus de 10 PO de lui.",
+   "Évasion : tes attaques en mêlée repoussent les monstres de 3 cases.",
+   "Puissance cyclique : les monstres ont +50 % de vitalité ; tes dommages gagnent +25 % par tour dès le 2e tour et reviennent à la base tous les 5 tours."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/trone-de-la-cour-sombre.html#modificateurs-combat",
+  "status": "draft"
+ },
+ "enurado-modifiers": {
+  "title": "Modificateurs d'Enutrosor",
+  "gist": "L'icône en combat montre le modificateur actif d'Enutrosor (10 possibles). Il ne change que quand le donjon niveau 200, Palais du roi Nidas, est terminé.",
+  "points": [
+   "Poussées revigorantes : une fois par tour, un monstre qui subit des dommages de poussée soigne tes personnages autour de lui.",
+   "Entraves blessantes : chaque retrait de PM subi fait perdre des PV en plus aux monstres.",
+   "Liaison longue portée : 20 % des dommages subis par un monstre sont renvoyés aux monstres à plus de 10 PO de lui.",
+   "Déplacements incapacitants : un monstre porté, poussé, attiré ou transposé perd 1 tour sur la durée de ses envoûtements.",
+   "Invocations incapacitantes : les dommages de tes invocations non statiques retirent 1 tour d'envoûtement aux monstres.",
+   "Solitude revigorante : au début de son tour, un personnage sans allié à moins de 5 cases est soigné de 10 % de sa vitalité.",
+   "Puissance cyclique : les monstres ont +50 % de vitalité ; tes dommages gagnent +25 % par tour dès le 2e tour et reviennent à la base tous les 5 tours.",
+   "Solidaires : au début de son tour, un personnage se soigne selon le nombre d'alliés à moins de 3 cases.",
+   "Distance mesurée : un monstre attaqué en mêlée perd 1 PM (3 au plus) ; tes personnages subissent 20 % de dommages en moins à distance.",
+   "Disparitions détonantes : un monstre qui meurt blesse les monstres autour de lui, selon ses PV max."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/palais-du-roi-nidas.html#modificateurs-combat",
+  "status": "draft"
+ },
+ "xelorium-modifiers": {
+  "title": "Modificateurs du Xélorium",
+  "gist": "L'icône en combat montre le modificateur actif de Xélorium (10 possibles). Il ne change que quand le donjon niveau 200, Œil de Vortex, est terminé.",
+  "points": [
+   "En quête d'action : chaque retrait de PA subi fait perdre des PV en plus aux monstres.",
+   "Puissance cyclique : les monstres ont +50 % de vitalité ; tes dommages gagnent +25 % par tour dès le 2e tour et reviennent à la base tous les 5 tours.",
+   "Saute-Bouftou : un personnage qui frappe un allié est téléporté symétriquement par rapport à lui.",
+   "Disparitions détonantes : un monstre qui meurt blesse les monstres autour de lui, selon ses PV max.",
+   "Retour arrière : un monstre qui subit des dommages de mêlée revient à sa position précédente.",
+   "Liaison longue portée : 20 % des dommages subis par un monstre sont renvoyés aux monstres à plus de 10 PO de lui.",
+   "Actions entravées : tes dommages d'arme retirent des PA aux monstres.",
+   "Poussées revigorantes : une fois par tour, un monstre qui subit des dommages de poussée soigne tes personnages autour de lui.",
+   "Solitude momifiante : au début de son tour, un personnage sans allié à moins de 5 cases devient momie et subit moins de dommages 1 tour.",
+   "Invocations incapacitantes : les dommages de tes invocations non statiques retirent 1 tour d'envoûtement aux monstres."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/oeil-de-vortex.html#modificateurs-combat",
+  "status": "draft"
+ },
+ "ecaflipus-modifiers": {
+  "title": "Modificateurs d'Ecaflipus",
+  "gist": "L'icône en combat montre le modificateur actif d'Ecaflipus (10 possibles). Il ne change que quand le donjon niveau 200, Défi du Chalœil, est terminé.",
+  "points": [
+   "Régénération critique : chaque coup critique d'un personnage le soigne de 2 % de sa vitalité max.",
+   "Puissance cyclique : les monstres ont +50 % de vitalité ; tes dommages gagnent +25 % par tour dès le 2e tour et reviennent à la base tous les 5 tours.",
+   "Roulette élémentaire : au début de son tour, un personnage gagne au hasard 200 d'Intelligence, de Chance, d'Agilité ou de Force pour 1 tour.",
+   "Poussées revigorantes : une fois par tour, un monstre qui subit des dommages de poussée soigne tes personnages autour de lui.",
+   "Case bonus : au début de son tour, des cases bonus apparaissent à 4 cases en ligne d'un personnage : y aller lui donne 2 PA pour le tour.",
+   "Liaison longue portée : 20 % des dommages subis par un monstre sont renvoyés aux monstres à plus de 10 PO de lui.",
+   "Invocations incapacitantes : les dommages de tes invocations non statiques retirent 1 tour d'envoûtement aux monstres.",
+   "Bonne distance : 20 % des dommages subis par un monstre soignent tes personnages à exactement 7 cases de lui.",
+   "Disparitions détonantes : un monstre qui meurt blesse les monstres autour de lui, selon ses PV max."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/defi-du-chaloeil.html#modificateurs-combat",
+  "status": "draft"
+ },
+ "osavora-seasons": {
+  "title": "Modificateurs d'Osavora",
+  "gist": "Osavora n'a pas de modificateur de dimension : chaque saison a le sien. La saison change en début de semaine si le serveur réussit le défi de Gargandyas.",
+  "points": [
+   "Naissance : un personnage qui finit son tour sur sa case de départ gagne un bouclier 1 tour ; s'il n'a pas attaqué, il est soigné de 5 % de sa vie.",
+   "Chasse : achever un monstre donne au personnage et à ses invocations +1 PA et +3 % de dommages finaux (2 tours, cumulable 3 fois).",
+   "Repos : qui invoque gagne +1 PM avec son invocation (2 tours, cumulable 2 fois) ; en fin de tour, l'invocation donne 15 Tacle et Fuite aux alliés à 2 cases.",
+   "Chaque saison change aussi les monstres : voir le donjon."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/poste-de-controle-du-supervizoeuf.html#saisons",
+  "status": "draft"
+ }
+}

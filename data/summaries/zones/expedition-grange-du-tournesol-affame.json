@@ -1,0 +1,90 @@
+{
+ "zone": "Expédition - Grange du Tournesol Affamé",
+ "dungeonId": 8,
+ "dungeon": "Grange du Tournesol Affamé",
+ "guide": "https://www.dofuspourlesnoobs.com/grange-du-tournesol-affame.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "7796": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "à distance (le taper au CaC)"
+    },
+    {
+     "id": "one_shot",
+     "param": "au CaC"
+    },
+    {
+     "id": "heals",
+     "param": "lui et ses alliés autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "monstres des champs",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte sur un allié",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM",
+     "source": "spells"
+    }
+   ],
+   "detail": "Il se téléporte sur ses alliés : rester loin de tout ennemi. Le tuer en un tour, ou taper au CaC puis s'éloigner. Manger une invocation lui donne bouclier et PM 4 tours (désenvoûtable). Le retrait PM le garde à distance."
+  },
+  "7800": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM",
+     "source": "spells"
+    }
+   ]
+  },
+  "7799": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM, Fuite",
+     "source": "spells"
+    }
+   ]
+  },
+  "7798": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Puissance autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire, te téléporte",
+     "source": "spells"
+    }
+   ]
+  },
+  "7797": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

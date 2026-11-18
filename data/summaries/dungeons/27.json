@@ -1,0 +1,122 @@
+{
+ "dungeonId": 27,
+ "dungeon": "Village Kanniboul",
+ "guide": "https://www.dofuspourlesnoobs.com/village-kanniboul.html",
+ "guideUpdated": "21/06/2026",
+ "status": "draft",
+ "strategy": "Retirer de la PO au Kanniboul Sarbak.",
+ "monsters": {
+  "2960": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "la Poupée, sur le perso Maudit"
+    },
+    {
+     "id": "inflicts",
+     "param": "Maudit",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "Critique autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "tape seulement en ligne"
+    },
+    {
+     "id": "summons",
+     "param": "Poupée Aycetroy"
+    },
+    {
+     "id": "moves",
+     "param": "attire en croix autour de lui"
+    }
+   ],
+   "detail": "Ne pas taper la Poupée : ses dégâts subis vont au personnage Maudit, et il la réinvoque dès sa mort. Elle tape à 2 cases en fin de tour, de plus en plus fort. Elle échange de place et retire de la PO (tour 1, puis tous les 4 tours).",
+   "mechanics": [
+    "moonesque-blessing"
+   ]
+  },
+  "4151": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "PM, Fuite, Puissance, Tacle, PO",
+     "source": "spells"
+    }
+   ]
+  },
+  "214": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "poison selon les PA utilisés"
+    },
+    {
+     "id": "poison_ap",
+     "param": "Terre",
+     "source": "spells"
+    },
+    {
+     "id": "reduce_range"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PO",
+     "source": "spells"
+    }
+   ]
+  },
+  "213": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "bouclier"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "212": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Agilité",
+     "source": "spells"
+    },
+    {
+     "id": "no_melee_end"
+    },
+    {
+     "id": "dispel",
+     "param": "Éternuement, sur l'Eth"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance",
+     "source": "spells"
+    }
+   ],
+   "detail": "Éternuement Collatéral (au CaC) : le personnage touché prend tous les dégâts infligés à l'Eth pendant 1 tour. Désenvoûter l'Eth, pas le personnage."
+  },
+  "211": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Résistance",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "repousse de 5 cases"
+    }
+   ]
+  }
+ }
+}

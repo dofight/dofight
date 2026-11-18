@@ -1,0 +1,79 @@
+{
+ "dungeonId": 116,
+ "dungeon": "Épreuve de Draegnerys",
+ "guide": "https://www.dofuspourlesnoobs.com/epreuve-de-draegnerys.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "Les monstres se renforcent au tour 1 et au tour 4 (état Intrépide) : finir le combat vite.",
+ "roomTags": [
+  {
+   "id": "phase",
+   "param": "plus forts au tour 4 (Intrépide)"
+  }
+ ],
+ "monsters": {
+  "5823": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "PA, PM, puissance à un allié"
+    },
+    {
+     "id": "summons",
+     "param": "un Dragoeuf tous les 2 tours"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ],
+   "detail": "Invoque deux Dragoeufs au tour 1, puis un tous les 2 tours, et booste fortement un allié."
+  },
+  "5822": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    }
+   ]
+  },
+  "89": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    }
+   ]
+  },
+  "88": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Chance",
+     "source": "spells"
+    }
+   ]
+  },
+  "87": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Agilité",
+     "source": "spells"
+    }
+   ]
+  },
+  "76": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "PA, PM",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

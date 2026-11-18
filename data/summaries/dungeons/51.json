@@ -1,0 +1,204 @@
+{
+ "dungeonId": 51,
+ "dungeon": "Laboratoire du Tynril",
+ "guide": "https://www.dofuspourlesnoobs.com/laboratoire-du-tynril.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "",
+ "mechanics": [
+  "tynrils"
+ ],
+ "monsters": {
+  "1087": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC si faible à Terre"
+    },
+    {
+     "id": "removes",
+     "param": "Résistance Terre"
+    },
+    {
+     "id": "heals",
+     "param": "Tynrils collés l'un à l'autre"
+    },
+    {
+     "id": "remove_mp",
+     "param": "ses 2 PM"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place",
+     "source": "spells"
+    }
+   ]
+  },
+  "1086": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC si faible à Feu"
+    },
+    {
+     "id": "removes",
+     "param": "Résistance Feu"
+    },
+    {
+     "id": "heals",
+     "param": "Tynrils collés l'un à l'autre"
+    },
+    {
+     "id": "remove_mp",
+     "param": "ses 2 PM"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place",
+     "source": "spells"
+    }
+   ]
+  },
+  "1085": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC si faible à Eau"
+    },
+    {
+     "id": "removes",
+     "param": "Résistance Eau"
+    },
+    {
+     "id": "heals",
+     "param": "Tynrils collés l'un à l'autre"
+    },
+    {
+     "id": "remove_mp",
+     "param": "ses 2 PM"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place",
+     "source": "spells"
+    }
+   ]
+  },
+  "1072": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC si faible à Air"
+    },
+    {
+     "id": "removes",
+     "param": "Résistance Air"
+    },
+    {
+     "id": "heals",
+     "param": "Tynrils collés l'un à l'autre"
+    },
+    {
+     "id": "remove_mp",
+     "param": "ses 2 PM"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place",
+     "source": "spells"
+    }
+   ]
+  },
+  "1077": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "Nervure, Terre à distance"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance",
+     "source": "spells"
+    }
+   ]
+  },
+  "1041": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PA",
+     "source": "spells"
+    }
+   ]
+  },
+  "1029": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO, Résistances"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PA, PM",
+     "source": "spells"
+    }
+   ]
+  },
+  "1075": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Tacle",
+     "source": "spells"
+    },
+    {
+     "id": "poison_ap",
+     "param": "Neutre",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "1073": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PO, PA",
+     "source": "spells"
+    }
+   ]
+  },
+  "1074": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "Puissance",
+     "source": "spells"
+    }
+   ]
+  },
+  "1076": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "PA, PM",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

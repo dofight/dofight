@@ -1,0 +1,112 @@
+{
+ "dungeonId": 15,
+ "dungeon": "Tanière du Meulou",
+ "guide": "https://www.dofuspourlesnoobs.com/taniere-du-meulou.html",
+ "status": "draft",
+ "strategy": "Retirer de la PO au Cocholou limite ses actions. Le Muloubard, Inébranlable 2 tours sur 4, ne peut pas être repoussé.",
+ "bossSummons": {
+  "232": [
+   4870
+  ]
+ },
+ "monsters": {
+  "232": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC, en vol de vie"
+    },
+    {
+     "id": "heals",
+     "param": "lui-même sous 80 % PV"
+    },
+    {
+     "id": "summons",
+     "param": "Milimeulou, tous les 8 tours"
+    }
+   ],
+   "detail": "Sa Rage Reconstituante ne marche que sous 80 % PV : le laisser vers 82 % pour qu'il la gâche, l'éroder, réduire ses soins. 1er coup de chaque personnage divisé par 2 ; +30 Puissance par coup reçu. Ce qu'il tue au CaC devient un Mulou."
+  },
+  "4870": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "+2 PM, +200 Puissance à sa mort"
+    },
+    {
+     "id": "inflicts",
+     "param": "Mulanthropie"
+    },
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    }
+   ],
+   "detail": "Mulanthropie (au CaC, tous les 2 tours) : si sa cible meurt, un Mulou apparaît."
+  },
+  "4869": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "PA et puissance"
+    }
+   ]
+  },
+  "4868": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "s'attire sur sa cible"
+    }
+   ],
+   "detail": "Applique de l'érosion autour de lui et réduit les soins reçus."
+  },
+  "4867": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    }
+   ],
+   "detail": "Augmente les dégâts que tu subis et tape à distance ; lui retirer de la PO limite ses actions."
+  },
+  "4866": {
+   "tags": [
+    {
+     "id": "poison_ap",
+     "param": "Terre",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "Inébranlable"
+    }
+   ],
+   "detail": "Ne peut pas être poussé et réduit les dégâts à distance 2 tours sur 4."
+  },
+  "102": {
+   "tags": [
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    }
+   ]
+  },
+  "299": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

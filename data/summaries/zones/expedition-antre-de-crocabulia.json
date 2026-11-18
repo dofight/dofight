@@ -1,0 +1,89 @@
+{
+ "zone": "Expédition - Antre de Crocabulia",
+ "dungeonId": 7,
+ "dungeon": "Antre de Crocabulia",
+ "guide": "https://www.dofuspourlesnoobs.com/antre-de-crocabulia.html",
+ "guideUpdated": "21/06/2026",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "7906": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "sauf si elle tue 3 Coquilles"
+    },
+    {
+     "id": "one_shot",
+     "param": "à 3 cases d'une Coquille"
+    },
+    {
+     "id": "heals",
+     "param": "ses alliés près d'une Coquille"
+    },
+    {
+     "id": "summons",
+     "param": "Coquille Explosive",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place",
+     "source": "spells"
+    }
+   ],
+   "detail": "Chaque début de tour, elle fait exploser les Coquilles en ligne ou en diagonale avec elle ; une Coquille à 3 cases d'une autre explose aussi, sans compter pour l'invulnérabilité. Rester à 4 cases des Coquilles, les éloigner des monstres."
+  },
+  "7912": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire, échange de place",
+     "source": "spells"
+    }
+   ]
+  },
+  "7910": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Bouclier",
+     "source": "spells"
+    }
+   ]
+  },
+  "7909": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    }
+   ]
+  },
+  "7908": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

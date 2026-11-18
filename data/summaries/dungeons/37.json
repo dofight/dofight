@@ -1,0 +1,93 @@
+{
+ "dungeonId": 37,
+ "dungeon": "Caverne de Nowel",
+ "guide": "https://www.dofuspourlesnoobs.com/caverne-de-nowel.html",
+ "guideUpdated": "30/11/2023",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "872": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC"
+    },
+    {
+     "id": "heals",
+     "param": "lui-même, à bas PV"
+    },
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "phase",
+     "param": "à bas PV : se sépare en deux"
+    },
+    {
+     "id": "moves",
+     "param": "attire en ligne"
+    },
+    {
+     "id": "summons",
+     "param": "cadeaux, Demi Papa Nowel"
+    }
+   ],
+   "detail": "Le finir en un tour avant son soin (vers 20 % PV). Séparé, tuer ses jambes (Papa Nowel) gagne le combat ; le Demi Papa Nowel retire des PM, change en cadeau (-4 PA, Affaibli) et pousse. Retirer des PM au Papa Nowel lui donne de la PO."
+  },
+  "2622": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    }
+   ]
+  },
+  "891": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    }
+   ]
+  },
+  "867": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés autour de lui",
+     "source": "spells"
+    }
+   ]
+  },
+  "845": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "se téléporte au contact, pousse"
+    }
+   ]
+  },
+  "840": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM autour de lui",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

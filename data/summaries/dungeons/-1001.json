@@ -1,0 +1,42 @@
+{
+ "dungeonId": -1001,
+ "dungeon": "Temple de Gargandyas",
+ "guide": "https://www.dofuspourlesnoobs.com/temple-de-gargandyas.html",
+ "guideUpdated": "09/12/2025",
+ "status": "draft",
+ "strategy": "Les monstres de la saison arrivent par vagues de 3, 4 puis 5 : les garder à distance. En phase 4, un boss de saison et 5 monstres.",
+ "mechanics": [
+  "osavora-seasons"
+ ],
+ "monsters": {
+  "8062": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "hors du glyphe bleu de Bénidyas"
+    },
+    {
+     "id": "invulnerable",
+     "param": "tant que ses monstres vivent"
+    },
+    {
+     "id": "removes",
+     "param": "Résistance ; PM ou PO (saison)"
+    },
+    {
+     "id": "erodes",
+     "param": "saison du Repos"
+    },
+    {
+     "id": "dispels_you",
+     "param": "Gargameha et réveil"
+    },
+    {
+     "id": "phase",
+     "param": "4 vagues, allié en phase 4"
+    }
+   ],
+   "detail": "Sa vague tuée, il tombe 2 tours : le taper jusqu'à son seuil, sinon il tape toute l'équipe en se relevant. Coups de patte annoncés par un glyphe rouge : ne pas finir dedans (OS). Rester sur les côtés : la Rafale Bestiale ramène au milieu."
+  }
+ }
+}

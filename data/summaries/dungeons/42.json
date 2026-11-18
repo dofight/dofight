@@ -1,0 +1,91 @@
+{
+ "dungeonId": 42,
+ "dungeon": "Garde-manger du Rat Blanc",
+ "guide": "https://www.dofuspourlesnoobs.com/garde-manger-du-rat-blanc.html",
+ "status": "draft",
+ "strategy": "L'Aloevée Rate soigne ses alliés et fuit.",
+ "monsters": {
+  "940": {
+   "tags": [
+    {
+     "id": "dispels_you",
+     "param": "si soigné sous Peste Blanche"
+    },
+    {
+     "id": "dispel",
+     "param": "Rascasse (résistances)"
+    }
+   ],
+   "detail": "Rascasse (2 tours) : chaque coup lui donne 50 % de résistance dans l'élément utilisé. Le désenvoûter remet ses résistances à zéro. Un personnage sous Peste Blanche perd tous ses envoûtements s'il est soigné."
+  },
+  "6744": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés"
+    },
+    {
+     "id": "removes",
+     "param": "Soins reçus"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    },
+    {
+     "id": "flees"
+    }
+   ]
+  },
+  "6743": {
+   "tags": []
+  },
+  "942": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC"
+    },
+    {
+     "id": "removes",
+     "param": "Tacle, Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ],
+   "detail": "Commence avec un bouclier de la moitié de ses PV ; perd 50 % de résistances au tour 4."
+  },
+  "941": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "Critique",
+     "source": "spells"
+    }
+   ]
+  },
+  "938": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, Résistance, Critique, Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

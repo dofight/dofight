@@ -1,0 +1,293 @@
+{
+ "three_groups": [
+  {
+   "h": 11,
+   "text": "Niueau 468",
+   "w": 82,
+   "x": 346,
+   "y": 7
+  },
+  {
+   "h": 11,
+   "text": "Niveau 200",
+   "w": 80,
+   "x": 559,
+   "y": 209
+  },
+  {
+   "h": 11,
+   "text": "Niveau 132",
+   "w": 76,
+   "x": 684,
+   "y": 316
+  },
+  {
+   "h": 9,
+   "text": "266 701 HP",
+   "w": 62,
+   "x": 355,
+   "y": 33
+  },
+  {
+   "h": 12,
+   "text": "olkorne pourpre sauvage (70)",
+   "w": 182,
+   "x": 299,
+   "y": 55
+  },
+  {
+   "h": 12,
+   "text": "Volkorne pourpre sauvage (68)",
+   "w": 189,
+   "x": 292,
+   "y": 73
+  },
+  {
+   "h": 12,
+   "text": "Volkorne pourpre sauvage (64)",
+   "w": 190,
+   "x": 291,
+   "y": 91
+  },
+  {
+   "h": 13,
+   "text": "Volkorne ébène sauvage (68)",
+   "w": 177,
+   "x": 298,
+   "y": 109
+  },
+  {
+   "h": 13,
+   "text": "Volkorne ébène sauvage (68)",
+   "w": 177,
+   "x": 298,
+   "y": 127
+  },
+  {
+   "h": 13,
+   "text": "Volkorne ébène sauvage",
+   "w": 150,
+   "x": 298,
+   "y": 145
+  },
+  {
+   "h": 13,
+   "text": "Volkorne orchidée sauvage (64)",
+   "w": 194,
+   "x": 289,
+   "y": 163
+  },
+  {
+   "h": 9,
+   "text": "245 958 HP",
+   "w": 63,
+   "x": 567,
+   "y": 235
+  },
+  {
+   "h": 13,
+   "text": "Volkorne ébène sauvage (68)",
+   "w": 177,
+   "x": 510,
+   "y": 256
+  },
+  {
+   "h": 13,
+   "text": "Volkorne ébène sauvage (64)",
+   "w": 178,
+   "x": 510,
+   "y": 274
+  },
+  {
+   "h": 12,
+   "text": "Volkorne pourpre sauvage (68}",
+   "w": 189,
+   "x": 504,
+   "y": 293
+  },
+  {
+   "h": 11,
+   "text": "Nive—u 132",
+   "w": 76,
+   "x": 684,
+   "y": 316
+  },
+  {
+   "h": 9,
+   "text": "103 466",
+   "w": 46,
+   "x": 691,
+   "y": 342
+  },
+  {
+   "h": 13,
+   "text": "Volkorne indigo sauvag",
+   "w": 147,
+   "x": 632,
+   "y": 363
+  },
+  {
+   "h": 13,
+   "text": "Volkorne ébène sauvagi",
+   "w": 146,
+   "x": 633,
+   "y": 381
+  },
+  {
+   "h": 9,
+   "text": "103 466",
+   "w": 46,
+   "x": 691,
+   "y": 342
+  },
+  {
+   "h": 13,
+   "text": "Volkorne indigo sauvage (66)",
+   "w": 179,
+   "x": 632,
+   "y": 363
+  },
+  {
+   "h": 13,
+   "text": "Volkorne ébène sauvage",
+   "w": 150,
+   "x": 633,
+   "y": 381
+  }
+ ],
+ "two_groups": [
+  {
+   "h": 11,
+   "text": "Niveau 526",
+   "w": 80,
+   "x": 1203,
+   "y": 45
+  },
+  {
+   "h": 11,
+   "text": "Niveau 206",
+   "w": 81,
+   "x": 550,
+   "y": 374
+  },
+  {
+   "h": 11,
+   "text": "Niueau 68",
+   "w": 71,
+   "x": 590,
+   "y": 572
+  },
+  {
+   "h": 9,
+   "text": "272 915",
+   "w": 43,
+   "x": 1213,
+   "y": 71
+  },
+  {
+   "h": 12,
+   "text": "Volkorne orchidée sauvage {70)",
+   "w": 194,
+   "x": 1146,
+   "y": 93
+  },
+  {
+   "h": 12,
+   "text": "Volkorne orchidée sauvage {62)",
+   "w": 192,
+   "x": 1147,
+   "y": 111
+  },
+  {
+   "h": 13,
+   "text": "Volkorne indigo sauvage {68)",
+   "w": 179,
+   "x": 1154,
+   "y": 128
+  },
+  {
+   "h": 13,
+   "text": "Volkorne indigo sauvage {66)",
+   "w": 179,
+   "x": 1154,
+   "y": 147
+  },
+  {
+   "h": 13,
+   "text": "Volkorne indigo sauvage {66)",
+   "w": 179,
+   "x": 1154,
+   "y": 165
+  },
+  {
+   "h": 13,
+   "text": "Volkorne indigo sauvage {66)",
+   "w": 179,
+   "x": 1154,
+   "y": 183
+  },
+  {
+   "h": 12,
+   "text": "Volkorne pourpre sauvage (66)",
+   "w": 189,
+   "x": 1149,
+   "y": 202
+  },
+  {
+   "h": 12,
+   "text": "Volkorne pourpre sauvage (62}",
+   "w": 188,
+   "x": 1149,
+   "y": 220
+  },
+  {
+   "h": 9,
+   "text": "277 247",
+   "w": 44,
+   "x": 560,
+   "y": 400
+  },
+  {
+   "h": 12,
+   "text": "Volkorne pourpre sauvage (70)",
+   "w": 190,
+   "x": 495,
+   "y": 422
+  },
+  {
+   "h": 12,
+   "text": "Volkorne pourpre sauvage (66)",
+   "w": 189,
+   "x": 496,
+   "y": 440
+  },
+  {
+   "h": 12,
+   "text": "Volkorne orchidée sauvage {70)",
+   "w": 194,
+   "x": 493,
+   "y": 458
+  },
+  {
+   "h": 11,
+   "text": "Niveau G8",
+   "w": 72,
+   "x": 590,
+   "y": 572
+  },
+  {
+   "h": 9,
+   "text": "29 901",
+   "w": 38,
+   "x": 598,
+   "y": 598
+  },
+  {
+   "h": 12,
+   "text": "Volkorne pourpre sauvage (68)",
+   "w": 189,
+   "x": 531,
+   "y": 620
+  }
+ ]
+}

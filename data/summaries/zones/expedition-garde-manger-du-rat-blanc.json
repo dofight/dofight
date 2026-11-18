@@ -1,0 +1,82 @@
+{
+ "zone": "Expédition - Garde-manger du Rat Blanc",
+ "dungeonId": 42,
+ "dungeon": "Garde-manger du Rat Blanc",
+ "guide": "https://www.dofuspourlesnoobs.com/garde-manger-du-rat-blanc.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "",
+ "monsters": {
+  "7913": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "avant 3 coups de ses alliés"
+    },
+    {
+     "id": "reflect"
+    },
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "résistances",
+     "source": "spells"
+    }
+   ],
+   "detail": "Il annule et renvoie les dégâts tant que ses alliés ne l'ont pas tapé 3 fois. Le Chak Rat tape autour de lui au début de son tour : le coller au Rat Blanc 3 tours de suite, et ne pas tuer tous les monstres avant."
+  },
+  "7918": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable",
+     "source": "spells"
+    }
+   ]
+  },
+  "7916": {
+   "tags": [],
+   "detail": "Il tape en croix autour de lui au début de son tour, alliés compris : collé au Rat Blanc 3 tours de suite, il lui retire son renvoi. Ne pas le tuer avant."
+  },
+  "7915": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, Résistance, Critique",
+     "source": "spells"
+    },
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    }
+   ]
+  },
+  "7914": {
+   "tags": [
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "renvoie à la case précédente"
+    }
+   ]
+  }
+ }
+}

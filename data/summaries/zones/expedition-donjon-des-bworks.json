@@ -1,0 +1,85 @@
+{
+ "zone": "Expédition - Donjon des Bworks",
+ "dungeonId": 13,
+ "dungeon": "Donjon des Bworks",
+ "guide": "https://www.dofuspourlesnoobs.com/donjon-des-bworks.html",
+ "guideUpdated": "22/04/2025",
+ "status": "draft",
+ "strategy": "Durakuir : les monstres se renforcent en perdant leurs PV. Taper un monstre à la fois, sans sorts de zone, et garder les autres loin (retrait PM). Tuer un monstre booste son tueur 2 tours (« Kopin ? ») : enchaîner.",
+ "roomTags": [
+  {
+   "id": "state",
+   "param": "Durakuir : + fort en perdant PV"
+  },
+  {
+   "id": "state",
+   "param": "Kopin ? : boost du tueur 2 tours"
+  }
+ ],
+ "monsters": {
+  "7847": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "proche, monte avec Durakuir"
+    },
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Critique, Bouclier",
+     "source": "spells"
+    }
+   ]
+  },
+  "7850": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "à distance, même caché"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "reduce_range"
+    }
+   ]
+  },
+  "7849": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "zone"
+    },
+    {
+     "id": "summons",
+     "param": "Tofu Maléfique",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "7848": {
+   "tags": [
+    {
+     "id": "erodes",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,83 @@
+{
+ "dungeonId": 142,
+ "dungeon": "Refuge sylvestre",
+ "guide": "https://www.dofuspourlesnoobs.com/refuge-sylvestre.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "Chaque coup d'un monstre baisse la résistance de sa cible, et la sienne, dans son élément (3 tours, cumulable). Taper de préférence un monstre hors du partage du Grolours.",
+ "roomTags": [
+  {
+   "id": "removes",
+   "param": "résistance de l'élément frappé"
+  }
+ ],
+ "monsters": {
+  "7197": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "10 % rés. tous éléments"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "bouclier à un allié"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte au CaC d'un allié"
+    }
+   ]
+  },
+  "7196": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "soins reçus"
+    }
+   ]
+  },
+  "7195": {
+   "tags": [
+    {
+     "id": "state",
+     "param": "partage les dégâts d'alliés"
+    }
+   ]
+  },
+  "7194": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "s'attire sur sa cible"
+    }
+   ]
+  },
+  "7193": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "PM"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "7192": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

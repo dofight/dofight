@@ -1,0 +1,120 @@
+{
+ "zone": "Expédition - Centre du Labyrinthe du Minotoror",
+ "dungeonId": 4,
+ "dungeon": "Centre du Labyrinthe du Minotoror",
+ "guide": "https://www.dofuspourlesnoobs.com/centre-du-labyrinthe-du-minotoror.html",
+ "guideUpdated": "06/05/2024",
+ "status": "draft",
+ "strategy": "Ne pas finir son tour au contact d'un ennemi : le Mominotor tape tous les personnages qui le sont.",
+ "monsters": {
+  "7925": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "le taper en ligne : -10 % rés."
+    },
+    {
+     "id": "big_damage",
+     "param": "zone, s'il est tapé en ligne"
+    },
+    {
+     "id": "removes",
+     "param": "Résistances Poussée",
+     "source": "spells"
+    },
+    {
+     "id": "dispel",
+     "param": "Toromachine"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance, Vitalité",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ],
+   "detail": "Tapé en ligne : il fonce, frappe autour de lui, -10 % de rés., +10 % de dommages finaux. Seuls 10 coups comptent par tour, même hors ligne : un tank tape en ligne juste après son tour. Toromachine se cumule : l'éloigner de ses alliés."
+  },
+  "7929": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "te téléporte",
+     "source": "spells"
+    }
+   ]
+  },
+  "7928": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "steals",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Critique",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "7927": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "no_melee_end",
+     "param": "d'aucun ennemi"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "7926": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Résistance",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte jusqu'à 10 PO"
+    }
+   ]
+  }
+ }
+}

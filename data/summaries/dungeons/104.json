@@ -1,0 +1,115 @@
+{
+ "dungeonId": 104,
+ "dungeon": "Camp du Comte Razof",
+ "guide": "https://www.dofuspourlesnoobs.com/camp-du-comte-razof.html",
+ "guideUpdated": "?",
+ "status": "draft",
+ "strategy": "Le Crâmbo frappe très fort jusqu'à 15 PO les cibles à 100 % PV : rester hors de sa vue ou se taper légèrement. Les pièges du Nemroz retirent PA et PO et renforcent les sorts ennemis.",
+ "monsters": {
+  "4803": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "invoquer (-20 % rés chacune)"
+    },
+    {
+     "id": "removes",
+     "param": "PM"
+    },
+    {
+     "id": "inflicts",
+     "param": "Affaibli, Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "lock",
+     "param": "tacleur entre lui et l'équipe"
+    },
+    {
+     "id": "summons",
+     "param": "Minikrone (ton camp)"
+    }
+   ],
+   "detail": "Invocations à placer hors de sa vue et dispersées. Seul Razof peut tuer la Minikrone, au CaC : l'équipe perd alors 2 PA et 20 % de rés. Ne pas la laisser finir sur son glyphe noir (-PM, érosion). Le tacler bloque Pelliste."
+  },
+  "4808": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "distance, cible à 100 % PV"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "si à 100 % PV"
+    },
+    {
+     "id": "moves",
+     "param": "attire, pousse",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Lampe Bleue",
+     "source": "spells"
+    }
+   ]
+  },
+  "4807": {
+   "tags": [
+    {
+     "id": "erodes",
+     "param": "glyphe vert"
+    },
+    {
+     "id": "glyphs",
+     "param": "piège : -PA, -PO, état Piégé"
+    },
+    {
+     "id": "state",
+     "param": "Piégé : sorts ennemis renforcés"
+    }
+   ]
+  },
+  "4806": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, Retrait PA, Retrait PM",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Bouteille de Pandanois",
+     "source": "spells"
+    }
+   ]
+  },
+  "4805": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "PM, Esquive PA, Esquive PM",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Chienchien Courant",
+     "source": "spells"
+    }
+   ],
+   "detail": "Le Chienchien retire tous les PM au CaC et renvoie ensuite la moitié des dégâts reçus à sa cible."
+  },
+  "4804": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Puissance"
+    },
+    {
+     "id": "moves",
+     "param": "attire en ligne"
+    }
+   ]
+  }
+ }
+}
