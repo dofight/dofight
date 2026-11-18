@@ -943,7 +943,7 @@ function showReportCount(): void {
 $("report-text").addEventListener("input", showReportCount);
 // Escape goes back, like the settings: first it closes the subject's list, and it never drops a typed text
 document.addEventListener("keydown", (e) => {
-  if (e.key !== "Escape" || $("view-report").hidden || !$("quit-confirm").hidden) return;
+  if (e.key !== "Escape" || $("view-report").hidden) return;
   if (!$("report-subject-list").hidden) {
     $("report-subject-list").hidden = true;
     return;
@@ -1302,36 +1302,11 @@ void invoke("set_songe", { on: settings.songe });
 showSongeState();
 // the panel lives in the taskbar (its button « Dofight » always stays there) and opens at launch
 void showOverlay();
-const topbar = document.querySelector<HTMLElement>("#app > .topbar")!;
-/** Quitting asks first: the panel opens (if folded away) with « Quitter Dofight ? », Annuler or Quitter. */
-async function askQuit(): Promise<void> {
-  if (!(await panelOpen())) await showOverlay();
-  $("quit-confirm").hidden = false;
-  // Tab stays in the dialog: the views and the title bar are out of reach meanwhile
-  for (const id of ["view-main", "view-settings", "view-report"]) $(id).inert = true;
-  topbar.inert = true;
-  showMenu(false);
-  $("quit-cancel").focus({ preventScroll: true });
-}
-function cancelQuit(): void {
-  $("quit-confirm").hidden = true;
-  topbar.inert = false;
-  if ($("update").hidden) for (const id of ["view-main", "view-settings", "view-report"]) $(id).inert = false;
-  $("quit").focus({ preventScroll: true });
-}
-$("quit").addEventListener("click", () => void askQuit());
-$("quit-cancel").addEventListener("click", cancelQuit);
-$("quit-yes").addEventListener("click", () => void invoke("quit"));
-$("quit-confirm").addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
-    e.stopPropagation();
-    cancelQuit();
-  }
-});
-// « Fermer la fenêtre » on the taskbar button asks too
+// the × of the title bar and « Fermer la fenêtre » on the taskbar button quit at once, every window included
+$("quit").addEventListener("click", () => void invoke("quit"));
 void win.onCloseRequested((e) => {
   e.preventDefault();
-  void askQuit();
+  void invoke("quit");
 });
 
 let geometryTimer: number | undefined;

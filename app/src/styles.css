@@ -316,8 +316,6 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 #app>.view{grid-row:2;grid-column:1} /* every view in the same cell, so the update can lie over them */
 .update{grid-row:2;grid-column:1;z-index:4;display:grid;place-items:center;padding:24px;background:rgb(var(--win));border-radius:0 0 9px 9px} /* over the whole panel below the title bar, opaque */
 .update[hidden]{display:none}
-#quit-confirm{z-index:5} /* above an update screen */
-#quit-confirm .row{display:flex;gap:8px;justify-content:center}
 #quit:hover{background:#c0392b;color:#fff} /* the one red control: it closes Dofight */
 .update-box{display:grid;justify-items:center;gap:10px;width:100%;max-width:260px;text-align:center}
 .update-logo{width:56px;height:56px}

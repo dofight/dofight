@@ -343,14 +343,12 @@ it("announces « Aucun résultat » in the status line, not inside the list", ()
   expect(document.getElementById("status")!.textContent).toBe("");
 });
 
-it("keeps Tab inside the quit dialog: the title bar is inert too", async () => {
+it("quits at once on the × of the title bar, with no confirmation", async () => {
+  const { invoke } = await import("@tauri-apps/api/core");
+  vi.mocked(invoke).mockClear();
   (document.getElementById("quit") as HTMLButtonElement).click();
-  await vi.waitFor(() => expect(document.getElementById("quit-confirm")!.hidden).toBe(false));
-  expect(document.querySelector<HTMLElement>("#app > .topbar")!.inert).toBe(true);
-  expect(plain(document.getElementById("quit-title")!.textContent)).toBe("Quitter Dofight ?");
-  document.getElementById("quit-confirm")!.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
-  expect(document.getElementById("quit-confirm")!.hidden).toBe(true);
-  expect(document.querySelector<HTMLElement>("#app > .topbar")!.inert).toBe(false);
+  expect(invoke).toHaveBeenCalledWith("quit");
+  expect(document.getElementById("quit-confirm")).toBeNull();
 });
 
 it("pins a mechanic's sheet on a click, with its guide link; a second click or Escape closes it", () => {

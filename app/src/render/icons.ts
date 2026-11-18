@@ -8,7 +8,7 @@ const PATHS = {
   back: "M19 12H5m7 7-7-7 7-7",
   // « – »: hide the panel (a short stroke, as narrow as the other icons)
   minus: "M7 12h10",
-  // « × »: quit Dofight (after a confirmation)
+  // « × »: quit Dofight
   close: "M18 6 6 18M6 6l12 12",
   // « ↺ »: back to a previous state (the zone the player is in, the hovered group cleared)
   undo: "M3 3v5h5M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8",
