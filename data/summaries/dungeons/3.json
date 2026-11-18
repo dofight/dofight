@@ -168,6 +168,23 @@
      "source": "spells"
     }
    ]
+  },
+  "7829": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "distance"
+    },
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    }
+   ]
   }
+ },
+ "bossSummons": {
+  "289": [
+   7829
+  ]
  }
 }

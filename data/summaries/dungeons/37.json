@@ -88,6 +88,85 @@
      "source": "spells"
     }
    ]
+  },
+  "874": {
+   "tags": [
+    {
+     "id": "inflicts",
+     "param": "Affaibli",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Kol'nenfan, Koup'nenfan",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PA, PM",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Esquive PM, PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "880": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "881": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    }
+   ]
+  },
+  "882": {
+   "tags": [
+    {
+     "id": "glyphs",
+     "param": "un piège qui explose (Bombombe)",
+     "source": "spells"
+    }
+   ]
+  },
+  "887": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "Puissance",
+     "source": "spells"
+    }
+   ]
   }
+ },
+ "bossSummons": {
+  "872": [
+   874,
+   880,
+   881,
+   882,
+   887
+  ]
  }
 }

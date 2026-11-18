@@ -78,6 +78,20 @@
      "source": "spells"
     }
    ]
+  },
+  "6904": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PA",
+     "source": "spells"
+    }
+   ]
   }
+ },
+ "bossSummons": {
+  "6903": [
+   6904
+  ]
  }
 }

@@ -104,6 +104,29 @@
      "source": "spells"
     }
    ]
+  },
+  "259": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
   }
+ },
+ "bossSummons": {
+  "173": [
+   259
+  ]
  }
 }

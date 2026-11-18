@@ -115,6 +115,25 @@
      "param": "Fuite"
     }
    ]
+  },
+  "5499": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Kamas",
+     "source": "spells"
+    },
+    {
+     "id": "dispels_you",
+     "param": "autour de lui",
+     "source": "spells"
+    }
+   ]
   }
+ },
+ "bossSummons": {
+  "1194": [
+   5499
+  ]
  }
 }

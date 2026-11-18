@@ -51,6 +51,20 @@
   },
   "4046": {
    "tags": []
+  },
+  "4052": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
   }
+ },
+ "bossSummons": {
+  "4051": [
+   4052
+  ]
  }
 }

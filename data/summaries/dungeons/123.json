@@ -89,6 +89,14 @@
      "param": "échange de place, pousse"
     }
    ]
+  },
+  "6233": {
+   "tags": []
   }
+ },
+ "bossSummons": {
+  "6256": [
+   6233
+  ]
  }
 }

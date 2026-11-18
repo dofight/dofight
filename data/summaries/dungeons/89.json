@@ -83,6 +83,14 @@
     }
    ],
    "detail": "Exécution se lance à 2 PO sans ligne de vue : la repousser loin d'un Cocon et lui retirer des PM."
+  },
+  "3997": {
+   "tags": []
   }
+ },
+ "bossSummons": {
+  "3996": [
+   3997
+  ]
  }
 }

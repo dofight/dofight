@@ -100,6 +100,20 @@
     }
    ],
    "detail": "Son poison inflige des dégâts par PA utilisé : éviter de jouer quand il est actif."
+  },
+  "2969": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
   }
+ },
+ "bossSummons": {
+  "2968": [
+   2969
+  ]
  }
 }

@@ -117,6 +117,25 @@
      "param": "repousse de 5 cases"
     }
    ]
+  },
+  "2961": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "te téléporte",
+     "source": "spells"
+    }
+   ]
   }
+ },
+ "bossSummons": {
+  "2960": [
+   2961
+  ]
  }
 }

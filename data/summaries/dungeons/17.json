@@ -101,6 +101,14 @@
      "param": "si poussé ou échangé de place"
     }
    ]
+  },
+  "3459": {
+   "tags": []
   }
+ },
+ "bossSummons": {
+  "3460": [
+   3459
+  ]
  }
 }
