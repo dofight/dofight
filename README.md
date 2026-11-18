@@ -2,7 +2,7 @@
 
 <p align="center">
   <b>L'assistant de combat pour Dofus 3.</b><br>
-  Un panneau à côté du jeu qui te montre ce qui est dangereux chez les monstres qui t'entourent.
+  Un panneau à côté du jeu qui te montre les dangers des monstres autour de toi.
 </p>
 
 <p align="center">
@@ -21,43 +21,47 @@
   <img src="docs/images/dofight-panel.png" alt="Le panneau Dofight : les monstres de la sous-zone, leurs badges de danger, leurs résistances et leurs sorts" width="308">
 </p>
 
-Gratuit et open source. Dofight ne fait que **regarder l'écran** : il ne joue pas à ta place, n'envoie rien au jeu
-et ne lit ni sa mémoire, ni ses fichiers, ni son trafic réseau.
+Gratuit et open source. Dofight lit uniquement **le coin en haut à gauche de la fenêtre Dofus** (le nom de la
+sous-zone, tes coordonnées et la barre d'icônes, qui lui indique qu'un combat commence), et cette lecture se coupe
+dans les paramètres. Il ne joue pas à ta place, n'envoie rien au jeu et ne lit ni sa mémoire, ni ses fichiers, ni son
+trafic réseau.
 
-Pour les monstres de ta sous-zone, de ton donjon ou de ton combat : ce qui peut te faire perdre (one-shots,
-invulnérabilités, mécaniques), leurs résistances et leurs sorts.
+Pour chaque monstre de ta sous-zone, de ton donjon ou de ton combat, il t'indique ce qui peut te faire perdre
+(one-shots, invulnérabilités, mécaniques), ses résistances et ses sorts.
 
-## Ce qu'il te faut
+## Avant de commencer
 
-- Windows 10 ou 11, et Dofus 3 (client en français ou en anglais).
-- Le français dans les langues de Windows (Paramètres Windows → Heure et langue → Langue et région) : Dofight s'en
-  sert pour lire le texte à l'écran. Sur un Windows en français, il y est déjà.
+- Windows 10 ou 11, et Dofus 3 (en français ou en anglais).
+- Le français parmi les langues de Windows (Paramètres Windows → Heure et langue → Langue et région) : Dofight s'en
+  sert pour lire le texte à l'écran. Si ton Windows est en français, tu n'as rien à faire.
 
-## Installer
+## Installation
 
-1. Ouvre la [dernière version](https://github.com/dofight/dofight/releases/latest) et télécharge le fichier
+1. Ouvre la page de la [dernière version](https://github.com/dofight/dofight/releases/latest) et télécharge le fichier
    `Dofight_…_x64-setup.exe` (les autres fichiers servent aux mises à jour).
 2. Lance-le. Si Windows affiche « Windows a protégé votre ordinateur », clique sur « Informations
-   complémentaires », puis « Exécuter quand même » : Dofight est un petit projet, sans certificat payant.
+   complémentaires », puis sur « Exécuter quand même » : Dofight est un petit projet, qui n'a pas de certificat
+   payant.
 3. Dans Dofus, active **« Afficher les coordonnées de la carte »** dans les options : Dofight lit le nom de la
    sous-zone juste au-dessus des coordonnées.
-4. Garde dépliée la barre d'icônes en haut à gauche du jeu (l'œil hors combat, le cœur en combat) : c'est elle
-   qui dit à Dofight quand un combat commence.
+4. Laisse dépliée la barre d'icônes en haut à gauche du jeu (l'œil hors combat, le cœur en combat) : c'est elle
+   qui indique à Dofight qu'un combat commence.
 
-C'est tout : lance Dofus, Dofight affiche les monstres de ta sous-zone et s'ouvre tout seul en combat.
-**Ctrl+Maj+D** l'affiche ou le cache (modifiable dans les paramètres). Les mises à jour se font toutes seules.
+Et voilà : lance Dofus, Dofight affiche les monstres de ta sous-zone et s'ouvre tout seul en combat.
+**Ctrl+Maj+D** l'affiche ou le cache (raccourci modifiable dans les paramètres). Les mises à jour sont automatiques.
 
 **Désinstaller :** Paramètres Windows → Applications → Applications installées → Dofight → Désinstaller.
 
-## Ce qu'il fait
+## Ce que fait Dofight
 
 - **Les monstres autour de toi** : ceux de ta sous-zone ou de ton donjon, affichés dès que tu y entres.
-- **Ce qui est dangereux, d'un coup d'œil** : des badges (danger, conseil, mécanique) et un court résumé écrit à
-  partir des guides. Le boss est déplié ; pour les autres, les dangers se voient sur leur ligne.
-- **Résistances et sorts** de chaque monstre, avec la fiche détaillée de chaque sort.
+- **Ce qui est dangereux, d'un coup d'œil** : des badges (danger, conseil, mécanique) et un court résumé rédigé à
+  partir des guides. La fiche du boss est dépliée ; pour les autres monstres, les dangers apparaissent directement
+  sur leur ligne.
+- **Résistances et sorts** de chaque monstre, avec le détail de chaque sort.
 - **Les grosses mécaniques expliquées** (cycle lunaire, vagues de monstres, modificateurs de dimension…) : survole
   la pastille « ⓘ » pour un aperçu, clique pour l'épingler.
-- **Mode Songe** : dans les Songes, survole un groupe de monstres sur la carte et Dofight l'affiche avant le combat.
+- **Mode Songe** : en Songe, survole un groupe de monstres sur la carte et Dofight l'affiche avant le combat.
 - **Recherche** d'un donjon, d'une sous-zone ou d'un monstre ; « Aller en [x,y] » copie la commande de voyage à
   coller dans le chat.
 - **Discret** : il s'ouvre au début du combat et se ferme à la fin, et Ctrl+Maj+D l'affiche ou le cache.
@@ -65,25 +69,28 @@ C'est tout : lance Dofus, Dofight affiche les monstres de ta sous-zone et s'ouvr
 
 ## Questions fréquentes
 
-**Est-ce autorisé ?** Dofight n'est ni un bot ni un mod : il ne clique pas, n'envoie rien au jeu et ne modifie
-rien. Il regarde l'écran, comme toi, et affiche des informations publiques (données du jeu, guides). C'est un
-outil de fans, sans lien avec Ankama, qui ne l'a ni validé ni approuvé : tu l'utilises sous ta responsabilité.
+**C'est autorisé ?** Dofight n'est ni un bot ni un mod : il ne clique pas, n'envoie rien au jeu et ne modifie
+rien. Il lit uniquement le coin en haut à gauche de la fenêtre Dofus (le nom de la sous-zone, tes coordonnées et la
+barre d'icônes) ; en mode Songe, il lit aussi l'infobulle du groupe sous ta souris. Tu peux couper cette lecture dans
+Paramètres (« Suivre ta sous-zone automatiquement », « Ouvrir automatiquement en combat »). Il affiche des
+informations publiques (données du jeu, guides). C'est un outil fait par des fans, sans lien avec Ankama, qui ne l'a
+ni validé ni approuvé : tu l'utilises sous ta propre responsabilité.
 
 **Qu'est-ce que Dofight envoie sur Internet ?** Rien pendant que tu joues : pas de compte, pas de statistiques.
-Il contacte GitHub pour ses mises à jour. Si tu utilises « Suggestion », il envoie ton message et, si tu laisses
+Il contacte GitHub pour ses mises à jour. Si tu envoies une suggestion, il transmet ton message et, si tu laisses
 les deux cases cochées, l'état de Dofight (sous-zone lue, combat, version, paramètres) et son journal des 10
-dernières minutes. Jamais de capture d'écran, de chat, ni de nom de personnage, de guilde ou de compte.
+dernières minutes. Jamais de capture d'écran ni de chat, ni de nom de personnage, de guilde ou de compte.
 
-**Dofight n'affiche rien, ou pas les bons monstres ?** Vérifie les étapes 3 et 4 de l'installation, et que le
-français fait partie des langues de Windows. Si tu joues plusieurs comptes, choisis la fenêtre à lire dans
+**Dofight n'affiche rien, ou pas les bons monstres ?** Revérifie les étapes 3 et 4 de l'installation, et assure-toi
+que le français fait bien partie des langues de Windows. Si tu joues sur plusieurs comptes, choisis la fenêtre à lire dans
 Paramètres → Lecture de l'écran.
 
-**Une erreur, une idée, besoin d'aide ?** Le bouton « Suggestion » (en bas des résultats) l'envoie anonymement à
-l'équipe. Pour une réponse, passe par le [Discord](https://discord.gg/G8G4cyvpx6).
+**Une erreur, une idée, besoin d'aide ?** Le bouton « Envoyer une suggestion » (en bas des résultats) envoie ton
+message à l'équipe, de façon anonyme. Si tu veux une réponse, passe par le [Discord](https://discord.gg/G8G4cyvpx6).
 
-Dofight est gratuit. Pour soutenir le projet : [Ko-fi](https://ko-fi.com/dofight).
+Dofight est gratuit. Si tu veux soutenir le projet : [Ko-fi](https://ko-fi.com/dofight).
 
-Dofight est un outil de fans, sans lien avec Ankama. Dofus, ses noms, ses images et ses données appartiennent à
+Dofight est un outil fait par des fans, sans lien avec Ankama. Dofus, ses noms, ses images et ses données appartiennent à
 Ankama Games.
 
 ---
@@ -92,8 +99,9 @@ Ankama Games.
 
 The fight assistant for Dofus 3: a panel beside the game that shows what is dangerous about the monsters around
 you (one-shots, invulnerabilities, mechanics), with their resistances and spells. Free and open source. Dofight
-only **looks at the screen**: it does not play for you, sends nothing to the game and reads neither its memory, its
-files nor its network traffic.
+only reads **the top-left corner of the Dofus window** (the subarea name, your coordinates and the icon bar, which
+tells it when a fight starts), and you can turn that off in the settings. It does not play for you, sends nothing to
+the game and reads neither its memory, its files nor its network traffic.
 
 ### What you need
 
@@ -136,7 +144,10 @@ Summaries are available in English; the linked guides are in French.
 ### FAQ
 
 **Is it allowed?** Dofight is neither a bot nor a mod: it does not click, sends nothing to the game and changes
-nothing. It looks at the screen, as you do, and shows public information (game data, guides). It is a fan-made
+nothing. It only reads the top-left corner of the Dofus window (the subarea name, your coordinates and the icon
+bar); in Songe mode, it also reads the tooltip of the group under your mouse. You can turn this off in Settings
+(“Follow your subarea automatically”, “Open automatically in fights”). It shows public information (game data,
+guides). It is a fan-made
 tool, not affiliated with, reviewed or approved by Ankama: you use it at your own risk.
 
 **What does Dofight send over the Internet?** Nothing while you play: no account, no statistics. It contacts
@@ -147,7 +158,7 @@ the chat, or a character, guild or account name.
 **Dofight shows nothing, or the wrong monsters?** Check steps 3 and 4 of the install, and that French is among
 your Windows languages. If you play several accounts, pick the window to read in Settings → Screen reading.
 
-**A mistake, an idea, need help?** The “Suggestion” button (at the bottom of the results) sends it anonymously to
+**A mistake, an idea, need help?** The “Send a suggestion” button (at the bottom of the results) sends it anonymously to
 the team. For an answer, use the [Discord](https://discord.gg/G8G4cyvpx6).
 
 Dofight is free. To support the project: [Ko-fi](https://ko-fi.com/dofight).
