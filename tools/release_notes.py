@@ -35,7 +35,8 @@ class ReleaseNotesError(Exception):
 
 
 def notes_of(message: str) -> list[tuple[str, str, str]]:
-    """The (kind, French, English) notes a commit message carries, in order."""
+    """The (kind, French, English) notes a commit message carries, in order. A Notes-kind line applies to the notes
+    after it (one commit can carry a new feature and a fix)."""
     kind, fr, en = "change", [], []
     for key, value in TRAILER.findall(message):
         if key == "kind":
@@ -43,13 +44,13 @@ def notes_of(message: str) -> list[tuple[str, str, str]]:
                 raise ReleaseNotesError(f"Notes-kind must be one of {', '.join(KINDS)}, not {value!r}")
             kind = value
         elif key == "fr":
-            fr.append(value)
+            fr.append((kind, value))
         else:
             en.append(value)
     if len(fr) != len(en):
         first = message.strip().splitlines()[0] if message.strip() else "?"
         raise ReleaseNotesError(f"« {first} »: {len(fr)} Notes-fr for {len(en)} Notes-en (each French note needs its English one)")
-    return [(kind, f, e) for f, e in zip(fr, en)]
+    return [(k, f, e) for (k, f), e in zip(fr, en)]
 
 
 def build(notes: list[tuple[str, str, str]], summary_fr: str, summary_en: str) -> str:

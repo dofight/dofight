@@ -27,6 +27,11 @@ def test_several_notes_in_one_commit_pair_up_in_order():
     assert notes_of(message) == [("change", "Un.", "One."), ("change", "Deux.", "Two.")]
 
 
+def test_a_kind_line_applies_to_the_notes_after_it():
+    message = "x\n\nNotes-kind: new\nNotes-fr: Un.\nNotes-en: One.\nNotes-kind: fix\nNotes-fr: Deux.\nNotes-en: Two."
+    assert notes_of(message) == [("new", "Un.", "One."), ("fix", "Deux.", "Two.")]
+
+
 def test_a_french_note_without_its_english_one_is_refused():
     with pytest.raises(ReleaseNotesError, match="English"):
         notes_of("x\n\nNotes-fr: Seulement en français.")
