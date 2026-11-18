@@ -48,6 +48,23 @@ is played, never invented (the game data and the dungeon's guide are the sources
 English in `data/summaries/en.json` in the same change. New summaries are `draft`; only the maintainer marks one
 `reviewed`.
 
+## Release notes
+
+A commit that changes what a player sees ends its message with trailer lines written for players, French and
+English; the release notes are drafted from them (`python -m tools.release_notes vX.Y.Z --summary-fr "…"
+--summary-en "…"`):
+
+```
+Boss summons shown under their boss
+
+Notes-kind: new
+Notes-fr: Les invocations des boss s'affichent sous eux, avec leur fiche.
+Notes-en: Bosses' summons now show under them, with their card.
+```
+
+`Notes-kind` is `new`, `change` (the default) or `fix`. Several `Notes-fr` / `Notes-en` pairs can follow each other.
+Commits that players do not see (tests, refactoring, docs) have none.
+
 ## Pull requests
 
 One topic per pull request, with a short description of what a player will see. Releases are made by the
@@ -69,8 +86,8 @@ maintainer only (a `vX.Y.Z` tag runs the `release` workflow).
 ## Maintainers: releases and secrets
 
 To release: bump the version in `app/package.json`, `app/src-tauri/tauri.conf.json` and `app/src-tauri/Cargo.toml`;
-write the player notes in `docs/release-notes/vX.Y.Z.md` (a one-line French / English summary, then `## Français` and
-`## English`); commit, tag `vX.Y.Z` and push the tag. The `release` workflow builds, signs and publishes the
+draft the player notes with `python -m tools.release_notes vX.Y.Z` (from the commits' `Notes-fr` / `Notes-en` lines,
+into `docs/release-notes/vX.Y.Z.md`) and reread them; commit, tag `vX.Y.Z` and push the tag. The `release` workflow builds, signs and publishes the
 installer, the plain exe and `latest.json` (auto-update), and announces it on the Discord. Secrets live in the
 repository's GitHub secrets, never in the code:
 
