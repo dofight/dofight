@@ -2,7 +2,7 @@ import subprocess
 
 import pytest
 
-from tools.release_notes import ReleaseNotesError, build, notes_of, previous_tag, write
+from tools.release_notes import ReleaseNotesError, build, check_commit, notes_of, player_facing, previous_tag, write
 
 
 def test_reads_the_trailer_lines_of_a_commit_message():
@@ -89,3 +89,30 @@ def test_gathers_the_notes_of_the_commits_since_the_last_tag(tmp_path):
     assert "- Nouveau." in text and "- New one." in text and "Ancien" not in text
     with pytest.raises(ReleaseNotesError, match="exists"):
         write(repo, "v1.1.0", "Résumé.", "Summary.")
+
+
+# ---------- the commit check (.githooks/commit-msg, and the CI on each push) ----------
+
+
+def test_player_facing_files_are_the_app_and_the_data_players_see():
+    assert player_facing(["app/src/main.ts", "tests/tools/test_x.py"]) == ["app/src/main.ts"]
+    assert player_facing(["app/src-tauri/src/screen.rs", "data/summaries/dungeons/57.json", "data/guide/corner-fr.png"])
+    assert player_facing(["app/tests/guide.test.ts", "tools/release_notes.py", "private/docs/TODO.md", "README.md", ".github/workflows/tests.yml"]) == []
+
+
+def test_a_commit_touching_what_players_see_needs_notes_or_an_explicit_none():
+    files = ["app/src/main.ts"]
+    assert check_commit("Fix\n\nNotes-fr: Un.\nNotes-en: One.", files) == []
+    assert check_commit("Refactor\n\nNotes: none", files) == []
+    errors = check_commit("Refactor the panel", files)
+    assert len(errors) == 1 and "Notes: none" in errors[0] and "app/src/main.ts" in errors[0]
+
+
+def test_an_internal_commit_needs_nothing_but_malformed_notes_are_always_refused():
+    assert check_commit("Tests: one more case", ["tests/tools/test_x.py"]) == []
+    assert "English" in check_commit("x\n\nNotes-fr: Seul.", ["tests/tools/test_x.py"])[0]
+
+
+def test_merges_and_reverts_pass():
+    assert check_commit("Merge branch 'x'", ["app/src/main.ts"]) == []
+    assert check_commit('Revert "Something"', ["app/src/main.ts"]) == []

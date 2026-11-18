@@ -15,6 +15,8 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # the release notes check reads the pushed commits
       - uses: pnpm/action-setup@v6
         with:
           version: 12
@@ -53,3 +55,11 @@ jobs:
           python -m pip install pytest
           python -m pytest -q tests
           python -m tools.summaries validate
+      # a commit that changes what players see carries Notes-fr / Notes-en lines or « Notes: none » (CONTRIBUTING.md)
+      - name: Release notes lines
+        shell: bash
+        env:
+          BEFORE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then echo "new branch: nothing to compare"; exit 0; fi
+          python -m tools.release_notes --check-range "$BEFORE..HEAD"

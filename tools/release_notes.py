@@ -101,13 +101,72 @@ def write(repo: Path, tag: str, summary_fr: str, summary_en: str, force: bool = 
     return out
 
 
+# ---------- the commit check: the commit-msg hook (.githooks/) and the CI, on each push ----------
+
+# what players see: the app's code and pages, and the data it shows (not its tests, the tools, docs or CI)
+PLAYER_FACING = ("app/src/", "app/src-tauri/src/", "app/index.html", "app/preview.html", "app/peek.html", "data/summaries/",
+                 "data/snapshot/", "data/guide/", "data/travel.json", "data/overrides.json")
+NONE = re.compile(r"^Notes:\s*none\s*$", re.MULTILINE | re.IGNORECASE)
+
+
+def player_facing(files: list[str]) -> list[str]:
+    return [f for f in files if f.replace("\\", "/").startswith(PLAYER_FACING)]
+
+
+def check_commit(message: str, files: list[str]) -> list[str]:
+    """What is wrong with a commit's notes: malformed lines, or player-facing files with neither notes nor an explicit
+    « Notes: none ». Merges and reverts pass."""
+    first = message.strip().splitlines()[0] if message.strip() else ""
+    if first.startswith(("Merge ", 'Revert "')):
+        return []
+    try:
+        notes = notes_of(message)
+    except ReleaseNotesError as e:
+        return [str(e)]
+    touched = player_facing(files)
+    if touched and not notes and not NONE.search(message):
+        shown = ", ".join(touched[:3]) + (f" (+{len(touched) - 3})" if len(touched) > 3 else "")
+        return [f"« {first} » changes what players see ({shown}): end the message with Notes-fr: / Notes-en: lines "
+                "written for players (Notes-kind: new | change | fix optional), or « Notes: none » if players will not "
+                "notice it. See CONTRIBUTING.md, « Release notes »."]
+    return []
+
+
+def check_range(repo: Path, rev_range: str) -> list[str]:
+    """The check on every commit of a range (the CI, after a push or on a pull request)."""
+    errors = []
+    for sha in _git(repo, "rev-list", "--reverse", "--no-merges", rev_range).split():
+        message = _git(repo, "log", "-1", "--format=%B", sha)
+        files = _git(repo, "diff-tree", "--no-commit-id", "--name-only", "-r", sha).split("\n")
+        errors += [f"{sha[:7]}: {e}" for e in check_commit(message, [f for f in files if f])]
+    return errors
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description="Draft docs/release-notes/vX.Y.Z.md from the commits' Notes-fr / Notes-en lines")
-    parser.add_argument("tag", help="the release, e.g. v1.2.1")
-    parser.add_argument("--summary-fr", required=True, help="one sentence, in French (latest.json, the in-app update)")
-    parser.add_argument("--summary-en", required=True, help="the same sentence in English")
+    parser.add_argument("tag", nargs="?", help="the release, e.g. v1.2.1")
+    parser.add_argument("--summary-fr", help="one sentence, in French (latest.json, the in-app update)")
+    parser.add_argument("--summary-en", help="the same sentence in English")
     parser.add_argument("--force", action="store_true", help="write the file again")
+    parser.add_argument("--check-commit", metavar="MSGFILE", help="commit-msg hook: check the commit being made (its staged files)")
+    parser.add_argument("--check-range", metavar="A..B", help="CI: check every commit of a range")
     args = parser.parse_args(argv)
+    if hasattr(sys.stderr, "reconfigure"):
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")  # the « » quotes, in a Windows console too
+    if args.check_commit or args.check_range:
+        if args.check_commit:
+            message = Path(args.check_commit).read_text(encoding="utf-8")
+            # the commit's own message, without git's « # » help lines
+            message = "\n".join(line for line in message.splitlines() if not line.startswith("#"))
+            files = _git(ROOT, "diff", "--cached", "--name-only").split("\n")
+            errors = check_commit(message, [f for f in files if f])
+        else:
+            errors = check_range(ROOT, args.check_range)
+        for e in errors:
+            print(f"release notes: {e}", file=sys.stderr)
+        return 1 if errors else 0
+    if not (args.tag and args.summary_fr and args.summary_en):
+        parser.error("a tag, --summary-fr and --summary-en are needed to write the notes")
     try:
         out = write(ROOT, args.tag, args.summary_fr, args.summary_en, args.force)
     except ReleaseNotesError as e:

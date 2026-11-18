@@ -1,0 +1,10 @@
+#!/bin/sh
+# Release notes: a commit that changes what players see needs Notes-fr / Notes-en lines, or « Notes: none »
+# (tools/release_notes.py, CONTRIBUTING.md). Enable once per clone: git config core.hooksPath .githooks
+for py in .venv/Scripts/python .venv/bin/python python3 python; do
+  if command -v "$py" >/dev/null 2>&1 || [ -x "$py" ]; then
+    exec "$py" -m tools.release_notes --check-commit "$1"
+  fi
+done
+echo "release notes: no Python found, commit not checked (the CI checks it after the push)" >&2
+exit 0

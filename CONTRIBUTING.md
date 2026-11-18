@@ -62,8 +62,14 @@ Notes-fr: Les invocations des boss s'affichent sous eux, avec leur fiche.
 Notes-en: Bosses' summons now show under them, with their card.
 ```
 
-`Notes-kind` is `new`, `change` (the default) or `fix`. Several `Notes-fr` / `Notes-en` pairs can follow each other.
-Commits that players do not see (tests, refactoring, docs) have none.
+`Notes-kind` is `new`, `change` (the default) or `fix`, for the notes after it. Several `Notes-fr` / `Notes-en` pairs
+can follow each other.
+
+A commit that touches what players see (`app/src/`, `app/src-tauri/src/`, the app's pages, `data/summaries/`,
+`data/snapshot/`, `data/guide/`, `data/travel.json`, `data/overrides.json`) needs these lines, or `Notes: none` when
+players will not notice it (a refactor, a comment). Other commits (tests, tools, docs, CI) need nothing. A
+`commit-msg` hook checks it when you commit; turn it on once per clone with `git config core.hooksPath .githooks`.
+The `tests` workflow checks the same on every push and pull request.
 
 ## Pull requests
 
