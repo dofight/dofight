@@ -72,7 +72,8 @@ Et voilà : lance Dofus, Dofight affiche les monstres de ta sous-zone et s'ouvre
 
 **C'est autorisé ?** Dofight n'est ni un bot ni un mod : il ne clique pas, n'envoie rien au jeu et ne modifie
 rien. Il lit uniquement le coin en haut à gauche de la fenêtre Dofus (le nom de la sous-zone, tes coordonnées et la
-barre d'icônes) ; en mode Songe, il lit aussi l'infobulle du groupe sous ta souris. Tu peux couper cette lecture dans
+barre d'icônes), et seulement quand Dofus est au premier plan ; en combat, il surveille surtout la barre d'icônes,
+pour voir la fin du combat ; en mode Songe, il lit aussi l'infobulle du groupe sous ta souris. Tu peux couper cette lecture dans
 Paramètres → « Lecture de l'écran » : Dofight ne capture alors plus du tout la fenêtre Dofus. Il affiche des
 informations publiques (données du jeu, guides). C'est un outil fait par des fans, sans lien avec Ankama, qui ne l'a
 ni validé ni approuvé : tu l'utilises sous ta propre responsabilité.
@@ -147,7 +148,8 @@ Summaries are available in English; the linked guides are in French.
 
 **Is it allowed?** Dofight is neither a bot nor a mod: it does not click, sends nothing to the game and changes
 nothing. It only reads the top-left corner of the Dofus window (the subarea name, your coordinates and the icon
-bar); in Songe mode, it also reads the tooltip of the group under your mouse. You can turn this off in Settings
+bar), and only while Dofus is in the foreground; in a fight, it mostly watches the icon bar, to see the fight end;
+in Songe mode, it also reads the tooltip of the group under your mouse. You can turn this off in Settings
 → “Screen reading”: Dofight then no longer captures the Dofus window at all. It shows public information (game data,
 guides). It is a fan-made
 tool, not affiliated with, reviewed or approved by Ankama: you use it at your own risk.
