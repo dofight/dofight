@@ -42,7 +42,7 @@ Pour chaque monstre de ta sous-zone, de ton donjon ou de ton combat, il t'indiqu
 2. Lance-le. Si Windows affiche « Windows a protégé votre ordinateur », clique sur « Informations
    complémentaires », puis sur « Exécuter quand même » : Dofight est un petit projet, qui n'a pas de certificat
    payant.
-3. Dans Dofus, active **« Afficher les coordonnées de la carte »** dans les options : Dofight lit le nom de la
+3. Dans Dofus, active **« Afficher les coordonnées de la carte »** dans les options (Interface → Cartes) : Dofight lit le nom de la
    sous-zone juste au-dessus des coordonnées.
 4. Laisse dépliée la barre d'icônes en haut à gauche du jeu (l'œil hors combat, le cœur en combat) : c'est elle
    qui indique à Dofight qu'un combat commence.

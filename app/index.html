@@ -19,6 +19,7 @@
       </header>
       <!-- the ☰ menu, like Ganymède's: what is not the monster list -->
       <div id="menu" class="menu" role="menu" aria-labelledby="menu-btn" hidden>
+        <button type="button" role="menuitem" data-go="guide-open"><span class="act-ic" data-icon="info" aria-hidden="true"></span><span data-i18n="guide.title">Bien démarrer</span></button>
         <button type="button" role="menuitem" data-go="report-app"><span class="act-ic" data-icon="edit" aria-hidden="true"></span><span data-i18n="settings.report">Envoyer une suggestion</span></button>
         <button type="button" role="menuitem" data-go="discord"><span class="act-ic discord-ic" aria-hidden="true"></span><span data-i18n="settings.discord">Rejoindre le Discord</span></button>
         <hr />
@@ -47,7 +48,7 @@
             <svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.6 5.1A10 10 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-2.6 3.4M6.6 6.6A17 17 0 0 0 2 12s3.6 7 10 7a9.7 9.7 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/><path d="M2 2l20 20"/></svg>
             <span data-i18n="settings.preview">Aperçu</span></button></div>
         <div class="pagebody">
-        <div class="card" data-card="reading"><div class="switch cardtitle cardhead"><h2 id="h-reading" data-i18n="settings.combat">Lecture de l'écran</h2><button type="button" class="info" aria-label="Pourquoi ?" data-i18n-aria="opt.info" aria-describedby="tip-screen">i</button><span class="bubble" role="tooltip" id="tip-screen" data-i18n="settings.combat.info"></span><!-- the card's own switch: on while one reading option is on; off, Dofight does not look at the game at all (reading.ts) --><input id="opt-reading" type="checkbox" role="switch" checked aria-labelledby="h-reading" aria-describedby="tip-screen"><button type="button" class="fold" aria-expanded="false" aria-controls="card-reading" aria-labelledby="h-reading" data-icon="chevron"></button></div>
+        <div class="card" data-card="reading"><div class="switch cardtitle cardhead"><h2 id="h-reading" data-i18n="settings.combat">Lecture de l'écran</h2><button type="button" class="info" aria-label="Pourquoi ?" data-i18n-aria="opt.info" aria-describedby="tip-screen" data-icon="info"></button><span class="bubble" role="tooltip" id="tip-screen" data-i18n="settings.combat.info"></span><!-- the card's own switch: on while one reading option is on; off, Dofight does not look at the game at all (reading.ts) --><input id="opt-reading" type="checkbox" role="switch" checked aria-labelledby="h-reading" aria-describedby="tip-screen"><button type="button" class="fold" aria-expanded="false" aria-controls="card-reading" aria-labelledby="h-reading" data-icon="chevron"></button></div>
           <div class="cardbody" id="card-reading" hidden>
           <div id="opts-combat" class="opts"></div>
           <label class="slider" for="reference" data-i18n="settings.reference">Fenêtre Dofus à lire</label>
@@ -85,6 +86,7 @@
           </div>
         </div>
         <div class="card">
+          <button id="guide-open" class="pill act"><span class="act-ic" data-icon="info" aria-hidden="true"></span><span data-i18n="guide.title">Bien démarrer</span></button>
           <button id="report-app" class="pill act"><span class="act-ic" data-icon="edit" aria-hidden="true"></span><span data-i18n="settings.report">Envoyer une suggestion</span></button>
           <button id="discord" class="pill act discord" title="Les nouveautés, et un endroit pour discuter de tes suggestions" data-i18n-title="settings.discordTitle"><svg class="act-ic brand-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg><span data-i18n="settings.discord">Rejoindre le Discord</span></button>
           <button id="support" class="pill act support" title="Ko-fi : un don, sans compte, par carte ou PayPal" data-i18n-title="settings.supportTitle"><span class="act-ic" data-icon="heart" aria-hidden="true"></span><span data-i18n="settings.support">Soutenir le projet</span></button>
@@ -111,6 +113,32 @@
           <p id="report-status" class="status" role="status"></p>
           <p id="report-hint" class="hint" data-i18n="report.anonymous">Envoyé anonymement à l'équipe Dofight. Pour une réponse, passe par le Discord.</p>
         </div>
+  </div>
+      </section>
+      <!-- the getting-started guide: by itself on the very first use only, then from the menu (owner, 2026-11-18) -->
+      <section id="view-guide" class="view paged guide-view" aria-labelledby="guide-title" hidden>
+        <div class="back"><button id="guide-back" class="tb" aria-label="Retour" data-i18n-aria="app.back" data-icon="back"></button><b id="guide-title" data-i18n="guide.title">Bien démarrer</b></div>
+        <div class="pagebody">
+        <div id="guide-lang" class="langs" role="radiogroup" aria-label="Langue" data-i18n-aria="settings.language"><button type="button" class="lang" role="radio" data-lang="fr" lang="fr">Français</button><button type="button" class="lang" role="radio" data-lang="en" lang="en">English</button></div>
+        <p class="guide-intro" data-i18n="guide.intro"></p>
+        <p class="hint" id="guide-nodofus" data-i18n="guide.noDofus" hidden></p>
+        <p class="guide-warn" id="guide-ocr" role="status" data-i18n="guide.ocr" hidden></p>
+        <div class="card"><h2 data-i18n="guide.reads.title"></h2><img id="guide-corner" class="guide-corner" src="/guide/corner-fr.png" alt="" /><p data-i18n="guide.reads.text"></p><p data-i18n="guide.reads.never"></p>
+          <button type="button" class="linkish" id="guide-to-reading" data-i18n="guide.reads.link"></button></div>
+        <div class="card"><h2 data-i18n="guide.coords.title"></h2><p data-i18n="guide.coords.text"></p><p class="seen" id="guide-coords-seen" role="status" data-i18n="guide.seen" hidden></p></div>
+        <div class="card"><h2 data-i18n="guide.bar.title"></h2><p data-i18n="guide.bar.text"></p><p class="seen" id="guide-bar-seen" role="status" data-i18n="guide.seen" hidden></p></div>
+        <div class="card"><h2 data-i18n="guide.shortcut.title"></h2><p id="guide-shortcut"></p>
+          <button type="button" class="linkish" id="guide-to-shortcut" data-i18n="guide.shortcut.link"></button></div>
+        <div class="card"><h2 data-i18n="guide.chips.title"></h2>
+          <div class="guide-samples" aria-hidden="true"><span class="tag danger" data-i18n="opt.tagsDanger"></span><span class="tag tip" data-i18n="opt.tagsTip"></span><span class="tag mechanic" data-i18n="opt.tagsMechanic"></span></div>
+          <p data-i18n="guide.chips.text"></p>
+          <div class="guide-samples" aria-hidden="true"><span class="mech"><span data-icon="info"></span><span data-i18n="guide.chips.sample"></span></span></div>
+          <p data-i18n="guide.chips.mech"></p></div>
+        <div class="card"><h2 data-i18n="guide.songe.title"></h2><p data-i18n="guide.songe.text"></p>
+          <div class="guide-samples" aria-hidden="true"><span class="songe" id="guide-songe-sample"></span></div>
+          <p data-i18n="guide.songe.button"></p></div>
+        <p class="hint" data-i18n="guide.again"></p>
+        <div class="row guide-end"><button id="guide-done" class="pill primary" data-i18n="guide.done">C'est parti</button></div>
   </div>
       </section>
       <!-- an update covers the whole panel until Dofight restarts (or until « Continuer » after a failure) -->

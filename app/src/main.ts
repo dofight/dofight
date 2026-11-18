@@ -27,7 +27,7 @@ import { fetchFromApp, loadSnapshot } from "./load";
 import { renderTrip, tripTo } from "./travel";
 import { englishReading, englishView, frenchRoom, loadEnglish, zoneName, type English } from "./english";
 import { esc } from "./render/html";
-import { applyIcons } from "./render/icons";
+import { applyIcons, icon } from "./render/icons";
 import { renderPeek } from "./render/monster";
 import { renderRoom } from "./render/panel";
 import { renderSpellSheet } from "./render/spellSheet";
@@ -55,6 +55,11 @@ const BADGE_COLOUR: Partial<Record<Flag, string>> = { tagsDanger: "danger", tags
 const PREVIEW_DUNGEON = "Tertre du long sommeil"; // the preview always shows this one dungeon as its example
 const PLACED = "dofight.placed";
 const FOLDS = "dofight.cards"; // which settings cards are unfolded, by their data-card
+const GUIDE = "dofight.guide"; // the getting-started guide was closed once
+/** The very first use of Dofight (read before placeOnce writes PLACED): the guide opens by itself. */
+const firstUse = !localStorage.getItem(PLACED) && !localStorage.getItem(GUIDE);
+/** The settings were opened from the guide: their back arrow returns to it. */
+let guideReturn = false;
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 const win = getCurrentWindow();
@@ -397,7 +402,7 @@ function switches(container: string, flags: Flag[]): void {
       const infoKey = `opt.${key}.info`;
       const info = hasKey(infoKey) ? t(infoKey) : null;
       const tip = info
-        ? `<button type="button" class="info" aria-label="${esc(t("opt.info"))}" aria-describedby="tip-${key}">i</button><span class="bubble" role="tooltip" id="tip-${key}">${esc(info)}</span>`
+        ? `<button type="button" class="info" aria-label="${esc(t("opt.info"))}" aria-describedby="tip-${key}">${icon("info")}</button><span class="bubble" role="tooltip" id="tip-${key}">${esc(info)}</span>`
         : "";
       const described = info ? ` aria-describedby="tip-${key}"` : "";
       // a badge kind is shown in its own colour, as a reminder of what it looks like in the list
@@ -710,8 +715,10 @@ function update(patch: Partial<Settings>): void {
 
 function openSettings(open: boolean): void {
   hidePeek();
+  if (open) $("view-guide").hidden = true;
+  else guideReturn = false; // the settings left any way: their back arrow no longer leads to the guide
   $("view-settings").hidden = !open;
-  $("view-main").hidden = open;
+  $("view-main").hidden = open || !$("view-guide").hidden; // closing the settings keeps an open guide
   if (open) {
     syncSettingsView();
     void fillReferenceWindows();
@@ -751,6 +758,7 @@ function changeLang(lang: Lang): void {
   showSongeState(); // its tooltip depends on the reading, not only on the language
   buildControls();
   update({ lang }); // room, preview and the settings view (switch states, shortcut, theme name)
+  showGuideTexts(); // after update: its chosen language and picture follow settings.lang
   showResults();
   // the game data and summaries in the new language (fetched the first time), then everything shown again
   void refreshView().then(() => {
@@ -834,6 +842,98 @@ $("view-settings").addEventListener("change", (e) => {
 });
 $("opacity").addEventListener("input", (e) => update({ opacity: Number((e.target as HTMLInputElement).value) }));
 
+/* ---------- the getting-started guide (spec 2026-11-18, part 2): first use only, then from the menu ---------- */
+
+
+/** The shortcut could not be registered (another application holds it). */
+let shortcutTaken = false;
+
+/** The texts built in code: the shortcut (the player's own keys) and the language buttons. */
+function showGuideTexts(): void {
+  // the picture of the game's corner, from a client in the interface's language
+  const corner = $<HTMLImageElement>("guide-corner");
+  corner.src = `/guide/corner-${settings.lang}.png`;
+  corner.alt = t("guide.corner");
+  const keys = shortcutLabel(settings.shortcut);
+  $("guide-shortcut").textContent = t(shortcutTaken ? "guide.shortcut.taken" : "guide.shortcut.text", { keys });
+  $("guide-nodofus").hidden = !dofusClosed;
+  document.querySelectorAll<HTMLElement>("#guide-lang .lang").forEach((btn) => {
+    const chosen = btn.dataset.lang === settings.lang;
+    btn.setAttribute("aria-checked", String(chosen));
+    btn.tabIndex = chosen ? 0 : -1;
+  });
+}
+
+/** `first`: opened by itself on the first use (« C'est parti »); from the menu or the settings, « Retour ». */
+function openGuide(first = false): void {
+  hidePeek();
+  guideReturn = false;
+  const done = $("guide-done");
+  done.dataset.i18n = first ? "guide.done" : "guide.gotIt";
+  done.textContent = t(done.dataset.i18n as Key);
+  for (const id of ["view-main", "view-settings", "view-report"]) $(id).hidden = true;
+  showGuideTexts();
+  $("view-guide").hidden = false;
+  $("view-guide").querySelector(".pagebody")!.scrollTop = 0;
+  void placePreview();
+  $("guide-back").focus({ preventScroll: true });
+}
+
+/** Closed by the player (seen: it never opens by itself again) or by a fight (not seen: it comes back next launch). */
+function closeGuide(seen: boolean): void {
+  if (seen) {
+    try {
+      localStorage.setItem(GUIDE, "1");
+    } catch {
+      // it may open again next launch
+    }
+  }
+  $("view-guide").hidden = true;
+  $("view-main").hidden = false;
+  if (seen) $("menu-btn").focus({ preventScroll: true }); // where the guide says it can be found again
+}
+
+/** A game setting the guide asks for was seen in a reading: its card says so. */
+function guideSeen(what: "coords" | "bar"): void {
+  $(`guide-${what}-seen`).hidden = false;
+}
+
+/** From the guide to a setting: the settings open on its card, and their back arrow returns to the guide. */
+function guideToSetting(card: string, focus: string): void {
+  guideReturn = true;
+  openSettings(true);
+  openCard(card);
+  $(focus).focus({ preventScroll: true });
+  $(focus).scrollIntoView?.({ block: "center" });
+}
+
+$("guide-open").addEventListener("click", () => openGuide());
+$("guide-back").addEventListener("click", () => closeGuide(true));
+$("guide-done").addEventListener("click", () => closeGuide(true));
+$("guide-to-reading").addEventListener("click", () => guideToSetting("reading", "opt-reading"));
+$("guide-to-shortcut").addEventListener("click", () => guideToSetting("window", "shortcut"));
+// the language buttons: a radio group, like the settings' (click, or the arrows)
+const pickGuideLang = (lang: string | undefined) => {
+  const next: Lang = lang === "en" ? "en" : "fr";
+  if (next !== settings.lang) changeLang(next);
+  document.querySelector<HTMLElement>(`#guide-lang .lang[data-lang="${next}"]`)?.focus();
+};
+$("guide-lang").addEventListener("click", (e) => {
+  const btn = (e.target as HTMLElement).closest<HTMLElement>(".lang");
+  if (btn) pickGuideLang(btn.dataset.lang);
+});
+$("guide-lang").addEventListener("keydown", (e) => {
+  if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key)) return;
+  e.preventDefault();
+  pickGuideLang(settings.lang === "fr" ? "en" : "fr");
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !$("view-guide").hidden && $("update").hidden) closeGuide(true);
+});
+// the « Songe » button's look, drawn again as a sample (its icon and its word)
+$("guide-songe-sample").innerHTML = $("songe").innerHTML;
+if (firstUse) openGuide(true);
+
 /* ---------- settings cards that fold (owner, 2026-11-18): folded until the player opens one, then remembered ---------- */
 
 function unfolded(): Record<string, boolean> {
@@ -877,7 +977,13 @@ $("view-settings").addEventListener("click", (e) => {
 $("gear").addEventListener("click", () => openSettings(!!$("view-settings").hidden));
 /** Back to the panel; the keyboard lands on the gear that opened the settings. */
 function closeSettings(): void {
+  const toGuide = guideReturn;
   openSettings(false);
+  if (toGuide) {
+    // reached from the guide: back to it
+    openGuide();
+    return;
+  }
   $("gear").focus({ preventScroll: true });
 }
 $("back").addEventListener("click", closeSettings);
@@ -902,7 +1008,10 @@ async function applyShortcut(keys: string): Promise<boolean> {
     return false;
   }
 }
-void applyShortcut(settings.shortcut);
+void applyShortcut(settings.shortcut).then((ok) => {
+  shortcutTaken = !ok;
+  showGuideTexts();
+});
 $("shortcut").addEventListener("click", () => {
   capturing = true;
   $("shortcut").textContent = t("settings.shortcutPress");
@@ -921,7 +1030,9 @@ document.addEventListener("keydown", async (e) => {
   const keys = fromKeyEvent(e);
   if (!keys) return; // still waiting for a full combination
   if (await applyShortcut(keys)) {
+    shortcutTaken = false;
     update({ shortcut: keys });
+    showGuideTexts();
     done("");
   } else {
     await applyShortcut(settings.shortcut); // keep the previous one
@@ -972,13 +1083,14 @@ function roomSubject(): Result | null {
 function openReport(subject: Result | null): void {
   reportSubject = subject;
   reportFrom = $("view-settings").hidden ? "main" : "settings";
+  guideReturn = false;
   $<HTMLInputElement>("report-subject").value = subject?.label ?? "";
   $("report-subject-list").hidden = true;
   $<HTMLSelectElement>("report-kind").value = subject ? KINDS[0] : "bug";
   $<HTMLTextAreaElement>("report-text").value = "";
   showReportCount();
   $("report-status").textContent = "";
-  for (const id of ["view-main", "view-settings"]) $(id).hidden = true;
+  for (const id of ["view-main", "view-settings", "view-guide"]) $(id).hidden = true;
   $("view-report").hidden = false;
   void placePreview();
   $("report-text").focus();
@@ -1263,6 +1375,7 @@ function zoneStatus(kind: StatusKind, text = ""): void {
   const closed = status.shown?.kind === "noDofus";
   if (closed !== dofusClosed) {
     dofusClosed = closed;
+    $("guide-nodofus").hidden = !closed;
     if (!room && snap) showRoom();
   }
 }
@@ -1284,6 +1397,7 @@ async function apply(actions: Action[]): Promise<void> {
       showRoom();
     } else if (a.type === "show") {
       diag("panel", "fight started: open");
+      if (!$("view-guide").hidden) closeGuide(false); // a fight wins over the guide; it comes back next launch
       await showOverlay();
     }
     else if (a.type === "hide") {
@@ -1307,7 +1421,10 @@ async function apply(actions: Action[]): Promise<void> {
 
 void listen<{ front: boolean; lines: OcrLine[]; error: string | null; bar: BarState | null }>("screen:tick", async ({ payload }) => {
   if (payload.error === "no-dofus") return zoneStatus("noDofus", t("status.noDofus"));
-  if (payload.error === "no-ocr") return zoneStatus("noOcr", t("status.noOcr"));
+  if (payload.error === "no-ocr") {
+    $("guide-ocr").hidden = false;
+    return zoneStatus("noOcr", t("status.noOcr"));
+  }
   if (payload.error === "off") {
     // nothing captured: the switch is off, or on with nothing using it (then nothing to say); a tick sent before
     // the reader heard the switch turned on says nothing either
@@ -1362,6 +1479,8 @@ void listen<{ front: boolean; lines: OcrLine[]; error: string | null; bar: BarSt
       showRoom();
     }
   }
+  if (payload.front && header?.x != null) guideSeen("coords");
+  if (payload.front && (payload.bar === "calm" || payload.bar === "fight")) guideSeen("bar");
   if (payload.front && payload.lines.length) {
     if (dreaming) zoneStatus("found", ""); // inside a Songe: no zone to read, nothing to say
     else if (!header) zoneStatus("noHeader", t("status.noHeader"));
@@ -1444,7 +1563,7 @@ applyLook();
  * player waits instead of using a version about to go. A failure lets them go on with « Continuer ». */
 function showUpdate(text: string, done?: number | null): void {
   $("update").hidden = false;
-  for (const id of ["view-main", "view-settings", "view-report"]) $(id).inert = true;
+  for (const id of ["view-main", "view-settings", "view-report", "view-guide"]) $(id).inert = true;
   $("update-text").textContent = text;
   diagOnChange("update", "update", text);
   const bar = $<HTMLProgressElement>("update-bar");
@@ -1457,7 +1576,7 @@ function showUpdate(text: string, done?: number | null): void {
 $<HTMLImageElement>("update-logo").src = logo;
 $("update-continue").addEventListener("click", () => {
   $("update").hidden = true;
-  for (const id of ["view-main", "view-settings", "view-report"]) $(id).inert = false;
+  for (const id of ["view-main", "view-settings", "view-report", "view-guide"]) $(id).inert = false;
 });
 // the installed Dofight updates through the installer; a copy kept elsewhere (Desktop) replaces its own exe
 void invoke<string>("update_kind")

@@ -39,6 +39,7 @@ beforeAll(async () => {
       return { ok: false, status: 404, json: async () => null };
     }
   });
+  localStorage.setItem("dofight.guide", "1"); // the guide (guide.test.ts) stays out of these tests
   await import("../src/main");
   await vi.waitFor(() => expect(document.getElementById("status")!.textContent).toBe(""), { timeout: 5000 });
 });
