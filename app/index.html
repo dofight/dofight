@@ -47,34 +47,42 @@
             <svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.6 5.1A10 10 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-2.6 3.4M6.6 6.6A17 17 0 0 0 2 12s3.6 7 10 7a9.7 9.7 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/><path d="M2 2l20 20"/></svg>
             <span data-i18n="settings.preview">Aperçu</span></button></div>
         <div class="pagebody">
-        <div class="card"><div class="switch cardtitle"><h2><label for="opt-reading" data-i18n="settings.combat">Lecture de l'écran</label></h2><button type="button" class="info" aria-label="Pourquoi ?" data-i18n-aria="opt.info" aria-describedby="tip-screen">i</button><span class="bubble" role="tooltip" id="tip-screen" data-i18n="settings.combat.info"></span><!-- the card's own switch: on while one reading option is on; off, Dofight does not look at the game at all (reading.ts) --><input id="opt-reading" type="checkbox" role="switch" checked aria-describedby="tip-screen"></div>
+        <div class="card" data-card="reading"><div class="switch cardtitle cardhead"><h2 id="h-reading" data-i18n="settings.combat">Lecture de l'écran</h2><button type="button" class="info" aria-label="Pourquoi ?" data-i18n-aria="opt.info" aria-describedby="tip-screen">i</button><span class="bubble" role="tooltip" id="tip-screen" data-i18n="settings.combat.info"></span><!-- the card's own switch: on while one reading option is on; off, Dofight does not look at the game at all (reading.ts) --><input id="opt-reading" type="checkbox" role="switch" checked aria-labelledby="h-reading" aria-describedby="tip-screen"><button type="button" class="fold" aria-expanded="false" aria-controls="card-reading" aria-labelledby="h-reading" data-icon="chevron"></button></div>
+          <div class="cardbody" id="card-reading" hidden>
           <div id="opts-combat" class="opts"></div>
           <label class="slider" for="reference" data-i18n="settings.reference">Fenêtre Dofus à lire</label>
           <select id="reference" class="select"></select>
-          <p class="hint" data-i18n="settings.referenceHint">Si tu joues plusieurs comptes, Dofight ne lit que la fenêtre de ce personnage. Par défaut, la première trouvée.</p></div>
-        <div class="card"><h2 data-i18n="settings.display">Affichage</h2><h3 data-i18n="settings.list">Liste des monstres</h3><div id="opts-display" class="opts"></div>
+          <p class="hint" data-i18n="settings.referenceHint">Si tu joues plusieurs comptes, Dofight ne lit que la fenêtre de ce personnage. Par défaut, la première trouvée.</p></div></div>
+        <div class="card" data-card="display"><div class="cardhead"><h2 id="h-display" data-i18n="settings.display">Affichage</h2><button type="button" class="fold" aria-expanded="false" aria-controls="card-display" aria-labelledby="h-display" data-icon="chevron"></button></div>
+          <div class="cardbody" id="card-display" hidden><h3 data-i18n="settings.list">Liste des monstres</h3><div id="opts-display" class="opts"></div>
           <h4 class="subcap" data-i18n="settings.kinds">Types de monstres</h4><div id="opts-kinds" class="opts sub"></div>
           <h3 data-i18n="settings.card">Fiche d'un monstre</h3><div id="opts-card" class="opts"></div>
           <h4 class="subcap" data-i18n="settings.badges">Badges</h4><div id="opts-badges" class="opts sub"></div>
-          <div id="opts-card2" class="opts"></div></div>
-        <div class="card">
-          <h2 data-i18n="settings.window">Fenêtre</h2>
+          <div id="opts-card2" class="opts"></div></div></div>
+        <div class="card" data-card="window">
+          <div class="cardhead"><h2 id="h-window" data-i18n="settings.window">Fenêtre</h2><button type="button" class="fold" aria-expanded="false" aria-controls="card-window" aria-labelledby="h-window" data-icon="chevron"></button></div>
+          <div class="cardbody" id="card-window" hidden>
           <div class="theme-row"><span data-i18n="settings.shortcut">Raccourci pour afficher ou masquer</span><button id="shortcut" class="theme-current shortcut" title="Clique, puis appuie sur la combinaison voulue" data-i18n-title="settings.shortcutTitle"></button></div>
           <p id="shortcut-hint" class="hint" aria-live="polite"></p>
           <label class="slider" for="opacity"><span data-i18n="settings.opacity">Opacité du fond :</span> <span id="opacity-value"></span></label>
           <input id="opacity" type="range" min="0" max="1" step="0.05" />
+          </div>
         </div>
-        <div class="card">
-          <h2 data-i18n="settings.look">Apparence</h2>
+        <div class="card" data-card="look">
+          <div class="cardhead"><h2 id="h-look" data-i18n="settings.look">Apparence</h2><button type="button" class="fold" aria-expanded="false" aria-controls="card-look" aria-labelledby="h-look" data-icon="chevron"></button></div>
+          <div class="cardbody" id="card-look" hidden>
           <div class="theme-row"><span id="lang-label" data-i18n="settings.language">Langue</span><div id="lang" class="langs" role="radiogroup" aria-labelledby="lang-label"><button type="button" class="lang" role="radio" aria-checked="true" data-lang="fr" lang="fr"><svg class="flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#0055a4"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ef4135"/></svg>Français</button><button type="button" class="lang" role="radio" aria-checked="false" tabindex="-1" data-lang="en" lang="en"><svg class="flag" viewBox="0 0 60 30" preserveAspectRatio="none" aria-hidden="true"><clipPath id="uk-t"><path d="M30,15h30v15zv15h-30zh-30v-15zv-15h30z"/></clipPath><path d="M0,0v30h60v-30z" fill="#012169"/><path d="M0,0L60,30M60,0L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0L60,30M60,0L0,30" clip-path="url(#uk-t)" stroke="#c8102e" stroke-width="4"/><path d="M30,0v30M0,15h60" stroke="#fff" stroke-width="10"/><path d="M30,0v30M0,15h60" stroke="#c8102e" stroke-width="6"/></svg>English</button></div></div>
           <div class="theme-row"><span data-i18n="settings.theme">Thème</span><button id="theme-current" class="theme-current" aria-expanded="false" aria-controls="themes" title="Changer de thème" data-i18n-title="settings.themeChange"><i></i><span></span><span class="chev" data-icon="chevron" aria-hidden="true"></span></button></div>
           <div id="themes" class="themes" role="radiogroup" aria-label="Thème" data-i18n-aria="settings.theme" hidden></div>
           <div class="theme-row"><span id="size-label" data-i18n="settings.textSize">Taille du texte</span><div id="text-size" class="langs sizes" role="radiogroup" aria-labelledby="size-label"></div></div>
+          </div>
         </div>
-        <div class="card">
-          <h2 data-i18n="settings.diagnostic">Diagnostic</h2>
+        <div class="card" data-card="diagnostic">
+          <div class="cardhead"><h2 id="h-diagnostic" data-i18n="settings.diagnostic">Diagnostic</h2><button type="button" class="fold" aria-expanded="false" aria-controls="card-diagnostic" aria-labelledby="h-diagnostic" data-icon="chevron"></button></div>
+          <div class="cardbody" id="card-diagnostic" hidden>
           <div class="row"><button id="log-copy" class="pill" data-i18n="settings.logCopy">Copier le journal</button><button id="log-open" class="pill" data-i18n="settings.logOpen">Ouvrir le dossier du journal</button></div>
           <p id="log-status" class="status" role="status"></p>
+          </div>
         </div>
         <div class="card">
           <button id="report-app" class="pill act"><span class="act-ic" data-icon="edit" aria-hidden="true"></span><span data-i18n="settings.report">Envoyer une suggestion</span></button>

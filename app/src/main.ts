@@ -54,6 +54,7 @@ const BADGES: Flag[] = ["tagsDanger", "tagsTip", "tagsMechanic"];
 const BADGE_COLOUR: Partial<Record<Flag, string>> = { tagsDanger: "danger", tagsTip: "tip", tagsMechanic: "mechanic" };
 const PREVIEW_DUNGEON = "Tertre du long sommeil"; // the preview always shows this one dungeon as its example
 const PLACED = "dofight.placed";
+const FOLDS = "dofight.cards"; // which settings cards are unfolded, by their data-card
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 const win = getCurrentWindow();
@@ -832,6 +833,47 @@ $("view-settings").addEventListener("change", (e) => {
   } else if (input.dataset.key) update({ [input.dataset.key]: input.checked } as Partial<Settings>);
 });
 $("opacity").addEventListener("input", (e) => update({ opacity: Number((e.target as HTMLInputElement).value) }));
+
+/* ---------- settings cards that fold (owner, 2026-11-18): folded until the player opens one, then remembered ---------- */
+
+function unfolded(): Record<string, boolean> {
+  try {
+    const saved = JSON.parse(localStorage.getItem(FOLDS) ?? "{}");
+    return saved && typeof saved === "object" && !Array.isArray(saved) ? saved : {};
+  } catch {
+    return {};
+  }
+}
+
+/** Unfolds or folds a settings card (`reading`, `display`, `window`, `look`, `diagnostic`), remembered. */
+function openCard(card: string, open = true): void {
+  const fold = document.querySelector<HTMLElement>(`.card[data-card="${card}"] .fold`);
+  if (!fold) return;
+  fold.setAttribute("aria-expanded", String(open));
+  $(`card-${card}`).hidden = !open;
+  try {
+    localStorage.setItem(FOLDS, JSON.stringify({ ...unfolded(), [card]: open }));
+  } catch {
+    // the state stays for this session
+  }
+  void placePreview(); // the settings grew or shrank
+}
+{
+  const saved = unfolded();
+  document.querySelectorAll<HTMLElement>(".card[data-card]").forEach((card) => {
+    const open = saved[card.dataset.card!] === true;
+    card.querySelector(".fold")!.setAttribute("aria-expanded", String(open));
+    $(`card-${card.dataset.card}`).hidden = !open;
+  });
+}
+// a click on a card's title folds or unfolds it; its own controls (the switch, the « i ») keep their click
+$("view-settings").addEventListener("click", (e) => {
+  const target = e.target as HTMLElement;
+  const head = target.closest<HTMLElement>(".cardhead");
+  if (!head || target.closest("input, select, a, .info, .bubble")) return;
+  const card = head.closest<HTMLElement>(".card")!.dataset.card!;
+  openCard(card, !!$(`card-${card}`).hidden);
+});
 $("gear").addEventListener("click", () => openSettings(!!$("view-settings").hidden));
 /** Back to the panel; the keyboard lands on the gear that opened the settings. */
 function closeSettings(): void {

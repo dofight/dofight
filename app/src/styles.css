@@ -309,6 +309,17 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 @media (prefers-reduced-motion:reduce){#opt-reading.flash{animation:none;box-shadow:0 0 0 3px var(--gold)}}
 #view-main>.songe-off:not([hidden]){display:flex;flex-wrap:wrap;align-items:center;gap:6px}
 .switch.cardtitle #opt-reading{margin-left:auto} /* the card's own switch, at the right of its title */
+/* a card folds on a click on its title (the switch, the « i » and the arrow keep their own click) */
+.cardhead{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
+.cardhead>.fold{margin-left:auto}
+.cardhead #opt-reading+.fold{margin-left:0}
+.fold{flex:none;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;padding:0;border:0;border-radius:6px;background:none;color:var(--muted)}
+.fold:hover{color:var(--fg);background:var(--gold-soft)}
+.fold .ic{width:16px;height:16px;transition:transform .15s}
+.fold[aria-expanded="true"] .ic{transform:rotate(90deg)}
+@media (prefers-reduced-motion:reduce){.fold .ic{transition:none}}
+.cardbody{display:grid;gap:8px}
+.cardbody[hidden]{display:none}
 .mcount{flex:none;color:var(--gold);font-size:12px;font-weight:700;margin-left:4px}
 /* an option's « i »: why something must be set in the game, on hover or keyboard focus */
 .switch{position:relative}

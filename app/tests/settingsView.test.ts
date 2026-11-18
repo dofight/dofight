@@ -485,6 +485,31 @@ it("« Lecture de l'écran » turned off with only Songe on: one click is enough
   (document.getElementById("back") as HTMLButtonElement).click();
 });
 
+it("settings cards fold: folded at first, a click on a title unfolds it (remembered), the switch keeps its click", () => {
+  if (document.getElementById("view-settings")!.hidden) (document.getElementById("gear") as HTMLButtonElement).click();
+  const cards = ["reading", "display", "window", "look", "diagnostic"];
+  // localStorage was empty at launch: every card started folded
+  for (const card of cards) expect(document.querySelector(`.card[data-card="${card}"] .fold`)!.getAttribute("aria-expanded")).toBe(localStorage.getItem("dofight.cards")?.includes(`"${card}":true`) ? "true" : "false");
+  const head = document.querySelector<HTMLElement>('.card[data-card="window"] h2')!;
+  const body = document.getElementById("card-window")!;
+  const was = body.hidden;
+  head.click();
+  expect(body.hidden).toBe(!was);
+  expect(JSON.parse(localStorage.getItem("dofight.cards")!).window).toBe(was);
+  (document.querySelector('.card[data-card="window"] .fold') as HTMLButtonElement).click();
+  expect(body.hidden).toBe(was);
+  // the reading switch in a title: it switches, it does not fold
+  const reading = document.getElementById("card-reading")!;
+  const folded = reading.hidden;
+  (document.getElementById("opt-reading") as HTMLInputElement).click();
+  expect(reading.hidden).toBe(folded);
+  (document.getElementById("opt-reading") as HTMLInputElement).click();
+  expect((document.getElementById("opt-reading") as HTMLInputElement).checked).toBe(true);
+  // the last card (suggestion, Discord, support) has no title and never folds
+  expect(document.getElementById("report-app")!.closest(".cardbody")).toBeNull();
+  (document.getElementById("back") as HTMLButtonElement).click();
+});
+
 it("× does nothing while an update downloads or installs", async () => {
   const { invoke } = await import("@tauri-apps/api/core");
   document.getElementById("update")!.hidden = false;
