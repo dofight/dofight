@@ -34,6 +34,8 @@
         <!-- messages above the list, where a scrolled player still sees them -->
         <div id="status" class="status" role="status">Chargement des données…</div>
         <div id="zone" class="status" role="status"></div>
+        <!-- « Songe » clicked with « Lecture de l'écran » cut by hand: Songe stays off and this says why -->
+        <div id="songe-off" class="status warn songe-off" role="status" hidden><span data-i18n="songe.needsReading">Le mode Songe lit l'écran : active « Lecture de l'écran » dans les paramètres.</span> <button type="button" id="songe-off-go" class="pill" data-i18n="songe.openSettings">Ouvrir les paramètres</button></div>
         <button id="backzone" class="backzone" hidden title="Revenir aux monstres de ta sous-zone" data-i18n-title="main.backZoneTitle"><span class="bz-icon" data-icon="undo" aria-hidden="true"></span><span class="bz-label" data-i18n="main.backZone">Revenir à ta zone :</span><span id="backzone-name" class="bz-name"></span></button>
         <button id="songe-reset" class="songe-reset" hidden title="Effacer le groupe survolé" data-i18n-title="songe.resetTitle"><span class="bz-icon" data-icon="undo" aria-hidden="true"></span><span data-i18n="songe.reset">Réinitialiser</span></button>
         <div id="room"></div>
@@ -45,7 +47,8 @@
             <svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.6 5.1A10 10 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-2.6 3.4M6.6 6.6A17 17 0 0 0 2 12s3.6 7 10 7a9.7 9.7 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/><path d="M2 2l20 20"/></svg>
             <span data-i18n="settings.preview">Aperçu</span></button></div>
         <div class="pagebody">
-        <div class="card"><div class="switch cardtitle"><h2 data-i18n="settings.combat">Lecture de l'écran</h2><button type="button" class="info" aria-label="Pourquoi ?" data-i18n-aria="opt.info" aria-describedby="tip-screen">i</button><span class="bubble" role="tooltip" id="tip-screen" data-i18n="settings.combat.info"></span></div><div id="opts-combat" class="opts"></div>
+        <div class="card"><div class="switch cardtitle"><h2><label for="opt-reading" data-i18n="settings.combat">Lecture de l'écran</label></h2><button type="button" class="info" aria-label="Pourquoi ?" data-i18n-aria="opt.info" aria-describedby="tip-screen">i</button><span class="bubble" role="tooltip" id="tip-screen" data-i18n="settings.combat.info"></span><!-- the card's own switch: on while one reading option is on; off, Dofight does not look at the game at all (reading.ts) --><input id="opt-reading" type="checkbox" role="switch" checked aria-describedby="tip-screen"></div>
+          <div id="opts-combat" class="opts"></div>
           <label class="slider" for="reference" data-i18n="settings.reference">Fenêtre Dofus à lire</label>
           <select id="reference" class="select"></select>
           <p class="hint" data-i18n="settings.referenceHint">Si tu joues plusieurs comptes, Dofight ne lit que la fenêtre de ce personnage. Par défaut, la première trouvée.</p></div>
@@ -56,7 +59,6 @@
           <div id="opts-card2" class="opts"></div></div>
         <div class="card">
           <h2 data-i18n="settings.window">Fenêtre</h2>
-          <div id="opts-window" class="opts"></div>
           <div class="theme-row"><span data-i18n="settings.shortcut">Raccourci pour afficher ou masquer</span><button id="shortcut" class="theme-current shortcut" title="Clique, puis appuie sur la combinaison voulue" data-i18n-title="settings.shortcutTitle"></button></div>
           <p id="shortcut-hint" class="hint" aria-live="polite"></p>
           <label class="slider" for="opacity"><span data-i18n="settings.opacity">Opacité du fond :</span> <span id="opacity-value"></span></label>

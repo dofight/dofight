@@ -23,7 +23,7 @@
 
 Gratuit et open source. Dofight lit uniquement **le coin en haut à gauche de la fenêtre Dofus** (le nom de la
 sous-zone, tes coordonnées et la barre d'icônes, qui lui indique qu'un combat commence), et cette lecture se coupe
-dans les paramètres. Il ne joue pas à ta place, n'envoie rien au jeu et ne lit ni sa mémoire, ni ses fichiers, ni son
+d'un clic (Paramètres → « Lecture de l'écran »). Il ne joue pas à ta place, n'envoie rien au jeu et ne lit ni sa mémoire, ni ses fichiers, ni son
 trafic réseau.
 
 Pour chaque monstre de ta sous-zone, de ton donjon ou de ton combat, il t'indique ce qui peut te faire perdre
@@ -61,7 +61,8 @@ Et voilà : lance Dofus, Dofight affiche les monstres de ta sous-zone et s'ouvre
 - **Résistances et sorts** de chaque monstre, avec le détail de chaque sort.
 - **Les grosses mécaniques expliquées** (cycle lunaire, vagues de monstres, modificateurs de dimension…) : survole
   la pastille « ⓘ » pour un aperçu, clique pour l'épingler.
-- **Mode Songe** : en Songe, survole un groupe de monstres sur la carte et Dofight l'affiche avant le combat.
+- **Mode Songe** : il s'active tout seul quand tu entres dans un Songe ; survole un groupe de monstres sur la carte
+  et Dofight l'affiche avant le combat.
 - **Recherche** d'un donjon, d'une sous-zone ou d'un monstre ; « Aller en [x,y] » copie la commande de voyage à
   coller dans le chat.
 - **Discret** : il s'ouvre au début du combat et se ferme à la fin, et Ctrl+Maj+D l'affiche ou le cache.
@@ -72,7 +73,7 @@ Et voilà : lance Dofus, Dofight affiche les monstres de ta sous-zone et s'ouvre
 **C'est autorisé ?** Dofight n'est ni un bot ni un mod : il ne clique pas, n'envoie rien au jeu et ne modifie
 rien. Il lit uniquement le coin en haut à gauche de la fenêtre Dofus (le nom de la sous-zone, tes coordonnées et la
 barre d'icônes) ; en mode Songe, il lit aussi l'infobulle du groupe sous ta souris. Tu peux couper cette lecture dans
-Paramètres (« Suivre ta sous-zone automatiquement », « Ouvrir automatiquement en combat »). Il affiche des
+Paramètres → « Lecture de l'écran » : Dofight ne capture alors plus du tout la fenêtre Dofus. Il affiche des
 informations publiques (données du jeu, guides). C'est un outil fait par des fans, sans lien avec Ankama, qui ne l'a
 ni validé ni approuvé : tu l'utilises sous ta propre responsabilité.
 
@@ -100,7 +101,7 @@ Ankama Games.
 The fight assistant for Dofus 3: a panel beside the game that shows what is dangerous about the monsters around
 you (one-shots, invulnerabilities, mechanics), with their resistances and spells. Free and open source. Dofight
 only reads **the top-left corner of the Dofus window** (the subarea name, your coordinates and the icon bar, which
-tells it when a fight starts), and you can turn that off in the settings. It does not play for you, sends nothing to
+tells it when a fight starts), and one click turns that off (Settings → “Screen reading”). It does not play for you, sends nothing to
 the game and reads neither its memory, its files nor its network traffic.
 
 ### What you need
@@ -134,7 +135,8 @@ The interface is in French by default: switch to English in Paramètres → Lang
 - **Resistances and spells** of each monster, with a detailed sheet for each spell.
 - **The big mechanics explained** (lunar cycle, monster waves, dimension modifiers…): hover over the “ⓘ” chip for a
   preview, click to pin it.
-- **Songe mode**: in a Songe, hover over a monster group on the map and Dofight shows it before the fight.
+- **Songe mode**: it turns on by itself when you enter a Songe; hover over a monster group on the map and Dofight
+  shows it before the fight.
 - **Search** for a dungeon, a subarea or a monster; “Go to [x,y]” copies the travel command to paste in the chat.
 - **Out of the way**: it opens when a fight starts and closes when it ends; Ctrl+Shift+D shows or hides it.
 - **Your way**: themes matching Dofus's, text size, opacity, French or English interface.
@@ -146,7 +148,7 @@ Summaries are available in English; the linked guides are in French.
 **Is it allowed?** Dofight is neither a bot nor a mod: it does not click, sends nothing to the game and changes
 nothing. It only reads the top-left corner of the Dofus window (the subarea name, your coordinates and the icon
 bar); in Songe mode, it also reads the tooltip of the group under your mouse. You can turn this off in Settings
-(“Follow your subarea automatically”, “Open automatically in fights”). It shows public information (game data,
+→ “Screen reading”: Dofight then no longer captures the Dofus window at all. It shows public information (game data,
 guides). It is a fan-made
 tool, not affiliated with, reviewed or approved by Ankama: you use it at your own risk.
 

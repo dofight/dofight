@@ -5,7 +5,7 @@
  * A status is a kind plus its text: the kind decides (« found », « unknown »… never the wording, which changes with
  * the language and its typography), the text is what may be shown. */
 
-export type StatusKind = "found" | "unknown" | "noHeader" | "noDofus" | "noOcr";
+export type StatusKind = "found" | "unknown" | "noHeader" | "noDofus" | "noOcr" | "off";
 
 export interface Status {
   kind: StatusKind;

@@ -300,6 +300,15 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .songe{flex:none;display:flex;align-items:center;gap:5px;padding:0 10px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer;font-size:12.5px}
 .songe:hover{color:var(--fg);border-color:var(--gold)}
 .songe[aria-pressed="true"]{color:var(--fg);border-color:var(--gold);background:var(--gold-soft)}
+.songe.off{opacity:.55} /* « Lecture de l'écran » cut by hand: still clickable, to say why it does nothing */
+.songe.off:hover{border-color:var(--line);color:var(--muted)}
+.switch.idle{opacity:.55} /* « Lecture de l'écran » off: the options under it are off and cannot be changed */
+.switch.idle input,.switch.idle label{cursor:default}
+#opt-reading.flash{animation:pulse .6s ease-in-out 3} /* reached from « Ouvrir les paramètres »: three pulses */
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 transparent}50%{box-shadow:0 0 0 6px var(--gold)}}
+@media (prefers-reduced-motion:reduce){#opt-reading.flash{animation:none;box-shadow:0 0 0 3px var(--gold)}}
+#view-main>.songe-off:not([hidden]){display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.switch.cardtitle #opt-reading{margin-left:auto} /* the card's own switch, at the right of its title */
 .mcount{flex:none;color:var(--gold);font-size:12px;font-weight:700;margin-left:4px}
 /* an option's « i »: why something must be set in the game, on hover or keyboard focus */
 .switch{position:relative}

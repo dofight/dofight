@@ -35,15 +35,15 @@ import { renderMechanicSheet } from "./render/mechanic";
 import { iconResolver, roomFor, type Room } from "./room";
 import { search, type Result } from "./search";
 import { loadSettings, TEXT_SIZES, updateSettings, type Settings } from "./settings";
+import { capturing as capturingGame, READING, readingPatch } from "./reading";
 import type { Monster, RoomSummary, Snapshot } from "./types";
 
 type Flag = { [K in keyof Settings]-?: Settings[K] extends boolean ? K : never }[keyof Settings];
 
 // each switch's label is the text `opt.<flag>` of i18n.ts
 // what makes Dofight read the screen, together (its card says what is read and where)
-const COMBAT: Flag[] = ["fromHeader", "autoSonge"];
-// how the panel's window behaves (with the shortcut and the opacity, in the « Fenêtre » card)
-const WINDOW: Flag[] = ["autoFight", "hideWhenAway"];
+// (all of them go off with the card's own switch, see reading.ts; owner, 2026-11-18)
+const COMBAT: Flag[] = READING;
 // display options in a logical order: which monsters are listed and how the list behaves, then a monster card from
 // top to bottom (its badges have their own group)
 const DISPLAY: Flag[] = ["roomSummary", "expandAll", "hoverPeek"];
@@ -212,6 +212,11 @@ let songeSignature = "";
 
 function showSongeState(): void {
   $("songe").setAttribute("aria-pressed", String(settings.songe));
+  // « Lecture de l'écran » off: the button stays clickable (to say why), dimmed, its tooltip saying why
+  const off = !settings.reading;
+  $("songe").classList.toggle("off", off);
+  $("songe").title = t(off ? "songe.needsReading" : "songe.hint");
+  if (!off) $("songe-off").hidden = true;
 }
 
 /** Shows the groups read on this frame; the last group stays until another one is hovered. */
@@ -275,7 +280,30 @@ function setSonge(on: boolean, by: "player" | "dofight"): void {
   showSongeState();
   showRoom();
 }
-$("songe").addEventListener("click", () => setSonge(!settings.songe, "player"));
+let songeOffTimer: number | undefined;
+$("songe").addEventListener("click", () => {
+  // never turns the reading on (owner, 2026-11-18): it says why, and where
+  if (!settings.reading) {
+    $("songe-off").hidden = false;
+    clearTimeout(songeOffTimer);
+    const hideLater = () => {
+      // not while the pointer or the keyboard is on it (its button is the way to the setting)
+      songeOffTimer = window.setTimeout(() => ($("songe-off").matches(":hover, :focus-within") ? hideLater() : ($("songe-off").hidden = true)), 10_000);
+    };
+    hideLater();
+    return;
+  }
+  setSonge(!settings.songe, "player");
+});
+$("songe-off-go").addEventListener("click", () => {
+  $("songe-off").hidden = true;
+  openSettings(true);
+  $("opt-reading").focus({ preventScroll: true });
+  $("opt-reading").scrollIntoView?.({ block: "center" }); // (not in the tests' jsdom)
+  // a halo for a moment: a mouse click leaves no focus ring to show where the switch is
+  $("opt-reading").classList.add("flash");
+  window.setTimeout(() => $("opt-reading").classList.remove("flash"), 1800);
+});
 
 // the zone the player is in (read on screen); after a search, a button brings its monsters back
 let zoneRoom: Room | null = null;
@@ -288,7 +316,9 @@ let dofusClosed = false;
  * here and that the search works too. */
 function emptyHtml(): string {
   if (settings.songe) return `<p class="empty songe-wait">${esc(t("songe.waiting"))}</p>`;
-  const first = dofusClosed ? t("status.noDofus") : t("main.empty");
+  // the zone not followed (the option off, the reading on): the search is the way, said in one sentence
+  if (!dofusClosed && settings.reading && !settings.fromHeader) return `<p class="empty intro">${esc(t("main.emptyNoFollow"))}</p>`;
+  const first = dofusClosed ? t("status.noDofus") : !settings.reading ? t("main.emptyOff") : t("main.empty");
   return `<p class="empty intro">${esc(first)} ${esc(t("main.emptySearch"))}</p>`;
 }
 
@@ -414,6 +444,16 @@ function syncSettingsView(): void {
   document.querySelectorAll<HTMLInputElement>("#view-settings input[data-key]").forEach((input) => {
     input.checked = settings[input.dataset.key as Flag];
   });
+  $<HTMLInputElement>("opt-reading").checked = settings.reading;
+  // the switch off: the options under it (and the window to read) are off, greyed, and say how to change them
+  for (const id of [...READING.map((f) => `opt-${f}`), "reference"]) {
+    const input = $<HTMLInputElement>(id);
+    input.disabled = !settings.reading;
+    const row = input.closest(".switch") ?? input;
+    row.classList.toggle("idle", !settings.reading);
+    if (settings.reading) row.removeAttribute("title");
+    else row.setAttribute("title", t("opt.needsReading"));
+  }
   $<HTMLInputElement>("opacity").value = String(settings.opacity);
   $("opacity-value").textContent = t("settings.opacityValue", { value: Math.round(settings.opacity * 100) });
   document.querySelectorAll<HTMLElement>("#lang .lang").forEach((btn) => {
@@ -646,7 +686,22 @@ function update(patch: Partial<Settings>): void {
   const logged = loggableSettings(patch);
   if (logged) diag("settings", logged);
   if ("expandAll" in patch) flipped.clear(); // the option resets the rows opened or closed one by one
+  const wasCapturing = capturingGame(settings);
+  const wasReading = settings.reading;
   settings = updateSettings(localStorage, patch);
+  // the window is captured only when something uses it (the switch on, an option or Songe on)
+  if (capturingGame(settings) !== wasCapturing) {
+    void invoke("set_reading", { on: capturingGame(settings) });
+    diag("screen", `capture ${capturingGame(settings) ? "on" : "off"}`);
+  }
+  if (settings.reading !== wasReading) {
+    diag("screen", `reading ${settings.reading ? "on" : "off"}`);
+    // « Lecture de l'écran coupée » comes and goes at once, not with the next readings
+    status = settings.reading ? initialStatus() : { shown: { kind: "off", text: t("status.readingOff") }, pending: null, count: 0 };
+    $("zone").textContent = statusText(status.shown);
+    $("zone").classList.remove("warn");
+  }
+  if ("reading" in patch || "songe" in patch) showSongeState();
   applyLook();
   showRoom();
   syncSettingsView();
@@ -673,7 +728,6 @@ function buildControls(): void {
   $("opts-kinds").insertAdjacentHTML("afterbegin", `<div class="switch always"><span class="optname">${always}</span><input type="checkbox" role="switch" aria-label="${always}" checked disabled></div>`);
   switches("opts-card", CARD);
   switches("opts-card2", CARD_AFTER_BADGES);
-  switches("opts-window", WINDOW);
   switches("opts-badges", BADGES);
   // the Dofus interface themes, like Ganymède: a small card with the theme colour and its accent
   // the text sizes, side by side like the languages
@@ -693,6 +747,7 @@ buildControls();
 function changeLang(lang: Lang): void {
   setLang(lang);
   applyI18n(document);
+  showSongeState(); // its tooltip depends on the reading, not only on the language
   buildControls();
   update({ lang }); // room, preview and the settings view (switch states, shortcut, theme name)
   showResults();
@@ -770,7 +825,11 @@ $("eye").addEventListener("click", () => {
 });
 $("view-settings").addEventListener("change", (e) => {
   const input = e.target as HTMLInputElement;
-  if (input.dataset.key) update({ [input.dataset.key]: input.checked } as Partial<Settings>);
+  if (input.id === "opt-reading") {
+    const on = input.checked; // read first: turning Songe off redraws the settings, this switch included
+    if (!on && settings.songe) setSonge(false, "player"); // the zone comes back, as with its button
+    update(readingPatch(settings, on));
+  } else if (input.dataset.key) update({ [input.dataset.key]: input.checked } as Partial<Settings>);
 });
 $("opacity").addEventListener("input", (e) => update({ opacity: Number((e.target as HTMLInputElement).value) }));
 $("gear").addEventListener("click", () => openSettings(!!$("view-settings").hidden));
@@ -784,7 +843,7 @@ $("back").addEventListener("click", closeSettings);
 document.addEventListener("keydown", (e) => {
   if (e.key !== "Escape" || $("view-settings").hidden) return;
   const target = e.target as HTMLElement;
-  if (target.closest?.("#themes, #lang, input, select, textarea")) return;
+  if (target.closest?.("#themes, #lang, input:not([type=checkbox]), select, textarea")) return;
   if (document.querySelector(".switch:has(.info:hover), .switch:has(.info:focus-visible)")) return;
   closeSettings();
 });
@@ -1207,6 +1266,16 @@ async function apply(actions: Action[]): Promise<void> {
 void listen<{ front: boolean; lines: OcrLine[]; error: string | null; bar: BarState | null }>("screen:tick", async ({ payload }) => {
   if (payload.error === "no-dofus") return zoneStatus("noDofus", t("status.noDofus"));
   if (payload.error === "no-ocr") return zoneStatus("noOcr", t("status.noOcr"));
+  if (payload.error === "off") {
+    // nothing captured: the switch is off, or on with nothing using it (then nothing to say); a tick sent before
+    // the reader heard the switch turned on says nothing either
+    if (!settings.reading) zoneStatus("off", t("status.readingOff"));
+    if (!snap) return;
+    // nothing looked at: Dofus counts as in front, so a panel hidden by « Masquer hors du jeu » comes back
+    const out = step(director, { front: true, room: null, fight: "none", seen: false, at: Date.now() }, settings);
+    director = out.state;
+    return apply(out.actions);
+  }
   if (!snap) return;
   const header = payload.front && payload.lines.length ? parseHeader(payload.lines) : null;
   const fight = payload.front ? readFight(payload.bar, director.inFight) : "none";
@@ -1299,14 +1368,20 @@ $("reference").addEventListener("change", (e) => {
 });
 void invoke("set_reference", { prefix: settings.referenceWindow ?? "" });
 void invoke("set_songe", { on: settings.songe });
+void invoke("set_reading", { on: capturingGame(settings) });
 showSongeState();
 // the panel lives in the taskbar (its button « Dofight » always stays there) and opens at launch
 void showOverlay();
-// the × of the title bar and « Fermer la fenêtre » on the taskbar button quit at once, every window included
-$("quit").addEventListener("click", () => void invoke("quit"));
+// the × of the title bar and « Fermer la fenêtre » on the taskbar button quit at once, every window included; not
+// while an update downloads or installs (its bar shows): a portable exe swapped halfway would be lost
+const quit = () => {
+  if (!$("update").hidden && !$("update-bar").hidden) return;
+  void invoke("quit");
+};
+$("quit").addEventListener("click", quit);
 void win.onCloseRequested((e) => {
   e.preventDefault();
-  void invoke("quit");
+  quit();
 });
 
 let geometryTimer: number | undefined;

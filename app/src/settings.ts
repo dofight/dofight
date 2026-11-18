@@ -12,7 +12,7 @@ export type Settings = Display & {
   shortcut: string;
   /** « Songe » mode: show the monster groups hovered on the map (toggle next to the search bar). */
   songe: boolean;
-  /** Open the overlay when a fight starts and close it at its end (one option, off by default). */
+  /** Open the overlay when a fight starts and close it at its end (on by default). */
   autoFight: boolean;
   hideWhenAway: boolean; // hide Dofight while Dofus is not in front
   fromHeader: boolean;
@@ -27,7 +27,14 @@ export type Settings = Display & {
   /** Interface language (French by default). */
   lang: Lang;
   referenceWindow: string | null;
+  /** « Lecture de l'écran »: the permission to look at the game, moved only by the player (see reading.ts). */
+  reading: boolean;
+  /** The reading options that were on when « Lecture de l'écran » was turned off; they come back with it. */
+  readingBefore: ReadingFlag[];
 };
+
+export type ReadingFlag = "fromHeader" | "autoFight" | "autoSonge" | "hideWhenAway";
+const READING_FLAGS: readonly string[] = ["fromHeader", "autoFight", "autoSonge", "hideWhenAway"];
 
 export const KEY = "dofight.settings";
 export const OPACITY_MIN = 0; // the player may go fully see-through (the top bar stays opaque)
@@ -61,6 +68,8 @@ export const DEFAULTS: Settings = {
   theme: "default",
   lang: "fr",
   referenceWindow: null,
+  reading: true,
+  readingBefore: [],
 };
 
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
@@ -81,12 +90,15 @@ export function loadSettings(store: Pick<Storage, "getItem">): Settings {
     const def = DEFAULTS[key];
     if (key === "referenceWindow") {
       if (value === null || typeof value === "string") out.referenceWindow = value;
+    } else if (key === "readingBefore") {
+      if (Array.isArray(value)) out.readingBefore = [...new Set(value.filter((f): f is ReadingFlag => typeof f === "string" && READING_FLAGS.includes(f)))];
     } else if (key === "lang") {
       if (value === "fr" || value === "en") out.lang = value;
     } else if (typeof value === typeof def && (typeof value !== "number" || Number.isFinite(value))) {
       (out as unknown as Record<string, unknown>)[key] = value;
     }
   }
+  if (out.reading) out.readingBefore = []; // remembered only while the switch is off
   out.opacity = clamp(out.opacity, OPACITY_MIN, 1);
   // the nearest of the sizes offered
   out.textSize = TEXT_SIZES.reduce((best, size) => (Math.abs(size - out.textSize) < Math.abs(best - out.textSize) ? size : best));

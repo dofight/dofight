@@ -97,6 +97,12 @@ pub struct Songe(pub Arc<AtomicBool>, pub Arc<AtomicBool>);
 #[derive(Default, Clone)]
 pub struct InFight(pub Arc<AtomicBool>);
 
+/// « Lecture de l'écran » (set from the page): off, the Dofus window is never captured, nor is it checked whether it
+/// is in front (« Masquer hors du jeu » rests meanwhile). Off until the page has read the player's settings, so a
+/// player who turned it off is never captured, not even at launch.
+#[derive(Default, Clone)]
+pub struct Reading(pub Arc<AtomicBool>);
+
 fn process_name(pid: u32) -> Option<String> {
     unsafe {
         let handle = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, false, pid).ok()?;
@@ -583,10 +589,11 @@ fn timed_capture(hwnd: HWND, stats: &mut Stats) -> Option<(Vec<u8>, u32, u32)> {
 /// Watches the reference Dofus window (see TICK): emits `screen:tick` with what it read (or why it could not), and in
 /// « Songe » mode `screen:songe` with the group tooltips around the resting mouse. Should the reading ever panic, it
 /// is logged and started again a second later (a dead reader would silently stop the zone, fights and Songe).
-pub fn start(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight) {
+pub fn start(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, reading: Reading) {
     std::thread::spawn(move || loop {
-        let (app, reference, songe, in_fight) = (app.clone(), reference.clone(), songe.clone(), in_fight.clone());
-        let reader = std::thread::spawn(move || run(app, reference, songe, in_fight));
+        let (app, reference, songe, in_fight, reading) =
+            (app.clone(), reference.clone(), songe.clone(), in_fight.clone(), reading.clone());
+        let reader = std::thread::spawn(move || run(app, reference, songe, in_fight, reading));
         if let Err(panic) = reader.join() {
             let what = panic
                 .downcast_ref::<&str>()
@@ -599,7 +606,7 @@ pub fn start(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFig
     });
 }
 
-fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight) {
+fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, reading: Reading) {
     {
         let engine = ocr::engine();
         let now = Instant::now();
@@ -657,6 +664,15 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight) {
                 }
                 continue;
             };
+            if !reading.0.load(Ordering::Relaxed) {
+                // « Lecture de l'écran » off: no capture, not even which window is in front; turned on again, the first tick reads at once (was_front)
+                note(&mut r, "reading turned off".into());
+                r.was_front = false;
+                if slow_due {
+                    emit(fail("off"));
+                }
+                continue;
+            }
             let front_hwnd = unsafe { GetForegroundWindow() };
             if front_hwnd.0 as isize != target.hwnd {
                 note(&mut r, "Dofus not in front".into());

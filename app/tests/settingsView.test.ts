@@ -105,16 +105,19 @@ it("groups the window options in their own card; Apparence keeps language, theme
   const card = (title: string) => [...document.querySelectorAll("#view-settings .card")].find((c) => plain(c.querySelector("h2")?.textContent) === title)!;
   const names = (c: Element) => [...c.querySelectorAll(".switch .optname label")].map((s) => plain(s.textContent));
   const win = card("Fenêtre");
-  expect(names(win)).toEqual(["Ouvrir automatiquement en combat", "Masquer hors du jeu"]);
+  expect(names(win)).toEqual([]);
   expect(win.querySelector("#shortcut")).not.toBeNull();
   expect(win.querySelector("#opacity")).not.toBeNull();
-  expect(win.querySelector('.switch:has([data-key="hideWhenAway"]) .info')).not.toBeNull();
+  // everything that looks at the game sits under the screen reading's own switch (owner, 2026-11-18)
+  const reading = card("Lecture de l'écran");
+  expect(names(reading)).toEqual(["Suivre ta sous-zone automatiquement", "Ouvrir automatiquement en combat", "Mode Songe automatique", "Masquer hors du jeu"]);
+  expect(reading.querySelector('.switch:has([data-key="hideWhenAway"]) .info')).not.toBeNull();
+  expect(reading.querySelector(".cardtitle #opt-reading")).not.toBeNull(); // the card's own switch, in its title
   const look = card("Apparence");
   expect(look.querySelector("#lang")).not.toBeNull();
   expect(look.querySelector("#themes")).not.toBeNull();
   expect(look.querySelector("#text-size")).not.toBeNull();
   expect(card("Accessibilité")).toBeUndefined();
-  expect(names(card("Lecture de l'écran"))).not.toContain("Ouvrir automatiquement en combat");
   expect([...document.querySelectorAll("#opts-kinds .optname")].map((s) => plain(s.textContent))).toEqual(["Monstres de la sous-zone ou du donjon", "Archimonstres", "Avis de recherche", "Monstres spéciaux", "Monstres d'événement"]);
   expect(plain(document.querySelector('.switch:has([data-key="expandAll"]) .optname')!.textContent)).toBe("Déplier tous les monstres");
   expect(plain(document.querySelector('.switch:has([data-key="thumbnails"]) .optname')!.textContent)).toBe("Image du monstre");
@@ -384,4 +387,110 @@ it("opens the boss of a dungeon by default, like the settings' example; the othe
   const open = [...document.querySelectorAll<HTMLElement>('#room .mob[data-open="true"]')];
   expect(open.map((m) => m.classList.contains("boss"))).toEqual([true]);
   expect(document.querySelectorAll('#room .mob[data-open="false"]').length).toBeGreaterThan(0);
+});
+
+it("« Lecture de l'écran » off: the options go off and grey, Rust stops capturing, Songe says why", async () => {
+  const { invoke } = await import("@tauri-apps/api/core");
+  if (document.getElementById("view-settings")!.hidden) (document.getElementById("gear") as HTMLButtonElement).click();
+  const reading = document.getElementById("opt-reading") as HTMLInputElement;
+  const saved = () => JSON.parse(localStorage.getItem("dofight.settings")!);
+  const options = ["fromHeader", "autoFight", "autoSonge", "hideWhenAway"].map((k) => document.getElementById(`opt-${k}`) as HTMLInputElement);
+  expect(reading.checked).toBe(true);
+  vi.mocked(invoke).mockClear();
+  reading.checked = false;
+  reading.dispatchEvent(new Event("change", { bubbles: true }));
+  expect(invoke).toHaveBeenCalledWith("set_reading", { on: false });
+  expect(saved()).toMatchObject({ reading: false, fromHeader: false, autoSonge: false, autoFight: false, songe: false });
+  for (const input of options) {
+    expect(input.checked).toBe(false);
+    expect(input.disabled).toBe(true);
+    expect(plain(input.closest(".switch")!.getAttribute("title"))).toBe("Active « Lecture de l'écran » pour changer cette option.");
+  }
+  expect((document.getElementById("reference") as HTMLSelectElement).disabled).toBe(true);
+  expect(plain(document.getElementById("zone")!.textContent)).toBe("Lecture de l'écran coupée (Paramètres)");
+  await handler("screen:tick")({ payload: { front: true, lines: [], error: "off", bar: null } });
+  (document.getElementById("back") as HTMLButtonElement).click();
+  // Songe: dimmed, and a click leaves it off with the reason and a way to the switch
+  const songe = document.getElementById("songe") as HTMLButtonElement;
+  expect(songe.classList.contains("off")).toBe(true);
+  vi.mocked(invoke).mockClear();
+  songe.click();
+  expect(saved().songe).toBe(false);
+  expect(songe.getAttribute("aria-pressed")).toBe("false");
+  expect(invoke).not.toHaveBeenCalledWith("set_songe", expect.anything());
+  expect(invoke).not.toHaveBeenCalledWith("set_reading", expect.anything());
+  expect(document.getElementById("songe-off")!.hidden).toBe(false);
+  (document.getElementById("songe-off-go") as HTMLButtonElement).click();
+  expect(document.getElementById("view-settings")!.hidden).toBe(false);
+  expect(document.activeElement).toBe(reading);
+  // on again: exactly the options that were on come back, Songe stays off
+  vi.mocked(invoke).mockClear();
+  reading.checked = true;
+  reading.dispatchEvent(new Event("change", { bubbles: true }));
+  expect(invoke).toHaveBeenCalledWith("set_reading", { on: true });
+  expect(saved()).toMatchObject({ reading: true, fromHeader: true, autoSonge: true, autoFight: true, hideWhenAway: false, songe: false, readingBefore: [] });
+  for (const input of options) expect(input.disabled).toBe(false);
+  expect(songe.classList.contains("off")).toBe(false);
+  expect(plain(document.getElementById("zone")!.textContent)).toBe("");
+  (document.getElementById("back") as HTMLButtonElement).click();
+});
+
+it("the four options off one by one: the switch stays on, the capture stops quietly, Songe still works", async () => {
+  const { invoke } = await import("@tauri-apps/api/core");
+  if (document.getElementById("view-settings")!.hidden) (document.getElementById("gear") as HTMLButtonElement).click();
+  const reading = document.getElementById("opt-reading") as HTMLInputElement;
+  const flip = (key: string, on: boolean) => {
+    const input = document.getElementById(`opt-${key}`) as HTMLInputElement;
+    input.checked = on;
+    input.dispatchEvent(new Event("change", { bubbles: true }));
+  };
+  vi.mocked(invoke).mockClear();
+  for (const key of ["fromHeader", "autoSonge", "autoFight", "hideWhenAway"]) flip(key, false);
+  expect(reading.checked).toBe(true);
+  expect(invoke).toHaveBeenCalledWith("set_reading", { on: false }); // nothing uses the capture
+  await handler("screen:tick")({ payload: { front: true, lines: [], error: "off", bar: null } });
+  expect(plain(document.getElementById("zone")!.textContent)).toBe(""); // the switch is on: nothing is « coupée »
+  (document.getElementById("back") as HTMLButtonElement).click();
+  const songe = document.getElementById("songe") as HTMLButtonElement;
+  expect(songe.classList.contains("off")).toBe(false);
+  vi.mocked(invoke).mockClear();
+  songe.click();
+  expect(songe.getAttribute("aria-pressed")).toBe("true");
+  expect(invoke).toHaveBeenCalledWith("set_songe", { on: true });
+  expect(invoke).toHaveBeenCalledWith("set_reading", { on: true });
+  songe.click();
+  (document.getElementById("gear") as HTMLButtonElement).click();
+  for (const key of ["fromHeader", "autoSonge", "autoFight"]) flip(key, true);
+  (document.getElementById("back") as HTMLButtonElement).click();
+});
+
+it("« Lecture de l'écran » turned off with only Songe on: one click is enough", async () => {
+  const saved = () => JSON.parse(localStorage.getItem("dofight.settings")!);
+  if (document.getElementById("view-settings")!.hidden) (document.getElementById("gear") as HTMLButtonElement).click();
+  const flip = (id: string, on: boolean) => {
+    const input = document.getElementById(id) as HTMLInputElement;
+    input.checked = on;
+    input.dispatchEvent(new Event("change", { bubbles: true }));
+  };
+  for (const key of ["fromHeader", "autoSonge", "autoFight", "hideWhenAway"]) flip(`opt-${key}`, false);
+  (document.getElementById("back") as HTMLButtonElement).click();
+  (document.getElementById("songe") as HTMLButtonElement).click();
+  expect(saved().songe).toBe(true);
+  (document.getElementById("gear") as HTMLButtonElement).click();
+  flip("opt-reading", false);
+  expect(saved()).toMatchObject({ reading: false, songe: false });
+  expect((document.getElementById("opt-reading") as HTMLInputElement).checked).toBe(false);
+  flip("opt-reading", true);
+  for (const key of ["fromHeader", "autoSonge", "autoFight"]) flip(`opt-${key}`, true);
+  (document.getElementById("back") as HTMLButtonElement).click();
+});
+
+it("× does nothing while an update downloads or installs", async () => {
+  const { invoke } = await import("@tauri-apps/api/core");
+  document.getElementById("update")!.hidden = false;
+  document.getElementById("update-bar")!.hidden = false;
+  vi.mocked(invoke).mockClear();
+  (document.getElementById("quit") as HTMLButtonElement).click();
+  expect(invoke).not.toHaveBeenCalledWith("quit");
+  document.getElementById("update")!.hidden = true;
 });

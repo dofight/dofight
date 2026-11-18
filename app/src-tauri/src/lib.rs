@@ -129,6 +129,12 @@ fn read_again(songe: tauri::State<screen::Songe>) {
     songe.1.store(true, std::sync::atomic::Ordering::Relaxed);
 }
 
+/// « Lecture de l'écran » on or off (the settings): off, the Dofus window is not captured at all.
+#[tauri::command]
+fn set_reading(on: bool, reading: tauri::State<screen::Reading>) {
+    reading.0.store(on, std::sync::atomic::Ordering::Relaxed);
+}
+
 /// The overlay's view of the fight: in a fight the screen is read less often and « Songe » sleeps.
 #[tauri::command]
 fn set_in_fight(on: bool, in_fight: tauri::State<screen::InFight>) {
@@ -233,6 +239,7 @@ pub fn run() {
         .manage(screen::Reference::default())
         .manage(screen::Songe::default())
         .manage(screen::InFight::default())
+        .manage(screen::Reading::default())
         .manage(report::LastSent::default())
         .manage(PendingUpdate::default())
         .setup(|app| {
@@ -250,7 +257,8 @@ pub fn run() {
             let reference = app.state::<screen::Reference>().inner().clone();
             let songe = app.state::<screen::Songe>().inner().clone();
             let in_fight = app.state::<screen::InFight>().inner().clone();
-            screen::start(app.handle().clone(), reference, songe, in_fight);
+            let reading = app.state::<screen::Reading>().inner().clone();
+            screen::start(app.handle().clone(), reference, songe, in_fight, reading);
             // Dofight opens at launch (its taskbar button « Dofight » then stays until the player quits)
             if let Some(panel) = app.get_webview_window("panel") {
                 let _ = panel.show();
@@ -271,6 +279,7 @@ pub fn run() {
             set_shortcut,
             set_songe,
             set_in_fight,
+            set_reading,
             update_kind,
             portable_check,
             portable_install
