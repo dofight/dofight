@@ -43,10 +43,7 @@
       </main>
 
       <section id="view-settings" class="view paged" hidden>
-        <div class="back"><button id="back" class="tb" aria-label="Retour" data-i18n-aria="app.back" data-icon="back"></button><b data-i18n="app.settings">Paramètres</b><button id="eye" class="eye" aria-pressed="true" title="Afficher ou masquer l'aperçu" data-i18n-title="settings.previewToggle">
-            <svg class="on" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
-            <svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.6 5.1A10 10 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-2.6 3.4M6.6 6.6A17 17 0 0 0 2 12s3.6 7 10 7a9.7 9.7 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/><path d="M2 2l20 20"/></svg>
-            <span data-i18n="settings.preview">Aperçu</span></button></div>
+        <div class="back"><button id="back" class="tb" aria-label="Retour" data-i18n-aria="app.back" data-icon="back"></button><b data-i18n="app.settings">Paramètres</b></div>
         <div class="pagebody">
         <div class="card" data-card="reading"><div class="switch cardtitle cardhead"><h2 id="h-reading" data-i18n="settings.combat">Lecture de l'écran</h2><button type="button" class="info" aria-label="Pourquoi ?" data-i18n-aria="opt.info" aria-describedby="tip-screen" data-icon="info"></button><span class="bubble" role="tooltip" id="tip-screen" data-i18n="settings.combat.info"></span><!-- the card's own switch: on while one reading option is on; off, Dofight does not look at the game at all (reading.ts) --><input id="opt-reading" type="checkbox" role="switch" checked aria-labelledby="h-reading" aria-describedby="tip-screen"><button type="button" class="fold" aria-expanded="false" aria-controls="card-reading" aria-labelledby="h-reading" data-icon="chevron"></button></div>
           <div class="cardbody" id="card-reading" hidden>
@@ -54,7 +51,10 @@
           <label class="slider" for="reference" data-i18n="settings.reference">Fenêtre Dofus à lire</label>
           <select id="reference" class="select"></select>
           <p class="hint" data-i18n="settings.referenceHint">Si tu joues plusieurs comptes, Dofight ne lit que la fenêtre de ce personnage. Par défaut, la première trouvée.</p></div></div>
-        <div class="card" data-card="display"><div class="cardhead"><h2 id="h-display" data-i18n="settings.display">Affichage</h2><button type="button" class="fold" aria-expanded="false" aria-controls="card-display" aria-labelledby="h-display" data-icon="chevron"></button></div>
+        <div class="card" data-card="display"><div class="cardhead"><h2 id="h-display" data-i18n="settings.display">Affichage</h2><!-- the example beside the settings, shown or hidden: it shows what this card changes --><button id="eye" class="eye" aria-pressed="true" title="Afficher ou masquer l'aperçu" data-i18n-title="settings.previewToggle">
+            <svg class="on" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.6 5.1A10 10 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-2.6 3.4M6.6 6.6A17 17 0 0 0 2 12s3.6 7 10 7a9.7 9.7 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/><path d="M2 2l20 20"/></svg>
+            <span data-i18n="settings.preview">Aperçu</span></button><button type="button" class="fold" aria-expanded="false" aria-controls="card-display" aria-labelledby="h-display" data-icon="chevron"></button></div>
           <div class="cardbody" id="card-display" hidden><h3 data-i18n="settings.list">Liste des monstres</h3><div id="opts-display" class="opts"></div>
           <h4 class="subcap" data-i18n="settings.kinds">Types de monstres</h4><div id="opts-kinds" class="opts sub"></div>
           <h3 data-i18n="settings.card">Fiche d'un monstre</h3><div id="opts-card" class="opts"></div>
@@ -119,27 +119,30 @@
       <section id="view-guide" class="view paged guide-view" aria-labelledby="guide-title" hidden>
         <div class="back"><button id="guide-back" class="tb" aria-label="Retour" data-i18n-aria="app.back" data-icon="back"></button><b id="guide-title" data-i18n="guide.title">Bien démarrer</b></div>
         <div class="pagebody">
+        <!-- the first step only: the language, what the guide is, how it shows things -->
+        <div id="guide-top">
         <div id="guide-lang" class="langs" role="radiogroup" aria-label="Langue" data-i18n-aria="settings.language"><button type="button" class="lang" role="radio" data-lang="fr" lang="fr">Français</button><button type="button" class="lang" role="radio" data-lang="en" lang="en">English</button></div>
         <p class="guide-intro" data-i18n="guide.intro"></p>
-        <p class="hint" id="guide-nodofus" data-i18n="guide.noDofus" hidden></p>
+        <p class="hint" data-i18n="guide.beside"></p>
+        </div>
         <p class="guide-warn" id="guide-ocr" role="status" data-i18n="guide.ocr" hidden></p>
-        <div class="card"><h2 data-i18n="guide.reads.title"></h2><img id="guide-corner" class="guide-corner" src="/guide/corner-fr.png" alt="" /><p data-i18n="guide.reads.text"></p><p data-i18n="guide.reads.never"></p>
+        <!-- one step at a time (the setup, then the panel's tour); the window beside the panel shows where to look -->
+        <div id="guide-steps" aria-live="polite">
+        <div class="card guide-step" data-step="reads"><h2 data-i18n="guide.reads.title"></h2><p data-i18n="guide.reads.text"></p><p data-i18n="guide.reads.never"></p>
           <button type="button" class="linkish" id="guide-to-reading" data-i18n="guide.reads.link"></button></div>
-        <div class="card"><h2 data-i18n="guide.coords.title"></h2><p data-i18n="guide.coords.text"></p><p class="seen" id="guide-coords-seen" role="status" data-i18n="guide.seen" hidden></p></div>
-        <div class="card"><h2 data-i18n="guide.bar.title"></h2><p data-i18n="guide.bar.text"></p><p class="seen" id="guide-bar-seen" role="status" data-i18n="guide.seen" hidden></p></div>
-        <div class="card"><h2 data-i18n="guide.shortcut.title"></h2><p id="guide-shortcut"></p>
+        <div class="card guide-step" data-step="coords" hidden><h2 data-i18n="guide.coords.title"></h2><p data-i18n="guide.coords.text"></p><p class="seen" id="guide-coords-seen" role="status" data-i18n="guide.seen" hidden></p><p class="hint later" data-i18n="guide.later" hidden></p></div>
+        <div class="card guide-step" data-step="bar" hidden><h2 data-i18n="guide.bar.title"></h2><p data-i18n="guide.bar.text"></p><p class="seen" id="guide-bar-seen" role="status" data-i18n="guide.seen" hidden></p><p class="hint later" data-i18n="guide.later" hidden></p></div>
+        <div class="card guide-step" data-step="shortcut" hidden><h2 data-i18n="guide.shortcut.title"></h2><p id="guide-shortcut"></p>
           <button type="button" class="linkish" id="guide-to-shortcut" data-i18n="guide.shortcut.link"></button></div>
-        <div class="card"><h2 data-i18n="guide.chips.title"></h2>
-          <div class="guide-samples" aria-hidden="true"><span class="tag danger" data-i18n="opt.tagsDanger"></span><span class="tag tip" data-i18n="opt.tagsTip"></span><span class="tag mechanic" data-i18n="opt.tagsMechanic"></span></div>
-          <p data-i18n="guide.chips.text"></p>
-          <div class="guide-samples" aria-hidden="true"><span class="mech"><span data-icon="info"></span><span data-i18n="guide.chips.sample"></span></span></div>
-          <p data-i18n="guide.chips.mech"></p></div>
-        <div class="card"><h2 data-i18n="guide.songe.title"></h2><p data-i18n="guide.songe.text"></p>
-          <div class="guide-samples" aria-hidden="true"><span class="songe" id="guide-songe-sample"></span></div>
-          <p data-i18n="guide.songe.button"></p></div>
-        <p class="hint" data-i18n="guide.again"></p>
-        <div class="row guide-end"><button id="guide-done" class="pill primary" data-i18n="guide.done">C'est parti</button></div>
+        <div class="card guide-step" data-step="tour" hidden><h2 data-i18n="guide.tour.title"></h2><p class="tour-step" id="tour-text"></p></div>
+        </div>
+        <p class="hint" id="guide-nodofus" data-i18n="guide.noDofus" hidden></p>
   </div>
+        <!-- pinned under the steps, so « Suivant » never moves -->
+        <div class="guide-nav">
+          <div class="tour-nav"><button type="button" id="tour-prev" class="pill" data-i18n="guide.tour.prev">Précédent</button><span id="tour-count" class="hint" role="status"></span><button type="button" id="tour-next" class="pill primary" data-i18n="guide.tour.next">Suivant</button></div>
+          <button type="button" class="linkish" id="guide-skip" data-i18n="guide.skip">Passer</button>
+        </div>
       </section>
       <!-- an update covers the whole panel until Dofight restarts (or until « Continuer » after a failure) -->
       <div id="update" class="update" role="alertdialog" aria-modal="true" aria-labelledby="update-title" aria-describedby="update-text" hidden>

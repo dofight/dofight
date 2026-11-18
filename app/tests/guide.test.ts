@@ -53,14 +53,21 @@ const at = (text: string, y: number) => ({ text, x: 8, y, w: 220, h: 18 });
 const HEADER = [at("Landes de Sidimote (Gisgoul)", 40), at("-16,19 • Niveau 170", 66)];
 const view = () => document.getElementById("view-guide")!;
 const click = (id: string) => (document.getElementById(id) as HTMLButtonElement).click();
+const last = () => emitted.filter((e) => e.event === "preview:tour").at(-1)!.payload;
+const count = () => plain(document.getElementById("tour-count")!.textContent);
+const card = () => document.querySelector<HTMLElement>("#guide-steps .guide-step:not([hidden])")!.dataset.step;
+/** Clicks « Suivant » until the last step (its button then closes the guide). */
+const toLast = () => {
+  for (let i = 0; i < 20 && !count().match(/^Étape (\d+) \/ \1$/); i++) click("tour-next");
+};
 
-it("opens by itself on the very first use, over the monster list, with the player's shortcut", () => {
+it("opens by itself on the very first use, at its first step, over the monster list", () => {
   expect(view().hidden).toBe(false);
   expect(document.getElementById("view-main")!.hidden).toBe(true);
+  expect(card()).toBe("reads");
   expect(plain(document.getElementById("guide-shortcut")!.textContent)).toBe("Ctrl + Maj + D affiche ou masque Dofight, même depuis le jeu.");
-  expect(localStorage.getItem("dofight.guide")).toBeNull(); // not seen until the player closes it
-  expect(plain(document.getElementById("guide-done")!.textContent)).toBe("C'est parti");
-  expect(document.getElementById("guide-skip")).toBeNull(); // the back arrow and Escape skip
+  expect(localStorage.getItem("dofight.guide")).toBe("0"); // opened by itself, not seen until the player closes it
+  expect(document.activeElement).toBe(document.getElementById("tour-next")); // not the back arrow, which closes it
 });
 
 it("shows ✓ once the coordinates and the icon bar are seen in the game, not before", async () => {
@@ -71,33 +78,78 @@ it("shows ✓ once the coordinates and the icon bar are seen in the game, not be
   expect(document.getElementById("guide-bar-seen")!.hidden).toBe(false);
 });
 
-it("goes to a setting and comes back to the guide with the settings' back arrow", () => {
+it("goes step by step: the setup in the game's corner, then the panel's tour, « C'est parti » at the end", async () => {
+  await vi.waitFor(() => expect(count()).toBe("Étape 1 / 13")); // 4 setup steps, 9 for the panel (Torkélonia has them all)
+  expect((document.getElementById("tour-prev") as HTMLButtonElement).disabled).toBe(true);
+  expect(document.getElementById("guide-top")!.hidden).toBe(false); // the language and the intro: step 1 only
+  expect(last().sel).toBe('.corner-part[data-part="all"]');
+  expect(last().html).toContain("/guide/corner-fr.png");
+  const corner = last().html;
+  click("tour-next");
+  expect(card()).toBe("coords");
+  expect(document.getElementById("guide-top")!.hidden).toBe(true);
+  expect(last().sel).toBe('.corner-part[data-part="coords"]');
+  expect(last().html).toBe(corner); // the same picture: it loads once
+  click("tour-next");
+  expect(card()).toBe("bar");
+  expect(last().sel).toBe('.corner-part[data-part="bar"]');
+  click("tour-next");
+  expect(card()).toBe("shortcut");
+  expect(last().sel).toBe(".tour-bar");
+  expect(plain(last().text)).toBe("Tout le panneau se masque, puis revient avec le même raccourci.");
+  click("tour-next");
+  expect(card()).toBe("tour");
+  expect(last().sel).toBe(".tour-search");
+  for (let i = 0; i < 3; i++) click("tour-next");
+  expect(count()).toBe("Étape 8 / 13");
+  expect(last().sel).toBe(".roomhead .mech");
+  expect(last().html).toContain('class="mech"');
+  expect(plain(document.getElementById("tour-text")!.textContent)).toBe(plain(last().text)); // the same text in the panel
+  click("tour-next");
+  click("tour-next");
+  expect(last().sel).toContain(".resrow"); // the open card: resistances and spells together
+  expect(last().sel).toContain(".spells");
+  expect(document.getElementById("guide-skip")!.hidden).toBe(false);
+  toLast();
+  expect(count()).toBe("Étape 13 / 13");
+  expect(last().sel).toBe(".tour-menu"); // last: where to find the guide again
+  expect(document.getElementById("guide-skip")!.hidden).toBe(true);
+  expect(plain(document.getElementById("tour-next")!.textContent)).toBe("C'est parti");
+  click("tour-prev");
+  expect(count()).toBe("Étape 12 / 13");
+  expect(last().sel).toBe(".tour-gear"); // the step before: the gear, the settings
+  expect(plain(document.getElementById("tour-next")!.textContent)).toBe("Suivant");
+});
+
+it("goes to a setting and comes back to the guide, at the same step, with the settings' back arrow", () => {
   click("guide-to-shortcut");
   expect(document.getElementById("view-settings")!.hidden).toBe(false);
   expect(document.getElementById("card-window")!.hidden).toBe(false);
   expect(document.activeElement).toBe(document.getElementById("shortcut"));
   click("back");
   expect(view().hidden).toBe(false);
+  expect(count()).toBe("Étape 12 / 13"); // at the same step
+  expect(document.activeElement).toBe(document.getElementById("guide-to-shortcut")); // back on the link it left by
 });
 
-it("switches language from the guide itself", () => {
+it("switches language from the guide itself, staying at its step; the game's corner follows", () => {
   (document.querySelector('#guide-lang .lang[data-lang="en"]') as HTMLButtonElement).click();
   expect(plain(document.getElementById("guide-title")!.textContent)).toBe("Getting started");
-  expect(plain(document.getElementById("guide-shortcut")!.textContent)).toContain("shows or hides Dofight");
-  // the chosen button and the picture follow at once
   expect(document.querySelector('#guide-lang .lang[data-lang="en"]')!.getAttribute("aria-checked")).toBe("true");
   expect(document.querySelector('#guide-lang .lang[data-lang="fr"]')!.getAttribute("aria-checked")).toBe("false");
-  expect((document.getElementById("guide-corner") as HTMLImageElement).getAttribute("src")).toBe("/guide/corner-en.png");
+  expect(count()).toBe("Step 12 of 13");
+  for (let i = 0; i < 12; i++) click("tour-prev");
+  expect(last().html).toContain("/guide/corner-en.png");
   (document.querySelector('#guide-lang .lang[data-lang="fr"]') as HTMLButtonElement).click();
   expect(plain(document.getElementById("guide-title")!.textContent)).toBe("Bien démarrer");
-  expect((document.getElementById("guide-corner") as HTMLImageElement).getAttribute("src")).toBe("/guide/corner-fr.png");
+  expect(last().html).toContain("/guide/corner-fr.png");
 });
 
 it("a fight closes it without marking it seen", async () => {
   // straight from the icon bar: the heart (a fight)
   await handler("screen:tick")({ payload: { front: true, lines: HEADER, error: null, bar: "fight" } });
   await vi.waitFor(() => expect(view().hidden).toBe(true));
-  expect(localStorage.getItem("dofight.guide")).toBeNull();
+  expect(localStorage.getItem("dofight.guide")).toBe("0"); // not closed by the player: it opens again next launch
   await handler("screen:tick")({ payload: { front: true, lines: HEADER, error: null, bar: "calm" } });
 });
 
@@ -126,17 +178,31 @@ it("says when Windows has no French (the zone line saying it is under the guide)
   expect(document.getElementById("guide-ocr")!.hidden).toBe(false);
 });
 
-it("reopens from the menu with « J'ai compris »; it, back and Escape close it and mark it seen", () => {
-  for (const close of ["guide-done", "guide-back", "escape"]) {
+it("reopens from the menu at its first step, « J'ai compris » at the end; it, back and Escape close it and mark it seen", () => {
+  for (const close of ["done", "guide-skip", "guide-back", "escape"]) {
     localStorage.removeItem("dofight.guide");
     click("menu-btn");
     (document.querySelector('#menu [data-go="guide-open"]') as HTMLButtonElement).click();
     expect(view().hidden).toBe(false);
-    expect(plain(document.getElementById("guide-done")!.textContent)).toBe("J'ai compris");
+    expect(card()).toBe("reads");
     if (close === "escape") document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
-    else click(close);
+    else if (close === "done") {
+      toLast();
+      expect(plain(document.getElementById("tour-next")!.textContent)).toBe("J'ai compris");
+      click("tour-next");
+    } else click(close);
     expect(view().hidden).toBe(true);
     expect(document.getElementById("view-main")!.hidden).toBe(false);
     expect(localStorage.getItem("dofight.guide")).toBe("1");
   }
+});
+
+it("Dofus closed: the two settings in Dofus say « later », until the game shows them (then ✓)", async () => {
+  await handler("screen:tick")({ payload: { front: false, lines: [], error: "no-dofus", bar: null } });
+  click("guide-open");
+  click("tour-next"); // the coordinates
+  const later = () => document.querySelector<HTMLElement>('#guide-steps .guide-step[data-step="coords"] .later')!;
+  // already seen in an earlier test this session: the ✓ stays and « later » does not show
+  expect(later().hidden).toBe(!document.getElementById("guide-coords-seen")!.hidden);
+  click("guide-back");
 });

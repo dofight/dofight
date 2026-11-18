@@ -19,7 +19,50 @@ window.addEventListener("storage", (e) => e.key === KEY && syncTheme());
 // the overlay sends the rendered room each time a setting changes
 void listen<{ label: string; html: string }>("preview:render", ({ payload }) => {
   document.getElementById("label")!.textContent = payload.label;
-  document.getElementById("preview")!.innerHTML = payload.html;
+  const box = document.getElementById("preview")!;
+  box.classList.remove("touring");
+  tourHtml = "";
+  box.innerHTML = payload.html;
+});
+
+// the guide's tour: the sample once, then one element ringed in gold at a time, its bubble pointing at it
+let tourHtml = "";
+void listen<{ label: string; html: string; sel: string; text: string }>("preview:tour", async ({ payload }) => {
+  document.getElementById("label")!.textContent = payload.label;
+  const box = document.getElementById("preview")!;
+  if (payload.html !== tourHtml) {
+    tourHtml = payload.html;
+    box.innerHTML = `${payload.html}<div class="tour-tip"></div>`;
+    box.classList.add("touring");
+  }
+  box.querySelectorAll(".tour-on").forEach((el) => el.classList.remove("tour-on"));
+  // one or several elements ringed (the open card: its resistances and its spells); the bubble points at the last
+  const targets = [...box.querySelectorAll<HTMLElement>(payload.sel)];
+  const tip = box.querySelector<HTMLElement>(".tour-tip")!;
+  tip.textContent = payload.text;
+  if (!targets.length) return;
+  targets.forEach((el) => el.classList.add("tour-on"));
+  const target = targets[targets.length - 1];
+  // the game's corner: its picture must be drawn before the ring and the bubble can be placed (a failed load too)
+  const img = box.querySelector("img");
+  if (img && !img.complete) await new Promise((done) => {
+    img.addEventListener("load", done, { once: true });
+    img.addEventListener("error", done, { once: true });
+  });
+  target.scrollIntoView({ block: "center" });
+  // beside the element, in the sample's coordinates: below it when there is room on screen, else above; on the game's
+  // corner, under the whole picture (its other parts stay visible), the arrow still on the ringed part
+  requestAnimationFrame(() => {
+    const b = box.getBoundingClientRect();
+    const shot = target.closest(".corner-shot")?.getBoundingClientRect();
+    const t = target.getBoundingClientRect();
+    const r = shot ? { top: shot.top, bottom: shot.bottom, left: t.left, width: t.width } : t;
+    const below = r.bottom + tip.offsetHeight + 16 <= window.innerHeight;
+    tip.classList.toggle("below", below);
+    tip.classList.toggle("above", !below);
+    tip.style.top = `${below ? r.bottom - b.top + 10 : r.top - b.top - tip.offsetHeight - 10}px`;
+    tip.style.setProperty("--arrow", `${Math.max(10, Math.min(r.left + r.width / 2 - b.left - 13, b.width - 34))}px`);
+  });
 });
 
 // a folded row hovered here shows the same badge preview as in the panel (the panel places it); the example only

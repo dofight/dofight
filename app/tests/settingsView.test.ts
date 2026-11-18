@@ -506,6 +506,14 @@ it("settings cards fold: folded at first, a click on a title unfolds it (remembe
   expect(reading.hidden).toBe(folded);
   (document.getElementById("opt-reading") as HTMLInputElement).click();
   expect((document.getElementById("opt-reading") as HTMLInputElement).checked).toBe(true);
+  // « Aperçu » sits in the « Affichage » title, and its click does not fold the card
+  const eye = document.getElementById("eye") as HTMLButtonElement;
+  expect(eye.closest('.card[data-card="display"] .cardhead')).not.toBeNull();
+  const display = document.getElementById("card-display")!;
+  const displayFolded = display.hidden;
+  eye.click();
+  expect(display.hidden).toBe(displayFolded);
+  eye.click();
   // the last card (suggestion, Discord, support) has no title and never folds
   expect(document.getElementById("report-app")!.closest(".cardbody")).toBeNull();
   (document.getElementById("back") as HTMLButtonElement).click();

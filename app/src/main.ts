@@ -34,7 +34,7 @@ import { renderSpellSheet } from "./render/spellSheet";
 import { renderMechanicSheet } from "./render/mechanic";
 import { iconResolver, roomFor, type Room } from "./room";
 import { search, type Result } from "./search";
-import { loadSettings, TEXT_SIZES, updateSettings, type Settings } from "./settings";
+import { DEFAULTS, loadSettings, TEXT_SIZES, updateSettings, type Settings } from "./settings";
 import { capturing as capturingGame, READING, readingPatch } from "./reading";
 import type { Monster, RoomSummary, Snapshot } from "./types";
 
@@ -53,13 +53,18 @@ const CARD_AFTER_BADGES: Flag[] = ["spells", "spellBadges"];
 const BADGES: Flag[] = ["tagsDanger", "tagsTip", "tagsMechanic"];
 const BADGE_COLOUR: Partial<Record<Flag, string>> = { tagsDanger: "danger", tagsTip: "tip", tagsMechanic: "mechanic" };
 const PREVIEW_DUNGEON = "Tertre du long sommeil"; // the preview always shows this one dungeon as its example
+const TOUR_DUNGEON = 114; // the guide's tour: Sanctuaire de Torkélonia, a boss with badges and a mechanic chip
 const PLACED = "dofight.placed";
 const FOLDS = "dofight.cards"; // which settings cards are unfolded, by their data-card
 const GUIDE = "dofight.guide"; // the getting-started guide was closed once
 /** The very first use of Dofight (read before placeOnce writes PLACED): the guide opens by itself. */
-const firstUse = !localStorage.getItem(PLACED) && !localStorage.getItem(GUIDE);
-/** The settings were opened from the guide: their back arrow returns to it. */
+// (« 0 »: it opened by itself and was not finished, a fight or a quit cut it: it opens again; « 1 »: closed by the player)
+const firstUse = (!localStorage.getItem(PLACED) && localStorage.getItem(GUIDE) === null) || localStorage.getItem(GUIDE) === "0";
+/** The settings were opened from the guide: their back arrow returns to it (and the keyboard to this link). */
 let guideReturn = false;
+let guideReturnFocus = "";
+/** The game data could not load: the guide keeps its setup steps only. */
+let dataFailed = false;
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 const win = getCurrentWindow();
@@ -509,7 +514,8 @@ let dofusAway = false; // Dofus not in front: the preview hides with the overlay
 async function placePreview(render = true): Promise<void> {
   const preview = await Window.getByLabel("preview");
   if (!preview) return;
-  if ($("view-settings").hidden || !settings.preview || dofusAway || !(await panelOpen())) {
+  const touring = !$("view-guide").hidden;
+  if ((!touring && ($("view-settings").hidden || !settings.preview)) || dofusAway || !(await panelOpen())) {
     await preview.hide();
     return;
   }
@@ -524,11 +530,22 @@ async function placePreview(render = true): Promise<void> {
     { x: monitor.position.x, y: monitor.position.y, width: monitor.size.width, height: monitor.size.height },
     Math.round(GAP * monitor.scaleFactor),
   );
+  if (touring) {
+    // the guide's window never covers the panel (its « Suivant »): as wide as the room beside it, 240 at least
+    const gap = Math.round(GAP * monitor.scaleFactor);
+    const room = Math.max(pos.x - monitor.position.x, monitor.position.x + monitor.size.width - (pos.x + size.width)) - gap;
+    r.width = Math.min(r.width, Math.max(Math.round(240 * monitor.scaleFactor), room));
+    if (r.x > pos.x) r.x = pos.x + size.width + gap;
+    else r.x = pos.x - gap - r.width;
+  }
   // positions, sizes and the monitor are physical pixels: stay in physical units (mixed-DPI setups)
   await preview.setSize(new PhysicalSize(r.width, r.height));
   await preview.setPosition(new PhysicalPosition(r.x, r.y));
   await preview.show(); // no focus
-  if (render) renderPreview();
+  if (render) {
+    if (touring) showGuideStep();
+    else renderPreview();
+  }
 }
 
 /* ---------- hover preview: a folded monster's badges and summary beside the panel ---------- */
@@ -759,12 +776,14 @@ function changeLang(lang: Lang): void {
   buildControls();
   update({ lang }); // room, preview and the settings view (switch states, shortcut, theme name)
   showGuideTexts(); // after update: its chosen language and picture follow settings.lang
+  if (!$("view-guide").hidden) startTour();
   showResults();
   // the game data and summaries in the new language (fetched the first time), then everything shown again
   void refreshView().then(() => {
     showResults();
     showRoom();
     renderPreview();
+    if (!$("view-guide").hidden) startTour(); // the sample in the new language's names
   });
   if (!$("view-settings").hidden) void fillReferenceWindows();
 }
@@ -850,10 +869,6 @@ let shortcutTaken = false;
 
 /** The texts built in code: the shortcut (the player's own keys) and the language buttons. */
 function showGuideTexts(): void {
-  // the picture of the game's corner, from a client in the interface's language
-  const corner = $<HTMLImageElement>("guide-corner");
-  corner.src = `/guide/corner-${settings.lang}.png`;
-  corner.alt = t("guide.corner");
   const keys = shortcutLabel(settings.shortcut);
   $("guide-shortcut").textContent = t(shortcutTaken ? "guide.shortcut.taken" : "guide.shortcut.text", { keys });
   $("guide-nodofus").hidden = !dofusClosed;
@@ -865,18 +880,27 @@ function showGuideTexts(): void {
 }
 
 /** `first`: opened by itself on the first use (« C'est parti »); from the menu or the settings, « Retour ». */
-function openGuide(first = false): void {
+function openGuide(first = false, restart = true): void {
   hidePeek();
+  const back = guideReturnFocus;
   guideReturn = false;
-  const done = $("guide-done");
-  done.dataset.i18n = first ? "guide.done" : "guide.gotIt";
-  done.textContent = t(done.dataset.i18n as Key);
+  guideReturnFocus = "";
+  guideFirst = first;
+  if (first) {
+    try {
+      localStorage.setItem(GUIDE, "0"); // opened by itself: until the player closes it, it opens again
+    } catch {
+      // it may not open again
+    }
+  }
   for (const id of ["view-main", "view-settings", "view-report"]) $(id).hidden = true;
   showGuideTexts();
   $("view-guide").hidden = false;
   $("view-guide").querySelector(".pagebody")!.scrollTop = 0;
+  startTour(restart);
   void placePreview();
-  $("guide-back").focus({ preventScroll: true });
+  // the keyboard on « Suivant » (the back arrow would close it for good), or back on the link that left it
+  $(back || "tour-next").focus({ preventScroll: true });
 }
 
 /** Closed by the player (seen: it never opens by itself again) or by a fight (not seen: it comes back next launch). */
@@ -890,18 +914,22 @@ function closeGuide(seen: boolean): void {
   }
   $("view-guide").hidden = true;
   $("view-main").hidden = false;
+  void emit("preview:render", { label: "", html: "" }); // the tour leaves the window beside, which may show again
+  void placePreview(false); // the tour's window goes
   if (seen) $("menu-btn").focus({ preventScroll: true }); // where the guide says it can be found again
 }
 
 /** A game setting the guide asks for was seen in a reading: its card says so. */
 function guideSeen(what: "coords" | "bar"): void {
   $(`guide-${what}-seen`).hidden = false;
+  $(`guide-${what}-seen`).parentElement!.querySelector<HTMLElement>(".later")!.hidden = true;
 }
 
 /** From the guide to a setting: the settings open on its card, and their back arrow returns to the guide. */
-function guideToSetting(card: string, focus: string): void {
-  guideReturn = true;
+function guideToSetting(card: string, focus: string, from: string): void {
+  guideReturnFocus = from;
   openSettings(true);
+  guideReturn = true; // (after openSettings, which clears it when it closes the settings)
   openCard(card);
   $(focus).focus({ preventScroll: true });
   $(focus).scrollIntoView?.({ block: "center" });
@@ -909,9 +937,9 @@ function guideToSetting(card: string, focus: string): void {
 
 $("guide-open").addEventListener("click", () => openGuide());
 $("guide-back").addEventListener("click", () => closeGuide(true));
-$("guide-done").addEventListener("click", () => closeGuide(true));
-$("guide-to-reading").addEventListener("click", () => guideToSetting("reading", "opt-reading"));
-$("guide-to-shortcut").addEventListener("click", () => guideToSetting("window", "shortcut"));
+$("guide-to-reading").addEventListener("click", () => guideToSetting("reading", "opt-reading", "guide-to-reading"));
+$("guide-to-shortcut").addEventListener("click", () => guideToSetting("window", "shortcut", "guide-to-shortcut"));
+$("guide-skip").addEventListener("click", () => closeGuide(true));
 // the language buttons: a radio group, like the settings' (click, or the arrows)
 const pickGuideLang = (lang: string | undefined) => {
   const next: Lang = lang === "en" ? "en" : "fr";
@@ -930,8 +958,107 @@ $("guide-lang").addEventListener("keydown", (e) => {
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && !$("view-guide").hidden && $("update").hidden) closeGuide(true);
 });
-// the « Songe » button's look, drawn again as a sample (its icon and its word)
-$("guide-songe-sample").innerHTML = $("songe").innerHTML;
+/* the tour: one element of a sample panel lit up at a time, its bubble pointing at it (owner, 2026-11-18) */
+
+/** Each step: what to light up in the sample, and what the bubble says. A step whose element is missing is skipped. */
+const TOUR: { sel: string; key: Key }[] = [
+  { sel: ".tour-search", key: "guide.tour.search" },
+  { sel: ".tour-songe", key: "guide.tour.songe" },
+  { sel: ".roomhead .dj", key: "guide.tour.head" },
+  { sel: ".roomhead .mech", key: "guide.tour.mech" },
+  { sel: '.mob.boss[data-open="true"] .tags', key: "guide.tour.badges" },
+  // the open card: its resistances and its spells, ringed together
+  { sel: '.mob.boss[data-open="true"] .resrow, .mob.boss[data-open="true"] .spells', key: "guide.tour.card" },
+  { sel: '.mob[data-open="false"] .mh', key: "guide.tour.folded" },
+  // then the gear (the settings), and last where to find the guide again: the menu
+  { sel: ".tour-gear", key: "guide.tour.gear" },
+  { sel: ".tour-menu", key: "guide.tour.menu" },
+];
+/** A guide step: its card here, and what the window beside shows (the game's corner, or the sample panel), ringed. */
+type GuideStep = { card: "reads" | "coords" | "bar" | "shortcut" | "tour"; tip: Key; text?: Key; corner?: "all" | "coords" | "bar"; sel?: string };
+/** The setup first, in the game's corner: what Dofight reads, the coordinates, the icon bar; then the shortcut. */
+const SETUP: GuideStep[] = [
+  { card: "reads", tip: "guide.tip.reads", corner: "all" },
+  { card: "coords", tip: "guide.tip.coords", corner: "coords" },
+  { card: "bar", tip: "guide.tip.bar", corner: "bar" },
+  { card: "shortcut", tip: "guide.tip.shortcut", sel: ".tour-bar" },
+];
+let guideSteps: GuideStep[] = SETUP;
+let guideStep = 0;
+/** Opened by itself on the first use: its last button says « C'est parti » (else « J'ai compris »). */
+let guideFirst = false;
+/** The sample panel, drawn once per tour start: a mock top bar and search row, then the dungeon drawn by the app. */
+let tourHtml = "";
+
+/** The sample's dungeon, drawn by the app with every display option on, its boss open; the steps that find their element. */
+function buildTour(): void {
+  const bar = `<div class="tour-bar"><span class="tour-menu">${icon("menu")}</span><b>Dofight</b><span class="tour-gear">${icon("gear")}</span></div>`;
+  const search = `<div class="tour-searchrow"><span class="tour-search">${esc(t("main.searchPlaceholder"))}</span><span class="songe tour-songe">${$("songe").innerHTML}</span></div>`;
+  const d = snap?.dungeons.get(TOUR_DUNGEON) ?? (snap ? [...snap.dungeons.values()].find((x) => x.name === PREVIEW_DUNGEON) : undefined);
+  let room = `<p class="empty">${esc(t("guide.tour.loading"))}</p>`;
+  if (snap && view && d) {
+    const monsters = d.monsterIds.map((id) => snap!.monsters.get(id)).filter((m): m is Monster => !!m);
+    const r: Room = { dungeon: d, title: d.name, monsters };
+    const v = shown(r);
+    const boss = monsters.find((m) => m.boss)?.id;
+    room = renderRoom(v.dungeon, v.monsters, summaryOf(r), view, { ...DEFAULTS, suggest: false }, iconResolver(view), v.title, (id) => id === boss);
+  }
+  tourHtml = `<div class="tour">${bar}${search}${room}</div>`;
+  const probe = document.createElement("div");
+  probe.innerHTML = tourHtml;
+  // the data could not load: the setup steps only (the sample would say « Chargement… » for ever)
+  const tour = dataFailed ? [] : TOUR.filter((step) => probe.querySelector(step.sel));
+  guideSteps = [...SETUP, ...tour.map((step): GuideStep => ({ card: "tour", tip: step.key, text: step.key, sel: step.sel }))];
+}
+
+/** The game's corner (the player's client language), the step's part ringed. */
+/** The game's corner (the player's client language) with its three parts, so its picture loads once for steps 1-3. */
+const cornerHtml = () =>
+  `<div class="corner-shot"><img src="/guide/corner-${settings.lang}.png" alt="${esc(t("guide.corner"))}" />${["all", "coords", "bar"].map((p) => `<span class="corner-part" data-part="${p}"></span>`).join("")}</div>`;
+
+/** The current step: its card here, its ring and bubble in the window beside the panel. */
+function showGuideStep(): void {
+  guideStep = Math.max(0, Math.min(guideStep, guideSteps.length - 1));
+  const step = guideSteps[guideStep];
+  const last = guideStep === guideSteps.length - 1;
+  document.querySelectorAll<HTMLElement>("#guide-steps .guide-step").forEach((card) => (card.hidden = card.dataset.step !== step.card));
+  if (step.text) $("tour-text").textContent = t(step.text);
+  $("guide-top").hidden = guideStep !== 0; // the language and the intro: the first step only
+  $("guide-nodofus").hidden = !(last && dofusClosed);
+  // the two settings in Dofus: a ✓ once seen, else « later » while Dofus is closed
+  document.querySelectorAll<HTMLElement>("#guide-steps .later").forEach((p) => (p.hidden = !dofusClosed || !p.parentElement!.querySelector<HTMLElement>(".seen")!.hidden));
+  $("tour-count").textContent = t("guide.tour.count", { n: guideStep + 1, total: guideSteps.length });
+  $("guide-skip").hidden = last;
+  const prev = $<HTMLButtonElement>("tour-prev");
+  if (guideStep === 0 && document.activeElement === prev) $("tour-next").focus({ preventScroll: true }); // a disabled button would keep the keyboard
+  prev.disabled = guideStep === 0;
+  const next = $("tour-next");
+  next.dataset.i18n = last ? (guideFirst ? "guide.done" : "guide.gotIt") : "guide.tour.next";
+  next.textContent = t(next.dataset.i18n as Key);
+  // a taken shortcut: no bubble promising it works (its card says it is taken)
+  const tip = step.card === "shortcut" && shortcutTaken ? "" : t(step.tip, { keys: shortcutLabel(settings.shortcut) });
+  const html = step.corner ? cornerHtml() : tourHtml;
+  void emit("preview:tour", { label: t("guide.title"), html, sel: step.corner ? `.corner-part[data-part="${step.corner}"]` : step.sel, text: tip });
+}
+
+/** The steps again (the data loaded, the language changed), at the same step; `restart` from the first one. */
+function startTour(restart = false): void {
+  buildTour();
+  if (restart) guideStep = 0;
+  if ($("view-guide").hidden) return;
+  showGuideStep();
+  void placePreview(false);
+}
+$("tour-prev").addEventListener("click", () => {
+  guideStep--;
+  showGuideStep();
+});
+$("tour-next").addEventListener("click", () => {
+  if (guideStep === guideSteps.length - 1) return closeGuide(true);
+  guideStep++;
+  showGuideStep();
+});
+
 if (firstUse) openGuide(true);
 
 /* ---------- settings cards that fold (owner, 2026-11-18): folded until the player opens one, then remembered ---------- */
@@ -970,7 +1097,7 @@ function openCard(card: string, open = true): void {
 $("view-settings").addEventListener("click", (e) => {
   const target = e.target as HTMLElement;
   const head = target.closest<HTMLElement>(".cardhead");
-  if (!head || target.closest("input, select, a, .info, .bubble")) return;
+  if (!head || target.closest("input, select, a, .info, .bubble, .eye")) return;
   const card = head.closest<HTMLElement>(".card")!.dataset.card!;
   openCard(card, !!$(`card-${card}`).hidden);
 });
@@ -980,8 +1107,8 @@ function closeSettings(): void {
   const toGuide = guideReturn;
   openSettings(false);
   if (toGuide) {
-    // reached from the guide: back to it
-    openGuide();
+    // reached from the guide: back to it, at the step it was left
+    openGuide(guideFirst, false);
     return;
   }
   $("gear").focus({ preventScroll: true });
@@ -1397,6 +1524,7 @@ async function apply(actions: Action[]): Promise<void> {
       showRoom();
     } else if (a.type === "show") {
       diag("panel", "fight started: open");
+      guideReturn = false; // in the settings from a guide link: their back arrow goes to the fight, not the guide
       if (!$("view-guide").hidden) closeGuide(false); // a fight wins over the guide; it comes back next launch
       await showOverlay();
     }
@@ -1602,8 +1730,11 @@ loadSnapshot(fetchFromApp)
     $("status").textContent = "";
     showResults();
     showRoom();
+    if (!$("view-guide").hidden) startTour(); // opened before the data: its sample can be drawn now
   })
   .catch((err) => {
     diag("data", `game data not loaded: ${String(err)}`);
     $("status").textContent = t("main.dataMissing"); // the technical error is in the diagnostic log
+    dataFailed = true;
+    if (!$("view-guide").hidden) startTour();
   });

@@ -314,6 +314,7 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .cardhead{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
 .cardhead>.fold{margin-left:auto}
 .cardhead #opt-reading+.fold{margin-left:0}
+.cardhead .eye+.fold{margin-left:0}
 .fold{flex:none;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;padding:0;border:0;border-radius:6px;background:none;color:var(--muted)}
 .fold:hover{color:var(--fg);background:var(--gold-soft)}
 .fold .ic{width:16px;height:16px;transition:transform .15s}
@@ -324,14 +325,46 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 /* the getting-started guide: the settings' cards, with samples of what the list shows (not clickable) */
 .guide-view .card p{margin:0;font-size:13px;line-height:1.4}
 .guide-intro{margin:0;font-size:13.5px;line-height:1.4}
-.guide-corner{display:block;max-width:100%;height:auto;border-radius:6px;border:1px solid var(--line)}
-.guide-samples{display:flex;flex-wrap:wrap;gap:6px;align-items:center;pointer-events:none;opacity:.8} /* look-alikes, not controls */
-.guide-samples .songe{height:28px}
+#guide-steps{display:grid}
+.guide-step[hidden],#guide-top[hidden],.guide-view .later[hidden]{display:none}
+#guide-top{display:grid;gap:8px}
+/* the guide's buttons stay at the bottom of the panel: a third row under its scrolling steps */
+#view-guide.view.paged{grid-template-rows:auto minmax(0,1fr) auto}
+.guide-nav{display:grid;gap:4px;justify-items:center;padding:8px 10px;border-top:1px solid var(--line);background:rgba(var(--win),max(var(--alpha,1),.94))}
+.guide-nav .tour-nav{width:100%}
+#guide-skip[hidden]{display:none}
+/* the game's corner in the window beside the panel, its part for the step ringed */
+.corner-shot{position:relative;display:block;width:100%;max-width:460px}
+.corner-shot img{display:block;width:100%;height:auto;border-radius:6px;border:1px solid var(--line)}
+.corner-part{position:absolute}
+.corner-part[data-part="all"]{inset:0}
+.corner-part[data-part="bar"]{left:0;top:0;width:82%;height:38%}
+.corner-part[data-part="coords"]{left:1%;top:73%;width:74%;height:25%}
 .guide-view .seen{color:var(--gold);font-weight:600}
 .guide-view .seen[hidden]{display:none}
 .guide-warn{margin:0;font-size:13px;padding:6px 10px;border-radius:8px;background:var(--warn-bg);color:var(--warn-fg)}
 .guide-warn[hidden],#guide-nodofus[hidden]{display:none}
-.guide-end{display:flex;gap:8px}
+/* the tour: a sample of the panel (not clickable), one element ringed in gold, its bubble pointing at it */
+.tour{display:flex;flex-direction:column;gap:8px}
+#preview.touring{position:relative;padding-bottom:120px} /* room for a bubble under the last element */
+.tour-step{margin:0;padding:8px 10px;border-left:3px solid var(--gold);border-radius:6px;background:var(--gold-soft);font-size:13px;line-height:1.4;min-height:3.8em}
+.tour-bar{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px}
+.tour-bar b{color:var(--fg)}
+.tour-bar .tour-gear{margin-left:auto}
+.tour-bar .ic{width:16px;height:16px}
+.tour-searchrow{display:flex;gap:6px}
+.tour-search{flex:1;min-width:0;border:1px solid var(--line);border-radius:8px;padding:6px 9px;background:var(--card);color:var(--muted);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tour-songe{height:auto}
+#preview.touring .tour-on{outline:2px solid var(--gold);outline-offset:2px;border-radius:6px;box-shadow:0 0 0 6px var(--gold-soft);animation:tourring 1.6s ease-in-out infinite}
+@keyframes tourring{50%{box-shadow:0 0 0 2px var(--gold-soft)}}
+.tour-tip{position:absolute;z-index:3;left:8px;right:8px;padding:7px 10px;border-radius:8px;background:var(--gold);color:#1d1a12;font-size:12.5px;font-weight:600;line-height:1.35;box-shadow:0 3px 10px rgba(0,0,0,.45)}
+.tour-tip::before{content:"";position:absolute;left:var(--arrow,20px);width:10px;height:10px;background:inherit;transform:rotate(45deg)}
+.tour-tip.below::before{top:-5px}
+.tour-tip.above::before{bottom:-5px}
+.tour-tip:empty{display:none}
+.tour-nav{display:flex;align-items:center;gap:8px}
+.tour-nav #tour-count{flex:1;text-align:center}
+@media (prefers-reduced-motion:reduce){#preview.touring .tour-on{animation:none}}
 .linkish{justify-self:start;padding:0;border:0;background:none;color:var(--blue);font:inherit;font-size:12.5px;text-decoration:underline;text-underline-offset:2px}
 .mcount{flex:none;color:var(--gold);font-size:12px;font-weight:700;margin-left:4px}
 /* an option's « i »: why something must be set in the game, on hover or keyboard focus */
