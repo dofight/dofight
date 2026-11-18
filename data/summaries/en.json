@@ -2374,7 +2374,6 @@
   "Placée au bord devant l'îlot et tapée au CaC sans la tuer, elle téléporte le personnage sur l'îlot de Nagate.": "Placed at the edge facing the islet and hit in melee without being killed, it teleports the character onto Nagate's islet.",
   "téléporte sur l'îlot de Nagate": "teleports onto Nagate's islet",
   "elle explose": "it explodes",
-  "Ne pas finir son tour en ligne entre deux Tamponneurs : renvoyé en boucle, les dégâts de poussée tuent. Ça marche aussi contre le boss : poussé entre deux Tamponneurs, il peut mourir d'un coup.": "Don't end your turn in line between two Stamper Wobots: bounced back and forth, the push damage kills. It works against the boss too: pushed between two Stamper Wobots, he can die in one go.",
   "Pousser Ben à son contact : l'explosion le rend vulnérable 5 tours.": "Push Ben next to it: the explosion makes him vulnerable for 5 turns.",
   "son explosion, autour de lui": "its explosion, around it",
   "il gagne 3 PM": "it gains 3 MP",
@@ -2383,7 +2382,8 @@
   "la moitié des dégâts infligés": "half the damage dealt",
   "renvoie de 6 cases": "sends 6 cells back",
   "à plus de 7 PO d'elle (tour 5)": "beyond 7 range of it (turn 5)",
-  "entre deux Tamponneurs": "between two Stamper Wobots"
+  "entre deux Tamponneurs": "between two Stamper Wobots",
+  "Ne pas finir son tour en ligne entre deux Tamponneurs : renvoyé en boucle, les dégâts de poussée tuent. Ça marche aussi contre le boss : le pousser entre deux Tamponneurs pour l'OS.": "Don't end your turn in line between two Stamper Wobots: bounced back and forth, the push damage kills. It works against the boss too: push him between two Stamper Wobots to one-shot him."
  },
  "token": {
   "-résistances": "-resistances",
