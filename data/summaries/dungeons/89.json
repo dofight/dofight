@@ -85,7 +85,12 @@
    "detail": "Exécution se lance à 2 PO sans ligne de vue : la repousser loin d'un Cocon et lui retirer des PM."
   },
   "3997": {
-   "tags": []
+   "tags": [
+    {
+     "id": "hit_to_heal",
+     "param": "la moitié des dégâts infligés"
+    }
+   ]
   }
  },
  "bossSummons": {

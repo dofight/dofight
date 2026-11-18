@@ -91,12 +91,27 @@
    ]
   },
   "6233": {
-   "tags": []
+   "tags": [
+    {
+     "id": "glyphs",
+     "param": "qui frappent"
+    }
+   ]
+  },
+  "6234": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "téléporte sur l'îlot de Nagate"
+    }
+   ],
+   "detail": "Placée au bord devant l'îlot et tapée au CaC sans la tuer, elle téléporte le personnage sur l'îlot de Nagate."
   }
  },
  "bossSummons": {
   "6256": [
-   6233
+   6233,
+   6234
   ]
  }
 }

@@ -103,7 +103,17 @@
    ]
   },
   "3459": {
-   "tags": []
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "entre deux Tamponneurs"
+    },
+    {
+     "id": "moves",
+     "param": "renvoie de 6 cases"
+    }
+   ],
+   "detail": "Ne pas finir son tour en ligne entre deux Tamponneurs : renvoyé en boucle, les dégâts de poussée tuent. Ça marche aussi contre le boss : poussé entre deux Tamponneurs, il peut mourir d'un coup."
   }
  },
  "bossSummons": {

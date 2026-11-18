@@ -122,7 +122,12 @@
    ]
   },
   "6266": {
-   "tags": []
+   "tags": [
+    {
+     "id": "area_damage",
+     "param": "elle explose"
+    }
+   ]
   }
  },
  "bossSummons": {

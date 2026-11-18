@@ -34,7 +34,7 @@
      "source": "spells"
     }
    ],
-   "detail": "La Pougnette explose à son 5e tour et tue les ennemis à plus de 7 PO : se placer à 1-7 PO d'elle ou la tuer (elle renvoie des dégâts). Pousser un personnage contre lui le rend vulnérable 3 tours ; y pousser un monstre le soigne."
+   "detail": "La Pougnette explose à son 5e tour et tue les ennemis à plus de 7 PO : se placer à 1-7 PO d'elle ou la tuer. Pousser un personnage contre lui le rend vulnérable 3 tours ; y pousser un monstre le soigne."
   },
   "2869": {
    "tags": [
@@ -125,7 +125,13 @@
    ]
   },
   "2951": {
-   "tags": []
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "à plus de 7 PO d'elle (tour 5)"
+    }
+   ],
+   "detail": "Se placer à 1-7 PO d'elle, ou la tuer avant son 5e tour."
   },
   "2938": {
    "tags": []

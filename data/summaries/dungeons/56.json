@@ -150,7 +150,17 @@
    ]
   },
   "2955": {
-   "tags": []
+   "tags": [
+    {
+     "id": "area_damage",
+     "param": "son explosion, autour de lui"
+    },
+    {
+     "id": "no_ap_mp_removal",
+     "param": "il gagne 3 PM"
+    }
+   ],
+   "detail": "Pousser Ben à son contact : l'explosion le rend vulnérable 5 tours."
   }
  },
  "bossSummons": {

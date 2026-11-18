@@ -90,7 +90,8 @@
    ]
   },
   "3458": {
-   "tags": []
+   "tags": [],
+   "harmless": true
   }
  },
  "bossSummons": {
