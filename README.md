@@ -7,6 +7,7 @@
 
 <p align="center">
   <a href="https://github.com/dofight/dofight/releases/latest"><b>⬇ Télécharger pour Windows</b></a>
+  · <a href="https://dofight.github.io">Site</a>
   · <a href="https://discord.gg/G8G4cyvpx6">Discord</a>
   · <a href="#english">English</a>
 </p>
@@ -98,6 +99,8 @@ Ankama Games.
 ---
 
 ## English
+
+Website: [dofight.github.io](https://dofight.github.io/?lang=en) · [Discord](https://discord.gg/G8G4cyvpx6)
 
 The fight assistant for Dofus 3: a panel next to the game that shows what makes the monsters around you dangerous,
 with their resistances and spells. Free and open source. Dofight only reads **the top-left corner of the Dofus
