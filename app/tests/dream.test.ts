@@ -5,6 +5,8 @@ const line = (text: string, y = 20) => ({ text, x: 10, y, w: 200, h: 18 });
 
 it("recognises a Songe's header, in English and in French", () => {
   expect(inDream([line("Dream Thoughts"), line("Bracket I · Depth 0", 44), line("Dream 1", 68)])).toBe(true);
+  // the English client's header, seen in the game on 2026-11-19
+  expect(inDream([line("Dream Thoughts"), line("Bracket I · Depth 1", 44), line("Nightmare 1", 68)])).toBe(true);
   expect(inDream([line("Pensées du Songe"), line("Palier I · Profondeur 3", 44)])).toBe(true);
   expect(inDream([line("Pensées oniriques"), line("Palier I · Profondeur 1", 44), line("Songe 1", 68)])).toBe(true);
   // the OCR's usual slips

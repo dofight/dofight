@@ -135,6 +135,19 @@ fn set_reading(on: bool, reading: tauri::State<screen::Reading>) {
     reading.0.store(on, std::sync::atomic::Ordering::Relaxed);
 }
 
+/// « Scanner ma sous-zone » (the reading off): Dofus is brought in front, then the corner is read SCAN_READS times
+/// (`screen:scan`), and nothing more.
+#[tauri::command]
+fn scan_now(reading: tauri::State<screen::Reading>, reference: tauri::State<screen::Reference>) -> bool {
+    if let Ok(mut a) = reading.1.lock() {
+        *a = Some((std::time::Instant::now(), screen::SCAN_READS));
+    }
+    let prefix = reference.0.lock().map(|p| p.clone()).unwrap_or_default();
+    let front = screen::focus_reference(&prefix);
+    diag::log("screen", if front { "scan asked: Dofus brought in front" } else { "scan asked: Dofus could not be brought in front" });
+    front
+}
+
 /// The overlay's view of the fight: in a fight the screen is read less often and « Songe » sleeps.
 #[tauri::command]
 fn set_in_fight(on: bool, in_fight: tauri::State<screen::InFight>) {
@@ -280,6 +293,7 @@ pub fn run() {
             set_shortcut,
             set_songe,
             set_in_fight,
+            scan_now,
             set_reading,
             update_kind,
             portable_check,

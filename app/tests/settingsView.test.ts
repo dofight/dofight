@@ -18,7 +18,7 @@ vi.mock("@tauri-apps/plugin-window-state", () => ({ saveWindowState: vi.fn(), St
 vi.mock("@tauri-apps/api/window", () => {
   const win = {
     show: vi.fn(), hide: vi.fn(), isVisible: vi.fn(async () => true), setSize: vi.fn(), setPosition: vi.fn(),
-    startDragging: vi.fn(), onResized: vi.fn(async () => () => {}), onMoved: vi.fn(async () => () => {}), onCloseRequested: vi.fn(async () => () => {}), isMinimized: vi.fn(async () => false),
+    startDragging: vi.fn(), setResizable: vi.fn(async () => {}), onResized: vi.fn(async () => () => {}), onMoved: vi.fn(async () => () => {}), onCloseRequested: vi.fn(async () => () => {}), isMinimized: vi.fn(async () => false),
     outerPosition: vi.fn(async () => ({ x: 1590, y: 40 })), outerSize: vi.fn(async () => ({ width: 320, height: 1000 })),
     innerPosition: vi.fn(async () => ({ x: 1590, y: 40 })), innerSize: vi.fn(async () => ({ width: 320, height: 1000 })),
   };
@@ -109,7 +109,7 @@ it("groups the window options in their own card; Apparence keeps language, theme
   const card = (title: string) => [...document.querySelectorAll("#view-settings .card")].find((c) => plain(c.querySelector("h2")?.textContent) === title)!;
   const names = (c: Element) => [...c.querySelectorAll(".switch .optname label")].map((s) => plain(s.textContent));
   const win = card("Fenêtre");
-  expect(names(win)).toEqual([]);
+  expect(names(win)).toEqual(["Verrouiller la position et la taille"]);
   expect(win.querySelector("#shortcut")).not.toBeNull();
   expect(win.querySelector("#opacity")).not.toBeNull();
   // everything that looks at the game sits under the screen reading's own switch (owner, 2026-11-18)
@@ -410,7 +410,7 @@ it("« Lecture de l'écran » off: the options go off and grey, Rust stops captu
     expect(input.disabled).toBe(true);
     expect(plain(input.closest(".switch")!.getAttribute("title"))).toBe("Active « Lecture de l'écran » pour changer cette option.");
   }
-  expect((document.getElementById("reference") as HTMLSelectElement).disabled).toBe(true);
+  expect((document.getElementById("reference") as HTMLSelectElement).disabled).toBe(false); // « Scanner ma sous-zone » reads that window
   expect(plain(document.getElementById("zone")!.textContent)).toBe("Lecture de l'écran coupée (Paramètres)");
   await handler("screen:tick")({ payload: { front: true, lines: [], error: "off", bar: null } });
   (document.getElementById("back") as HTMLButtonElement).click();
@@ -558,4 +558,25 @@ it("copies the settings as text and pastes them back (another PC): the theme com
   (document.getElementById("settings-import") as HTMLButtonElement).click();
   await vi.waitFor(() => expect(saved().theme).toBe(before.theme));
   (document.getElementById("back") as HTMLButtonElement).click();
+});
+
+it("locks the panel's position and size from the padlock, and the settings switch follows", async () => {
+  const { getCurrentWindow } = await import("@tauri-apps/api/window");
+  const win = getCurrentWindow() as unknown as { setResizable: ReturnType<typeof vi.fn>; startDragging: ReturnType<typeof vi.fn> };
+  const lock = document.getElementById("lock")!;
+  expect(lock.getAttribute("aria-pressed")).toBe("false");
+  lock.click();
+  expect(lock.getAttribute("aria-pressed")).toBe("true");
+  expect(lock.title).toContain("Panneau verrouillé");
+  expect(win.setResizable).toHaveBeenLastCalledWith(false);
+  expect((document.getElementById("opt-locked") as HTMLInputElement).checked).toBe(true);
+  // locked: a press and a move on the panel no longer moves the window
+  win.startDragging.mockClear();
+  const room = document.getElementById("room")!;
+  room.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, button: 0, screenX: 0, screenY: 0 }));
+  room.dispatchEvent(new MouseEvent("mousemove", { bubbles: true, screenX: 20, screenY: 0 }));
+  expect(win.startDragging).not.toHaveBeenCalled();
+  lock.click();
+  expect(win.setResizable).toHaveBeenLastCalledWith(true);
+  expect(lock.getAttribute("aria-pressed")).toBe("false");
 });

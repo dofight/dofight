@@ -1,5 +1,5 @@
 import { expect, it } from "vitest";
-import { roomFor } from "../src/room";
+import { restoreRoom, roomFor, saveRoom } from "../src/room";
 import { makeSnapshot } from "./fixtures";
 
 const s = makeSnapshot();
@@ -40,4 +40,15 @@ it("a boss's key summon loads its boss's dungeon, pinned", () => {
   const r = roomFor(snap, { kind: "monster", label: "Disciple", info: "", monsterId: 900 });
   expect(r.dungeon?.id).toBe(165);
   expect(r.pinned).toBe(900);
+});
+
+it("a saved zone comes back with the same monsters, and an unknown one does not", () => {
+  const r = roomFor(s, { kind: "dungeon", label: "Autel de la Déchireuse", info: "", dungeonId: 165 });
+  const back = restoreRoom(s, saveRoom(r));
+  expect(back?.title).toBe(r.title);
+  expect(back?.dungeon?.id).toBe(165);
+  expect(back?.monsters.map((m) => m.id)).toEqual([8037, 8040]);
+  expect(restoreRoom(s, null)).toBeNull();
+  expect(restoreRoom(s, "not json")).toBeNull();
+  expect(restoreRoom(s, JSON.stringify({ title: "X", dungeonId: null, monsterIds: [] }))).toBeNull();
 });

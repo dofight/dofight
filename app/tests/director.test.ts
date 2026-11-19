@@ -74,6 +74,24 @@ describe("director", () => {
     expect(types(log[1])).not.toContain("loadRoom");
   });
 
+  it("never replaces the room in a fight", () => {
+    const { log } = run([read({ room: roomA }), read({ fight: "fight", room: roomB }), read({ fight: "fight", room: roomB })]);
+    expect(types(log[1])).not.toContain("loadRoom");
+    expect(types(log[2])).not.toContain("loadRoom");
+  });
+
+  it("opened in a fight with no room yet, loads the room read twice in a row", () => {
+    const { log, state } = run([read({ fight: "fight", room: roomA }), read({ fight: "fight", room: roomA })]);
+    expect(types(log[0])).not.toContain("loadRoom");
+    expect(log[1]).toContainEqual({ type: "loadRoom", room: roomA });
+    expect(state.lastRoomTitle).toBe(roomA.title);
+  });
+
+  it("opened in a fight, ignores a room read only once", () => {
+    const { log } = run([read({ fight: "fight", room: roomA }), read({ fight: "fight", room: roomB })]);
+    expect(log.flat().map((a) => a.type)).not.toContain("loadRoom");
+  });
+
   it("with the automatic opening off, neither opens nor closes the overlay", () => {
     const { log } = run([read({ fight: "fight" }), read({ fight: "end" })], { ...DEFAULTS, autoFight: false });
     expect(types(log[0])).not.toContain("show");

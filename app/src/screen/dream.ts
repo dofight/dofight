@@ -2,7 +2,7 @@
  *
  * Outside, the header is the zone name and the map coordinates (« Astrub (Tainela) », « 1, -34 »). Inside a Songe it
  * has no coordinates but the dream's lines: « Pensées oniriques », « Palier I · Profondeur 1 », « Songe 1 » on a French
- * client, « Dream Thoughts », « Bracket I · Depth 0 », « Dream 1 » on an English one. The first line changes with the
+ * client, « Dream Thoughts », « Bracket I · Depth 1 », « Nightmare 1 » on an English one (seen in the game, 2026-11-19). The first line changes with the
  * floor; « Palier » (I to V) and « Profondeur » (up to 26) are always there, so those words decide, read loosely (the
  * OCR may say « Profondeur l », « Pa1ier », glue the words…). */
 import { editDistance } from "../search";

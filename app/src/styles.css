@@ -237,6 +237,7 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .card .pill{border-radius:10px}
 .pill.primary{color:var(--fg);border-color:var(--gold)}
 .pill:disabled{opacity:.5}
+#view-main>.scan:not([hidden]){display:flex;flex-wrap:wrap;align-items:center;gap:6px} /* like .songe-off */
 /* the last settings card: three actions, the same icon size and place, each in its own colour */
 .pill.act{display:flex;align-items:center;justify-content:center;gap:9px;color:var(--fg)}
 .pill.act .act-ic{display:inline-flex;flex:none;width:18px;height:18px}
@@ -434,5 +435,5 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .menu .support .act-ic{color:#ff5e5b}
 .menu .support:hover,.menu .support:focus-visible{background:color-mix(in srgb,#ff5e5b 18%,var(--card))}
 .menu .support .ic{fill:currentColor}
-#menu-btn[aria-expanded="true"]{background:var(--card)}
+#menu-btn[aria-expanded="true"],#lock[aria-pressed="true"]{background:var(--card)}
 #shortcut-hint:empty{display:none} /* only while the shortcut is being changed */

@@ -99,9 +99,27 @@ pub struct InFight(pub Arc<AtomicBool>);
 
 /// « Lecture de l'écran » (set from the page): off, the Dofus window is never captured, nor is it checked whether it
 /// is in front (« Masquer hors du jeu » rests meanwhile). Off until the page has read the player's settings, so a
-/// player who turned it off is never captured, not even at launch.
+/// player who turned it off is never captured, not even at launch. The second field is « Scanner ma sous-zone »,
+/// clicked while the zone is not followed (the reading or its zone option off): SCAN_READS readings of the corner (sent as `screen:scan`), only while Dofus is
+/// in front and within SCAN_VALID of the click; then nothing again.
 #[derive(Default, Clone)]
-pub struct Reading(pub Arc<AtomicBool>);
+pub struct Reading(pub Arc<AtomicBool>, pub Arc<Mutex<Option<(Instant, u8)>>>);
+
+/// « Scanner ma sous-zone »: two readings one TICK apart (the page keeps the zone only when both agree: a fight's
+/// effects may garble the corner), asked within this long of the click (Dofus is brought in front first).
+pub const SCAN_READS: u8 = 2;
+const SCAN_VALID: Duration = Duration::from_secs(3);
+
+/// One reading asked by « Scanner ma sous-zone »: the corner's lines and the icon bar seen; `error` when Dofus could
+/// not be read (« no-dofus », « no-ocr », « no-capture »).
+#[derive(Debug, Clone, Serialize)]
+pub struct Scan {
+    pub lines: Vec<OcrLine>,
+    pub bar: Option<Bar>,
+    pub error: Option<String>,
+    /// Readings still to come for this click.
+    pub left: u8,
+}
 
 fn process_name(pid: u32) -> Option<String> {
     unsafe {
@@ -578,6 +596,36 @@ impl Stats {
     }
 }
 
+/// « Scanner ma sous-zone »: whether a reading is asked now, and how many will follow it (the request is updated).
+/// A request older than SCAN_VALID is given up (Dofus never came in front): the page is told.
+fn scan_due(app: &AppHandle, asked: &Mutex<Option<(Instant, u8)>>) -> Option<u8> {
+    let mut asked = asked.lock().ok()?;
+    let (at, left) = (*asked)?;
+    if at.elapsed() > SCAN_VALID {
+        *asked = None;
+        diag::log("screen", "scan asked but Dofus was not in front: given up");
+        let _ = app.emit("screen:scan", Scan { lines: vec![], bar: None, error: Some("not-front".into()), left: 0 });
+        return None;
+    }
+    let left = left.saturating_sub(1);
+    *asked = if left > 0 { Some((at, left)) } else { None };
+    Some(left)
+}
+
+/// One reading for « Scanner ma sous-zone »: the corner of `frame`, sent as `screen:scan`.
+fn emit_scan(app: &AppHandle, engine: Option<&windows::Media::Ocr::OcrEngine>, frame: Option<&(Vec<u8>, u32, u32)>, left: u8) {
+    let scan = match (engine, frame) {
+        (None, _) => Scan { lines: vec![], bar: None, error: Some("no-ocr".into()), left },
+        (_, None) => Scan { lines: vec![], bar: None, error: Some("no-capture".into()), left },
+        (Some(engine), Some((px, w, h))) => match read_corner(engine, px, *w, *h) {
+            Ok(lines) => Scan { lines, bar: Some(read_bar(px, *w, *h)), error: None, left },
+            Err(e) => Scan { lines: vec![], bar: None, error: Some(e.message().to_string()), left },
+        },
+    };
+    diag::log("screen", &format!("scan asked: corner read ({} lines, {left} more)", scan.lines.len()));
+    let _ = app.emit("screen:scan", scan);
+}
+
 fn timed_capture(hwnd: HWND, stats: &mut Stats) -> Option<(Vec<u8>, u32, u32)> {
     let started = Instant::now();
     let frame = capture(hwnd);
@@ -670,6 +718,13 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                 r.was_front = false;
                 if slow_due {
                     emit(fail("off"));
+                    // « Scanner ma sous-zone » clicked: one reading of the corner now, the switch staying off
+                    if unsafe { GetForegroundWindow() }.0 as isize == target.hwnd {
+                        if let Some(left) = scan_due(&app, &reading.1) {
+                            let frame = timed_capture(HWND(target.hwnd as *mut _), &mut r.stats);
+                            emit_scan(&app, engine.as_ref().ok(), frame.as_ref(), left);
+                        }
+                    }
                 }
                 continue;
             }
@@ -708,6 +763,10 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                     continue;
                 };
                 note(&mut r, format!("reading Dofus, {w}×{h}"));
+                // « Scanner ma sous-zone » clicked with the zone not followed (its option off): this frame answers it
+                if let Some(left) = scan_due(&app, &reading.1) {
+                    emit_scan(&app, Some(engine), frame.as_ref(), left);
+                }
                 let mask = corner_mask(px, *w, *h);
                 let changed = r.read_mask.as_ref().is_none_or(|m| corner_changed(m, &mask));
                 let bar = read_bar(px, *w, *h);

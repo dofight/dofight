@@ -15,7 +15,7 @@ vi.mock("@tauri-apps/plugin-window-state", () => ({ saveWindowState: vi.fn(), St
 vi.mock("@tauri-apps/api/window", () => {
   const win = {
     show: vi.fn(), hide: vi.fn(), isVisible: vi.fn(async () => true), setSize: vi.fn(), setPosition: vi.fn(),
-    startDragging: vi.fn(), onResized: vi.fn(async () => () => {}), onMoved: vi.fn(async () => () => {}), onCloseRequested: vi.fn(async () => () => {}), isMinimized: vi.fn(async () => false),
+    startDragging: vi.fn(), setResizable: vi.fn(async () => {}), onResized: vi.fn(async () => () => {}), onMoved: vi.fn(async () => () => {}), onCloseRequested: vi.fn(async () => () => {}), isMinimized: vi.fn(async () => false),
     outerPosition: vi.fn(async () => ({ x: 1590, y: 40 })), outerSize: vi.fn(async () => ({ width: 320, height: 1000 })),
     innerPosition: vi.fn(async () => ({ x: 1590, y: 40 })), innerSize: vi.fn(async () => ({ width: 320, height: 1000 })),
   };

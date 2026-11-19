@@ -10,7 +10,7 @@
   <body class="i18n-pending">
     <div id="app">
       <header class="topbar">
-        <span class="brand"><button id="menu-btn" class="tb" aria-haspopup="menu" aria-expanded="false" aria-controls="menu" title="Menu" aria-label="Menu" data-i18n-title="app.menu" data-i18n-aria="app.menu" data-icon="menu"></button></span><span class="title"><span class="logo"><img id="logo" alt="" /></span>Dofight</span>
+        <span class="brand"><button id="menu-btn" class="tb" aria-haspopup="menu" aria-expanded="false" aria-controls="menu" title="Menu" aria-label="Menu" data-i18n-title="app.menu" data-i18n-aria="app.menu" data-icon="menu"></button><button id="lock" class="tb" aria-pressed="false" title="Verrouiller la position et la taille du panneau" aria-label="Verrouiller la position et la taille du panneau" data-i18n-title="app.lock" data-i18n-aria="app.lock" data-icon="unlock"></button></span><span class="title"><span class="logo"><img id="logo" alt="" /></span>Dofight</span>
         <span class="actions">
           <button id="gear" class="tb" title="Paramètres" aria-label="Paramètres" data-i18n-title="app.settings" data-i18n-aria="app.settings" data-icon="gear"></button>
           <button id="hide" class="tb" title="Masquer le panneau" aria-label="Masquer le panneau" data-i18n-title="app.hide" data-i18n-aria="app.hide" data-icon="minus"></button>
@@ -35,6 +35,8 @@
         <!-- messages above the list, where a scrolled player still sees them -->
         <div id="status" class="status" role="status">Chargement des données…</div>
         <div id="zone" class="status" role="status"></div>
+        <!-- « Lecture de l'écran » off: one reading of the corner on demand (screen.rs, Reading's second field) -->
+        <div id="scan" class="status scan" hidden><button type="button" id="scan-go" class="pill" data-i18n="scan.button" data-i18n-title="scan.title" title="Dofus passe au premier plan, puis Dofight lit le coin en haut à gauche, à ce moment-là seulement.">Scanner ma sous-zone</button> <span id="scan-msg" role="status"></span></div>
         <!-- « Songe » clicked with « Lecture de l'écran » cut by hand: Songe stays off and this says why -->
         <div id="songe-off" class="status warn songe-off" role="status" hidden><span data-i18n="songe.needsReading">Le mode Songe lit l'écran : active « Lecture de l'écran » dans les paramètres.</span> <button type="button" id="songe-off-go" class="pill" data-i18n="songe.openSettings">Ouvrir les paramètres</button></div>
         <button id="backzone" class="backzone" hidden title="Revenir aux monstres de ta sous-zone" data-i18n-title="main.backZoneTitle"><span class="bz-icon" data-icon="undo" aria-hidden="true"></span><span class="bz-label" data-i18n="main.backZone">Revenir à ta zone :</span><span id="backzone-name" class="bz-name"></span></button>
@@ -63,6 +65,7 @@
         <div class="card" data-card="window">
           <div class="cardhead"><h2 id="h-window" data-i18n="settings.window">Fenêtre</h2><button type="button" class="fold" aria-expanded="false" aria-controls="card-window" aria-labelledby="h-window" data-icon="chevron"></button></div>
           <div class="cardbody" id="card-window" hidden>
+          <div class="switch"><span class="optname"><label for="opt-locked" data-i18n="opt.locked">Verrouiller la position et la taille</label></span><input id="opt-locked" type="checkbox" role="switch" data-key="locked"></div>
           <div class="theme-row"><span data-i18n="settings.shortcut">Raccourci pour afficher ou masquer</span><button id="shortcut" class="theme-current shortcut" title="Clique, puis appuie sur la combinaison voulue" data-i18n-title="settings.shortcutTitle"></button></div>
           <p id="shortcut-hint" class="hint" aria-live="polite"></p>
           <label class="slider" for="opacity"><span data-i18n="settings.opacity">Opacité du fond :</span> <span id="opacity-value"></span></label>

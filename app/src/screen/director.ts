@@ -64,10 +64,12 @@ export function step(state: DirectorState, reading: Reading, settings: Settings)
   if (!reading.front || reading.seen === false) return { state: s, actions };
 
   const fighting = reading.fight === "fight";
-  // the header is trusted out of a fight only (the preparation included: the turn order can cover it, and the zone
-  // was read on the map before)
-  if (settings.fromHeader && reading.room && reading.fight !== "fight" && reading.room.title !== s.lastRoomTitle) {
-    if (s.pendingRoomTitle === reading.room.title || s.lastRoomTitle === null) {
+  // the header is trusted out of a fight (the preparation included: the turn order can cover it, and the zone was
+  // read on the map before). In a fight it is used only when no room is known yet (Dofight opened or reloaded
+  // mid-fight), and then only once read twice in a row: the fight's effects may garble that corner
+  const unknownInFight = fighting && s.lastRoomTitle === null;
+  if (settings.fromHeader && reading.room && (!fighting || unknownInFight) && reading.room.title !== s.lastRoomTitle) {
+    if (s.pendingRoomTitle === reading.room.title || (s.lastRoomTitle === null && !fighting)) {
       s.lastRoomTitle = reading.room.title;
       s.pendingRoomTitle = null;
       actions.push({ type: "loadRoom", room: reading.room });

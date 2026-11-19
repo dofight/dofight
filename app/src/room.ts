@@ -41,6 +41,25 @@ export function roomFor(s: Snapshot, r: Result): Room {
   return { dungeon: null, title: m.name, monsters: [m] };
 }
 
+/** The zone shown, as text kept across a reload of the page (Ctrl+R): its title, dungeon and monsters. */
+export function saveRoom(r: Room): string {
+  return JSON.stringify({ title: r.title, dungeonId: r.dungeon?.id ?? null, monsterIds: r.monsters.map((m) => m.id) });
+}
+
+/** The zone saved by saveRoom, rebuilt from the game data; null when there is none or it no longer matches. */
+export function restoreRoom(s: Snapshot, saved: string | null): Room | null {
+  if (!saved) return null;
+  try {
+    const { title, dungeonId, monsterIds } = JSON.parse(saved) as { title: string; dungeonId: number | null; monsterIds: number[] };
+    const dungeon = dungeonId === null ? null : s.dungeons.get(dungeonId) ?? null;
+    const monsters = monsterIds.map((id) => s.monsters.get(id)).filter((m): m is Monster => !!m);
+    if (typeof title !== "string" || !monsters.length || (dungeonId !== null && !dungeon)) return null;
+    return { dungeon, title, monsters };
+  } catch {
+    return null;
+  }
+}
+
 /** Icon URL resolver for the icons present in data/icons/index.json. */
 export function iconResolver(s: Snapshot): (path: string) => string | null {
   return (path) => (s.icons.has(path) ? `/icons/${path}` : null);

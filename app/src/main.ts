@@ -32,7 +32,9 @@ import { renderPeek } from "./render/monster";
 import { renderRoom } from "./render/panel";
 import { renderSpellSheet } from "./render/spellSheet";
 import { renderMechanicSheet } from "./render/mechanic";
-import { iconResolver, roomFor, type Room } from "./room";
+import { iconResolver, restoreRoom, roomFor, saveRoom, type Room } from "./room";
+import { SEARCH_EVERY_MS, searchState, type SearchState } from "./screen/fightSearch";
+import { scanOutcome } from "./screen/scan";
 import { search, type Result } from "./search";
 import { DEFAULTS, loadSettings, TEXT_SIZES, updateSettings, type Settings } from "./settings";
 import { capturing as capturingGame, READING, readingPatch } from "./reading";
@@ -320,6 +322,47 @@ $("songe-off-go").addEventListener("click", () => {
 
 // the zone the player is in (read on screen); after a search, a button brings its monsters back
 let zoneRoom: Room | null = null;
+/** Kept across a reload of the page (Ctrl+R), so a reload mid-fight does not empty the list. */
+const ZONE_KEY = "dofight.zone";
+function keepZone(r: Room): void {
+  try {
+    sessionStorage.setItem(ZONE_KEY, saveRoom(r));
+  } catch {
+    // no storage: a reload mid-fight searches the zone again
+  }
+}
+function keptZone(): string | null {
+  try {
+    return sessionStorage.getItem(ZONE_KEY);
+  } catch {
+    return null;
+  }
+}
+
+/** Opened or reloaded mid-fight with no zone known: the corner is read every SEARCH_EVERY_MS until it is found. */
+let zoneSearch: SearchState = "idle";
+let searchSince = 0;
+/** A map header was read during this search: when missed, the fight is to blame, not the coordinates option. */
+let searchSawHeader = false;
+function updateSearch(): void {
+  const following = settings.reading && settings.fromHeader && !settings.songe;
+  const known = zoneRoom !== null;
+  if (zoneSearch === "idle") {
+    searchSince = Date.now();
+    searchSawHeader = false;
+  }
+  const next = searchState({ inFight: director.inFight, zoneKnown: known, following, since: searchSince, now: Date.now() });
+  if (next !== zoneSearch) {
+    if (zoneSearch === "idle") diag("zone", "fight with no zone known: reading the corner until it is found");
+    else if (next === "missed") diag("zone", "zone still not found in this fight: the list points to the search");
+    else if (next === "idle") diag("zone", known ? "zone found during the fight" : "zone search stopped");
+    zoneSearch = next;
+    if (next === "idle" && status.shown?.kind === "searching") zoneStatus("found", "");
+    if (!room && snap) showRoom();
+  }
+  if (zoneSearch !== "idle") void invoke("read_again");
+}
+window.setInterval(updateSearch, SEARCH_EVERY_MS);
 
 let openSpell: { monster: number; spell: number } | null = null;
 /** The last reading found no Dofus window: the empty list says so. */
@@ -331,11 +374,16 @@ function emptyHtml(): string {
   if (settings.songe) return `<p class="empty songe-wait">${esc(t("songe.waiting"))}</p>`;
   // the zone not followed (the option off, the reading on): the search is the way, said in one sentence
   if (!dofusClosed && settings.reading && !settings.fromHeader) return `<p class="empty intro">${esc(t("main.emptyNoFollow"))}</p>`;
-  const first = dofusClosed ? t("status.noDofus") : !settings.reading ? t("main.emptyOff") : t("main.empty");
+  // opened mid-fight with no zone known: Dofight is looking for it, or could not find it (fightSearch.ts)
+  if (!dofusClosed && zoneSearch === "missed") return `<p class="empty intro">${esc(t("main.emptyFightMissed"))}</p>`;
+  if (!dofusClosed && zoneSearch === "searching") return `<p class="empty intro">${esc(t("main.emptyFight"))} ${esc(t("main.emptySearch"))}</p>`;
+  if (!dofusClosed && !settings.reading) return `<p class="empty intro">${esc(t("main.emptyOff"))}</p>`;
+  const first = dofusClosed ? t("status.noDofus") : t("main.empty");
   return `<p class="empty intro">${esc(first)} ${esc(t("main.emptySearch"))}</p>`;
 }
 
 function showRoom(): void {
+  showScan();
   hidePeek(); // the rows are drawn again
   // « Réinitialiser » sits in the hovered group's header card: take it out before the list is drawn again
   const reset = $("songe-reset");
@@ -496,8 +544,9 @@ function syncSettingsView(): void {
     input.checked = settings[input.dataset.key as Flag];
   });
   $<HTMLInputElement>("opt-reading").checked = settings.reading;
-  // the switch off: the options under it (and the window to read) are off, greyed, and say how to change them
-  for (const id of [...READING.map((f) => `opt-${f}`), "reference"]) {
+  // the switch off: the options under it are off, greyed, and say how to change them; the window to read stays
+  // usable (« Scanner ma sous-zone » reads that window, and brings it in front)
+  for (const id of READING.map((f) => `opt-${f}`)) {
     const input = $<HTMLInputElement>(id);
     input.disabled = !settings.reading;
     const row = input.closest(".switch") ?? input;
@@ -765,6 +814,7 @@ function update(patch: Partial<Settings>): void {
     $("zone").classList.remove("warn");
   }
   if ("reading" in patch || "songe" in patch) showSongeState();
+  if ("locked" in patch) showLock();
   applyLook();
   showRoom();
   syncSettingsView();
@@ -1546,6 +1596,7 @@ function zoneStatus(kind: StatusKind, text = ""): void {
     $("guide-nodofus").hidden = !closed;
     if (!room && snap) showRoom();
   }
+  showScan();
 }
 
 async function apply(actions: Action[]): Promise<void> {
@@ -1553,6 +1604,7 @@ async function apply(actions: Action[]): Promise<void> {
     if (a.type === "loadRoom") {
       diag("zone", `room loaded: ${a.room.title} (${a.room.monsters.length} monsters)`);
       zoneRoom = a.room;
+      keepZone(a.room);
       if (settings.songe) zoneReadInSonge = true; // turning Songe off shows this zone, not the room shown before
       // in Songe mode the hovered group stays on screen until Songe is turned off
       // in Songe mode the list shows only the hovered groups (empty until one is hovered)
@@ -1587,6 +1639,72 @@ async function apply(actions: Action[]): Promise<void> {
     }
   }
 }
+
+/** The zone a map header points to (an English client's names too). */
+function roomOfHeader(s: Snapshot, header: NonNullable<ReturnType<typeof parseHeader>>): Room | null {
+  const englishFound = readEnglish && english ? locate(readEnglish, header) : null;
+  return locate(s, header) ?? (englishFound && english ? frenchRoom(s, english, englishFound) : null);
+}
+
+/* « Scanner ma sous-zone »: with « Lecture de l'écran » off, one reading of the corner on demand (screen.rs). */
+let scanning: { rooms: (Room | null)[]; headers: boolean[]; timer: number } | null = null;
+/** The last scan's result, as a text key (shown in the current language); `warn` for a failure. */
+let scanMessage: { key: Key; warn: boolean } | null = null;
+function showScan(): void {
+  // the zone not followed (the reading off, or on with its zone option off): one reading on demand
+  const hidden = (settings.reading && settings.fromHeader) || dofusClosed || !snap;
+  $("scan").hidden = hidden;
+  // « Lecture de l'écran coupée » would say the same as the button and the list: the scan row stands for it
+  $("zone").hidden = !hidden && status.shown?.kind === "off";
+  const go = $("scan-go") as HTMLButtonElement;
+  go.disabled = scanning !== null;
+  go.textContent = t(scanning ? "scan.busy" : "scan.button");
+  go.title = t("scan.title");
+  const message = scanning || !scanMessage ? "" : t(scanMessage.key);
+  $("scan-msg").textContent = message;
+  $("scan").classList.toggle("warn", !!message && !!scanMessage?.warn);
+}
+function endScan(key: Key | null, warn = true): void {
+  if (scanning) window.clearTimeout(scanning.timer);
+  scanning = null;
+  scanMessage = key ? { key, warn } : null;
+  showScan();
+}
+$("scan-go").addEventListener("click", async () => {
+  if (scanning || (settings.reading && settings.fromHeader)) return;
+  diag("zone", "scan asked by the player");
+  scanning = { rooms: [], headers: [], timer: window.setTimeout(() => endScan("scan.notFront"), 4000) };
+  scanMessage = null;
+  showScan();
+  const front = await invoke<boolean>("scan_now").catch(() => false);
+  if (!front) endScan("scan.notFront");
+});
+void listen<{ lines: OcrLine[]; bar: BarState | null; error: string | null; left: number }>("screen:scan", ({ payload }) => {
+  if (!scanning || !snap) return;
+  if (payload.error) {
+    diag("zone", `scan: ${payload.error}`);
+    return endScan(payload.error === "no-ocr" ? "status.noOcr" : payload.error === "not-front" ? "scan.notFront" : "scan.failed");
+  }
+  const header = payload.lines.length ? parseHeader(payload.lines) : null;
+  scanning.headers.push(!!header);
+  scanning.rooms.push(header ? roomOfHeader(snap, header) : null);
+  if (payload.left > 0) return;
+  const out = scanOutcome(scanning.rooms, scanning.headers);
+  if ("room" in out) {
+    diag("zone", `scan: ${out.room.title}`);
+    zoneRoom = out.room;
+    keepZone(out.room);
+    director = { ...director, lastRoomTitle: out.room.title };
+    room = out.room;
+    flipped.clear();
+    openSpell = null;
+    endScan(null);
+    showRoom();
+  } else {
+    diag("zone", `scan: nothing kept (${out.problem})`);
+    endScan(out.problem === "noHeader" ? "status.noHeader" : out.problem === "unknown" ? "scan.unknown" : "scan.failed");
+  }
+});
 
 void listen<{ front: boolean; lines: OcrLine[]; error: string | null; bar: BarState | null }>("screen:tick", async ({ payload }) => {
   if (payload.error === "no-dofus") return zoneStatus("noDofus", t("status.noDofus"));
@@ -1623,8 +1741,8 @@ void listen<{ front: boolean; lines: OcrLine[]; error: string | null; bar: BarSt
       if (settings.songe) setSonge(false, "dofight");
     }
   }
-  const englishFound = header && readEnglish && english ? locate(readEnglish, header) : null;
-  const found = header ? locate(snap, header) ?? (englishFound && english ? frenchRoom(snap, english, englishFound) : null) : null;
+  const found = header ? roomOfHeader(snap, header) : null;
+  if (header && zoneSearch !== "idle") searchSawHeader = true;
   // a cut or unknown zone name (an animated map, the world map hovered): read again at once, a few times, rather than
   // waiting for the header to change
   // (a place with no monster, a village, stays unknown: 4 tries per header, then the usual pace)
@@ -1643,6 +1761,8 @@ void listen<{ front: boolean; lines: OcrLine[]; error: string | null; bar: BarSt
     if (found.title !== zoneRoom?.title) {
       diag("zone", `read after Songe: ${found.title}`);
       zoneRoom = found;
+      keepZone(found);
+      director = { ...director, lastRoomTitle: found.title };
       if (room === null || room.title !== found.title) room = found;
       flipped.clear();
       showRoom();
@@ -1652,6 +1772,10 @@ void listen<{ front: boolean; lines: OcrLine[]; error: string | null; bar: BarSt
   if (payload.front && (payload.bar === "calm" || payload.bar === "fight")) guideSeen("bar");
   if (payload.front && payload.lines.length) {
     if (dreaming) zoneStatus("found", ""); // inside a Songe: no zone to read, nothing to say
+    else if (zoneSearch === "searching" && !found) zoneStatus("searching", t("status.fightSearching"));
+    // missed: no header ever read points to the coordinates option, else the fight covered the name
+    else if (zoneSearch === "missed" && !found && !searchSawHeader && !header) zoneStatus("noHeader", t("status.noHeader"));
+    else if (zoneSearch === "missed" && !found) zoneStatus("searching", t("status.fightMissed"));
     else if (!header) zoneStatus("noHeader", t("status.noHeader"));
     else if (found) zoneStatus("found", found.title);
     else if (!header.cut) zoneStatus("unknown", header.title);
@@ -1678,6 +1802,7 @@ void listen<{ front: boolean; lines: OcrLine[]; error: string | null; bar: BarSt
   }
   director = out.state;
   await apply(out.actions);
+  updateSearch();
 });
 
 // « Songe » mode: the group tooltips read around the resting mouse (out of a fight only)
@@ -1725,7 +1850,22 @@ void win.onResized(saveSoon);
 void win.onMoved(saveSoon);
 
 $<HTMLImageElement>("logo").src = logo;
-enableDragAnywhere(() => win.startDragging());
+// locked (the padlock next to the menu): no move by dragging, no resize by the edges
+enableDragAnywhere(() => (settings.locked ? Promise.resolve() : win.startDragging()));
+function showLock(): void {
+  void win.setResizable(!settings.locked);
+  const lock = $("lock");
+  lock.setAttribute("aria-pressed", String(settings.locked));
+  lock.dataset.icon = settings.locked ? "lock" : "unlock";
+  lock.innerHTML = icon(settings.locked ? "lock" : "unlock");
+  const key = settings.locked ? "app.unlock" : "app.lock";
+  lock.dataset.i18nTitle = lock.dataset.i18nAria = key; // a language switch keeps the right text
+  const label = t(key);
+  lock.title = label;
+  lock.setAttribute("aria-label", label);
+}
+$("lock").addEventListener("click", () => update({ locked: !settings.locked }));
+showLock();
 applyLook();
 
 /** The update covers the whole panel (below the title bar, which still moves or hides it) until Dofight restarts: the
@@ -1766,6 +1906,15 @@ void invoke<string>("update_kind")
 loadSnapshot(fetchFromApp)
   .then(async (s) => {
     snap = s;
+    // reloaded (Ctrl+R): the zone shown before comes back at once, even mid-fight; not with the zone unfollowed
+    // (« Lecture de l'écran » or its zone option off: the list says why it is empty)
+    const kept = zoneRoom || !settings.reading || !settings.fromHeader ? null : restoreRoom(s, keptZone());
+    if (kept) {
+      diag("zone", `zone kept across a reload: ${kept.title}`);
+      zoneRoom = kept;
+      if (!room) room = kept;
+      director = { ...director, lastRoomTitle: kept.title };
+    }
     await refreshView();
     void ensureEnglish(); // an English client is read with the English names (in the background)
     $("status").textContent = "";

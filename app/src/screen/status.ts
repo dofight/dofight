@@ -5,7 +5,8 @@
  * A status is a kind plus its text: the kind decides (« found », « unknown »… never the wording, which changes with
  * the language and its typography), the text is what may be shown. */
 
-export type StatusKind = "found" | "unknown" | "noHeader" | "noDofus" | "noOcr" | "off";
+/** « searching »: in a fight with no zone known yet, the corner is read until it is found (fightSearch.ts). */
+export type StatusKind = "found" | "unknown" | "noHeader" | "noDofus" | "noOcr" | "off" | "searching";
 
 export interface Status {
   kind: StatusKind;
@@ -37,7 +38,7 @@ export const statusWarns = (s: Status | null): boolean => s?.kind === "noHeader"
 /** `next` is what this tick read; `now` when (ms, optional). Returns the new state (`shown` is what to display). */
 export function steadyStatus(s: StatusState, next: Status, now?: number): StatusState {
   const same = s.shown?.kind === next.kind && s.shown.text === next.text;
-  if (next.kind === "found" || s.shown === null || same) return { shown: next, pending: null, count: 0 };
+  if (next.kind === "found" || next.kind === "searching" || s.shown === null || same) return { shown: next, pending: null, count: 0 };
   // an « unknown » zone counts as the same kind of failure every tick, whatever garbled text was read
   const repeat = s.pending === next.kind;
   const count = repeat ? s.count + 1 : 1;

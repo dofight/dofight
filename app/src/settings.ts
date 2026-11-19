@@ -15,6 +15,8 @@ export type Settings = Display & {
   /** Open the overlay when a fight starts and close it at its end (on by default). */
   autoFight: boolean;
   hideWhenAway: boolean; // hide Dofight while Dofus is not in front
+  /** The panel can't be moved or resized (the padlock next to the menu, or Paramètres → Fenêtre). */
+  locked: boolean;
   fromHeader: boolean;
   preview: boolean;
   expandAll: boolean;
@@ -43,6 +45,7 @@ export const TEXT_SIZES = [90, 100, 110];
 export const DEFAULTS: Settings = {
   autoFight: true,
   hideWhenAway: false,
+  locked: false,
   fromHeader: true,
   preview: true, // the example beside the settings: shown until the player turns it off (then remembered)
   expandAll: false,

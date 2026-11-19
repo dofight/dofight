@@ -22,10 +22,11 @@
   <img src="docs/images/dofight-panel.png" alt="Le panneau Dofight : les monstres de la sous-zone, leurs badges de danger, leurs résistances et leurs sorts" width="308">
 </p>
 
-Gratuit et open source. Dofight lit uniquement **le coin en haut à gauche de la fenêtre Dofus** : le nom de la
-sous-zone, les coordonnées de la carte et la barre d'icônes, qui lui indique qu'un combat commence. Un interrupteur
-coupe cette lecture (Paramètres → « Lecture de l'écran »). Il ne joue pas à ta place, n'envoie rien au jeu et ne lit
-ni sa mémoire, ni ses fichiers, ni son trafic réseau.
+Gratuit et open source. Dofight lit **le coin en haut à gauche de la fenêtre Dofus** : le nom de la sous-zone, les
+coordonnées de la carte et la barre d'icônes, qui lui indique qu'un combat commence. En mode Songe, il lit aussi une
+zone autour de ta souris, pour y trouver l'infobulle du groupe de monstres survolé. Un interrupteur coupe cette
+lecture (Paramètres → « Lecture de l'écran »). Il ne joue pas à ta place, n'envoie rien au jeu et ne lit ni sa
+mémoire, ni ses fichiers, ni son trafic réseau.
 
 Pour chaque monstre autour de toi, tu vois ce qui peut te faire perdre le combat (un one-shot, une invulnérabilité,
 une mécanique), puis ses résistances et ses sorts.
@@ -71,13 +72,16 @@ l'affiche ou le cache (raccourci modifiable dans les paramètres). Les mises à 
 
 ## Questions fréquentes
 
-**C'est autorisé ?** Dofight n'est ni un bot ni un mod : il ne clique pas, n'envoie rien au jeu et ne modifie
-rien. Il lit uniquement le coin en haut à gauche de la fenêtre Dofus (le nom de la sous-zone, les coordonnées de la
-carte et la barre d'icônes), et seulement quand Dofus est au premier plan. En combat, il surveille surtout la barre
-d'icônes. En mode Songe, il lit aussi l'infobulle du groupe sous ta souris. Tu peux couper cette lecture dans
-Paramètres → « Lecture de l'écran » : Dofight ne capture alors plus du tout la fenêtre Dofus. Ce qu'il affiche est
-public (données du jeu, guides). C'est un outil fait par des fans, sans lien avec Ankama, qui ne l'a
-ni validé ni approuvé : tu l'utilises sous ta propre responsabilité.
+**C'est autorisé ?** Dofight n'est ni un bot ni un mod : il ne clique pas, n'envoie rien au jeu et ne modifie rien.
+Il capture la fenêtre Dofus, seulement quand elle est au premier plan, et en lit le coin en haut à gauche (le nom de
+la sous-zone, les coordonnées de la carte et la barre d'icônes). En combat, il surveille surtout la barre d'icônes ;
+s'il ne connaît pas encore ta sous-zone (Dofight ouvert en plein combat), il relit le nom de la sous-zone plus
+souvent, jusqu'à la trouver. En mode Songe, hors combat, quand ta souris s'arrête, il lit aussi une zone autour
+d'elle (environ 800 × 700 pixels, surtout au-dessus) pour y trouver l'infobulle du groupe de monstres survolé ; il
+n'en retient que le texte de cette infobulle. Les captures ne quittent jamais ton PC. Tu peux couper cette lecture
+dans Paramètres → « Lecture de l'écran » : Dofight ne capture alors la fenêtre Dofus que lorsque tu cliques sur «
+Scanner ma sous-zone ». Ce qu'il affiche est public (données du jeu, guides). C'est un outil fait par des fans, sans
+lien avec Ankama, qui ne l'a ni validé ni approuvé : tu l'utilises sous ta propre responsabilité.
 
 **Qu'est-ce que Dofight envoie sur Internet ?** Rien pendant que tu joues : pas de compte, pas de statistiques.
 Il contacte GitHub pour ses mises à jour. Si tu envoies une suggestion, il transmet ton message et, si tu laisses
@@ -103,10 +107,11 @@ Ankama Games.
 Website: [dofight.github.io](https://dofight.github.io/?lang=en) · [Discord](https://discord.gg/G8G4cyvpx6)
 
 The fight assistant for Dofus 3: a panel next to the game that shows what makes the monsters around you dangerous,
-with their resistances and spells. Free and open source. Dofight only reads **the top-left corner of the Dofus
-window**: the subarea name, the map coordinates and the icon bar, which tells it when a fight starts. One switch
-turns that off (Settings → “Screen reading”). It doesn't play for you, sends nothing to the game, and doesn't read
-the game's memory, files or network traffic.
+with their resistances and spells. Free and open source. Dofight reads **the top-left corner of the Dofus window**:
+the subarea name, the map coordinates and the icon bar, which tells it when a fight starts. In Songe mode, it also
+reads an area around your mouse to find the tooltip of the hovered monster group. One switch turns that off
+(Settings → “Screen reading”). It doesn't play for you, sends nothing to the game, and doesn't read the game's
+memory, files or network traffic.
 
 ### What you need
 
@@ -150,11 +155,14 @@ Summaries are available in English; the linked guides are in French.
 ### FAQ
 
 **Is it allowed?** Dofight is neither a bot nor a mod: it does not click, sends nothing to the game and changes
-nothing. It only reads the top-left corner of the Dofus window (the subarea name, the map coordinates and the icon
-bar), and only while Dofus is in the foreground. In a fight it mostly watches the icon bar. In Songe mode it also
-reads the tooltip of the group under your mouse. You can turn this off in Settings → “Screen reading”: Dofight then
-stops capturing the Dofus window altogether. What it shows is public (game data, guides). It is a fan-made
-tool, not affiliated with, reviewed or approved by Ankama: you use it at your own risk.
+nothing. It captures the Dofus window, only while it's in the foreground, and reads its top-left corner (the subarea
+name, the map coordinates and the icon bar). In a fight it mostly watches the icon bar; if it doesn't know your
+subarea yet (Dofight opened mid-fight), it re-reads the subarea name more often until it finds it. In Songe mode,
+out of a fight, when your mouse stops, it also reads an area around it (about 800 × 700 pixels, mostly above it) to
+find the tooltip of the hovered monster group; it keeps only that tooltip's text. The captures never leave your PC.
+You can turn this off in Settings → “Screen reading”: Dofight then captures the Dofus window only when you click
+“Scan my subarea”. What it shows is public (game data, guides). It is a fan-made tool, not affiliated with, reviewed
+or approved by Ankama: you use it at your own risk.
 
 **What does Dofight send over the Internet?** Nothing while you play: no account, no statistics. It contacts
 GitHub for its updates. If you use “Suggestion”, it sends your message and, if you leave both switches on,
