@@ -967,8 +967,9 @@ const TOUR: { sel: string; key: Key }[] = [
   { sel: ".roomhead .dj", key: "guide.tour.head" },
   { sel: ".roomhead .mech", key: "guide.tour.mech" },
   { sel: '.mob.boss[data-open="true"] .tags', key: "guide.tour.badges" },
-  // the open card: its resistances and its spells, ringed together
-  { sel: '.mob.boss[data-open="true"] .resrow, .mob.boss[data-open="true"] .spells', key: "guide.tour.card" },
+  // the open card: its level, HP, AP, MP and resistances ringed together (owner, 2026-11-18), then its spells
+  { sel: '.mob.boss[data-open="true"] .stats, .mob.boss[data-open="true"] .resrow', key: "guide.tour.stats" },
+  { sel: '.mob.boss[data-open="true"] .spells', key: "guide.tour.spells" },
   { sel: '.mob[data-open="false"] .mh', key: "guide.tour.folded" },
   // then the gear (the settings), and last where to find the guide again: the menu
   { sel: ".tour-gear", key: "guide.tour.gear" },

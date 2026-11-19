@@ -79,7 +79,7 @@ it("shows ✓ once the coordinates and the icon bar are seen in the game, not be
 });
 
 it("goes step by step: the setup in the game's corner, then the panel's tour, « C'est parti » at the end", async () => {
-  await vi.waitFor(() => expect(count()).toBe("Étape 1 / 13")); // 4 setup steps, 9 for the panel (Torkélonia has them all)
+  await vi.waitFor(() => expect(count()).toBe("Étape 1 / 14")); // 4 setup steps, 10 for the panel (Torkélonia has them all)
   expect((document.getElementById("tour-prev") as HTMLButtonElement).disabled).toBe(true);
   expect(document.getElementById("guide-top")!.hidden).toBe(false); // the language and the intro: step 1 only
   expect(last().sel).toBe('.corner-part[data-part="all"]');
@@ -101,22 +101,24 @@ it("goes step by step: the setup in the game's corner, then the panel's tour, «
   expect(card()).toBe("tour");
   expect(last().sel).toBe(".tour-search");
   for (let i = 0; i < 3; i++) click("tour-next");
-  expect(count()).toBe("Étape 8 / 13");
+  expect(count()).toBe("Étape 8 / 14");
   expect(last().sel).toBe(".roomhead .mech");
   expect(last().html).toContain('class="mech"');
   expect(plain(document.getElementById("tour-text")!.textContent)).toBe(plain(last().text)); // the same text in the panel
   click("tour-next");
   click("tour-next");
-  expect(last().sel).toContain(".resrow"); // the open card: resistances and spells together
-  expect(last().sel).toContain(".spells");
+  expect(last().sel).toContain(".stats"); // the open card: level, HP, AP, MP and resistances together
+  expect(last().sel).toContain(".resrow");
+  click("tour-next");
+  expect(last().sel).toContain(".spells"); // then its spells
   expect(document.getElementById("guide-skip")!.hidden).toBe(false);
   toLast();
-  expect(count()).toBe("Étape 13 / 13");
+  expect(count()).toBe("Étape 14 / 14");
   expect(last().sel).toBe(".tour-menu"); // last: where to find the guide again
   expect(document.getElementById("guide-skip")!.hidden).toBe(true);
   expect(plain(document.getElementById("tour-next")!.textContent)).toBe("C'est parti");
   click("tour-prev");
-  expect(count()).toBe("Étape 12 / 13");
+  expect(count()).toBe("Étape 13 / 14");
   expect(last().sel).toBe(".tour-gear"); // the step before: the gear, the settings
   expect(plain(document.getElementById("tour-next")!.textContent)).toBe("Suivant");
 });
@@ -128,7 +130,7 @@ it("goes to a setting and comes back to the guide, at the same step, with the se
   expect(document.activeElement).toBe(document.getElementById("shortcut"));
   click("back");
   expect(view().hidden).toBe(false);
-  expect(count()).toBe("Étape 12 / 13"); // at the same step
+  expect(count()).toBe("Étape 13 / 14"); // at the same step
   expect(document.activeElement).toBe(document.getElementById("guide-to-shortcut")); // back on the link it left by
 });
 
@@ -137,8 +139,8 @@ it("switches language from the guide itself, staying at its step; the game's cor
   expect(plain(document.getElementById("guide-title")!.textContent)).toBe("Getting started");
   expect(document.querySelector('#guide-lang .lang[data-lang="en"]')!.getAttribute("aria-checked")).toBe("true");
   expect(document.querySelector('#guide-lang .lang[data-lang="fr"]')!.getAttribute("aria-checked")).toBe("false");
-  expect(count()).toBe("Step 12 of 13");
-  for (let i = 0; i < 12; i++) click("tour-prev");
+  expect(count()).toBe("Step 13 of 14");
+  for (let i = 0; i < 13; i++) click("tour-prev");
   expect(last().html).toContain("/guide/corner-en.png");
   (document.querySelector('#guide-lang .lang[data-lang="fr"]') as HTMLButtonElement).click();
   expect(plain(document.getElementById("guide-title")!.textContent)).toBe("Bien démarrer");
