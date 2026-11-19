@@ -28,6 +28,7 @@ import { renderTrip, tripTo } from "./travel";
 import { englishReading, englishView, frenchRoom, loadEnglish, zoneName, type English } from "./english";
 import { esc } from "./render/html";
 import { applyIcons, icon } from "./render/icons";
+import { highlight, matches, monsterText, spellsMatching } from "./findInList";
 import { renderPeek } from "./render/monster";
 import { renderRoom } from "./render/panel";
 import { renderSpellSheet } from "./render/spellSheet";
@@ -133,7 +134,10 @@ let results: Result[] = [];
 const flipped = new Set<number>();
 // a monster is open by default when « Déplier tous les monstres » is on, and a boss always is (like the settings'
 // example); a click flips that, one row at a time
-const isOpen = (id: number) => (settings.expandAll || !!snap?.monsters.get(id)?.boss) !== flipped.has(id);
+// (while « Chercher dans la liste » filters it, the monsters that match are open: the match shows)
+const isOpen = (id: number) => (settings.expandAll || !!finding.trim() || !!snap?.monsters.get(id)?.boss) !== flipped.has(id);
+/** « Filtrer les résultats »: the text typed in the bar above the list (findInList.ts), "" for none. */
+let finding = "";
 // the row the player just folded or unfolded: its chevron turns on the next render (the rows are drawn again)
 let turned: number | null = null;
 
@@ -206,7 +210,11 @@ function roomHtml(r: Room): string {
   // the hidden kinds (special, archmonster, wanted poster, event) are hidden only in the zone read on screen: a search result
   // or a hovered group (Songe) shows every monster it holds
   const show = r !== zoneRoom ? { ...settings, showSpecial: true, showArch: true, showWanted: true, showEvent: true } : settings;
-  const v = shown(r);
+  const all = shown(r);
+  // « Chercher dans la liste »: only the monsters that match (from what their cards say, in the language shown)
+  const q = finding.trim();
+  const summary = summaryOf(r);
+  const v = !q ? all : { ...all, monsters: all.monsters.filter((m) => matches(monsterText(m, summary?.monsters[String(m.id)] ?? view!.monsterSummaries?.get(m.id), view!.spells, view!.vocabulary), q)) };
   // how to get there: for a searched dungeon, zone or monster (not where the player stands, nor a hovered group)
   const trip = r !== zoneRoom && !r.counts ? renderTrip(tripTo(snap.travel, r.dungeon?.id ?? null, r.title)) : "";
   return renderRoom(v.dungeon, v.monsters, summaryOf(r), view, show, iconResolver(view), v.title, isOpen, v.pinned, v.counts, trip);
@@ -389,6 +397,7 @@ function showRoom(): void {
   const reset = $("songe-reset");
   resetHome.after(reset);
   $("room").innerHTML = room ? roomHtml(room) : emptyHtml();
+  showFind();
   if (turned !== null) {
     document.querySelector(`#room .mob[data-monster="${turned}"] .chev`)?.classList.add("turn");
     turned = null;
@@ -413,6 +422,64 @@ function showRoom(): void {
     }
   }
 }
+
+/* ---------- « Filtrer les résultats »: the list keeps the monsters whose card holds the text ---------- */
+
+/** The bar, its count, the matches highlighted and the spells that hold the text marked (after each drawing). */
+function showFind(): void {
+  // always there above a list of monsters (none to filter on an empty list)
+  $("find").hidden = !room;
+  const q = finding.trim();
+  $("find-close").hidden = !finding;
+  if ($("find").hidden || !q || !view) {
+    $("find-count").textContent = "";
+    return;
+  }
+  const rows = [...document.querySelectorAll<HTMLElement>("#room .mob")];
+  $("find-count").textContent = t("find.count", { n: rows.length });
+  if (!rows.length) document.querySelector("#room .room")?.insertAdjacentHTML("beforeend", `<p class="empty">${esc(t("find.none"))}</p>`);
+  for (const row of rows) {
+    highlight(row, q);
+    const m = view.monsters.get(Number(row.dataset.monster));
+    if (m) for (const id of spellsMatching(m, view.spells, q)) row.querySelector(`.sp[data-spell="${id}"]`)?.classList.add("hit");
+  }
+}
+function openFind(): void {
+  if (!room) return;
+  const input = $<HTMLInputElement>("find-q");
+  input.focus();
+  input.select();
+}
+function clearFind(): void {
+  if (!finding) return;
+  finding = "";
+  $<HTMLInputElement>("find-q").value = "";
+  flipped.clear();
+  showRoom();
+}
+$("find-close").addEventListener("click", () => {
+  clearFind();
+  $("find-q").focus();
+});
+$("find-q").addEventListener("input", (e) => {
+  finding = (e.target as HTMLInputElement).value;
+  flipped.clear();
+  showRoom();
+});
+$("find-q").addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    e.stopPropagation();
+    if (finding) clearFind();
+    else (e.target as HTMLInputElement).blur();
+  }
+});
+// Ctrl+F on the monster list (the panel has the focus once clicked): into the bar, not the webview's own find
+document.addEventListener("keydown", (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "f" && !$("view-main").hidden) {
+    e.preventDefault();
+    openFind();
+  }
+});
 
 // the highlighted result (arrows move it, Enter opens it); the first one by default
 let active = 0;
@@ -1061,8 +1128,11 @@ const TOUR: { sel: string; key: Key }[] = [
   { sel: '.mob.boss[data-open="true"] .stats, .mob.boss[data-open="true"] .resrow', key: "guide.tour.stats" },
   { sel: '.mob.boss[data-open="true"] .spells', key: "guide.tour.spells" },
   { sel: '.mob[data-open="false"] .mh', key: "guide.tour.folded" },
-  // then the gear (the settings), and last where to find the guide again: the menu
+  // the filter above the list (« Filtrer les résultats »)
+  { sel: ".tour-filter", key: "guide.tour.filter" },
+  // then the gear (the settings), the padlock, and last where to find the guide again: the menu
   { sel: ".tour-gear", key: "guide.tour.gear" },
+  { sel: ".tour-lock", key: "guide.tour.lock" },
   { sel: ".tour-menu", key: "guide.tour.menu" },
 ];
 /** A guide step: its card here, and what the window beside shows (the game's corner, or the sample panel), ringed. */
@@ -1083,7 +1153,7 @@ let tourHtml = "";
 
 /** The sample's dungeon, drawn by the app with every display option on, its boss open; the steps that find their element. */
 function buildTour(): void {
-  const bar = `<div class="tour-bar"><span class="tour-menu">${icon("menu")}</span><b>Dofight</b><span class="tour-gear">${icon("gear")}</span></div>`;
+  const bar = `<div class="tour-bar"><span class="tour-menu">${icon("menu")}</span><span class="tour-lock">${icon("unlock")}</span><b>Dofight</b><span class="tour-gear">${icon("gear")}</span></div>`;
   const search = `<div class="tour-searchrow"><span class="tour-search">${esc(t("main.searchPlaceholder"))}</span><span class="songe tour-songe">${$("songe").innerHTML}</span></div>`;
   const d = snap?.dungeons.get(TOUR_DUNGEON) ?? (snap ? [...snap.dungeons.values()].find((x) => x.name === PREVIEW_DUNGEON) : undefined);
   let room = `<p class="empty">${esc(t("guide.tour.loading"))}</p>`;
@@ -1094,7 +1164,8 @@ function buildTour(): void {
     const boss = monsters.find((m) => m.boss)?.id;
     room = renderRoom(v.dungeon, v.monsters, summaryOf(r), view, { ...DEFAULTS, suggest: false }, iconResolver(view), v.title, (id) => id === boss);
   }
-  tourHtml = `<div class="tour">${bar}${search}${room}</div>`;
+  const filter = `<div class="tour-filter">${icon("filter")}<span>${esc(t("find.placeholder"))}</span></div>`;
+  tourHtml = `<div class="tour">${bar}${search}${filter}${room}</div>`;
   const probe = document.createElement("div");
   probe.innerHTML = tourHtml;
   // the data could not load: the setup steps only (the sample would say « Chargement… » for ever)

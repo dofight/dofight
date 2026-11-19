@@ -354,6 +354,9 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .tour-bar .tour-gear{margin-left:auto}
 .tour-bar .ic{width:16px;height:16px}
 .tour-searchrow{display:flex;gap:6px}
+.tour-filter{display:flex;align-items:center;gap:6px;border:1px dashed var(--line);border-radius:8px;padding:5px 9px;color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden}
+.tour-filter .ic{flex:none;width:14px;height:14px;color:var(--gold)}
+.tour-filter span{overflow:hidden;text-overflow:ellipsis}
 .tour-search{flex:1;min-width:0;border:1px solid var(--line);border-radius:8px;padding:6px 9px;background:var(--card);color:var(--muted);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tour-songe{height:auto}
 #preview.touring .tour-on{outline:2px solid var(--gold);outline-offset:2px;border-radius:6px;box-shadow:0 0 0 6px var(--gold-soft);animation:tourring 1.6s ease-in-out infinite}
@@ -437,3 +440,19 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .menu .support .ic{fill:currentColor}
 #menu-btn[aria-expanded="true"],#lock[aria-pressed="true"]{background:var(--card)}
 #shortcut-hint:empty{display:none} /* only while the shortcut is being changed */
+
+/* « Chercher dans la liste »: a bar above the list, the matches highlighted, the spells that hold them outlined */
+/* lighter than the main search (no card background, a dashed line): it narrows the list below, it does not look for places */
+.find{display:flex;align-items:center;gap:6px;border:1px dashed var(--line);border-radius:8px;padding:0 4px 0 9px}
+.find:focus-within{border-style:solid;border-color:var(--gold)}
+.find:has(#find-q:not(:placeholder-shown)){border-style:solid;border-color:var(--gold);background:var(--gold-soft)}
+#find-close[hidden]{display:none}
+.find[hidden]{display:none}
+.find-ic{display:inline-flex;color:var(--gold)}
+.find-ic .ic{width:15px;height:15px}
+#find-q{flex:1;min-width:0;background:none;border:0;color:var(--fg);font:inherit;font-size:12.5px;padding:5px 0;user-select:text}
+#find-q:focus-visible{outline:none}
+#find-q::placeholder{color:var(--muted)}
+.find-count{flex:none;color:var(--muted);font-size:12px}
+mark.hit{background:var(--gold-soft);color:inherit;border-radius:3px;box-shadow:0 0 0 1px var(--gold)}
+.sp.hit{box-shadow:0 0 0 2px var(--gold)}

@@ -41,6 +41,8 @@
         <div id="songe-off" class="status warn songe-off" role="status" hidden><span data-i18n="songe.needsReading">Le mode Songe lit l'écran : active « Lecture de l'écran » dans les paramètres.</span> <button type="button" id="songe-off-go" class="pill" data-i18n="songe.openSettings">Ouvrir les paramètres</button></div>
         <button id="backzone" class="backzone" hidden title="Revenir aux monstres de ta sous-zone" data-i18n-title="main.backZoneTitle"><span class="bz-icon" data-icon="undo" aria-hidden="true"></span><span class="bz-label" data-i18n="main.backZone">Revenir à ta zone :</span><span id="backzone-name" class="bz-name"></span></button>
         <button id="songe-reset" class="songe-reset" hidden title="Effacer le groupe survolé" data-i18n-title="songe.resetTitle"><span class="bz-icon" data-icon="undo" aria-hidden="true"></span><span data-i18n="songe.reset">Réinitialiser</span></button>
+        <!-- « Filtrer les résultats » (always there above a list; Ctrl+F): the list keeps the monsters that match -->
+        <div id="find" class="find" role="search" hidden><span class="find-ic" data-icon="filter" aria-hidden="true"></span><input id="find-q" type="text" autocomplete="off" spellcheck="false" placeholder="Filtrer les résultats : sort, badge, effet…" aria-label="Filtrer les résultats" data-i18n-placeholder="find.placeholder" data-i18n-aria="find.label"><span id="find-count" class="find-count" aria-live="polite"></span><button type="button" id="find-close" class="tb" hidden title="Effacer le filtre (Échap)" aria-label="Effacer le filtre (Échap)" data-i18n-title="find.close" data-i18n-aria="find.close" data-icon="close"></button></div>
         <div id="room"></div>
       </main>
 

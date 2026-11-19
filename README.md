@@ -67,8 +67,11 @@ l'affiche ou le cache (raccourci modifiable dans les paramètres). Les mises à 
   et Dofight l'affiche avant le combat.
 - **Recherche** d'un donjon, d'une sous-zone ou d'un monstre ; « Aller en [x,y] » copie la commande de voyage à
   coller dans le chat.
+- **Filtrer les résultats** : tape un sort, un badge ou un effet (« pousse », « PA »…) pour ne garder que les
+  monstres concernés (Ctrl+F).
 - **Ouverture automatique** : il s'ouvre au début du combat et se ferme à la fin ; Ctrl+Maj+D l'affiche ou le cache.
-- **Réglages** : thèmes assortis à ceux de Dofus, taille du texte, opacité, interface en français ou en anglais.
+- **Réglages** : thèmes assortis à ceux de Dofus, taille du texte, opacité, interface en français ou en anglais ;
+  un cadenas fige la position et la taille du panneau.
 
 ## Questions fréquentes
 
@@ -147,8 +150,11 @@ The interface is in French by default: switch to English in Paramètres → Lang
 - **Songe mode**: it turns on by itself when you enter a Songe; hover over a monster group on the map and Dofight
   shows it before the fight.
 - **Search** for a dungeon, a subarea or a monster; “Go to [x,y]” copies the travel command to paste in the chat.
+- **Filter the results**: type a spell, a badge or an effect (“push”, “AP”…) to keep only the monsters concerned
+  (Ctrl+F).
 - **Opens by itself**: it opens when a fight starts and closes when it ends; Ctrl+Shift+D shows or hides it.
-- **Settings**: themes matching Dofus's, text size, opacity, French or English interface.
+- **Settings**: themes matching Dofus's, text size, opacity, French or English interface; a padlock fixes the
+  panel's position and size.
 
 Summaries are available in English; the linked guides are in French.
 
