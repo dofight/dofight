@@ -12,8 +12,8 @@ const PATHS = {
   close: "M18 6 6 18M6 6l12 12",
   // « ↺ »: back to a previous state (the zone the player is in, the hovered group cleared)
   undo: "M3 3v5h5M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8",
-  // « ⓘ »: a mechanic's sheet (hover it)
-  info: "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20ZM12 16v-4M12 8h.01",
+  // « ⓘ »: a mechanic's sheet (hover it); its stem and dot are added by `icon` (thicker, so they show at 18 px)
+  info: "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z",
   // « ↗ »: opens outside the panel (the browser)
   external: "M7 7h10v10M7 17 17 7",
   // two sheets: copies a command (to paste in the game chat)
@@ -36,8 +36,11 @@ const PATHS = {
 
 export type IconName = keyof typeof PATHS;
 
+/** Drawn on top of the « ⓘ » ring: a thick stem and a filled dot (the stroked dot of one path was barely visible). */
+const INFO_MARK = `<path d="M12 11v6" stroke-width="2.4"/><circle cx="12" cy="7.4" r="1.5" fill="currentColor" stroke="none"/>`;
+
 export const icon = (name: IconName): string =>
-  `<svg class="ic ic-${name}" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="${PATHS[name]}"/></svg>`;
+  `<svg class="ic ic-${name}" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="${PATHS[name]}"/>${name === "info" ? INFO_MARK : ""}</svg>`;
 
 /** Draws the icon named by `data-icon` inside each element of the page that asks for one. */
 export function applyIcons(root: ParentNode): void {
