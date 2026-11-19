@@ -73,16 +73,22 @@ export function search(s: Snapshot, query: string, limit = 8): (Result & { score
     m.subareas.forEach((a) => subareas.add(a));
     const sc = score(m.name, query);
     if (sc < MIN_FUZZY) continue;
-    const dungeon = m.dungeonIds.map((id) => s.dungeons.get(id)).find(Boolean);
-    const where = dungeon?.name ?? m.subareas[0];
+    // a monster met in several dungeons (Servitude: its own, Fers de la Tyrannie, and the Tempête de l'Eliocalypse):
+    // the one it heads (first of its monsters) first
+    const dungeons = m.dungeonIds
+      .map((id) => s.dungeons.get(id))
+      .filter((d): d is NonNullable<typeof d> => !!d)
+      .sort((a, b) => Number(b.monsterIds[0] === m.id) - Number(a.monsterIds[0] === m.id));
+    const where = dungeons[0]?.name ?? m.subareas[0];
     const tag = kindLabel(m.kind ?? "normal");
     const info = tag + (where ? `${levelRange(m)} · ${where}` : levelRange(m));
     // normal monsters first, then expedition and wanted-poster versions of the same name
     scored.push({ kind: "monster", label: m.name, info, monsterId: m.id, score: m.kind && m.kind !== "normal" ? sc - 5 : sc });
-    // a monster's dungeon comes first
-    if (dungeon && sc >= 50 && !scored.some((r) => r.kind === "dungeon" && r.dungeonId === dungeon.id)) {
-      scored.push({ kind: "dungeon", label: dungeon.name, info: t("search.contains", { name: m.name }), dungeonId: dungeon.id, score: sc + 30 });
-    }
+    // a monster's dungeons come first
+    dungeons.forEach((dungeon, i) => {
+      if (sc < 50 || scored.some((r) => r.kind === "dungeon" && r.dungeonId === dungeon.id)) return;
+      scored.push({ kind: "dungeon", label: dungeon.name, info: t("search.contains", { name: m.name }), dungeonId: dungeon.id, score: sc + 30 - i * 0.1 });
+    });
   }
   const dungeonNames = new Set([...s.dungeons.values()].map((d) => normalize(d.name)));
   for (const a of subareas) {

@@ -15,6 +15,17 @@ describe("search", () => {
     expect(r.some((x) => x.kind === "monster" && x.monsterId === 8037)).toBe(true);
   });
 
+  it("lists every dungeon of a monster met in several, the one it heads first (Servitude, 2026-11-19)", () => {
+    const t = makeSnapshot();
+    const base = t.monsters.get(101)!;
+    t.dungeons.set(121, { id: 121, name: "Tempête de l'Eliocalypse", level: 200, monsterIds: [6026, 5955], maps: [] });
+    t.dungeons.set(118, { id: 118, name: "Fers de la Tyrannie", level: 200, monsterIds: [5955, 5989], maps: [] });
+    t.monsters.set(5955, { ...base, id: 5955, name: "Servitude", boss: true, dungeonIds: [121, 118], subareas: [] });
+    const dungeons = search(t, "servitude").filter((x) => x.kind === "dungeon").map((x) => x.dungeonId);
+    expect(dungeons).toEqual([118, 121]);
+    expect(search(t, "servitude").find((x) => x.monsterId === 5955)!.info).toContain("Fers de la Tyrannie");
+  });
+
   it("tolerates a typo", () => {
     expect(search(s, "dechirreuse").some((x) => x.dungeonId === 165)).toBe(true);
   });
