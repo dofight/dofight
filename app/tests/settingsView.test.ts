@@ -11,6 +11,9 @@ vi.mock("@tauri-apps/plugin-opener", () => ({ openUrl: vi.fn() }));
 vi.mock("@tauri-apps/api/core", () => ({ invoke: vi.fn(async () => []) }));
 vi.mock("@tauri-apps/plugin-updater", () => ({ check: vi.fn(async () => null) }));
 vi.mock("@tauri-apps/plugin-process", () => ({ relaunch: vi.fn() }));
+// the clipboard: what « Copier mes réglages » wrote is what « Coller des réglages » reads
+let clipboard = "";
+vi.mock("@tauri-apps/plugin-clipboard-manager", () => ({ readText: vi.fn(async () => clipboard) }));
 vi.mock("@tauri-apps/plugin-window-state", () => ({ saveWindowState: vi.fn(), StateFlags: { ALL: 63, VISIBLE: 2 } }));
 vi.mock("@tauri-apps/api/window", () => {
   const win = {
@@ -527,4 +530,32 @@ it("× does nothing while an update downloads or installs", async () => {
   (document.getElementById("quit") as HTMLButtonElement).click();
   expect(invoke).not.toHaveBeenCalledWith("quit");
   document.getElementById("update")!.hidden = true;
+});
+
+it("copies the settings as text and pastes them back (another PC): the theme comes back, the character stays", async () => {
+  Object.defineProperty(navigator, "clipboard", { value: { writeText: vi.fn(async (t: string) => void (clipboard = t)) }, configurable: true });
+  if (document.getElementById("view-settings")!.hidden) (document.getElementById("gear") as HTMLButtonElement).click();
+  const saved = () => JSON.parse(localStorage.getItem("dofight.settings")!);
+  const before = saved();
+  (document.getElementById("settings-export") as HTMLButtonElement).click();
+  await vi.waitFor(() => expect(clipboard).toContain('"dofight":"settings"'));
+  expect(plain(document.getElementById("backup-status")!.textContent)).toContain("Réglages copiés");
+  // another PC: other settings, then the paste
+  const exported = JSON.parse(clipboard);
+  clipboard = JSON.stringify({ ...exported, settings: { ...exported.settings, theme: "bonta", textSize: 90 } });
+  (document.getElementById("settings-import") as HTMLButtonElement).click();
+  await vi.waitFor(() => expect(saved().theme).toBe("bonta"));
+  expect(saved().textSize).toBe(90);
+  expect(saved().referenceWindow).toBe(before.referenceWindow);
+  expect(plain(document.getElementById("backup-status")!.textContent)).toBe("Réglages appliqués.");
+  // not Dofight's settings: nothing changes, and the reason is said
+  clipboard = "bonjour";
+  (document.getElementById("settings-import") as HTMLButtonElement).click();
+  await vi.waitFor(() => expect(plain(document.getElementById("backup-status")!.textContent)).toContain("ne contient pas de réglages Dofight"));
+  expect(saved().theme).toBe("bonta");
+  // back as it was, for the other tests
+  clipboard = JSON.stringify({ ...exported });
+  (document.getElementById("settings-import") as HTMLButtonElement).click();
+  await vi.waitFor(() => expect(saved().theme).toBe(before.theme));
+  (document.getElementById("back") as HTMLButtonElement).click();
 });

@@ -78,6 +78,15 @@
           <div class="theme-row"><span id="size-label" data-i18n="settings.textSize">Taille du texte</span><div id="text-size" class="langs sizes" role="radiogroup" aria-labelledby="size-label"></div></div>
           </div>
         </div>
+        <!-- the settings as text: to another PC, or to share (the character's name stays here) -->
+        <div class="card" data-card="backup">
+          <div class="cardhead"><h2 id="h-backup" data-i18n="settings.backup">Sauvegarde des réglages</h2><button type="button" class="fold" aria-expanded="false" aria-controls="card-backup" aria-labelledby="h-backup" data-icon="chevron"></button></div>
+          <div class="cardbody" id="card-backup" hidden>
+          <p class="hint" data-i18n="settings.backupHint">Copie tes réglages pour les retrouver sur un autre PC, ou pour les partager. Le nom de ton personnage reste ici.</p>
+          <div class="row"><button id="settings-export" class="pill" data-i18n="settings.export">Copier mes réglages</button><button id="settings-import" class="pill" data-i18n="settings.import">Coller des réglages</button></div>
+          <p id="backup-status" class="status" role="status"></p>
+          </div>
+        </div>
         <div class="card" data-card="diagnostic">
           <div class="cardhead"><h2 id="h-diagnostic" data-i18n="settings.diagnostic">Diagnostic</h2><button type="button" class="fold" aria-expanded="false" aria-controls="card-diagnostic" aria-labelledby="h-diagnostic" data-icon="chevron"></button></div>
           <div class="cardbody" id="card-diagnostic" hidden>

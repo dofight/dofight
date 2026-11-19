@@ -36,6 +36,8 @@ import { iconResolver, roomFor, type Room } from "./room";
 import { search, type Result } from "./search";
 import { DEFAULTS, loadSettings, TEXT_SIZES, updateSettings, type Settings } from "./settings";
 import { capturing as capturingGame, READING, readingPatch } from "./reading";
+import { exportSettings, importSettings } from "./settingsTransfer";
+import { readText } from "@tauri-apps/plugin-clipboard-manager";
 import type { Monster, RoomSummary, Snapshot } from "./types";
 
 type Flag = { [K in keyof Settings]-?: Settings[K] extends boolean ? K : never }[keyof Settings];
@@ -427,6 +429,44 @@ document.addEventListener("pointerover", (e) => {
   if (!(e.target as HTMLElement).closest?.(".info")) document.querySelectorAll(".switch.tip-closed").forEach((r) => r.classList.remove("tip-closed"));
 });
 document.addEventListener("focusin", () => document.querySelectorAll(".switch.tip-closed").forEach((r) => r.classList.remove("tip-closed")));
+
+/* ---------- the settings as text: copy them, paste them (another PC, sharing) ---------- */
+
+$("settings-export").addEventListener("click", async () => {
+  try {
+    await navigator.clipboard.writeText(exportSettings(settings));
+    $("backup-status").textContent = t("settings.exported");
+  } catch (err) {
+    diag("settings", `export failed: ${String(err)}`);
+    $("backup-status").textContent = t("settings.backupFailed");
+  }
+});
+$("settings-import").addEventListener("click", async () => {
+  let text: string;
+  try {
+    text = (await readText()) ?? "";
+  } catch (err) {
+    diag("settings", `import: clipboard not read: ${String(err)}`);
+    $("backup-status").textContent = t("settings.importNone"); // an empty clipboard is reported as an error
+    return;
+  }
+  const out = importSettings(text, settings);
+  if (!out.ok) {
+    $("backup-status").textContent = t("settings.importNone");
+    return;
+  }
+  const next = out.settings;
+  const { lang, shortcut, ...rest } = next;
+  // the shortcut is registered first: a taken one keeps the current shortcut
+  const shortcutOk = shortcut === settings.shortcut || (await applyShortcut(shortcut));
+  if (!shortcutOk) await applyShortcut(settings.shortcut); // keep the current one
+  update({ ...rest, ...(shortcutOk ? { shortcut } : {}) });
+  if (lang !== settings.lang) changeLang(lang);
+  buildControls();
+  syncSettingsView();
+  diag("settings", "imported from the clipboard");
+  $("backup-status").textContent = shortcutOk ? t("settings.imported") : t("settings.importedShortcutTaken", { keys: shortcutLabel(shortcut) });
+});
 
 /* ---------- diagnostic: copy the recent log, open its folder ---------- */
 

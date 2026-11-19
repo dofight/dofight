@@ -56,11 +56,27 @@ pub fn clean(exe: &Path) {
 mod tests {
     use super::*;
 
-    fn folder(name: &str) -> PathBuf {
+    /// A test's own temp folder, removed when the test ends (they used to pile up in %TEMP%).
+    struct Folder(PathBuf);
+
+    impl std::ops::Deref for Folder {
+        type Target = PathBuf;
+        fn deref(&self) -> &PathBuf {
+            &self.0
+        }
+    }
+
+    impl Drop for Folder {
+        fn drop(&mut self) {
+            let _ = fs::remove_dir_all(&self.0);
+        }
+    }
+
+    fn folder(name: &str) -> Folder {
         let dir = std::env::temp_dir().join(format!("dofight-selfupdate-{name}-{}", std::process::id()));
         let _ = fs::remove_dir_all(&dir);
         fs::create_dir_all(&dir).unwrap();
-        dir
+        Folder(dir)
     }
 
     #[test]

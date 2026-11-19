@@ -228,6 +228,7 @@ pub fn run() {
                 .build(),
         )
         .plugin(tauri_plugin_process::init())
+        .plugin(tauri_plugin_clipboard_manager::init())
         .plugin(tauri_plugin_updater::Builder::new().build())
         // remembers each window's size and position across restarts; the panel stays hidden at start
         .plugin(
