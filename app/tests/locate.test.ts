@@ -102,6 +102,23 @@ describe("locate by the map coordinates", () => {
     expect(locate(frigost, head("Amakna", -65, -54))).toBeNull();
   });
 
+  it("finds the zone whose name the garbled one is near, among every place at its coordinates", () => {
+    // read on the snow of Frigost (owner, 2026-11-19)
+    const frigost = makeSnapshot();
+    frigost.monsters.set(610, monster({ id: 610, name: "Salbatroce", subareas: ["Roc des Salbatroces"] }));
+    frigost.monsters.set(611, monster({ id: 611, name: "Mansot", subareas: ["Port de givre"] }));
+    frigost.monsters.set(612, monster({ id: 612, name: "Kanimate", subareas: ["Village des Kanigs"] }));
+    frigost.places = new Map([["-83,-58", ["Roc des Salbatroces"]], ["-81,-39", ["Port de givre"]], ["2,2", ["Village des Kanigs"]], ["3,3", ["Village côtier", "Port de givre"]]]);
+    frigost.areas = new Map([["Roc des Salbatroces", "Île de Frigost"], ["Port de givre", "Île de Frigost"], ["Village des Kanigs", "Île de Frigost"]]);
+    expect(locate(frigost, head("Île de Frigost J(Ro'c aes Sia. na erbues}", -83, -58))?.title).toBe("Roc des Salbatroces");
+    expect(locate(frigost, head("Île de Frigost (Porti hé rglUre)", -81, -39))?.title).toBe("Port de givre");
+    // too far from the zone there (another place, unknown here), or nearest to a place with no monsters
+    expect(locate(frigost, head("Île de Frigost (Village côtier)", 2, 2))).toBeNull();
+    expect(locate(frigost, head("Île de Frigost (Village côtier)", 3, 3))).toBeNull();
+    // the area read is another one
+    expect(locate(frigost, head("Amakna (Porti hé rglUre)", -81, -39))).toBeNull();
+  });
+
   it("finds nothing when the text supports no zone there, or without coordinates", () => {
     expect(locate(snow, head("Havre-Sac Eliocalypse", -69, -87))).toBeNull();
     expect(locate(snow, head("Île de dtOüronigride)"))).toBeNull();

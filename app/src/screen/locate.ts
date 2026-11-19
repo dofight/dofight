@@ -66,6 +66,32 @@ function subareaRoom(s: Snapshot, h: Header): Room | null {
   return { dungeon: null, title: name, monsters };
 }
 
+const letters = (t: string) => normalize(t).replace(/[^a-z0-9]/g, "");
+const NEAR_MAX = 0.45; // wrong letters / length: the snow's « Roc aes Sia. na erbues » is 0.41, « Village côtier » for « Village des Kanigs » 0.5
+
+/** The zone part read in parentheses, garbled letter by letter on the snow (« Île de Frigost (Porti hé rglUre) » for
+ * « Port de givre », -81, -39): the place at these coordinates it is nearest to, every place counted (a village with no
+ * monsters included, so its own name is never taken for a zone), when that place is a zone with monsters, alone at
+ * that distance, close enough, and of the area read before the parenthesis (when one is). */
+function nearestPlace(s: Snapshot, h: Header, names: Set<string>): string | null {
+  const open = h.title.indexOf("(");
+  if (open < 0) return null;
+  const read = letters(h.title.slice(open + 1).split(")")[0]);
+  if (read.length < 4) return null;
+  const areaRead = h.title.slice(0, open).trim();
+  let best: { name: string; ratio: number; tie: boolean } | null = null;
+  for (const name of s.places!.get(`${h.x},${h.y}`) ?? []) {
+    const own = letters(name);
+    const ratio = editDistance(own, read) / Math.max(own.length, read.length);
+    if (!best || ratio < best.ratio) best = { name, ratio, tie: false };
+    else if (ratio === best.ratio && name !== best.name) best.tie = true;
+  }
+  if (!best || best.tie || best.ratio > NEAR_MAX || !names.has(best.name)) return null;
+  const area = s.areas?.get(best.name);
+  if (area && areaRead.length >= 4 && !noisyMatch(area, areaRead)) return null;
+  return best.name;
+}
+
 /** The longest run of letters two texts share (accents, case, spaces and punctuation ignored). */
 function sharedRun(a: string, b: string): number {
   const x = normalize(a).replace(/[^a-z0-9]/g, "");
@@ -93,6 +119,8 @@ const SHARED_MIN = 5; // letters in a row the garbled name must still share with
  * house, a zone with no monsters) finds nothing. */
 function byCoordinates(s: Snapshot, h: Header, names: Set<string>): string | null {
   if (h.x === null || h.y === null || !s.places) return null;
+  const near = nearestPlace(s, h, names);
+  if (near) return near;
   // a zone name read whole, between both parentheses, is another place (« Village côtier », no monsters): only a
   // damaged zone part (a parenthesis lost: « dtOüronigride) », « (Île de Karto ») or none is looked up here
   if (h.title.includes("(") && h.title.includes(")")) return null;

@@ -46,6 +46,8 @@ export function parseHeader(lines: OcrLine[]): Header | null {
     .join("");
   const m = coordsLine ? COORDS.exec(coordsLine.text) : null;
   // cut by the turn order, or a fragment whose start was lost: never used to change the room
-  const cut = (title.includes("(") && !title.includes(")")) || title.replace(/[^\p{L}]/gu, "").length < 4;
+  // (on a light background the OCR may read the closing parenthesis as « } » or « ] »: the title is whole)
+  const closed = title.includes(")") || /[}\]]\s*$/.test(title);
+  const cut = (title.includes("(") && !closed) || title.replace(/[^\p{L}]/gu, "").length < 4;
   return { title, x: m ? toInt(m[1]) : null, y: m ? toInt(m[2]) : null, cut };
 }

@@ -47,6 +47,13 @@ describe("parseHeader (real Windows OCR lines)", () => {
     ])).toMatchObject({ cut: true });
   });
 
+  it("takes a brace or a bracket at the end for the closing parenthesis (the snow of Frigost, 2026-11-19)", () => {
+    const at = (text: string, y: number) => ({ text, x: 8, y, w: 260, h: 18 });
+    const h = parseHeader([at("Île de Frigost J(Ro'c aes Sia. na erbues}", 40), at("-83, -58", 66)]);
+    expect(h).toMatchObject({ x: -83, y: -58, cut: false });
+    expect(parseHeader([at("Île de Frigost (Roc des", 40), at("-83, -58", 66)])).toMatchObject({ cut: true });
+  });
+
   it("flags a title cut by the turn order", () => {
     expect(parseHeader(L.turn1)).toMatchObject({ cut: true });
   });
