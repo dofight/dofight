@@ -309,7 +309,7 @@
     "strategyMaxChars": 220
   },
   "stateIcons": {
-    "_note": "a state badge (inflicts, state) whose parameter starts with one of these names (French or official English) shows that state's icon (DofusDB, owner-confirmed 2026-11-18)",
+    "_note": "a state badge (inflicts, state) whose parameter starts with one of these names (French or official English) shows that state's icon (from the game client)",
     "Pesanteur": "states/stateImmobilization.webp",
     "Gravity": "states/stateImmobilization.webp",
     "Insoignable": "states/stateInsoignable.webp",

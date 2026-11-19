@@ -82,7 +82,7 @@ maintainer only (a `vX.Y.Z` tag runs the `release` workflow).
 |---|---|
 | `app/` | The app: Tauri v2, Rust in `app/src-tauri/`, Vite + TypeScript in `app/src/` |
 | `data/snapshot/` | Game data from Dofensive (monsters, spells, dungeons; `en/` for English) |
-| `data/travel.json` | From DofusDB (`tools/travel.py`): zaaps, dungeon entrances, subarea positions, map coordinates |
+| `data/travel.json` | From the game client (a maintainer's tool): zaaps, dungeon entrances, subarea positions, map coordinates |
 | `data/summaries/` | Summaries: one file per dungeon (`dungeons/`) and guild expedition (`zones/`), mechanic sheets (`mechanics.json`), the badge list (`vocabulary.json`), English (`en.json`) |
 | `data/icons/` | Icons used by the app |
 | `relay/` | The “Suggestion” relay (Cloudflare Worker) |

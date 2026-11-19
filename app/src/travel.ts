@@ -1,7 +1,7 @@
 /** How to get to a dungeon or a zone, the way Ganymède shows it: « Aller en [3,-21] » copies « /travel 3 -21 », the
  * zaap button copies « /zaap 5 -18 ; /travel 3 -21 » (take the nearest zaap, then travel). The player pastes it in
- * the game chat himself (Dofight never types in the game). Positions: data/travel.json (tools/travel.py, from
- * DofusDB): each dungeon's entrance, a map in the middle of each zone, the zaaps. */
+ * the game chat himself (Dofight never types in the game). Positions: data/travel.json (from the game client's own
+ * data files): each dungeon's entrance, a map in the middle of each zone, the zaaps. */
 import { t, getLang } from "./i18n";
 import { icon } from "./render/icons";
 

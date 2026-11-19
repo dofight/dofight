@@ -1,0 +1,309 @@
+{
+ "_note": "Positions the game client does not give (filled by hand): x, y of the entrance (and world, 1 by default). private/tools/client.py merges them over the client's; null = no « Aller en » button.",
+ "dungeons": {
+  "-101": {
+   "name": "Caverne de Cire Momore",
+   "x": null,
+   "y": null
+  },
+  "-104": {
+   "name": "Cratère Minus (Grozilla et Grasmera Fatigués)",
+   "x": null,
+   "y": null
+  },
+  "-102": {
+   "name": "Cratère Minus (Grozilla et Grasmera Somnambules)",
+   "x": null,
+   "y": null
+  },
+  "-103": {
+   "name": "Cratère Minus (Grozilla et Grasmera Épuisés)",
+   "x": null,
+   "y": null
+  },
+  "-105": {
+   "name": "Cratère Minus (Grozilla et Grasmera)",
+   "x": null,
+   "y": null
+  },
+  "-1001": {
+   "name": "Temple de Gargandyas",
+   "x": null,
+   "y": null
+  }
+ },
+ "zones": {
+  "Arènes de Goultard": {
+   "x": null,
+   "y": null
+  },
+  "Expédition - Antre de Crocabulia": {
+   "x": null,
+   "y": null
+  },
+  "Expédition - Antre du Blop Multicolore Royal": {
+   "x": null,
+   "y": null
+  },
+  "Expédition - Antre du Dragon Cochon": {
+   "x": null,
+   "y": null
+  },
+  "Expédition - Arbre de Moon": {
+   "x": null,
+   "y": null
+  },
+  "Expédition - Bibliothèque du Maître Corbac": {
+   "x": null,
+   "y": null
+  },
+  "Expédition - Caverne du Koulosse": {
+   "x": null,
+   "y": null
+  },
+  "Expédition - Centre du Labyrinthe du Minotoror": {
+   "x": null,
+   "y": null
+  },
+  "Expédition - Château Ensablé": {
+   "x": null,
+   "y": null
+  },
+  "Expédition - Clairière du Chêne Mou": {
+   "x": null,
+   "y": null
+  },
+  "Expédition - Cour du Bouftou Royal": {
+   "x": null,
+   "y": null
+  },
+  "Expédition - Donjon des Bworks": {
+   "x": null,
+   "y": null
+  },
+  "Expédition - Donjon des Forgerons": {
+   "x": null,
+   "y": null
+  },
+  "Expédition - Donjon des Scarafeuilles": {
+   "x": null,
+   "y": null
+  },
+  "Expédition - Donjon des Squelettes": {
+   "x": null,
+   "y": null
+  },
+  "Expédition - Garde-manger du Rat Blanc": {
+   "x": null,
+   "y": null
+  },
+  "Expédition - Grange du Tournesol Affamé": {
+   "x": null,
+   "y": null
+  },
+  "Expédition - Pitons Rocheux des Craqueleurs": {
+   "x": null,
+   "y": null
+  },
+  "Expédition - Sousouricière du Rat Noir": {
+   "x": null,
+   "y": null
+  },
+  "Expédition - Tanière du Meulou": {
+   "x": null,
+   "y": null
+  },
+  "Expédition - Tofulailler Royal": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de l'Audace - Aquadôme de Merkator": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de l'Audace - Belvédère d'Ilyzaelle": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de l'Audace - Brasserie du roi Dazak": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de l'Audace - Cave du Toxoliath": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de l'Audace - Donjon de la mine de Sakaï": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de l'Audace - Donjon du Comte Harebourg": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de l'Audace - Forgefroide de Missiz Frizz": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de l'Audace - Galerie du Phossile": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de l'Audace - Grotte de Kanigroula": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de l'Audace - Grotte du Bworker": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de l'Audace - Horologium de XLII": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de l'Audace - Palais de Dantinéa": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de l'Audace - Pyramide d'Ombre": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de l'Audace - Salle du Minotot": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de l'Audace - Salons privés de Klime": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de l'Audace - Temple de Koutoulou": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de l'Audace - Tour de Solar": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de l'Audace - Trône de Sang": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de l'Audace - Vaisseau du Capitaine Meno": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de l'Audace - Ventre de la Baleine": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de la Bravoure - Aquadôme de Merkator": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de la Bravoure - Belvédère d'Ilyzaelle": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de la Bravoure - Brasserie du roi Dazak": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de la Bravoure - Cave du Toxoliath": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de la Bravoure - Donjon de la mine de Sakaï": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de la Bravoure - Donjon du Comte Harebourg": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de la Bravoure - Forgefroide de Missiz Frizz": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de la Bravoure - Galerie du Phossile": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de la Bravoure - Grotte de Kanigroula": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de la Bravoure - Grotte du Bworker": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de la Bravoure - Horologium de XLII": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de la Bravoure - Palais de Dantinéa": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de la Bravoure - Pyramide d'Ombre": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de la Bravoure - Salle du Minotot": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de la Bravoure - Salons privés de Klime": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de la Bravoure - Temple de Koutoulou": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de la Bravoure - Tour de Solar": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de la Bravoure - Trône de Sang": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de la Bravoure - Vaisseau du Capitaine Meno": {
+   "x": null,
+   "y": null
+  },
+  "Expédition de la Bravoure - Ventre de la Baleine": {
+   "x": null,
+   "y": null
+  },
+  "Gelaxième dimension": {
+   "x": null,
+   "y": null
+  },
+  "Invasion de l'Éveil - Forêt d'Amakna": {
+   "x": null,
+   "y": null
+  },
+  "Invasion de l'Éveil - Forêt des Masques": {
+   "x": null,
+   "y": null
+  },
+  "Invasion de l'Éveil - Plage de Corail": {
+   "x": null,
+   "y": null
+  },
+  "Invasion de l'Éveil - Île des Wabbits": {
+   "x": null,
+   "y": null
+  },
+  "Territoire souterrain des Porcos": {
+   "x": null,
+   "y": null
+  },
+  "Test conventionné": {
+   "x": null,
+   "y": null
+  }
+ }
+}
