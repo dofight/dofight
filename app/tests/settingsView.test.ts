@@ -50,11 +50,11 @@ function handler(event: string): (e: { payload: unknown }) => unknown {
 }
 
 it("explains the empty first screen, and says when Dofus is not open", async () => {
-  expect(plain(document.getElementById("room")!.textContent)).toContain("Dofight affiche ici les monstres de ta sous-zone");
+  expect(plain(document.getElementById("room")!.textContent)).toContain("Dès que Dofight lit ta sous-zone dans Dofus, ses monstres s'affichent ici.");
   const tick = handler("screen:tick");
   await tick({ payload: { front: false, lines: [], error: "no-dofus", bar: null } });
   expect(plain(document.getElementById("room")!.textContent)).toContain("Dofus n'est pas ouvert.");
-  expect(plain(document.getElementById("room")!.textContent)).toContain("chercher un monstre");
+  expect(plain(document.getElementById("room")!.textContent)).toContain("passer par la recherche");
 });
 
 it("draws the settings button as a stroked gear, like the other title bar icons", () => {
