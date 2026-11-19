@@ -84,7 +84,7 @@ export function renderMonster(
           const badges = show.spellBadges
             ? `<span class="cats">${s.categories.map((c) => img(icon, `spell/effect/${CATEGORY_ICON[c]}.webp`, `class="c-${c.split("_")[0]}" title="${esc(categoryName(c))}"`)).join("")}</span>`
             : "";
-          const face = img(icon, `spells/${s.id}.webp`) || `<span class="abbr">${esc(s.name.slice(0, 4))}</span>`;
+          const face = img(icon, `spells/${s.spellId ?? s.id}.webp`) || `<span class="abbr">${esc(s.name.slice(0, 4))}</span>`;
           // its range and how it is shaped (in a line, a diagonal, without line of sight), read at a glance
           const marks = rangeMarks(s);
           const shape = marks.map((k) => `<span class="mk" title="${esc(k.label)}">${navIcon(k.icon)}</span>`).join("");

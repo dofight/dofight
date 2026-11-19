@@ -78,7 +78,8 @@ def trim_monster(raw: dict) -> dict:
     grades = _normal_grades(raw)
     top = max(grades, key=lambda g: (g["Level"], g["LifePoints"])) if grades else {}
     res = top.get("PercentResistances") or {}
-    spell_ids = [int(k) for k in (top.get("SpellGrades") or {})] or [s["Id"] for s in raw.get("Spells") or []]
+    grades_used = {int(k): v for k, v in (top.get("SpellGrades") or {}).items()}
+    spell_ids = list(grades_used) or [s["Id"] for s in raw.get("Spells") or []]
     return {
         "id": raw["Id"],
         "name": raw["Name"],
@@ -91,6 +92,8 @@ def trim_monster(raw: dict) -> dict:
         "mp": top.get("MovementPoints", 0),
         "res": {code: res.get(key, 0) for key, code in _RES_KEYS},
         "spellIds": list(dict.fromkeys(spell_ids)),
+        # the grade of each spell this monster casts; build() turns spellIds into spell keys with it, then drops it
+        "spellGrades": grades_used,
         "dungeonIds": [d["Id"] for d in raw.get("Dungeons") or []],
         "subareas": [s["Name"] for s in raw.get("Subareas") or []],
         "kind": monster_kind(raw),
@@ -140,8 +143,22 @@ def effect_zone(e: dict):
     return f"{shape} {size}" + (f" {second}" if second else "")
 
 
-def trim_spell(raw: dict, lang: str = "fr") -> dict:
-    level = raw["Levels"][-1]
+GRADE_KEY = 1_000_000
+
+
+def spell_key(spell_id: int, grade: int | None, raw: dict) -> int:
+    """A spell's id in the snapshot: its own id at its last grade (most monsters), else grade × 1 000 000 + id. A
+    spell's grades can differ in numbers and in effects (the Martoa's grade 1 summons a Pelle Murale, grade 2 is the
+    Pelle's own spell), so each monster points to the grade it casts."""
+    levels = raw.get("Levels") or []
+    if grade is None or not levels or grade == levels[-1].get("Grade") or not any(l.get("Grade") == grade for l in levels):
+        return spell_id
+    return grade * GRADE_KEY + spell_id
+
+
+def trim_spell(raw: dict, lang: str = "fr", grade: int | None = None) -> dict:
+    """The spell at `grade` (the last one when absent or unknown)."""
+    level = next((l for l in raw["Levels"] if grade is not None and l.get("Grade") == grade), raw["Levels"][-1])
     all_effects = [e for g in level.get("GroupEffects") or [] for e in g["Effects"]]
     effects, seen = [], set()
     for e in all_effects:
@@ -159,8 +176,10 @@ def trim_spell(raw: dict, lang: str = "fr") -> dict:
             "zone": effect_zone(e),
         })
     conditions = [format_effect(c, lang) for group in level.get("StateCriteria") or [] for c in group]
+    key = spell_key(raw["Id"], grade, raw)
     return {
-        "id": raw["Id"],
+        "id": key,
+        **({"spellId": raw["Id"], "grade": grade} if key != raw["Id"] else {}),
         "name": raw["Name"],
         "ap": level["ActionPoints"],
         "rangeMin": level["MinRange"],
@@ -241,16 +260,23 @@ def build(api, out_dir: Path, only_dungeons: bool = False, log=print, overrides:
             log(f"monster {mid}: {e!r}")
         if n % 200 == 0:
             log(f"{n}/{len(monster_ids)} monsters")
-    spell_ids = list(dict.fromkeys(s for m in monsters for s in m["spellIds"]))
-    spells = []
-    for sid in spell_ids:
+    # each spell at the grade each monster casts (one entry per spell and grade used)
+    wanted = list(dict.fromkeys((s, m["spellGrades"].get(s)) for m in monsters for s in m["spellIds"]))
+    spells, raws, keys, done = [], {}, {}, set()
+    for sid, grade in wanted:
         try:
-            spells.append(trim_spell(api.get(f"spells/{sid}")[0], lang))
+            if sid not in raws:
+                raws[sid] = api.get(f"spells/{sid}")[0]
+            spell = trim_spell(raws[sid], lang, grade)
+            if spell["id"] not in done:
+                spells.append(spell)
+                done.add(spell["id"])
+            keys[(sid, grade)] = spell["id"]
         except (DofensiveError, IndexError, KeyError) as e:
             log(f"spell {sid}: {e!r}")
-    known = {s["id"] for s in spells}
     for m in monsters:
-        m["spellIds"] = [s for s in m["spellIds"] if s in known]
+        m["spellIds"] = list(dict.fromkeys(keys[(s, m["spellGrades"].get(s))] for s in m["spellIds"] if (s, m["spellGrades"].get(s)) in keys))
+        del m["spellGrades"]
     _write(out_dir / "dungeons.json", dungeons)
     _write(out_dir / "monsters.json", monsters)
     _write(out_dir / "spells.json", spells)
@@ -259,7 +285,7 @@ def build(api, out_dir: Path, only_dungeons: bool = False, log=print, overrides:
 
 def icon_paths(snapshot: dict) -> list:
     paths = list(STATIC_ICONS)
-    paths += [f"spells/{s['id']}.webp" for s in snapshot["spells"]]
+    paths += sorted({f"spells/{s.get('spellId', s['id'])}.webp" for s in snapshot["spells"]})
     paths += [f"monsters/{m['id']}.webp" for m in snapshot["monsters"]]
     icons = sorted({e["icon"] for s in snapshot["spells"] for e in s["effects"]})
     paths += [f"spell/effect/{i}.webp" for i in icons]

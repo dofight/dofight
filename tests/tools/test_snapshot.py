@@ -177,3 +177,17 @@ def test_zone_uses_the_game_area_type():
     assert effect_zone(z(2, -1)) == "toute la carte"
     assert effect_zone(z(3, -1)) is None
     assert effect_zone(z(8, 0, 0)) is None
+
+
+def test_a_spell_is_read_at_the_grade_the_monster_casts():
+    # the Martoa casts « Mur de Pelles » at grade 1 (summons a Pelle Murale); grade 2 is the Pelle's own spell, which
+    # kills itself: reading the last grade for every monster showed « Tue la cible » (found 2026-11-18)
+    m = trim_monster(load("monsters_5228")[0])
+    assert m["spellGrades"][10232] == 1
+    raw = load("spells_10232")[0]
+    one, last = trim_spell(raw, grade=1), trim_spell(raw)
+    assert one["id"] == 1_000_000 + 10232 and one["spellId"] == 10232 and one["grade"] == 1
+    assert last["id"] == 10232 and "spellId" not in last
+    assert any("Pelle Murale" in e["text"] for e in one["effects"])
+    assert not any("Pelle Murale" in e["text"] for e in last["effects"])
+    assert trim_spell(raw, grade=2)["id"] == 10232  # the last grade keeps the plain id

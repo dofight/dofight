@@ -48,7 +48,12 @@ export interface SpellEffect {
 }
 
 export interface Spell {
+  /** The spell's key in the snapshot: its game id, or grade × 1 000 000 + id when a monster casts a grade other than
+   * the last one (tools/snapshot.py spell_key). */
   id: number;
+  /** Set with a grade key: the game id (its icon) and the grade. */
+  spellId?: number;
+  grade?: number;
   name: string;
   ap: number;
   rangeMin: number;
