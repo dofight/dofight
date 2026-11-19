@@ -280,6 +280,13 @@
       "labelEn": "Dispels you",
       "param": "optional",
       "icon": "spell/effect/73.webp"
+    },
+    "kill_condition": {
+      "category": "tip",
+      "label": "Pour le tuer",
+      "labelEn": "To kill it",
+      "param": "what",
+      "icon": "spell/effect/16.webp"
     }
   },
   "params": {

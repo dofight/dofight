@@ -39,7 +39,8 @@ Dofensive spells of each monster. Never invent: what the guide does not support 
      Having an area spell is not enough.
    - `heals`, `removes`, `steals`, `reflect`, `team_damage`: only when the guide calls it a problem.
 2. **Conseil** (blue): an action the player should take: placement (`no_melee_end`, `out_of_sight`, `spread_out`,
-   `lock`, `reduce_range`), `dispel`, `hit_element` (only for a clear weakness the guide recommends). No kill order:
+   `lock`, `reduce_range`), `dispel`, `hit_element` (only for a clear weakness the guide recommends). `kill_condition`
+   « Pour le tuer » for a monster that only dies when a condition is met (the Krobes: « 3 tours sans aucun soin »). No kill order:
    it is subjective (user, 2026-11-07).
 3. **Mécanique** (yellow): how the monster works when it matters to plan the fight: `phase`, `summons`,
    `buffs_allies`, `moves`, `glyphs`, `flees`, `state`.

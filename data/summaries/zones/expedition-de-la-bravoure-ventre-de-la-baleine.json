@@ -1,0 +1,147 @@
+{
+ "zone": "Expédition de la Bravoure - Ventre de la Baleine",
+ "dungeonId": 84,
+ "dungeon": "Ventre de la Baleine",
+ "guide": "https://www.dofuspourlesnoobs.com/ventre-de-la-baleine.html",
+ "guideUpdated": "05/10/2026",
+ "status": "draft",
+ "strategy": "Les Krobes sont invulnérables : les taper blesse à leur place la Malamibe, à tuer avant qu'elle ait vécu 2 tours complets, sinon elle tue ton équipe. Un Krobe ne meurt que si sa condition est tenue 3 tours de suite.",
+ "roomTags": [
+  {
+   "id": "one_shot",
+   "param": "si la Malamibe vit 2 tours"
+  },
+  {
+   "id": "invulnerable",
+   "param": "meurt si condition tenue 3 tours"
+  }
+ ],
+ "mechanics": [
+  "krobes"
+ ],
+ "monsters": {
+  "3823": {
+   "tags": [
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    },
+    {
+     "id": "kill_condition",
+     "param": "3 tours sans aucun soin"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place, alliés aussi"
+    }
+   ],
+   "detail": "Sans soin, il gagne de la Puissance à chaque tour. Il échange de place en ligne jusqu'à 4 PO, alliés compris, sauf s'il est en Pesanteur : le tenir loin de la Virustine."
+  },
+  "3824": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC"
+    },
+    {
+     "id": "kill_condition",
+     "param": "3 tours un perso à son contact"
+    },
+    {
+     "id": "moves",
+     "param": "attire autour de lui"
+    }
+   ],
+   "detail": "Le personnage doit être à son contact au début du tour du Verminocule ; une invocation ne compte pas. Ce personnage peut changer d'un tour à l'autre."
+  },
+  "3825": {
+   "tags": [
+    {
+     "id": "dispels_you",
+     "param": "-1 tour de bonus au-delà de 5 PO"
+    },
+    {
+     "id": "removes",
+     "param": "PM, PO",
+     "source": "spells"
+    },
+    {
+     "id": "kill_condition",
+     "param": "3 tours sans perso à 5 PO"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ],
+   "detail": "Ses sorts ne se lancent qu'entre 6 et 10 PO. Sa condition se vérifie au début de son tour : aucun de tes personnages à 5 PO ou moins."
+  },
+  "3826": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "tes invocations, au CaC"
+    },
+    {
+     "id": "big_damage",
+     "param": "à 3 PO, selon ses PM restants"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "kill_condition",
+     "param": "3 tours ni bougée ni -PM"
+    }
+   ],
+   "detail": "La pousser contre un obstacle lui retire 1 PM pour le combat sans casser sa condition ; à 0 PM elle passe ses tours. Un échange de place du Tabacille remet sa condition à zéro et lui rend ses PM."
+  },
+  "3827": {
+   "tags": [
+    {
+     "id": "area_damage",
+     "param": "plus fort par élément reçu"
+    },
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "kill_condition",
+     "param": "4 éléments par tour, 3 tours"
+    }
+   ],
+   "detail": "Brûlure d'estomac frappe une fois de plus pour chaque élément reçu au tour précédent : remplir sa condition le rend plus dangereux, s'écarter de lui avant son tour."
+  },
+  "3828": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "tes invocations, au CaC"
+    },
+    {
+     "id": "removes",
+     "param": "PA, PM",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "kill_condition",
+     "param": "6 tours en Infection"
+    },
+    {
+     "id": "moves",
+     "param": "attire, pousse",
+     "source": "spells"
+    }
+   ],
+   "detail": "Indéplaçable, sauf par le premier coup du tour donné en ligne, qui l'attire au contact : le faire passer dans un glyphe violet le met en Infection 3 tours. L'y remettre au moins tous les 2 tours."
+  }
+ }
+}

@@ -1051,9 +1051,9 @@
  },
  "3825": {
   "name": "Bacterrib",
-  "spells": "c3476a442c",
+  "spells": "8ebc896a28",
   "tags": {
-   "dispels_you": "guide: « Restauration éloignée : Retire 1 tour d'envoûtement à tous les personnages à plus de 5PO de la Bacterrib »"
+   "dispels_you": "guide: passive Restauration éloignée (dispels whoever is beyond 5 range)"
   }
  },
  "3835": {
