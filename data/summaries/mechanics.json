@@ -353,5 +353,17 @@
   ],
   "guide": "https://www.dofuspourlesnoobs.com/poste-de-controle-du-supervizoeuf.html#saisons",
   "status": "draft"
+ },
+ "rotting-skin": {
+  "title": "Peau pourrissante",
+  "gist": "Chaque personnage commence le combat avec, et chaque invocation dès qu'elle arrive : -90 % de dommages finaux et un poison Feu, jusqu'à ce qu'on la retire.",
+  "points": [
+   "Poison : 190 à 265 dommages Feu fixes à chaque début de tour.",
+   "À partir du tour 2, elle retire aussi 10 % des PV actuels à chaque fin de tour.",
+   "Un soin la retire pour tout le combat, même à PV max ; le vol de vie compte.",
+   "Tant qu'un personnage l'a, il n'attrape pas d'autres maladies : la garder sur ceux qui ne tapent pas, comme un tank."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/arbre-de-mort.html",
+  "status": "draft"
  }
 }

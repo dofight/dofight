@@ -2383,7 +2383,13 @@
   "renvoie de 6 cases": "sends 6 cells back",
   "à plus de 7 PO d'elle (tour 5)": "beyond 7 range of it (turn 5)",
   "entre deux Tamponneurs": "between two Stamper Wobots",
-  "Ne pas finir son tour en ligne entre deux Tamponneurs : renvoyé en boucle, les dégâts de poussée tuent. Ça marche aussi contre le boss : le pousser entre deux Tamponneurs pour l'OS.": "Don't end your turn in line between two Stamper Wobots: bounced back and forth, the push damage kills. It works against the boss too: push him between two Stamper Wobots to one-shot him."
+  "Ne pas finir son tour en ligne entre deux Tamponneurs : renvoyé en boucle, les dégâts de poussée tuent. Ça marche aussi contre le boss : le pousser entre deux Tamponneurs pour l'OS.": "Don't end your turn in line between two Stamper Wobots: bounced back and forth, the push damage kills. It works against the boss too: push him between two Stamper Wobots to one-shot him.",
+  "Peau pourrissante": "Peau pourrissante",
+  "Chaque personnage commence le combat avec, et chaque invocation dès qu'elle arrive : -90 % de dommages finaux et un poison Feu, jusqu'à ce qu'on la retire.": "Every character starts the fight with it, and every summon as soon as it arrives: -90% final damage and a Fire poison, until it is removed.",
+  "Poison : 190 à 265 dommages Feu fixes à chaque début de tour.": "Poison: 190 to 265 fixed Fire damage at the start of each turn.",
+  "À partir du tour 2, elle retire aussi 10 % des PV actuels à chaque fin de tour.": "From turn 2, it also removes 10% of current HP at the end of each turn.",
+  "Un soin la retire pour tout le combat, même à PV max ; le vol de vie compte.": "One heal removes it for the whole fight, even at full HP; lifesteal counts.",
+  "Tant qu'un personnage l'a, il n'attrape pas d'autres maladies : la garder sur ceux qui ne tapent pas, comme un tank.": "While a character has it, they catch no other disease: keep it on those who don't hit, like a tank."
  },
  "token": {
   "-résistances": "-resistances",

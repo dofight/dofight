@@ -1,0 +1,94 @@
+{
+ "zone": "Royaume Corrompu",
+ "dungeonId": 117,
+ "guide": "https://www.dofuspourlesnoobs.com/arbre-de-mort.html",
+ "guideUpdated": "05/10/2026",
+ "dungeon": "Arbre de Mort",
+ "status": "draft",
+ "mechanics": [
+  "rotting-skin"
+ ],
+ "monsters": {
+  "6028": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PM si tapé au CaC"
+    },
+    {
+     "id": "state",
+     "param": "Tétanyte : dégâts si déplacé"
+    }
+   ]
+  },
+  "6029": {
+   "tags": [
+    {
+     "id": "state",
+     "param": "Brutalyte, blesse tes alliés"
+    },
+    {
+     "id": "removes",
+     "param": "PA autour de lui"
+    },
+    {
+     "id": "summons",
+     "param": "Germinion"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "6030": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM et bouclier"
+    },
+    {
+     "id": "moves",
+     "param": "téléporte symétriquement"
+    }
+   ]
+  },
+  "6031": {
+   "tags": [
+    {
+     "id": "state",
+     "param": "Gangrainyte : -soins, contagieux"
+    },
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "steals",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

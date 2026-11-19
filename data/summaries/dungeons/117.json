@@ -143,5 +143,8 @@
    ],
    "detail": "S'il a encore Kissiphrot, taper un allié qu'il protège donne quand même le poison."
   }
- }
+ },
+ "mechanics": [
+  "rotting-skin"
+ ]
 }
