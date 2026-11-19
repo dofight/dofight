@@ -1,0 +1,79 @@
+{
+ "zone": "Laboratoires des Chocomanciens",
+ "dungeonId": 111,
+ "guide": "https://www.dofuspourlesnoobs.com/temple-du-dieu-kao.html",
+ "guideUpdated": "25/04/2025",
+ "dungeon": "Temple du dieu Kao",
+ "status": "draft",
+ "strategy": "Taper un Éclat Kao donne Chocolathée 3 tours (les monstres te frappent plus fort) : l'achever d'un coup, au poison ou par une bombe l'évite.",
+ "roomTags": [
+  {
+   "id": "summons",
+   "param": "Éclat Kao : protège les monstres"
+  },
+  {
+   "id": "state",
+   "param": "Chocolathée si on tape l'Éclat"
+  }
+ ],
+ "monsters": {
+  "5672": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "attire (4 cases si Chocolathée)"
+    },
+    {
+     "id": "glyphs",
+     "param": "piège invisible, frappe en zone"
+    }
+   ]
+  },
+  "5671": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pacifiste si ses 2 états cumulés"
+    },
+    {
+     "id": "glyphs",
+     "param": "Pesanteur et poison"
+    }
+   ]
+  },
+  "5670": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "-20 % dégâts subis, bouclier"
+    }
+   ]
+  },
+  "5669": {
+   "tags": [
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable au CaC"
+    },
+    {
+     "id": "moves",
+     "param": "s'attire et repousse"
+    }
+   ]
+  }
+ }
+}

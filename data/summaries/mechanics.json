@@ -337,6 +337,7 @@
    "Liaison longue portée : 20 % des dommages subis par un monstre sont renvoyés aux monstres à plus de 10 PO de lui.",
    "Invocations incapacitantes : les dommages de tes invocations non statiques retirent 1 tour d'envoûtement aux monstres.",
    "Bonne distance : 20 % des dommages subis par un monstre soignent tes personnages à exactement 7 cases de lui.",
+   "Cible prioritaire : au début de son tour, un monstre a 10 % de chance d'être cible prioritaire ; qui le frappe en premier ce tour gagne 2 PA pendant 2 tours.",
    "Disparitions détonantes : un monstre qui meurt blesse les monstres autour de lui, selon ses PV max."
   ],
   "guide": "https://www.dofuspourlesnoobs.com/defi-du-chaloeil.html#modificateurs-combat",
@@ -344,7 +345,7 @@
  },
  "osavora-seasons": {
   "title": "Modificateurs d'Osavora",
-  "gist": "Osavora n'a pas de modificateur de dimension : chaque saison a le sien. La saison change en début de semaine si le serveur réussit le défi de Gargandyas.",
+  "gist": "Pas de modificateur de dimension : chaque saison a le sien. La saison change chaque semaine ; si le serveur rate le score, les monstres en profitent aussi.",
   "points": [
    "Naissance : un personnage qui finit son tour sur sa case de départ gagne un bouclier 1 tour ; s'il n'a pas attaqué, il est soigné de 5 % de sa vie.",
    "Chasse : achever un monstre donne au personnage et à ses invocations +1 PA et +3 % de dommages finaux (2 tours, cumulable 3 fois).",
@@ -364,6 +365,38 @@
    "Tant qu'un personnage l'a, il n'attrape pas d'autres maladies : la garder sur ceux qui ne tapent pas, comme un tank."
   ],
   "guide": "https://www.dofuspourlesnoobs.com/arbre-de-mort.html",
+  "status": "draft"
+ },
+ "lotus-form": {
+  "title": "Forme Lotus",
+  "gist": "Dans les royaumes d'encre et de papier et leurs donjons, un monstre à 10 % PV passe en Lotus et invoque son double de l'autre royaume.",
+  "points": [
+   "En Lotus, le monstre est Invulnérable et Enraciné, et passe son tour pendant 4 tours.",
+   "Il se soigne de 25 % de ses PV max à son 2e tour de Lotus, puis de 50 % au 3e.",
+   "Son double apparaît sur la case au-dessus de lui, avec 25 % de PV en moins.",
+   "Tuer le double avant le 4e tour du Lotus : le monstre meurt pour de bon.",
+   "Sinon, le monstre tue lui-même son double et sort du Lotus : il faut le redescendre à 10 % PV.",
+   "Doubles : Imetsu et Tsunam, Imiyama et Mabram, Imorok et Rokoram, Imushin et Shinlam, Imafugo et Fugokam.",
+   "Un Pandawa peut porter un monstre en Lotus."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/memoire-d-orukam.html",
+  "status": "draft"
+ },
+ "destroyers-nightmare": {
+  "title": "Cauchemar des Ravageurs",
+  "gist": "Modificateur de la zone du Cauchemar des Ravageurs et de son donjon : finir son tour sans ennemi en vue fait apparaître le Cauchemar.",
+  "points": [
+   "Un personnage finit son tour sans ennemi en ligne de vue : le monstre le plus proche invoque le Cauchemar à 2 cases de lui, pour un tour.",
+   "Quand un monstre est achevé, les monstres dans sa ligne de vue deviennent invisibles pour un tour.",
+   "Le Cauchemar a 17 000 PV, frappe fort, échange de place et crée des illusions de lui-même.",
+   "Tant que le Cauchemar vit, le monstre qui l'a invoqué ne descend pas sous 1 PV.",
+   "Cauchemar à 50 % PV : il disparaît, tes personnages sont soignés de 10 % PV et gagnent 20 % de dommages finaux 2 tours.",
+   "Sinon il disparaît après un tour : tout le monde revient à sa case de départ, et les monstres gagnent 10 % de PV et de dommages finaux.",
+   "Un seul Cauchemar à la fois. Une fois parti, il ne revient pas pendant un tour complet.",
+   "Dofus du Cauchemar : invoquer ses deux Fantômes de Soldat le même tour fait aussi apparaître le Cauchemar.",
+   "Le guide conseille de le laisser disparaître : le retour aux cases de départ t'aide souvent."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/bataille-de-l-aurore-pourpre.html",
   "status": "draft"
  }
 }

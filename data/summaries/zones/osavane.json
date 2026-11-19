@@ -1,0 +1,279 @@
+{
+ "zone": "Osavane",
+ "dungeonId": 164,
+ "guide": "https://www.dofuspourlesnoobs.com/breuil-du-venerable.html",
+ "guideUpdated": "13/10/2026",
+ "dungeon": "Breuil du Vénérable",
+ "status": "draft",
+ "mechanics": [
+  "osavora-seasons"
+ ],
+ "monsters": {
+  "8046": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Bébé Amphibouc"
+    },
+    {
+     "id": "moves",
+     "param": "avance, se téléporte, attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "8045": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "critique et dommages critiques"
+    },
+    {
+     "id": "summons",
+     "param": "Bébé Gropotam"
+    },
+    {
+     "id": "moves",
+     "param": "fonce et repousse"
+    }
+   ]
+  },
+  "8044": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Bébé Brutapir"
+    },
+    {
+     "id": "moves",
+     "param": "attire, pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "8043": {
+   "tags": [
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Bébé Lapilope"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, pousse, échange"
+    }
+   ]
+  },
+  "8042": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "distance, sans ligne de vue"
+    },
+    {
+     "id": "removes",
+     "param": "PO et critique"
+    },
+    {
+     "id": "reduce_range"
+    },
+    {
+     "id": "summons",
+     "param": "Bébé Gyrafor"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ],
+   "detail": "Le plus dangereux des monstres, surtout à 4 PO ou moins."
+  },
+  "8040": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "big_damage",
+     "param": "distance"
+    }
+   ],
+   "detail": "Ses sorts sont à PO modifiable : lui retirer de la PO réduit fortement son efficacité."
+  },
+  "8039": {
+   "tags": [
+    {
+     "id": "dispel",
+     "param": "échange de Martignasse"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place"
+    }
+   ],
+   "detail": "Martignasse échange de place, puis te ramène en fin de tour (Pesanteur ou désenvoûtement l'empêchent). Sa réaction passe ton tour (Naissances) ou échange de place (Chasse)."
+  },
+  "8038": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC, touche aussi le plus proche"
+    },
+    {
+     "id": "reflect",
+     "param": "réaction en saison du Repos"
+    },
+    {
+     "id": "dispel",
+     "param": "résistances données"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "résistances"
+    }
+   ],
+   "detail": "Ne pas placer d'invocation près de lui : son coup au CaC touche aussi l'entité la plus proche de la cible."
+  },
+  "8063": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM, Vitalité",
+     "source": "spells"
+    },
+    {
+     "id": "heals",
+     "param": "lui-même",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "Dommages Critique",
+     "source": "spells"
+    },
+    {
+     "id": "no_melee_end",
+     "param": "quand il tape au CaC"
+    },
+    {
+     "id": "phase",
+     "param": "à 70 % et 30 % PV"
+    },
+    {
+     "id": "moves",
+     "param": "repousse le plus proche en ligne"
+    }
+   ],
+   "detail": "Change de saison (et de sorts) à 70 % et 30 % PV, puis est intouchable jusqu'à son tour. Au début de son tour, repousse de 20 cases le plus proche en ligne : ne pas s'aligner. Plus fort à chaque tour.",
+   "guide": "https://www.dofuspourlesnoobs.com/on-recherche-ganos.html"
+  },
+  "8051": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM, PO"
+    },
+    {
+     "id": "summons",
+     "param": "Zoeuf de Quadrabz"
+    }
+   ]
+  },
+  "8050": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "zone, et fonce en ligne"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "pas en ligne avec lui"
+    },
+    {
+     "id": "summons",
+     "param": "Zoeuf de Kamikabz"
+    },
+    {
+     "id": "moves",
+     "param": "fonce sur sa cible en ligne"
+    }
+   ]
+  },
+  "8049": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable (désenvoûtable)"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PA, Fuite, Puissance"
+    },
+    {
+     "id": "summons",
+     "param": "Zoeuf de Toubibz"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte"
+    }
+   ],
+   "detail": "Sa mort et celle de son Zoeuf soignent autour d'eux : les achever loin des monstres."
+  },
+  "8048": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Tacle",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "bouclier"
+    },
+    {
+     "id": "summons",
+     "param": "Zoeuf de Balebz"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place à sa mort"
+    }
+   ],
+   "detail": "En mourant, lui et son Zoeuf échangent de place avec l'entité la plus proche et la frappent."
+  }
+ }
+}

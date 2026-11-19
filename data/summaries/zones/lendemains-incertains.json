@@ -1,0 +1,117 @@
+{
+ "zone": "Lendemains incertains",
+ "dungeonId": 87,
+ "guide": "https://www.dofuspourlesnoobs.com/oeil-de-vortex.html",
+ "guideUpdated": "05/10/2026",
+ "dungeon": "Œil de Vortex",
+ "status": "draft",
+ "mechanics": [
+  "xelorium-modifiers"
+ ],
+ "monsters": {
+  "3838": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ceux qui frappent sa cible"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    }
+   ]
+  },
+  "3837": {
+   "tags": [
+    {
+     "id": "team_damage",
+     "param": "poison sur toute l'équipe"
+    },
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "prochain coup reçu doublé"
+    }
+   ],
+   "detail": "Le poison de Petit poison se retire en étant soigné."
+  },
+  "3836": {
+   "tags": [
+    {
+     "id": "inflicts",
+     "param": "Pacifiste, en ligne à 3 PO"
+    },
+    {
+     "id": "no_melee_end",
+     "param": "la garder à distance"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place, pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "3834": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "Agilité, Intelligence, Force",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "3851": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "fuite ratée à son CaC"
+    },
+    {
+     "id": "big_damage",
+     "param": "à 3 PO, sans ligne de vue"
+    },
+    {
+     "id": "removes",
+     "param": "PM, Puissance, Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "no_summon",
+     "param": "il les tue chaque tour"
+    },
+    {
+     "id": "glyphs",
+     "param": "échange de place si on y entre"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance, PA, Critique",
+     "source": "spells"
+    }
+   ],
+   "detail": "Le pousser, l'attirer, le téléporter ou échanger de place avec lui termine ton tour : le faire en dernier. Ne quitter son CaC que si la fuite est sûre : un échec tue tout son CaC.",
+   "guide": "https://www.dofuspourlesnoobs.com/on-recherche-sicogne.html"
+  }
+ }
+}

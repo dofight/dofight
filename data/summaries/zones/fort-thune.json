@@ -1,0 +1,72 @@
+{
+ "zone": "Fort Thune",
+ "dungeonId": 76,
+ "guide": "https://www.dofuspourlesnoobs.com/palais-du-roi-nidas.html",
+ "guideUpdated": "21/06/2026",
+ "dungeon": "Palais du roi Nidas",
+ "status": "draft",
+ "mechanics": [
+  "enurado-modifiers"
+ ],
+ "monsters": {
+  "3656": {
+   "tags": [
+    {
+     "id": "lock",
+     "param": "taclé, il ne joue pas"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Invulnérable, Puissance"
+    },
+    {
+     "id": "flees"
+    }
+   ]
+  },
+  "3655": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "si la cible ne le frappe pas"
+    },
+    {
+     "id": "reduce_range",
+     "param": "il devient inoffensif"
+    },
+    {
+     "id": "flees"
+    }
+   ],
+   "detail": "Reflets placides : le personnage marqué (vert) doit être le premier à frapper le Lévitrof avant son propre tour suivant, sinon ce personnage meurt au tour du Lévitrof. Tuer le Lévitrof annule l'effet."
+  },
+  "3654": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "plus fort à chaque lancer"
+    },
+    {
+     "id": "state",
+     "param": "Super saillant : PM, Puissance"
+    }
+   ]
+  },
+  "3653": {
+   "tags": [
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, attire en ligne"
+    },
+    {
+     "id": "state",
+     "param": "Pesanteur à 4 PO de lui"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,77 @@
+{
+ "status": "draft",
+ "monsters": {
+  "442": {
+   "tags": [
+    {
+     "id": "state",
+     "param": "sa cible subit 110 % des dégâts",
+     "source": "spells"
+    }
+   ]
+  },
+  "954": {
+   "tags": [
+    {
+     "id": "state",
+     "param": "autour de lui, tu subis 120 %",
+     "source": "spells"
+    }
+   ]
+  },
+  "1056": {
+   "tags": []
+  },
+  "4362": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "7 monstres de la zone"
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/ecaflipus.html"
+  },
+  "4363": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "7 monstres de la zone"
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/ecaflipus.html"
+  },
+  "4364": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "7 monstres de la zone"
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/ecaflipus.html"
+  },
+  "5228": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Pelle Murale",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

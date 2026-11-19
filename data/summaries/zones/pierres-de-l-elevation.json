@@ -1,0 +1,89 @@
+{
+ "zone": "Pierres de l'élévation",
+ "dungeonId": 93,
+ "guide": "https://www.dofuspourlesnoobs.com/miausoleacutee-du-pounicheur.html",
+ "guideUpdated": "",
+ "dungeon": "Miausolée du Pounicheur",
+ "status": "draft",
+ "mechanics": [
+  "ecaflipus-modifiers"
+ ],
+ "monsters": {
+  "4364": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "7 monstres de la zone"
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/ecaflipus.html"
+  },
+  "4294": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Résistance, cumulable"
+    },
+    {
+     "id": "steals",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "flees"
+    }
+   ]
+  },
+  "4293": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur, Indéplaçable",
+     "source": "spells"
+    },
+    {
+     "id": "poison_ap",
+     "param": "Feu",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "fonce sur sa cible"
+    }
+   ],
+   "detail": "Le taper depuis son contact blesse le personnage sous Ectoparasite. Déjection : poison qui blesse selon les PA utilisés."
+  },
+  "4292": {
+   "tags": [
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place"
+    }
+   ],
+   "detail": "Gagne de la Puissance à chaque coup reçu."
+  },
+  "4291": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

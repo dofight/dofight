@@ -1,0 +1,93 @@
+{
+ "zone": "Royaume de papier",
+ "dungeonId": 134,
+ "guide": "https://www.dofuspourlesnoobs.com/souvenir-d-imagiro.html",
+ "guideUpdated": "26/03/2024",
+ "dungeon": "Souvenir d'Imagiro",
+ "status": "draft",
+ "strategy": "À 10 % PV, un monstre passe en Lotus (invulnérable, se soigne) et invoque son double : le tuer avant le 4e tour du Lotus, sinon il revient soigné.",
+ "roomTags": [
+  {
+   "id": "state",
+   "param": "Lotus à 10 % PV, tuer son double"
+  }
+ ],
+ "mechanics": [
+  "lotus-form"
+ ],
+ "monsters": {
+  "6476": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "Intacleur, frappe si on entre"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, échange de place"
+    }
+   ],
+   "detail": "Gagne des PM chaque tour. La Pesanteur l'empêche d'échanger de place."
+  },
+  "6475": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "heals",
+     "param": "ceux qui frappent sa cible"
+    },
+    {
+     "id": "summons",
+     "param": "Kinkutsubram"
+    },
+    {
+     "id": "moves",
+     "param": "fonce et repousse"
+    }
+   ]
+  },
+  "6474": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "dommages"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "bouclier et fuite"
+    },
+    {
+     "id": "glyphs",
+     "param": "frappe si on entre"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ],
+   "detail": "Gagne un bouclier à chaque tour : 10 % de sa vitalité au début, jusqu'à 50 % à partir du tour 5."
+  },
+  "6473": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "distance, croît chaque tour"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

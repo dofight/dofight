@@ -1,0 +1,96 @@
+{
+ "zone": "Galeries d'Ereboria",
+ "dungeonId": 141,
+ "guide": "https://www.dofuspourlesnoobs.com/bastion-des-marteaux-aigris.html",
+ "guideUpdated": "22/04/2025",
+ "dungeon": "Bastion des Marteaux-Aigris",
+ "status": "draft",
+ "strategy": "Chaque ligne de dégâts qu'un Nimbos inflige à un personnage donne à ce Nimbos une Nimpatience (dommages, puis nouveaux sorts au niveau III) : les garder à distance, le retrait PM aide.",
+ "roomTags": [
+  {
+   "id": "state",
+   "param": "Nimpatience : boost s'ils tapent"
+  }
+ ],
+ "monsters": {
+  "7894": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Bouclier, Résistance, PM, PA",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire, pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "7217": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, Résistance",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "Pesanteur, -PM et dégâts"
+    }
+   ]
+  },
+  "7216": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "dès Nimpatience III"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "7215": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés autour"
+    }
+   ],
+   "detail": "Ninsipide touche toute une ligne, même de loin : le bloquer ou le repousser hors de tes lignes."
+  },
+  "7214": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Fuite et Tacle"
+    },
+    {
+     "id": "erodes"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "Indéplaçable et bouclier"
+    }
+   ]
+  }
+ }
+}

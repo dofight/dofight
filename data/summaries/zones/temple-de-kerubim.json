@@ -1,0 +1,84 @@
+{
+ "zone": "Temple de Kerubim",
+ "dungeonId": 95,
+ "guide": "https://www.dofuspourlesnoobs.com/defi-du-chaloeil.html",
+ "guideUpdated": "29/06/2023",
+ "dungeon": "Défi du Chalœil",
+ "status": "draft",
+ "mechanics": [
+  "ecaflipus-modifiers"
+ ],
+ "monsters": {
+  "4362": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "7 monstres de la zone"
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/ecaflipus.html"
+  },
+  "4287": {
+   "tags": [],
+   "detail": "Ses coups laissent un poison indébuffable qui frappe un ou deux tours plus tard."
+  },
+  "4285": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Intacleur",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "4284": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "dommages de poussée"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, attire, avance",
+     "source": "spells"
+    }
+   ]
+  },
+  "4283": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pacifiste (retiré par un soin)"
+    }
+   ]
+  },
+  "4329": {
+   "tags": []
+  }
+ }
+}

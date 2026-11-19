@@ -1,0 +1,107 @@
+{
+ "zone": "Chemins d'hier",
+ "dungeonId": 85,
+ "guide": "https://www.dofuspourlesnoobs.com/meacutegalithe-de-fraktale.html",
+ "guideUpdated": "?",
+ "dungeon": "Mégalithe de Fraktale",
+ "status": "draft",
+ "roomTags": [
+  {
+   "id": "reflect",
+   "param": "en zone autour du monstre frappé"
+  }
+ ],
+ "mechanics": [
+  "xelorium-modifiers"
+ ],
+ "monsters": {
+  "3845": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "à tous ceux à 2 PO de lui"
+    },
+    {
+     "id": "removes",
+     "param": "PA, Puissance, durée des effets"
+    },
+    {
+     "id": "heals",
+     "param": "lui-même",
+     "source": "spells"
+    },
+    {
+     "id": "no_melee_end",
+     "param": "rester à plus de 2 PO"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, attire",
+     "source": "spells"
+    }
+   ],
+   "detail": "Répartit la moitié des dégâts qu'il subit sur tous ceux à 2 PO ou moins de lui. Le frapper retire à l'attaquant et à ses voisins des PA (Eau), de la durée d'effets (Feu) ou de la Puissance (Air).",
+   "guide": "https://www.dofuspourlesnoobs.com/on-recherche-morblok.html"
+  },
+  "3857": {
+   "tags": [
+    {
+     "id": "moves",
+     "param": "pousse, avance",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "frappé en ligne : te recule"
+    }
+   ]
+  },
+  "3856": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "heals",
+     "param": "ceux qui frappent sa cible"
+    }
+   ]
+  },
+  "3855": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "sa cible subit 150 % des dégâts"
+    }
+   ]
+  },
+  "3854": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC"
+    },
+    {
+     "id": "no_melee_end"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

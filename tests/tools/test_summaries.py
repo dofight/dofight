@@ -108,11 +108,49 @@ def test_build_monsters_uses_dungeon_entries_then_spells(tmp_path):
         ],
     }
     out = tmp_path / "monsters.json"
-    assert build_monsters(folder, snap, out) == 2
+    assert build_monsters(folder, snap, out) == 3
     data = json.loads(out.read_text(encoding="utf-8"))
     assert data["10"] == {"tags": [{"id": "flees"}]}
     assert data["11"]["tags"][0]["id"] == "removes"
-    assert "12" not in data  # a ranged hit alone: no badge, not harmless
+    assert data["12"] == {"tags": []}  # a ranged hit alone: no badge, not harmless, but still an entry
+
+
+def test_build_monsters_writes_an_entry_for_every_monster(tmp_path):
+    from tools.summaries import build_monsters
+    folder = tmp_path / "dungeons"
+    folder.mkdir()
+    snap = {"monsters": [{"id": 20, "spellIds": []}, {"id": 21, "spellIds": [99]}], "spells": []}
+    assert build_monsters(folder, snap, tmp_path / "monsters.json") == 2
+    data = json.loads((tmp_path / "monsters.json").read_text(encoding="utf-8"))
+    assert set(data) == {"20", "21"}
+    assert all("tags" in entry for entry in data.values())
+
+
+def test_build_monsters_takes_written_entries_over_spells_but_after_dungeons(tmp_path):
+    from tools.summaries import build_monsters
+    folder = tmp_path / "dungeons"
+    folder.mkdir()
+    (folder / "1.json").write_text(json.dumps({"dungeonId": 1, "monsters": {"10": {"tags": [{"id": "flees"}]}}}), encoding="utf-8")
+    written = {"10": {"tags": []}, "11": {"tags": [{"id": "summons", "param": "Pelle Murale"}]}}
+    (tmp_path / "monsters-written.json").write_text(json.dumps({"status": "draft", "monsters": written}), encoding="utf-8")
+    snap = {"monsters": [{"id": 10, "spellIds": []}, {"id": 11, "spellIds": [5]}],
+            "spells": [{"id": 5, "name": "Gel", "rangeMin": 1, "rangeMax": 5, "categories": ["hinder"], "effects": [{"text": "-2 PM (1 tour)", "target": "enemies"}]}]}
+    build_monsters(folder, snap, tmp_path / "monsters.json")
+    data = json.loads((tmp_path / "monsters.json").read_text(encoding="utf-8"))
+    assert data["10"] == {"tags": [{"id": "flees"}]}
+    assert data["11"] == written["11"]
+
+
+def test_written_entries_are_snapshot_monsters_with_valid_badges():
+    from tools.summaries import validate_written
+    ok = {"status": "draft", "monsters": {"147": {"tags": [{"id": "summons", "param": "7 monstres de la zone"}],
+                                                  "guide": "https://www.dofuspourlesnoobs.com/ecaflipus.html"}}}
+    assert validate_written(ok, VOCAB, SNAPSHOT) == []
+    errors = validate_written({"status": "draft", "monsters": {"999": {"tags": []}, "101": {"tags": [{"id": "nope"}], "guide": "https://x.fr"}}},
+                              VOCAB, SNAPSHOT)
+    assert any("999 is not in the snapshot" in e for e in errors)
+    assert any("unknown tag" in e for e in errors)
+    assert any("guide must be a DPLN link" in e for e in errors)
 
 
 def test_untranslated_lists_written_texts_without_english():

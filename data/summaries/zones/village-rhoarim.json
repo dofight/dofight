@@ -1,0 +1,61 @@
+{
+ "zone": "Village Rhoarim",
+ "dungeonId": 165,
+ "guide": "https://www.dofuspourlesnoobs.com/autel-de-la-dechireuse.html",
+ "dungeon": "Autel de la Déchireuse",
+ "status": "draft",
+ "strategy": "Après 5 attaques subies, chaque monstre déclenche un effet selon la saison.",
+ "mechanics": [
+  "osavora-seasons",
+  "seasonal-reaction"
+ ],
+ "monsters": {
+  "8040": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "big_damage",
+     "param": "distance"
+    }
+   ],
+   "detail": "Ses sorts sont à PO modifiable : lui retirer de la PO réduit fortement son efficacité."
+  },
+  "8039": {
+   "tags": [
+    {
+     "id": "dispel",
+     "param": "échange de Martignasse"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place"
+    }
+   ],
+   "detail": "Martignasse échange de place, puis te ramène en fin de tour (Pesanteur ou désenvoûtement l'empêchent). Sa réaction passe ton tour (Naissances) ou échange de place (Chasse)."
+  },
+  "8038": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC, touche aussi le plus proche"
+    },
+    {
+     "id": "reflect",
+     "param": "réaction en saison du Repos"
+    },
+    {
+     "id": "dispel",
+     "param": "résistances données"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "résistances"
+    }
+   ],
+   "detail": "Ne pas placer d'invocation près de lui : son coup au CaC touche aussi l'entité la plus proche de la cible."
+  }
+ }
+}

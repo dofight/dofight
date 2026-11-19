@@ -1,0 +1,94 @@
+{
+ "zone": "Cauchemar des Ravageurs",
+ "dungeonId": 136,
+ "guide": "https://www.dofuspourlesnoobs.com/bataille-de-l-aurore-pourpre.html",
+ "guideUpdated": "12/04/2024",
+ "dungeon": "Bataille de l'Aurore Pourpre",
+ "status": "draft",
+ "strategy": "Tant que des monstres vivent, finir son tour en vue d'un ennemi, sinon un Cauchemar apparaît près de toi pour un tour.",
+ "roomTags": [
+  {
+   "id": "summons",
+   "param": "Cauchemar si aucun ennemi en vue"
+  },
+  {
+   "id": "invisible",
+   "param": "monstres en vue d'un monstre tué"
+  }
+ ],
+ "mechanics": [
+  "destroyers-nightmare"
+ ],
+ "monsters": {
+  "6790": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "summons",
+     "param": "copies de lui-même"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "bouclier et critique"
+    }
+   ]
+  },
+  "6789": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "à distance, 2 tours"
+    },
+    {
+     "id": "heals",
+     "param": "ses alliés autour de sa cible"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    }
+   ]
+  },
+  "6788": {
+   "tags": [
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "6787": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Force",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Affaibli",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "fonce sur sa cible en ligne"
+    }
+   ]
+  }
+ }
+}

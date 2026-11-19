@@ -1,0 +1,103 @@
+{
+ "zone": "Creuset des Fortunés",
+ "dungeonId": 77,
+ "guide": "https://www.dofuspourlesnoobs.com/fabrique-mallefisk.html",
+ "dungeon": "Fabrique de Malléfisk",
+ "status": "draft",
+ "mechanics": [
+  "enurado-modifiers"
+ ],
+ "monsters": {
+  "3670": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC, croît à chaque coup reçu"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "remove_mp",
+     "param": "plutôt que la pousser"
+    },
+    {
+     "id": "state",
+     "param": "+1 PM à chaque poussée"
+    }
+   ],
+   "detail": "Chaque poussée lui donne 1 PM pour le combat, chaque coup reçu renforce Décoffrage Brut (CaC, zone). Ne pas la pousser, la tuer avec peu de coups et rester hors de son CaC.",
+   "guide": "https://www.dofuspourlesnoobs.com/on-recherche-la-maxi-malle.html"
+  },
+  "3666": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "1 tour, désenvoûtable"
+    },
+    {
+     "id": "removes",
+     "param": "PA"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place, attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "3665": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "Force",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    }
+   ]
+  },
+  "3664": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM, Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "3663": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés"
+    }
+   ],
+   "detail": "Tact : le taper soigne tout ce qui est à 2 cases de lui du double des dégâts reçus."
+  }
+ }
+}

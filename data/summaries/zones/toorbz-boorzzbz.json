@@ -1,0 +1,99 @@
+{
+ "zone": "Toorbz Boorzzbz",
+ "dungeonId": 163,
+ "guide": "https://www.dofuspourlesnoobs.com/poste-de-controle-du-supervizoeuf.html",
+ "guideUpdated": "?",
+ "dungeon": "Poste de contrôle du Supervizœuf",
+ "status": "draft",
+ "strategy": "Monstres et Zoeufs explosent en mourant : rester hors des zones. Les morts du Toubibz et de son Zoeuf soignent autour d'eux.",
+ "roomTags": [
+  {
+   "id": "area_damage",
+   "param": "chaque monstre explose à sa mort"
+  }
+ ],
+ "mechanics": [
+  "osavora-seasons"
+ ],
+ "monsters": {
+  "8051": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, PM, PO"
+    },
+    {
+     "id": "summons",
+     "param": "Zoeuf de Quadrabz"
+    }
+   ]
+  },
+  "8050": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "zone, et fonce en ligne"
+    },
+    {
+     "id": "out_of_sight",
+     "param": "pas en ligne avec lui"
+    },
+    {
+     "id": "summons",
+     "param": "Zoeuf de Kamikabz"
+    },
+    {
+     "id": "moves",
+     "param": "fonce sur sa cible en ligne"
+    }
+   ]
+  },
+  "8049": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable (désenvoûtable)"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PA, Fuite, Puissance"
+    },
+    {
+     "id": "summons",
+     "param": "Zoeuf de Toubibz"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte"
+    }
+   ],
+   "detail": "Sa mort et celle de son Zoeuf soignent autour d'eux : les achever loin des monstres."
+  },
+  "8048": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Tacle",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "bouclier"
+    },
+    {
+     "id": "summons",
+     "param": "Zoeuf de Balebz"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place à sa mort"
+    }
+   ],
+   "detail": "En mourant, lui et son Zoeuf échangent de place avec l'entité la plus proche et la frappent."
+  }
+ }
+}

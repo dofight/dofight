@@ -1,0 +1,114 @@
+{
+ "zone": "Pandamonium",
+ "dungeonId": 135,
+ "guide": "https://www.dofuspourlesnoobs.com/rituel-de-kabahal.html",
+ "guideUpdated": "26/03/2024",
+ "dungeon": "Rituel de Kabahal",
+ "status": "draft",
+ "strategy": "Ne pas rester dans le glyphe d'un Bras démoniaque à son tour.",
+ "roomTags": [
+  {
+   "id": "state",
+   "param": "Instabilité Chaotique"
+  },
+  {
+   "id": "summons",
+   "param": "Bras démoniaques sur les runes"
+  }
+ ],
+ "mechanics": [
+  "demonic-arms"
+ ],
+ "monsters": {
+  "6653": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Tacle",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "bouclier et dommages poussée"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, s'attire et recule"
+    }
+   ]
+  },
+  "6652": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC"
+    },
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "Pesanteur autour de lui"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "tacle et dommages mêlée"
+    },
+    {
+     "id": "moves",
+     "param": "attire en ligne (5 PO)"
+    }
+   ]
+  },
+  "6651": {
+   "tags": [
+    {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, attire, pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "6650": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM et dommages"
+    },
+    {
+     "id": "moves",
+     "param": "pousse",
+     "source": "spells"
+    },
+    {
+     "id": "flees"
+    }
+   ]
+  },
+  "7895": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Bouclier, Résistance, PM, PA",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire, pousse",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

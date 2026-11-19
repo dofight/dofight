@@ -1,0 +1,92 @@
+{
+ "zone": "Jour présent",
+ "dungeonId": 86,
+ "guide": "https://www.dofuspourlesnoobs.com/horologium-de-xlii.html",
+ "guideUpdated": "01/10/2022",
+ "dungeon": "Horologium de XLII",
+ "status": "draft",
+ "mechanics": [
+  "xelorium-modifiers"
+ ],
+ "monsters": {
+  "3848": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "à 10 PO ou plus, dès le tour 2"
+    },
+    {
+     "id": "poison_mp",
+     "param": "Terre"
+    },
+    {
+     "id": "removes",
+     "param": "PM autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, repousse qui le frappe"
+    }
+   ],
+   "detail": "Au début de son tour, il tue tout personnage à 10 PO ou plus : rester à 9 PO au plus en gardant des PM, car Tétropré repousse et retire des PM. Sous Distanss, chaque coup reçu repousse l'attaquant.",
+   "guide": "https://www.dofuspourlesnoobs.com/on-recherche-hin.html"
+  },
+  "3843": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "en critique sous 50 % PV"
+    },
+    {
+     "id": "moves",
+     "param": "attire qui le frappe"
+    }
+   ],
+   "detail": "Au-dessus de 50 % PV, attire son attaquant de 1 case ; en dessous, gagne des dommages critiques à chaque ligne de dégâts reçue."
+  },
+  "3842": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "zone, selon ses PV manquants"
+    },
+    {
+     "id": "dispel",
+     "param": "bonus de Vitalité"
+    }
+   ],
+   "detail": "Sous 50 % PV, chaque ligne de dégâts lui donne de la Vitalité : le finir avec de gros coups à une ligne. Désenvoûter ce bonus peut le tuer."
+  },
+  "3841": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "ses alliés quand on le frappe"
+    },
+    {
+     "id": "removes",
+     "param": "PA"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    }
+   ],
+   "detail": "Au-dessus de 50 % PV, chaque coup reçu soigne ses alliés autour de lui ; en dessous, la moitié des dégâts infligés est répartie autour de lui, alliés compris."
+  },
+  "3840": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM"
+    },
+    {
+     "id": "inflicts",
+     "param": "Insoignable au CaC"
+    }
+   ]
+  }
+ }
+}

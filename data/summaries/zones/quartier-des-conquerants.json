@@ -1,0 +1,111 @@
+{
+ "zone": "Quartier des Conquérants",
+ "dungeonId": 83,
+ "guide": "https://www.dofuspourlesnoobs.com/trone-de-la-cour-sombre.html",
+ "guideUpdated": "?",
+ "dungeon": "Trône de la Cour Sombre",
+ "status": "draft",
+ "mechanics": [
+  "srambad-modifiers"
+ ],
+ "monsters": {
+  "3749": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "invocations au CaC"
+    },
+    {
+     "id": "big_damage",
+     "param": "CaC"
+    },
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "dispels_you",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "3748": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA autour de lui",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place, pousse",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "un double qui explose"
+    },
+    {
+     "id": "invisible",
+     "source": "spells"
+    }
+   ]
+  },
+  "3747": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "Bombe Illicale (2 PO autour)"
+    },
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "Bombe Illicale",
+     "source": "spells"
+    }
+   ],
+   "detail": "La Bombe Illicale explose à son tour suivant ou à sa mort ; elle se rapproche de 3 cases de qui frappe un monstre. Retirer des PM au Terristocrate."
+  },
+  "3746": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "reduce_range"
+    },
+    {
+     "id": "glyphs",
+     "param": "pièges autour de la cible"
+    }
+   ]
+  }
+ }
+}

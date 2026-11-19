@@ -1,0 +1,110 @@
+{
+ "zone": "Catacombres",
+ "dungeonId": 82,
+ "guide": "https://www.dofuspourlesnoobs.com/cave-du-toxoliath.html",
+ "guideUpdated": "10/02/2022",
+ "dungeon": "Cave du Toxoliath",
+ "status": "draft",
+ "mechanics": [
+  "srambad-modifiers"
+ ],
+ "monsters": {
+  "3760": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "dans 3 tours, sous 50 % PV"
+    },
+    {
+     "id": "no_melee_end",
+     "param": "rester à plus de 7 PO"
+    },
+    {
+     "id": "summons",
+     "param": "7 doubles"
+    },
+    {
+     "id": "redirects",
+     "param": "partagent leurs dégâts"
+    }
+   ],
+   "detail": "Les 8 Mouchâmes partagent leurs dégâts : les taper en zone. Au-dessus de 50 % PV, chaque coup reçu leur donne de la Puissance ; sous 50 %, Herd tue la cible 3 tours plus tard.",
+   "guide": "https://www.dofuspourlesnoobs.com/on-recherche-la-mouchame.html"
+  },
+  "3738": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "distance, sans ligne de vue"
+    },
+    {
+     "id": "removes",
+     "param": "PA, PM"
+    },
+    {
+     "id": "glyphs",
+     "param": "Pesanteur, -PM, dégâts en plus"
+    }
+   ]
+  },
+  "3737": {
+   "tags": [
+    {
+     "id": "reflect",
+     "param": "et empoisonne qui la frappe"
+    },
+    {
+     "id": "removes",
+     "param": "50 % des PV actuels, 1 tour"
+    },
+    {
+     "id": "moves",
+     "param": "fonce sur sa cible"
+    }
+   ],
+   "detail": "Lui infliger des dommages de poussée retire Carapace Gardée 1 tour (elle devient Indéplaçable)."
+  },
+  "3736": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC, selon ses PV manquants"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, attire"
+    }
+   ]
+  },
+  "3735": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM à qui le frappe"
+    },
+    {
+     "id": "erodes"
+    },
+    {
+     "id": "poison_mp",
+     "param": "Terre",
+     "source": "spells"
+    },
+    {
+     "id": "state",
+     "param": "Insoignable à qui le frappe"
+    },
+    {
+     "id": "moves",
+     "param": "attire"
+    }
+   ],
+   "detail": "Ces effets durent tant que Poison Incurable est actif (2 tours) : attendre la fin si on ne peut pas le tuer en un tour. Tue les invocations au CaC."
+  }
+ }
+}

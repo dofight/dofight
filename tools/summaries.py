@@ -8,6 +8,8 @@ A zone file (guild expeditions: « Expédition - Cour du Bouftou Royal ») has t
 
 wanted.json holds the wanted-poster monsters (« On recherche » guides of DPLN): {"status", "monsters": {id: entry}},
 each entry like a dungeon file's, plus its "guide" link; it replaces the badges derived from the monster's spells.
+monsters-written.json holds entries written by hand for monsters met outside any dungeon or zone summary (same form
+as wanted.json, "guide" optional); it also replaces the badges derived from their spells.
 python -m tools.summaries check               # written badges vs spells: .cache/consistency.md (tools/consistency.py)
 python -m tools.summaries accept <monsterId> <tag> <reason>   # a reviewed difference, into checked.json
 python -m tools.summaries changes [gitRef]    # monsters added, removed or changed since gitRef (default HEAD)
@@ -147,6 +149,20 @@ def validate_wanted(wanted: dict, vocab: dict, snapshot: dict) -> list:
     return errors + validate(as_dungeon, vocab, {**snapshot, "dungeons": [dungeon]})
 
 
+def validate_written(written: dict, vocab: dict, snapshot: dict) -> list:
+    """Errors in monsters-written.json: each key a monster of the snapshot, each entry valid as in a dungeon."""
+    known = {str(m["id"]) for m in snapshot["monsters"]}
+    errors = [f"monsters-written: monster {mid} is not in the snapshot" for mid in written.get("monsters") or {}
+              if mid not in known]
+    for mid, entry in (written.get("monsters") or {}).items():
+        guide = entry.get("guide") or ""
+        if guide and not guide.startswith("https://www.dofuspourlesnoobs.com/"):
+            errors.append(f"monsters-written: monster {mid}: guide must be a DPLN link")
+    dungeon = {"id": 0, "name": "monsters-written", "monsterIds": [int(m) for m in written.get("monsters") or {} if m in known]}
+    as_dungeon = {"dungeonId": 0, "status": written.get("status"), "monsters": {k: v for k, v in (written.get("monsters") or {}).items() if k in known}}
+    return errors + validate(as_dungeon, vocab, {**snapshot, "dungeons": [dungeon]})
+
+
 def untranslated(summary: dict, english: dict) -> list:
     """The written texts of a summary with no English in data/summaries/en.json (strategy, details, badge parameters
     written by hand; parameters derived from spells are translated piece by piece and not checked here)."""
@@ -179,9 +195,10 @@ def build_zones(folder: Path, out: Path) -> int:
 
 
 def build_monsters(folder: Path, snapshot: dict, out: Path) -> int:
-    """Badges for every monster, wherever it is met (a zone, a wanted poster…): its entry in a dungeon summary or in
-    wanted.json when it has one, else the badges derived from its spells (`tools/derive.py`). Returns how many monsters
-    have an entry."""
+    """Badges for every monster, wherever it is met (a zone, a wanted poster…): its entry in a dungeon summary, in
+    wanted.json or in monsters-written.json when it has one, else the badges derived from its spells
+    (`tools/derive.py`). Every monster gets an entry (`{"tags": []}` when nothing applies: the card then says there is
+    nothing dangerous). Returns how many monsters have an entry."""
     from tools.derive import derive
 
     spells = {s["id"]: s for s in snapshot["spells"]}
@@ -189,10 +206,11 @@ def build_monsters(folder: Path, snapshot: dict, out: Path) -> int:
     for file in sorted(Path(folder).glob("*.json")) + sorted((Path(folder).parent / "zones").glob("*.json")):
         for mid, entry in (load_json(file).get("monsters") or {}).items():
             from_dungeons.setdefault(mid, entry)
-    wanted = Path(folder).parent / "wanted.json"
-    if wanted.exists():
-        for mid, entry in (load_json(wanted).get("monsters") or {}).items():
-            from_dungeons.setdefault(mid, entry)
+    for name in ("wanted.json", "monsters-written.json"):
+        path = Path(folder).parent / name
+        if path.exists():
+            for mid, entry in (load_json(path).get("monsters") or {}).items():
+                from_dungeons.setdefault(mid, entry)
     result = {}
     for m in snapshot["monsters"]:
         key = str(m["id"])
@@ -200,8 +218,7 @@ def build_monsters(folder: Path, snapshot: dict, out: Path) -> int:
             result[key] = from_dungeons[key]
             continue
         derived = derive([spells[i] for i in m["spellIds"] if i in spells])
-        if derived["tags"] or derived["harmless"]:
-            result[key] = {"tags": derived["tags"], **({"harmless": True} if derived["harmless"] else {})}
+        result[key] = {"tags": derived["tags"], **({"harmless": True} if derived["harmless"] else {})}
     Path(out).write_text(json.dumps(result, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     return len(result)
 
@@ -236,13 +253,21 @@ def main(argv=None) -> int:
             wanted = load_json(SUMMARIES / "wanted.json")
             errors += validate_wanted(wanted, vocab, snapshot)
             errors += [f"wanted.json: no English in en.json for « {t} »" for t in untranslated(wanted, english)]
+        if (SUMMARIES / "monsters-written.json").exists():
+            files.append(SUMMARIES / "monsters-written.json")
+            written = load_json(SUMMARIES / "monsters-written.json")
+            errors += validate_written(written, vocab, snapshot)
+            # badges marked "source": "spells" are skipped by untranslated(), but these are written by hand
+            texts = [t.get("param") for e in (written.get("monsters") or {}).values() for t in e.get("tags") or []]
+            texts += [e.get("detail") for e in (written.get("monsters") or {}).values()]
+            errors += [f"monsters-written.json: no English in en.json for « {t} »" for t in texts if t and t not in english]
         print("\n".join(errors) if errors else f"{len(files)} files valid")
         return 1 if errors else 0
     if command == "index":
         print(f"{build_index(SUMMARIES / 'dungeons', SUMMARIES / 'index.json')} dungeons indexed")
         print(f"{build_zones(SUMMARIES / 'zones', SUMMARIES / 'zones.json')} zones indexed")
         n = build_monsters(SUMMARIES / "dungeons", load_snapshot(), SUMMARIES / "monsters.json")
-        print(f"{n} monsters with badges (dungeon summaries, else derived from spells)")
+        print(f"{n} monsters (dungeon summaries, wanted.json, monsters-written.json, else derived from spells)")
         return 0
     if command in ("check", "accept", "changes"):
         from tools import consistency

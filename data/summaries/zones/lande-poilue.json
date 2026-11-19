@@ -1,0 +1,98 @@
+{
+ "zone": "Lande Poilue",
+ "dungeonId": 94,
+ "guide": "https://www.dofuspourlesnoobs.com/plateau-de-ush.html",
+ "guideUpdated": "?",
+ "dungeon": "Plateau de Ush",
+ "status": "draft",
+ "strategy": "À son tour, chaque monstre met en Matoumorphose le monstre le plus proche de lui : ses sorts sont renforcés (le Chakichan tue au CaC).",
+ "roomTags": [
+  {
+   "id": "state",
+   "param": "Matoumorphose : sorts renforcés"
+  }
+ ],
+ "mechanics": [
+  "ecaflipus-modifiers"
+ ],
+ "monsters": {
+  "4363": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "7 monstres de la zone"
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/ecaflipus.html"
+  },
+  "4299": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC (Queue de Poing)"
+    },
+    {
+     "id": "steals",
+     "param": "Puissance"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pacifiste",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "son double, 2 tours"
+    },
+    {
+     "id": "moves",
+     "param": "pousse"
+    }
+   ],
+   "detail": "En Matoumorphose, Vieillissement Prématuré rend la cible Pacifiste 1 tour."
+  },
+  "4298": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC en Matoumorphose"
+    },
+    {
+     "id": "poison_mp",
+     "param": "Feu",
+     "source": "spells"
+    },
+    {
+     "id": "no_melee_end"
+    }
+   ],
+   "detail": "Gagne 1 PM par coup reçu. Mawatougeri fait perdre des PV par PM utilisé."
+  },
+  "4297": {
+   "tags": [
+    {
+     "id": "steals",
+     "param": "PM en Matoumorphose"
+    },
+    {
+     "id": "moves",
+     "param": "fonce sur sa cible"
+    }
+   ],
+   "detail": "Retour de Chachaton met la cible dans l'état C'est toi le Chacha ! 1 tour : elle renvoie les dommages subis au CaC. Se donne un bouclier en tapant autour de lui."
+  },
+  "4296": {
+   "tags": [
+    {
+     "id": "hit_to_heal",
+     "param": "à 5 PO, 1er coup de chacun"
+    }
+   ]
+  }
+ }
+}

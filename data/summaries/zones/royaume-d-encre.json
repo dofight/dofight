@@ -1,0 +1,88 @@
+{
+ "zone": "Royaume d'encre",
+ "dungeonId": 133,
+ "guide": "https://www.dofuspourlesnoobs.com/memoire-d-orukam.html",
+ "guideUpdated": "25/06/2026",
+ "dungeon": "Mémoire d'Orukam",
+ "status": "draft",
+ "strategy": "À 10 % PV, un monstre passe en Lotus (invulnérable, se soigne) et invoque son double : le tuer avant le 4e tour du Lotus, sinon il revient soigné.",
+ "roomTags": [
+  {
+   "id": "state",
+   "param": "Lotus à 10 % PV, tuer son double"
+  }
+ ],
+ "mechanics": [
+  "lotus-form"
+ ],
+ "monsters": {
+  "6470": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire, se téléporte",
+     "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "piège : Pesanteur"
+    }
+   ]
+  },
+  "6469": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "longue portée, 4 éléments"
+    },
+    {
+     "id": "heals",
+     "param": "ses alliés"
+    },
+    {
+     "id": "summons",
+     "param": "Imikaminokin"
+    }
+   ]
+  },
+  "6468": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "redirects",
+     "param": "sacrifie ses alliés proches"
+    },
+    {
+     "id": "moves",
+     "param": "bondit et attire"
+    }
+   ],
+   "detail": "Gagne un bouclier à chaque tour : 50 % de sa vitalité au tour 1, puis 10 % de moins par tour, jusqu'à 10 %."
+  },
+  "6467": {
+   "tags": [
+    {
+     "id": "big_damage",
+     "param": "CaC et courte portée"
+    },
+    {
+     "id": "removes",
+     "param": "soins reçus de moitié"
+    },
+    {
+     "id": "moves",
+     "param": "fonce sur sa cible en ligne"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,96 @@
+{
+ "zone": "Carrière Aurifère",
+ "dungeonId": 79,
+ "guide": "https://www.dofuspourlesnoobs.com/galerie-du-phossile.html",
+ "guideUpdated": "21/06/2026",
+ "dungeon": "Galerie du Phossile",
+ "status": "draft",
+ "mechanics": [
+  "enurado-modifiers"
+ ],
+ "monsters": {
+  "3669": {
+   "tags": [
+    {
+     "id": "one_shot",
+     "param": "au CaC (relance 3 tours)"
+    },
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ],
+   "detail": "Gagne 1 PM à chaque fin de tour. Laisser une invocation se faire tuer au CaC lance sa relance de 3 tours.",
+   "guide": "https://www.dofuspourlesnoobs.com/on-recherche-aigripoil.html"
+  },
+  "3661": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "PM si frappés à distance"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "3660": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "alliés autour si frappé au CaC"
+    },
+    {
+     "id": "removes",
+     "param": "Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place, attire",
+     "source": "spells"
+    }
+   ],
+   "detail": "La Pesanteur sur lui ou sur le Phossile empêche l'échange de place."
+  },
+  "3659": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "réduit dégâts à distance"
+    },
+    {
+     "id": "moves",
+     "param": "attire",
+     "source": "spells"
+    }
+   ]
+  },
+  "3658": {
+   "tags": [
+    {
+     "id": "glyphs",
+     "param": "-50 % dégâts subis des monstres"
+    },
+    {
+     "id": "moves",
+     "param": "pousse, attire ses alliés"
+    }
+   ],
+   "detail": "Sortir un monstre de ce glyphe avant de le taper. Ses autres glyphes donnent 2 PA ou soignent qui y finit son tour."
+  }
+ }
+}
