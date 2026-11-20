@@ -6,6 +6,7 @@ use serde::Serialize;
 
 #[cfg(target_os = "macos")]
 mod mac;
+mod shared;
 #[cfg(windows)]
 mod win;
 
@@ -13,6 +14,8 @@ mod win;
 pub use mac::*;
 #[cfg(windows)]
 pub use win::*;
+#[allow(unused_imports)] // used by the macOS half; tested on every system
+pub use shared::*;
 
 /// A game window: an `HWND` on Windows, a CGWindowID on macOS.
 pub type WindowId = isize;
