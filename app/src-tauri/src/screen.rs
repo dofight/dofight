@@ -193,10 +193,12 @@ fn binarize(bgra: &[u8], width: u32, height: u32, threshold: u8) -> (Vec<u8>, u3
 
 /// The top-left corner the zone reading needs: the zone name, the map coordinates, a Songe's « Palier / Profondeur »
 /// lines (header.ts and dream.ts look there). The rest of the screen is never read for the zone or the fight (the fight
-/// comes from the icon bar), which keeps each reading small. Sized for a 1009-pixel-high game, scaled with it.
+/// comes from the icon bar), which keeps each reading small. Sized for a 1009-pixel-high game, scaled with it: 720 wide (the
+/// longest header, about 590), 160 high (the page uses the lines starting above that; the quest list below was read for
+/// nothing and sometimes taken for the header).
 pub fn corner_size(width: u32, height: u32) -> (u32, u32) {
     let f = (height as f32 / 1009.0).max(1.0);
-    (width.min((720.0 * f) as u32), height.min((300.0 * f) as u32))
+    (width.min((720.0 * f) as u32), height.min((160.0 * f) as u32))
 }
 
 /// OCR lines of the frame's top-left corner (see corner_size), in the frame's pixels.
@@ -939,9 +941,9 @@ mod tests {
 
     #[test]
     fn corner_size_scales_with_the_window_and_stays_inside() {
-        assert_eq!(corner_size(1920, 1009), (720, 300));
-        assert_eq!(corner_size(3840, 2018), (1440, 600));
-        assert_eq!(corner_size(500, 280), (500, 280));
+        assert_eq!(corner_size(1920, 1009), (720, 160)); // the lines the page uses start above 160 (header.ts, dream.ts)
+        assert_eq!(corner_size(3840, 2018), (1440, 320));
+        assert_eq!(corner_size(500, 120), (500, 120));
     }
 
     #[test]
