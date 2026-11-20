@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from "vitest";
 import type { PlaceAccess } from "../src/access";
 import { setLang } from "../src/i18n";
-import { renderAccessSheet } from "../src/render/accessSheet";
+import { renderAccessSheet, sheetCopy } from "../src/render/accessSheet";
 import type { Trip } from "../src/travel";
 
 const quest = (id: number, fr: string, x: number, y: number) => ({ quest: { id, fr, en: `${fr} EN`, level: 35, start: { x, y } } });
@@ -108,5 +108,24 @@ describe("the « Comment y aller » sheet", () => {
     const { box } = sheet({ ...baleine, ownReqs: [{ other: { fr: "<b>x</b>", en: "y" } }] }, zaapTrip, "<i>t</i>");
     expect(box.querySelector("b.x, i")).toBeNull();
     expect(box.innerHTML).toContain("&lt;b&gt;x&lt;/b&gt;");
+  });
+});
+
+describe("copying from the sheet (the side window cannot take the focus)", () => {
+  it("sends the command to the panel and says where to paste", () => {
+    const { box } = sheet(baleine);
+    const sent: string[] = [];
+    const button = box.querySelectorAll<HTMLElement>(".travel")[1];
+    expect(sheetCopy(button.querySelector(".lbl")!, (c) => sent.push(c))).toBe(true);
+    expect(sent).toEqual(["/travel -43 2"]);
+    expect(button.classList.contains("copied")).toBe(true);
+    expect(box.querySelector(".access-sheet > .tripmsg")!.textContent).toContain("Ctrl+V");
+  });
+
+  it("ignores a click elsewhere", () => {
+    const { box } = sheet(baleine);
+    const sent: string[] = [];
+    expect(sheetCopy(box.querySelector("h3")!, (c) => sent.push(c))).toBe(false);
+    expect(sent).toEqual([]);
   });
 });

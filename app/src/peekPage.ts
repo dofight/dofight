@@ -1,4 +1,6 @@
 import { emit, listen } from "@tauri-apps/api/event";
+import { setLang } from "./i18n";
+import { sheetCopy } from "./render/accessSheet";
 import { KEY, loadSettings } from "./settings";
 import { applyTextSize, applyTheme } from "./theme";
 
@@ -10,12 +12,15 @@ const syncTheme = () => {
   const settings = loadSettings(localStorage);
   applyTheme(document.documentElement, settings.theme);
   applyTextSize(document.documentElement, settings.textSize);
+  setLang(settings.lang); // the « copied » line of a sheet, in the interface language
 };
 syncTheme();
 window.addEventListener("storage", (e) => e.key === KEY && syncTheme());
 
 // a pinned mechanic's sheet links to its guide: the panel opens it (this window only sends events)
 document.addEventListener("click", (e) => {
+  // « Comment y aller »: a command to copy goes to the panel, which owns the clipboard
+  if (sheetCopy(e.target as Element, (command) => void emit("peek:copy", command))) return;
   const link = (e.target as HTMLElement).closest<HTMLAnchorElement>("a.guide");
   if (!link) return;
   e.preventDefault();

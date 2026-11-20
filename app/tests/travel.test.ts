@@ -53,4 +53,37 @@ describe("how to get there", () => {
     expect([...box.querySelectorAll(".travel")].map((b) => (b as HTMLElement).dataset.copy)).toEqual(["/zaap -78 -41", "/travel -69 -87"]);
     expect(box.querySelector(".zaap")).toBeNull(); // no computed zaap beside a written route
   });
+
+  describe("« Comment y aller » in the header", () => {
+    const route = ["/zaap -78 -41", "Transporteur frigostien → Larmes d'Ouronigride", "/travel -69 -87"];
+    const box = document.createElement("div");
+    const plain = (html: string) => { box.innerHTML = html; return (box.textContent ?? "").replace(/[  ]/g, " "); };
+
+    it("special with a written route: « Aller en », no zaap, no steps, the button", () => {
+      box.innerHTML = renderTrip({ to: { x: -69, y: -87, world: 1, route }, zaap: zaap(-50, -50, "Somewhere") }, { special: true });
+      expect(box.querySelector(".travel")!.textContent).toBe("[-69,-87]");
+      expect(box.querySelector(".zaap")).toBeNull();
+      expect(box.querySelector(".step")).toBeNull();
+      expect(box.querySelector("button.access")!.getAttribute("aria-expanded")).toBe("false");
+    });
+
+    it("special without a route: the zaap stays, then the button", () => {
+      box.innerHTML = renderTrip(tripTo(travel, 1, "x"), { special: true });
+      expect(box.querySelector(".zaap")).not.toBeNull();
+      expect(box.querySelector("button.access")).not.toBeNull();
+    });
+
+    it("not special: today's line, then the key", () => {
+      const key = { fr: "Clef de la Cour du Bouftou Royal", en: "Royal Gobball Key" };
+      const text = plain(renderTrip(tripTo(travel, 1, "x"), { key }));
+      expect(text).toContain("· Clef de la Cour du Bouftou Royal");
+      expect(box.querySelector("button.access")).toBeNull();
+      expect(plain(renderTrip(tripTo(travel, 1, "x"), { key, offKeyring: true }))).toContain("Clef de la Cour du Bouftou Royal · hors trousseau");
+    });
+
+    it("no options: exactly today's line", () => {
+      const trip = tripTo(travel, 1, "x");
+      expect(renderTrip(trip, {})).toBe(renderTrip(trip));
+    });
+  });
 });

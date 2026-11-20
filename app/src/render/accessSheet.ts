@@ -52,3 +52,21 @@ export function renderAccessSheet(title: string, pa: PlaceAccess | null, trip: T
     : "";
   return `<div class="mob peek access-sheet"><b class="title">${line(t("access.title", { place: title }))}</b>${needs}${way}${guide}<span class="tripmsg" role="status"></span></div>`;
 }
+
+/** A click in the side window on one of the sheet's copy buttons: the command goes to the panel (`send`, which owns the
+ * clipboard: this window cannot take the focus), the button shows it is copied and the sheet says where to paste, for
+ * 2 s. False when the click was not on a copy button. */
+export function sheetCopy(target: Element, send: (command: string) => void): boolean {
+  const button = target.closest<HTMLElement>(".access-sheet .travel");
+  const command = button?.dataset.copy;
+  if (!button || !command) return false;
+  send(command);
+  const msg = button.closest(".access-sheet")?.querySelector<HTMLElement>(":scope > .tripmsg");
+  button.classList.add("copied");
+  if (msg) msg.textContent = t("trip.copied");
+  window.setTimeout(() => {
+    button.classList.remove("copied");
+    if (msg) msg.textContent = "";
+  }, 2000);
+  return true;
+}

@@ -69,20 +69,35 @@ export const zaapCommand = (z: Spot, to: Spot): string => `/zaap ${z.x} ${z.y} ;
 
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
 
+export interface TripOptions {
+  /** Something to know before going (access.ts `isSpecial`): the « Comment y aller » button. */
+  special?: boolean;
+  /** The dungeon's key, shown at the end of the line when there is no button. */
+  key?: { fr: string; en: string } | null;
+  offKeyring?: boolean;
+}
+
 /** The trip line of a room's header: « Aller en [x,y] », then the zaap to take. Each button copies its command (a
  * copy icon after it); once copied, `.tripmsg` says where to paste it (main.ts). */
-export function renderTrip(trip: Trip | null): string {
+export function renderTrip(trip: Trip | null, opts: TripOptions = {}): string {
   if (!trip) return "";
   const route = routeOf(trip.to);
-  if (route.length) return renderRoute(route);
+  if (route.length && !opts.special) return renderRoute(route);
   const travel = travelCommand(trip.to);
   const go = `<span class="go">${esc(t("trip.go"))}</span><button type="button" class="travel" data-copy="${esc(travel)}" title="${esc(t("trip.copy", { command: travel }))}"><span class="lbl">[${trip.to.x},${trip.to.y}]</span>${icon("copy")}</button>`;
   const msg = `<span class="tripmsg" role="status"></span>`;
-  if (!trip.zaap) return `<div class="trip">${go}${msg}</div>`;
+  // « Comment y aller » (the sheet has the route and what to do first), or the key at the end of the line
+  const extra = opts.special
+    ? `<button type="button" class="access" aria-expanded="false" title="${esc(t("access.buttonTitle"))}">${esc(t("access.button"))} ›</button>`
+    : opts.key
+      ? `<span class="key">· ${esc((getLang() === "en" ? opts.key.en : opts.key.fr) || opts.key.fr)}${opts.offKeyring ? ` · ${esc(t("access.offKeyring"))}` : ""}</span>`
+      : "";
+  // a written route: the nearest zaap is the wrong way in, the sheet has the right one
+  if (!trip.zaap || route.length) return `<div class="trip">${go}${extra}${msg}</div>`;
   const zone = trip.zaap.zone[getLang()] || trip.zaap.zone.fr;
   const command = zaapCommand(trip.zaap, trip.to);
   const zaap = `<button type="button" class="travel zaap" data-copy="${esc(command)}" title="${esc(t("trip.copyZaap", { command, zone }))}"><img src="/icons/hud/zaap.png" alt=""><span class="lbl">${esc(zone)}</span>${icon("copy")}</button>`;
-  return `<div class="trip">${go}${zaap}${msg}</div>`;
+  return `<div class="trip">${go}${zaap}${extra}${msg}</div>`;
 }
 
 /** A written route: « Trajet : » (unless `label` is false: the sheet has its own heading) then its steps in order; a

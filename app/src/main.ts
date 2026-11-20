@@ -24,7 +24,9 @@ import { saveWindowState, StateFlags } from "@tauri-apps/plugin-window-state";
 import logo from "./assets/icon-app.png";
 import { enableDragAnywhere } from "./drag";
 import { fetchFromApp, loadSnapshot } from "./load";
-import { renderTrip, tripTo } from "./travel";
+import { renderTrip, tripTo, type Trip } from "./travel";
+import { accessOf, isSpecial, type PlaceAccess } from "./access";
+import { renderAccessSheet } from "./render/accessSheet";
 import { englishReading, englishView, frenchRoom, loadEnglish, zoneName, type English } from "./english";
 import { esc } from "./render/html";
 import { applyIcons, icon } from "./render/icons";
@@ -205,6 +207,9 @@ function applyLook(): void {
 // (keyed by dungeon id or by the French zone name: call it with the room itself, not its shown copy)
 const summaryOf = (r: Room) => (r.dungeon ? (view ?? snap)!.summaries.get(r.dungeon.id) : (view ?? snap)!.zoneSummaries?.get(r.title));
 
+/** The place whose « Comment y aller » button is in the header (set by roomHtml), for its sheet. */
+let accessShown: { title: string; pa: PlaceAccess | null; trip: Trip | null } | null = null;
+
 function roomHtml(r: Room): string {
   if (!snap || !view) return "";
   // the hidden kinds (special, archmonster, wanted poster, event) are hidden only in the zone read on screen: a search result
@@ -216,7 +221,16 @@ function roomHtml(r: Room): string {
   const summary = summaryOf(r);
   const v = !q ? all : { ...all, monsters: all.monsters.filter((m) => matches(monsterText(m, summary?.monsters[String(m.id)] ?? view!.monsterSummaries?.get(m.id), view!.spells, view!.vocabulary), q)) };
   // how to get there: for a searched dungeon, zone or monster (not where the player stands, nor a hovered group)
-  const trip = r !== zoneRoom && !r.counts ? renderTrip(tripTo(snap.travel, r.dungeon?.id ?? null, r.title)) : "";
+  // and « Comment y aller » when there is something to know first (the sheet beside the panel, main.ts showAccess)
+  accessShown = null;
+  let trip = "";
+  if (r !== zoneRoom && !r.counts) {
+    const to = tripTo(snap.travel, r.dungeon?.id ?? null, r.title);
+    const pa = accessOf(snap.access, snap.areas, r.dungeon?.id ?? null, r.title);
+    const special = isSpecial(pa, to?.to ?? null);
+    if (special) accessShown = { title: v.title, pa, trip: to };
+    trip = renderTrip(to, special ? { special } : { key: pa?.key, offKeyring: pa?.offKeyring });
+  }
   return renderRoom(v.dungeon, v.monsters, summaryOf(r), view, show, iconResolver(view), v.title, isOpen, v.pinned, v.counts, trip);
 }
 
@@ -791,6 +805,17 @@ function showMechanic(mech: HTMLElement, delay: number, pin = false): void {
   }, delay);
 }
 
+// « Comment y aller » (the header's button): the place's requirements and route, pinned beside the panel at once (no
+// hover preview: it is read, not glanced at); a second click closes it
+function showAccess(btn: HTMLElement): void {
+  hidePeek();
+  if (!accessShown) return;
+  peekRow = btn;
+  setPinned(btn);
+  peekAnchor = { base: win, top: btn.getBoundingClientRect().top };
+  void emit("peek:render", { token: ++peekToken, html: renderAccessSheet(accessShown.title, accessShown.pa, accessShown.trip) });
+}
+
 // a spell (an open card's spell button): its sheet in the side preview, after `delay` ms; pinned by a click (owner,
 // 2026-11-19: the sheet sits beside the panel, as the hover preview does, not inside the card)
 function showSpellAside(sp: HTMLElement, delay: number, pin = false): void {
@@ -833,12 +858,18 @@ $("room").addEventListener("pointerleave", () => {
   if (!pinned) hidePeek(); // a pinned sheet can be reached with the pointer (its « Guide » link)
 });
 $("room").addEventListener("pointerdown", (e) => {
-  if ((e.target as HTMLElement).closest(".mech, .sp")) return; // the click below pins or unpins
+  if ((e.target as HTMLElement).closest(".mech, .sp, .access")) return; // the click below pins or unpins
   hidePeek(); // a click unfolds the row: the preview goes (a pinned sheet too)
 });
 // a click (or Enter) on a mechanic's chip or a spell pins its sheet beside the panel, even with the hover preview
 // off; a second click closes it
 $("room").addEventListener("click", (e) => {
+  const access = (e.target as HTMLElement).closest<HTMLElement>("#room .access");
+  if (access) {
+    if (pinned === access) hidePeek();
+    else showAccess(access);
+    return;
+  }
   const mech = (e.target as HTMLElement).closest<HTMLElement>(".mech");
   const sp = mech ? null : (e.target as HTMLElement).closest<HTMLElement>(".sp");
   const el = mech ?? sp;
@@ -849,6 +880,11 @@ $("room").addEventListener("click", (e) => {
 });
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && pinned) hidePeek();
+});
+// a command copied from a pinned sheet (« Comment y aller »): the side window cannot take the focus the clipboard
+// needs, so the panel copies it (the sheet says where to paste)
+void listen<string>("peek:copy", ({ payload }) => {
+  if (/^\/(travel|zaap) /.test(payload)) void navigator.clipboard.writeText(payload).catch(() => undefined);
 });
 // the « Guide » link of a pinned sheet, clicked in the preview window (which can only talk to the panel)
 void listen<string>("peek:open", ({ payload }) => {
