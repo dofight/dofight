@@ -1,6 +1,6 @@
 import { emit, listen } from "@tauri-apps/api/event";
 import { setLang } from "./i18n";
-import { sheetCopy } from "./render/accessSheet";
+import { sheetCopied, sheetCopy } from "./render/accessSheet";
 import { KEY, loadSettings } from "./settings";
 import { applyTextSize, applyTheme } from "./theme";
 
@@ -26,6 +26,9 @@ document.addEventListener("click", (e) => {
   e.preventDefault();
   void emit("peek:open", link.href);
 });
+
+// the panel copied it (or could not): the sheet says so
+void listen<{ command: string; ok: boolean }>("peek:copied", ({ payload }) => sheetCopied(document, payload.command, payload.ok));
 
 void listen<{ token: number; html: string }>("peek:render", ({ payload }) => {
   const box = document.getElementById("peek")!;

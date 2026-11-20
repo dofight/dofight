@@ -1,12 +1,12 @@
 import { afterEach, describe, expect, it } from "vitest";
 import type { PlaceAccess } from "../src/access";
 import { setLang } from "../src/i18n";
-import { renderAccessSheet, sheetCopy } from "../src/render/accessSheet";
+import { renderAccessSheet, sheetCopied, sheetCopy } from "../src/render/accessSheet";
 import type { Trip } from "../src/travel";
 
 const quest = (id: number, fr: string, x: number, y: number) => ({ quest: { id, fr, en: `${fr} EN`, level: 35, start: { x, y } } });
 const baleine: PlaceAccess = {
-  level: 190, key: { fr: "Clef du Ventre", en: "Belly Key" }, offKeyring: false, areaName: "Île d'Otomaï", dimension: false,
+  level: 190, key: { fr: "Clef du Ventre", en: "Belly Key" }, offKeyring: false, areaName: "Île d'Otomaï", areaEn: "Otomai Island", dimension: false,
   areaReqs: [quest(231, "Le nouveau monde", 15, 28), quest(232, "L'île des naufragés", -43, 2)],
   ownReqs: [], guide: "https://www.dofuspourlesnoobs.com/ventre.html",
 };
@@ -103,6 +103,7 @@ describe("the « Comment y aller » sheet", () => {
     expect(all).toContain("Belly Key");
     expect(all).toContain("Le nouveau monde EN (lvl 35)");
     expect(all).toContain("At least 4");
+    expect(all).toContain("Access (Otomai Island):");
   });
 
   it("escapes every text", () => {
@@ -119,8 +120,18 @@ describe("copying from the sheet (the side window cannot take the focus)", () =>
     const button = box.querySelectorAll<HTMLElement>(".travel")[1];
     expect(sheetCopy(button.querySelector(".lbl")!, (c) => sent.push(c))).toBe(true);
     expect(sent).toEqual(["/travel -43 2"]);
+    const msg = box.querySelector(".access-sheet > .tripmsg")!;
+    expect(msg.textContent).toBe(""); // not before the panel says the clipboard took it
+    sheetCopied(box, "/travel -43 2", true);
     expect(button.classList.contains("copied")).toBe(true);
-    expect(box.querySelector(".access-sheet > .tripmsg")!.textContent).toContain("Ctrl+V");
+    expect(msg.textContent).toContain("Ctrl+V");
+  });
+
+  it("says so when the clipboard refused", () => {
+    const { box } = sheet(baleine);
+    sheetCopied(box, "/travel -43 2", false);
+    expect(box.querySelector(".access-sheet > .tripmsg")!.textContent).toContain("/travel -43 2");
+    expect(box.querySelector(".copied")).toBeNull();
   });
 
   it("ignores a click elsewhere", () => {

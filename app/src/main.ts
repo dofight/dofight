@@ -42,7 +42,7 @@ import { search, type Result } from "./search";
 import { DEFAULTS, loadSettings, TEXT_SIZES, updateSettings, type Settings } from "./settings";
 import { capturing as capturingGame, READING, readingPatch } from "./reading";
 import { exportSettings, importSettings } from "./settingsTransfer";
-import { readText } from "@tauri-apps/plugin-clipboard-manager";
+import { readText, writeText } from "@tauri-apps/plugin-clipboard-manager";
 import type { Monster, RoomSummary, Snapshot } from "./types";
 
 type Flag = { [K in keyof Settings]-?: Settings[K] extends boolean ? K : never }[keyof Settings];
@@ -881,10 +881,13 @@ $("room").addEventListener("click", (e) => {
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && pinned) hidePeek();
 });
-// a command copied from a pinned sheet (« Comment y aller »): the side window cannot take the focus the clipboard
-// needs, so the panel copies it (the sheet says where to paste)
-void listen<string>("peek:copy", ({ payload }) => {
-  if (/^\/(travel|zaap) /.test(payload)) void navigator.clipboard.writeText(payload).catch(() => undefined);
+// a command copied from a pinned sheet (« Comment y aller »): the side window cannot take the focus, and once the
+// player has clicked into the game the panel has lost it too, so the copy goes through the clipboard plugin (no focus
+// needed); the sheet is told whether it worked before it says « Copié »
+void listen<string>("peek:copy", async ({ payload }) => {
+  if (!/^\/(travel|zaap) /.test(payload)) return;
+  const ok = await writeText(payload).then(() => true, () => false);
+  void emit("peek:copied", { command: payload, ok });
 });
 // the « Guide » link of a pinned sheet, clicked in the preview window (which can only talk to the panel)
 void listen<string>("peek:open", ({ payload }) => {

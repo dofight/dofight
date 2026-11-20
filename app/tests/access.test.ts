@@ -4,7 +4,7 @@ import { accessOf, isSpecial, type Access } from "../src/access";
 const q = (id: number, fr: string) => ({ quest: { id, fr, en: `${fr} EN`, level: 35, start: { x: 1, y: 2 } } });
 const access: Access = {
   areas: {
-    "Île d'Otomaï": { reqs: [q(231, "Le nouveau monde"), q(232, "L'île des naufragés")] },
+    "Île d'Otomaï": { reqs: [q(231, "Le nouveau monde"), q(232, "L'île des naufragés")], en: "Otomai Island" },
     Osavora: { reqs: [{ level: 50 }], dimension: true },
   },
   dungeons: {
@@ -18,7 +18,7 @@ const areas = new Map([["Forêt de Moon", "Île de Moon"], ["Jungle obscure", "�
 describe("a place's access", () => {
   it("a dungeon: its level, key, its area's requirements and its own", () => {
     expect(accessOf(access, areas, 84, "Ventre de la Baleine")).toEqual({
-      level: 190, key: { fr: "Clef A", en: "Key A" }, offKeyring: false, areaName: "Île d'Otomaï", dimension: false,
+      level: 190, key: { fr: "Clef A", en: "Key A" }, offKeyring: false, areaName: "Île d'Otomaï", areaEn: "Otomai Island", dimension: false,
       areaReqs: access.areas["Île d'Otomaï"].reqs, ownReqs: [{ other: { fr: "a", en: "b" } }], guide: "https://g",
     });
   });
@@ -31,7 +31,7 @@ describe("a place's access", () => {
 
   it("a zone: only its area's requirements, no level or key", () => {
     expect(accessOf(access, areas, null, "Jungle obscure")).toEqual({
-      level: null, key: null, offKeyring: false, areaName: "Île d'Otomaï", dimension: false,
+      level: null, key: null, offKeyring: false, areaName: "Île d'Otomaï", areaEn: "Otomai Island", dimension: false,
       areaReqs: access.areas["Île d'Otomaï"].reqs, ownReqs: [], guide: null,
     });
   });

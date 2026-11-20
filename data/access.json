@@ -26,7 +26,8 @@
       }
      }
     }
-   ]
+   ],
+   "en": "Otomai Island"
   },
   "Île de Pandala": {
    "reqs": [
@@ -42,7 +43,8 @@
       }
      }
     }
-   ]
+   ],
+   "en": "Pandala Island"
   },
   "Île de Grobe": {
    "reqs": [
@@ -58,7 +60,8 @@
       }
      }
     }
-   ]
+   ],
+   "en": "Nolifis Island"
   },
   "Wukin et Wukang": {
    "reqs": [
@@ -84,7 +87,8 @@
       "en": "First visit: talk to Daoh at the Wukang sanctuary [15,-31] or the Wukin one (through [20,-38]) and answer his two questions (your class's fire, then « Le dragon de Pandala »)."
      }
     }
-   ]
+   ],
+   "en": "Wukin and Wukang"
   },
   "Atoll des Possédés": {
    "reqs": [
@@ -110,7 +114,8 @@
       "en": "Dropped by The Possessed of Destroyers' Port (15 %); it is needed to climb to the Pandamonium [41,-56]."
      }
     }
-   ]
+   ],
+   "en": "Atoll of the Possessed"
   },
   "Cauchemar des Ravageurs": {
    "reqs": [
@@ -126,7 +131,8 @@
       }
      }
     }
-   ]
+   ],
+   "en": "Destroyers' Nightmare"
   },
   "Île de Moon": {
    "reqs": [
@@ -142,7 +148,8 @@
       }
      }
     }
-   ]
+   ],
+   "en": "Moon Island"
   },
   "Île des Wabbits": {
    "reqs": [
@@ -158,7 +165,8 @@
       }
      }
     }
-   ]
+   ],
+   "en": "Wabbit Islands"
   },
   "Île de Frigost": {
    "reqs": [
@@ -174,7 +182,8 @@
       }
      }
     }
-   ]
+   ],
+   "en": "Frigost Island"
   },
   "Île de Nowel": {
    "reqs": [
@@ -184,7 +193,8 @@
       "en": "Open only during the Kwismas event (early December to early January)."
      }
     }
-   ]
+   ],
+   "en": "Kwismas Island"
   },
   "Île de Pwâk": {
    "reqs": [
@@ -194,7 +204,8 @@
       "en": "Open only during the Fleaster event (a few weeks at the end of April)."
      }
     }
-   ]
+   ],
+   "en": "Fleaster Island"
   },
   "Archipel de Vulkania": {
    "reqs": [
@@ -204,7 +215,8 @@
       "en": "Open only in summer (about July 1st to September 1st)."
      }
     }
-   ]
+   ],
+   "en": "Archipelago of Vulkania"
   },
   "Archipel des Écailles": {
    "reqs": [
@@ -220,7 +232,8 @@
       }
      }
     }
-   ]
+   ],
+   "en": "Archipelago of Scales"
   },
   "Nimotopia": {
    "reqs": [
@@ -236,7 +249,8 @@
       }
      }
     }
-   ]
+   ],
+   "en": "Nimaltopia"
   },
   "Osavora": {
    "reqs": [
@@ -250,6 +264,7 @@
      }
     }
    ],
+   "en": "Osavora",
    "dimension": true
   },
   "Enutrosor": {
@@ -261,6 +276,7 @@
      }
     }
    ],
+   "en": "Enurado",
    "dimension": true
   },
   "Srambad": {
@@ -272,6 +288,7 @@
      }
     }
    ],
+   "en": "Srambad",
    "dimension": true
   },
   "Xélorium": {
@@ -283,6 +300,7 @@
      }
     }
    ],
+   "en": "Xelorium",
    "dimension": true
   },
   "Ecaflipus": {
@@ -294,6 +312,7 @@
      }
     }
    ],
+   "en": "Ecaflipus",
    "dimension": true
   }
  },
@@ -824,10 +843,9 @@
    },
    "reqs": [
     {
-     "beat": {
-      "id": 11,
-      "fr": "Clos des Blops",
-      "en": "Blop Fields"
+     "other": {
+      "fr": "Finir le Clos des Blops, puis entrer depuis sa salle de sortie.",
+      "en": "Finish the Blop Fields, then enter from its exit room."
      }
     }
    ],
@@ -1549,10 +1567,7 @@
       "fr": "La colère des dieux",
       "en": "Anger of the Gods",
       "level": 200,
-      "start": {
-       "x": 4,
-       "y": -2
-      }
+      "start": null
      }
     },
     {
@@ -1584,10 +1599,7 @@
       "fr": "La colère des dieux",
       "en": "Anger of the Gods",
       "level": 200,
-      "start": {
-       "x": 4,
-       "y": -2
-      }
+      "start": null
      }
     },
     {

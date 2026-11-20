@@ -30,7 +30,7 @@ export type Req =
 
 export interface Access {
   /** Keyed by the area's French name; `dimension` for the five divine dimensions. */
-  areas: Record<string, { reqs: Req[]; dimension?: true }>;
+  areas: Record<string, { reqs: Req[]; en?: string; dimension?: true }>;
   dungeons: Record<string, { area: string; level: number; key: Text | null; offKeyring?: true; reqs: Req[]; guide?: string }>;
 }
 
@@ -40,6 +40,8 @@ export interface PlaceAccess {
   key: Text | null;
   offKeyring: boolean;
   areaName: string | null;
+  /** The area's English name, null when unknown (the French one is shown). */
+  areaEn: string | null;
   dimension: boolean;
   areaReqs: Req[];
   ownReqs: Req[];
@@ -54,14 +56,14 @@ export function accessOf(access: Access | undefined, areas: Map<string, string> 
     if (!d) return null;
     const area = access.areas[d.area];
     return {
-      level: d.level, key: d.key, offKeyring: !!d.offKeyring, areaName: d.area, dimension: !!area?.dimension,
+      level: d.level, key: d.key, offKeyring: !!d.offKeyring, areaName: d.area, areaEn: area?.en ?? null, dimension: !!area?.dimension,
       areaReqs: area?.reqs ?? [], ownReqs: d.reqs, guide: d.guide ?? null,
     };
   }
   const name = areas?.get(zone);
   const area = name ? access.areas[name] : undefined;
   if (!name || !area) return null;
-  return { level: null, key: null, offKeyring: false, areaName: name, dimension: !!area.dimension, areaReqs: area.reqs, ownReqs: [], guide: null };
+  return { level: null, key: null, offKeyring: false, areaName: name, areaEn: area.en ?? null, dimension: !!area.dimension, areaReqs: area.reqs, ownReqs: [], guide: null };
 }
 
 /** Whether « Comment y aller » is worth a button: requirements beyond the key and the level, or a written route. */

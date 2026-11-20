@@ -291,6 +291,7 @@ const fr = {
   "access.anyOf": "Au choix :",
   "access.route": "Trajet",
   "access.guide": "Guide sur Dofus pour les Noobs",
+  "access.copyFailed": "Copie impossible : tape « {command} » dans le chat",
   // spell sheet
   "spell.range": "{range} PO",
   "spell.editable": " (modifiable)",
@@ -625,6 +626,7 @@ const en: Record<Key, string> = {
   "access.anyOf": "Either:",
   "access.route": "Route",
   "access.guide": "Guide on Dofus pour les Noobs (French)",
+  "access.copyFailed": "Could not copy: type “{command}” in the chat",
   "spell.range": "Range {range}",
   "spell.editable": " (modifiable)",
   "spell.ap": "{ap} AP",
