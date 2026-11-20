@@ -40,7 +40,8 @@
     },
     {
      "id": "moves",
-     "param": "pousse, téléporte à son CaC"
+     "param": "pousse",
+     "source": "spells"
     },
     {
      "id": "glyphs",
@@ -55,7 +56,7 @@
      "param": "à 75 et 25 % PV"
     }
    ],
-   "detail": "Le taper au CaC. Son piège téléporte l'ennemi le plus proche à son CaC. À 75 et 25 % PV : +2 PM 2 tours."
+   "detail": "Le taper au CaC. Son piège téléporte à ton CaC le monstre le plus proche (pas le Shihan). À 75 et 25 % PV : +2 PM 2 tours."
   },
   "6217": {
    "tags": [

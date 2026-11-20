@@ -1979,7 +1979,6 @@
   "Résistance ; PM ou PO (saison)": "Resistance; MP or range (season)",
   "Sa vague tuée, il tombe 2 tours : le taper jusqu'à son seuil, sinon il tape toute l'équipe en se relevant. Coups de patte annoncés par un glyphe rouge : ne pas finir dedans (OS). Rester sur les côtés : la Rafale Bestiale ramène au milieu.": "Once his wave is dead, he is down for 2 turns: hit him down to his threshold, or he hits the whole team as he gets up. Paw strikes show a red glyph first: don't end in it (one-shot). Stay on the sides: Beastly Barrage pulls you to the middle.",
   "Son Malterego donne 3 PA contre un poison par PA utilisé : en utiliser peu ou tuer le Malterego avant la fin du tour. Pesanteur ou Enraciné empêche son échange de place.": "His Malterego gives 3 AP for one poison per AP used: use few or kill the Malterego before the turn ends. Gravity or Rooted stops his place swap.",
-  "Son géoglyphe grandit à chaque phase (carré 7x7, damier, étoile infinie). Juste avant chaque seuil, il se soigne au début de son tour : le passer à la phase suivante avant qu'il joue. Guide (6 100 PV) : phases à 4 200 et 2 200 PV.": "His geoglyph grows each phase (7x7 square, checkerboard, infinite star). Just before each threshold, he heals at the start of his turn: push him to the next phase before he plays. Guide (6,100 HP): phases at 4,200 and 2,200 HP.",
   "Sous 50 % PV en début de tour, il devient invisible puis se soigne et gagne un bouclier : le laisser à 55-60 % PV puis le tuer au tour suivant, ou le rendre Insoignable. Marcher sur un glyphe bleu révèle le Kitsounebi.": "Below 50% HP at the start of his turn, he turns invisible, then heals and gains a shield: leave him at 55-60% HP and kill him the next turn, or make him Unhealable. Walking on a blue glyph reveals the Kitsounebi.",
   "Sous 75 % et 50 % PV, passe dans ton camp 2 tours (invulnérable, son glyphe booste tes dégâts et tue les monstres) ; la 2e fois, survivre gagne le combat. Aux tours 3, 6, 9, rester derrière un obstacle. Ne pas l'éroder ni la soigner.": "Below 75% and 50% HP, joins your side for 2 turns (invulnerable, her glyph boosts your damage and kills monsters); the 2nd time, surviving wins the fight. On turns 3, 6, 9, stay behind an obstacle. Don't erode or heal her.",
   "Taclé et dos à un mur, il ne peut plus reculer ni taper (il tape de 3 PO minimum).": "Locked with his back to a wall, he can no longer back off or hit (he hits from range 3 or more).",
@@ -2459,7 +2458,8 @@
   "à 20 % PV : se sépare en deux": "at 20% HP: splits in two",
   "à 50 et 25 % PV": "at 50 and 25% HP",
   "à 75 et 25 % PV": "at 75 and 25% HP",
-  "Le taper au CaC. Son piège téléporte l'ennemi le plus proche à son CaC. À 75 et 25 % PV : +2 PM 2 tours.": "Hit him in melee. His trap teleports the nearest enemy into his melee. At 75 and 25% HP: +2 MP for 2 turns."
+  "Le taper au CaC. Son piège téléporte à ton CaC le monstre le plus proche (pas le Shihan). À 75 et 25 % PV : +2 PM 2 tours.": "Hit him in melee. His trap teleports the nearest monster into your melee (not the Shihan). At 75 and 25% HP: +2 MP for 2 turns.",
+  "Son géoglyphe grandit à chaque phase (carré 7x7, damier, étoile infinie). Juste avant chaque seuil, il se soigne au début de son tour : le passer à la phase suivante avant qu'il joue.": "His geoglyph grows each phase (7x7 square, checkerboard, infinite star). Just before each threshold, he heals at the start of his turn: push him to the next phase before he plays."
  },
  "token": {
   "-résistances": "-resistances",
