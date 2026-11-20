@@ -22,3 +22,12 @@ it("shows the shortcut in French", () => {
   expect(shortcutLabel("Alt+Digit5")).toBe("Alt + 5");
   expect(shortcutLabel("")).toBe("Aucun");
 });
+
+it("on a Mac, the modifiers are named as on its keyboard: Control, Option", async () => {
+  const { setPlatform } = await import("../src/i18n");
+  const { shortcutLabel } = await import("../src/shortcut");
+  setPlatform("macos");
+  expect(shortcutLabel("Ctrl+Alt+KeyD")).toBe("Control + Option + D");
+  setPlatform("windows");
+  expect(shortcutLabel("Ctrl+Alt+KeyD")).toBe("Ctrl + Alt + D");
+});

@@ -426,7 +426,7 @@ function showRoom(): void {
 /** The bar, its count, the matches highlighted and the spells that hold the text marked (after each drawing). */
 function showFind(): void {
   // always there above a list of monsters (none to filter on an empty list)
-  $("find").hidden = !room;
+  $("find").hidden = !room || !!room.empty; // « Aucun monstre » has nothing to filter
   const q = finding.trim();
   $("find-close").hidden = !finding;
   if ($("find").hidden || !q || !view) {

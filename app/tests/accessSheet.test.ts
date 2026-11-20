@@ -63,7 +63,9 @@ describe("the « Comment y aller » sheet", () => {
 
   it("no level, and the key only when it is off the keyring (owner, 2026-11-20)", () => {
     expect(sheet(baleine).all).not.toMatch(/Niveau 190|Clef du Ventre/);
-    expect(sheet({ ...baleine, offKeyring: true }).all).toContain("Clef : Clef du Ventre (hors trousseau)");
+    expect(sheet({ ...baleine, offKeyring: true }).all).toContain("Clef du Ventre (hors trousseau)");
+    expect(sheet({ ...baleine, offKeyring: true }).all).not.toContain("Clef : Clef"); // the key's name says it is a key
+    expect(sheet(baleine).box.querySelector(".reqs ol")).toBeNull(); // bullets: requirements are not steps
   });
 
   it("a dimension heads its lines « Dimension X : »", () => {

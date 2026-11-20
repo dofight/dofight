@@ -193,7 +193,7 @@
    "route": [
     "/zaap -67 -77 ; /travel -74 -83",
     "Cliquer sur la porte",
-    "Traverser la salle, appuyer sur l'interrupteur à côté du tableau, passer derrière le tableau, puis 1 map à gauche"
+    "Traverser la salle, appuyer sur l'interrupteur à côté du tableau, passer derrière le tableau, puis 1 carte à gauche"
    ],
    "routeEn": [
     "/zaap -67 -77 ; /travel -74 -83",

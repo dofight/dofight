@@ -1,7 +1,7 @@
 /** The global shortcut that shows or hides the overlay: stored as the plugin reads it ("Ctrl+Shift+KeyD"), shown to
  * the player in the interface language ("Ctrl + Maj + D", "Ctrl + Shift + D"). */
 
-import { t } from "./i18n";
+import { getPlatform, t } from "./i18n";
 
 export const DEFAULT_SHORTCUT = "Ctrl+Shift+KeyD"; // D for Dofight
 
@@ -24,8 +24,10 @@ const KEY_NAME = (code: string) =>
 
 export function shortcutLabel(s: string): string {
   if (!s) return t("key.none");
+  const mac = getPlatform() === "macos";
   return s
     .split("+")
-    .map((p) => (p === "Ctrl" ? "Ctrl" : p === "Shift" ? t("key.shift") : p === "Alt" ? "Alt" : KEY_NAME(p)))
+    // a Mac keyboard says Control and Option
+    .map((p) => (p === "Ctrl" ? (mac ? "Control" : "Ctrl") : p === "Shift" ? t("key.shift") : p === "Alt" ? (mac ? "Option" : "Alt") : KEY_NAME(p)))
     .join(" + ");
 }

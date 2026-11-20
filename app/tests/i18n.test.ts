@@ -37,6 +37,11 @@ describe("dictionaries", () => {
     }
   });
 
+  it("the guide says it in a whole sentence", () => {
+    setPlatform("macos");
+    expect(t("guide.permission")).toMatch(/.$/);
+  });
+
   it("the screen-recording message says where to allow it", () => {
     setPlatform("macos");
     expect(t("status.noPermission")).toContain("Enregistrement de l’écran"); // French typography: ’

@@ -88,8 +88,8 @@
       "en": "Iroru Symbol"
      },
      "how": {
-      "fr": "Quête « Deux souffles, une inspiration » (Le Grandapan, Taverne interdite [23,-32], après « Main dans la main ») jusqu'au palais de bambou [22,-29]. Ensuite, au sanctuaire du Wukang [15,-31] ou du Wukin [20,-38] (par le Kwak des sommets), parler à Daoh et répondre à ses deux questions (le feu de ta classe, puis « Le dragon de Pandala ») : en sortant du temple, on arrive dans le royaume.",
-      "en": "Quest “Two Breaths, One Inhalation” (the Grandapan, Forbidden Inn [23,-32], after “Hand in Hand”) up to the Bamboo Palace [22,-29]. Then, at the Wukang sanctuary [15,-31] or the Wukin one [20,-38] (through the Highland Kwak), talk to Daoh and answer his two questions (your class's fire, then Pandala's dragon): leaving the temple takes you into the realm."
+      "fr": "quête « Deux souffles, une inspiration » (Le Grandapan, Taverne interdite [23,-32], après « Main dans la main ») jusqu'au palais de bambou [22,-29]. Ensuite, au sanctuaire du Wukang [15,-31] ou du Wukin [20,-38] (par le Kwak des sommets), parler à Daoh et répondre à ses deux questions (le feu de ta classe, puis « Le dragon de Pandala ») : en sortant du temple, on arrive dans le royaume.",
+      "en": "quest “Two Breaths, One Inhalation” (the Grandapan, Forbidden Inn [23,-32], after “Hand in Hand”) up to the Bamboo Palace [22,-29]. Then, at the Wukang sanctuary [15,-31] or the Wukin one [20,-38] (through the Highland Kwak), talk to Daoh and answer his two questions (your class's fire, then Pandala's dragon): leaving the temple takes you into the realm."
      }
     }
    ],
@@ -116,8 +116,8 @@
       "en": "Sign of the Possessed"
      },
      "how": {
-      "fr": "Se loot sur les Possédés du Port des Ravageurs (15 %) ; le Gardien du Pandamonium en [41,-56] laisse alors monter les escaliers. L'Atoll : le bateau-démon Voh'Râss' en [41,-45] sur Grobe.",
-      "en": "Dropped by the Possessed of the Destroyers' Port (15 %); the Pandamonium Guardian at [41,-56] then lets you climb the stairs. The Atoll: the demon ship Vor'Eshis' at [41,-45] on Nolifis."
+      "fr": "se loot sur les Possédés du Port des Ravageurs (15 %) ; le Gardien du Pandamonium en [41,-56] laisse alors monter les escaliers. L'Atoll : le bateau-démon Voh'Râss' en [41,-45] sur Grobe.",
+      "en": "dropped by the Possessed of the Destroyers' Port (15%); the Pandamonium Guardian at [41,-56] then lets you climb the stairs. The Atoll: the demon ship Vor'Eshis' at [41,-45] on Nolifis."
      }
     }
    ],
@@ -284,7 +284,7 @@
     {
      "other": {
       "fr": "Faire une fois la chasse d'Enutrosor (Tour des Voyageurs [-22,-24], Salle de localisation) : elle donne à vie l'altération qui ouvre son portail. Participer au combat final de la chasse d'un autre suffit.",
-      "en": "Do the Enutrosor hunt once (Voyagers' Tower [-22,-24], Tracking Room): it gives the lifelong alteration that opens its portal. Joining the final fight of someone else's hunt is enough."
+      "en": "Do the Enurado hunt once (Voyagers' Tower [-22,-24], Tracking Room): it gives the lifelong alteration that opens its portal. Joining the final fight of someone else's hunt is enough."
      }
     }
    ],
@@ -376,8 +376,8 @@
    "reqs": [
     {
      "other": {
-      "fr": "L'entrée est au centre du labyrinthe, par Fwoued en [-1,33] sur l'Île des Porcos.",
-      "en": "The entrance is at the centre of the labyrinth, through Fwed at [-1,33] on the Porcos' island."
+      "fr": "L'entrée est au centre du labyrinthe, par Fwoued en [-1,33] dans le Territoire des Porcos.",
+      "en": "The entrance is at the centre of the Dragon Pig's Maze, through Fwed at [-1,33] in Porco Territory."
      }
     }
    ],
@@ -531,8 +531,8 @@
       "en": "Multijely"
      },
      "how": {
-      "fr": "Pas de clef : le consommer, n'importe où, téléporte dans le donjon (craft paysan niveau 60).",
-      "en": "No key: consuming it anywhere teleports you into the dungeon (farmer craft, level 60)."
+      "fr": "à consommer n'importe où pour être téléporté dans le donjon (pas de clef ; craft paysan niveau 60).",
+      "en": "consume it anywhere to be teleported into the dungeon (no key; farmer craft, level 60)."
      }
     }
    ],
@@ -639,8 +639,8 @@
       "en": "Little Golden Larva"
      },
      "how": {
-      "fr": "Pas de clef : la consommer pour se transformer en larve et entrer dans le donjon.",
-      "en": "No key: consume it to turn into a larva and get into the dungeon."
+      "fr": "à consommer pour se transformer en larve et entrer dans le donjon (pas de clef).",
+      "en": "eat it to turn into a larva and get into the dungeon (no key)."
      }
     },
     {
@@ -1324,8 +1324,8 @@
       "en": "Rikiki Wand"
      },
      "how": {
-      "fr": "L'équiper pour rapetisser et passer le trou ; une par groupe suffit (son porteur téléporte les autres).",
-      "en": "Equip it to shrink and go through the hole; one per group is enough (its holder teleports the others)."
+      "fr": "l'équiper pour rapetisser et passer le trou ; une par groupe suffit (son porteur téléporte les autres).",
+      "en": "equip it to shrink and go through the hole; one per group is enough (its holder teleports the others)."
      }
     }
    ],
@@ -1484,8 +1484,8 @@
    "reqs": [
     {
      "other": {
-      "fr": "Dans la pyramide : 4 personnages sur quatre dalles et un levier ouvrent deux portes, puis vaincre le monstre Tabasma en [14,-75] pour ouvrir la dernière. Le TP de groupe fonctionne si quelqu'un est déjà devant le donjon.",
-      "en": "Inside the pyramid: 4 characters on four slabs and a lever open two doors, then defeat the monster Thrashtaba at [14,-75] to open the last one. The group teleport works if someone is already in front of the dungeon."
+      "fr": "Dans la Pyramide Maudite : 4 personnages sur quatre dalles et un levier ouvrent deux portes, puis vaincre le monstre Tabasma en [14,-75] pour ouvrir la dernière. Le TP de groupe fonctionne si quelqu'un est déjà devant le donjon.",
+      "en": "Inside the Cursed Pyramid: 4 characters on four slabs and a lever open two doors, then defeat the monster Thrashtaba at [14,-75] to open the last one. The group teleport works if someone is already in front of the dungeon."
      }
     }
    ],
@@ -2056,7 +2056,7 @@
     },
     {
      "other": {
-      "fr": "Le serveur doit avoir résolu l'énigme des dalles qui ouvre l'antre (elle s'ouvre seule à partir du 22 juillet).",
+      "fr": "Le serveur doit avoir résolu l'énigme des dalles qui ouvre l'antre (il s'ouvre seul à partir du 22 juillet).",
       "en": "The server must have solved the slab riddle that opens the lair (it opens by itself from July 22nd)."
      }
     },
@@ -2089,7 +2089,7 @@
     },
     {
      "other": {
-      "fr": "Le serveur doit avoir résolu l'énigme des dalles qui ouvre l'antre (elle s'ouvre seule à partir du 22 juillet).",
+      "fr": "Le serveur doit avoir résolu l'énigme des dalles qui ouvre l'antre (il s'ouvre seul à partir du 22 juillet).",
       "en": "The server must have solved the slab riddle that opens the lair (it opens by itself from July 22nd)."
      }
     },
@@ -2122,7 +2122,7 @@
     },
     {
      "other": {
-      "fr": "Le serveur doit avoir résolu l'énigme des dalles qui ouvre l'antre (elle s'ouvre seule à partir du 22 juillet).",
+      "fr": "Le serveur doit avoir résolu l'énigme des dalles qui ouvre l'antre (il s'ouvre seul à partir du 22 juillet).",
       "en": "The server must have solved the slab riddle that opens the lair (it opens by itself from July 22nd)."
      }
     },
@@ -2155,7 +2155,7 @@
     },
     {
      "other": {
-      "fr": "Le serveur doit avoir résolu l'énigme des dalles qui ouvre l'antre (elle s'ouvre seule à partir du 22 juillet).",
+      "fr": "Le serveur doit avoir résolu l'énigme des dalles qui ouvre l'antre (il s'ouvre seul à partir du 22 juillet).",
       "en": "The server must have solved the slab riddle that opens the lair (it opens by itself from July 22nd)."
      }
     },

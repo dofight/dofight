@@ -25,7 +25,8 @@ function req(r: Req): string {
 }
 
 const list = (head: string, reqs: Req[]): string =>
-  reqs.length ? `<div class="reqs">${head ? `<span class="head">${line(head)}</span>` : ""}<ol>${reqs.map(req).join("")}</ol></div>` : "";
+  // bullets: requirements are not steps in order (and the area's and the place's lists would both start at 1)
+  reqs.length ? `<div class="reqs">${head ? `<span class="head">${line(head)}</span>` : ""}<ul>${reqs.map(req).join("")}</ul></div>` : "";
 
 /** The sheet of `title`: « Prérequis » (level and key, the area's requirements, the place's own), then « Trajet »
  * (the written route, else « Aller en » and the nearest zaap), then the guide. `pa` null: the route only. */
