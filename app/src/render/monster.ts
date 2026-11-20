@@ -54,7 +54,7 @@ export function renderMonster(
   const thresholds = phaseThresholds(phases);
   const phaseText = thresholds.map((p, i) => `P${i + 1} ${p} %`).join(" - ");
   const phaseSpan = thresholds.length
-    ? `<span class="phase" tabindex="0" title="${esc(frenchSpaces(phaseText))}">${img(icon, "badges/phase.webp")}${esc(frenchSpaces(`${thresholds.join(" · ")} %`))}</span>`
+    ? `<span class="phase" tabindex="0" title="${esc(frenchSpaces(phaseText))}">${img(icon, "badges/phase.webp")}${esc(frenchSpaces(thresholds.map((p, i) => `P${i + 1} ${p} %`).join(" · ")))}</span>`
     : "";
   if (show.details) {
     parts.push(

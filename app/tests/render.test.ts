@@ -137,7 +137,7 @@ describe("renderMonster", () => {
     const card = dom(renderMonster(m, s.spells, { tags: [...tags, { id: "phase", param: "à 25 % PV" }] }, ALL, everyIcon, true, VOCAB));
     const phase = card.querySelector(".stats .phase")!;
     expect(phase.getAttribute("title")!.replace(/ /g, " ")).toBe("P1 50 % - P2 25 %");
-    expect(phase.textContent!.replace(/ /g, " ")).toBe("50 · 25 %"); // the thresholds in sight
+    expect(phase.textContent!.replace(/ /g, " ")).toBe("P1 50 % · P2 25 %"); // the thresholds in sight
     expect(card.querySelector(".tag.mechanic")).not.toBeNull(); // the badge stays
     expect(dom(renderMonster(m, s.spells, { tags: [{ id: "one_shot", param: "au CaC" }] }, ALL, everyIcon, true, VOCAB)).querySelector(".phase")).toBeNull();
   });
