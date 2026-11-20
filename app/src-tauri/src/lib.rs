@@ -102,6 +102,19 @@ fn open_log_folder(app: tauri::AppHandle) -> Result<(), String> {
     app.opener().open_path(dir.to_string_lossy(), None::<&str>).map_err(|e| e.to_string())
 }
 
+/// Saves every window's size and place now (the plugin also saves at exit, which a killed Dofight never reaches). On
+/// the main thread: the plugin's own command holds its lock while asking each window for its size, which on macOS waits
+/// for the main thread, itself waiting for that lock in the next Resized or Moved event, so the panel froze while it
+/// was moved or resized (owner, 2026-11-20).
+#[tauri::command]
+fn save_geometry(app: tauri::AppHandle) {
+    use tauri_plugin_window_state::AppHandleExt;
+    let handle = app.clone();
+    let _ = app.run_on_main_thread(move || {
+        let _ = handle.save_window_state(StateFlags::all() & !StateFlags::VISIBLE);
+    });
+}
+
 /// The overlay panel, never activated (the game keeps the focus): "open" restores it, "min" leaves only its
 /// taskbar button (the shortcut, the auto close and « Masquer Dofight hors de Dofus » all use it), "hidden" removes it
 /// from the taskbar too (not used by the page today: the taskbar button always stays).
@@ -335,6 +348,7 @@ pub fn run() {
             diagnostic_text,
             open_log_folder,
             panel_show,
+            save_geometry,
             set_shortcut,
             set_songe,
             set_in_fight,

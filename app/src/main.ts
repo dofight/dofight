@@ -20,7 +20,6 @@ import type { OcrLine } from "./screen/ocr";
 import { currentMonitor, getCurrentWindow, LogicalPosition, LogicalSize, PhysicalPosition, PhysicalSize, Window } from "@tauri-apps/api/window";
 import { GAP, previewRect } from "./previewSide";
 import { openUrl } from "@tauri-apps/plugin-opener";
-import { saveWindowState, StateFlags } from "@tauri-apps/plugin-window-state";
 import logo from "./assets/icon-app.png";
 import { enableDragAnywhere } from "./drag";
 import { fetchFromApp, loadSnapshot } from "./load";
@@ -150,7 +149,8 @@ let peekRow: HTMLElement | null = null;
 let peekToken = 0;
 let peekShown = false;
 
-const saveGeometry = () => void saveWindowState(StateFlags.ALL & ~StateFlags.VISIBLE);
+// saved by Rust on the main thread: the plugin's own JS call deadlocked macOS while the panel moved (see save_geometry)
+const saveGeometry = () => void invoke("save_geometry");
 
 /** First launch only: right side of the screen, almost full height. Afterwards the saved geometry is kept. */
 async function placeOnce(): Promise<void> {

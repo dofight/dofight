@@ -6,6 +6,8 @@ import { plain } from "./fixtures";
 // the real overlay page, its real data, and Tauri replaced by inert stubs
 const emitted: { event: string; payload: any }[] = [];
 const listeners = new Map<string, (e: { payload: unknown }) => unknown>();
+// the panel window's own handlers (onMoved…), kept here: mock call histories are cleared between tests
+const windowHandlers = new Map<string, () => unknown>();
 vi.mock("@tauri-apps/api/event", () => ({ listen: vi.fn(async (event: string, cb: (e: { payload: unknown }) => unknown) => (listeners.set(event, cb), () => {})), emit: vi.fn((event: string, payload: unknown) => emitted.push({ event, payload })) }));
 vi.mock("@tauri-apps/plugin-opener", () => ({ openUrl: vi.fn() }));
 vi.mock("@tauri-apps/api/core", () => ({ invoke: vi.fn(async () => []) }));
@@ -18,7 +20,7 @@ vi.mock("@tauri-apps/plugin-window-state", () => ({ saveWindowState: vi.fn(), St
 vi.mock("@tauri-apps/api/window", () => {
   const win = {
     show: vi.fn(), hide: vi.fn(), isVisible: vi.fn(async () => true), setSize: vi.fn(), setPosition: vi.fn(), scaleFactor: vi.fn(async () => 1),
-    startDragging: vi.fn(), setResizable: vi.fn(async () => {}), onResized: vi.fn(async () => () => {}), onMoved: vi.fn(async () => () => {}), onCloseRequested: vi.fn(async () => () => {}), isMinimized: vi.fn(async () => false),
+    startDragging: vi.fn(), setResizable: vi.fn(async () => {}), onResized: vi.fn(async () => () => {}), onMoved: vi.fn(async (cb: () => unknown) => (windowHandlers.set("moved", cb), () => {})), onCloseRequested: vi.fn(async () => () => {}), isMinimized: vi.fn(async () => false),
     outerPosition: vi.fn(async () => ({ x: 1590, y: 40 })), outerSize: vi.fn(async () => ({ width: 320, height: 1000 })),
     innerPosition: vi.fn(async () => ({ x: 1590, y: 40 })), innerSize: vi.fn(async () => ({ width: 320, height: 1000 })),
   };
@@ -689,4 +691,20 @@ it("dev builds: Diagnostic has a switch that outlines the areas read in red (own
   box.checked = true;
   box.dispatchEvent(new Event("change"));
   expect(invoke).toHaveBeenCalledWith("set_debug_areas", { on: true });
+});
+
+it("saves the panel's place from Rust on the main thread after a move, never through the plugin's call (a deadlock on macOS)", async () => {
+  const { invoke } = await import("@tauri-apps/api/core");
+  const { saveWindowState } = await import("@tauri-apps/plugin-window-state");
+  const moved = windowHandlers.get("moved")!;
+  vi.mocked(invoke).mockClear();
+  vi.useFakeTimers();
+  try {
+    moved();
+    vi.advanceTimersByTime(400);
+  } finally {
+    vi.useRealTimers();
+  }
+  expect(vi.mocked(invoke).mock.calls.some(([cmd]) => cmd === "save_geometry")).toBe(true);
+  expect(saveWindowState).not.toHaveBeenCalled();
 });
