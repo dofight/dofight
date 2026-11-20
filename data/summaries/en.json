@@ -1818,7 +1818,6 @@
   "à 70 % et 40 % PV, début de tour": "at 70% and 40% HP, turn start",
   "à 75 % et 50 % PV": "at 75% and 50% HP",
   "à 75, 50 et 25 % PV": "at 75, 50 and 25% HP",
-  "à bas PV : se sépare en deux": "at low HP: splits in two",
   "à ceux alignés avec lui": "to those in line with it",
   "à chaque coup reçu": "each time it is hit",
   "à chaque début de tour": "at the start of each turn",
@@ -2458,7 +2457,8 @@
   "2 tours sur 4": "2 turns out of 4",
   "lui-même, 20 % de ses PV": "itself, 20% of its HP",
   "PA entre alliés (glyphe marron)": "AP between allies (brown glyph)",
-  "renforcé à la mort de Xa": "strengthened when Xa dies"
+  "renforcé à la mort de Xa": "strengthened when Xa dies",
+  "à 20 % PV : se sépare en deux": "at 20% HP: splits in two"
  },
  "token": {
   "-résistances": "-resistances",
