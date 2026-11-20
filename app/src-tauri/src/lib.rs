@@ -98,6 +98,14 @@ fn panel_show(app: tauri::AppHandle, mode: String) -> Result<(), String> {
     platform::show_panel(&panel, &mode)
 }
 
+/// Dev builds: shows or hides the red boxes of the areas read (the « debug » window, made only in dev builds; in a
+/// release there is no such window and no switch).
+#[tauri::command]
+fn set_debug_areas(app: tauri::AppHandle, on: bool) -> Result<(), String> {
+    let Some(debug) = app.get_webview_window("debug") else { return Ok(()) };
+    if on { debug.show() } else { debug.hide() }.map_err(|e| e.to_string())
+}
+
 /// « Songe » mode on or off (the toggle next to the search bar).
 #[tauri::command]
 fn set_songe(on: bool, songe: tauri::State<screen::Songe>) {
@@ -256,7 +264,8 @@ pub fn run() {
                 &format!("Dofight {} on {}", app.package_info().version, if cfg!(windows) { "Windows" } else { "macOS" }),
             );
             platform::setup(app)?;
-            // dev builds only: a click-through window over the screen that draws the areas read (red boxes)
+            // dev builds only: a click-through window over the screen that draws the areas read (red boxes), hidden until
+            // « Encadrer en rouge les zones lues » (Diagnostic) is on
             #[cfg(debug_assertions)]
             {
                 use tauri::{WebviewUrl, WebviewWindowBuilder};
@@ -274,6 +283,7 @@ pub fn run() {
                         .resizable(false)
                         .position(0.0, 0.0)
                         .inner_size(size.width, size.height)
+                        .visible(false)
                         .build()?;
                     debug.set_ignore_cursor_events(true)?;
                 }
@@ -291,6 +301,7 @@ pub fn run() {
         })
         .invoke_handler(tauri::generate_handler![
             quit,
+            set_debug_areas,
             list_dofus_windows,
             set_reference,
             read_again,

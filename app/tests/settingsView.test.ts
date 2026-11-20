@@ -648,3 +648,13 @@ it("« Comment y aller » stays open through a redraw and a scroll, and closes o
   document.getElementById("view-main")!.dispatchEvent(new Event("pointerdown", { bubbles: true }));
   await vi.waitFor(() => expect(hide.mock.calls.length).toBeGreaterThan(before));
 });
+
+it("dev builds: Diagnostic has a switch that outlines the areas read in red (owner, 2026-11-20)", async () => {
+  const { invoke } = await import("@tauri-apps/api/core");
+  const row = document.getElementById("debug-areas-row")!;
+  expect(row.hidden).toBe(false); // vitest runs as a dev build
+  const box = document.getElementById("debug-areas") as HTMLInputElement;
+  box.checked = true;
+  box.dispatchEvent(new Event("change"));
+  expect(invoke).toHaveBeenCalledWith("set_debug_areas", { on: true });
+});

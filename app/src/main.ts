@@ -583,6 +583,27 @@ $("settings-import").addEventListener("click", async () => {
 
 /* ---------- diagnostic: copy the recent log, open its folder ---------- */
 
+// dev builds only (`pnpm tauri dev`, never a release): outline the areas read in red (the debug window, screen.rs)
+if (import.meta.env.DEV) {
+  const box = $<HTMLInputElement>("debug-areas");
+  $("debug-areas-row").hidden = false;
+  try {
+    box.checked = localStorage.getItem("dofight.debugAreas") === "1";
+  } catch {
+    /* no storage: off */
+  }
+  const apply = () => void invoke("set_debug_areas", { on: box.checked });
+  box.addEventListener("change", () => {
+    try {
+      localStorage.setItem("dofight.debugAreas", box.checked ? "1" : "0");
+    } catch {
+      /* no storage: for this run only */
+    }
+    apply();
+  });
+  apply();
+}
+
 $("log-copy").addEventListener("click", async () => {
   try {
     const text = await invoke<string>("diagnostic_text");
