@@ -1,11 +1,12 @@
 # Runs the three test suites on every pull request and push to main. No secret is used (pull requests from forks
-# never get secrets); building, signing and publishing stay in the tag-only `release` workflow.
+# never get secrets); building, signing and publishing stay in the tag-only `release` workflow. The `macos` job also
+# builds an unsigned test .dmg (an artifact to download), on pushes to main and to the `macos` branch.
 name: tests
 
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [main, macos]
 
 permissions:
   contents: read
@@ -63,3 +64,36 @@ jobs:
         run: |
           if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then echo "new branch: nothing to compare"; exit 0; fi
           python -m tools.release_notes --check-range "$BEFORE..HEAD"
+
+  # macOS (not a required check yet): the Rust tests, then a test .dmg (Apple silicon and Intel, ad-hoc signed, no
+  # updater files: no secret here) to download from the run's artifacts
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 12
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: app/pnpm-lock.yaml
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: app/src-tauri
+      - name: App (Rust)
+        working-directory: app/src-tauri
+        run: cargo test --lib
+      - name: Test .dmg
+        working-directory: app
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm tauri build --target universal-apple-darwin --bundles dmg --config '{"bundle":{"createUpdaterArtifacts":false}}'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dofight-macos-dmg
+          path: app/src-tauri/target/universal-apple-darwin/release/bundle/dmg/*.dmg

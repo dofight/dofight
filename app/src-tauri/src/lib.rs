@@ -253,8 +253,9 @@ pub fn run() {
             }
             diag::log(
                 "start",
-                &format!("Dofight {} on Windows", app.package_info().version),
+                &format!("Dofight {} on {}", app.package_info().version, if cfg!(windows) { "Windows" } else { "macOS" }),
             );
+            platform::setup(app)?;
             let reference = app.state::<screen::Reference>().inner().clone();
             let songe = app.state::<screen::Songe>().inner().clone();
             let in_fight = app.state::<screen::InFight>().inner().clone();

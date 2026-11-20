@@ -249,3 +249,8 @@ pub fn show_panel(panel: &tauri::WebviewWindow, mode: &str) -> Result<(), String
 pub fn panel_shown(panel: &tauri::WebviewWindow) -> bool {
     panel.is_visible().unwrap_or(false) && !panel.is_minimized().unwrap_or(false)
 }
+
+/// Nothing to set up on Windows (the panel's taskbar button is the panel's own).
+pub fn setup(_app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
+    Ok(())
+}

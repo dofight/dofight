@@ -753,6 +753,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(windows)]
     fn reads_the_map_header() {
         let t = texts("header_brakmar.png");
         assert!(t.iter().any(|l| l.contains("Haras de Br")), "{t:?}");
@@ -760,6 +761,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(windows)]
     fn reads_the_fight_buttons() {
         assert!(
             texts("button_fin_de_tour.png")
