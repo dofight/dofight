@@ -168,7 +168,10 @@ export function renderTags(list: Tag[], vocab: Vocabulary, show: Display, icon: 
       const param = tag.param?.trim() ? ` · ${escText(frenchSpaces(tag.param.trim()))}` : "";
       // the category is told by colour on screen, and in words to screen readers
       const kind = `<span class="sr-only">${esc(t(TAG_KIND_LABEL[spec.category]))}, </span>`;
-      return `<span class="tag ${spec.category}">${kind}${ic}${escText(frenchSpaces(tagLabel(spec)))}${param}</span>`;
+      // a phase badge with HP thresholds: « P1 75 % - P2 50 % » on hover
+      const steps = tag.id === "phase" ? phaseThresholds([tag.param ?? ""]) : [];
+      const title = steps.length ? ` title="${esc(frenchSpaces(steps.map((p, i) => `P${i + 1} ${p} %`).join(" - ")))}"` : "";
+      return `<span class="tag ${spec.category}"${title}>${kind}${ic}${escText(frenchSpaces(tagLabel(spec)))}${param}</span>`;
     })
     .join("")}</div>`;
 }

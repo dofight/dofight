@@ -138,7 +138,8 @@ describe("renderMonster", () => {
     const phase = card.querySelector(".stats .phase")!;
     expect(phase.getAttribute("title")!.replace(/ /g, " ")).toBe("P1 50 % - P2 25 %");
     expect(phase.textContent!.replace(/ /g, " ")).toBe("P1 50 % · P2 25 %"); // the thresholds in sight
-    expect(card.querySelector(".tag.mechanic")).not.toBeNull(); // the badge stays
+    expect(card.querySelector(".tag.mechanic")).not.toBeNull(); // the badge stays, with P1… on hover
+    expect(card.querySelector(".tag.mechanic")!.getAttribute("title")!.replace(/ /g, " ")).toBe("P1 50 %");
     expect(dom(renderMonster(m, s.spells, { tags: [{ id: "one_shot", param: "au CaC" }] }, ALL, everyIcon, true, VOCAB)).querySelector(".phase")).toBeNull();
   });
 
