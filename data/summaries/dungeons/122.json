@@ -23,10 +23,10 @@
     },
     {
      "id": "phase",
-     "param": "+PM à 2 seuils de PV"
+     "param": "+PM à 50 et 25 % PV"
     }
    ],
-   "detail": "Réduit de 50 % les dégâts au CaC : le taper à distance. Jufang bloque sa cible à son CaC (Pesanteur, Indéplaçable)."
+   "detail": "Réduit de 50 % les dégâts au CaC : le taper à distance. Jufang bloque sa cible à son CaC (Pesanteur, Indéplaçable). À 50 et 25 % PV : +4 PM 2 tours, et +20 % de dommages au CaC au 2e seuil."
   },
   "6204": {
    "tags": [

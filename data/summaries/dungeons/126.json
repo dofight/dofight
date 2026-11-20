@@ -34,10 +34,10 @@
     },
     {
      "id": "phase",
-     "param": "3 phases selon ses PV"
+     "param": "3 phases : à 70 et 35 % PV"
     }
    ],
-   "detail": "Son géoglyphe grandit à chaque phase (carré 7x7, damier, étoile infinie). Juste avant chaque seuil, il se soigne au début de son tour : le passer à la phase suivante avant qu'il joue."
+   "detail": "Son géoglyphe grandit à chaque phase (carré 7x7, damier, étoile infinie). Juste avant chaque seuil, il se soigne au début de son tour : le passer à la phase suivante avant qu'il joue. Guide (6 100 PV) : phases à 4 200 et 2 200 PV."
   },
   "6223": {
    "tags": [
