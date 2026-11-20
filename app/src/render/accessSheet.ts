@@ -1,6 +1,6 @@
 import type { PlaceAccess, Req, Text } from "../access";
 import { frenchSpaces, getLang, t } from "../i18n";
-import { renderRoute, renderTrip, routeOf, travelCommand, type Trip } from "../travel";
+import { renderRoute, renderTrip, routeOf, type Trip } from "../travel";
 import { esc, escText } from "./html";
 import { icon } from "./icons";
 
@@ -10,16 +10,11 @@ import { icon } from "./icons";
 const say = (text: Text): string => (getLang() === "en" ? text.en : text.fr) || text.fr;
 const line = (text: string): string => escText(frenchSpaces(text));
 
-function copyButton(command: string): string {
-  return `<button type="button" class="travel" data-copy="${esc(command)}" title="${esc(t("trip.copy", { command }))}"><span class="lbl">${esc(command)}</span>${icon("copy")}</button>`;
-}
-
 function req(r: Req): string {
   if ("quest" in r) {
     const q = r.quest;
-    const go = q.start ? ` ${copyButton(travelCommand({ x: q.start.x, y: q.start.y, world: 1 }))}` : "";
     const name = q.url && /^https:\/\//.test(q.url) ? `<a class="quest" href="${esc(q.url)}" target="_blank" rel="noopener">${line(say(q))}</a>` : line(say(q));
-    return `<li>${name} ${line(`(${t("access.questLevel", { level: q.level })})`)}${go}</li>`;
+    return `<li>${name} ${line(`(${t("access.questLevel", { level: q.level })})`)}</li>`; // no /travel to the quest giver (owner, 2026-11-20): the quest page says where
   }
   if ("beat" in r) return `<li>${line(t("access.beat", { name: say(r.beat) }))}</li>`;
   if ("item" in r) return `<li><b>${line(say(r.item))}</b>${r.how ? line(` : ${say(r.how)}`) : ""}</li>`;

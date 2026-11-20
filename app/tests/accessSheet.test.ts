@@ -34,7 +34,8 @@ describe("the « Comment y aller » sheet", () => {
       at = i;
     }
     const copies = [...box.querySelectorAll<HTMLElement>(".travel")].map((b) => b.dataset.copy);
-    expect(copies).toEqual(["/travel 15 28", "/travel -43 2", "/travel -55 15", "/zaap -46 18 ; /travel -55 15"]);
+    expect(copies).toEqual(["/travel -55 15", "/zaap -46 18 ; /travel -55 15"]); // the quests: no /travel (owner, 2026-11-20)
+    expect(box.querySelectorAll(".needs .travel")).toHaveLength(0);
     expect(box.querySelector<HTMLAnchorElement>("a.guide")!.href).toBe("https://www.dofuspourlesnoobs.com/ventre.html");
   });
 
@@ -46,7 +47,7 @@ describe("the « Comment y aller » sheet", () => {
     expect(sheet(baleine).box.querySelector("a.quest")).toBeNull(); // no page: plain text
   });
 
-  it("shows the level of a quest, and no button when the quest's start is unknown", () => {
+  it("shows the level of a quest", () => {
     const { box, all } = sheet({ ...baleine, areaReqs: [{ quest: { id: 1, fr: "Sans départ", en: "x", level: 80, start: null } }] });
     expect(all).toContain("Sans départ (niv. 80)");
     expect(box.querySelectorAll(".needs .travel")).toHaveLength(0);
@@ -125,20 +126,20 @@ describe("copying from the sheet (the side window cannot take the focus)", () =>
   it("sends the command to the panel and says where to paste", () => {
     const { box } = sheet(baleine);
     const sent: string[] = [];
-    const button = box.querySelectorAll<HTMLElement>(".travel")[1];
+    const button = box.querySelectorAll<HTMLElement>(".travel")[0];
     expect(sheetCopy(button.querySelector(".lbl")!, (c) => sent.push(c))).toBe(true);
-    expect(sent).toEqual(["/travel -43 2"]);
+    expect(sent).toEqual(["/travel -55 15"]);
     const msg = box.querySelector(".access-sheet > .tripmsg")!;
     expect(msg.textContent).toBe(""); // not before the panel says the clipboard took it
-    sheetCopied(box, "/travel -43 2", true);
+    sheetCopied(box, "/travel -55 15", true);
     expect(button.classList.contains("copied")).toBe(true);
     expect(msg.textContent).toContain("Ctrl+V");
   });
 
   it("says so when the clipboard refused", () => {
     const { box } = sheet(baleine);
-    sheetCopied(box, "/travel -43 2", false);
-    expect(box.querySelector(".access-sheet > .tripmsg")!.textContent).toContain("/travel -43 2");
+    sheetCopied(box, "/travel -55 15", false);
+    expect(box.querySelector(".access-sheet > .tripmsg")!.textContent).toContain("/travel -55 15");
     expect(box.querySelector(".copied")).toBeNull();
   });
 
