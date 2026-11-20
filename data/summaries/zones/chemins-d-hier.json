@@ -5,12 +5,7 @@
  "guideUpdated": "?",
  "dungeon": "Mégalithe de Fraktale",
  "status": "draft",
- "roomTags": [
-  {
-   "id": "reflect",
-   "param": "en zone autour du monstre frappé"
-  }
- ],
+ "strategy": "Chaque monstre renvoie 50 % des dommages qu'il subit à tous ceux à 2 cases ou moins de lui, ses alliés compris.",
  "mechanics": [
   "xelorium-modifiers"
  ],

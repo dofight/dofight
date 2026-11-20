@@ -4,12 +4,8 @@
  "guide": "https://www.dofuspourlesnoobs.com/meacutegalithe-de-fraktale.html",
  "guideUpdated": "?",
  "status": "draft",
- "strategy": "Ne pas finir au CaC du Gromorso.",
+ "strategy": "Chaque monstre renvoie 50 % des dommages qu'il subit à tous ceux à 2 cases ou moins de lui, ses alliés compris. Ne pas finir au CaC du Gromorso.",
  "roomTags": [
-  {
-   "id": "reflect",
-   "param": "en zone autour du monstre frappé"
-  },
   {
    "id": "phase",
    "param": "nouvelle vague tous les 5 tours"
