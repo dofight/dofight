@@ -422,7 +422,12 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .lang[aria-checked="true"]{border-color:var(--gold);color:var(--gold)}
 .flag{width:21px;height:14px;border-radius:2px;flex:none;box-shadow:0 0 0 1px rgba(0,0,0,.35)}
 /* hover preview window (peek.html): only the card */
-#peek{padding:0}
+#peek{padding:0;position:relative}
+/* a pinned sheet's close button, top right (owner, 2026-11-20) */
+.peek-close{position:absolute;top:6px;right:6px;z-index:1;display:grid;place-items:center;width:22px;height:22px;padding:0;border:0;border-radius:6px;background:none;color:var(--muted);cursor:pointer}
+.peek-close:hover{background:var(--line);color:var(--fg)}
+.peek-close .ic{width:14px;height:14px}
+#peek.pinned>:not(.peek-close)>:first-child{padding-right:22px} /* the title clears the button */
 .mob.peek{border-radius:10px} /* no shadow: the window is exactly the card's size */
 /* a mechanic's chip in the room header (hover: its sheet in the preview window) */
 .mechs{display:flex;flex-wrap:wrap;gap:4px}

@@ -830,7 +830,7 @@ function showMechanic(mech: HTMLElement, delay: number, pin = false): void {
     const sheet = (view ?? snap)?.mechanics?.get(mech.dataset.mechanic ?? "");
     if (!sheet) return;
     peekAnchor = { base: win, top: mech.getBoundingClientRect().top };
-    void emit("peek:render", { token: ++peekToken, html: renderMechanicSheet(sheet, { link: pin }) });
+    void emit("peek:render", { token: ++peekToken, html: renderMechanicSheet(sheet, { link: pin }), pinned: pin });
   }, delay);
 }
 
@@ -843,7 +843,7 @@ function showAccess(btn: HTMLElement): void {
   setPinned(btn);
   accessOpen = true;
   peekAnchor = { base: win, top: btn.getBoundingClientRect().top };
-  void emit("peek:render", { token: ++peekToken, html: renderAccessSheet(accessShown.title, accessShown.pa, accessShown.trip) });
+  void emit("peek:render", { token: ++peekToken, html: renderAccessSheet(accessShown.title, accessShown.pa, accessShown.trip), pinned: true });
 }
 
 // a spell (an open card's spell button): its sheet in the side preview, after `delay` ms; pinned by a click (owner,
@@ -856,7 +856,7 @@ function showSpellAside(sp: HTMLElement, delay: number, pin = false): void {
     const spell = (view ?? snap)?.spells.get(Number(sp.dataset.spell));
     if (!spell || !snap) return;
     peekAnchor = { base: win, top: sp.getBoundingClientRect().top };
-    void emit("peek:render", { token: ++peekToken, html: renderSpellSheet(spell, iconResolver(snap)) });
+    void emit("peek:render", { token: ++peekToken, html: renderSpellSheet(spell, iconResolver(snap)), pinned: pin });
   }, delay);
 }
 
@@ -919,6 +919,8 @@ void listen<string>("peek:copy", async ({ payload }) => {
   const ok = await writeText(payload).then(() => true, () => false);
   void emit("peek:copied", { command: payload, ok });
 });
+// the close button of a pinned sheet (owner, 2026-11-20)
+void listen("peek:close", () => hidePeek(true));
 // the « Guide » link of a pinned sheet, clicked in the preview window (which can only talk to the panel)
 void listen<string>("peek:open", ({ payload }) => {
   if (/^https:\/\//.test(payload)) void openUrl(payload);
