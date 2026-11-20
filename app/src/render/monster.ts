@@ -95,7 +95,7 @@ export function renderMonster(
           const title = show.hoverPeek ? "" : ` title="${esc(label)}"`;
           return `<button class="sp${off}" aria-pressed="false"${title} aria-label="${esc(label)}" data-spell="${s.id}">${face}${rng}${badges}</button>`;
         })
-        .join("")}</div><div class="sheet" hidden></div>`,
+        .join("")}</div>`,
     );
   }
   return `<div class="${cls}" data-monster="${m.id}"${more} data-open="true">${parts.join("")}</div>`;

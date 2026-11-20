@@ -263,7 +263,6 @@ function songeTick(lines: OcrLine[]): void {
   diag("songe", `${groups.map((g) => `level ${g.level ?? "?"}`).join(" + ")}: ${monsters.map((m) => `${m.name}×${counts.get(m.id)}`).join(", ")}`);
   room = songeRoom;
   flipped.clear();
-  openSpell = null;
   showRoom();
 }
 
@@ -288,14 +287,12 @@ function setSonge(on: boolean, by: "player" | "dofight"): void {
     zoneReadInSonge = false;
     room = null;
     flipped.clear();
-    openSpell = null;
   } else if (room === songeRoom || room === null) {
     // Songe off: the zone read last shows at once (the header can be hidden in a fight), and the screen is read again
     // at once (set_songe asks the reader): a changed zone replaces it
     room = !zoneReadInSonge && beforeSonge ? beforeSonge : zoneRoom;
     zoneAsked = settings.fromHeader;
     flipped.clear();
-    openSpell = null;
   }
   if (!settings.songe) beforeSonge = null;
   songeRoom = null;
@@ -372,7 +369,6 @@ function updateSearch(): void {
 }
 window.setInterval(updateSearch, SEARCH_EVERY_MS);
 
-let openSpell: { monster: number; spell: number } | null = null;
 /** The last reading found no Dofus window: the empty list says so. */
 let dofusClosed = false;
 
@@ -409,18 +405,6 @@ function showRoom(): void {
   // in Songe mode, « Réinitialiser » clears the hovered group in its place
   reset.hidden = !(settings.songe && room !== null && room === songeRoom);
   if (!reset.hidden) document.querySelector("#room .roomhead .dj")?.append(reset);
-  // a spell sheet the player opened stays open when another row is folded or a setting changes
-  if (openSpell && snap) {
-    const card = document.querySelector<HTMLElement>(`#room .mob[data-monster="${openSpell.monster}"]`);
-    const button = card?.querySelector<HTMLElement>(`.sp[data-spell="${openSpell.spell}"]`);
-    const sheet = card?.querySelector<HTMLElement>(".sheet");
-    const sp = (view ?? snap).spells.get(openSpell.spell);
-    if (button && sheet && sp) {
-      button.setAttribute("aria-pressed", "true");
-      sheet.innerHTML = renderSpellSheet(sp, iconResolver(snap));
-      sheet.hidden = false;
-    }
-  }
 }
 
 /* ---------- « Filtrer les résultats »: the list keeps the monsters whose card holds the text ---------- */
@@ -710,13 +694,14 @@ async function placePreview(render = true): Promise<void> {
 // where the preview goes: beside which window (the panel, or the settings' example window), level with which row
 let peekAnchor: { base: Window; top: number } | null = null;
 
-// a mechanic's chip whose sheet a click pinned: it stays (hovering elsewhere does not replace it) until a second
-// click on the chip, a click elsewhere, Escape or a scroll
+// a mechanic's chip or a spell whose sheet a click pinned beside the panel: it stays (hovering elsewhere does not
+// replace it) until a second click on it, a click elsewhere, Escape or a scroll
 let pinned: HTMLElement | null = null;
-function setPinned(mech: HTMLElement | null): void {
-  pinned?.setAttribute("aria-expanded", "false");
-  pinned = mech;
-  mech?.setAttribute("aria-expanded", "true");
+const pressedAttr = (el: HTMLElement) => (el.classList.contains("sp") ? "aria-pressed" : "aria-expanded");
+function setPinned(el: HTMLElement | null): void {
+  if (pinned) pinned.setAttribute(pressedAttr(pinned), "false");
+  pinned = el;
+  el?.setAttribute(pressedAttr(el), "true");
 }
 
 function hidePeek(): void {
@@ -806,6 +791,20 @@ function showMechanic(mech: HTMLElement, delay: number, pin = false): void {
   }, delay);
 }
 
+// a spell (an open card's spell button): its sheet in the side preview, after `delay` ms; pinned by a click (owner,
+// 2026-11-19: the sheet sits beside the panel, as the hover preview does, not inside the card)
+function showSpellAside(sp: HTMLElement, delay: number, pin = false): void {
+  hidePeek();
+  peekRow = sp;
+  if (pin) setPinned(sp);
+  peekTimer = window.setTimeout(() => {
+    const spell = (view ?? snap)?.spells.get(Number(sp.dataset.spell));
+    if (!spell || !snap) return;
+    peekAnchor = { base: win, top: sp.getBoundingClientRect().top };
+    void emit("peek:render", { token: ++peekToken, html: renderSpellSheet(spell, iconResolver(snap)) });
+  }, delay);
+}
+
 $("room").addEventListener("pointerover", (e) => {
   if (pinned) return; // a pinned sheet stays while the pointer moves around
   const mech = (e.target as HTMLElement).closest<HTMLElement>(".mech");
@@ -815,19 +814,12 @@ $("room").addEventListener("pointerover", (e) => {
     else hidePeek();
     return;
   }
-  // a spell of an open card: its sheet in the side preview (a click still opens it in the card)
+  // a spell of an open card: its sheet in the side preview (a click pins it there)
   const sp = (e.target as HTMLElement).closest<HTMLElement>(".sp");
   if (sp) {
     if (sp === peekRow) return;
-    hidePeek();
-    if (!settings.hoverPeek || sp.getAttribute("aria-pressed") === "true") return;
-    peekRow = sp;
-    peekTimer = window.setTimeout(() => {
-      const spell = (view ?? snap)?.spells.get(Number(sp.dataset.spell));
-      if (!spell || !snap) return;
-      peekAnchor = { base: win, top: sp.getBoundingClientRect().top };
-      void emit("peek:render", { token: ++peekToken, html: renderSpellSheet(spell, iconResolver(snap)) });
-    }, PEEK_DELAY);
+    if (settings.hoverPeek) showSpellAside(sp, PEEK_DELAY);
+    else hidePeek();
     return;
   }
   const row = (e.target as HTMLElement).closest<HTMLElement>('.mob[data-open="false"]');
@@ -841,15 +833,19 @@ $("room").addEventListener("pointerleave", () => {
   if (!pinned) hidePeek(); // a pinned sheet can be reached with the pointer (its « Guide » link)
 });
 $("room").addEventListener("pointerdown", (e) => {
-  if ((e.target as HTMLElement).closest(".mech")) return; // the click below pins or unpins
+  if ((e.target as HTMLElement).closest(".mech, .sp")) return; // the click below pins or unpins
   hidePeek(); // a click unfolds the row: the preview goes (a pinned sheet too)
 });
-// a click (or Enter) on a mechanic's chip pins its sheet, even with the hover preview off; a second click closes it
+// a click (or Enter) on a mechanic's chip or a spell pins its sheet beside the panel, even with the hover preview
+// off; a second click closes it
 $("room").addEventListener("click", (e) => {
   const mech = (e.target as HTMLElement).closest<HTMLElement>(".mech");
-  if (!mech) return;
-  if (pinned === mech) hidePeek();
-  else showMechanic(mech, 0, true);
+  const sp = mech ? null : (e.target as HTMLElement).closest<HTMLElement>(".sp");
+  const el = mech ?? sp;
+  if (!el) return;
+  if (pinned === el) hidePeek();
+  else if (mech) showMechanic(mech, 0, true);
+  else showSpellAside(sp!, 0, true);
 });
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && pinned) hidePeek();
@@ -1537,7 +1533,6 @@ document.addEventListener("click", async (e) => {
     flipped.clear();
     // a boss's summon searched for: its boss's dungeon, with the summon unfolded
     if (room.dungeon && room.pinned !== undefined && !isOpen(room.pinned)) flipped.add(room.pinned);
-    openSpell = null;
     $<HTMLInputElement>("q").value = "";
     $("results").innerHTML = "";
     showRoom();
@@ -1590,22 +1585,6 @@ document.addEventListener("click", async (e) => {
     document.querySelector<HTMLElement>(`#room .mob[data-monster="${id}"] .mh`)?.focus({ preventScroll: true });
     return;
   }
-  const sp = target.closest<HTMLElement>(".sp");
-  if (sp && snap) {
-    const card = sp.closest(".mob")!;
-    const sheet = card.querySelector<HTMLElement>(".sheet")!;
-    const open = sp.getAttribute("aria-pressed") === "true";
-    card.querySelectorAll(".sp").forEach((b) => b.setAttribute("aria-pressed", "false"));
-    if (open) {
-      sheet.hidden = true;
-      openSpell = null;
-      return;
-    }
-    openSpell = { monster: Number((card as HTMLElement).dataset.monster), spell: Number(sp.dataset.spell) };
-    sp.setAttribute("aria-pressed", "true");
-    sheet.innerHTML = renderSpellSheet((view ?? snap).spells.get(Number(sp.dataset.spell))!, iconResolver(snap));
-    sheet.hidden = false;
-  }
 });
 $("q").addEventListener("input", showResults);
 $("q").addEventListener("keydown", (e) => {
@@ -1629,7 +1608,6 @@ $("songe-reset").addEventListener("click", () => {
   songeSignature = "";
   room = null; // back to the empty list, waiting for a hovered group
   flipped.clear();
-  openSpell = null;
   showRoom();
   $("q").focus(); // the button is gone: the focus goes back to the search field
 });
@@ -1637,7 +1615,6 @@ $("backzone").addEventListener("click", () => {
   zoneAsked = false;
   room = zoneRoom;
   flipped.clear();
-  openSpell = null;
   showRoom();
 });
 document.addEventListener("keydown", (e) => {
@@ -1771,7 +1748,6 @@ void listen<{ lines: OcrLine[]; bar: BarState | null; error: string | null; left
     director = { ...director, lastRoomTitle: out.room.title };
     room = out.room;
     flipped.clear();
-    openSpell = null;
     endScan(null);
     showRoom();
   } else {

@@ -596,3 +596,25 @@ it("clears « Filtrer les résultats » when a new search result is opened", () 
   expect(find.value).toBe("");
   expect(document.querySelectorAll("#room .mob").length).toBeGreaterThan(1);
 });
+
+it("pins a spell's sheet beside the panel on a click, not inside the card; a second click closes it", async () => {
+  if (!document.getElementById("view-settings")!.hidden) (document.getElementById("back") as HTMLButtonElement).click();
+  const q = document.getElementById("q") as HTMLInputElement;
+  const spells = document.querySelector<HTMLInputElement>('#view-settings input[data-key="spells"]')!;
+  if (!spells.checked) {
+    spells.checked = true; // an earlier test turned the spells off
+    spells.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+  q.value = "Cour du Bouftou Royal";
+  q.dispatchEvent(new Event("input", { bubbles: true }));
+  document.querySelector<HTMLElement>("#results .res-item")!.click();
+  if (!document.querySelector("#room .sp")) document.querySelector<HTMLElement>("#room .mob .mh")!.click(); // unfold one
+  const sp = document.querySelector<HTMLElement>("#room .sp")!;
+  emitted.length = 0;
+  sp.click();
+  await vi.waitFor(() => expect(emitted.some((e) => e.event === "peek:render" && /class="sheet|spell/.test(String(e.payload?.html)))).toBe(true));
+  expect(sp.getAttribute("aria-pressed")).toBe("true");
+  expect(document.querySelector("#room .mob .sheet")).toBeNull(); // nothing opens inside the card
+  sp.click();
+  expect(sp.getAttribute("aria-pressed")).toBe("false");
+});
