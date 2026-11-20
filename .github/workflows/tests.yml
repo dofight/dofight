@@ -40,8 +40,8 @@ jobs:
           pnpm install --frozen-lockfile
           pnpm exec tsc --noEmit -p .
           pnpm vitest run
-      - name: Suggestion relay (Cloudflare Worker)
-        run: node --test relay/worker.test.mjs
+      - name: Suggestion relay (Cloudflare Worker) and the release tools
+        run: node --test relay/worker.test.mjs tools/merge_latest.test.mjs
       # the screen tests read French captures with Windows' own OCR, whose French pack runners lack
       - name: French OCR for Windows
         shell: pwsh

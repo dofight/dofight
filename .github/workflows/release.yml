@@ -1,5 +1,6 @@
 # Builds the signed Windows installer on a version tag (vX.Y.Z) and publishes it, with latest.json for the
-# auto-updater, to this repository's releases.
+# auto-updater, to this repository's releases; then the Mac .dmg and its updater files, added to the same release (a
+# Mac failure never holds the Windows release back; « only_macos » re-runs the Mac half alone).
 # Publishing uses the gh CLI, which also writes latest.json and the plain exe for the auto-updater.
 name: release
 
@@ -11,9 +12,14 @@ on:
       tag:
         description: "Existing tag to (re)build and publish, e.g. v1.0.1"
         required: true
+      only_macos:
+        description: "Rebuild only the Mac files (the Windows ones are already published)"
+        type: boolean
+        default: false
 
 jobs:
   windows:
+    if: ${{ !inputs.only_macos }}
     runs-on: windows-latest
     permissions:
       contents: write # publishing to this repo itself, once it is the release repo
@@ -124,3 +130,74 @@ jobs:
           node tools/announce.mjs "$TAG" "$notes" announce.json
           curl -fsS -H "Content-Type: application/json" -d @announce.json "$WEBHOOK"
           echo "Announced on Discord"
+
+  # the Mac .dmg (Apple silicon and Intel, ad-hoc signed: no Apple account) and the updater's .app.tar.gz, added to
+  # the release the Windows job published; latest.json gets its darwin entries (tools/merge_latest.mjs)
+  macos:
+    needs: windows
+    if: ${{ always() && (needs.windows.result == 'success' || needs.windows.result == 'skipped') }}
+    runs-on: macos-latest
+    permissions:
+      contents: write
+    env:
+      TAG: ${{ github.event.inputs.tag || github.ref_name }}
+      RELEASE_REPO: ${{ vars.RELEASE_REPO || github.repository }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.inputs.tag || github.ref }}
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 12
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: app/pnpm-lock.yaml
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: app/src-tauri
+      - run: pnpm install --frozen-lockfile
+        working-directory: app
+
+      - name: Version matches the tag
+        run: |
+          v=$(node -p "require('./app/src-tauri/tauri.conf.json').version")
+          test "v$v" = "$TAG" || { echo "tauri.conf.json says $v but the tag is $TAG"; exit 1; }
+
+      - name: Build the .dmg and the updater files
+        working-directory: app
+        run: pnpm tauri build --target universal-apple-darwin --bundles app dmg
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          DOFIGHT_WEBHOOK: ${{ secrets.DOFIGHT_WEBHOOK }}
+
+      - name: Add the Mac files to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          v="${TAG#v}"
+          out=app/src-tauri/target/universal-apple-darwin/release/bundle
+          dmg="Dofight_${v}_universal.dmg"
+          app="Dofight_${v}_universal.app.tar.gz"
+          cp "$out/dmg/"*.dmg "$dmg"
+          cp "$out/macos/Dofight.app.tar.gz" "$app"
+          cp "$out/macos/Dofight.app.tar.gz.sig" "$app.sig"
+          gh release upload "$TAG" -R "$RELEASE_REPO" --clobber "$dmg" "$app" "$app.sig"
+          # latest.json: the darwin entries next to Windows' (one universal bundle for both processors)
+          gh release download "$TAG" -R "$RELEASE_REPO" -p latest.json --clobber
+          url="https://github.com/$RELEASE_REPO/releases/download/$TAG/$app"
+          sig=$(cat "$app.sig")
+          node -e '
+            const [url, sig] = process.argv.slice(1);
+            const entry = { signature: sig, url };
+            require("fs").writeFileSync("mac-platforms.json", JSON.stringify({ "darwin-aarch64": entry, "darwin-x86_64": entry }));
+          ' "$url" "$sig"
+          node tools/merge_latest.mjs latest.json mac-platforms.json
+          gh release upload "$TAG" -R "$RELEASE_REPO" --clobber latest.json
+          echo "https://github.com/$RELEASE_REPO/releases/tag/$TAG"
