@@ -17,7 +17,7 @@ function req(r: Req): string {
     return `<li>${name} ${line(`(${t("access.questLevel", { level: q.level })})`)}</li>`; // no /travel to the quest giver (owner, 2026-11-20): the quest page says where
   }
   if ("beat" in r) return `<li>${line(t("access.beat", { name: say(r.beat) }))}</li>`;
-  if ("item" in r) return `<li><b>${line(say(r.item))}</b>${r.how ? line(` : ${say(r.how)}`) : ""}</li>`;
+  if ("item" in r) return `<li><b>${line(say(r.item))}</b>${r.how ? line(`${getLang() === "en" ? ":" : " :"} ${say(r.how)}`) : ""}</li>`;
   if ("level" in r) return `<li>${line(t("access.levelMin", { level: r.level }))}</li>`;
   if ("other" in r) return `<li>${line(say(r.other))}</li>`;
   if ("event" in r) return `<li class="event">${line(say(r.event))}</li>`;

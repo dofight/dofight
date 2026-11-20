@@ -86,7 +86,7 @@ describe("the « Comment y aller » sheet", () => {
     };
     const { all } = sheet(pa);
     expect(all).not.toContain("Ce lieu");
-    expect(all).toContain("Vaincre Antre du Korriandre");
+    expect(all).toContain("Terminer le donjon Antre du Korriandre");
     expect(all).toContain("Baguette Rikiki : L'équiper.");
     expect(all).toContain("Au choix :");
     expect(all).toContain("Un problème de taille");
@@ -114,6 +114,12 @@ describe("the « Comment y aller » sheet", () => {
     expect(all).toContain("Le nouveau monde EN (lvl 35)");
     expect(all).toContain("At least 4");
     expect(all).toContain("Access (Otomai Island):");
+  });
+
+  it("in English, an item's how-to follows a plain colon", () => {
+    setLang("en");
+    const { all } = sheet({ ...baleine, areaReqs: [], ownReqs: [{ item: { fr: "Multygely", en: "Multijely" }, how: { fr: "x", en: "No key." } }] });
+    expect(all).toContain("Multijely: No key.");
   });
 
   it("escapes every text", () => {
