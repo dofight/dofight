@@ -104,14 +104,23 @@ export function renderTrip(trip: Trip | null, opts: TripOptions = {}): string {
   return `<div class="trip">${go}${zaap}${extra}${msg}</div>`;
 }
 
+/** A text step, escaped, its « [name](https://…) » parts made links (a quest's page: « après [Star ski et Dutch](…) »);
+ * any other link stays as text. */
+function withLinks(step: string): string {
+  const parts = step.split(/\[([^\]]+)\]\((https:\/\/[^)\s"]+)\)/);
+  return parts
+    .map((p, i) => (i % 3 === 0 ? esc(p) : i % 3 === 1 ? `<a class="quest" href="${esc(parts[i + 1])}" target="_blank" rel="noopener">${esc(p)}</a>` : ""))
+    .join("");
+}
+
 /** A written route: « Trajet : » (unless `label` is false: the sheet has its own heading) then its steps in order; a
  * command step (« /zaap … », « /travel … ») is a button that copies it, the others (« Transporteur frigostien → Larmes
- * d'Ouronigride ») are text. */
+ * d'Ouronigride ») are text, a quest in them a link to its page. */
 export function renderRoute(route: string[], label = true): string {
   const steps = route
     .map((step) => {
       const s = step.trim();
-      if (!s.startsWith("/")) return `<li class="step">${esc(s)}</li>`;
+      if (!s.startsWith("/")) return `<li class="step">${withLinks(s)}</li>`;
       return `<li class="step"><button type="button" class="travel" data-copy="${esc(s)}" title="${esc(t("trip.copy", { command: s }))}"><span class="lbl">${esc(s)}</span>${icon("copy")}</button></li>`;
     })
     .join("");

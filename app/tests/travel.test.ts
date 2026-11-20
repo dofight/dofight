@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { renderTrip, travelCommand, tripTo, zaapCommand, type Travel } from "../src/travel";
+import { renderRoute, renderTrip, travelCommand, tripTo, zaapCommand, type Travel } from "../src/travel";
 
 const zaap = (x: number, y: number, fr: string, world = 1) => ({ x, y, world, zone: { fr, en: `${fr} EN` } });
 const travel: Travel = {
@@ -52,6 +52,19 @@ describe("how to get there", () => {
     expect([...box.querySelectorAll(".step")].map((li) => li.textContent)).toEqual(route);
     expect([...box.querySelectorAll(".travel")].map((b) => (b as HTMLElement).dataset.copy)).toEqual(["/zaap -78 -41", "/travel -69 -87"]);
     expect(box.querySelector(".zaap")).toBeNull(); // no computed zaap beside a written route
+  });
+
+  it("a route step can link a quest to its page: [name](https://…)", () => {
+    const box = document.createElement("div");
+    box.innerHTML = renderRoute(["Prendre le Transporteur frigostien (ou des skis, après [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))"]);
+    const link = box.querySelector<HTMLAnchorElement>("a.quest")!;
+    expect(link.href).toBe("https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html");
+    expect(link.textContent).toBe("Star ski et Dutch");
+    expect(box.querySelector(".step")!.textContent).toBe("Prendre le Transporteur frigostien (ou des skis, après Star ski et Dutch)");
+    // only https links; anything else stays text
+    box.innerHTML = renderRoute(["[x](javascript:alert(1)) <b>"]);
+    expect(box.querySelector("a")).toBeNull();
+    expect(box.querySelector("b")).toBeNull();
   });
 
   describe("« Comment y aller » in the header", () => {
