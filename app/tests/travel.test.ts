@@ -82,6 +82,18 @@ describe("how to get there", () => {
     expect(box.querySelector(".travel:not(.zaap) img")!.getAttribute("src")).toBe("/icons/hud/steps.png");
   });
 
+  it("a command step can go on with text after « | »: the button copies the command only", () => {
+    const box = document.createElement("div");
+    box.innerHTML = renderRoute(["/travel -68 -34 | ou {skis} Paire de skis rustiques jetables ([Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))"]);
+    const button = box.querySelector<HTMLElement>(".travel")!;
+    expect(button.dataset.copy).toBe("/travel -68 -34");
+    expect(button.textContent).toBe("/travel -68 -34");
+    const step = box.querySelector(".step")!;
+    expect(step.querySelector("img[src='/icons/hud/skis.png']")).not.toBeNull();
+    expect(step.querySelector("a.quest")!.textContent).toBe("Star ski et Dutch");
+    expect(step.textContent).toBe("/travel -68 -34 ou  Paire de skis rustiques jetables (Star ski et Dutch)");
+  });
+
   describe("« Comment y aller » in the header", () => {
     const route = ["/zaap -78 -41", "Transporteur frigostien → Larmes d'Ouronigride", "/travel -69 -87"];
     const box = document.createElement("div");

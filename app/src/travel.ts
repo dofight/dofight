@@ -123,14 +123,18 @@ function withLinks(step: string): string {
 }
 
 /** A written route: « Trajet : » (unless `label` is false: the sheet has its own heading) then its steps in order; a
- * command step (« /zaap … », « /travel … ») is a button that copies it, the others (« Transporteur frigostien → Larmes
- * d'Ouronigride ») are text, a quest in them a link to its page. */
+ * command step (« /zaap … », « /travel … ») is a button that copies it, then the text after « | » if any (« /travel -68
+ * -34 | ou {skis} Paire de skis… »); the others (« Prendre le Transporteur frigostien vers … ») are text, a quest in them
+ * a link to its page. */
 export function renderRoute(route: string[], label = true): string {
   const steps = route
     .map((step) => {
-      const s = step.trim();
-      if (!s.startsWith("/")) return `<li class="step">${withLinks(s)}</li>`;
-      return `<li class="step"><button type="button" class="travel" data-copy="${esc(s)}" title="${esc(t("trip.copy", { command: s }))}">${s.startsWith("/zaap ") ? ZAAP : STEPS}<span class="lbl">${esc(s)}</span>${icon("copy")}</button></li>`;
+      const trimmed = step.trim();
+      if (!trimmed.startsWith("/")) return `<li class="step">${withLinks(trimmed)}</li>`;
+      const bar = trimmed.indexOf(" | ");
+      const s = bar < 0 ? trimmed : trimmed.slice(0, bar).trim();
+      const after = bar < 0 ? "" : ` ${withLinks(trimmed.slice(bar + 3).trim())}`;
+      return `<li class="step"><button type="button" class="travel" data-copy="${esc(s)}" title="${esc(t("trip.copy", { command: s }))}">${s.startsWith("/zaap ") ? ZAAP : STEPS}<span class="lbl">${esc(s)}</span>${icon("copy")}</button>${after}</li>`;
     })
     .join("");
   const head = label ? `<span class="go">${esc(t("trip.route"))}</span>` : "";
