@@ -1,0 +1,2181 @@
+{
+ "areas": {
+  "Île d'Otomaï": {
+   "reqs": [
+    {
+     "quest": {
+      "id": 231,
+      "fr": "Le nouveau monde",
+      "en": "The New World",
+      "level": 35,
+      "start": {
+       "x": 15,
+       "y": 28
+      }
+     }
+    },
+    {
+     "quest": {
+      "id": 232,
+      "fr": "L'île des naufragés",
+      "en": "Castaway Island",
+      "level": 35,
+      "start": {
+       "x": -43,
+       "y": 2
+      }
+     }
+    }
+   ]
+  },
+  "Île de Pandala": {
+   "reqs": [
+    {
+     "quest": {
+      "id": 2149,
+      "fr": "Le réveil de Pandala",
+      "en": "Pandala Awakens",
+      "level": 30,
+      "start": {
+       "x": 12,
+       "y": -21
+      }
+     }
+    }
+   ]
+  },
+  "Île de Grobe": {
+   "reqs": [
+    {
+     "quest": {
+      "id": 2149,
+      "fr": "Le réveil de Pandala",
+      "en": "Pandala Awakens",
+      "level": 30,
+      "start": {
+       "x": 12,
+       "y": -21
+      }
+     }
+    }
+   ]
+  },
+  "Wukin et Wukang": {
+   "reqs": [
+    {
+     "quest": {
+      "id": 2149,
+      "fr": "Le réveil de Pandala",
+      "en": "Pandala Awakens",
+      "level": 30,
+      "start": {
+       "x": 12,
+       "y": -21
+      }
+     }
+    },
+    {
+     "item": {
+      "fr": "Symbole de l'Iroru",
+      "en": "Iroru Symbol"
+     },
+     "how": {
+      "fr": "Première visite : parler à Daoh au sanctuaire Wukang [15,-31] ou Wukin (par [20,-38]) et répondre à ses deux questions (le feu de ta classe, puis « Le dragon de Pandala »).",
+      "en": "First visit: talk to Daoh at the Wukang sanctuary [15,-31] or the Wukin one (through [20,-38]) and answer his two questions (your class's fire, then « Le dragon de Pandala »)."
+     }
+    }
+   ]
+  },
+  "Atoll des Possédés": {
+   "reqs": [
+    {
+     "quest": {
+      "id": 2149,
+      "fr": "Le réveil de Pandala",
+      "en": "Pandala Awakens",
+      "level": 30,
+      "start": {
+       "x": 12,
+       "y": -21
+      }
+     }
+    },
+    {
+     "item": {
+      "fr": "Signe des Possédés",
+      "en": "Sign of the Possessed"
+     },
+     "how": {
+      "fr": "Se loot sur les Possédés du Port des Ravageurs (15 %) ; il sert à monter au Pandamonium [41,-56].",
+      "en": "Dropped by The Possessed of Destroyers' Port (15 %); it is needed to climb to the Pandamonium [41,-56]."
+     }
+    }
+   ]
+  },
+  "Cauchemar des Ravageurs": {
+   "reqs": [
+    {
+     "quest": {
+      "id": 2424,
+      "fr": "Le poids de son regard",
+      "en": "The Weight of Its Gaze",
+      "level": 200,
+      "start": {
+       "x": 41,
+       "y": -56
+      }
+     }
+    }
+   ]
+  },
+  "Île de Moon": {
+   "reqs": [
+    {
+     "quest": {
+      "id": 1666,
+      "fr": "Partir un jour sans retour",
+      "en": "Leave and Not Come Back",
+      "level": 50,
+      "start": {
+       "x": 11,
+       "y": 10
+      }
+     }
+    }
+   ]
+  },
+  "Île des Wabbits": {
+   "reqs": [
+    {
+     "quest": {
+      "id": 827,
+      "fr": "Intrusion chez les wabbits",
+      "en": "Finding Wabbitland",
+      "level": 40,
+      "start": {
+       "x": -2,
+       "y": -4
+      }
+     }
+    }
+   ]
+  },
+  "Île de Frigost": {
+   "reqs": [
+    {
+     "quest": {
+      "id": 612,
+      "fr": "La terre banquise",
+      "en": "The Icefields",
+      "level": 50,
+      "start": {
+       "x": -34,
+       "y": -16
+      }
+     }
+    }
+   ]
+  },
+  "Île de Nowel": {
+   "reqs": [
+    {
+     "event": {
+      "fr": "Ouverte seulement pendant l'événement de Nowel (début décembre à début janvier).",
+      "en": "Open only during the Kwismas event (early December to early January)."
+     }
+    }
+   ]
+  },
+  "Île de Pwâk": {
+   "reqs": [
+    {
+     "event": {
+      "fr": "Ouverte seulement pendant l'événement de Pwâk (quelques semaines fin avril).",
+      "en": "Open only during the Fleaster event (a few weeks at the end of April)."
+     }
+    }
+   ]
+  },
+  "Archipel de Vulkania": {
+   "reqs": [
+    {
+     "event": {
+      "fr": "Ouvert seulement l'été (environ du 1er juillet au 1er septembre).",
+      "en": "Open only in summer (about July 1st to September 1st)."
+     }
+    }
+   ]
+  },
+  "Archipel des Écailles": {
+   "reqs": [
+    {
+     "quest": {
+      "id": 2085,
+      "fr": "Perdu dans le temps",
+      "en": "Lost in Time",
+      "level": 200,
+      "start": {
+       "x": 5,
+       "y": -18
+      }
+     }
+    }
+   ]
+  },
+  "Nimotopia": {
+   "reqs": [
+    {
+     "quest": {
+      "id": 1851,
+      "fr": "À plus dans l'muldobus",
+      "en": "See You Soon on the Seemyoolbus",
+      "level": 40,
+      "start": {
+       "x": -28,
+       "y": -31
+      }
+     }
+    }
+   ]
+  },
+  "Osavora": {
+   "reqs": [
+    {
+     "level": 50
+    },
+    {
+     "other": {
+      "fr": "Faire une fois la chasse d'Osavora (Tour des Voyageurs [-22,-24], Salle de localisation) : elle donne à vie l'altération « Portail d'Osavora ». Participer au combat final de la chasse d'un autre suffit.",
+      "en": "Do the Osavora hunt once (Voyagers' Tower [-22,-24], Tracking Room): it gives the lifelong « Osavora Portal » alteration. Joining the final fight of someone else's hunt is enough."
+     }
+    }
+   ],
+   "dimension": true
+  },
+  "Enutrosor": {
+   "reqs": [
+    {
+     "other": {
+      "fr": "Faire une fois la chasse d'Enutrosor (Tour des Voyageurs [-22,-24]) : elle donne l'altération pour prendre son portail.",
+      "en": "Do the Enutrosor hunt once (Voyagers' Tower [-22,-24]): it gives the alteration to take its portal."
+     }
+    }
+   ],
+   "dimension": true
+  },
+  "Srambad": {
+   "reqs": [
+    {
+     "other": {
+      "fr": "Faire une fois la chasse de Srambad (Tour des Voyageurs [-22,-24]) : elle donne l'altération pour prendre son portail.",
+      "en": "Do the Srambad hunt once (Voyagers' Tower [-22,-24]): it gives the alteration to take its portal."
+     }
+    }
+   ],
+   "dimension": true
+  },
+  "Xélorium": {
+   "reqs": [
+    {
+     "other": {
+      "fr": "Faire une fois la chasse de Xélorium (Tour des Voyageurs [-22,-24]) : elle donne l'altération pour prendre son portail.",
+      "en": "Do the Xelorium hunt once (Voyagers' Tower [-22,-24]): it gives the alteration to take its portal."
+     }
+    }
+   ],
+   "dimension": true
+  },
+  "Ecaflipus": {
+   "reqs": [
+    {
+     "other": {
+      "fr": "Faire une fois la chasse d'Ecaflipus (Tour des Voyageurs [-22,-24]) : elle donne l'altération pour prendre son portail.",
+      "en": "Do the Ecaflipus hunt once (Voyagers' Tower [-22,-24]): it gives the alteration to take its portal."
+     }
+    }
+   ],
+   "dimension": true
+  }
+ },
+ "dungeons": {
+  "1": {
+   "area": "Astrub",
+   "level": 30,
+   "key": {
+    "fr": "Clef de la Cour du Bouftou Royal",
+    "en": "Key to the Royal Gobball's Court"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/cour-du-bouftou-royal.html"
+  },
+  "3": {
+   "area": "Plaines de Cania",
+   "level": 110,
+   "key": {
+    "fr": "Clef de la Bibliothèque du Maître Corbac",
+    "en": "Lord Crow's Library Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/bibliotheque-du-maitre-corbac.html"
+  },
+  "4": {
+   "area": "Île du Minotoror",
+   "level": 120,
+   "key": {
+    "fr": "Clef du Labyrinthe du Minotoror + Relique du Déminoboule + Relique du Mominotor",
+    "en": "Labyrinth of the Minotoror Key + Deminoball Relic + Mumminotor Relic"
+   },
+   "reqs": [
+    {
+     "other": {
+      "fr": "En plus de la clef : donner à Lorkos, au centre (salle 13), les deux reliques trouvées dans le labyrinthe.",
+      "en": "Besides the key: give Lorkos, at the centre (room 13), the two relics found in the labyrinth."
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/centre-du-labyrinthe-du-minotoror.html"
+  },
+  "6": {
+   "area": "Labyrinthe du Dragon Cochon",
+   "level": 100,
+   "key": {
+    "fr": "Clef du labyrinthe du Dragon Cochon + Clef de l'antre du Dragon Cochon",
+    "en": "Dragon Pig's Maze Key + Dragon Pig's Den Key"
+   },
+   "reqs": [
+    {
+     "other": {
+      "fr": "Deux clefs : celle du labyrinthe (en deux moitiés) et celle de l'antre ; l'entrée est au centre du labyrinthe, par Fwoued en [-1,33] sur l'Île des Porcos.",
+      "en": "Two keys: the labyrinth's (in two halves) and the lair's; the entrance is at the centre of the labyrinth, through Fwed at [-1,33] on the Porcos' island."
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/antre-du-dragon-cochon.html"
+  },
+  "7": {
+   "area": "Amakna",
+   "level": 120,
+   "key": {
+    "fr": "Clef de l'Antre de Crocabulia",
+    "en": "Key to Crocabulia's Lair"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/antre-de-crocabulia.html"
+  },
+  "8": {
+   "area": "Astrub",
+   "level": 20,
+   "key": {
+    "fr": "Clef des Champs",
+    "en": "Field Dungeon Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/grange-du-tournesol-affame.html"
+  },
+  "9": {
+   "area": "Forêt des Abraknydes",
+   "level": 90,
+   "key": {
+    "fr": "Clef du Domaine Ancestral",
+    "en": "Ancestral Domain Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/domaine-ancestral.html"
+  },
+  "10": {
+   "area": "Forêt des Abraknydes",
+   "level": 140,
+   "key": {
+    "fr": "Clef de la Clairière du Chêne Mou",
+    "en": "Soft Oak Clearing Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/clairiegravere-du-checircne-mou.html"
+  },
+  "11": {
+   "area": "Plaines de Cania",
+   "level": 60,
+   "key": {
+    "fr": "Clef du Clos des Blops",
+    "en": "Blop Field Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/clos-des-blops.html"
+  },
+  "13": {
+   "area": "Amakna",
+   "level": 50,
+   "key": {
+    "fr": "Clef du Donjon des Bworks",
+    "en": "Bwork Dungeon Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/donjon-des-bworks.html"
+  },
+  "14": {
+   "area": "Landes de Sidimote",
+   "level": 180,
+   "key": {
+    "fr": "Clef de la Grotte du Bworker",
+    "en": "Bworker's Cave Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/grotte-du-bworker.html"
+  },
+  "15": {
+   "area": "Landes de Sidimote",
+   "level": 100,
+   "key": {
+    "fr": "Clef de la Tanière du Meulou",
+    "en": "Moowolf Lair Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/taniere-du-meulou.html"
+  },
+  "17": {
+   "area": "Île des Wabbits",
+   "level": 80,
+   "key": {
+    "fr": "Clef du Terrier du Wa Wabbit",
+    "en": "Wa Wabbit's Warren Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/terrier-du-wa-wabbit.html"
+  },
+  "18": {
+   "area": "Amakna",
+   "level": 70,
+   "key": {
+    "fr": "Clef des Pitons Rocheux des Craqueleurs",
+    "en": "Cracklers Rocky Peaks Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/pitons-rocheux-des-craqueleurs.html"
+  },
+  "19": {
+   "area": "Astrub",
+   "level": 20,
+   "key": {
+    "fr": "Clef du Château Ensablé",
+    "en": "Sandy Castle Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/chateau-ensable.html"
+  },
+  "21": {
+   "area": "Amakna",
+   "level": 50,
+   "key": {
+    "fr": "Clef du Donjon des Forgerons",
+    "en": "Blacksmith Dungeon Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/donjon-des-forgerons.html"
+  },
+  "22": {
+   "area": "Landes de Sidimote",
+   "level": 180,
+   "key": {
+    "fr": "Clef du Temple du Grand Ougah",
+    "en": "Temple of the Great Ougaa Key"
+   },
+   "reqs": [
+    {
+     "other": {
+      "fr": "Au moins 4 personnages pour passer la salle 4.",
+      "en": "At least 4 characters to get past room 4."
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/temple-du-grand-ougah.html"
+  },
+  "24": {
+   "area": "Amakna",
+   "level": 60,
+   "key": {
+    "fr": "Multygely",
+    "en": "Multijely"
+   },
+   "reqs": [
+    {
+     "item": {
+      "fr": "Multygely",
+      "en": "Multijely"
+     },
+     "how": {
+      "fr": "Pas d'entrée : consommer un Multygely n'importe où téléporte dans le donjon (craft paysan niveau 60).",
+      "en": "No entrance: consuming a Multijely anywhere teleports you into the dungeon (farmer craft, level 60)."
+     }
+    }
+   ],
+   "offKeyring": true,
+   "guide": "https://www.dofuspourlesnoobs.com/gelaxieme-dimension.html"
+  },
+  "25": {
+   "area": "Île d'Otomaï",
+   "level": 50,
+   "key": {
+    "fr": "Clef de la Grotte Hesque",
+    "en": "Grotto Hesque Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/grotte-hesque.html"
+  },
+  "27": {
+   "area": "Île de Moon",
+   "level": 60,
+   "key": {
+    "fr": "Clef du Village Kanniboul",
+    "en": "Kanniball Village Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/village-kanniboul.html"
+  },
+  "28": {
+   "area": "Île d'Otomaï",
+   "level": 160,
+   "key": {
+    "fr": "Clef de la Canopée du Kimbo",
+    "en": "Kimbo's Canopy Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/canopeacutee-du-kimbo.html"
+  },
+  "30": {
+   "area": "Montagne des Koalaks",
+   "level": 100,
+   "key": {
+    "fr": "Clef de la Caverne du Koulosse",
+    "en": "Koolich Cavern Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/caverne-du-koulosse.html"
+  },
+  "31": {
+   "area": "Île d'Otomaï",
+   "level": 180,
+   "key": null,
+   "reqs": [
+    {
+     "quest": {
+      "id": 230,
+      "fr": "Le Gardien du Pont de la Mort",
+      "en": "The Death Bridge Keeper",
+      "level": 80,
+      "start": {
+       "x": -56,
+       "y": 0
+      }
+     }
+    },
+    {
+     "quest": {
+      "id": 243,
+      "fr": "La vengeance de Peggy la Porkass",
+      "en": "Miss Lousy Piggy's Revenge",
+      "level": 100,
+      "start": {
+       "x": -57,
+       "y": 4
+      }
+     }
+    },
+    {
+     "other": {
+      "fr": "Pas de clef : la porte s'ouvre quand 48 personnages sont sur les dalles de quatre salles de l'île ([-52,15], [-49,9], [-56,4], [-55,11]) et un de plus sur la dalle en [-60,-8] ; elle reste ouverte environ 40 minutes.",
+      "en": "No key: the door opens when 48 characters stand on the slabs of four rooms of the island ([-52,15], [-49,9], [-56,4], [-55,11]) and one more on the slab at [-60,-8]; it stays open about 40 minutes."
+     }
+    }
+   ],
+   "offKeyring": true,
+   "guide": "https://www.dofuspourlesnoobs.com/antre-du-kralamoure-geacuteant.html"
+  },
+  "32": {
+   "area": "Amakna",
+   "level": 50,
+   "key": {
+    "fr": "Clef du Nid du Kwakwa",
+    "en": "Kwakwa's Nest Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/nid-du-kwakwa.html"
+  },
+  "33": {
+   "area": "Amakna",
+   "level": 50,
+   "key": {
+    "fr": "Petite Larve Dorée",
+    "en": "Little Golden Larva"
+   },
+   "reqs": [
+    {
+     "item": {
+      "fr": "Œuf de Larve Dorée",
+      "en": "Golden Larva Egg"
+     },
+     "how": {
+      "fr": "Pas de clef : consommer l'œuf devant la grille (se loot sur toutes les larves).",
+      "en": "No key: consume the egg in front of the gate (dropped by every larva)."
+     }
+    },
+    {
+     "other": {
+      "fr": "Au moins 2 personnages (le groupe se sépare à l'intérieur).",
+      "en": "At least 2 characters (the group splits inside)."
+     }
+    }
+   ],
+   "offKeyring": true,
+   "guide": "https://www.dofuspourlesnoobs.com/donjon-des-larves.html"
+  },
+  "34": {
+   "area": "Foire du Trool",
+   "level": 40,
+   "key": {
+    "fr": "Clef de la Maison Fantôme",
+    "en": "Haunted House Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/maison-fantome.html"
+  },
+  "35": {
+   "area": "Landes de Sidimote",
+   "level": 70,
+   "key": {
+    "fr": "Clef du Laboratoire de Brumen Tinctorias",
+    "en": "Brumen Tinctorias's LaboRATory Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/laboratoire-de-brumen-tinctorias.html"
+  },
+  "36": {
+   "area": "Île de Nowel",
+   "level": 50,
+   "key": {
+    "fr": "Clef du Donjon de Nowel",
+    "en": "Kwismas Dungeon Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/donjon-de-nowel.html"
+  },
+  "37": {
+   "area": "Île de Nowel",
+   "level": 110,
+   "key": {
+    "fr": "Clef de la Caverne de Nowel",
+    "en": "Kwismas Cavern Key"
+   },
+   "reqs": [
+    {
+     "quest": {
+      "id": 705,
+      "fr": "Sapik épique et Colégram",
+      "en": "Eeny Meeny Miny Moe",
+      "level": 40,
+      "start": {
+       "x": -32,
+       "y": -89
+      }
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/caverne-de-nowel.html"
+  },
+  "38": {
+   "area": "Île de Nowel",
+   "level": 180,
+   "key": {
+    "fr": "Clef de la Maison du Papa Nowel",
+    "en": "Father Kwismas's House Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/maison-du-papa-nowel.html"
+  },
+  "39": {
+   "area": "Île d'Otomaï",
+   "level": 70,
+   "key": {
+    "fr": "Clef de l'Arche d'Otomaï",
+    "en": "Otomai's Ark Key"
+   },
+   "reqs": [
+    {
+     "quest": {
+      "id": 230,
+      "fr": "Le Gardien du Pont de la Mort",
+      "en": "The Death Bridge Keeper",
+      "level": 80,
+      "start": {
+       "x": -56,
+       "y": 0
+      }
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/arche-dotomaiuml.html"
+  },
+  "41": {
+   "area": "Île d'Otomaï",
+   "level": 110,
+   "key": {
+    "fr": "Clef du Goulet du Rasboul",
+    "en": "Bherb's Gully Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/goulet-du-rasboul.html"
+  },
+  "42": {
+   "area": "Bonta",
+   "level": 110,
+   "key": {
+    "fr": "Clef du Garde-manger du Rat Blanc",
+    "en": "White Rat's Pantry Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/garde-manger-du-rat-blanc.html"
+  },
+  "43": {
+   "area": "Brâkmar",
+   "level": 110,
+   "key": {
+    "fr": "Clef de la Sousouricière du Rat Noir",
+    "en": "Black Rat's Moumousetrap Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/sousouriciere-du-rat-noir.html"
+  },
+  "44": {
+   "area": "Amakna",
+   "level": 150,
+   "key": {
+    "fr": "Clef du Repaire de Sphincter Cell",
+    "en": "Sphincter Cell's Lair Key"
+   },
+   "reqs": [
+    {
+     "other": {
+      "fr": "La clef se fait avec deux clefs lootées à 100 % : sur le Rat Blanc puis sur le Rat Noir, dans leurs donjons.",
+      "en": "The key is made of two keys dropped at 100 %: on the White Rat, then on the Black Rat, in their dungeons."
+     }
+    },
+    {
+     "beat": {
+      "id": 42,
+      "fr": "Garde-manger du Rat Blanc",
+      "en": "White Rat's Pantry"
+     }
+    },
+    {
+     "beat": {
+      "id": 43,
+      "fr": "Sousouricière du Rat Noir",
+      "en": "Black Rat's Moumousetrap"
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/donjon-des-rats-du-chacircteau-damakna.html"
+  },
+  "45": {
+   "area": "Amakna",
+   "level": 40,
+   "key": {
+    "fr": "Clef du Donjon des Scarafeuilles",
+    "en": "Scaraleaf Dungeon Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/donjon-des-scarafeuilles.html"
+  },
+  "46": {
+   "area": "Montagne des Koalaks",
+   "level": 120,
+   "key": {
+    "fr": "Clef du Repaire de Skeunk",
+    "en": "Skeunk's Hideout Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/repaire-de-skeunk.html"
+  },
+  "47": {
+   "area": "Amakna",
+   "level": 40,
+   "key": {
+    "fr": "Clef du Donjon des Squelettes",
+    "en": "Skeleton Dungeon Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/donjon-des-squelettes.html"
+  },
+  "48": {
+   "area": "Amakna",
+   "level": 40,
+   "key": {
+    "fr": "Clef du Donjon des Tofus",
+    "en": "Tofu House Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/donjon-des-tofus.html"
+  },
+  "49": {
+   "area": "Plaines de Cania",
+   "level": 120,
+   "key": {
+    "fr": "Clef de l'antre du Blop Multicolore + Clef du Clos des Blops",
+    "en": "Royal Rainbow Blop Lair Key + Blop Field Key"
+   },
+   "reqs": [
+    {
+     "beat": {
+      "id": 11,
+      "fr": "Clos des Blops",
+      "en": "Blop Fields"
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/antre-du-blop-multicolore-royal.html"
+  },
+  "50": {
+   "area": "Amakna",
+   "level": 120,
+   "key": {
+    "fr": "Clef Secrète du Tofulailler Royal",
+    "en": "Secret Royal Tofu House Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/tofulailler-royal.html"
+  },
+  "51": {
+   "area": "Île d'Otomaï",
+   "level": 140,
+   "key": {
+    "fr": "Clef du Laboratoire du Tynril",
+    "en": "Tynril Lab Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/laboratoire-du-tynril.html"
+  },
+  "52": {
+   "area": "Île des Wabbits",
+   "level": 60,
+   "key": {
+    "fr": "Clef du Château du Wa Wabbit",
+    "en": "Wa Wabbit's Castle Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/chateau-du-wa-wabbit.html"
+  },
+  "53": {
+   "area": "Île du Minotoror",
+   "level": 160,
+   "key": {
+    "fr": "Clef de la salle du Minotot + Clef du Labyrinthe du Minotoror + Relique du Déminoboule + Relique du Mominotor",
+    "en": "Minotot Room Key + Labyrinth of the Minotoror Key + Deminoball Relic + Mumminotor Relic"
+   },
+   "reqs": [
+    {
+     "beat": {
+      "id": 4,
+      "fr": "Centre du Labyrinthe du Minotoror",
+      "en": "Inner Labyrinth of the Minotoror"
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/minotot.html"
+  },
+  "54": {
+   "area": "Île de Frigost",
+   "level": 120,
+   "key": {
+    "fr": "Clef de la serre du Royalmouth",
+    "en": "Royal Mastogob's Greenhouse Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/serre-du-royalmouth.html"
+  },
+  "55": {
+   "area": "Île de Frigost",
+   "level": 140,
+   "key": {
+    "fr": "Clef Mansot",
+    "en": "Pingwin Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/excavation-du-mansot-royal.html"
+  },
+  "56": {
+   "area": "Île de Frigost",
+   "level": 150,
+   "key": {
+    "fr": "Clef du Grolandais violent",
+    "en": "Wreck of the Hesperus Key"
+   },
+   "reqs": [
+    {
+     "beat": {
+      "id": 55,
+      "fr": "Excavation du Mansot Royal",
+      "en": "Royal Pingwin's Excavation"
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/epave-du-grolandais-violent.html"
+  },
+  "57": {
+   "area": "Île de Frigost",
+   "level": 160,
+   "key": {
+    "fr": "Clef de l'hypogée de l'Obsidiantre",
+    "en": "Obsidemon's Hypogeum Key"
+   },
+   "reqs": [
+    {
+     "beat": {
+      "id": 56,
+      "fr": "Épave du Grolandais violent",
+      "en": "The Wreck of the Hesperus"
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/hypogeacutee-de-lobsidiantre.html"
+  },
+  "58": {
+   "area": "Île de Frigost",
+   "level": 170,
+   "key": {
+    "fr": "Clef de la Tanière Givrefoux",
+    "en": "Snowfoux Den Key"
+   },
+   "reqs": [
+    {
+     "beat": {
+      "id": 57,
+      "fr": "Hypogée de l'Obsidiantre",
+      "en": "The Obsidemon's Hypogeum"
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/taniegravere-givrefoux.html"
+  },
+  "59": {
+   "area": "Île de Frigost",
+   "level": 180,
+   "key": {
+    "fr": "Clef de l'Antre du Korriandre",
+    "en": "Korriander's Lair Key"
+   },
+   "reqs": [
+    {
+     "beat": {
+      "id": 58,
+      "fr": "Tanière Givrefoux",
+      "en": "Snowfoux Den"
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/antre-du-korriandre.html"
+  },
+  "60": {
+   "area": "Île de Frigost",
+   "level": 190,
+   "key": {
+    "fr": "Clef des cavernes du Kolosso",
+    "en": "Kolosso's Caverns Key"
+   },
+   "reqs": [
+    {
+     "beat": {
+      "id": 59,
+      "fr": "Antre du Korriandre",
+      "en": "Korriander's Lair"
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/cavernes-du-kolosso.html"
+  },
+  "61": {
+   "area": "Île de Frigost",
+   "level": 190,
+   "key": {
+    "fr": "Clef de l'Antichambre des Gloursons",
+    "en": "Bearbarian Antichamber Key"
+   },
+   "reqs": [
+    {
+     "beat": {
+      "id": 60,
+      "fr": "Cavernes du Kolosso",
+      "en": "Kolosso's Caverns"
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/antichambre-des-gloursons.html"
+  },
+  "62": {
+   "area": "Île de Sakaï",
+   "level": 190,
+   "key": {
+    "fr": "Clef de la mine de Sakaï",
+    "en": "Sakai Mine Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/donjon-de-la-mine-de-sakaiuml.html"
+  },
+  "66": {
+   "area": "Forêt Maléfique",
+   "level": 100,
+   "key": {
+    "fr": "Clef du Potager d'Halouine",
+    "en": "Al Howin's Vegetable Patch Key"
+   },
+   "reqs": [
+    {
+     "event": {
+      "fr": "Ouvert seulement trois semaines par an, pendant l'événement d'Halouine.",
+      "en": "Open only three weeks a year, during the Al Howin event."
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/potager-dhalouine.html"
+  },
+  "67": {
+   "area": "Île de Frigost",
+   "level": 200,
+   "key": {
+    "fr": "Clef du Transporteur de Sylargh",
+    "en": "Sylargh's Carrier Key"
+   },
+   "reqs": [
+    {
+     "beat": {
+      "id": 61,
+      "fr": "Antichambre des Gloursons",
+      "en": "Bearbarian Antichamber"
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/transporteur-de-sylargh.html"
+  },
+  "68": {
+   "area": "Île de Frigost",
+   "level": 200,
+   "key": {
+    "fr": "Clef des Salons privés de Klime",
+    "en": "Klime's Private Suite Key"
+   },
+   "reqs": [
+    {
+     "beat": {
+      "id": 61,
+      "fr": "Antichambre des Gloursons",
+      "en": "Bearbarian Antichamber"
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/salons-priveacutes-de-klime.html"
+  },
+  "69": {
+   "area": "Île de Frigost",
+   "level": 200,
+   "key": {
+    "fr": "Clef de la Forgefroide de Missiz Frizz",
+    "en": "Missiz Freezz's Frostforge Key"
+   },
+   "reqs": [
+    {
+     "beat": {
+      "id": 61,
+      "fr": "Antichambre des Gloursons",
+      "en": "Bearbarian Antichamber"
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/forgefroide-de-missiz-frizz.html"
+  },
+  "70": {
+   "area": "Île de Frigost",
+   "level": 200,
+   "key": {
+    "fr": "Clef du Laboratoire de Nileza",
+    "en": "Nileza's Laboratory Key"
+   },
+   "reqs": [
+    {
+     "beat": {
+      "id": 61,
+      "fr": "Antichambre des Gloursons",
+      "en": "Bearbarian Antichamber"
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/laboratoire-de-nileza.html"
+  },
+  "71": {
+   "area": "Île de Frigost",
+   "level": 200,
+   "key": {
+    "fr": "Clef du Donjon du Comte Harebourg",
+    "en": "Count Harebourg's Dungeon Key"
+   },
+   "reqs": [
+    {
+     "beat": {
+      "id": 70,
+      "fr": "Laboratoire de Nileza",
+      "en": "Nileza's Laboratory"
+     }
+    },
+    {
+     "beat": {
+      "id": 69,
+      "fr": "Forgefroide de Missiz Frizz",
+      "en": "Missiz Freezz's Frostforge"
+     }
+    },
+    {
+     "beat": {
+      "id": 68,
+      "fr": "Salons privés de Klime",
+      "en": "Klime's Private Suite"
+     }
+    },
+    {
+     "beat": {
+      "id": 67,
+      "fr": "Transporteur de Sylargh",
+      "en": "Sylargh's Carrier"
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/donjon-du-comte-harebourg.html"
+  },
+  "72": {
+   "area": "Îlots de la mer d'Asse",
+   "level": 100,
+   "key": {
+    "fr": "Clef du Théâtre de Dramak",
+    "en": "Dramak's Theatre Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/theacuteacirctre-de-dramak.html"
+  },
+  "73": {
+   "area": "Baie de Sufokia",
+   "level": 200,
+   "key": {
+    "fr": "Clef de l'Aquadôme de Merkator",
+    "en": "Merkator's Aquadome Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/aquadocircme-de-merkator.html"
+  },
+  "74": {
+   "area": "Dimension Obscure",
+   "level": 190,
+   "key": {
+    "fr": "Clef de la Pyramide d'Ombre",
+    "en": "Shadow's Pyramid Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/pyramide-dombre.html"
+  },
+  "75": {
+   "area": "Plaines de Cania",
+   "level": 160,
+   "key": {
+    "fr": "Clef de la Grotte de Kanigroula",
+    "en": "Kanigrula's Cave Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/grotte-de-kanigroula.html"
+  },
+  "76": {
+   "area": "Enutrosor",
+   "level": 200,
+   "key": {
+    "fr": "Clef du Palais du roi Nidas",
+    "en": "King Nidas's Palace Key"
+   },
+   "reqs": [],
+   "offKeyring": true,
+   "guide": "https://www.dofuspourlesnoobs.com/palais-du-roi-nidas.html"
+  },
+  "77": {
+   "area": "Enutrosor",
+   "level": 100,
+   "key": {
+    "fr": "Clef de la Fabrique de Malléfisk",
+    "en": "Brutatax's Factory Key"
+   },
+   "reqs": [],
+   "offKeyring": true,
+   "guide": "https://www.dofuspourlesnoobs.com/fabrique-mallefisk.html"
+  },
+  "79": {
+   "area": "Enutrosor",
+   "level": 150,
+   "key": {
+    "fr": "Clef de la Galerie du Phossile",
+    "en": "Drhossil's Caves Key"
+   },
+   "reqs": [],
+   "offKeyring": true,
+   "guide": "https://www.dofuspourlesnoobs.com/galerie-du-phossile.html"
+  },
+  "80": {
+   "area": "Plaines de Cania",
+   "level": 130,
+   "key": {
+    "fr": "Clef de la Volière de la Haute Truche",
+    "en": "Cross Strich's Aviary Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/voliegravere-de-la-haute-truche.html"
+  },
+  "81": {
+   "area": "Srambad",
+   "level": 130,
+   "key": {
+    "fr": "Clef du Ring du Capitaine Ekarlatte",
+    "en": "Key to Captain Scarlight's Ring"
+   },
+   "reqs": [],
+   "offKeyring": true,
+   "guide": "https://www.dofuspourlesnoobs.com/ring-du-capitaine-ekarlatte.html"
+  },
+  "82": {
+   "area": "Srambad",
+   "level": 180,
+   "key": {
+    "fr": "Clef de la Cave du Toxoliath",
+    "en": "Key to Toxoliath's Cave"
+   },
+   "reqs": [],
+   "offKeyring": true,
+   "guide": "https://www.dofuspourlesnoobs.com/cave-du-toxoliath.html"
+  },
+  "83": {
+   "area": "Srambad",
+   "level": 200,
+   "key": {
+    "fr": "Clef du Trône de la Cour Sombre",
+    "en": "Key to the Throne Room of the Dark Court"
+   },
+   "reqs": [],
+   "offKeyring": true,
+   "guide": "https://www.dofuspourlesnoobs.com/trone-de-la-cour-sombre.html"
+  },
+  "84": {
+   "area": "Île de Frigost",
+   "level": 200,
+   "key": {
+    "fr": "Clef du Ventre de la Baleine",
+    "en": "Key to the Belly of the Whale"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/ventre-de-la-baleine.html"
+  },
+  "85": {
+   "area": "Xélorium",
+   "level": 120,
+   "key": {
+    "fr": "Clef du Mégalithe de Fraktale",
+    "en": "Fraktal's Megalith Key"
+   },
+   "reqs": [],
+   "offKeyring": true,
+   "guide": "https://www.dofuspourlesnoobs.com/meacutegalithe-de-fraktale.html"
+  },
+  "86": {
+   "area": "Xélorium",
+   "level": 170,
+   "key": {
+    "fr": "Clef de l'Horologium de XLII",
+    "en": "XLII's Metronomicon Key"
+   },
+   "reqs": [],
+   "offKeyring": true,
+   "guide": "https://www.dofuspourlesnoobs.com/horologium-de-xlii.html"
+  },
+  "87": {
+   "area": "Xélorium",
+   "level": 200,
+   "key": {
+    "fr": "Clef de l'Œil de Vortex",
+    "en": "Vortex's Eye Key"
+   },
+   "reqs": [],
+   "offKeyring": true,
+   "guide": "https://www.dofuspourlesnoobs.com/oeil-de-vortex.html"
+  },
+  "88": {
+   "area": "Astrub",
+   "level": 40,
+   "key": {
+    "fr": "Clef de la Cache de Kankreblath",
+    "en": "Kickroach's Lair Key"
+   },
+   "reqs": [
+    {
+     "item": {
+      "fr": "Baguette Rikiki",
+      "en": "Rikiki Wand"
+     },
+     "how": {
+      "fr": "L'équiper pour rapetisser et passer le trou ; une par groupe suffit (son porteur téléporte les autres).",
+      "en": "Equip it to shrink and go through the hole; one per group is enough (its holder teleports the others)."
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/cache-de-kankreblath.html"
+  },
+  "89": {
+   "area": "Forêt des Abraknydes",
+   "level": 90,
+   "key": {
+    "fr": "Clef de l'Antre de la Reine Nyée",
+    "en": "Key to the Lair of the Rac Queen"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/antre-de-la-reine-nyeacutee.html"
+  },
+  "90": {
+   "area": "Incarnam",
+   "level": 10,
+   "key": {
+    "fr": "Clef de la Crypte de Kardorim",
+    "en": "Kardorim's Crypt Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/crypte-de-kardorim.html"
+  },
+  "91": {
+   "area": "Île de Moon",
+   "level": 90,
+   "key": {
+    "fr": "Clef du Bateau du Chouque",
+    "en": "LeChouque's Boat Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/bateau-du-chouque.html"
+  },
+  "92": {
+   "area": "Île de Moon",
+   "level": 100,
+   "key": {
+    "fr": "Clef de l'Arbre de Moon",
+    "en": "Moon's Tree Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/arbre-de-moon.html"
+  },
+  "93": {
+   "area": "Ecaflipus",
+   "level": 110,
+   "key": {
+    "fr": "Clef du Miausolée du Pounicheur",
+    "en": "Colousses's Meowsoleum Key"
+   },
+   "reqs": [],
+   "offKeyring": true,
+   "guide": "https://www.dofuspourlesnoobs.com/miausoleacutee-du-pounicheur.html"
+  },
+  "94": {
+   "area": "Ecaflipus",
+   "level": 160,
+   "key": {
+    "fr": "Clef du Plateau de Ush",
+    "en": "Ush's Plateau Key"
+   },
+   "reqs": [],
+   "offKeyring": true,
+   "guide": "https://www.dofuspourlesnoobs.com/plateau-de-ush.html"
+  },
+  "95": {
+   "area": "Ecaflipus",
+   "level": 200,
+   "key": {
+    "fr": "Clef du Défi du Chalœil",
+    "en": "Catseye Challenge Key"
+   },
+   "reqs": [],
+   "offKeyring": true,
+   "guide": "https://www.dofuspourlesnoobs.com/defi-du-chaloeil.html"
+  },
+  "96": {
+   "area": "Landes de Sidimote",
+   "level": 186,
+   "key": {
+    "fr": "Clef du Temple Maudit",
+    "en": "Cursed Temple Key"
+   },
+   "reqs": [],
+   "offKeyring": true
+  },
+  "97": {
+   "area": "Profondeurs de Sufokia",
+   "level": 200,
+   "key": {
+    "fr": "Clef du Vaisseau du Capitaine Meno",
+    "en": "Captain Meno's Ship Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/vaisseau-du-capitaine-meno.html"
+  },
+  "98": {
+   "area": "Profondeurs de Sufokia",
+   "level": 200,
+   "key": {
+    "fr": "Clef du Temple de Koutoulou",
+    "en": "Koutoulou's Temple Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/temple-de-koutoulou.html"
+  },
+  "99": {
+   "area": "Profondeurs de Sufokia",
+   "level": 200,
+   "key": {
+    "fr": "Clef du Palais de Dantinéa",
+    "en": "Dantinea's Palace Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/palais-de-dantineacutea.html"
+  },
+  "100": {
+   "area": "Saharach",
+   "level": 80,
+   "key": {
+    "fr": "Clef du Cimetière des mastodontes",
+    "en": "Mastodon Cemetery Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/cimetiere-des-mastodontes.html"
+  },
+  "101": {
+   "area": "Saharach",
+   "level": 130,
+   "key": {
+    "fr": "Clef de la Caverne d'El Piko",
+    "en": "El Piko's Cave Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/caverne-d-el-piko.html"
+  },
+  "102": {
+   "area": "Saharach",
+   "level": 170,
+   "key": {
+    "fr": "Clef du Boyau du Père Ver",
+    "en": "Wurmlord's Passage Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/boyau-du-pere-ver.html"
+  },
+  "103": {
+   "area": "Saharach",
+   "level": 200,
+   "key": {
+    "fr": "Clef de la Chambre de Tal Kasha",
+    "en": "Chamber of Tal Kasha Key"
+   },
+   "reqs": [
+    {
+     "other": {
+      "fr": "Dans la pyramide : 4 personnages sur quatre dalles et un levier ouvrent deux portes, puis vaincre le monstre Tabasma en [14,-75] pour ouvrir la dernière.",
+      "en": "Inside the pyramid: 4 characters on four slabs and a lever open two doors, then defeat the monster Thrashtaba at [14,-75] to open the last one."
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/chambre-de-tal-kasha.html"
+  },
+  "104": {
+   "area": "Nimotopia",
+   "level": 190,
+   "key": {
+    "fr": "Clef du Camp du Comte Razof",
+    "en": "Count Razof's Camp Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/camp-du-comte-razof.html"
+  },
+  "105": {
+   "area": "Landes de Sidimote",
+   "level": 90,
+   "key": {
+    "fr": "Clef du Chapiteau des Magik Riktus",
+    "en": "Magik Riktus Big Top Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/chapiteau-des-magik-riktus.html"
+  },
+  "106": {
+   "area": "Landes de Sidimote",
+   "level": 200,
+   "key": {
+    "fr": "Clef du Manoir des Katrepat",
+    "en": "Forfut Manor Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/manoir-des-katrepat.html"
+  },
+  "107": {
+   "area": "Île de Frigost",
+   "level": 200,
+   "key": {
+    "fr": "Clef du Belvédère d'Ilyzaelle",
+    "en": "Ilyzaelle's Lookout Key"
+   },
+   "reqs": [
+    {
+     "beat": {
+      "id": 61,
+      "fr": "Antichambre des Gloursons",
+      "en": "Bearbarian Antichamber"
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/belvedere-d-ilyzaelle.html"
+  },
+  "108": {
+   "area": "Île de Frigost",
+   "level": 200,
+   "key": {
+    "fr": "Clef de la Tour de Bethel",
+    "en": "Key to Bethel's Tower"
+   },
+   "reqs": [
+    {
+     "quest": {
+      "id": 1938,
+      "fr": "La colère des dieux",
+      "en": "Anger of the Gods",
+      "level": 200,
+      "start": {
+       "x": 4,
+       "y": -2
+      }
+     }
+    },
+    {
+     "quest": {
+      "id": 1939,
+      "fr": "L'arme fatale",
+      "en": "Fatal Weapon",
+      "level": 200,
+      "start": {
+       "x": 1,
+       "y": 0
+      }
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/tour-de-bethel.html"
+  },
+  "109": {
+   "area": "Landes de Sidimote",
+   "level": 200,
+   "key": {
+    "fr": "Clef de la Tour de Solar",
+    "en": "Key to Solar's Tower"
+   },
+   "reqs": [
+    {
+     "quest": {
+      "id": 1938,
+      "fr": "La colère des dieux",
+      "en": "Anger of the Gods",
+      "level": 200,
+      "start": {
+       "x": 4,
+       "y": -2
+      }
+     }
+    },
+    {
+     "quest": {
+      "id": 1939,
+      "fr": "L'arme fatale",
+      "en": "Fatal Weapon",
+      "level": 200,
+      "start": {
+       "x": 1,
+       "y": 0
+      }
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/tour-de-solar.html"
+  },
+  "110": {
+   "area": "Île de Frigost",
+   "level": 200,
+   "key": {
+    "fr": "Clef de la Brasserie du roi Dazak",
+    "en": "King Dazahk's Brewery Key"
+   },
+   "reqs": [
+    {
+     "quest": {
+      "id": 2010,
+      "fr": "Frappez, ami, et entrez",
+      "en": "Tap, Friend, and Enter",
+      "level": 200,
+      "start": {
+       "x": -69,
+       "y": -71
+      }
+     }
+    },
+    {
+     "beat": {
+      "id": 59,
+      "fr": "Antre du Korriandre",
+      "en": "Korriander's Lair"
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/brasserie-du-roi-dazak.html"
+  },
+  "111": {
+   "area": "Île de Pwâk",
+   "level": 200,
+   "key": {
+    "fr": "Clef du Temple du dieu Kao",
+    "en": "Chokao Temple Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/temple-du-dieu-kao.html"
+  },
+  "112": {
+   "area": "Île de Pwâk",
+   "level": 130,
+   "key": {
+    "fr": "Clef de la Croquanterie",
+    "en": "Crunchery Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/croquanterie.html"
+  },
+  "113": {
+   "area": "Île de Pwâk",
+   "level": 60,
+   "key": {
+    "fr": "Clef de la Fonderie des Waddicts",
+    "en": "Waddict Foundry Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/fonderie-des-waddicts.html"
+  },
+  "114": {
+   "area": "Archipel des Écailles",
+   "level": 200,
+   "key": {
+    "fr": "Clef du Sanctuaire de Torkélonia",
+    "en": "Turtelonia's Sanctuary Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/sanctuaire-de-torkelonia.html"
+  },
+  "115": {
+   "area": "Amakna",
+   "level": 100,
+   "key": {
+    "fr": "Clef du Repaire du Kharnozor",
+    "en": "Key to Kharnotaurus's Lair"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/repaire-du-kharnozor.html"
+  },
+  "116": {
+   "area": "Amakna",
+   "level": 70,
+   "key": {
+    "fr": "Clef de l'Épreuve de Draegnerys",
+    "en": "Key to Draegnerys's Trial"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/epreuve-de-draegnerys.html"
+  },
+  "117": {
+   "area": "Dimensions des Cavaliers",
+   "level": 200,
+   "key": {
+    "fr": "Clef de l'Arbre de Mort",
+    "en": "Tree of Death Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/arbre-de-mort.html"
+  },
+  "118": {
+   "area": "Dimensions des Cavaliers",
+   "level": 200,
+   "key": {
+    "fr": "Clef des Fers de la Tyrannie",
+    "en": "Shackles of Tyranny Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/fers-de-la-tyrannie.html"
+  },
+  "119": {
+   "area": "Dimensions des Cavaliers",
+   "level": 200,
+   "key": {
+    "fr": "Clef de la Sentence de la Balance",
+    "en": "Judgement of the Scales Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/sentence-de-la-balance.html"
+  },
+  "120": {
+   "area": "Dimensions des Cavaliers",
+   "level": 200,
+   "key": {
+    "fr": "Clef du Trône de Sang",
+    "en": "Blood Throne Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/trone-de-sang.html"
+  },
+  "121": {
+   "area": "Eliocalypse",
+   "level": 200,
+   "key": {
+    "fr": "Clef de la Tempête de l'Eliocalypse",
+    "en": "Eliocalypse Storm Key"
+   },
+   "reqs": [
+    {
+     "beat": {
+      "id": 117,
+      "fr": "Arbre de Mort",
+      "en": "Tree of Death"
+     }
+    },
+    {
+     "beat": {
+      "id": 118,
+      "fr": "Fers de la Tyrannie",
+      "en": "Shackles of Tyranny"
+     }
+    },
+    {
+     "beat": {
+      "id": 119,
+      "fr": "Sentence de la Balance",
+      "en": "Judgement of the Scales"
+     }
+    },
+    {
+     "beat": {
+      "id": 120,
+      "fr": "Trône de Sang",
+      "en": "Blood Throne"
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/tempete-de-l-eliocalypse.html"
+  },
+  "122": {
+   "area": "Île de Pandala",
+   "level": 140,
+   "key": {
+    "fr": "Clef du Dojo du vent",
+    "en": "Wind Dojo Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/dojo-du-vent.html"
+  },
+  "123": {
+   "area": "Île de Pandala",
+   "level": 130,
+   "key": {
+    "fr": "Clef de la Vallée de la Dame des eaux",
+    "en": "Valley of the Lady of the Water Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/vallee-de-la-dame-des-eaux.html"
+  },
+  "124": {
+   "area": "Île de Pandala",
+   "level": 140,
+   "key": {
+    "fr": "Clef de la Fabrique de foux d'artifice",
+    "en": "Fouxwork Factory Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/fabrique-de-foux-d-artifice.html"
+  },
+  "125": {
+   "area": "Île de Pandala",
+   "level": 110,
+   "key": {
+    "fr": "Clef de la Bambusaie de Damadrya",
+    "en": "Damadrya's Bamboo Grove Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/bambusaie-de-damadrya.html"
+  },
+  "126": {
+   "area": "Île de Pandala",
+   "level": 130,
+   "key": {
+    "fr": "Clef de l'Atelier du Tanukouï San",
+    "en": "Tanukouï San's Workshop Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/atelier-du-tanukoui-san.html"
+  },
+  "131": {
+   "area": "Île de Grobe",
+   "level": 170,
+   "key": {
+    "fr": "Clef de la Demeure des Esprits",
+    "en": "Spirit Abode Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/demeure-des-esprits.html"
+  },
+  "132": {
+   "area": "Île de Grobe",
+   "level": 160,
+   "key": {
+    "fr": "Clef de la Tombe du Shogun Tofugawa",
+    "en": "Shogun Tofugawa's Tomb Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/tombe-du-shogun-tofugawa.html"
+  },
+  "133": {
+   "area": "Wukin et Wukang",
+   "level": 200,
+   "key": {
+    "fr": "Clef de la Mémoire d'Orukam",
+    "en": "Key to Orukam's Memory"
+   },
+   "reqs": [],
+   "offKeyring": true,
+   "guide": "https://www.dofuspourlesnoobs.com/memoire-d-orukam.html"
+  },
+  "134": {
+   "area": "Wukin et Wukang",
+   "level": 200,
+   "key": {
+    "fr": "Clef du Souvenir d'Imagiro",
+    "en": "Key to Imagiro's Memory"
+   },
+   "reqs": [],
+   "offKeyring": true,
+   "guide": "https://www.dofuspourlesnoobs.com/souvenir-d-imagiro.html"
+  },
+  "135": {
+   "area": "Atoll des Possédés",
+   "level": 200,
+   "key": {
+    "fr": "Clef du Rituel de Kabahal",
+    "en": "Kabaal Ritual Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/rituel-de-kabahal.html"
+  },
+  "136": {
+   "area": "Cauchemar des Ravageurs",
+   "level": 200,
+   "key": {
+    "fr": "Clef de la Bataille de l'Aurore Pourpre",
+    "en": "Battle of the Crimson Dawn Key"
+   },
+   "reqs": [],
+   "offKeyring": true,
+   "guide": "https://www.dofuspourlesnoobs.com/bataille-de-l-aurore-pourpre.html"
+  },
+  "138": {
+   "area": "Amakna",
+   "level": 40,
+   "key": {
+    "fr": "Clef de l'Akadémie des Gobs",
+    "en": "Gob Akademy Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/akademie-des-gobs.html"
+  },
+  "139": {
+   "area": "Forêt Maléfique",
+   "level": 150,
+   "key": {
+    "fr": "Clef du Tertre du long sommeil",
+    "en": "Key to Long Slumber's Barrow"
+   },
+   "reqs": [
+    {
+     "quest": {
+      "id": 2450,
+      "fr": "Un pendule pour guider ses pas",
+      "en": "Pendulum Swinger's Guide",
+      "level": 40,
+      "start": {
+       "x": -5,
+       "y": 13
+      }
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/tertre-du-long-sommeil.html"
+  },
+  "140": {
+   "area": "Archipel de Valonia",
+   "level": 200,
+   "key": {
+    "fr": "Clef de la Chambre des maléfices",
+    "en": "Chamber of Evils Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/chambre-des-malefices.html"
+  },
+  "141": {
+   "area": "Archipel de Valonia",
+   "level": 190,
+   "key": {
+    "fr": "Clef du Bastion des Marteaux-Aigris",
+    "en": "Bitter-Hammers' Stronghold Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/bastion-des-marteaux-aigris.html"
+  },
+  "142": {
+   "area": "Archipel de Valonia",
+   "level": 50,
+   "key": {
+    "fr": "Clef du Refuge sylvestre",
+    "en": "Sylvan Refuge Key"
+   },
+   "reqs": [],
+   "guide": "https://www.dofuspourlesnoobs.com/refuge-sylvestre.html"
+  },
+  "163": {
+   "area": "Osavora",
+   "level": 170,
+   "key": {
+    "fr": "Clef du Poste de contrôle du Supervizœuf",
+    "en": "Key to the Bzzegg Supervisor's Checkpoint"
+   },
+   "reqs": [
+    {
+     "anyOf": [
+      {
+       "item": {
+        "fr": "Baguette Rikiki",
+        "en": "Rikiki Wand"
+       }
+      },
+      {
+       "quest": {
+        "id": 2520,
+        "fr": "Un problème de taille",
+        "en": "A Sizeable Problem",
+        "level": 170,
+        "start": {
+         "x": 0,
+         "y": 18
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "offKeyring": true,
+   "guide": "https://www.dofuspourlesnoobs.com/poste-de-controle-du-supervizoeuf.html"
+  },
+  "164": {
+   "area": "Osavora",
+   "level": 200,
+   "key": {
+    "fr": "Clef du Breuil du Vénérable",
+    "en": "Key to the Venerable One's Thicket"
+   },
+   "reqs": [],
+   "offKeyring": true,
+   "guide": "https://www.dofuspourlesnoobs.com/breuil-du-venerable.html"
+  },
+  "165": {
+   "area": "Osavora",
+   "level": 200,
+   "key": {
+    "fr": "Clef de l'Autel de la Déchireuse",
+    "en": "Key to the Ripper's Altar"
+   },
+   "reqs": [],
+   "offKeyring": true,
+   "guide": "https://www.dofuspourlesnoobs.com/autel-de-la-dechireuse.html"
+  },
+  "-101": {
+   "area": "Archipel de Valonia",
+   "level": 200,
+   "key": {
+    "fr": "Fleur de Cendrepierre",
+    "en": "Fleur de Cendrepierre"
+   },
+   "reqs": [
+    {
+     "quest": {
+      "id": 2477,
+      "fr": "Pour que la flamme vacille",
+      "en": "The Faltering Flame",
+      "level": 200,
+      "start": {
+       "x": 33,
+       "y": -84
+      }
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/caverne-de-cire-momore.html"
+  },
+  "-102": {
+   "area": "Archipel de Vulkania",
+   "level": 50,
+   "key": null,
+   "reqs": [
+    {
+     "quest": {
+      "id": 741,
+      "fr": "Cratère d'admission",
+      "en": "Admission Crater",
+      "level": 1,
+      "start": {
+       "x": -50,
+       "y": 44
+      }
+     }
+    },
+    {
+     "other": {
+      "fr": "Le serveur doit avoir résolu l'énigme des dalles qui ouvre l'antre (elle s'ouvre seule à partir du 22 juillet).",
+      "en": "The server must have solved the slab riddle that opens the lair (it opens by itself from July 22nd)."
+     }
+    },
+    {
+     "other": {
+      "fr": "Une fois par jour ; la salle dépend de la tranche de niveau du personnage.",
+      "en": "Once a day; the room depends on the character's level band."
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/grozilla-et-grasmera.html"
+  },
+  "-103": {
+   "area": "Archipel de Vulkania",
+   "level": 100,
+   "key": null,
+   "reqs": [
+    {
+     "quest": {
+      "id": 741,
+      "fr": "Cratère d'admission",
+      "en": "Admission Crater",
+      "level": 1,
+      "start": {
+       "x": -50,
+       "y": 44
+      }
+     }
+    },
+    {
+     "other": {
+      "fr": "Le serveur doit avoir résolu l'énigme des dalles qui ouvre l'antre (elle s'ouvre seule à partir du 22 juillet).",
+      "en": "The server must have solved the slab riddle that opens the lair (it opens by itself from July 22nd)."
+     }
+    },
+    {
+     "other": {
+      "fr": "Une fois par jour ; la salle dépend de la tranche de niveau du personnage.",
+      "en": "Once a day; the room depends on the character's level band."
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/grozilla-et-grasmera.html"
+  },
+  "-104": {
+   "area": "Archipel de Vulkania",
+   "level": 150,
+   "key": null,
+   "reqs": [
+    {
+     "quest": {
+      "id": 741,
+      "fr": "Cratère d'admission",
+      "en": "Admission Crater",
+      "level": 1,
+      "start": {
+       "x": -50,
+       "y": 44
+      }
+     }
+    },
+    {
+     "other": {
+      "fr": "Le serveur doit avoir résolu l'énigme des dalles qui ouvre l'antre (elle s'ouvre seule à partir du 22 juillet).",
+      "en": "The server must have solved the slab riddle that opens the lair (it opens by itself from July 22nd)."
+     }
+    },
+    {
+     "other": {
+      "fr": "Une fois par jour ; la salle dépend de la tranche de niveau du personnage.",
+      "en": "Once a day; the room depends on the character's level band."
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/grozilla-et-grasmera.html"
+  },
+  "-105": {
+   "area": "Archipel de Vulkania",
+   "level": 200,
+   "key": null,
+   "reqs": [
+    {
+     "quest": {
+      "id": 741,
+      "fr": "Cratère d'admission",
+      "en": "Admission Crater",
+      "level": 1,
+      "start": {
+       "x": -50,
+       "y": 44
+      }
+     }
+    },
+    {
+     "other": {
+      "fr": "Le serveur doit avoir résolu l'énigme des dalles qui ouvre l'antre (elle s'ouvre seule à partir du 22 juillet).",
+      "en": "The server must have solved the slab riddle that opens the lair (it opens by itself from July 22nd)."
+     }
+    },
+    {
+     "other": {
+      "fr": "Une fois par jour ; la salle dépend de la tranche de niveau du personnage.",
+      "en": "Once a day; the room depends on the character's level band."
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/grozilla-et-grasmera.html"
+  },
+  "-1001": {
+   "area": "Osavora",
+   "level": 200,
+   "key": null,
+   "reqs": [
+    {
+     "other": {
+      "fr": "Une offrande : une ressource rare d'une famille de monstres d'Osavora, selon la saison (repos : Touffe de Kabombz ; naissance : Peau de zarbivore ; chasse : Peigne de Rhoarim).",
+      "en": "An offering: a rare resource from one Osavora monster family, depending on the season (Rest: Kabombz Tuft; Birth: Oddnivore Skin; Hunt: Rhoarim Comb)."
+     }
+    },
+    {
+     "event": {
+      "fr": "Seulement le week-end (du vendredi 19 h au lundi 8 h), 5 victoires par week-end.",
+      "en": "Only at weekends (Friday 7 pm to Monday 8 am), 5 wins per weekend."
+     }
+    }
+   ],
+   "guide": "https://www.dofuspourlesnoobs.com/temple-de-gargandyas.html"
+  }
+ }
+}
