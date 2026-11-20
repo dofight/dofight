@@ -39,18 +39,20 @@ const HOVER_TRIES: [Duration; 3] = [
     Duration::from_millis(350),
     Duration::from_millis(800),
 ];
-/// The area read around the resting mouse: a group tooltip shows above the hovered group, up to 8 monster lines.
+/// Where the group tooltips are looked for around the resting mouse (by their colour, no OCR: find_tooltips): above the
+/// hovered group, or pushed below or aside near a screen edge. Only the boxes found are read.
 const HOVER_HALF_WIDTH: i32 = 400;
 const HOVER_ABOVE: i32 = 450;
 const HOVER_BELOW: i32 = 250;
 /// Grey level above which a pixel counts as light text (the header, the fight button, « Combat terminé »).
 pub const LIGHT: u8 = 200;
 pub const SCALE: u32 = 2;
-/// Grey level of the monster lines in a group tooltip: light grey (about 170) on a very dark box (under 60).
-pub const TOOLTIP_TEXT: u8 = 100;
-/// Area read under a group tooltip's « Niveau N » header: up to 8 monster lines and the XP line.
-const TOOLTIP_HALF_WIDTH: i32 = 180;
-const TOOLTIP_HEIGHT: i32 = 200;
+/// Inside a found tooltip box, its light grey (about 170) monster lines on the dark box: at 160 letters break
+/// (« Tafounc »), at 120 words split (« Tofu kaz »), at 100 they thicken (« -rofukaz »). Its bold level line is read
+/// apart, light pixels only (at 140 « Niveau 168 » lost its digits).
+const TOOLTIP_BOX_TEXT: u8 = 140;
+/// A tooltip's level line, at the top of its box (frame pixels).
+const TOOLTIP_TITLE_BAND: i32 = 30;
 
 #[derive(Debug, Clone, Serialize)]
 pub struct Tick {
@@ -239,7 +241,7 @@ pub fn read_corner(
 /// The header's pure white pixels (every channel at PURE_WHITE or more), specks dropped, black on white, scaled `SCALE`
 /// times: the letters when the background is white too (snow).
 fn pure_white_text(bgra: &[u8], width: u32, height: u32) -> (Vec<u8>, u32, u32) {
-    let mut keep: Vec<bool> = bgra.chunks_exact(4).map(|p| p[..3].iter().all(|&c| c >= PURE_WHITE)).collect();
+    let mut keep: Vec<bool> = bgra.as_chunks::<4>().0.iter().map(|p| p[..3].iter().all(|&c| c >= PURE_WHITE)).collect();
     // the background is almost never pure white: only lone pixels to drop, the minus signs and commas stay
     drop_specks(&mut keep, width, height, PURE_SPECK_MAX);
     let (ow, oh) = (width * SCALE, height * SCALE);
@@ -371,23 +373,105 @@ pub fn read_frame(
         .collect())
 }
 
-/// The monster lines of the group tooltips on the frame, read under each « Niveau N » / « Level N » header found
-/// in `lines` (the first reading keeps only white text; these lines are light grey). Frame pixels.
-pub fn read_tooltips(
-    engine: &OcrEngine,
-    bgra: &[u8],
-    width: u32,
-    height: u32,
-    lines: &[OcrLine],
-) -> Result<Vec<OcrLine>, String> {
-    let mut out = Vec::new();
-    for header in lines.iter().filter(|l| is_group_header(&l.text)) {
-        let cx = header.x + header.w / 2;
-        let y0 = header.y + header.h + 2;
-        let area = (cx - TOOLTIP_HALF_WIDTH, y0, cx + TOOLTIP_HALF_WIDTH, y0 + TOOLTIP_HEIGHT);
-        out.extend(read_area(engine, bgra, width, height, area, TOOLTIP_TEXT)?);
+
+/// A group tooltip's background (slightly see-through): a dark neutral grey, or tinted warm over lava. Measured on the
+/// owner's captures (2026-11-20) and known from the game: the map's dark rocks are tinted, so they do not match.
+fn tooltip_background(p: &[u8]) -> bool {
+    let (b, g, r) = (p[0] as i32, p[1] as i32, p[2] as i32);
+    let (hi, lo) = (r.max(g).max(b), r.min(g).min(b));
+    let grey = hi - lo <= 6 && lo >= 16 && hi <= 48;
+    let warm = hi - lo <= 14 && lo >= 18 && hi <= 56 && r >= g && g >= b && r - b >= 4;
+    grey || warm
+}
+
+/// The size of a group tooltip (frame pixels): one level line up to eight monster lines, the longest names.
+const TOOLTIP_MIN: (i32, i32) = (90, 40);
+const TOOLTIP_MAX: (i32, i32) = (520, 420);
+/// Share of a tooltip's box that is its background (the rest is its text).
+const TOOLTIP_FILL: f32 = 0.5;
+
+/// The group tooltips' boxes around the mouse (x, y, width, height in frame pixels): the tooltip-coloured blobs of
+/// a tooltip's size, wherever they are around the mouse (above it, or pushed below or aside by a screen edge). Pixels
+/// only, no OCR: Songe then reads just those boxes.
+pub fn find_tooltips(bgra: &[u8], width: u32, height: u32, cx: i32, cy: i32) -> Vec<(i32, i32, i32, i32)> {
+    let (x0, y0) = ((cx - HOVER_HALF_WIDTH).max(0), (cy - HOVER_ABOVE).max(0));
+    let (x1, y1) = ((cx + HOVER_HALF_WIDTH).min(width as i32), (cy + HOVER_BELOW).min(height as i32));
+    if x1 - x0 < TOOLTIP_MIN.0 || y1 - y0 < TOOLTIP_MIN.1 {
+        return Vec::new();
     }
-    Ok(out)
+    let (w, h) = ((x1 - x0) as usize, (y1 - y0) as usize);
+    let mask: Vec<bool> = (0..w * h)
+        .map(|i| {
+            let (x, y) = (x0 as usize + i % w, y0 as usize + i / w);
+            let o = (y * width as usize + x) * 4;
+            tooltip_background(&bgra[o..o + 3])
+        })
+        .collect();
+    let mut seen = vec![false; w * h];
+    let mut out = Vec::new();
+    let mut blob = Vec::new();
+    for start in 0..w * h {
+        if seen[start] || !mask[start] {
+            continue;
+        }
+        blob.clear();
+        blob.push(start);
+        seen[start] = true;
+        let (mut bx0, mut by0, mut bx1, mut by1) = (usize::MAX, usize::MAX, 0, 0);
+        let mut k = 0;
+        while k < blob.len() {
+            let i = blob[k];
+            k += 1;
+            let (x, y) = (i % w, i / w);
+            (bx0, by0, bx1, by1) = (bx0.min(x), by0.min(y), bx1.max(x), by1.max(y));
+            let mut visit = |j: usize| {
+                if !seen[j] && mask[j] {
+                    seen[j] = true;
+                    blob.push(j);
+                }
+            };
+            if x > 0 { visit(i - 1); }
+            if x + 1 < w { visit(i + 1); }
+            if y > 0 { visit(i - w); }
+            if y + 1 < h { visit(i + w); }
+        }
+        let (bw, bh) = ((bx1 - bx0 + 1) as i32, (by1 - by0 + 1) as i32);
+        let fill = blob.len() as f32 / (bw * bh) as f32;
+        // a part of a tooltip may be small (its title band): the size is checked once the parts are joined
+        if bw >= TOOLTIP_MIN.0 && bh >= 12 && fill >= TOOLTIP_FILL {
+            out.push((x0 + bx0 as i32, y0 + by0 as i32, bw, bh));
+        }
+    }
+    join_stacked(out)
+        .into_iter()
+        .filter(|&(_, _, bw, bh)| bw >= TOOLTIP_MIN.0 && bh >= TOOLTIP_MIN.1 && bw <= TOOLTIP_MAX.0 && bh <= TOOLTIP_MAX.1)
+        .collect()
+}
+
+/// A tooltip's title band and its monster list are cut apart by a light separator line: boxes one above the other,
+/// aligned and a few pixels apart, are one tooltip.
+fn join_stacked(mut boxes: Vec<(i32, i32, i32, i32)>) -> Vec<(i32, i32, i32, i32)> {
+    const GAP: i32 = 6;
+    let mut joined = true;
+    while joined {
+        joined = false;
+        'pairs: for i in 0..boxes.len() {
+            for j in 0..boxes.len() {
+                let (a, b) = (boxes[i], boxes[j]);
+                let overlap = (a.0 + a.2).min(b.0 + b.2) - a.0.max(b.0);
+                let gap = b.1 - (a.1 + a.3);
+                if i != j && (0..=GAP).contains(&gap) && overlap * 10 >= a.2.min(b.2) * 8 {
+                    let (x0, y0) = (a.0.min(b.0), a.1);
+                    let (x1, y1) = ((a.0 + a.2).max(b.0 + b.2), b.1 + b.3);
+                    boxes[i] = (x0, y0, x1 - x0, y1 - y0);
+                    boxes.remove(j);
+                    joined = true;
+                    break 'pairs;
+                }
+            }
+        }
+    }
+    boxes
 }
 
 /// The group tooltips around the resting mouse (`cx`, `cy` in frame pixels): their headers, then their monster
@@ -400,13 +484,21 @@ pub fn read_hovered(
     cx: i32,
     cy: i32,
 ) -> Result<Vec<OcrLine>, String> {
-    let area = (cx - HOVER_HALF_WIDTH, cy - HOVER_ABOVE, cx + HOVER_HALF_WIDTH, cy + HOVER_BELOW);
-    let mut lines = read_area(engine, bgra, width, height, area, LIGHT)?;
-    if !lines.iter().any(|l| is_group_header(&l.text)) {
-        return Ok(vec![]);
+    // only the tooltips' own boxes are read (found by their colour, on any side of the mouse): about a tenth of the
+    // area read before, and none of the bright map around them (owner, 2026-11-20)
+    let mut lines = Vec::new();
+    for (x, y, w, h) in find_tooltips(bgra, width, height, cx, cy) {
+        // the bold white level line reads best on its own, light pixels only; the grey monster lines below at a
+        // lower threshold (measured on the owner's five captures, 2026-11-20)
+        let title = read_area(engine, bgra, width, height, (x, y, x + w, y + TOOLTIP_TITLE_BAND), LIGHT)?;
+        let body = read_area(engine, bgra, width, height, (x, y, x + w, y + h), TOOLTIP_BOX_TEXT)?;
+        let level = title.into_iter().find(|l| is_group_header(&l.text)).or_else(|| body.iter().find(|l| is_group_header(&l.text)).cloned());
+        if let Some(level) = level {
+            let below = level.y + level.h / 2;
+            lines.push(level);
+            lines.extend(body.into_iter().filter(|l| !is_group_header(&l.text) && l.y > below));
+        }
     }
-    let more = read_tooltips(engine, bgra, width, height, &lines)?;
-    lines.extend(more);
     Ok(lines)
 }
 
@@ -811,8 +903,12 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
             let started = Instant::now();
             let lines = read_hovered(engine, px, *w, *h, cx, cy).unwrap_or_default();
             let (cw, ch) = corner_size(*w, *h);
-            let hover = (cx - HOVER_HALF_WIDTH, cy - HOVER_ABOVE, 2 * HOVER_HALF_WIDTH, HOVER_ABOVE + HOVER_BELOW);
-            show_areas(&app, id, vec![(0, 0, cw as i32, ch as i32), hover]);
+            // dev builds: the header corner and the tooltip boxes read
+            if cfg!(debug_assertions) {
+                let mut areas = vec![(0, 0, cw as i32, ch as i32)];
+                areas.extend(find_tooltips(px, *w, *h, cx, cy));
+                show_areas(&app, id, areas);
+            }
             r.stats.hovers += 1;
             r.stats.hover_ms += started.elapsed().as_millis();
             if !lines.is_empty() {
@@ -889,6 +985,42 @@ mod tests {
         let texts: Vec<&str> = lines.iter().map(|l| l.text.as_str()).collect();
         assert!(texts.iter().any(|t| t.contains("Harebourg)")), "{texts:?}");
         assert!(texts.iter().any(|t| has_coordinates(t) && t.contains("68") && t.contains("78")), "{texts:?}");
+    }
+
+    /// The owner's Songe captures (2026-11-20): image, mouse in it, the group's level, monsters read.
+    const SONGE: [(&str, (i32, i32), &str, &[&str]); 5] = [
+        ("songe_1.png", (420, 41), "168", &["Tofoune", "Tofu Noir"]),
+        ("songe_2.png", (420, 470), "110", &["Tofoune", "Tofu"]),
+        ("songe_3.png", (416, 20), "248", &["Tofu Noir"]),
+        ("songe_4.png", (420, 470), "176", &["Tofukaz", "Tofu Noir"]),
+        ("songe_5.png", (420, 425), "1612", &["Mominotor", "Trezz"]),
+    ];
+
+    #[test]
+    #[cfg(windows)]
+    fn reads_the_hovered_group_wherever_its_tooltip_is() {
+        let engine = platform::ocr_engine().expect("fr-FR OCR");
+        for (name, (cx, cy), level, monsters) in SONGE {
+            let (px, w, h) = load(name);
+            let lines = read_hovered(&engine, &px, w, h, cx, cy).unwrap();
+            let texts: Vec<&str> = lines.iter().map(|l| l.text.as_str()).collect();
+            // the level line, as the reader recognises it (« Niveau » may be misread: « Niueau 248 »)
+            assert!(texts.iter().any(|t| is_group_header(t) && t.contains(level)), "{name}: {texts:?}");
+            for m in monsters {
+                assert!(texts.iter().any(|t| t.contains(m)), "{name}: {m} in {texts:?}");
+            }
+        }
+    }
+
+    #[test]
+    fn finds_one_tooltip_box_around_the_mouse() {
+        for (name, (cx, cy), _, _) in SONGE {
+            let (px, w, h) = load(name);
+            let boxes = find_tooltips(&px, w, h, cx, cy);
+            assert_eq!(boxes.len(), 1, "{name}: {boxes:?}");
+            let (_, _, bw, bh) = boxes[0];
+            assert!((100..=320).contains(&bw) && (60..=260).contains(&bh), "{name}: {boxes:?}");
+        }
     }
 
     #[test]
