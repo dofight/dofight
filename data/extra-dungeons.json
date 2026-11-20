@@ -1,5 +1,5 @@
 {
- "_note": "Fights Dofight lists as dungeons though the game does not (ids of the earlier Dofensive data, kept so the summaries keep theirs); private/tools/client_snapshot.py adds them to the client's dungeons. Owner, 2026-11-19: the Cratère Minus is the fight against Grozilla and Grasmera, at four levels, during the August event when Vulkania is open; Gargandyas belongs with Osavora.",
+ "_note": "Fights Dofight lists as dungeons though the game does not (their ids are Dofight's own, kept so the summaries keep theirs); private/tools/client_snapshot.py adds them to the client's dungeons. Owner, 2026-11-19: the Cratère Minus is the fight against Grozilla and Grasmera, at four levels, during the August event when Vulkania is open; Gargandyas belongs with Osavora.",
  "dungeons": [
   {
    "id": -101,

@@ -4,13 +4,13 @@
       "addMonsters": [
         3239
       ],
-      "why": "Chafer Draugr: main threat of the Donjon des Squelettes in the DPLN guide, missing from Dofensive's dungeon list (user, 2026-11-07, https://dofensive.com/fr/monster/3239)"
+      "why": "Chafer Draugr: main threat of the Donjon des Squelettes in the DPLN guide, missing from the dungeon's monster list in the game data (user, 2026-11-07)"
     },
     "57": {
       "addMonsters": [
         2938
       ],
-      "why": "Gros Med: met in the Hypogée de l'Obsidiantre, room 4, during the quest « À la recherche de Dan Lavy »; a quest monster for Dofensive, with no dungeon attached (owner, 2026-11-18)"
+      "why": "Gros Med: met in the Hypogée de l'Obsidiantre, room 4, during the quest « À la recherche de Dan Lavy »; a quest monster in the game data, with no dungeon attached (owner, 2026-11-18)"
     },
     "4": {
       "addMonsters": [
