@@ -88,8 +88,8 @@
       "en": "Iroru Symbol"
      },
      "how": {
-      "fr": "Première visite : parler à Daoh au sanctuaire Wukang [15,-31] ou Wukin (par [20,-38]) et répondre à ses deux questions (le feu de ta classe, puis « Le dragon de Pandala »).",
-      "en": "First visit: talk to Daoh at the Wukang sanctuary [15,-31] or the Wukin one (through [20,-38]) and answer his two questions (your class's fire, then Pandala's dragon)."
+      "fr": "Quête « Deux souffles, une inspiration » (Le Grandapan, Taverne interdite [23,-32], après « Main dans la main ») jusqu'au palais de bambou [22,-29]. Ensuite, au sanctuaire du Wukang [15,-31] ou du Wukin [20,-38] (par le Kwak des sommets), parler à Daoh et répondre à ses deux questions (le feu de ta classe, puis « Le dragon de Pandala ») : en sortant du temple, on arrive dans le royaume.",
+      "en": "Quest “Two Breaths, One Inhalation” (the Grandapan, Forbidden Inn [23,-32], after “Hand in Hand”) up to the Bamboo Palace [22,-29]. Then, at the Wukang sanctuary [15,-31] or the Wukin one [20,-38] (through the Highland Kwak), talk to Daoh and answer his two questions (your class's fire, then Pandala's dragon): leaving the temple takes you into the realm."
      }
     }
    ],
@@ -116,8 +116,8 @@
       "en": "Sign of the Possessed"
      },
      "how": {
-      "fr": "Se loot sur les Possédés du Port des Ravageurs (15 %) ; il sert à monter au Pandamonium [41,-56].",
-      "en": "Dropped by The Possessed of Destroyers' Port (15 %); it is needed to climb to the Pandamonium [41,-56]."
+      "fr": "Se loot sur les Possédés du Port des Ravageurs (15 %) ; le Gardien du Pandamonium en [41,-56] laisse alors monter les escaliers. L'Atoll : le bateau-démon Voh'Râss' en [41,-45] sur Grobe (gratuit).",
+      "en": "Dropped by the Possessed of the Destroyers' Port (15 %); the Pandamonium Guardian at [41,-56] then lets you climb the stairs. The Atoll: the demon ship Vor'Eshis' at [41,-45] on Nolifis (free)."
      }
     }
    ],
@@ -271,8 +271,8 @@
     },
     {
      "other": {
-      "fr": "Faire une fois la chasse d'Osavora (Tour des Voyageurs [-22,-24], Salle de localisation) : elle donne à vie l'altération « Portail d'Osavora ». Participer au combat final de la chasse d'un autre suffit.",
-      "en": "Do the Osavora hunt once (Voyagers' Tower [-22,-24], Tracking Room): it gives the lifelong « Osavora Portal » alteration. Joining the final fight of someone else's hunt is enough."
+      "fr": "Faire une fois la chasse d'Osavora (Tour des Voyageurs [-22,-24], Salle de localisation) : elle donne à vie l'altération qui ouvre son portail. Participer au combat final de la chasse d'un autre suffit.",
+      "en": "Do the Osavora hunt once (Voyagers' Tower [-22,-24], Tracking Room): it gives the lifelong alteration that opens its portal. Joining the final fight of someone else's hunt is enough."
      }
     }
    ],
@@ -283,8 +283,8 @@
    "reqs": [
     {
      "other": {
-      "fr": "Faire une fois la chasse d'Enutrosor (Tour des Voyageurs [-22,-24]) : elle donne l'altération pour prendre son portail.",
-      "en": "Do the Enutrosor hunt once (Voyagers' Tower [-22,-24]): it gives the alteration to take its portal."
+      "fr": "Faire une fois la chasse d'Enutrosor (Tour des Voyageurs [-22,-24], Salle de localisation) : elle donne à vie l'altération qui ouvre son portail. Participer au combat final de la chasse d'un autre suffit.",
+      "en": "Do the Enutrosor hunt once (Voyagers' Tower [-22,-24], Tracking Room): it gives the lifelong alteration that opens its portal. Joining the final fight of someone else's hunt is enough."
      }
     }
    ],
@@ -295,8 +295,8 @@
    "reqs": [
     {
      "other": {
-      "fr": "Faire une fois la chasse de Srambad (Tour des Voyageurs [-22,-24]) : elle donne l'altération pour prendre son portail.",
-      "en": "Do the Srambad hunt once (Voyagers' Tower [-22,-24]): it gives the alteration to take its portal."
+      "fr": "Faire une fois la chasse de Srambad (Tour des Voyageurs [-22,-24], Salle de localisation) : elle donne à vie l'altération qui ouvre son portail. Participer au combat final de la chasse d'un autre suffit.",
+      "en": "Do the Srambad hunt once (Voyagers' Tower [-22,-24], Tracking Room): it gives the lifelong alteration that opens its portal. Joining the final fight of someone else's hunt is enough."
      }
     }
    ],
@@ -307,8 +307,8 @@
    "reqs": [
     {
      "other": {
-      "fr": "Faire une fois la chasse de Xélorium (Tour des Voyageurs [-22,-24]) : elle donne l'altération pour prendre son portail.",
-      "en": "Do the Xelorium hunt once (Voyagers' Tower [-22,-24]): it gives the alteration to take its portal."
+      "fr": "Faire une fois la chasse de Xélorium (Tour des Voyageurs [-22,-24], Salle de localisation) : elle donne à vie l'altération qui ouvre son portail. Participer au combat final de la chasse d'un autre suffit.",
+      "en": "Do the Xelorium hunt once (Voyagers' Tower [-22,-24], Tracking Room): it gives the lifelong alteration that opens its portal. Joining the final fight of someone else's hunt is enough."
      }
     }
    ],
@@ -319,8 +319,8 @@
    "reqs": [
     {
      "other": {
-      "fr": "Faire une fois la chasse d'Ecaflipus (Tour des Voyageurs [-22,-24]) : elle donne l'altération pour prendre son portail.",
-      "en": "Do the Ecaflipus hunt once (Voyagers' Tower [-22,-24]): it gives the alteration to take its portal."
+      "fr": "Faire une fois la chasse d'Ecaflipus (Tour des Voyageurs [-22,-24], Salle de localisation) : elle donne à vie l'altération qui ouvre son portail. Participer au combat final de la chasse d'un autre suffit.",
+      "en": "Do the Ecaflipus hunt once (Voyagers' Tower [-22,-24], Tracking Room): it gives the lifelong alteration that opens its portal. Joining the final fight of someone else's hunt is enough."
      }
     }
    ],
@@ -359,8 +359,8 @@
    "reqs": [
     {
      "other": {
-      "fr": "En plus de la clef : donner à Lorkos, au centre (salle 13), les deux reliques trouvées dans le labyrinthe.",
-      "en": "Besides the key: give Lorkos, at the centre (room 13), the two relics found in the labyrinth."
+      "fr": "En plus de la clef : donner à Lorkos, au centre (salle 13), les deux reliques qui se lootent sur le Mominotor et le Déminoboule dans le labyrinthe.",
+      "en": "Besides the key: give Lorkos, at the centre (room 13), the two relics dropped by the Mumminotor and the Deminoball in the labyrinth."
      }
     }
    ],
@@ -376,8 +376,8 @@
    "reqs": [
     {
      "other": {
-      "fr": "Deux clefs : celle du labyrinthe (en deux moitiés) et celle de l'antre ; l'entrée est au centre du labyrinthe, par Fwoued en [-1,33] sur l'Île des Porcos.",
-      "en": "Two keys: the labyrinth's (in two halves) and the lair's; the entrance is at the centre of the labyrinth, through Fwed at [-1,33] on the Porcos' island."
+      "fr": "L'entrée est au centre du labyrinthe, par Fwoued en [-1,33] sur l'Île des Porcos (avec la clef ou le trousseau).",
+      "en": "The entrance is at the centre of the labyrinth, through Fwed at [-1,33] on the Porcos' island (with the key or the keyring)."
      }
     }
    ],
@@ -611,8 +611,8 @@
     },
     {
      "other": {
-      "fr": "Pas de clef : la porte s'ouvre quand 48 personnages sont sur les dalles de quatre salles de l'île ([-52,15], [-49,9], [-56,4], [-55,11]) et un de plus sur la dalle en [-60,-8] ; elle reste ouverte environ 40 minutes.",
-      "en": "No key: the door opens when 48 characters stand on the slabs of four rooms of the island ([-52,15], [-49,9], [-56,4], [-55,11]) and one more on the slab at [-60,-8]; it stays open about 40 minutes."
+      "fr": "Pas de clef : la porte s'ouvre quand 48 personnages sont sur les dalles de quatre salles de l'île ([-52,15], [-49,9], [-56,4], [-55,11]) et un de plus sur la dalle en [-60,-8] ; elle reste ouverte environ 1 heure.",
+      "en": "No key: the door opens when 48 characters stand on the slabs of four rooms of the island ([-52,15], [-49,9], [-56,4], [-55,11]) and one more on the slab at [-60,-8]; it stays open about 1 hour."
      }
     }
    ],
@@ -777,28 +777,7 @@
     "fr": "Clef du Repaire de Sphincter Cell",
     "en": "Sphincter Cell's Lair Key"
    },
-   "reqs": [
-    {
-     "other": {
-      "fr": "La clef se fait avec deux clefs lootées à 100 % : sur le Rat Blanc puis sur le Rat Noir, dans leurs donjons.",
-      "en": "The key is made of two keys dropped at 100 %: on the White Rat, then on the Black Rat, in their dungeons."
-     }
-    },
-    {
-     "beat": {
-      "id": 42,
-      "fr": "Garde-manger du Rat Blanc",
-      "en": "White Rat's Pantry"
-     }
-    },
-    {
-     "beat": {
-      "id": 43,
-      "fr": "Sousouricière du Rat Noir",
-      "en": "Black Rat's Moumousetrap"
-     }
-    }
-   ],
+   "reqs": [],
    "guide": "https://www.dofuspourlesnoobs.com/donjon-des-rats-du-chacircteau-damakna.html"
   },
   "45": {
@@ -1505,8 +1484,8 @@
    "reqs": [
     {
      "other": {
-      "fr": "Dans la pyramide : 4 personnages sur quatre dalles et un levier ouvrent deux portes, puis vaincre le monstre Tabasma en [14,-75] pour ouvrir la dernière.",
-      "en": "Inside the pyramid: 4 characters on four slabs and a lever open two doors, then defeat the monster Thrashtaba at [14,-75] to open the last one."
+      "fr": "Dans la pyramide : 4 personnages sur quatre dalles et un levier ouvrent deux portes, puis vaincre le monstre Tabasma en [14,-75] pour ouvrir la dernière. Le TP de groupe marche si quelqu'un est déjà devant le donjon.",
+      "en": "Inside the pyramid: 4 characters on four slabs and a lever open two doors, then defeat the monster Thrashtaba at [14,-75] to open the last one. The group teleport works if someone is already in front of the dungeon."
      }
     }
    ],
