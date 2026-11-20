@@ -67,6 +67,21 @@ describe("how to get there", () => {
     expect(box.querySelector("b")).toBeNull();
   });
 
+  it("game icons: the zaap on a /zaap command, footprints on a /travel one, the skis where a step says {skis}", () => {
+    const box = document.createElement("div");
+    box.innerHTML = renderRoute(["/zaap -78 -41 ; /travel -68 -34", "Prendre le Transporteur (ou une {skis} Paire de skis rustiques jetables)", "/travel -71 -83", "{autre}"]);
+    const [zaapStep, travelStep] = box.querySelectorAll<HTMLElement>(".travel");
+    expect(zaapStep.querySelector("img")!.getAttribute("src")).toBe("/icons/hud/zaap.png");
+    expect(travelStep.querySelector("img")!.getAttribute("src")).toBe("/icons/hud/steps.png");
+    const steps = box.querySelectorAll(".step");
+    expect(steps[1].querySelector("img")!.getAttribute("src")).toBe("/icons/hud/skis.png");
+    expect(steps[1].textContent).toBe("Prendre le Transporteur (ou une  Paire de skis rustiques jetables)");
+    expect(steps[3].textContent).toBe("{autre}"); // an unknown mark stays text
+    // « Aller en [x,y] » too: footprints
+    box.innerHTML = renderTrip(tripTo(travel, 1, "x"));
+    expect(box.querySelector(".travel:not(.zaap) img")!.getAttribute("src")).toBe("/icons/hud/steps.png");
+  });
+
   describe("« Comment y aller » in the header", () => {
     const route = ["/zaap -78 -41", "Transporteur frigostien → Larmes d'Ouronigride", "/travel -69 -87"];
     const box = document.createElement("div");

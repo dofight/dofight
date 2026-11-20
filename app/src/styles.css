@@ -89,6 +89,7 @@ button:not(:disabled),a[href],[role=button],[role=radio],[role=option],select,in
 .trip .steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:2px}
 .trip .step{color:var(--fg)}
 .trip .step::marker{color:var(--muted)}
+.trip .step img{width:16px;height:16px;vertical-align:-3px}
 /* « Comment y aller › »: an underlined text button that pins the sheet beside the panel; else the key, muted */
 .trip .access{padding:1px 2px;border:0;background:none;color:var(--gold);font:inherit;font-weight:600;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
 .trip .access:hover,.trip .access[aria-expanded="true"]{color:var(--yellow)}

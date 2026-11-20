@@ -88,7 +88,7 @@ export function renderTrip(trip: Trip | null, opts: TripOptions = {}): string {
   const route = routeOf(trip.to);
   if (route.length && !opts.special) return renderRoute(route);
   const travel = travelCommand(trip.to);
-  const go = `<span class="go">${esc(t("trip.go"))}</span><button type="button" class="travel" data-copy="${esc(travel)}" title="${esc(t("trip.copy", { command: travel }))}"><span class="lbl">[${trip.to.x},${trip.to.y}]</span>${icon("copy")}</button>`;
+  const go = `<span class="go">${esc(t("trip.go"))}</span><button type="button" class="travel" data-copy="${esc(travel)}" title="${esc(t("trip.copy", { command: travel }))}">${STEPS}<span class="lbl">[${trip.to.x},${trip.to.y}]</span>${icon("copy")}</button>`;
   const msg = `<span class="tripmsg" role="status"></span>`;
   // « Comment y aller » (the sheet has the route and what to do first), or the key at the end of the line
   const extra = opts.special
@@ -100,16 +100,25 @@ export function renderTrip(trip: Trip | null, opts: TripOptions = {}): string {
   if (!trip.zaap || route.length) return `<div class="trip">${go}${extra}${msg}</div>`;
   const zone = trip.zaap.zone[getLang()] || trip.zaap.zone.fr;
   const command = zaapCommand(trip.zaap, trip.to);
-  const zaap = `<button type="button" class="travel zaap" data-copy="${esc(command)}" title="${esc(t("trip.copyZaap", { command, zone }))}"><img src="/icons/hud/zaap.png" alt=""><span class="lbl">${esc(zone)}</span>${icon("copy")}</button>`;
+  const zaap = `<button type="button" class="travel zaap" data-copy="${esc(command)}" title="${esc(t("trip.copyZaap", { command, zone }))}">${ZAAP}<span class="lbl">${esc(zone)}</span>${icon("copy")}</button>`;
   return `<div class="trip">${go}${zaap}${extra}${msg}</div>`;
 }
+
+// the game's own pictures (private/tools/client.py): the zaap, the footprints at the end of a path on the map (a
+// /travel), the disposable rustic skis (« {skis} » in a step's text, owner 2026-11-20)
+const hud = (name: string) => `<img src="/icons/hud/${name}.png" alt="">`;
+const ZAAP = hud("zaap");
+const STEPS = hud("steps");
+const MARKS: Record<string, string> = { skis: hud("skis") };
+/** « {skis} » in escaped text → its picture; an unknown mark stays as it is. */
+const marks = (html: string): string => html.replace(/\{(\w+)\}/g, (all, name: string) => MARKS[name] ?? all);
 
 /** A text step, escaped, its « [name](https://…) » parts made links (a quest's page: « après [Star ski et Dutch](…) »);
  * any other link stays as text. */
 function withLinks(step: string): string {
   const parts = step.split(/\[([^\]]+)\]\((https:\/\/[^)\s"]+)\)/);
   return parts
-    .map((p, i) => (i % 3 === 0 ? esc(p) : i % 3 === 1 ? `<a class="quest" href="${esc(parts[i + 1])}" target="_blank" rel="noopener">${esc(p)}</a>` : ""))
+    .map((p, i) => (i % 3 === 0 ? marks(esc(p)) : i % 3 === 1 ? `<a class="quest" href="${esc(parts[i + 1])}" target="_blank" rel="noopener">${esc(p)}</a>` : ""))
     .join("");
 }
 
@@ -121,7 +130,7 @@ export function renderRoute(route: string[], label = true): string {
     .map((step) => {
       const s = step.trim();
       if (!s.startsWith("/")) return `<li class="step">${withLinks(s)}</li>`;
-      return `<li class="step"><button type="button" class="travel" data-copy="${esc(s)}" title="${esc(t("trip.copy", { command: s }))}"><span class="lbl">${esc(s)}</span>${icon("copy")}</button></li>`;
+      return `<li class="step"><button type="button" class="travel" data-copy="${esc(s)}" title="${esc(t("trip.copy", { command: s }))}">${s.startsWith("/zaap ") ? ZAAP : STEPS}<span class="lbl">${esc(s)}</span>${icon("copy")}</button></li>`;
     })
     .join("");
   const head = label ? `<span class="go">${esc(t("trip.route"))}</span>` : "";
