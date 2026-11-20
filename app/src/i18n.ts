@@ -20,6 +20,7 @@ const fr = {
   "guide.intro": "Dofight te montre ce qui est dangereux chez les monstres autour de toi. Deux réglages à faire dans Dofus, puis un tour du panneau.",
   "guide.reads.title": "Ce que Dofight lit",
   "guide.reads.text": "Environ trois fois par seconde, Dofight capture la fenêtre Dofus quand elle est au premier plan. Il en lit le coin en haut à gauche : la barre d'icônes, le nom de la sous-zone et les coordonnées de la carte. En mode Songe, hors combat, quand ta souris s'arrête, il lit aussi une zone autour d'elle (environ 800 × 700 pixels, surtout au-dessus) pour y trouver l'infobulle du groupe de monstres survolé ; il n'en retient que le texte de cette infobulle. En combat, il surveille surtout la barre d'icônes, pour voir quand le combat se termine ; s'il ne connaît pas encore ta sous-zone (Dofight ouvert en plein combat), il relit le nom de la sous-zone plus souvent, jusqu'à la trouver. Si Dofus est en arrière-plan, il ne capture rien. Les captures ne quittent jamais ton PC, c'est Windows qui y reconnaît le texte.",
+  "guide.reads.text.mac": "Environ trois fois par seconde, Dofight capture la fenêtre Dofus quand elle est au premier plan. Il en lit le coin en haut à gauche : la barre d'icônes, le nom de la sous-zone et les coordonnées de la carte. En mode Songe, hors combat, quand ta souris s'arrête, il lit aussi une zone autour d'elle (environ 800 × 700 pixels, surtout au-dessus) pour y trouver l'infobulle du groupe de monstres survolé ; il n'en retient que le texte de cette infobulle. En combat, il surveille surtout la barre d'icônes, pour voir quand le combat se termine ; s'il ne connaît pas encore ta sous-zone (Dofight ouvert en plein combat), il relit le nom de la sous-zone plus souvent, jusqu'à la trouver. Si Dofus est en arrière-plan, il ne capture rien. Les captures ne quittent jamais ton Mac, c'est macOS qui y reconnaît le texte.",
   "guide.reads.never": "Il ne clique jamais, n'envoie rien au jeu et ne lit ni sa mémoire, ni ses fichiers, ni son trafic réseau.",
   "guide.reads.link": "Régler ou couper la lecture de l'écran",
   "guide.coords.title": "Dans Dofus : affiche les coordonnées",
@@ -31,6 +32,7 @@ const fr = {
   "guide.shortcut.text": "{keys} affiche ou masque Dofight, même depuis le jeu.",
   "guide.shortcut.taken": "{keys} est déjà pris par une autre application : choisis-en un autre.",
   "guide.ocr": "Il manque le français dans les langues de Windows, et Dofight en a besoin pour lire l'écran. Ajoute-le dans Paramètres Windows → Heure et langue → Langue et région.",
+  "guide.ocr.mac": "La lecture du texte de macOS ne répond pas, et Dofight en a besoin pour lire l'écran. Redémarre Dofight, puis ton Mac si ça continue.",
   "guide.noDofus": "Dofus n'est pas ouvert, mais la recherche marche déjà.",
   "guide.shortcut.link": "Changer le raccourci",
   "guide.tour.title": "Le panneau",
@@ -96,6 +98,8 @@ const fr = {
   // zone line (screen reading)
   "status.noDofus": "Dofus n'est pas ouvert.",
   "status.noOcr": "Il manque le français dans les langues de Windows : ajoute-le pour que Dofight lise l'écran",
+  "status.noOcr.mac": "La lecture du texte de macOS ne répond pas : redémarre Dofight",
+  "status.noPermission": "Autorise Dofight dans Réglages Système → Confidentialité et sécurité → Enregistrement de l'écran, puis relance-le",
   "status.readingOff": "Lecture de l'écran coupée (Paramètres)",
   "status.fightSearching": "Combat en cours : Dofight cherche ta sous-zone…",
   "status.fightMissed": "Sous-zone introuvable pendant ce combat",
@@ -192,11 +196,14 @@ const fr = {
   "report.attachLogShort": "Joindre le journal de diagnostic",
   "settings.backup": "Import / Export",
   "settings.backupHint": "Copie tes réglages pour les retrouver sur un autre PC, ou pour les partager.",
+  "settings.backupHint.mac": "Copie tes réglages pour les retrouver sur un autre ordinateur, ou pour les partager.",
   "settings.export": "Exporter",
   "settings.import": "Importer",
   "settings.exported": "Réglages copiés dans le presse-papiers. Sur l'autre PC, clique sur « Importer ».",
+  "settings.exported.mac": "Réglages copiés dans le presse-papiers. Sur l'autre ordinateur, clique sur « Importer ».",
   "settings.imported": "Réglages appliqués.",
   "settings.importedShortcutTaken": "Réglages appliqués, sauf le raccourci {keys}, déjà pris par une autre application sur ce PC.",
+  "settings.importedShortcutTaken.mac": "Réglages appliqués, sauf le raccourci {keys}, déjà pris par une autre application sur ce Mac.",
   "settings.importNone": "Le presse-papiers ne contient pas de réglages Dofight. Commence par « Exporter ».",
   "settings.backupFailed": "Le presse-papiers n'est pas accessible. Réessaie.",
   "settings.diagnostic": "Diagnostic",
@@ -363,6 +370,7 @@ const en: Record<Key, string> = {
   "guide.intro": "Dofight shows what makes the monsters around you dangerous. Two settings to change in Dofus, then a tour of the panel.",
   "guide.reads.title": "What Dofight reads",
   "guide.reads.text": "About three times a second, Dofight captures the Dofus window while it's in the foreground. It reads the top-left corner: the icon bar, the subarea name and the map coordinates. In Songe mode, out of a fight, when your mouse stops, it also reads an area around it (about 800 × 700 pixels, mostly above it) to find the tooltip of the hovered monster group; it keeps only that tooltip's text. In a fight it mostly watches the icon bar, to see when the fight ends; if it doesn't know your subarea yet (Dofight opened mid-fight), it re-reads the subarea name more often until it finds it. While Dofus is in the background, it captures nothing. The captures never leave your PC, where Windows reads the text.",
+  "guide.reads.text.mac": "About three times a second, Dofight captures the Dofus window while it's in the foreground. It reads the top-left corner: the icon bar, the subarea name and the map coordinates. In Songe mode, out of a fight, when your mouse stops, it also reads an area around it (about 800 × 700 pixels, mostly above it) to find the tooltip of the hovered monster group; it keeps only that tooltip's text. In a fight it mostly watches the icon bar, to see when the fight ends; if it doesn't know your subarea yet (Dofight opened mid-fight), it re-reads the subarea name more often until it finds it. While Dofus is in the background, it captures nothing. The captures never leave your Mac, where macOS reads the text.",
   "guide.reads.never": "It never clicks, never sends anything to the game, and doesn't read the game's memory, files or network traffic.",
   "guide.reads.link": "Adjust or turn off screen reading",
   "guide.coords.title": "In Dofus: show the coordinates",
@@ -374,6 +382,7 @@ const en: Record<Key, string> = {
   "guide.shortcut.text": "{keys} shows or hides Dofight, even from inside the game.",
   "guide.shortcut.taken": "{keys} is already taken by another app: pick another one.",
   "guide.ocr": "French is missing from your Windows languages, and Dofight needs it to read the screen, even with the game in English. Add it in Windows Settings → Time & language → Language & region.",
+  "guide.ocr.mac": "macOS text recognition isn't answering, and Dofight needs it to read the screen. Restart Dofight, then your Mac if it keeps happening.",
   "guide.noDofus": "Dofus isn't open, but search already works.",
   "guide.shortcut.link": "Change the shortcut",
   "guide.tour.title": "The panel",
@@ -438,6 +447,8 @@ const en: Record<Key, string> = {
   "main.kindMonster": "Monster",
   "status.noDofus": "Dofus is not open.",
   "status.noOcr": "French is missing from your Windows languages: add it so Dofight can read the screen",
+  "status.noOcr.mac": "macOS text recognition isn't answering: restart Dofight",
+  "status.noPermission": "Allow Dofight in System Settings → Privacy & Security → Screen Recording, then restart it",
   "status.readingOff": "Screen reading is off (Settings)",
   "status.fightSearching": "Fight in progress: Dofight is looking for your subarea…",
   "status.fightMissed": "Subarea not found during this fight",
@@ -529,11 +540,14 @@ const en: Record<Key, string> = {
   "report.attachLogShort": "Attach the diagnostics log",
   "settings.backup": "Import / Export",
   "settings.backupHint": "Copy your settings to find them on another PC, or to share them.",
+  "settings.backupHint.mac": "Copy your settings to find them on another computer, or to share them.",
   "settings.export": "Export",
   "settings.import": "Import",
   "settings.exported": "Settings copied to the clipboard. On the other PC, click “Import”.",
+  "settings.exported.mac": "Settings copied to the clipboard. On the other computer, click “Import”.",
   "settings.imported": "Settings applied.",
   "settings.importedShortcutTaken": "Settings applied, except the {keys} shortcut, already taken by another app on this PC.",
+  "settings.importedShortcutTaken.mac": "Settings applied, except the {keys} shortcut, already taken by another app on this Mac.",
   "settings.importNone": "The clipboard doesn't hold Dofight settings. Start with “Export”.",
   "settings.backupFailed": "The clipboard can't be reached. Try again.",
   "settings.diagnostic": "Diagnostics",
@@ -682,6 +696,15 @@ export const DICTIONARIES: Record<Lang, Record<Key, string>> = { fr, en };
 
 let lang: Lang = "fr";
 
+export type Platform = "windows" | "macos";
+/** The system Dofight runs on: on a Mac, a text's « .mac » variant replaces it (no Windows, PC or taskbar there). Read
+ * from the web view (WebKit on macOS says « Mac »), so every page knows it at once. */
+let platform: Platform = typeof navigator !== "undefined" && /Mac/.test(navigator.userAgent) ? "macos" : "windows";
+export const getPlatform = (): Platform => platform;
+export function setPlatform(next: Platform): void {
+  platform = next;
+}
+
 export const getLang = (): Lang => lang;
 
 export function setLang(next: Lang): void {
@@ -710,6 +733,8 @@ export function frenchSpaces(text: string): string {
 
 /** The text of `key` in the current language, `{name}` replaced by `vars.name` (unknown names are left as they are). */
 export function t(key: Key, vars?: Record<string, string | number>): string {
+  const mac = `${key}.mac`;
+  if (platform === "macos" && mac in fr) key = mac as Key;
   const text = DICTIONARIES[lang][key] ?? fr[key] ?? key;
   return frenchSpaces(vars ? text.replace(/\{(\w+)\}/g, (all, name: string) => (name in vars ? String(vars[name]) : all)) : text);
 }

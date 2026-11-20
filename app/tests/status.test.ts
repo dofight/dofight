@@ -1,4 +1,4 @@
-import { expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { initialStatus, statusText, statusWarns, steadyStatus, type Status, type StatusKind } from "../src/screen/status";
 
 const s = (kind: StatusKind, text = ""): Status => ({ kind, text });
@@ -46,4 +46,12 @@ it("marks the messages that block the reading as a warning", () => {
   expect(statusWarns(s("found", "A"))).toBe(false);
   expect(statusWarns(s("noDofus", "x"))).toBe(false);
   expect(statusWarns(null)).toBe(false);
+});
+
+describe("screen recording not allowed (macOS)", () => {
+  it("is a warning the player acts on, shown as is", () => {
+    const s = { kind: "noPermission" as const, text: "Autorise Dofight" };
+    expect(statusWarns(s)).toBe(true);
+    expect(statusText(s)).toBe("Autorise Dofight");
+  });
 });

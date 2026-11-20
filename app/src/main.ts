@@ -1787,6 +1787,11 @@ void listen<{ front: boolean; lines: OcrLine[]; error: string | null; bar: BarSt
     $("guide-ocr").hidden = false;
     return zoneStatus("noOcr", t("status.noOcr"));
   }
+  // macOS: « Enregistrement de l'écran » not granted yet (the system asked once)
+  if (payload.error === "no-permission") {
+    $("guide-permission").hidden = false;
+    return zoneStatus("noPermission", t("status.noPermission"));
+  }
   if (payload.error === "off") {
     // nothing captured: the switch is off, or on with nothing using it (then nothing to say); a tick sent before
     // the reader heard the switch turned on says nothing either

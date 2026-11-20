@@ -6,7 +6,8 @@
  * the language and its typography), the text is what may be shown. */
 
 /** « searching »: in a fight with no zone known yet, the corner is read until it is found (fightSearch.ts). */
-export type StatusKind = "found" | "unknown" | "noHeader" | "noDofus" | "noOcr" | "off" | "searching";
+/** « noPermission »: macOS does not let Dofight record the screen yet. */
+export type StatusKind = "found" | "unknown" | "noHeader" | "noDofus" | "noOcr" | "noPermission" | "off" | "searching";
 
 export interface Status {
   kind: StatusKind;
@@ -32,8 +33,8 @@ export const initialStatus = (): StatusState => ({ shown: null, pending: null, c
 export const statusText = (s: Status | null): string => (!s || s.kind === "found" || s.kind === "unknown" || s.kind === "noDofus" ? "" : s.text);
 
 /** The messages that stop the reading until the player changes something (the game's options, Windows'
- * languages): shown as a warning line, not as a quiet hint. */
-export const statusWarns = (s: Status | null): boolean => s?.kind === "noHeader" || s?.kind === "noOcr";
+ * languages, macOS' screen-recording permission): shown as a warning line, not as a quiet hint. */
+export const statusWarns = (s: Status | null): boolean => s?.kind === "noHeader" || s?.kind === "noOcr" || s?.kind === "noPermission";
 
 /** `next` is what this tick read; `now` when (ms, optional). Returns the new state (`shown` is what to display). */
 export function steadyStatus(s: StatusState, next: Status, now?: number): StatusState {

@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from "vitest";
-import { applyI18n, DICTIONARIES, getLang, setLang, t } from "../src/i18n";
+import { applyI18n, DICTIONARIES, getLang, setLang, setPlatform, t, type Key } from "../src/i18n";
 import { renderMonster } from "../src/render/monster";
 import { zoneSummary } from "../src/render/panel";
 import { renderSpellSheet } from "../src/render/spellSheet";
@@ -11,7 +11,10 @@ import { themeById, themeName } from "../src/theme";
 import type { Display, Vocabulary } from "../src/types";
 import { makeSnapshot, monster, plain, spell } from "./fixtures";
 
-afterEach(() => setLang("fr"));
+afterEach(() => {
+  setLang("fr");
+  setPlatform("windows");
+});
 
 const noIcon = () => null;
 const ALL: Display = {
@@ -23,6 +26,24 @@ const vocab: Vocabulary = {
 };
 
 describe("dictionaries", () => {
+  it("on a Mac, no text names Windows or the PC (a .mac variant takes over), in both languages", () => {
+    setPlatform("macos");
+    for (const lang of ["fr", "en"] as const) {
+      setLang(lang);
+      for (const key of Object.keys(DICTIONARIES.fr) as Key[]) {
+        if (key.endsWith(".mac")) continue;
+        expect(t(key), `${lang} ${key}`).not.toMatch(/Windows|PC/);
+      }
+    }
+  });
+
+  it("the screen-recording message says where to allow it", () => {
+    setPlatform("macos");
+    expect(t("status.noPermission")).toContain("Enregistrement de l’écran"); // French typography: ’
+    setLang("en");
+    expect(t("status.noPermission")).toContain("Screen Recording");
+  });
+
   it("have the same keys in French and English, none empty", () => {
     expect(Object.keys(DICTIONARIES.en).sort()).toEqual(Object.keys(DICTIONARIES.fr).sort());
     for (const lang of ["fr", "en"] as const) {
