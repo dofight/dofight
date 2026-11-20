@@ -1484,7 +1484,7 @@
    "reqs": [
     {
      "other": {
-      "fr": "Dans la pyramide : 4 personnages sur quatre dalles et un levier ouvrent deux portes, puis vaincre le monstre Tabasma en [14,-75] pour ouvrir la dernière. Le TP de groupe marche si quelqu'un est déjà devant le donjon.",
+      "fr": "Dans la pyramide : 4 personnages sur quatre dalles et un levier ouvrent deux portes, puis vaincre le monstre Tabasma en [14,-75] pour ouvrir la dernière. Le TP de groupe fonctionne si quelqu'un est déjà devant le donjon.",
       "en": "Inside the pyramid: 4 characters on four slabs and a lever open two doors, then defeat the monster Thrashtaba at [14,-75] to open the last one. The group teleport works if someone is already in front of the dungeon."
      }
     }
