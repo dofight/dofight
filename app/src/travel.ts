@@ -112,6 +112,15 @@ const hud = (name: string) => `<img src="/icons/hud/${name}.png" alt="">`;
 const ZAAP = hud("zaap");
 const STEPS = hud("steps");
 const MARKS: Record<string, string> = { skis: hud("skis") };
+/** A position written in an escaped text, « [15,-31] », as a button that copies « /travel 15 -31 » (owner, 2026-11-20:
+ * every position a player reads can be copied). */
+export function withPositions(html: string): string {
+  return html.replace(/\[\s*(-?\d{1,3})\s*,\s*(-?\d{1,3})\s*\]/g, (_all, x: string, y: string) => {
+    const command = `/travel ${Number(x)} ${Number(y)}`;
+    return `<button type="button" class="travel" data-copy="${command}" title="${command}">${STEPS}<span class="lbl" aria-live="polite">[${Number(x)},${Number(y)}]</span>${icon("copy")}</button>`;
+  });
+}
+
 /** « {skis} » in escaped text → its picture; an unknown mark stays as it is. */
 const marks = (html: string): string =>
   html
@@ -124,7 +133,7 @@ const marks = (html: string): string =>
 function withLinks(step: string): string {
   const parts = step.split(/\[([^\]]+)\]\((https:\/\/[^)\s"]+)\)/);
   return parts
-    .map((p, i) => (i % 3 === 0 ? marks(esc(p)) : i % 3 === 1 ? `<a class="quest" href="${esc(parts[i + 1])}" target="_blank" rel="noopener">${esc(p)}</a>` : ""))
+    .map((p, i) => (i % 3 === 0 ? withPositions(marks(esc(p))) : i % 3 === 1 ? `<a class="quest" href="${esc(parts[i + 1])}" target="_blank" rel="noopener">${esc(p)}</a>` : ""))
     .join("");
 }
 

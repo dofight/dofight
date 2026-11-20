@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { renderRoute, renderTrip, showCopied, travelCommand, tripTo, zaapCommand, type Travel } from "../src/travel";
+import { renderRoute, renderTrip, showCopied, travelCommand, withPositions, tripTo, zaapCommand, type Travel } from "../src/travel";
 
 const zaap = (x: number, y: number, fr: string, world = 1) => ({ x, y, world, zone: { fr, en: `${fr} EN` } });
 const travel: Travel = {
@@ -127,6 +127,19 @@ describe("how to get there", () => {
     const box = document.createElement("div");
     box.innerHTML = renderTrip(tripTo(travel, null, "Routes Rocailleuses")) + renderRoute(["/zaap -78 -41 ; /travel -68 -34"]);
     expect([...box.querySelectorAll<HTMLElement>(".travel")].map((b) => b.title)).toEqual(["/travel -20 -34", "/zaap -27 -36 ; /travel -20 -34", "/zaap -78 -41 ; /travel -68 -34"]);
+  });
+
+  it("a position in a text, [x,y], is a /travel button (owner, 2026-11-20)", () => {
+    const box = document.createElement("div");
+    box.innerHTML = withPositions("par Fwoued en [-1,33] sur l'île, puis [ 41, -56 ] ; pas [1,2,3] ni [abc]");
+    const buttons = [...box.querySelectorAll<HTMLElement>(".travel")];
+    expect(buttons.map((b) => b.dataset.copy)).toEqual(["/travel -1 33", "/travel 41 -56"]);
+    expect(buttons.map((b) => b.querySelector(".lbl")!.textContent)).toEqual(["[-1,33]", "[41,-56]"]);
+    expect(buttons[0].querySelector("img")!.getAttribute("src")).toBe("/icons/hud/steps.png");
+    expect(box.textContent).toContain("pas [1,2,3] ni [abc]");
+    // in a route step's text too
+    box.innerHTML = renderRoute(["Parler à Daoh en [15,-31]"]);
+    expect(box.querySelector<HTMLElement>(".travel")!.dataset.copy).toBe("/travel 15 -31");
   });
 
   describe("« Comment y aller » in the header", () => {

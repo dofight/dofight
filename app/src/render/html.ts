@@ -1,4 +1,5 @@
 import { getLang, t, type Key } from "../i18n";
+import { withPositions } from "../travel";
 
 /** Icon URL for a path under data/icons/, or null when that icon was not downloaded. */
 export type IconUrl = (path: string) => string | null;
@@ -38,6 +39,7 @@ export const escText = (text: string): string => ordinals(esc(text));
  * bullet list, easier to read at a glance. */
 export function prose(text: string, cls: string): string {
   const list = sentences(text);
-  if (list.length < 2) return `<div class="${cls}">${escText(text)}</div>`;
-  return `<ul class="${cls} bullets">${list.map((s) => `<li>${escText(s)}</li>`).join("")}</ul>`;
+  // a position in a summary is a /travel button, as everywhere a player reads one
+  if (list.length < 2) return `<div class="${cls}">${withPositions(escText(text))}</div>`;
+  return `<ul class="${cls} bullets">${list.map((s) => `<li>${withPositions(escText(s))}</li>`).join("")}</ul>`;
 }

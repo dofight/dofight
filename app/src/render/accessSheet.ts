@@ -1,6 +1,6 @@
 import type { PlaceAccess, Req, Text } from "../access";
 import { frenchSpaces, getLang, t } from "../i18n";
-import { renderRoute, renderTrip, routeOf, showCopied, type Trip } from "../travel";
+import { renderRoute, renderTrip, routeOf, showCopied, withPositions, type Trip } from "../travel";
 import { esc, escText } from "./html";
 import { icon } from "./icons";
 
@@ -8,7 +8,7 @@ import { icon } from "./icons";
  * the side window beside the panel (pinned by a click on the header's button, as a mechanic sheet). */
 
 const say = (text: Text): string => (getLang() === "en" ? text.en : text.fr) || text.fr;
-const line = (text: string): string => escText(frenchSpaces(text));
+const line = (text: string): string => withPositions(escText(frenchSpaces(text)));
 
 function req(r: Req): string {
   if ("quest" in r) {
@@ -51,7 +51,7 @@ export function renderAccessSheet(title: string, pa: PlaceAccess | null, trip: T
  * the clipboard (this window cannot take the focus) and answers with `sheetCopied`. False when the click was not on a
  * copy button. */
 export function sheetCopy(target: Element, send: (command: string) => void): boolean {
-  const command = target.closest<HTMLElement>(".access-sheet .travel")?.dataset.copy;
+  const command = target.closest<HTMLElement>(".travel")?.dataset.copy;
   if (!command) return false;
   send(command);
   return true;
@@ -60,6 +60,6 @@ export function sheetCopy(target: Element, send: (command: string) => void): boo
 /** The panel's answer to a copy: the button says « Copié » (or « Copie impossible ») in place of its text, as in the
  * header (`showCopied`). */
 export function sheetCopied(root: ParentNode, command: string, ok: boolean): void {
-  const button = [...root.querySelectorAll<HTMLElement>(".access-sheet .travel")].find((b) => b.dataset.copy === command);
+  const button = [...root.querySelectorAll<HTMLElement>(".travel")].find((b) => b.dataset.copy === command);
   if (button) showCopied(button, ok);
 }

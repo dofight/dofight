@@ -122,6 +122,11 @@ describe("the « Comment y aller » sheet", () => {
     expect(all).toContain("Multijely: No key.");
   });
 
+  it("a position in a requirement's text is a /travel button", () => {
+    const { box } = sheet({ ...baleine, areaReqs: [], ownReqs: [{ other: { fr: "Parler à Daoh en [15,-31].", en: "Talk to Daoh at [15,-31]." } }] });
+    expect(box.querySelector<HTMLElement>(".needs .travel")!.dataset.copy).toBe("/travel 15 -31");
+  });
+
   it("escapes every text", () => {
     const { box } = sheet({ ...baleine, ownReqs: [{ other: { fr: "<b>x</b>", en: "y" } }] }, zaapTrip, "<i>t</i>");
     expect(box.querySelector("b.x, i")).toBeNull();

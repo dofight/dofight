@@ -1,5 +1,6 @@
 import { frenchSpaces, t } from "../i18n";
 import type { Mechanic } from "../types";
+import { withPositions } from "../travel";
 import { esc, escText } from "./html";
 import { icon as navIcon } from "./icons";
 
@@ -16,8 +17,8 @@ export function renderMechanicChips(ids: string[] | undefined, mechanics: Map<st
 function point(text: string): string {
   const p = frenchSpaces(text);
   const term = /^([^:]{1,32}?)[\s  ]:/.exec(p);
-  if (term) return `<li><b>${escText(term[1])}</b>${escText(p.slice(term[1].length))}</li>`;
-  return `<li>${escText(p)}</li>`;
+  if (term) return `<li><b>${escText(term[1])}</b>${withPositions(escText(p.slice(term[1].length)))}</li>`;
+  return `<li>${withPositions(escText(p))}</li>`;
 }
 
 /** A mechanic's sheet, for the preview window: its title, the gist, one bullet per point. A hover preview has no link
