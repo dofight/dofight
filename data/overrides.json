@@ -11,6 +11,18 @@
         2938
       ],
       "why": "Gros Med: met in the Hypogée de l'Obsidiantre, room 4, during the quest « À la recherche de Dan Lavy »; a quest monster for Dofensive, with no dungeon attached (owner, 2026-11-18)"
+    },
+    "4": {
+      "addMonsters": [
+        827,
+        829,
+        668,
+        830,
+        832,
+        831,
+        3740
+      ],
+      "why": "Centre du Labyrinthe du Minotoror: the labyrinth's monsters are met in the centre too (the DPLN summary and the Minotot summoned by the Minotoror); the client lists them under the Labyrinthe (dungeon 53) only (2026-11-19)"
     }
   }
 }

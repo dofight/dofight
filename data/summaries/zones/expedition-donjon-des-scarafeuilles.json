@@ -164,12 +164,12 @@
    "tags": [
     {
      "id": "summons",
-     "param": "Flammèche Feu, Flammèche Eau",
+     "param": "Flammèche Air",
      "source": "spells"
     },
     {
      "id": "buffs_allies",
-     "param": "Dommages",
+     "param": "PO",
      "source": "spells"
     }
    ]
@@ -178,12 +178,12 @@
    "tags": [
     {
      "id": "summons",
-     "param": "Flammèche Feu, Flammèche Eau",
+     "param": "Flammèche Terre",
      "source": "spells"
     },
     {
      "id": "buffs_allies",
-     "param": "Dommages",
+     "param": "PM",
      "source": "spells"
     }
    ]
@@ -192,12 +192,12 @@
    "tags": [
     {
      "id": "summons",
-     "param": "Flammèche Feu, Flammèche Eau",
+     "param": "Flammèche Eau",
      "source": "spells"
     },
     {
      "id": "buffs_allies",
-     "param": "Dommages",
+     "param": "Critique",
      "source": "spells"
     }
    ]
@@ -206,12 +206,12 @@
    "tags": [
     {
      "id": "summons",
-     "param": "Flammèche Feu, Flammèche Eau",
+     "param": "Flammèche Feu",
      "source": "spells"
     },
     {
      "id": "buffs_allies",
-     "param": "Dommages",
+     "param": "Vitalité",
      "source": "spells"
     }
    ]
@@ -219,27 +219,16 @@
   "798": {
    "tags": [
     {
-     "id": "summons",
-     "param": "Flammèche Feu, Flammèche Eau",
-     "source": "spells"
-    },
-    {
      "id": "heals",
-     "param": "lui et ses alliés",
-     "source": "spells"
+     "param": "lui-même et ses alliés"
     },
     {
-     "id": "removes",
-     "param": "PM",
-     "source": "spells"
+     "id": "phase",
+     "param": "se transforme au bout de 2 tours"
     },
     {
      "id": "buffs_allies",
-     "param": "Dommages, PM",
-     "source": "spells"
-    },
-    {
-     "id": "invisible",
+     "param": "PM",
      "source": "spells"
     }
    ]

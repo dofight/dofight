@@ -43,7 +43,13 @@
    "tags": [
     {
      "id": "summons",
-     "param": "Flammèche"
+     "param": "Flammèche Air",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PO",
+     "source": "spells"
     }
    ],
    "detail": "Immunisé à l'Air."
@@ -52,7 +58,13 @@
    "tags": [
     {
      "id": "summons",
-     "param": "Flammèche"
+     "param": "Flammèche Terre",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM",
+     "source": "spells"
     }
    ],
    "detail": "Immunisé à la Terre."
@@ -61,7 +73,13 @@
    "tags": [
     {
      "id": "summons",
-     "param": "Flammèche"
+     "param": "Flammèche Eau",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Critique",
+     "source": "spells"
     }
    ],
    "detail": "Immunisé à l'Eau."
@@ -70,7 +88,13 @@
    "tags": [
     {
      "id": "summons",
-     "param": "Flammèche"
+     "param": "Flammèche Feu",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Vitalité",
+     "source": "spells"
     }
    ],
    "detail": "Immunisé au Feu."
@@ -84,6 +108,11 @@
     {
      "id": "phase",
      "param": "se transforme au bout de 2 tours"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM",
+     "source": "spells"
     }
    ],
    "detail": "Devient le Scarafeuille de son élément de résistance, plus dangereux."

@@ -1,0 +1,197 @@
+{
+ "_note": "Fights Dofight lists as dungeons though the game does not (ids of the earlier Dofensive data, kept so the summaries keep theirs); private/tools/client_snapshot.py adds them to the client's dungeons. Owner, 2026-11-19: the Cratère Minus is the fight against Grozilla and Grasmera, at four levels, during the August event when Vulkania is open; Gargandyas belongs with Osavora.",
+ "dungeons": [
+  {
+   "id": -101,
+   "name": "Caverne de Cire Momore",
+   "level": 200,
+   "monsterIds": [
+    7222
+   ],
+   "maps": [
+    {
+     "id": 227280896,
+     "name": "[error:unknown_text_0]",
+     "x": 36,
+     "y": -71,
+     "boss": true
+    }
+   ],
+   "why": "Cire Momore, in Ereboria",
+   "nameEn": "Cire Momore's Cavern",
+   "mapsEn": [
+    {
+     "id": 227280896,
+     "name": "[error:unknown_text_0]",
+     "x": 36,
+     "y": -71,
+     "boss": true
+    }
+   ]
+  },
+  {
+   "id": -1001,
+   "name": "Temple de Gargandyas",
+   "level": 200,
+   "monsterIds": [
+    8062
+   ],
+   "maps": [
+    {
+     "id": 237241609,
+     "name": "Temple de Gargandyas - Salle du Graogarm",
+     "x": 17,
+     "y": 8,
+     "boss": true
+    }
+   ],
+   "why": "Gargandyas, Osavora",
+   "nameEn": "Gargandyas temple",
+   "mapsEn": [
+    {
+     "id": 237241609,
+     "name": "Gargandyas's Temple - Graogarm Room",
+     "x": 17,
+     "y": 8,
+     "boss": true
+    }
+   ]
+  },
+  {
+   "id": -102,
+   "name": "Cratère Minus (Grozilla et Grasmera Somnambules)",
+   "level": 50,
+   "monsterIds": [
+    3298,
+    3295,
+    3149,
+    3148,
+    3147,
+    3146,
+    3145
+   ],
+   "maps": [
+    {
+     "id": 74978823,
+     "name": "Antre de Grozilla et Grasmera",
+     "x": -51,
+     "y": 40,
+     "boss": true
+    }
+   ],
+   "why": "Vulkania, August event, level 50",
+   "nameEn": "Pinki Crater (Sleepwalking Grozilla and Grasmera)",
+   "mapsEn": [
+    {
+     "id": 74978823,
+     "name": "Grozilla and Grasmera's Den",
+     "x": -51,
+     "y": 40,
+     "boss": true
+    }
+   ]
+  },
+  {
+   "id": -103,
+   "name": "Cratère Minus (Grozilla et Grasmera Épuisés)",
+   "level": 100,
+   "monsterIds": [
+    3297,
+    3294,
+    3154,
+    3153,
+    3152,
+    3151,
+    3150
+   ],
+   "maps": [
+    {
+     "id": 74978821,
+     "name": "Antre de Grozilla et Grasmera",
+     "x": -51,
+     "y": 40,
+     "boss": true
+    }
+   ],
+   "why": "Vulkania, August event, level 100",
+   "nameEn": "Pinki Crater (Exhausted Grozilla and Grasmera)",
+   "mapsEn": [
+    {
+     "id": 74978821,
+     "name": "Grozilla and Grasmera's Den",
+     "x": -51,
+     "y": 40,
+     "boss": true
+    }
+   ]
+  },
+  {
+   "id": -104,
+   "name": "Cratère Minus (Grozilla et Grasmera Fatigués)",
+   "level": 150,
+   "monsterIds": [
+    3296,
+    3293,
+    3159,
+    3158,
+    3157,
+    3156,
+    3155
+   ],
+   "maps": [
+    {
+     "id": 74978819,
+     "name": "Antre de Grozilla et Grasmera",
+     "x": -51,
+     "y": 40,
+     "boss": true
+    }
+   ],
+   "why": "Vulkania, August event, level 150",
+   "nameEn": "Pinki Crater (Tired Grozilla and Grasmera)",
+   "mapsEn": [
+    {
+     "id": 74978819,
+     "name": "Grozilla and Grasmera's Den",
+     "x": -51,
+     "y": 40,
+     "boss": true
+    }
+   ]
+  },
+  {
+   "id": -105,
+   "name": "Cratère Minus (Grozilla et Grasmera)",
+   "level": 200,
+   "monsterIds": [
+    3143,
+    3142,
+    3164,
+    3163,
+    3162,
+    3161,
+    3160
+   ],
+   "maps": [
+    {
+     "id": 74978817,
+     "name": "Antre de Grozilla et Grasmera",
+     "x": -51,
+     "y": 40,
+     "boss": true
+    }
+   ],
+   "why": "Vulkania, August event, level 200",
+   "nameEn": "Pinki Crater (Grozilla and Grasmera)",
+   "mapsEn": [
+    {
+     "id": 74978817,
+     "name": "Grozilla and Grasmera's Den",
+     "x": -51,
+     "y": 40,
+     "boss": true
+    }
+   ]
+  }
+ ]
+}

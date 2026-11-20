@@ -20,7 +20,7 @@
       "label": "One-shot",
       "labelEn": "One-shot",
       "param": "condition",
-      "icon": "states/stateSkull.webp"
+      "icon": "badges/one_shot.webp"
     },
     "invulnerable": {
       "category": "danger",
@@ -34,259 +34,266 @@
       "label": "Gros dégâts",
       "labelEn": "Heavy damage",
       "param": "where",
-      "icon": "spell/effect/1.webp"
+      "icon": "badges/big_damage.webp"
     },
     "area_damage": {
       "category": "danger",
       "label": "Tape en zone",
       "labelEn": "Area damage",
       "param": "optional",
-      "icon": "spell/effect/44.webp"
+      "icon": "badges/area_damage.webp"
     },
     "team_damage": {
       "category": "danger",
       "label": "Tape toute l'équipe",
       "labelEn": "Hits the whole team",
       "param": "optional",
-      "icon": "spell/effect/59.webp"
+      "icon": "badges/team_damage.webp"
     },
     "reflect": {
       "category": "danger",
       "label": "Renvoie les dégâts",
       "labelEn": "Reflects damage",
       "param": "optional",
-      "icon": "spell/effect/58.webp"
+      "icon": "badges/reflect.webp"
     },
     "revives": {
       "category": "danger",
       "label": "Ressuscite ses alliés",
       "labelEn": "Revives its allies",
       "param": "optional",
-      "icon": "spell/effect/41.webp"
+      "icon": "badges/revives.webp"
     },
     "inflicts": {
       "category": "danger",
       "label": "Met en état",
       "labelEn": "Inflicts a state",
       "param": "what",
-      "icon": "spell/effect/54.webp"
+      "icon": "badges/inflicts.webp"
     },
     "poison_ap": {
       "category": "danger",
       "label": "Poison PA",
       "labelEn": "AP poison",
       "param": "element",
-      "icon": "spell/effect/25.webp"
+      "icon": "badges/poison_ap.webp"
     },
     "poison_mp": {
       "category": "danger",
       "label": "Poison PM",
       "labelEn": "MP poison",
       "param": "element",
-      "icon": "spell/effect/27.webp"
+      "icon": "badges/poison_mp.webp"
     },
     "heals": {
       "category": "danger",
       "label": "Soigne",
       "labelEn": "Heals",
       "param": "who",
-      "icon": "spell/effect/40.webp"
+      "icon": "badges/heals.webp"
     },
     "removes": {
       "category": "danger",
       "label": "Retire",
       "labelEn": "Removes",
       "param": "what",
-      "icon": "spell/effect/29.webp"
+      "icon": "badges/removes.webp"
     },
     "steals": {
       "category": "danger",
       "label": "Vole",
       "labelEn": "Steals",
       "param": "what",
-      "icon": "spell/effect/22.webp"
+      "icon": "badges/steals.webp"
     },
     "no_melee_end": {
       "category": "tip",
       "label": "Ne pas finir au CaC",
       "labelEn": "Don't end your turn in melee",
       "param": "optional",
-      "icon": "spell/effect/23.webp"
+      "icon": "badges/no_melee_end.webp"
     },
     "out_of_sight": {
       "category": "tip",
       "label": "Rester hors de sa vue",
       "labelEn": "Stay out of its sight",
       "param": "optional",
-      "icon": "spell/effect/39.webp"
+      "icon": "badges/out_of_sight.webp"
     },
     "spread_out": {
       "category": "tip",
       "label": "Ne pas rester groupés",
       "labelEn": "Spread out",
       "param": "optional",
-      "icon": "spell/effect/35.webp"
+      "icon": "badges/spread_out.webp"
     },
     "dispel": {
       "category": "tip",
       "label": "Désenvoûter",
       "labelEn": "Dispel",
       "param": "what",
-      "icon": "spell/dispell/1.webp"
+      "icon": "badges/dispel.webp"
     },
     "lock": {
       "category": "tip",
       "label": "Le tacler",
       "labelEn": "Lock it",
       "param": "optional",
-      "icon": "spell/effect/30.webp"
+      "icon": "badges/lock.webp"
     },
     "phase": {
       "category": "mechanic",
       "label": "Change de phase",
       "labelEn": "Changes phase",
       "param": "when",
-      "icon": "spell/effect/74.webp"
+      "icon": "badges/phase.webp"
     },
     "summons": {
       "category": "mechanic",
       "label": "Invoque",
       "labelEn": "Summons",
       "param": "what",
-      "icon": "spell/effect/52.webp"
+      "icon": "badges/summons.webp"
     },
     "buffs_allies": {
       "category": "mechanic",
       "label": "Booste ses alliés",
       "labelEn": "Buffs its allies",
       "param": "optional",
-      "icon": "spell/effect/38.webp"
+      "icon": "badges/buffs_allies.webp"
     },
     "moves": {
       "category": "mechanic",
       "label": "Déplace",
       "labelEn": "Displaces",
       "param": "how",
-      "icon": "spell/effect/36.webp"
+      "icon": "badges/moves.webp"
     },
     "glyphs": {
       "category": "mechanic",
       "label": "Pose des glyphes",
       "labelEn": "Places glyphs",
       "param": "effect",
-      "icon": "spell/effect/46.webp"
+      "icon": "badges/glyphs.webp"
     },
     "flees": {
       "category": "mechanic",
       "label": "Fuyard",
       "labelEn": "Flees",
       "param": "none",
-      "icon": "spell/effect/69.webp"
+      "icon": "badges/flees.webp"
     },
     "state": {
       "category": "mechanic",
       "label": "État",
       "labelEn": "State",
       "param": "what",
-      "icon": "spell/effect/54.webp"
+      "icon": "badges/state.webp"
     },
     "erodes": {
       "category": "danger",
       "label": "Érode",
       "labelEn": "Erodes",
       "param": "optional",
-      "icon": "hud/erosion.webp"
+      "icon": "badges/erodes.webp"
     },
     "swaps_on_hit": {
       "category": "danger",
       "label": "Échange de place si frappé",
       "labelEn": "Swaps places when hit",
       "param": "optional",
-      "icon": "spell/effect/34.webp"
+      "icon": "badges/swaps_on_hit.webp"
     },
     "reduce_range": {
       "category": "tip",
       "label": "Lui retirer de la PO",
       "labelEn": "Reduce its range",
       "param": "optional",
-      "icon": "spell/effect/66.webp"
+      "icon": "badges/reduce_range.webp"
     },
     "remove_mp": {
       "category": "tip",
       "label": "Lui retirer des PM",
       "labelEn": "Remove its MP",
       "param": "optional",
-      "icon": "spell/effect/26.webp"
+      "icon": "badges/remove_mp.webp"
     },
     "no_summon": {
       "category": "tip",
       "label": "Ne pas invoquer",
       "labelEn": "Don't summon",
       "param": "optional",
-      "icon": "spell/effect/77.webp"
+      "icon": "badges/no_summon.webp"
     },
     "ranged_resist": {
       "category": "danger",
       "label": "Résiste à distance",
       "labelEn": "Resists ranged damage",
       "param": "percent",
-      "icon": "spell/effect/2.webp"
+      "icon": "badges/ranged_resist.webp"
+    },
+    "melee_resist": {
+      "category": "danger",
+      "label": "Résiste au CaC",
+      "labelEn": "Resists melee damage",
+      "param": "optional",
+      "icon": "badges/melee_resist.webp"
     },
     "dodges_melee": {
       "category": "danger",
       "label": "Esquive au CaC",
       "labelEn": "Dodges melee hits",
       "param": "optional",
-      "icon": "spell/effect/63.webp"
+      "icon": "badges/dodges_melee.webp"
     },
     "weapon_immune": {
       "category": "danger",
       "label": "Immunisé aux armes",
       "labelEn": "Immune to weapons",
       "param": "optional",
-      "icon": "spell/effect/67.webp"
+      "icon": "badges/weapon_immune.webp"
     },
     "no_ap_mp_removal": {
       "category": "tip",
       "label": "Ne pas lui retirer PA/PM",
       "labelEn": "Don't remove its AP/MP",
       "param": "optional",
-      "icon": "spell/effect/24.webp"
+      "icon": "badges/no_ap_mp_removal.webp"
     },
     "hit_to_heal": {
       "category": "tip",
       "label": "Le taper pour se soigner",
       "labelEn": "Hit it to heal yourself",
       "param": "optional",
-      "icon": "spell/effect/3.webp"
+      "icon": "badges/hit_to_heal.webp"
     },
     "invisible": {
       "category": "mechanic",
       "label": "Se rend invisible",
       "labelEn": "Turns invisible",
       "param": "optional",
-      "icon": "spell/effect/31.webp"
+      "icon": "badges/invisible.webp"
     },
     "redirects": {
       "category": "mechanic",
       "label": "Prend les dégâts de ses alliés",
       "labelEn": "Takes its allies' damage",
       "param": "optional",
-      "icon": "spell/effect/70.webp"
+      "icon": "badges/redirects.webp"
     },
     "dispels_you": {
       "category": "danger",
       "label": "Désenvoûte",
       "labelEn": "Dispels you",
       "param": "optional",
-      "icon": "spell/effect/73.webp"
+      "icon": "badges/dispels_you.webp"
     },
     "kill_condition": {
       "category": "tip",
       "label": "Pour le tuer",
       "labelEn": "To kill it",
       "param": "what",
-      "icon": "spell/effect/16.webp"
+      "icon": "badges/kill_condition.webp"
     }
   },
   "params": {

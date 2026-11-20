@@ -194,6 +194,9 @@ def build_zones(folder: Path, out: Path) -> int:
     return len(index)
 
 
+REFLECT_BADGE = 20  # damage sent back from which a monster gets the « Renvoie » badge (the Krokilles' 5 or 10 do not)
+
+
 def build_monsters(folder: Path, snapshot: dict, out: Path) -> int:
     """Badges for every monster, wherever it is met (a zone, a wanted poster…): its entry in a dungeon summary, in
     wanted.json or in monsters-written.json when it has one, else the badges derived from its spells
@@ -216,9 +219,17 @@ def build_monsters(folder: Path, snapshot: dict, out: Path) -> int:
         key = str(m["id"])
         if key in from_dungeons:
             result[key] = from_dungeons[key]
-            continue
-        derived = derive([spells[i] for i in m["spellIds"] if i in spells])
-        result[key] = {"tags": derived["tags"], **({"harmless": True} if derived["harmless"] else {})}
+        else:
+            derived = derive([spells[i] for i in m["spellIds"] if i in spells])
+            result[key] = {"tags": derived["tags"], **({"harmless": True} if derived["harmless"] else {})}
+        # the damage it sends back (a stat of the monster, not a spell: Gros Med 50), when it hurts
+        reflect = m.get("reflect", 0)
+        tags = result[key].get("tags") or []
+        if reflect >= REFLECT_BADGE and not any(t["id"] == "reflect" for t in tags) and len(tags) < 6:
+            entry = dict(result[key])
+            entry["tags"] = tags + [{"id": "reflect", "param": f"{reflect} dommages", "source": "stat"}]
+            entry.pop("harmless", None)
+            result[key] = entry
     Path(out).write_text(json.dumps(result, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     return len(result)
 

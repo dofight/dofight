@@ -88,6 +88,10 @@
      "param": "Neutre, par son Malterego"
     },
     {
+     "id": "inflicts",
+     "param": "Insoignable 2 tours"
+    },
+    {
      "id": "removes",
      "param": "PA, PM",
      "source": "spells"

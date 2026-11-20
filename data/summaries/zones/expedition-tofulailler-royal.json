@@ -76,6 +76,16 @@
      "source": "spells"
     },
     {
+     "id": "removes",
+     "param": "Puissance",
+     "source": "spells"
+    },
+    {
+     "id": "steals",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
      "id": "state",
      "param": "crée des illusions",
      "source": "spells"

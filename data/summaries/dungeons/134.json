@@ -18,6 +18,10 @@
   "6478": {
    "tags": [
     {
+     "id": "inflicts",
+     "param": "Intacleur/Pesanteur/Insoignable"
+    },
+    {
      "id": "dispel",
      "param": "poisons (5 tours, cumulables)"
     },

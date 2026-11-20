@@ -1,4 +1,4 @@
-"""Badges proposed from a monster's Dofensive spells (the user validates them; they carry "source": "spells").
+"""Badges proposed from a monster's spells (game data) (the user validates them; they carry "source": "spells").
 
 Each effect knows whom it hits ("target": enemies / allies / self / all) and where ("zone": "cercle 2"…); a spell with
 range 0 and an area is centred on the monster ("autour de lui"). A monster whose spells all hit at melee range,
@@ -9,6 +9,8 @@ import re
 
 _MOVES = (("attire", "attire"), ("repousse", "pousse"), ("recule", "pousse"), ("téléporte", "se téléporte"),
           ("téléportation", "se téléporte"), ("échange de positions", "échange de place"), ("avance de", "avance"))
+# « Téléporte ou échange de positions »: one move, a swap (not « se téléporte » as well)
+_SWAP_OR_TELEPORT = "téléporte ou échange de positions"
 _DANGEROUS_CATEGORIES = {"move", "summon", "glyph", "heal", "hinder"}
 _STAT_ORDER = ["PA", "PM", "PO"]
 # losing dodge is no threat to a character: not a « Retire » badge (owner, 2026-11-18)
@@ -87,9 +89,10 @@ def derive(spells: list) -> dict:
         tags.append(tag)
 
     # reviving the last dead ally: the monster to take down first, shown before everything else
-    revive = next((t for t in texts if t.startswith("Ressuscite")), None)
+    # (the game's own wording: « Invoque le dernier allié mort avec 25 % de sa vie »)
+    revive = next((t for t in texts if t.startswith(("Ressuscite", "Invoque le dernier allié mort"))), None)
     if revive:
-        pct = re.search(r"(\d+)% de ses PV", revive)
+        pct = re.search(r"(\d+) ?% de (?:ses PV|sa vie)", revive)
         add("revives", f"à {pct.group(1)} % de ses PV" if pct else None)
 
     states = []
@@ -193,6 +196,8 @@ def derive(spells: list) -> dict:
     moves = []
     for _, e in pairs:
         low = e["text"].lower()
+        if _SWAP_OR_TELEPORT in low:
+            low = low.replace(_SWAP_OR_TELEPORT, "échange de positions")
         for key, label in _MOVES:
             # a teleport aimed at enemies moves the player, not the monster
             if label == "se téléporte" and e.get("target") == "enemies":
@@ -208,10 +213,11 @@ def derive(spells: list) -> dict:
     # a « glyph » spell that only sets off traps or bombs, or removes the target's glyphs, lays none (Pistage, Salsa)
     def lays_glyph(s):
         # removing its own glyphs (target « self ») clears the previous one before laying the next: still a glyph
-        about = [e["text"] for e in s.get("effects", []) if not (e["text"].startswith("Supprime") and
+        removing = ("Supprime", "Dissipe")  # « Dissipe les glyphes »: the game's wording for removing them
+        about = [e["text"] for e in s.get("effects", []) if not (e["text"].startswith(removing) and
                                                                   e.get("target") == "self")
-                 and (e["text"].startswith(("Déclenche", "Supprime", "Pose")) or "glyphe" in e["text"].lower())]
-        return not (about and all(t.startswith(("Déclenche", "Supprime")) for t in about))
+                 and (e["text"].startswith(("Déclenche", "Pose") + removing) or "glyphe" in e["text"].lower())]
+        return not (about and all(t.startswith(("Déclenche",) + removing) for t in about))
 
     if any("glyph" in s.get("categories", []) and lays_glyph(s) for s in spells):
         add("glyphs")  # what the glyph does is not in the spell data: no parameter rather than a placeholder

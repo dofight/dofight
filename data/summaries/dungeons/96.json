@@ -60,11 +60,6 @@
      "source": "spells"
     },
     {
-     "id": "inflicts",
-     "param": "Affaibli",
-     "source": "spells"
-    },
-    {
      "id": "poison_mp",
      "param": "Terre",
      "source": "spells"

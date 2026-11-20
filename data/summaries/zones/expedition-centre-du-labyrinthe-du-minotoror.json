@@ -42,9 +42,16 @@
   "7929": {
    "tags": [
     {
+     "id": "reflect",
+     "param": "2 tours sur 4"
+    },
+    {
+     "id": "heals",
+     "param": "lui-même, 20 % de ses PV"
+    },
+    {
      "id": "removes",
-     "param": "PO",
-     "source": "spells"
+     "param": "PO à qui le frappe"
     },
     {
      "id": "moves",

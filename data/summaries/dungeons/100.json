@@ -18,6 +18,10 @@
      "source": "spells"
     },
     {
+     "id": "steals",
+     "param": "PA au CaC"
+    },
+    {
      "id": "no_melee_end"
     },
     {

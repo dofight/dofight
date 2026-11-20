@@ -204,6 +204,19 @@
      "source": "spells"
     }
    ]
+  },
+  "672": {
+   "tags": [
+    {
+     "id": "buffs_allies",
+     "param": "PM, Critique, Agilité",
+     "source": "spells"
+    },
+    {
+     "id": "invisible",
+     "param": "un allié au CaC"
+    }
+   ]
   }
  }
 }

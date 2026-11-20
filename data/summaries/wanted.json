@@ -1574,6 +1574,10 @@
           "param": "PA, PM, PO, caractéristique"
         },
         {
+          "id": "erodes",
+          "source": "spells"
+        },
+        {
           "id": "spread_out",
           "param": "frappe en croix au CaC"
         },
@@ -2104,8 +2108,7 @@
         },
         {
           "id": "steals",
-          "param": "PA",
-          "source": "spells"
+          "param": "PA entre alliés (glyphe marron)"
         },
         {
           "id": "dispel",

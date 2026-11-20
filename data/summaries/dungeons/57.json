@@ -134,7 +134,18 @@
    "detail": "Se placer à 1-7 PO d'elle, ou la tuer avant son 5e tour."
   },
   "2938": {
-   "tags": []
+   "tags": [
+    {
+     "id": "poison_ap",
+     "param": "Feu",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "Résistance Feu, Résistance Terre",
+     "source": "spells"
+    }
+   ]
   }
  },
  "bossSummons": {

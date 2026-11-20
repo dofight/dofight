@@ -2451,7 +2451,13 @@
   "Virustine : ne pas la déplacer ni lui retirer de PM. Un échange de place du Tabacille compte comme un déplacement.": "Viring: don't move her or remove her MP. A Bashillus swap counts as a move.",
   "Pataugerme (donjon) : le taper dans les 4 éléments (Terre, Feu, Eau, Air) à chaque tour.": "Pathogerm (dungeon): hit it with all 4 elements (Earth, Fire, Water, Air) every turn.",
   "Moins il reste de Krobes, moins tu as de cibles pour blesser la Malamibe.": "The fewer Krobes remain, the fewer targets you have to hurt the Malamoeba.",
-  "-1 tour de bonus au-delà de 5 PO": "-1 buff turn beyond 5 range"
+  "-1 tour de bonus au-delà de 5 PO": "-1 buff turn beyond 5 range",
+  "Intacleur/Pesanteur/Insoignable": "Unable to Lock/Gravity/Unhealable",
+  "Insoignable 2 tours": "Unhealable 2 turns",
+  "un allié au CaC": "an ally in melee",
+  "2 tours sur 4": "2 turns out of 4",
+  "lui-même, 20 % de ses PV": "itself, 20% of its HP",
+  "PA entre alliés (glyphe marron)": "AP between allies (brown glyph)"
  },
  "token": {
   "-résistances": "-resistances",
@@ -2939,6 +2945,9 @@
   "avance": "advances",
   "un double": "a double",
   "Retrait PA autour de lui": "AP Reduction around it",
-  "te téléporte": "teleports you"
+  "te téléporte": "teleports you",
+  "Dommages Critiques": "Critical Damage",
+  "Flammèche Air": "Air Spark",
+  "Flammèche Terre": "Earth Spark"
  }
 }
