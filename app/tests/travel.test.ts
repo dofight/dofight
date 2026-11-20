@@ -81,6 +81,13 @@ describe("how to get there", () => {
       expect(plain(renderTrip(tripTo(travel, 1, "x"), { key, offKeyring: true }))).toContain("Clef de la Cour du Bouftou Royal · hors trousseau");
     });
 
+    it("special with no known position: the button alone", () => {
+      box.innerHTML = renderTrip(null, { special: true });
+      expect(box.querySelector("button.access")).not.toBeNull();
+      expect(box.querySelector(".travel")).toBeNull();
+      expect(renderTrip(null, { key: { fr: "k", en: "k" } })).toBe("");
+    });
+
     it("no options: exactly today's line", () => {
       const trip = tripTo(travel, 1, "x");
       expect(renderTrip(trip, {})).toBe(renderTrip(trip));

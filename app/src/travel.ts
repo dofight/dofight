@@ -69,6 +69,9 @@ export const zaapCommand = (z: Spot, to: Spot): string => `/zaap ${z.x} ${z.y} ;
 
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
 
+const accessButton = (): string =>
+  `<button type="button" class="access" aria-expanded="false" title="${esc(t("access.buttonTitle"))}">${esc(t("access.button"))} ›</button>`;
+
 export interface TripOptions {
   /** Something to know before going (access.ts `isSpecial`): the « Comment y aller » button. */
   special?: boolean;
@@ -80,7 +83,8 @@ export interface TripOptions {
 /** The trip line of a room's header: « Aller en [x,y] », then the zaap to take. Each button copies its command (a
  * copy icon after it); once copied, `.tripmsg` says where to paste it (main.ts). */
 export function renderTrip(trip: Trip | null, opts: TripOptions = {}): string {
-  if (!trip) return "";
+  // no known position (a dungeon the client does not place): the button alone, when there is something to know
+  if (!trip) return opts.special ? `<div class="trip">${accessButton()}</div>` : "";
   const route = routeOf(trip.to);
   if (route.length && !opts.special) return renderRoute(route);
   const travel = travelCommand(trip.to);
@@ -88,7 +92,7 @@ export function renderTrip(trip: Trip | null, opts: TripOptions = {}): string {
   const msg = `<span class="tripmsg" role="status"></span>`;
   // « Comment y aller » (the sheet has the route and what to do first), or the key at the end of the line
   const extra = opts.special
-    ? `<button type="button" class="access" aria-expanded="false" title="${esc(t("access.buttonTitle"))}">${esc(t("access.button"))} ›</button>`
+    ? accessButton()
     : opts.key
       ? `<span class="key">· ${esc((getLang() === "en" ? opts.key.en : opts.key.fr) || opts.key.fr)}${opts.offKeyring ? ` · ${esc(t("access.offKeyring"))}` : ""}</span>`
       : "";

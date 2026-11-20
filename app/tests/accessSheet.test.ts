@@ -25,7 +25,7 @@ afterEach(() => setLang("fr"));
 describe("the « Comment y aller » sheet", () => {
   it("lists the requirements, then the route, then the guide", () => {
     const { box, all } = sheet(baleine);
-    const order = ["Comment y aller : Ventre de la Baleine", "Prérequis", "Niveau 190", "Clef du Ventre", "Quêtes à finir avant (Île d'Otomaï) :",
+    const order = ["Comment y aller : Ventre de la Baleine", "Prérequis", "Niveau 190", "Clef du Ventre", "Accès (Île d'Otomaï) :",
       "Le nouveau monde", "L'île des naufragés", "Trajet"];
     let at = -1;
     for (const part of order) {
@@ -62,7 +62,7 @@ describe("the « Comment y aller » sheet", () => {
     expect(all).toContain("Dimension Osavora :");
     expect(all).toContain("Niveau 50 minimum");
     expect(all).toContain("Faire la chasse d'Osavora une fois.");
-    expect(all).not.toContain("Quêtes à finir avant");
+    expect(all).not.toContain("Accès (");
   });
 
   it("its own requirements: a dungeon to beat, an item and how, a choice, an event", () => {
@@ -75,6 +75,7 @@ describe("the « Comment y aller » sheet", () => {
       ],
     };
     const { all } = sheet(pa);
+    expect(all).toContain("Ce lieu :");
     expect(all).toContain("Vaincre Antre du Korriandre");
     expect(all).toContain("Baguette Rikiki : L'équiper.");
     expect(all).toContain("Au choix :");
@@ -85,7 +86,7 @@ describe("the « Comment y aller » sheet", () => {
   it("a zone: no level or key line", () => {
     const { all } = sheet({ ...baleine, level: null, key: null, guide: null }, zaapTrip, "Jungle obscure");
     expect(all).not.toContain("Niveau");
-    expect(all).toContain("Quêtes à finir avant (Île d'Otomaï) :");
+    expect(all).toContain("Accès (Île d'Otomaï) :");
   });
 
   it("only a route (nothing in the access data): no « Prérequis »", () => {
