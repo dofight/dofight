@@ -35,8 +35,8 @@ describe("zone", () => {
   });
 });
 
-describe("zone shapes checked against Dofensive", () => {
-  it("draws the boomerang and the rectangle like Dofensive", () => {
+describe("zone shapes checked against the game", () => {
+  it("draws the boomerang and the rectangle like the game", () => {
     expect(lit("boomerang 2")).toBe(5); // a 3-cell line and two bent ends
     expect(lit("rectangle 1 3")).toBe(12); // 3 wide, 4 deep
     expect(lit("cône 3")).toBe(16);

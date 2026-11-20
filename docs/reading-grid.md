@@ -5,7 +5,7 @@ say what changes how a fight is played. This grid is applied to every dungeon; t
 added here as rules (section "Rulings from reviews"), never only fixed in one dungeon.
 
 Source: the Dofus pour les Noobs (DPLN) guide of the dungeon, checked against the
-Dofensive spells of each monster. Never invent: what the guide does not support is not written.
+game data of each monster's spells. Never invent: what the guide does not support is not written.
 
 ## Output (per dungeon, `data/summaries/dungeons/<dungeonId>.json`)
 
@@ -23,7 +23,7 @@ Dofensive spells of each monster. Never invent: what the guide does not support 
 }
 ```
 
-- Keys of `monsters` are Dofensive monster ids of that dungeon. Every monster of the dungeon appears, even with
+- Keys of `monsters` are game monster ids of that dungeon. Every monster of the dungeon appears, even with
   `"tags": []`.
 - `status`: `draft` (generated) → `reviewed` (the user read it and agreed). Only the user moves a dungeon to `reviewed`.
 - Tag ids, categories, labels and parameter kinds: `data/summaries/vocabulary.json`. A tag not in the vocabulary is
@@ -54,7 +54,7 @@ le taper te soigne »).
 ## What does not earn a tag
 
 - Things every monster does (it hits, it moves, it has an area spell nobody worries about).
-- Exact damage numbers: guides and Dofensive base values differ. Say « gros dégâts », not « 240 ».
+- Exact damage numbers: guides and the game data's base values differ. Say « gros dégâts », not « 240 ».
 - Achievements (Hardi, Blitzkrieg, Duo...): out of scope.
 - Loot, keys, quests, access to the dungeon.
 
@@ -110,10 +110,10 @@ vulnerable, a per-season table) gets a sheet, keyed by an English id, and the ro
     (User, Château Ensablé: Mob l'Éponge, Pichon Kloune, Pichon Vert.)
   - Every monster's spells are checked, including those the user or the guide called harmless: when the spells show
     a removal, a heal, a move, a summon, a glyph or a ranged hit, badges are proposed and the user confirms.
-  - A monster the guide does not discuss gets badges proposed from its Dofensive spells (`tools/derive.py`, each
+  - A monster the guide does not discuss gets badges proposed from its spells (`tools/derive.py`, each
     tag `"source": "spells"`); the user validates them.
 
-- The boss is the monster Dofensive marks as boss, even when the guide calls another monster « le vrai boss »
+- The boss is the monster the game data marks as boss, even when the guide calls another monster « le vrai boss »
   (Donjon des Squelettes: the boss is the Chafer Rōnin; the Chafer Draugr is « la menace n°1 », user 2026-11-07).
   Never write « boss » in a parameter for a monster that is not the boss.
 
@@ -124,15 +124,15 @@ vulnerable, a per-season table) gets a sheet, keyed by an English id, and the ro
     vivent », Hell Mina).
   - No `lock` tag to stop a monster summoning (« le bloquer pour qu'il n'invoque plus »): rarely used as a strategy.
   - Guild expeditions are the 20 zones « Expédition - <donjon> » (not the negative dungeon ids, which are the Cratère
-    Minus versions, Cire Momore and Gargandyas). Their monsters are separate Dofensive entries with their own spells.
+    Minus versions, Cire Momore and Gargandyas). Their monsters are separate entries with their own spells.
     They are written in `data/summaries/zones/<slug>.json` (same form plus "zone") from the guide's « Expédition de
     guilde » section only; guides without that section give spell badges only.
-- 2026-11-07 (batch 2 questions): when the guide and Dofensive disagree on what a spell does (range, area,
-  push or pull, a spell the guide lists but Dofensive does not have), trust Dofensive: it is the game data. A
+- 2026-11-07 (batch 2 questions): when the guide and the game data disagree on what a spell does (range, area,
+  push or pull, a spell the guide lists but the game data does not have), trust the game data: it is the game data. A
   « Tue la cible » effect is `one_shot`. Effects that hit « les alliés » of a monster mean the monster's allies.
-- 2026-11-07 (expedition review): for bosses, follow the guide's description of their spells even when Dofensive
+- 2026-11-07 (expedition review): for bosses, follow the guide's description of their spells even when the game data
   lacks an effect (Maître Corbac's Carapace d'Ailes: he stops playing for 2 turns and reflects damage). Exceptions the
-  user confirmed: the Bworkette does not teleport. For other monsters, Dofensive still wins.
+  user confirmed: the Bworkette does not teleport. For other monsters, the game data still wins.
 - 2026-11-08: no badge for what every wave room does (« invulnérable au 1er tour d'une nouvelle vague »): it is
   implicit. States that hinder a player (Pesanteur, Insoignable, Affaibli, Pacifiste…) get `inflicts`.
 
@@ -192,5 +192,5 @@ vulnerable, a per-season table) gets a sheet, keyed by an English id, and the ro
 - 2026-11-08 (owner): every summary text has its English in `data/summaries/en.json` (`text`: the whole French
   text → English; `token`: the pieces of the badge parameters derived from spells). `validate` fails on a text with
   no English: a new or changed summary gets its English in the same change. Game names (monsters, dungeons, zones,
-  spells, states, characteristics) are the **official Ankama English** from Dofensive (`data/snapshot/en`, the API
-  with `lang=en`), never guessed: with no official English, keep the French name.
+  spells, states, characteristics) are the **official Ankama English** from the game client (`data/snapshot/en`, the game's own
+  English texts), never guessed: with no official English, keep the French name.

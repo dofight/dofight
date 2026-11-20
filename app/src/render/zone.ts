@@ -1,6 +1,6 @@
 /** A spell effect's area drawn as a small diamond grid (the game's isometric look), cells lit where it hits.
  * Zones come from the snapshot as "<shape> <size>[ <second>]" (the game's own area type, see tools/snapshot.py).
- * Directional shapes point away from the caster: +dx is the cast direction. The shapes follow Dofensive's own zone
+ * Directional shapes point away from the caster: +dx is the cast direction. The shapes follow the game's own zone
  * algorithms (cone, half circle, fork, boomerang and rectangle were checked cell by cell against them). */
 
 import { t, type Key } from "../i18n";
@@ -20,14 +20,14 @@ const SHAPES: Record<string, Hit> = {
   carré: (dx, dy, n) => dmax(dx, dy) <= n,
   "carré-inversé": (dx, dy, _n, m) => dmax(dx, dy) >= m,
   "carré-sans-diag": (dx, dy, n) => dmax(dx, dy) <= n && !(dx !== 0 && ax(dx) === ax(dy)),
-  rectangle: (dx, dy, n, m) => ax(dy) <= n && dx >= 0 && dx <= Math.max(m, 1), // depth from the target to m (Dofensive)
+  rectangle: (dx, dy, n, m) => ax(dy) <= n && dx >= 0 && dx <= Math.max(m, 1), // depth from the target to m
   ligne: (dx, dy, n) => dy === 0 && dx >= 0 && dx <= n,
   "ligne-lanceur": (dx, dy, n) => dy === 0 && dx >= 0 && dx <= n,
   "ligne-perp": (dx, dy, n) => dx === 0 && ax(dy) <= n,
   cône: (dx, dy, n) => dx >= 0 && dx <= n && ax(dy) <= dx,
   "demi-cercle": (dx, dy, n) => dx <= 0 && ax(dy) === -dx && -dx <= n,
   fourche: (dx, dy, n) => dx >= 0 && dx <= n && (dy === 0 || ax(dy) === dx),
-  boomerang: (dx, dy, n) => (dx === 0 && ax(dy) <= n - 1) || (dx === -1 && ax(dy) === n), // as Dofensive draws it
+  boomerang: (dx, dy, n) => (dx === 0 && ax(dy) <= n - 1) || (dx === -1 && ax(dy) === n), // as the game draws it
   damier: (dx, dy, n) => d1(dx, dy) <= n && (dx + dy) % 2 === 0,
 };
 

@@ -195,6 +195,5 @@ Dofight is open source (MIT). Found a wrong summary or a bug? You can help witho
 Dofight is a fan-made tool, not affiliated with Ankama. Dofus, its names, images and game data belong to Ankama
 Games. The MIT licence covers Dofight's code and its own summaries, not the game data, names and images.
 
-- Game data and icons: [Dofensive](https://dofensive.com).
 - Dungeon summaries: written with the help of [Dofus pour les Noobs](https://www.dofuspourlesnoobs.com); every
   summary links to its guide.

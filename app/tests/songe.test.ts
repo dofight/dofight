@@ -5,7 +5,7 @@ import { groupLevel, lineName, matchName, nameIndex, readGroups } from "../src/s
 import type { Monster } from "../src/types";
 import fixture from "./fixtures/tooltip-lines.json";
 
-// the real monster list: names as Dofensive writes them
+// the real monster list: names as the game writes them
 const monsters: Monster[] = JSON.parse(readFileSync(resolve(__dirname, "../../data/snapshot/monsters.json"), "utf-8"));
 const index = nameIndex(monsters);
 const names = (g: { monsters: { monster: Monster; count: number }[] }) => g.monsters.map((x) => `${x.monster.name}×${x.count}`);
