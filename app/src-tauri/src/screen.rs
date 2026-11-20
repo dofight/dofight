@@ -223,13 +223,18 @@ pub fn read_corner(
 /// OCR lines of the header corner captured alone (`corner_size` of the window, its top left), in its pixels.
 pub fn read_corner_piece(engine: &OcrEngine, corner: &[u8], cw: u32, ch: u32) -> Result<Vec<OcrLine>, String> {
     // the header text is white with a dark outline: read only that (a bright, busy map behind it, the world map open,
-    // added stray letters); when that finds no coordinates (a Songe's header, a menu), read the light pixels as before
+    // added stray letters); when that finds no coordinates (a Songe's header, a menu), read the light pixels as before.
+    // Only a reading with the coordinates ends the search: the outline and the pure white can drop the comma as a speck
+    // (« 13 35 10 » for « 13, 35 - Niveau 10 » on a dark map, owner, 2026-11-20, Temple des alliances), and the zone is
+    // only sure with them; a title alone is kept in case no reading finds them (a Songe's header, a menu)
+    let coords = |lines: &[OcrLine]| lines.iter().any(|l| has_coordinates(&l.text));
+    let titled = |lines: &[OcrLine]| lines.iter().any(|l| has_whole_title(&l.text));
     let (img, w, h) = outlined_text(corner, cw, ch);
     let lines = scaled_down(platform::recognize(engine, &img, w, h)?);
-    let readable = |lines: &[OcrLine]| lines.iter().any(|l| has_coordinates(&l.text) || has_whole_title(&l.text));
-    if readable(&lines) {
+    if coords(&lines) {
         return Ok(lines);
     }
+    let mut first_titled = titled(&lines).then_some(lines);
     // on snow the outline blends into the white behind it (owner's capture, 2026-11-20): the letters' cores are pure
     // white, which the snow never is
     let (img, w, h) = pure_white_text(corner, cw, ch);
@@ -238,10 +243,17 @@ pub fn read_corner_piece(engine: &OcrEngine, corner: &[u8], cw: u32, ch: u32) ->
         .into_iter()
         .map(|l| OcrLine { text: l.text.replace('{', "(").replace('}', ")"), ..l })
         .collect();
-    if readable(&white) {
+    if coords(&white) {
         return Ok(white);
     }
-    read_frame(engine, corner, cw, ch)
+    if first_titled.is_none() && titled(&white) {
+        first_titled = Some(white);
+    }
+    let plain = read_frame(engine, corner, cw, ch)?;
+    Ok(match first_titled {
+        Some(t) if !coords(&plain) => t,
+        _ => plain,
+    })
 }
 
 /// The header's pure white pixels (every channel at PURE_WHITE or more), specks dropped, black on white, scaled `SCALE`
@@ -1065,6 +1077,18 @@ mod tests {
         let texts: Vec<&str> = lines.iter().map(|l| l.text.as_str()).collect();
         assert!(texts.iter().any(|t| t.contains("Harebourg)")), "{texts:?}");
         assert!(texts.iter().any(|t| has_coordinates(t) && t.contains("68") && t.contains("78")), "{texts:?}");
+    }
+
+    #[test]
+    #[cfg(windows)]
+    fn reads_the_coordinates_in_the_alliance_temple() {
+        // windowed, the corner piece alone (owner, 2026-11-20): « Baie de Sufokia (Temple des alliances) », « 13, 35 »;
+        // the outline reading dropped the comma (« 13 35 10 ») and its title alone ended the search
+        let (px, w, h) = load("header_temple_windowed.png");
+        let lines = read_corner_piece(&platform::ocr_engine().expect("fr-FR OCR"), &px, w, h).unwrap();
+        let texts: Vec<&str> = lines.iter().map(|l| l.text.as_str()).collect();
+        assert!(texts.iter().any(|t| t.contains("Temple des alliances)")), "{texts:?}");
+        assert!(texts.iter().any(|t| has_coordinates(t) && t.contains("13") && t.contains("35")), "{texts:?}");
     }
 
     /// The owner's Songe captures (2026-11-20): image, mouse in it, the group's level, monsters read.
