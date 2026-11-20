@@ -119,6 +119,7 @@ const CAPTURE_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(2);
 /// ScreenCaptureKit's one-shot capture of that window only (macOS 14), whatever covers it.
 pub fn capture(id: WindowId) -> Result<Frame, CaptureError> {
     use block2::RcBlock;
+    use objc2::AnyThread;
     use objc2_core_foundation::{CGPoint, CGRect as SCRect, CGSize};
     use objc2_core_graphics::CGImage;
     use objc2_foundation::NSError;
@@ -171,11 +172,11 @@ pub fn capture(id: WindowId) -> Result<Frame, CaptureError> {
 
 /// A captured image's pixels as tight BGRA rows.
 fn bgra_of(image: &objc2_core_graphics::CGImage) -> Result<Frame, CaptureError> {
-    use objc2_core_graphics::{CGDataProviderCopyData, CGImageGetBytesPerRow, CGImageGetDataProvider, CGImageGetHeight, CGImageGetWidth};
-    let (w, h) = (CGImageGetWidth(Some(image)), CGImageGetHeight(Some(image)));
-    let row = CGImageGetBytesPerRow(Some(image));
-    let provider = CGImageGetDataProvider(Some(image)).ok_or(CaptureError::Failed)?;
-    let data = CGDataProviderCopyData(Some(&provider)).ok_or(CaptureError::Failed)?;
+    use objc2_core_graphics::{CGDataProvider, CGImage};
+    let (w, h) = (CGImage::width(Some(image)), CGImage::height(Some(image)));
+    let row = CGImage::bytes_per_row(Some(image));
+    let provider = CGImage::data_provider(Some(image)).ok_or(CaptureError::Failed)?;
+    let data = CGDataProvider::data(Some(&provider)).ok_or(CaptureError::Failed)?;
     let bytes = unsafe { data.as_bytes_unchecked() };
     if w == 0 || h == 0 || row < w * 4 || bytes.len() < row * h {
         return Err(CaptureError::Failed);
@@ -219,7 +220,7 @@ pub fn recognize(_engine: &OcrEngine, bgra: &[u8], width: u32, height: u32) -> R
     use core_graphics::color_space::CGColorSpace;
     use core_graphics::data_provider::CGDataProvider;
     use core_graphics::image::CGImage as CgImage;
-    use objc2::AllocAnyThread;
+    use objc2::AnyThread;
     use objc2_foundation::{NSArray, NSDictionary, NSString};
     use objc2_vision::{VNImageRequestHandler, VNRecognizeTextRequest, VNRequest, VNRequestTextRecognitionLevel};
 
@@ -240,21 +241,19 @@ pub fn recognize(_engine: &OcrEngine, bgra: &[u8], width: u32, height: u32) -> R
     );
     // SAFETY: the same CoreGraphics image, seen through objc2's binding
     let cg = unsafe { &*(foreign_types::ForeignType::as_ptr(&image) as *const objc2_core_graphics::CGImage) };
-    let request = unsafe { VNRecognizeTextRequest::new() };
-    unsafe {
-        request.setRecognitionLevel(VNRequestTextRecognitionLevel::Accurate);
-        request.setRecognitionLanguages(&NSArray::from_retained_slice(&[NSString::from_str("fr-FR"), NSString::from_str("en-US")]));
-        request.setUsesLanguageCorrection(false);
-    }
+    let request = VNRecognizeTextRequest::new();
+    request.setRecognitionLevel(VNRequestTextRecognitionLevel::Accurate);
+    request.setRecognitionLanguages(&NSArray::from_retained_slice(&[NSString::from_str("fr-FR"), NSString::from_str("en-US")]));
+    request.setUsesLanguageCorrection(false);
     let handler = unsafe { VNImageRequestHandler::initWithCGImage_options(VNImageRequestHandler::alloc(), cg, &NSDictionary::new()) };
     let requests: [&VNRequest; 1] = [&request];
-    unsafe { handler.performRequests_error(&NSArray::from_slice(&requests)) }.map_err(|e| e.localizedDescription().to_string())?;
+    handler.performRequests_error(&NSArray::from_slice(&requests)).map_err(|e| e.localizedDescription().to_string())?;
     let mut out = Vec::new();
-    for observation in unsafe { request.results() }.into_iter().flatten() {
-        let Some(best) = unsafe { observation.topCandidates(1) }.firstObject() else { continue };
+    for observation in request.results().into_iter().flatten() {
+        let Some(best) = observation.topCandidates(1).firstObject() else { continue };
         let b = unsafe { observation.boundingBox() };
         let (x, y, w, h) = vision_box_to_frame((b.origin.x, b.origin.y, b.size.width, b.size.height), width, height);
-        out.push(OcrLine { text: unsafe { best.string() }.to_string(), x, y, w, h });
+        out.push(OcrLine { text: best.string().to_string(), x, y, w, h });
     }
     Ok(out)
 }
