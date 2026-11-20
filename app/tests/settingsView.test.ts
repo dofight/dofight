@@ -580,3 +580,19 @@ it("locks the panel's position and size from the padlock, and the settings switc
   expect(win.setResizable).toHaveBeenLastCalledWith(true);
   expect(lock.getAttribute("aria-pressed")).toBe("false");
 });
+
+it("clears « Filtrer les résultats » when a new search result is opened", () => {
+  if (!document.getElementById("view-settings")!.hidden) (document.getElementById("back") as HTMLButtonElement).click();
+  const q = document.getElementById("q") as HTMLInputElement;
+  q.value = "Antre du Korriandre";
+  q.dispatchEvent(new Event("input", { bubbles: true }));
+  document.querySelector<HTMLElement>("#results .res-item")!.click();
+  const find = document.getElementById("find-q") as HTMLInputElement;
+  find.value = "pousse";
+  find.dispatchEvent(new Event("input", { bubbles: true }));
+  q.value = "Cour du Bouftou Royal";
+  q.dispatchEvent(new Event("input", { bubbles: true }));
+  document.querySelector<HTMLElement>("#results .res-item")!.click();
+  expect(find.value).toBe("");
+  expect(document.querySelectorAll("#room .mob").length).toBeGreaterThan(1);
+});

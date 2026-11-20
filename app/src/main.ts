@@ -1529,6 +1529,9 @@ document.addEventListener("click", async (e) => {
   const res = target.closest<HTMLElement>("#results .res-item");
   if (res && snap) {
     const picked = results[Number(res.dataset.i)];
+    // a new result: « Filtrer les résultats » starts empty again (the filter was for the list left behind)
+    finding = "";
+    $<HTMLInputElement>("find-q").value = "";
     room = roomFor(snap, picked.subarea && english ? { ...picked, subarea: english.zoneFr.get(picked.subarea) ?? picked.subarea } : picked);
     zoneAsked = false; // the player chose what to see
     flipped.clear();
