@@ -384,9 +384,12 @@ fn tooltip_background(p: &[u8]) -> bool {
     grey || warm
 }
 
-/// The size of a group tooltip (frame pixels): one level line up to eight monster lines, the longest names.
-const TOOLTIP_MIN: (i32, i32) = (90, 40);
+/// The size of a group tooltip (frame pixels): one level line up to eight monster lines, the longest names (a lone
+/// « Tofu (36) » is about 80 wide).
+const TOOLTIP_MIN: (i32, i32) = (60, 40);
 const TOOLTIP_MAX: (i32, i32) = (520, 420);
+/// The game's bottom bar (chat, life, spells), from the bottom of a 1009-pixel-high game (scaled with it).
+const BOTTOM_BAR: f32 = 135.0;
 /// Share of a tooltip's box that is its background (the rest is its text).
 const TOOLTIP_FILL: f32 = 0.5;
 
@@ -418,12 +421,16 @@ pub fn find_tooltips(bgra: &[u8], width: u32, height: u32, cx: i32, cy: i32) -> 
         blob.push(start);
         seen[start] = true;
         let (mut bx0, mut by0, mut bx1, mut by1) = (usize::MAX, usize::MAX, 0, 0);
+        let mut cut = false;
         let mut k = 0;
         while k < blob.len() {
             let i = blob[k];
             k += 1;
             let (x, y) = (i % w, i / w);
             (bx0, by0, bx1, by1) = (bx0.min(x), by0.min(y), bx1.max(x), by1.max(y));
+            // it goes on past the area looked at (the chat, the spell bar…): not a whole tooltip near the mouse; a
+            // tooltip pushed against the game's own edge is whole, the frame's border does not count
+            cut |= (x == 0 && x0 > 0) || (y == 0 && y0 > 0) || (x + 1 == w && x1 < width as i32) || (y + 1 == h && y1 < height as i32);
             let mut visit = |j: usize| {
                 if !seen[j] && mask[j] {
                     seen[j] = true;
@@ -438,13 +445,16 @@ pub fn find_tooltips(bgra: &[u8], width: u32, height: u32, cx: i32, cy: i32) -> 
         let (bw, bh) = ((bx1 - bx0 + 1) as i32, (by1 - by0 + 1) as i32);
         let fill = blob.len() as f32 / (bw * bh) as f32;
         // a part of a tooltip may be small (its title band): the size is checked once the parts are joined
-        if bw >= TOOLTIP_MIN.0 && bh >= 12 && fill >= TOOLTIP_FILL {
+        if !cut && bw >= TOOLTIP_MIN.0 && bh >= 12 && fill >= TOOLTIP_FILL {
             out.push((x0 + bx0 as i32, y0 + by0 as i32, bw, bh));
         }
     }
+    // the game's bottom bar (chat, life, spells) is as dark as a tooltip; a group's tooltip never sits on it (it shows
+    // above its group)
+    let bar_top = height as i32 - (BOTTOM_BAR * (height as f32 / 1009.0).max(1.0)) as i32;
     join_stacked(out)
         .into_iter()
-        .filter(|&(_, _, bw, bh)| bw >= TOOLTIP_MIN.0 && bh >= TOOLTIP_MIN.1 && bw <= TOOLTIP_MAX.0 && bh <= TOOLTIP_MAX.1)
+        .filter(|&(_, y, bw, bh)| bw >= TOOLTIP_MIN.0 && bh >= TOOLTIP_MIN.1 && bw <= TOOLTIP_MAX.0 && bh <= TOOLTIP_MAX.1 && y < bar_top)
         .collect()
 }
 
@@ -988,12 +998,14 @@ mod tests {
     }
 
     /// The owner's Songe captures (2026-11-20): image, mouse in it, the group's level, monsters read.
-    const SONGE: [(&str, (i32, i32), &str, &[&str]); 5] = [
+    const SONGE: [(&str, (i32, i32), &str, &[&str]); 6] = [
         ("songe_1.png", (420, 41), "168", &["Tofoune", "Tofu Noir"]),
         ("songe_2.png", (420, 470), "110", &["Tofoune", "Tofu"]),
         ("songe_3.png", (416, 20), "248", &["Tofu Noir"]),
         ("songe_4.png", (420, 470), "176", &["Tofukaz", "Tofu Noir"]),
         ("songe_5.png", (420, 425), "1612", &["Mominotor", "Trezz"]),
+        // a one-monster tooltip (narrow), the mouse low: the chat and the spell bar are as dark as a tooltip
+        ("songe_chat.png", (420, 470), "36", &["Tofu"]),
     ];
 
     #[test]
@@ -1013,13 +1025,24 @@ mod tests {
     }
 
     #[test]
+    fn the_chat_and_the_spell_bar_are_not_tooltips() {
+        // the mouse low on the screen: the area looked at reaches the chat and the spell bar, dark like a tooltip,
+        // but they go on past that area (owner, 2026-11-20: a red box over the chat)
+        let (px, w, h) = load("songe_chat.png");
+        for cy in [600, 700, 800] {
+            let boxes = find_tooltips(&px, w, h, 420, cy);
+            assert!(boxes.iter().all(|&(_, y, _, bh)| y + bh < 740), "mouse at y {cy}: {boxes:?}");
+        }
+    }
+
+    #[test]
     fn finds_one_tooltip_box_around_the_mouse() {
         for (name, (cx, cy), _, _) in SONGE {
             let (px, w, h) = load(name);
             let boxes = find_tooltips(&px, w, h, cx, cy);
             assert_eq!(boxes.len(), 1, "{name}: {boxes:?}");
             let (_, _, bw, bh) = boxes[0];
-            assert!((100..=320).contains(&bw) && (60..=260).contains(&bh), "{name}: {boxes:?}");
+            assert!((60..=320).contains(&bw) && (60..=260).contains(&bh), "{name}: {boxes:?}");
         }
     }
 
