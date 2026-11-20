@@ -145,7 +145,7 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .effs{display:grid;gap:3px;border-block:1px solid var(--line);padding-block:5px}
 .eff img{width:18px;height:18px}.eff i{width:18px}
 .eff span{flex:1;min-width:0}
-.eff .disp{width:16px;height:16px} /* « désenvoûtable »: the game's round orange hourglass, seen on any theme */
+.eff .disp{width:16px;height:16px} /* « désenvoûtable »: the game's white hourglass, with a dark contour so it shows on any theme */
 .plim,.pcond{display:grid;gap:1px;font-size:12.5px}
 
 /* settings (Ganymède-like cards with gold switches) */
