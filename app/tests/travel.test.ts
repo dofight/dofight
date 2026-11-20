@@ -123,6 +123,12 @@ describe("how to get there", () => {
     expect(steps[1].querySelector("b, i")).toBeNull(); // unclosed: stays text, and escaped
   });
 
+  it("a copy button's tooltip is the command, nothing more (owner, 2026-11-20)", () => {
+    const box = document.createElement("div");
+    box.innerHTML = renderTrip(tripTo(travel, null, "Routes Rocailleuses")) + renderRoute(["/zaap -78 -41 ; /travel -68 -34"]);
+    expect([...box.querySelectorAll<HTMLElement>(".travel")].map((b) => b.title)).toEqual(["/travel -20 -34", "/zaap -27 -36 ; /travel -20 -34", "/zaap -78 -41 ; /travel -68 -34"]);
+  });
+
   describe("« Comment y aller » in the header", () => {
     const route = ["/zaap -78 -41", "Transporteur frigostien → Larmes d'Ouronigride", "/travel -69 -87"];
     const box = document.createElement("div");

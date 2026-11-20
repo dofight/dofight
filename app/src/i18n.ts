@@ -280,8 +280,6 @@ const fr = {
   "trip.route": "Trajet :",
   "monster.phases": "Phases",
   "monster.phasesTitle": "Change de phase :",
-  "trip.copy": "Copier « {command} », à coller dans le chat du jeu",
-  "trip.copyZaap": "Passer par le zaap {zone} : copier « {command} », à coller dans le chat du jeu",
   // « Comment y aller » (render/accessSheet.ts)
   "access.button": "Comment y aller",
   "access.buttonTitle": "Prérequis et trajet pour y aller",
@@ -622,8 +620,6 @@ const en: Record<Key, string> = {
   "trip.route": "Route:",
   "monster.phases": "Phases",
   "monster.phasesTitle": "Changes phase:",
-  "trip.copy": "Copy “{command}”, to paste in the game chat",
-  "trip.copyZaap": "Through the {zone} zaap: copy “{command}”, to paste in the game chat",
   "access.button": "How to get there",
   "access.buttonTitle": "Requirements and the way there",
   "access.title": "How to get there: {place}",

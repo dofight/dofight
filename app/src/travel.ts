@@ -94,7 +94,7 @@ export function renderTrip(trip: Trip | null, opts: TripOptions = {}): string {
   const route = routeOf(trip.to);
   if (route.length && !opts.special) return renderRoute(route);
   const travel = travelCommand(trip.to);
-  const go = `<span class="go">${esc(t("trip.go"))}</span><button type="button" class="travel" data-copy="${esc(travel)}" title="${esc(t("trip.copy", { command: travel }))}">${STEPS}<span class="lbl" aria-live="polite">[${trip.to.x},${trip.to.y}]</span>${icon("copy")}</button>`;
+  const go = `<span class="go">${esc(t("trip.go"))}</span><button type="button" class="travel" data-copy="${esc(travel)}" title="${esc(travel)}">${STEPS}<span class="lbl" aria-live="polite">[${trip.to.x},${trip.to.y}]</span>${icon("copy")}</button>`;
   const msg = "";
   // « Comment y aller »: the sheet has the route and what to do first
   const extra = opts.special ? accessButton() : "";
@@ -102,7 +102,7 @@ export function renderTrip(trip: Trip | null, opts: TripOptions = {}): string {
   if (!trip.zaap || route.length) return `<div class="trip">${go}${extra}${msg}</div>`;
   const zone = trip.zaap.zone[getLang()] || trip.zaap.zone.fr;
   const command = zaapCommand(trip.zaap, trip.to);
-  const zaap = `<button type="button" class="travel zaap" data-copy="${esc(command)}" title="${esc(t("trip.copyZaap", { command, zone }))}">${ZAAP}<span class="lbl" aria-live="polite">${esc(zone)}</span>${icon("copy")}</button>`;
+  const zaap = `<button type="button" class="travel zaap" data-copy="${esc(command)}" title="${esc(command)}">${ZAAP}<span class="lbl" aria-live="polite">${esc(zone)}</span>${icon("copy")}</button>`;
   return `<div class="trip">${go}${zaap}${extra}${msg}</div>`;
 }
 
@@ -140,7 +140,7 @@ export function renderRoute(route: string[], label = true): string {
       const bar = trimmed.indexOf(" | ");
       const s = bar < 0 ? trimmed : trimmed.slice(0, bar).trim();
       const after = bar < 0 ? "" : ` ${withLinks(trimmed.slice(bar + 3).trim())}`;
-      return `<li class="step"><button type="button" class="travel" data-copy="${esc(s)}" title="${esc(t("trip.copy", { command: s }))}">${s.startsWith("/zaap ") ? ZAAP : STEPS}<span class="lbl" aria-live="polite">${esc(s)}</span>${icon("copy")}</button>${after}</li>`;
+      return `<li class="step"><button type="button" class="travel" data-copy="${esc(s)}" title="${esc(s)}">${s.startsWith("/zaap ") ? ZAAP : STEPS}<span class="lbl" aria-live="polite">${esc(s)}</span>${icon("copy")}</button>${after}</li>`;
     })
     .join("");
   const head = label ? `<span class="go">${esc(t("trip.route"))}</span>` : "";
