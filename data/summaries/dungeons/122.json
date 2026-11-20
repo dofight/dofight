@@ -23,7 +23,7 @@
     },
     {
      "id": "phase",
-     "param": "+PM à 50 et 25 % PV"
+     "param": "à 50 et 25 % PV"
     }
    ],
    "detail": "Réduit de 50 % les dégâts au CaC : le taper à distance. Jufang bloque sa cible à son CaC (Pesanteur, Indéplaçable). À 50 et 25 % PV : +4 PM 2 tours, et +20 % de dommages au CaC au 2e seuil."
@@ -39,10 +39,6 @@
      "param": "ses alliés"
     },
     {
-     "id": "erodes",
-     "source": "spells"
-    },
-    {
      "id": "moves",
      "param": "pousse, téléporte à son CaC"
     },
@@ -53,9 +49,13 @@
     {
      "id": "state",
      "param": "partage les dégâts avec Hanshi"
+    },
+    {
+     "id": "phase",
+     "param": "à 75 et 25 % PV"
     }
    ],
-   "detail": "Le taper au CaC. Son piège téléporte l'ennemi le plus proche à son CaC."
+   "detail": "Le taper au CaC. Son piège téléporte l'ennemi le plus proche à son CaC. À 75 et 25 % PV : +2 PM 2 tours."
   },
   "6217": {
    "tags": [

@@ -7,7 +7,6 @@
   "+2 PM, +200 Puissance à sa mort": "+2 MP, +200 Power on death",
   "+20 % rés à chaque poussée": "+20% res. per push",
   "+30 % dégâts subis (déplacés)": "+30% damage taken (moved)",
-  "+PM à 50 et 25 % PV": "+MP at 50 and 25% HP",
   "-10 % dégâts par Bonbombe": "-10% damage per Bonbomb",
   "-10 PM, Pesanteur, érosion": "-10 MP, Gravity, erosion",
   "-2 PA et fuite si on entre": "-2 AP and Dodge on entry",
@@ -524,7 +523,6 @@
   "Le sortir de son glyphe pour le taper.": "Get him out of his glyph to hit him.",
   "Le taper Feu puis le pousser : il invoque une Pépite à tuer en 1 tour (2 tours pour les suivantes). Recommencer en Air, Eau, Terre. Chaque Pépite tuée lui retire 25 % PV ; la 4e le tue.": "Hit him with Fire, then push him: he summons a Nugget to kill within 1 turn (2 turns for the next ones). Repeat with Air, Water, Earth. Each Nugget killed removes 25% of his HP; the 4th kills him.",
   "Le taper au CaC seulement aux tours 3, 6, 9… Il applique Pacifiste aux personnages loin de lui aux tours impairs dès le tour 3, de plus en plus près. Le glyphe rose de l'échange retire Fuite et Tacle.": "Hit him in melee only on turns 3, 6, 9… On odd turns from turn 3, he applies Pacifist to characters far from him, at ever closer range. The swap's pink glyph removes Dodge and Lock.",
-  "Le taper au CaC. Son piège téléporte l'ennemi le plus proche à son CaC.": "Hit him in melee. His trap teleports the nearest enemy into his melee.",
   "Le taper depuis son contact blesse le personnage sous Ectoparasite. Déjection : poison qui blesse selon les PA utilisés.": "Hitting it from contact hurts the character under Ectoparasite. Déjection: poison that hurts based on AP used.",
   "Le taper à 2 PO ou moins attire au CaC et déclenche Mort sûre à chaque coup. Sous Assourdi, Mort sûre rend Insoignable et Pesanteur. Gagne Vitalité et dommages à chaque mort de monstre.": "Hitting him from range 2 or less pulls you into melee and triggers Certain Death on each hit. Under Deafened, Certain Death applies Unhealable and Gravity. Gains Vitality and damage on each monster death.",
   "Le tuer dans le même tour global que Grasmera. Atomes Crochus (tour 5 puis tous les 5 tours) : si Grasmera est à plus de 2 PO de lui à son tour suivant, elle peut lancer Apocalypse et OS toute l'équipe.": "Kill him in the same round as Grasmera. Peas in a Pod (turn 5, then every 5 turns): if Grasmera is more than range 2 from him on his next turn, she can cast Apocalypse and one-shot the whole team.",
@@ -2458,7 +2456,10 @@
   "lui-même, 20 % de ses PV": "itself, 20% of its HP",
   "PA entre alliés (glyphe marron)": "AP between allies (brown glyph)",
   "renforcé à la mort de Xa": "strengthened when Xa dies",
-  "à 20 % PV : se sépare en deux": "at 20% HP: splits in two"
+  "à 20 % PV : se sépare en deux": "at 20% HP: splits in two",
+  "à 50 et 25 % PV": "at 50 and 25% HP",
+  "à 75 et 25 % PV": "at 75 and 25% HP",
+  "Le taper au CaC. Son piège téléporte l'ennemi le plus proche à son CaC. À 75 et 25 % PV : +2 PM 2 tours.": "Hit him in melee. His trap teleports the nearest enemy into his melee. At 75 and 25% HP: +2 MP for 2 turns."
  },
  "token": {
   "-résistances": "-resistances",

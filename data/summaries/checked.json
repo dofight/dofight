@@ -1988,7 +1988,8 @@
   "name": "Shihan",
   "spells": "ced3842e0b",
   "tags": {
-   "buffs_allies": "6-tag limit: buffs_allies matters less than the badges kept"
+   "buffs_allies": "6-tag limit: buffs_allies matters less than the badges kept",
+   "erodes": "6-badge limit: the phase (+2 PM at 75 and 25 % HP, guide) shown instead; erosion is minor here"
   }
  },
  "6213": {
