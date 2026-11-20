@@ -50,11 +50,18 @@ document.addEventListener("pointermove", (e) => {
   if (!detached) {
     detached = true;
     void emit("peek:detach", { label });
+    // the player's own window now: a click on it gives it the focus (owner, 2026-11-20), so Escape closes it
+    void getCurrentWindow().setFocusable(true);
     const close = document.querySelector<HTMLElement>(".peek-close");
-    close?.setAttribute("title", t("peek.closeDetached")); // Escape no longer closes it
+    close?.setAttribute("title", t("peek.closeDetached"));
     close?.setAttribute("aria-label", t("peek.closeDetached"));
   }
   void getCurrentWindow().startDragging();
+});
+
+// a detached sheet with the focus: Escape closes it, as its ✕ does
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && detached) void emit("peek:close", { label });
 });
 
 // the panel copied it (or could not): the sheet says so
