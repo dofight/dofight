@@ -25,7 +25,7 @@ afterEach(() => setLang("fr"));
 describe("the « Comment y aller » sheet", () => {
   it("lists the requirements, then the route, then the guide", () => {
     const { box, all } = sheet(baleine);
-    const order = ["Comment y aller : Ventre de la Baleine", "Prérequis", "Niveau 190", "Clef du Ventre", "Accès (Île d'Otomaï) :",
+    const order = ["Comment y aller : Ventre de la Baleine", "Prérequis", "Accès (Île d'Otomaï) :",
       "Le nouveau monde", "L'île des naufragés", "Trajet"];
     let at = -1;
     for (const part of order) {
@@ -61,8 +61,9 @@ describe("the « Comment y aller » sheet", () => {
     expect(box.querySelector(".zaap")).toBeNull();
   });
 
-  it("a key off the keyring says so", () => {
-    expect(sheet({ ...baleine, offKeyring: true }).all).toContain("Clef du Ventre · hors trousseau");
+  it("no level, and the key only when it is off the keyring (owner, 2026-11-20)", () => {
+    expect(sheet(baleine).all).not.toMatch(/Niveau 190|Clef du Ventre/);
+    expect(sheet({ ...baleine, offKeyring: true }).all).toContain("Clef : Clef du Ventre (hors trousseau)");
   });
 
   it("a dimension heads its lines « Dimension X : »", () => {
@@ -109,7 +110,7 @@ describe("the « Comment y aller » sheet", () => {
     setLang("en");
     const { all } = sheet({ ...baleine, ownReqs: [{ other: { fr: "Au moins 4", en: "At least 4" } }] });
     expect(all).toContain("How to get there: Ventre de la Baleine");
-    expect(all).toContain("Belly Key");
+    expect(all).not.toContain("Belly Key"); // on the keyring: not shown
     expect(all).toContain("Le nouveau monde EN (lvl 35)");
     expect(all).toContain("At least 4");
     expect(all).toContain("Access (Otomai Island):");

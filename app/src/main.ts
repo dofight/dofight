@@ -229,7 +229,7 @@ function roomHtml(r: Room): string {
     const pa = accessOf(snap.access, snap.areas, r.dungeon?.id ?? null, r.title);
     const special = isSpecial(pa, to?.to ?? null);
     if (special) accessShown = { title: v.title, pa, trip: to };
-    trip = renderTrip(to, special ? { special } : { key: pa?.key, offKeyring: pa?.offKeyring });
+    trip = renderTrip(to, { special });
   }
   return renderRoom(v.dungeon, v.monsters, summaryOf(r), view, show, iconResolver(view), v.title, isOpen, v.pinned, v.counts, trip);
 }

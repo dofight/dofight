@@ -523,10 +523,7 @@
   "24": {
    "area": "Amakna",
    "level": 60,
-   "key": {
-    "fr": "Multygely",
-    "en": "Multijely"
-   },
+   "key": null,
    "reqs": [
     {
      "item": {
@@ -534,12 +531,11 @@
       "en": "Multijely"
      },
      "how": {
-      "fr": "Pas d'entrée : consommer un Multygely n'importe où téléporte dans le donjon (craft paysan niveau 60).",
-      "en": "No entrance: consuming a Multijely anywhere teleports you into the dungeon (farmer craft, level 60)."
+      "fr": "Pas de clef : le consommer, n'importe où, téléporte dans le donjon (craft paysan niveau 60).",
+      "en": "No key: consuming it anywhere teleports you into the dungeon (farmer craft, level 60)."
      }
     }
    ],
-   "offKeyring": true,
    "guide": "https://www.dofuspourlesnoobs.com/gelaxieme-dimension.html"
   },
   "25": {
@@ -620,7 +616,6 @@
      }
     }
    ],
-   "offKeyring": true,
    "guide": "https://www.dofuspourlesnoobs.com/antre-du-kralamoure-geacuteant.html"
   },
   "32": {
@@ -636,19 +631,16 @@
   "33": {
    "area": "Amakna",
    "level": 50,
-   "key": {
-    "fr": "Petite Larve Dorée",
-    "en": "Little Golden Larva"
-   },
+   "key": null,
    "reqs": [
     {
      "item": {
-      "fr": "Œuf de Larve Dorée",
-      "en": "Golden Larva Egg"
+      "fr": "Petite Larve Dorée",
+      "en": "Little Golden Larva"
      },
      "how": {
-      "fr": "Pas de clef : consommer l'œuf devant la grille (se loot sur toutes les larves).",
-      "en": "No key: consume the egg in front of the gate (dropped by every larva)."
+      "fr": "Pas de clef : la consommer pour se transformer en larve et entrer dans le donjon.",
+      "en": "No key: consume it to turn into a larva and get into the dungeon."
      }
     },
     {
@@ -658,7 +650,6 @@
      }
     }
    ],
-   "offKeyring": true,
    "guide": "https://www.dofuspourlesnoobs.com/donjon-des-larves.html"
   },
   "34": {
@@ -2046,7 +2037,7 @@
    "level": 200,
    "key": {
     "fr": "Fleur de Cendrepierre",
-    "en": "Fleur de Cendrepierre"
+    "en": "Ashenstone Flower"
    },
    "reqs": [
     {
@@ -2063,6 +2054,7 @@
      }
     }
    ],
+   "offKeyring": true,
    "guide": "https://www.dofuspourlesnoobs.com/caverne-de-cire-momore.html"
   },
   "-102": {

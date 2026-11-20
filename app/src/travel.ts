@@ -75,13 +75,10 @@ const accessButton = (): string =>
 export interface TripOptions {
   /** Something to know before going (access.ts `isSpecial`): the « Comment y aller » button. */
   special?: boolean;
-  /** The dungeon's key, shown at the end of the line when there is no button. */
-  key?: { fr: string; en: string } | null;
-  offKeyring?: boolean;
 }
 
 /** The trip line of a room's header: « Aller en [x,y] », then the zaap to take. Each button copies its command (a
- * copy icon after it); once copied, the button says « Copié » in place of its text for a moment (`showCopied`). */
+ * copy icon after it); once copied, the button says « Copié » in place of its text for 1 s (`showCopied`). */
 export function renderTrip(trip: Trip | null, opts: TripOptions = {}): string {
   // no known position (a dungeon the client does not place): the button alone, when there is something to know
   if (!trip) return opts.special ? `<div class="trip">${accessButton()}</div>` : "";
@@ -90,12 +87,8 @@ export function renderTrip(trip: Trip | null, opts: TripOptions = {}): string {
   const travel = travelCommand(trip.to);
   const go = `<span class="go">${esc(t("trip.go"))}</span><button type="button" class="travel" data-copy="${esc(travel)}" title="${esc(t("trip.copy", { command: travel }))}">${STEPS}<span class="lbl" aria-live="polite">[${trip.to.x},${trip.to.y}]</span>${icon("copy")}</button>`;
   const msg = "";
-  // « Comment y aller » (the sheet has the route and what to do first), or the key at the end of the line
-  const extra = opts.special
-    ? accessButton()
-    : opts.key
-      ? `<span class="key">· ${esc((getLang() === "en" ? opts.key.en : opts.key.fr) || opts.key.fr)}${opts.offKeyring ? ` · ${esc(t("access.offKeyring"))}` : ""}</span>`
-      : "";
+  // « Comment y aller »: the sheet has the route and what to do first
+  const extra = opts.special ? accessButton() : "";
   // a written route: the nearest zaap is the wrong way in, the sheet has the right one
   if (!trip.zaap || route.length) return `<div class="trip">${go}${extra}${msg}</div>`;
   const zone = trip.zaap.zone[getLang()] || trip.zaap.zone.fr;
@@ -145,10 +138,10 @@ export function renderRoute(route: string[], label = true): string {
   return `<div class="trip route">${head}<ol class="steps">${steps}</ol></div>`;
 }
 
-const COPIED_MS = 2000;
+const COPIED_MS = 1000;
 const restore = new WeakMap<HTMLElement, number>();
 
-/** A copy button just used: « Copié » (or « Copie impossible ») in place of its text, for 2 s, keeping its width so
+/** A copy button just used: « Copié » (or « Copie impossible ») in place of its text, for 1 s (owner, 2026-11-20), keeping its width so
  * nothing around it moves (owner, 2026-11-20: in the button, not on a line under it). */
 export function showCopied(button: HTMLElement, ok: boolean): void {
   const lbl = button.querySelector<HTMLElement>(".lbl");

@@ -5,12 +5,12 @@ const q = (id: number, fr: string) => ({ quest: { id, fr, en: `${fr} EN`, level:
 const access: Access = {
   areas: {
     "Île d'Otomaï": { reqs: [q(231, "Le nouveau monde"), q(232, "L'île des naufragés")], en: "Otomai Island" },
-    Osavora: { reqs: [{ level: 50 }], dimension: true },
+    Osavora: { reqs: [], dimension: true },
   },
   dungeons: {
     "84": { area: "Île d'Otomaï", level: 190, key: { fr: "Clef A", en: "Key A" }, reqs: [{ other: { fr: "a", en: "b" } }], guide: "https://g" },
     "1": { area: "Astrub", level: 30, key: { fr: "Clef B", en: "Key B" }, reqs: [] },
-    "93": { area: "Osavora", level: 190, key: null, offKeyring: true, reqs: [] },
+    "93": { area: "Osavora", level: 190, key: { fr: "Clef D", en: "Key D" }, offKeyring: true, reqs: [] },
   },
 };
 const areas = new Map([["Forêt de Moon", "Île de Moon"], ["Jungle obscure", "Île d'Otomaï"]]);
@@ -48,6 +48,9 @@ describe("what makes a place special", () => {
   const spot = { x: 0, y: 0, world: 1 };
   it("the key and the level alone do not", () => {
     expect(isSpecial(accessOf(access, areas, 1, "Cour"), spot)).toBe(false);
+  });
+  it("a key off the keyring does (dimensions, crafted entry items)", () => {
+    expect(isSpecial(accessOf(access, areas, 93, "x"), spot)).toBe(true);
   });
   it("its area's requirements do", () => {
     expect(isSpecial(accessOf(access, areas, null, "Jungle obscure"), spot)).toBe(true);

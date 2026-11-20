@@ -320,7 +320,7 @@ it("says a failed sending in words; the raw error goes to the diagnostic log onl
   if (!document.getElementById("view-settings")!.hidden) (document.getElementById("back") as HTMLButtonElement).click();
 });
 
-it("copies the travel command; the button says « Copié » for 2 s", async () => {
+it("copies the travel command; the button says « Copié » for 1 s", async () => {
   if (!document.getElementById("view-settings")!.hidden) (document.getElementById("back") as HTMLButtonElement).click();
   const copied: string[] = [];
   vi.stubGlobal("navigator", { ...navigator, clipboard: { writeText: async (text: string) => void copied.push(text) } });
@@ -334,7 +334,7 @@ it("copies the travel command; the button says « Copié » for 2 s", async () =
   button.click();
   await vi.waitFor(() => expect(button.querySelector(".lbl")!.textContent).toBe("Copié"));
   expect(copied[0].startsWith("/travel ")).toBe(true);
-  vi.advanceTimersByTime(2000);
+  vi.advanceTimersByTime(1000);
   expect(button.querySelector(".lbl")!.textContent).toBe(text);
   vi.useRealTimers();
   vi.unstubAllGlobals();

@@ -68,7 +68,8 @@ export function accessOf(access: Access | undefined, areas: Map<string, string> 
   return { level: null, key: null, offKeyring: false, areaName: name, areaEn: area.en ?? null, dimension: !!area.dimension, areaReqs: area.reqs, ownReqs: [], guide: null };
 }
 
-/** Whether « Comment y aller » is worth a button: requirements beyond the key and the level, or a written route. */
+/** Whether « Comment y aller » is worth a button: requirements, a key the keyring does not hold, or a written route (the
+ * level and a key of the keyring alone are not worth it). */
 export function isSpecial(pa: PlaceAccess | null, to: Spot | null): boolean {
-  return !!(pa && (pa.areaReqs.length || pa.ownReqs.length)) || !!to?.route?.length;
+  return !!(pa && (pa.areaReqs.length || pa.ownReqs.length || (pa.key && pa.offKeyring))) || !!to?.route?.length;
 }

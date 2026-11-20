@@ -32,11 +32,8 @@ const list = (head: string, reqs: Req[]): string =>
 export function renderAccessSheet(title: string, pa: PlaceAccess | null, trip: Trip | null): string {
   let needs = "";
   if (pa) {
-    const facts = [
-      pa.level !== null ? t("access.level", { level: pa.level }) : "",
-      pa.key ? say(pa.key) : "",
-      pa.key && pa.offKeyring ? t("access.offKeyring") : "",
-    ].filter(Boolean);
+    // no level, no key of the keyring (owner, 2026-11-20): only a key the keyring does not hold, by name
+    const facts = pa.key && pa.offKeyring ? [t("access.key", { key: say(pa.key) })] : [];
     const area = (getLang() === "en" && pa.areaEn) || pa.areaName || "";
     const areaHead = pa.dimension ? t("access.dimension", { area }) : t("access.quests", { area });
     const body = (facts.length ? `<div class="facts">${line(facts.join(" · "))}</div>` : "") + list(areaHead, pa.areaReqs) + list("", pa.ownReqs);

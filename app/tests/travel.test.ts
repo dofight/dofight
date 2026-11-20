@@ -94,7 +94,7 @@ describe("how to get there", () => {
     expect(step.textContent).toBe("/travel -68 -34 ou  Paire de skis rustiques jetables (Star ski et Dutch)");
   });
 
-  it("once copied, the button says « Copié » in place of its text for a moment, then its text again", () => {
+  it("once copied, the button says « Copié » in place of its text for 1 s, then its text again", () => {
     vi.useFakeTimers();
     const box = document.createElement("div");
     box.innerHTML = renderTrip(tripTo(travel, 1, "x"));
@@ -103,13 +103,13 @@ describe("how to get there", () => {
     expect(button.querySelector(".lbl")!.textContent).toBe("Copié");
     expect(button.classList.contains("copied")).toBe(true);
     showCopied(button, true); // clicked again: still restores the real text
-    vi.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(1000);
     expect(button.querySelector(".lbl")!.textContent).toBe("[2,-34]");
     expect(button.classList.contains("copied")).toBe(false);
     showCopied(button, false);
     expect(button.querySelector(".lbl")!.textContent).toBe("Copie impossible");
     expect(button.classList.contains("failed")).toBe(true);
-    vi.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(1000);
     expect(button.querySelector(".lbl")!.textContent).toBe("[2,-34]");
     vi.useRealTimers();
   });
@@ -142,12 +142,9 @@ describe("how to get there", () => {
       expect(box.querySelector("button.access")).not.toBeNull();
     });
 
-    it("not special: today's line, then the key", () => {
-      const key = { fr: "Clef de la Cour du Bouftou Royal", en: "Royal Gobball Key" };
-      const text = plain(renderTrip(tripTo(travel, 1, "x"), { key }));
-      expect(text).toContain("· Clef de la Cour du Bouftou Royal");
+    it("not special: today's line, no key (owner, 2026-11-20)", () => {
+      expect(plain(renderTrip(tripTo(travel, 1, "x"), {}))).not.toContain("Clef");
       expect(box.querySelector("button.access")).toBeNull();
-      expect(plain(renderTrip(tripTo(travel, 1, "x"), { key, offKeyring: true }))).toContain("Clef de la Cour du Bouftou Royal · hors trousseau");
     });
 
     it("special with no known position: the button alone", () => {
