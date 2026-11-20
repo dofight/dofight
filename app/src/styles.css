@@ -461,3 +461,6 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .find-count{flex:none;color:var(--muted);font-size:12px}
 mark.hit{background:var(--gold-soft);color:inherit;border-radius:3px;box-shadow:0 0 0 1px var(--gold)}
 .sp.hit{box-shadow:0 0 0 2px var(--gold)}
+
+/* a boss's phases, beside its HP: the game's yellow « seuil » heart; its thresholds on hover */
+.stats .phase{color:var(--yellow);cursor:help}

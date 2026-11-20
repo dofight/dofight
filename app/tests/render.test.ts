@@ -120,8 +120,17 @@ describe("renderMonster", () => {
   });
 
   it("orders tags danger, tip, mechanic and skips unknown ids", () => {
-    const card = dom(renderMonster(m, s.spells, { tags }, ALL, everyIcon, true, VOCAB));
+    // (without the stats line, the phase stays a badge)
+    const card = dom(renderMonster(m, s.spells, { tags }, { ...ALL, details: false }, everyIcon, true, VOCAB));
     expect([...card.querySelectorAll(".tag")].map((t) => t.className.split(" ")[1])).toEqual(["danger", "tip", "mechanic"]);
+  });
+
+  it("shows the phases beside the HP, each one on hover, and not as a badge", () => {
+    const card = dom(renderMonster(m, s.spells, { tags: [...tags, { id: "phase", param: "à 25 % PV" }] }, ALL, everyIcon, true, VOCAB));
+    const phase = card.querySelector(".stats .phase")!;
+    expect(phase.getAttribute("title")!.replace(/ /g, " ")).toBe("Change de phase : à 50 % PV ; à 25 % PV");
+    expect(card.querySelector(".tag.mechanic")).toBeNull();
+    expect(dom(renderMonster(m, s.spells, { tags: [{ id: "one_shot", param: "au CaC" }] }, ALL, everyIcon, true, VOCAB)).querySelector(".phase")).toBeNull();
   });
 
   it("writes the label, then the parameter", () => {

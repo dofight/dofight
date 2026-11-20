@@ -46,10 +46,15 @@ export function renderMonster(
   const cue = open ? "" : dangerCue(summary, vocab, show, icon);
   parts.push(`<div class="mh" role="button" tabindex="0" aria-expanded="${open}">${thumb}<span class="mtitle"><span class="mline"><span class="mname">${esc(m.name)}</span>${count && count > 1 ? `<small class="mcount">×${count}</small>` : ""}</span>${kind ? `<small class="mkind"${kindTitle}>${esc(kind)}</small>` : ""}</span>${cue}<span class="chev" aria-hidden="true">${navIcon("chevron")}</span></div>`);
   if (!open) return `<div class="${cls}" data-monster="${m.id}"${more} data-open="false">${parts.join("")}</div>`;
+  // its phases (the « Change de phase » badges): beside its HP, each one on hover (owner, 2026-11-19)
+  const phases = (summary?.tags ?? []).filter((tag) => tag.id === "phase").map((tag) => frenchSpaces(tag.param?.trim() ?? "")).filter(Boolean);
+  const phaseSpan = phases.length
+    ? `<span class="phase" tabindex="0" title="${esc(`${t("monster.phasesTitle")} ${phases.join(" ; ")}`)}">${img(icon, "badges/phase.webp")}${esc(t("monster.phases"))}</span>`
+    : "";
   if (show.details) {
     parts.push(
       `<div class="lvl stats"><span>${m.boss ? `${t("monster.boss")} · ` : ""}${levelRange(m)}</span>` +
-        `<span>${img(icon, "hud/health.webp") || `${t("monster.hp")} `}${range(m.hpMin, m.hpMax)}</span>` +
+        `<span>${img(icon, "hud/health.webp") || `${t("monster.hp")} `}${range(m.hpMin, m.hpMax)}</span>${phaseSpan}` +
         `<span>${img(icon, "hud/ap.webp") || `${t("monster.ap")} `}${m.ap}</span><span>${img(icon, "hud/mp.webp") || `${t("monster.mp")} `}${m.mp}</span></div>`,
     );
   }
@@ -63,7 +68,9 @@ export function renderMonster(
       }).join("")}</div>`,
     );
   }
-  const tags = renderTags(summary?.tags ?? [], vocab, show, icon);
+  // (shown beside the HP, the phases leave the badges)
+  const shownTags = show.details && phases.length ? (summary?.tags ?? []).filter((tag) => tag.id !== "phase") : (summary?.tags ?? []);
+  const tags = renderTags(shownTags, vocab, show, icon);
   if (tags) {
     parts.push(tags);
   } else if (summary && summary.tags.length === 0) {
