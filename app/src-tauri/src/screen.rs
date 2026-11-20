@@ -216,7 +216,7 @@ pub fn read_corner(
     // added stray letters); when that finds no coordinates (a Songe's header, a menu), read the light pixels as before
     let (img, w, h) = outlined_text(&corner, cw, ch);
     let lines = scaled_down(platform::recognize(engine, &img, w, h)?);
-    if lines.iter().any(|l| has_coordinates(&l.text)) {
+    if lines.iter().any(|l| has_coordinates(&l.text) || has_whole_title(&l.text)) {
         return Ok(lines);
     }
     read_frame(engine, &corner, cw, ch)
@@ -237,11 +237,13 @@ fn outlined_text(bgra: &[u8], width: u32, height: u32) -> (Vec<u8>, u32, u32) {
         let (x0, y0, x1, y1) = (x.saturating_sub(3), y.saturating_sub(3), (x + 3).min(width - 1), (y + 3).min(height - 1));
         (y0..=y1).any(|yy| (x0..=x1).any(|xx| at(xx, yy) < TEXT_OUTLINE))
     };
+    let mut keep: Vec<bool> = (0..width * height).map(|i| at(i % width, i / width) > LIGHT as u32 && near_dark(i % width, i / width)).collect();
+    drop_specks(&mut keep, width, height, SPECK_MAX);
     let (ow, oh) = (width * SCALE, height * SCALE);
     let mut out = vec![255u8; (ow * oh * 4) as usize];
     for y in 0..height {
         for x in 0..width {
-            if at(x, y) > LIGHT as u32 && near_dark(x, y) {
+            if keep[(y * width + x) as usize] {
                 for dy in 0..SCALE {
                     for dx in 0..SCALE {
                         let o = (((y * SCALE + dy) * ow + x * SCALE + dx) * 4) as usize;
@@ -252,6 +254,52 @@ fn outlined_text(bgra: &[u8], width: u32, height: u32) -> (Vec<u8>, u32, u32) {
         }
     }
     (out, ow, oh)
+}
+
+/// Specks: kept pixels in blobs smaller than this (a bright map's light pixels next to its dark ones, owner's full
+/// screen capture of 2026-11-20); the header's letters are much bigger. They cut the OCR's line (« (Champ•des »).
+const SPECK_MAX: usize = 16;
+
+/// Clears the blobs of `keep` (pixels touching up, down or sideways) smaller than `min` pixels.
+fn drop_specks(keep: &mut [bool], width: u32, height: u32, min: usize) {
+    let (w, h) = (width as usize, height as usize);
+    let mut seen = vec![false; w * h];
+    let mut blob = Vec::new();
+    for start in 0..w * h {
+        if seen[start] || !keep[start] {
+            continue;
+        }
+        blob.clear();
+        blob.push(start);
+        seen[start] = true;
+        let mut k = 0;
+        while k < blob.len() {
+            let i = blob[k];
+            k += 1;
+            let (x, y) = (i % w, i / w);
+            let mut visit = |j: usize| {
+                if !seen[j] && keep[j] {
+                    seen[j] = true;
+                    blob.push(j);
+                }
+            };
+            if x > 0 { visit(i - 1); }
+            if x + 1 < w { visit(i + 1); }
+            if y > 0 { visit(i - w); }
+            if y + 1 < h { visit(i + w); }
+        }
+        if blob.len() < min {
+            for &i in &blob {
+                keep[i] = false;
+            }
+        }
+    }
+}
+
+/// « Amakna (Champ des Ingalsse) »: a whole « Zone (Sous-zone) » title, enough to find the zone without coordinates.
+fn has_whole_title(text: &str) -> bool {
+    let (Some(open), Some(close)) = (text.find('('), text.rfind(')')) else { return false };
+    open > 0 && close > open + 3
 }
 
 fn scaled_down(lines: Vec<OcrLine>) -> Vec<OcrLine> {
@@ -758,6 +806,16 @@ mod tests {
         let t = texts("header_brakmar.png");
         assert!(t.iter().any(|l| l.contains("Haras de Br")), "{t:?}");
         assert!(t.iter().any(|l| l.starts_with("-26")), "{t:?}");
+    }
+
+    #[test]
+    #[cfg(windows)]
+    fn reads_the_header_on_a_bright_map() {
+        // full screen, a bright yellow-green map behind the header (owner, 2026-11-20): specks of grass next to
+        // dark pixels used to cut the line at « (Champ•des »
+        let (px, w, h) = load("header_bright_fullscreen.png");
+        let lines = read_corner(&platform::ocr_engine().expect("fr-FR OCR"), &px, w, h).unwrap();
+        assert!(lines.iter().any(|l| l.text.contains("Champ des Ingalsse)")), "{:?}", lines.iter().map(|l| &l.text).collect::<Vec<_>>());
     }
 
     #[test]
