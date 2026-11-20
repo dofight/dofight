@@ -114,6 +114,15 @@ describe("how to get there", () => {
     vi.useRealTimers();
   });
 
+  it("a step's **name** is bold (the zone to pick at the transporter)", () => {
+    const box = document.createElement("div");
+    box.innerHTML = renderRoute(["Prendre le Transporteur frigostien vers **Larmes d'Ouronigride**", "**<i>x</i>"]);
+    const steps = box.querySelectorAll(".step");
+    expect(steps[0].querySelector("b")!.textContent).toBe("Larmes d'Ouronigride");
+    expect(steps[0].textContent).toBe("Prendre le Transporteur frigostien vers Larmes d'Ouronigride");
+    expect(steps[1].querySelector("b, i")).toBeNull(); // unclosed: stays text, and escaped
+  });
+
   describe("« Comment y aller » in the header", () => {
     const route = ["/zaap -78 -41", "Transporteur frigostien → Larmes d'Ouronigride", "/travel -69 -87"];
     const box = document.createElement("div");

@@ -111,7 +111,11 @@ const ZAAP = hud("zaap");
 const STEPS = hud("steps");
 const MARKS: Record<string, string> = { skis: hud("skis") };
 /** « {skis} » in escaped text → its picture; an unknown mark stays as it is. */
-const marks = (html: string): string => html.replace(/\{(\w+)\}/g, (all, name: string) => MARKS[name] ?? all);
+const marks = (html: string): string =>
+  html
+    .replace(/\{(\w+)\}/g, (all, name: string) => MARKS[name] ?? all)
+    // « **Larmes d'Ouronigride** »: the name to pick (at a transporter, a boat), in bold
+    .replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
 
 /** A text step, escaped, its « [name](https://…) » parts made links (a quest's page: « après [Star ski et Dutch](…) »);
  * any other link stays as text. */
