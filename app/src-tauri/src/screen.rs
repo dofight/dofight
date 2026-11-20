@@ -375,18 +375,19 @@ pub fn read_frame(
 
 
 /// A group tooltip's background (slightly see-through): a dark, even colour of any tint, the game's interface theme
-/// colours it (owner, 2026-11-20: every theme alike). Measured: (36, 36, 31) in the default theme, (41, 36, 45) in
-/// Belladone, warmer over lava. The map's dark patches are told apart by the box's shape (find_tooltips).
+/// colours it (owner, 2026-11-20: every theme alike). Measured: (36, 36, 31) and (41, 36, 45) (Belladone), (31, 34, 49)
+/// (Standard), warmer over lava. The map's dark patches are told apart by the box's shape (find_tooltips).
 fn tooltip_background(p: &[u8]) -> bool {
     let (b, g, r) = (p[0] as i32, p[1] as i32, p[2] as i32);
     let (hi, lo) = (r.max(g).max(b), r.min(g).min(b));
     (TOOLTIP_DARKEST..=TOOLTIP_BRIGHTEST).contains(&lo) && hi <= TOOLTIP_BRIGHTEST && hi - lo <= TOOLTIP_TINT
 }
 
-/// A tooltip background's channels: from 14 to 58, at most 20 apart (any hue).
+/// A tooltip background's channels: from 14 to 58, at most 28 apart, any hue (Standard, the most common theme: 17
+/// to 27 apart).
 const TOOLTIP_DARKEST: i32 = 14;
 const TOOLTIP_BRIGHTEST: i32 = 58;
-const TOOLTIP_TINT: i32 = 20;
+const TOOLTIP_TINT: i32 = 28;
 
 /// The size of a group tooltip (frame pixels): one level line up to eight monster lines, the longest names (a lone
 /// « Tofu (36) » is about 80 wide).
@@ -1002,7 +1003,7 @@ mod tests {
     }
 
     /// The owner's Songe captures (2026-11-20): image, mouse in it, the group's level, monsters read.
-    const SONGE: [(&str, (i32, i32), &str, &[&str]); 7] = [
+    const SONGE: [(&str, (i32, i32), &str, &[&str]); 8] = [
         ("songe_1.png", (420, 41), "168", &["Tofoune", "Tofu Noir"]),
         ("songe_2.png", (420, 470), "110", &["Tofoune", "Tofu"]),
         ("songe_3.png", (416, 20), "248", &["Tofu Noir"]),
@@ -1012,6 +1013,8 @@ mod tests {
         ("songe_chat.png", (420, 470), "36", &["Tofu"]),
         // the game's Belladone theme: the tooltip is tinted purple (owner, 2026-11-20: every theme alike)
         ("songe_belladone.png", (420, 470), "132", &["Tofoune", "Tofu"]),
+        // the Standard theme, the one most players keep: bluish, its channels 17 to 25 apart
+        ("songe_standard.png", (420, 470), "132", &["Tofoune", "Tofu"]),
     ];
 
     #[test]
