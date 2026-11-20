@@ -116,8 +116,8 @@
       "en": "Sign of the Possessed"
      },
      "how": {
-      "fr": "Se loot sur les Possédés du Port des Ravageurs (15 %) ; le Gardien du Pandamonium en [41,-56] laisse alors monter les escaliers. L'Atoll : le bateau-démon Voh'Râss' en [41,-45] sur Grobe (gratuit).",
-      "en": "Dropped by the Possessed of the Destroyers' Port (15 %); the Pandamonium Guardian at [41,-56] then lets you climb the stairs. The Atoll: the demon ship Vor'Eshis' at [41,-45] on Nolifis (free)."
+      "fr": "Se loot sur les Possédés du Port des Ravageurs (15 %) ; le Gardien du Pandamonium en [41,-56] laisse alors monter les escaliers. L'Atoll : le bateau-démon Voh'Râss' en [41,-45] sur Grobe.",
+      "en": "Dropped by the Possessed of the Destroyers' Port (15 %); the Pandamonium Guardian at [41,-56] then lets you climb the stairs. The Atoll: the demon ship Vor'Eshis' at [41,-45] on Nolifis."
      }
     }
    ],
@@ -376,8 +376,8 @@
    "reqs": [
     {
      "other": {
-      "fr": "L'entrée est au centre du labyrinthe, par Fwoued en [-1,33] sur l'Île des Porcos (avec la clef ou le trousseau).",
-      "en": "The entrance is at the centre of the labyrinth, through Fwed at [-1,33] on the Porcos' island (with the key or the keyring)."
+      "fr": "L'entrée est au centre du labyrinthe, par Fwoued en [-1,33] sur l'Île des Porcos.",
+      "en": "The entrance is at the centre of the labyrinth, through Fwed at [-1,33] on the Porcos' island."
      }
     }
    ],
