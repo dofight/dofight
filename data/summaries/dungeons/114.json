@@ -95,7 +95,7 @@
      "param": "piège qui repousse"
     }
    ],
-   "detail": "Poison pétrifiant (2 tours) : dégâts Eau par PM utilisé (par PA en Cible lunaire). Si tu infliges des dégâts sous ce poison, il te renvoie à ta position précédente."
+   "detail": "Poison pétrifiant (2 tours, désenvoûtable) : dégâts Eau en fin de tour selon tes PA/PM utilisés, et te téléporte au CaC du monstre le plus proche. En Cible lunaire, utiliser des PA ou PM l'évite."
   }
  }
 }

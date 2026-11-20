@@ -2485,7 +2485,7 @@
   "monstres au CaC du perso soigné": "monsters next to the healed character",
   "te téléporte de l'autre côté": "teleports you to its other side",
   "3 PM à qui soigne sa cible": "3 MP from whoever heals its target",
-  "Poison pétrifiant (2 tours) : dégâts Eau par PM utilisé (par PA en Cible lunaire). Si tu infliges des dégâts sous ce poison, il te renvoie à ta position précédente.": "Petrifying Poison (2 turns): Water damage per MP used (per AP under Lunar Target). If you deal damage under this poison, it sends you back to your previous position."
+  "Poison pétrifiant (2 tours, désenvoûtable) : dégâts Eau en fin de tour selon tes PA/PM utilisés, et te téléporte au CaC du monstre le plus proche. En Cible lunaire, utiliser des PA ou PM l'évite.": "Petrifying Poison (2 turns, dispellable): Water damage at the end of your turn according to the AP/MP you used, and it teleports you next to the nearest monster. Under Lunar Target, using AP or MP avoids it."
  },
  "token": {
   "-résistances": "-resistances",
