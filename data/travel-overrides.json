@@ -135,6 +135,71 @@
     "Take the Frigostian Carrier to **Mount Scauldron**",
     "/travel -63 -75"
    ]
+  },
+  "67": {
+   "name": "Transporteur de Sylargh",
+   "route": [
+    "/zaap -67 -77 ; /travel -73 -84",
+    "Prendre le transporteur vers **Remparts à vent**",
+    "/travel -52 -87"
+   ],
+   "routeEn": [
+    "/zaap -67 -77 ; /travel -73 -84",
+    "Take the carrier to **Windblast Barricade**",
+    "/travel -52 -87"
+   ]
+  },
+  "68": {
+   "name": "Salons privés de Klime",
+   "route": [
+    "/zaap -67 -77 ; /travel -73 -84",
+    "Prendre le transporteur vers **Tannerie Écarlate**",
+    "/travel -63 -93"
+   ],
+   "routeEn": [
+    "/zaap -67 -77 ; /travel -73 -84",
+    "Take the carrier to **Scarlet Tannery**",
+    "/travel -63 -93"
+   ]
+  },
+  "69": {
+   "name": "Forgefroide de Missiz Frizz",
+   "route": [
+    "/zaap -67 -77 ; /travel -73 -84",
+    "Prendre le transporteur vers **Bastion des froides légions**",
+    "/travel -71 -88"
+   ],
+   "routeEn": [
+    "/zaap -67 -77 ; /travel -73 -84",
+    "Take the carrier to **Bleak Legion Bastion**",
+    "/travel -71 -88"
+   ]
+  },
+  "70": {
+   "name": "Laboratoire de Nileza",
+   "route": [
+    "/zaap -67 -77 ; /travel -73 -84",
+    "Prendre le transporteur vers **Jardins d'Hiver**",
+    "/travel -59 -74"
+   ],
+   "routeEn": [
+    "/zaap -67 -77 ; /travel -73 -84",
+    "Take the carrier to **Winter Gardens**",
+    "/travel -59 -74"
+   ]
+  },
+  "107": {
+   "name": "Belvédère d'Ilyzaelle",
+   "route": [
+    "/zaap -67 -77 ; /travel -74 -83",
+    "Cliquer sur la porte",
+    "Traverser la salle, appuyer sur l'interrupteur à côté du tableau, passer derrière le tableau, puis 1 map à gauche"
+   ],
+   "routeEn": [
+    "/zaap -67 -77 ; /travel -74 -83",
+    "Click the door",
+    "Cross the room, press the switch next to the painting, go behind the painting, then 1 map to the left"
+   ]
   }
  },
  "zones": {
@@ -492,6 +557,54 @@
     "/travel -68 -34 | or {skis} Pair of Disposable Rustic Skis ([Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
     "Take the Frigostian Carrier to **Mount Scauldron**",
     "/travel -66 -73"
+   ]
+  },
+  "Remparts à vent": {
+   "route": [
+    "/zaap -67 -77 ; /travel -73 -84",
+    "Prendre le transporteur vers **Remparts à vent**",
+    "/travel -53 -84"
+   ],
+   "routeEn": [
+    "/zaap -67 -77 ; /travel -73 -84",
+    "Take the carrier to **Windblast Barricade**",
+    "/travel -53 -84"
+   ]
+  },
+  "Tannerie Écarlate": {
+   "route": [
+    "/zaap -67 -77 ; /travel -73 -84",
+    "Prendre le transporteur vers **Tannerie Écarlate**",
+    "/travel -63 -91"
+   ],
+   "routeEn": [
+    "/zaap -67 -77 ; /travel -73 -84",
+    "Take the carrier to **Scarlet Tannery**",
+    "/travel -63 -91"
+   ]
+  },
+  "Bastion des froides légions": {
+   "route": [
+    "/zaap -67 -77 ; /travel -73 -84",
+    "Prendre le transporteur vers **Bastion des froides légions**",
+    "/travel -71 -86"
+   ],
+   "routeEn": [
+    "/zaap -67 -77 ; /travel -73 -84",
+    "Take the carrier to **Bleak Legion Bastion**",
+    "/travel -71 -86"
+   ]
+  },
+  "Jardins d'Hiver": {
+   "route": [
+    "/zaap -67 -77 ; /travel -73 -84",
+    "Prendre le transporteur vers **Jardins d'Hiver**",
+    "/travel -59 -72"
+   ],
+   "routeEn": [
+    "/zaap -67 -77 ; /travel -73 -84",
+    "Take the carrier to **Winter Gardens**",
+    "/travel -59 -72"
    ]
   }
  }
