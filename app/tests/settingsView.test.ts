@@ -634,7 +634,7 @@ it("« Comment y aller » stays open through a redraw and a scroll, and closes o
     expect(r.payload.html).toContain("access-sheet");
     return r;
   });
-  await handler("peek:size")({ payload: { token: render.payload.token, height: 300 } }); // the sheet is shown
+  await handler("peek:size")({ payload: { token: render.payload.token, height: 300, label: "peek" } }); // the sheet is shown
   const hide = (await (await import("@tauri-apps/api/window")).Window.getByLabel("peek"))!.hide as unknown as { mock: { calls: unknown[] } };
   const before = hide.mock.calls.length;
   // the zone read while travelling redraws the list, which scrolls it: the sheet stays
@@ -647,6 +647,37 @@ it("« Comment y aller » stays open through a redraw and a scroll, and closes o
   // the player clicks in Dofight: it closes
   document.getElementById("view-main")!.dispatchEvent(new Event("pointerdown", { bubbles: true }));
   await vi.waitFor(() => expect(hide.mock.calls.length).toBeGreaterThan(before));
+});
+
+it("a pinned sheet dragged away stays, and the next sheet goes to a new side window (owner, 2026-11-20)", async () => {
+  const { invoke } = await import("@tauri-apps/api/core");
+  if (!document.getElementById("view-settings")!.hidden) (document.getElementById("back") as HTMLButtonElement).click();
+  const q = document.getElementById("q") as HTMLInputElement;
+  q.value = "Antre du Korriandre";
+  q.dispatchEvent(new Event("input", { bubbles: true }));
+  document.querySelector<HTMLElement>("#results .res-item")!.click();
+  const access = await vi.waitFor(() => document.querySelector<HTMLElement>("#room .access")!);
+  emitted.length = 0;
+  access.click();
+  const render = await vi.waitFor(() => emitted.find((e) => e.event === "peek:render")!);
+  expect(render.payload).toMatchObject({ pinned: true, to: "peek" });
+  await handler("peek:size")({ payload: { token: render.payload.token, height: 300, label: "peek" } });
+  const hide = (await (await import("@tauri-apps/api/window")).Window.getByLabel("peek"))!.hide as unknown as { mock: { calls: unknown[] } };
+  const before = hide.mock.calls.length;
+  // the player drags it away: a new side window is made for the next sheet
+  await handler("peek:detach")({ payload: { label: "peek" } });
+  expect(invoke).toHaveBeenCalledWith("side_window", { label: "peek-1" });
+  // the player's next click in Dofight leaves the detached sheet
+  document.getElementById("view-main")!.dispatchEvent(new Event("pointerdown", { bubbles: true }));
+  await new Promise((r) => setTimeout(r, 50));
+  expect(hide.mock.calls.length).toBe(before);
+  // the next sheet waits for the new window, then goes to it
+  emitted.length = 0;
+  access.click();
+  await new Promise((r) => setTimeout(r, 50));
+  expect(emitted.some((e) => e.event === "peek:render")).toBe(false);
+  await handler("peek:ready")({ payload: { label: "peek-1" } });
+  await vi.waitFor(() => expect(emitted.find((e) => e.event === "peek:render")?.payload).toMatchObject({ to: "peek-1", pinned: true }));
 });
 
 it("dev builds: Diagnostic has a switch that outlines the areas read in red (owner, 2026-11-20)", async () => {

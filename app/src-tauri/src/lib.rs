@@ -23,6 +23,21 @@ fn set_shortcut(app: tauri::AppHandle, keys: String) -> Result<(), String> {
     shortcuts.register(keys.as_str()).map_err(|e| e.to_string())
 }
 
+/// A new side window `peek-N`, made from `peek`'s config, for the next sheet once the current one was detached
+/// (dragged away, owner 2026-11-20). Async: making a window from a sync command deadlocks on Windows.
+#[tauri::command]
+async fn side_window(app: tauri::AppHandle, label: String) -> Result<(), String> {
+    let n = label.strip_prefix("peek-").ok_or("not a side window")?;
+    if n.is_empty() || !n.bytes().all(|b| b.is_ascii_digit()) || app.get_webview_window(&label).is_some() {
+        return Err(format!("bad side window label {label}"));
+    }
+    let mut config = app.config().app.windows.iter().find(|w| w.label == "peek").cloned().ok_or("no peek config")?;
+    config.label = label;
+    let side = tauri::WebviewWindowBuilder::from_config(&app, &config).map_err(|e| e.to_string())?.build().map_err(|e| e.to_string())?;
+    platform::float_side(&side);
+    Ok(())
+}
+
 /// "Fermer Dofight": closes every window, icon included.
 #[tauri::command]
 fn quit(app: tauri::AppHandle) {
@@ -311,6 +326,7 @@ pub fn run() {
         })
         .invoke_handler(tauri::generate_handler![
             quit,
+            side_window,
             set_debug_areas,
             list_dofus_windows,
             set_reference,

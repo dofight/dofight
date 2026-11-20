@@ -428,6 +428,8 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .peek-close:hover{background:var(--line);color:var(--fg)}
 .peek-close .ic{width:14px;height:14px}
 #peek.pinned>:not(.peek-close)>:first-child{padding-right:22px} /* the title clears the button */
+#peek.pinned>.mob{cursor:grab} /* dragged away, a pinned sheet stays where it is dropped */
+#peek.pinned>.mob :is(button,a){cursor:pointer}
 .mob.peek{border-radius:10px} /* no shadow: the window is exactly the card's size */
 /* a mechanic's chip in the room header (hover: its sheet in the preview window) */
 .mechs{display:flex;flex-wrap:wrap;gap:4px}

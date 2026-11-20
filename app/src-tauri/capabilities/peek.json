@@ -1,11 +1,13 @@
 {
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "peek",
-  "description": "The hover preview only talks to the panel (it receives what to show and sends back its height)",
+  "description": "The side windows (hover preview, pinned or detached sheets) only talk to the panel, and a detached sheet can be dragged",
   "windows": [
-    "peek"
+    "peek",
+    "peek-*"
   ],
   "permissions": [
-    "core:event:default"
+    "core:event:default",
+    "core:window:allow-start-dragging"
   ]
 }

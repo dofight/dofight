@@ -316,6 +316,9 @@ pub fn setup(_app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
+/// A side window made at run time (a detached sheet's replacement): its config's always-on-top is enough here.
+pub fn float_side(_side: &tauri::WebviewWindow) {}
+
 #[cfg(test)]
 mod tests {
     use super::*;

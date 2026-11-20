@@ -301,6 +301,11 @@ pub fn float_panel(panel: &tauri::WebviewWindow) {
     });
 }
 
+/// A side window made at run time (a detached sheet's replacement), floating as the panel does.
+pub fn float_side(side: &tauri::WebviewWindow) {
+    float_panel(side);
+}
+
 /// « open »: shown without activating Dofight (the game keeps the focus); « min » and « hidden »: hidden (the menu-bar
 /// icon brings it back).
 pub fn show_panel(panel: &tauri::WebviewWindow, mode: &str) -> Result<(), String> {
@@ -326,6 +331,10 @@ pub fn setup(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
     app.set_activation_policy(tauri::ActivationPolicy::Accessory);
     if let Some(panel) = app.get_webview_window("panel") {
         float_panel(&panel);
+    }
+    // the side window (sheets, previews) floats over a full-screen game too
+    if let Some(side) = app.get_webview_window("peek") {
+        float_panel(&side);
     }
     TrayIconBuilder::with_id("dofight")
         .icon(Image::from_bytes(include_bytes!("../../icons/menubar.png"))?)

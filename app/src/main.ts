@@ -739,6 +739,29 @@ function setPinned(el: HTMLElement | null): void {
   el?.setAttribute(pressedAttr(el), "true");
 }
 
+/** The side window the next sheet or preview goes to: « peek », then « peek-1 », « peek-2 »… each time a pinned sheet
+ * is dragged away (detached, owner 2026-11-20: it stays where it is dropped, until its ✕). A new one is ready once its
+ * page says so; a sheet asked for before that waits for it. */
+let sideLabel = "peek";
+let sideCount = 0;
+let sideReady = true;
+let sideWaiting: { token: number; html: string; pinned?: boolean } | null = null;
+const detachedSheets = new Set<string>();
+function toSide(payload: { token: number; html: string; pinned?: boolean }): void {
+  if (!sideReady) {
+    sideWaiting = payload;
+    return;
+  }
+  void emit("peek:render", { ...payload, to: sideLabel });
+}
+void listen<{ label: string }>("peek:ready", ({ payload }) => {
+  if (payload.label !== sideLabel || sideReady) return;
+  sideReady = true;
+  const waiting = sideWaiting;
+  sideWaiting = null;
+  if (waiting && waiting.token === peekToken) toSide(waiting);
+});
+
 /** « Comment y aller » is open: it stays until the player does something in Dofight (owner, 2026-11-20), so a zone
  * read while travelling (the list drawn again, its scroll) never takes the next commands away. */
 let accessOpen = false;
@@ -755,7 +778,7 @@ function hidePeek(force = false): void {
   peekToken++; // a preview still being measured is dropped
   if (!peekShown) return;
   peekShown = false;
-  void Window.getByLabel("peek").then((w) => w?.hide());
+  void Window.getByLabel(sideLabel).then((w) => w?.hide());
 }
 
 function showPeek(row: HTMLElement): void {
@@ -771,7 +794,7 @@ function renderPeekOf(id: number, roomSummary: RoomSummary | undefined): void {
   const summary = roomSummary?.monsters[String(id)] ?? v.monsterSummaries?.get(id);
   const html = m ? renderPeek(m, summary, settings, iconResolver(v), v.vocabulary) : "";
   if (!html) return hidePeek();
-  void emit("peek:render", { token: ++peekToken, html });
+  void toSide({ token: ++peekToken, html });
 }
 
 // the settings' example window: a folded row hovered there (or null when the pointer leaves) shows the same preview,
@@ -785,16 +808,16 @@ void listen<{ id?: number; spell?: number; mechanic?: string; top: number } | nu
   peekAnchor = { base, top: payload.top };
   const sheet = payload.mechanic !== undefined ? (view ?? snap).mechanics?.get(payload.mechanic) : undefined;
   const spell = payload.spell !== undefined ? (view ?? snap).spells.get(payload.spell) : undefined;
-  if (sheet) void emit("peek:render", { token: ++peekToken, html: renderMechanicSheet(sheet) });
-  else if (spell) void emit("peek:render", { token: ++peekToken, html: renderSpellSheet(spell, iconResolver(snap)) });
+  if (sheet) void toSide({ token: ++peekToken, html: renderMechanicSheet(sheet) });
+  else if (spell) void toSide({ token: ++peekToken, html: renderSpellSheet(spell, iconResolver(snap)) });
   else if (payload.id !== undefined) renderPeekOf(payload.id, d ? (view ?? snap).summaries.get(d.id) : undefined);
 });
 
 // the preview window measured itself: size it and place it beside the panel, level with the hovered row
-void listen<{ token: number; height: number }>("peek:size", async ({ payload }) => {
+void listen<{ token: number; height: number; label: string }>("peek:size", async ({ payload }) => {
   const anchor = peekAnchor;
-  if (payload.token !== peekToken || !anchor) return;
-  const peek = await Window.getByLabel("peek");
+  if (payload.token !== peekToken || payload.label !== sideLabel || !anchor) return;
+  const peek = await Window.getByLabel(sideLabel);
   const monitor = await currentMonitor();
   if (!peek || !monitor) return;
   const scale = await anchor.base.scaleFactor();
@@ -830,7 +853,7 @@ function showMechanic(mech: HTMLElement, delay: number, pin = false): void {
     const sheet = (view ?? snap)?.mechanics?.get(mech.dataset.mechanic ?? "");
     if (!sheet) return;
     peekAnchor = { base: win, top: mech.getBoundingClientRect().top };
-    void emit("peek:render", { token: ++peekToken, html: renderMechanicSheet(sheet, { link: pin }), pinned: pin });
+    void toSide({ token: ++peekToken, html: renderMechanicSheet(sheet, { link: pin }), pinned: pin });
   }, delay);
 }
 
@@ -843,7 +866,7 @@ function showAccess(btn: HTMLElement): void {
   setPinned(btn);
   accessOpen = true;
   peekAnchor = { base: win, top: btn.getBoundingClientRect().top };
-  void emit("peek:render", { token: ++peekToken, html: renderAccessSheet(accessShown.title, accessShown.pa, accessShown.trip), pinned: true });
+  void toSide({ token: ++peekToken, html: renderAccessSheet(accessShown.title, accessShown.pa, accessShown.trip), pinned: true });
 }
 
 // a spell (an open card's spell button): its sheet in the side preview, after `delay` ms; pinned by a click (owner,
@@ -856,7 +879,7 @@ function showSpellAside(sp: HTMLElement, delay: number, pin = false): void {
     const spell = (view ?? snap)?.spells.get(Number(sp.dataset.spell));
     if (!spell || !snap) return;
     peekAnchor = { base: win, top: sp.getBoundingClientRect().top };
-    void emit("peek:render", { token: ++peekToken, html: renderSpellSheet(spell, iconResolver(snap)), pinned: pin });
+    void toSide({ token: ++peekToken, html: renderSpellSheet(spell, iconResolver(snap)), pinned: pin });
   }, delay);
 }
 
@@ -914,13 +937,33 @@ document.addEventListener("keydown", (e) => {
 // a command copied from a pinned sheet (« Comment y aller »): the side window cannot take the focus, and once the
 // player has clicked into the game the panel has lost it too, so the copy goes through the clipboard plugin (no focus
 // needed); the sheet is told whether it worked before it says « Copié »
-void listen<string>("peek:copy", async ({ payload }) => {
-  if (!/^\/(travel|zaap) /.test(payload)) return;
-  const ok = await writeText(payload).then(() => true, () => false);
-  void emit("peek:copied", { command: payload, ok });
+void listen<{ command: string; label: string }>("peek:copy", async ({ payload }) => {
+  if (!/^\/(travel|zaap) /.test(payload.command)) return;
+  const ok = await writeText(payload.command).then(() => true, () => false);
+  void emit("peek:copied", { command: payload.command, ok, to: payload.label });
 });
 // the close button of a pinned sheet (owner, 2026-11-20)
-void listen("peek:close", () => hidePeek(true));
+void listen<{ label: string }>("peek:close", ({ payload }) => {
+  if (payload.label === sideLabel) return hidePeek(true);
+  if (!detachedSheets.delete(payload.label)) return;
+  void Window.getByLabel(payload.label).then((w) => w?.close());
+});
+// a pinned sheet dragged away: that window is the player's now (left alone until its ✕); the next sheet goes to a new
+// side window
+void listen<{ label: string }>("peek:detach", ({ payload }) => {
+  if (payload.label !== sideLabel || !peekShown) return;
+  detachedSheets.add(payload.label);
+  accessOpen = false;
+  if (pinned) setPinned(null);
+  window.clearTimeout(peekTimer);
+  peekRow = null;
+  peekAnchor = null;
+  peekToken++;
+  peekShown = false;
+  sideLabel = `peek-${++sideCount}`;
+  sideReady = false;
+  invoke("side_window", { label: sideLabel }).catch((e) => diag("sheet", `side window not made: ${e}`));
+});
 // the « Guide » link of a pinned sheet, clicked in the preview window (which can only talk to the panel)
 void listen<string>("peek:open", ({ payload }) => {
   if (/^https:\/\//.test(payload)) void openUrl(payload);
