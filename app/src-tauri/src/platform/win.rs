@@ -170,6 +170,61 @@ pub fn client_origin(id: WindowId) -> Option<(i32, i32)> {
     unsafe { ClientToScreen(hwnd(id), &mut origin) }.as_bool().then_some((origin.x, origin.y))
 }
 
+/// The window's top-left piece only (`width` × `height` client pixels): the game draws into an image that size, so
+/// Dofight never receives the rest of the window (owner, 2026-11-20; measured identical to that piece of a whole
+/// capture). Its own drawing first (works while a window covers it), else the screen pixels of that piece. Only the
+/// top left: Dofus ignores a shifted drawing origin, so a piece elsewhere cannot be captured this way.
+pub fn capture_top_left(id: WindowId, width: u32, height: u32) -> Result<Frame, CaptureError> {
+    let hwnd = hwnd(id);
+    if unsafe { IsIconic(hwnd) }.as_bool() {
+        return Err(CaptureError::Minimized);
+    }
+    let (cw, ch) = client_size(id).ok_or(CaptureError::Gone)?;
+    let (w, h) = (width.min(cw) as i32, height.min(ch) as i32);
+    if w <= 0 || h <= 0 {
+        return Err(CaptureError::Failed);
+    }
+    match capture_piece(hwnd, w, h, false) {
+        Some(frame) if !is_blank(&frame.0) => Ok(frame),
+        _ => capture_piece(hwnd, w, h, true).ok_or(CaptureError::Failed),
+    }
+}
+
+fn capture_piece(hwnd: HWND, w: i32, h: i32, from_screen: bool) -> Option<Frame> {
+    unsafe {
+        let screen = GetDC(None);
+        let dc = CreateCompatibleDC(Some(screen));
+        let bmp = CreateCompatibleBitmap(screen, w, h);
+        let old = SelectObject(dc, bmp.into());
+        let ok = if from_screen {
+            let mut origin = POINT { x: 0, y: 0 };
+            let _ = ClientToScreen(hwnd, &mut origin);
+            BitBlt(dc, 0, 0, w, h, Some(screen), origin.x, origin.y, SRCCOPY).is_ok()
+        } else {
+            PrintWindow(hwnd, dc, PRINT_WINDOW_FLAGS(PW_RENDERFULLCONTENT | 1)).as_bool() // 1 = client only
+        };
+        let mut info = BITMAPINFO {
+            bmiHeader: BITMAPINFOHEADER {
+                biSize: size_of::<BITMAPINFOHEADER>() as u32,
+                biWidth: w,
+                biHeight: -h,
+                biPlanes: 1,
+                biBitCount: 32,
+                biCompression: BI_RGB.0,
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+        let mut pixels = vec![0u8; (w * h * 4) as usize];
+        let rows = GetDIBits(dc, bmp, 0, h as u32, Some(pixels.as_mut_ptr().cast()), &mut info, DIB_RGB_COLORS);
+        SelectObject(dc, old);
+        let _ = DeleteObject(bmp.into());
+        let _ = DeleteDC(dc);
+        ReleaseDC(None, screen);
+        (ok && rows == h).then_some((pixels, w as u32, h as u32))
+    }
+}
+
 /// The window's client area size, in frame pixels.
 pub fn client_size(id: WindowId) -> Option<(u32, u32)> {
     let mut rect = RECT::default();
@@ -259,4 +314,31 @@ pub fn panel_shown(panel: &tauri::WebviewWindow) -> bool {
 /// Nothing to set up on Windows (the panel's taskbar button is the panel's own).
 pub fn setup(_app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// Live check, only on request (`cargo test --lib top_left -- --ignored --nocapture`) with Dofus open: the
+    /// top-left piece captured alone has the same pixels as that piece of the whole window (nothing is sent to the game).
+    #[test]
+    #[ignore]
+    fn the_top_left_piece_matches_the_whole_window() {
+        let window = dofus_windows().into_iter().next().expect("Dofus open");
+        let (full, fw, fh) = capture(window.id).expect("whole window");
+        let (cw, ch) = crate::screen::corner_size(fw, fh);
+        let (px, w, h) = capture_top_left(window.id, cw, ch).expect("piece");
+        let (mut same, mut total) = (0usize, 0usize);
+        for y in 0..h as usize {
+            for x in 0..w as usize {
+                let a = &px[(y * w as usize + x) * 4..][..3];
+                let b = &full[(y * fw as usize + x) * 4..][..3];
+                total += 1;
+                same += usize::from(a.iter().zip(b).all(|(p, q)| p.abs_diff(*q) <= 8));
+            }
+        }
+        println!("top left {w}x{h}: {:.1} % of its pixels as in the whole window", 100.0 * same as f64 / total as f64);
+        assert!(same * 100 >= total * 95);
+    }
 }

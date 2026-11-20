@@ -118,6 +118,11 @@ const CAPTURE_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(2);
 /// The window's content (without its title bar when windowed), one pixel per point (Retina: halved), in BGRA:
 /// ScreenCaptureKit's one-shot capture of that window only (macOS 14), whatever covers it.
 pub fn capture(id: WindowId) -> Result<Frame, CaptureError> {
+    capture_rect(id, None)
+}
+
+/// The window's content, or only its top-left `size` (points).
+fn capture_rect(id: WindowId, size: Option<(f64, f64)>) -> Result<Frame, CaptureError> {
     use block2::RcBlock;
     use objc2::AnyThread;
     use objc2_core_foundation::{CGPoint, CGRect as SCRect, CGSize};
@@ -134,6 +139,7 @@ pub fn capture(id: WindowId) -> Result<Frame, CaptureError> {
     }
     let Some((_, frame)) = entry(id) else { return Err(CaptureError::Gone) };
     let (cx, cy, w, h) = content(frame);
+    let (w, h) = size.map_or((w, h), |(sw, sh)| (sw.min(w), sh.min(h)));
     if w < 1.0 || h < 1.0 {
         return Err(CaptureError::Minimized);
     }
@@ -168,6 +174,12 @@ pub fn capture(id: WindowId) -> Result<Frame, CaptureError> {
     });
     unsafe { SCShareableContent::getShareableContentExcludingDesktopWindows_onScreenWindowsOnly_completionHandler(true, true, &handler) };
     rx.recv_timeout(CAPTURE_TIMEOUT).unwrap_or(Err(CaptureError::Failed))
+}
+
+/// The window's top-left piece only (`width` × `height` in its content's points): ScreenCaptureKit captures just that
+/// rectangle (owner, 2026-11-20: Dofight never receives the rest of the game for the header).
+pub fn capture_top_left(id: WindowId, width: u32, height: u32) -> Result<Frame, CaptureError> {
+    capture_rect(id, Some((width as f64, height as f64)))
 }
 
 /// A captured image's pixels as tight BGRA rows.

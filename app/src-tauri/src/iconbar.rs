@@ -24,9 +24,10 @@ const AREA_H: u32 = 44;
 /// A correlation at least this high is the icon.
 const MATCH: f32 = 0.9;
 
-/// The top-left corner in grey levels, scaled to the icons' frame height.
-fn corner(bgra: &[u8], width: u32, height: u32) -> Option<Vec<f32>> {
-    let scale = height as f32 / ICON_FRAME_H as f32;
+/// The top-left corner in grey levels, scaled to the icons' frame height. `bgra` is `width` × `height` from the
+/// window's top left (the whole window, or only its header corner); `window_h` is the window's height.
+fn corner(bgra: &[u8], width: u32, height: u32, window_h: u32) -> Option<Vec<f32>> {
+    let scale = window_h as f32 / ICON_FRAME_H as f32;
     let mut out = Vec::with_capacity((AREA_W * AREA_H) as usize);
     for y in 0..AREA_H {
         for x in 0..AREA_W {
@@ -82,7 +83,12 @@ fn best(area: &[f32], icon: &[u8], w: u32, h: u32) -> f32 {
 
 /// How much the eye, the « i » and the heart are seen (0..1).
 pub fn scores(bgra: &[u8], width: u32, height: u32) -> (f32, f32, f32) {
-    match corner(bgra, width, height) {
+    scores_in(bgra, width, height, height)
+}
+
+/// `scores` on the window's top-left piece only (the header corner captured alone), the window being `window_h` high.
+pub fn scores_in(bgra: &[u8], width: u32, height: u32, window_h: u32) -> (f32, f32, f32) {
+    match corner(bgra, width, height, window_h) {
         Some(area) => (
             best(&area, &EYE, EYE_W, EYE_H),
             best(&area, &INFO, INFO_W, INFO_H),
@@ -93,7 +99,12 @@ pub fn scores(bgra: &[u8], width: u32, height: u32) -> (f32, f32, f32) {
 }
 
 pub fn read_bar(bgra: &[u8], width: u32, height: u32) -> Bar {
-    let (eye, info, heart) = scores(bgra, width, height);
+    read_bar_in(bgra, width, height, height)
+}
+
+/// `read_bar` on the window's top-left piece only, the window being `window_h` high.
+pub fn read_bar_in(bgra: &[u8], width: u32, height: u32, window_h: u32) -> Bar {
+    let (eye, info, heart) = scores_in(bgra, width, height, window_h);
     match (eye >= MATCH || info >= MATCH, heart >= MATCH) {
         (true, false) => Bar::Calm,
         (false, true) => Bar::Fight,
@@ -134,5 +145,22 @@ mod tests {
             checked += 1;
         }
         assert!(checked >= 10);
+    }
+
+    #[test]
+    fn reads_the_bar_on_the_header_corner_alone() {
+        // only the header corner is captured (owner, 2026-11-20): every saved frame gets the same answer from it
+        let dir = format!("{}/tests/fixtures/iconbar", env!("CARGO_MANIFEST_DIR"));
+        for entry in std::fs::read_dir(dir).unwrap() {
+            let name = entry.unwrap().file_name().into_string().unwrap();
+            let (px, w, h) = frame(&name);
+            let (cw, ch) = crate::screen::corner_size(w, h);
+            let mut piece = Vec::new();
+            for y in 0..ch {
+                let start = (y * w * 4) as usize;
+                piece.extend_from_slice(&px[start..start + (cw * 4) as usize]);
+            }
+            assert_eq!(read_bar_in(&piece, cw, ch, h), read_bar(&px, w, h), "{name}");
+        }
     }
 }

@@ -2,7 +2,7 @@
 //! never hide it), light text is kept, and the platform's OCR reads it (platform/: Windows OCR, Vision on macOS). Nothing is ever sent to the game.
 
 use crate::diag;
-use crate::iconbar::{Bar, read_bar, scores};
+use crate::iconbar::{Bar, read_bar_in, scores_in};
 use crate::ocr::OcrLine;
 use crate::platform::{self, CaptureError, DofusWindow, Frame, OcrEngine, WindowId};
 use serde::Serialize;
@@ -195,12 +195,13 @@ fn binarize(bgra: &[u8], width: u32, height: u32, threshold: u8) -> (Vec<u8>, u3
 
 /// The top-left corner the zone reading needs: the zone name, the map coordinates, a Songe's « Palier / Profondeur »
 /// lines (header.ts and dream.ts look there). The rest of the screen is never read for the zone or the fight (the fight
-/// comes from the icon bar), which keeps each reading small. Sized for a 1009-pixel-high game, scaled with it: 720 wide (the
-/// longest header, about 590), 160 high (the page uses the lines starting above that; the quest list below was read for
-/// nothing and sometimes taken for the header).
+/// comes from the icon bar), which keeps each reading small. Sized for a 1009-pixel-high game, scaled with it: 720
+/// wide (the longest header, about 590), 120 high (the zone name and coordinates, or a Songe's three lines; the quest
+/// list below was read for nothing and sometimes taken for the header; owner, 2026-11-20). Only this piece of the
+/// window is captured for it (platform::capture_region).
 pub fn corner_size(width: u32, height: u32) -> (u32, u32) {
     let f = (height as f32 / 1009.0).max(1.0);
-    (width.min((720.0 * f) as u32), height.min((160.0 * f) as u32))
+    (width.min((720.0 * f) as u32), height.min((120.0 * f) as u32))
 }
 
 /// OCR lines of the frame's top-left corner (see corner_size), in the frame's pixels.
@@ -216,9 +217,14 @@ pub fn read_corner(
         let start = (y * width * 4) as usize;
         corner.extend_from_slice(&bgra[start..start + (cw * 4) as usize]);
     }
+    read_corner_piece(engine, &corner, cw, ch)
+}
+
+/// OCR lines of the header corner captured alone (`corner_size` of the window, its top left), in its pixels.
+pub fn read_corner_piece(engine: &OcrEngine, corner: &[u8], cw: u32, ch: u32) -> Result<Vec<OcrLine>, String> {
     // the header text is white with a dark outline: read only that (a bright, busy map behind it, the world map open,
     // added stray letters); when that finds no coordinates (a Songe's header, a menu), read the light pixels as before
-    let (img, w, h) = outlined_text(&corner, cw, ch);
+    let (img, w, h) = outlined_text(corner, cw, ch);
     let lines = scaled_down(platform::recognize(engine, &img, w, h)?);
     let readable = |lines: &[OcrLine]| lines.iter().any(|l| has_coordinates(&l.text) || has_whole_title(&l.text));
     if readable(&lines) {
@@ -226,7 +232,7 @@ pub fn read_corner(
     }
     // on snow the outline blends into the white behind it (owner's capture, 2026-11-20): the letters' cores are pure
     // white, which the snow never is
-    let (img, w, h) = pure_white_text(&corner, cw, ch);
+    let (img, w, h) = pure_white_text(corner, cw, ch);
     // the OCR reads that thin « ( » as « { » now and then; a zone name never holds braces
     let white: Vec<OcrLine> = scaled_down(platform::recognize(engine, &img, w, h)?)
         .into_iter()
@@ -235,7 +241,7 @@ pub fn read_corner(
     if readable(&white) {
         return Ok(white);
     }
-    read_frame(engine, &corner, cw, ch)
+    read_frame(engine, corner, cw, ch)
 }
 
 /// The header's pure white pixels (every channel at PURE_WHITE or more), specks dropped, black on white, scaled `SCALE`
@@ -402,16 +408,32 @@ const TOOLTIP_FILL: f32 = 0.5;
 /// a tooltip's size, wherever they are around the mouse (above it, or pushed below or aside by a screen edge). Pixels
 /// only, no OCR: Songe then reads just those boxes.
 pub fn find_tooltips(bgra: &[u8], width: u32, height: u32, cx: i32, cy: i32) -> Vec<(i32, i32, i32, i32)> {
+    find_tooltips_in(bgra, width, height, (0, 0), (width, height), cx, cy)
+}
+
+/// The square around the mouse Songe looks at (x, y, width, height in the window's pixels, clipped to it): only this
+/// piece of a capture is kept (owner, 2026-11-20).
+pub fn hover_square(cx: i32, cy: i32, (width, height): (u32, u32)) -> (i32, i32, i32, i32) {
     let (x0, y0) = ((cx - HOVER_HALF_WIDTH).max(0), (cy - HOVER_ABOVE).max(0));
     let (x1, y1) = ((cx + HOVER_HALF_WIDTH).min(width as i32), (cy + HOVER_BELOW).min(height as i32));
+    (x0, y0, (x1 - x0).max(0), (y1 - y0).max(0))
+}
+
+/// `find_tooltips` on a piece of the window (`bgra`, `iw` × `ih`, its top left at `at` in the window of size `window`):
+/// the mouse and the boxes found are in the window's pixels.
+pub fn find_tooltips_in(bgra: &[u8], iw: u32, ih: u32, at: (i32, i32), window: (u32, u32), cx: i32, cy: i32) -> Vec<(i32, i32, i32, i32)> {
+    let (width, height) = window;
+    let (sx, sy, sw, sh) = hover_square(cx, cy, window);
+    let (x0, y0) = (sx.max(at.0), sy.max(at.1));
+    let (x1, y1) = ((sx + sw).min(at.0 + iw as i32), (sy + sh).min(at.1 + ih as i32));
     if x1 - x0 < TOOLTIP_MIN.0 || y1 - y0 < TOOLTIP_MIN.1 {
         return Vec::new();
     }
     let (w, h) = ((x1 - x0) as usize, (y1 - y0) as usize);
     let mask: Vec<bool> = (0..w * h)
         .map(|i| {
-            let (x, y) = (x0 as usize + i % w, y0 as usize + i / w);
-            let o = (y * width as usize + x) * 4;
+            let (x, y) = ((x0 - at.0) as usize + i % w, (y0 - at.1) as usize + i / w);
+            let o = (y * iw as usize + x) * 4;
             tooltip_background(&bgra[o..o + 3])
         })
         .collect();
@@ -499,19 +521,36 @@ pub fn read_hovered(
     cx: i32,
     cy: i32,
 ) -> Result<Vec<OcrLine>, String> {
+    read_hovered_in(engine, bgra, width, height, (0, 0), (width, height), cx, cy)
+}
+
+/// `read_hovered` on a piece of the window (see find_tooltips_in): lines in the window's pixels.
+#[allow(clippy::too_many_arguments)]
+pub fn read_hovered_in(
+    engine: &OcrEngine,
+    bgra: &[u8],
+    iw: u32,
+    ih: u32,
+    at: (i32, i32),
+    window: (u32, u32),
+    cx: i32,
+    cy: i32,
+) -> Result<Vec<OcrLine>, String> {
     // only the tooltips' own boxes are read (found by their colour, on any side of the mouse): about a tenth of the
     // area read before, and none of the bright map around them (owner, 2026-11-20)
     let mut lines = Vec::new();
-    for (x, y, w, h) in find_tooltips(bgra, width, height, cx, cy) {
+    let back = |l: OcrLine| OcrLine { x: l.x + at.0, y: l.y + at.1, ..l };
+    for (x, y, w, h) in find_tooltips_in(bgra, iw, ih, at, window, cx, cy) {
+        let (x, y) = (x - at.0, y - at.1);
         // the bold white level line reads best on its own, light pixels only; the grey monster lines below at a
         // lower threshold (measured on the owner's five captures, 2026-11-20)
-        let title = read_area(engine, bgra, width, height, (x, y, x + w, y + TOOLTIP_TITLE_BAND), LIGHT)?;
-        let body = read_area(engine, bgra, width, height, (x, y, x + w, y + h), TOOLTIP_BOX_TEXT)?;
+        let title = read_area(engine, bgra, iw, ih, (x, y, x + w, y + TOOLTIP_TITLE_BAND), LIGHT)?;
+        let body = read_area(engine, bgra, iw, ih, (x, y, x + w, y + h), TOOLTIP_BOX_TEXT)?;
         let level = title.into_iter().find(|l| is_group_header(&l.text)).or_else(|| body.iter().find(|l| is_group_header(&l.text)).cloned());
         if let Some(level) = level {
             let below = level.y + level.h / 2;
-            lines.push(level);
-            lines.extend(body.into_iter().filter(|l| !is_group_header(&l.text) && l.y > below));
+            lines.push(back(level));
+            lines.extend(body.into_iter().filter(|l| !is_group_header(&l.text) && l.y > below).map(back));
         }
     }
     Ok(lines)
@@ -658,12 +697,12 @@ fn scan_due(app: &AppHandle, asked: &Mutex<Option<(Instant, u8)>>) -> Option<u8>
 }
 
 /// One reading for « Scanner ma sous-zone »: the corner of `frame`, sent as `screen:scan`.
-fn emit_scan(app: &AppHandle, engine: Option<&OcrEngine>, frame: Option<&Frame>, left: u8) {
-    let scan = match (engine, frame) {
+fn emit_scan(app: &AppHandle, engine: Option<&OcrEngine>, corner: Option<&(Frame, (u32, u32))>, left: u8) {
+    let scan = match (engine, corner) {
         (None, _) => Scan { lines: vec![], bar: None, error: Some("no-ocr".into()), left },
         (_, None) => Scan { lines: vec![], bar: None, error: Some("no-capture".into()), left },
-        (Some(engine), Some((px, w, h))) => match read_corner(engine, px, *w, *h) {
-            Ok(lines) => Scan { lines, bar: Some(read_bar(px, *w, *h)), error: None, left },
+        (Some(engine), Some(((px, w, h), window))) => match read_corner_piece(engine, px, *w, *h) {
+            Ok(lines) => Scan { lines, bar: Some(read_bar_in(px, *w, *h, window.1)), error: None, left },
             Err(e) => Scan { lines: vec![], bar: None, error: Some(e), left },
         },
     };
@@ -693,6 +732,33 @@ fn capture_error_kind(e: &CaptureError) -> Option<&'static str> {
         CaptureError::Permission => Some("no-permission"),
         CaptureError::Failed => Some("no-capture"),
     }
+}
+
+/// The header corner captured alone (the window's top-left piece, corner_size of the window), and the window's size.
+fn timed_corner(id: WindowId, stats: &mut Stats) -> Result<(Frame, (u32, u32)), CaptureError> {
+    let started = Instant::now();
+    let window = platform::client_size(id).ok_or(CaptureError::Gone)?;
+    let (cw, ch) = corner_size(window.0, window.1);
+    let corner = platform::capture_top_left(id, cw, ch);
+    stats.captures += 1;
+    stats.capture_ms += started.elapsed().as_millis();
+    corner.map(|c| (c, window))
+}
+
+/// Songe: the square around the mouse (hover_square), cut out of a capture at once (the rest is dropped there), and
+/// its top left in the window.
+fn timed_square(id: WindowId, cx: i32, cy: i32, stats: &mut Stats) -> Option<(Frame, (i32, i32))> {
+    let (full, fw, fh) = timed_capture(id, stats).ok()?;
+    let (sx, sy, sw, sh) = hover_square(cx, cy, (fw, fh));
+    if sw <= 0 || sh <= 0 {
+        return None;
+    }
+    let mut square = Vec::with_capacity((sw * sh * 4) as usize);
+    for y in sy..sy + sh {
+        let start = ((y as u32 * fw + sx as u32) * 4) as usize;
+        square.extend_from_slice(&full[start..start + (sw * 4) as usize]);
+    }
+    Some(((square, sw as u32, sh as u32), (sx, sy)))
 }
 
 fn timed_capture(id: WindowId, stats: &mut Stats) -> Result<Frame, CaptureError> {
@@ -790,8 +856,8 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                     // « Scanner ma sous-zone » clicked: one reading of the corner now, the switch staying off
                     if platform::front_window() == Some(target.id) {
                         if let Some(left) = scan_due(&app, &reading.1) {
-                            let frame = timed_capture(target.id, &mut r.stats).ok();
-                            emit_scan(&app, engine.as_ref().ok(), frame.as_ref(), left);
+                            let corner = timed_corner(target.id, &mut r.stats).ok();
+                            emit_scan(&app, engine.as_ref().ok(), corner.as_ref(), left);
                         }
                     }
                 }
@@ -823,10 +889,11 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                 }
             };
             let id = target.id;
-            let mut frame = None;
+            let mut window = None;
             if slow_due {
-                frame = match timed_capture(id, &mut r.stats) {
-                    Ok(f) => Some(f),
+                // only the header corner is captured for the zone and the fight (owner, 2026-11-20)
+                let corner = match timed_corner(id, &mut r.stats) {
+                    Ok(c) => c,
                     Err(e) => {
                         note(&mut r, format!("capture failed: {e:?}"));
                         if let Some(kind) = capture_error_kind(&e) {
@@ -835,20 +902,20 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                         continue;
                     }
                 };
-                let Some((px, w, h)) = &frame else { continue };
-                note(&mut r, format!("reading Dofus, {w}×{h}"));
-                let (cw, ch) = corner_size(*w, *h);
-                show_areas(&app, id, vec![(0, 0, cw as i32, ch as i32)]);
-                // « Scanner ma sous-zone » clicked with the zone not followed (its option off): this frame answers it
+                let ((px, w, h), (ww, wh)) = &corner;
+                window = Some((*ww, *wh));
+                note(&mut r, format!("reading Dofus, {ww}×{wh}"));
+                show_areas(&app, id, vec![(0, 0, *w as i32, *h as i32)]);
+                // « Scanner ma sous-zone » clicked with the zone not followed (its option off): this corner answers it
                 if let Some(left) = scan_due(&app, &reading.1) {
-                    emit_scan(&app, Some(engine), frame.as_ref(), left);
+                    emit_scan(&app, Some(engine), Some(&corner), left);
                 }
                 let mask = corner_mask(px, *w, *h);
                 let changed = r.read_mask.as_ref().is_none_or(|m| corner_changed(m, &mask));
-                let bar = read_bar(px, *w, *h);
+                let bar = read_bar_in(px, *w, *h, *wh);
                 let bar_changed = bar != Bar::Unknown && r.bar != Some(bar);
                 if bar_changed {
-                    let (eye, info, heart) = scores(px, *w, *h);
+                    let (eye, info, heart) = scores_in(px, *w, *h, *wh);
                     diag::log("fight", &format!("icon bar: {bar:?} (eye {eye:.2}, i {info:.2}, heart {heart:.2})"));
                 }
                 if bar != Bar::Unknown {
@@ -870,7 +937,7 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                     r.read_mask = Some(mask);
                     r.last_read = Some(Instant::now());
                     let started = Instant::now();
-                    let tick = match read_corner(engine, px, *w, *h) {
+                    let tick = match read_corner_piece(engine, px, *w, *h) {
                         Ok(lines) => Tick {
                             front: true,
                             lines,
@@ -892,10 +959,10 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
             if !hovering {
                 continue;
             }
-            let Some((w, h)) = frame.as_ref().map(|(_, w, h)| (*w, *h)).or_else(|| platform::client_size(id)) else {
+            let Some((ww, wh)) = window.or_else(|| platform::client_size(id)) else {
                 continue;
             };
-            let Some((cx, cy)) = platform::cursor_in(id, w, h) else {
+            let Some((cx, cy)) = platform::cursor_in(id, ww, wh) else {
                 continue;
             };
             let moved = r.cursor.is_none_or(|(x, y)| (cx - x).abs() > 3 || (cy - y).abs() > 3);
@@ -909,19 +976,17 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                 continue;
             }
             r.hover_tries += 1;
-            if frame.is_none() {
-                frame = timed_capture(id, &mut r.stats).ok();
-            }
-            let Some((px, w, h)) = &frame else {
+            // only the square around the mouse is kept of this capture (owner, 2026-11-20)
+            let Some(((px, sw, sh), at)) = timed_square(id, cx, cy, &mut r.stats) else {
                 continue;
             };
             let started = Instant::now();
-            let lines = read_hovered(engine, px, *w, *h, cx, cy).unwrap_or_default();
-            let (cw, ch) = corner_size(*w, *h);
+            let lines = read_hovered_in(engine, &px, sw, sh, at, (ww, wh), cx, cy).unwrap_or_default();
             // dev builds: the header corner and the tooltip boxes read
             if cfg!(debug_assertions) {
+                let (cw, ch) = corner_size(ww, wh);
                 let mut areas = vec![(0, 0, cw as i32, ch as i32)];
-                areas.extend(find_tooltips(px, *w, *h, cx, cy));
+                areas.extend(find_tooltips_in(&px, sw, sh, at, (ww, wh), cx, cy));
                 show_areas(&app, id, areas);
             }
             r.stats.hovers += 1;
@@ -1034,6 +1099,22 @@ mod tests {
     }
 
     #[test]
+    fn the_square_alone_finds_the_same_boxes_as_the_whole_frame() {
+        // Songe keeps only the square around the mouse of a capture (owner, 2026-11-20): nothing else is looked at
+        for (name, (cx, cy), _, _) in SONGE {
+            let (px, w, h) = load(name);
+            let (sx, sy, sw, sh) = hover_square(cx, cy, (w, h));
+            let mut square = Vec::with_capacity((sw * sh * 4) as usize);
+            for y in sy..sy + sh {
+                let start = ((y as u32 * w + sx as u32) * 4) as usize;
+                square.extend_from_slice(&px[start..start + (sw * 4) as usize]);
+            }
+            let alone = find_tooltips_in(&square, sw as u32, sh as u32, (sx, sy), (w, h), cx, cy);
+            assert_eq!(alone, find_tooltips(&px, w, h, cx, cy), "{name}");
+        }
+    }
+
+    #[test]
     fn the_chat_and_the_spell_bar_are_not_tooltips() {
         // the mouse low on the screen: the area looked at reaches the chat and the spell bar, dark like a tooltip,
         // but they go on past that area (owner, 2026-11-20: a red box over the chat)
@@ -1105,8 +1186,9 @@ mod tests {
 
     #[test]
     fn corner_size_scales_with_the_window_and_stays_inside() {
-        assert_eq!(corner_size(1920, 1009), (720, 160)); // the lines the page uses start above 160 (header.ts, dream.ts)
-        assert_eq!(corner_size(3840, 2018), (1440, 320));
+        // the zone name and coordinates, or a Songe's three lines (« Cauchemar 1 » ends about 110), not the quest list
+        assert_eq!(corner_size(1920, 1009), (720, 120));
+        assert_eq!(corner_size(3840, 2018), (1440, 240));
         assert_eq!(corner_size(500, 120), (500, 120));
     }
 
