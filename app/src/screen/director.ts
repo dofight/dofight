@@ -17,7 +17,9 @@ export interface Reading {
 
 export type Action =
   | { type: "loadRoom"; room: Room }
-  | { type: "show" | "hide" | "hideAll" | "restoreAll" };
+  | { type: "show" | "hide" | "hideAll" | "restoreAll" }
+  /** A new room was seen once: read the screen again now (screen.rs read_again) for its confirming reading. */
+  | { type: "readAgain" };
 
 export interface DirectorState {
   front: boolean;
@@ -73,7 +75,10 @@ export function step(state: DirectorState, reading: Reading, settings: Settings)
       s.lastRoomTitle = reading.room.title;
       s.pendingRoomTitle = null;
       actions.push({ type: "loadRoom", room: reading.room });
-    } else s.pendingRoomTitle = reading.room.title;
+    } else {
+      s.pendingRoomTitle = reading.room.title;
+      actions.push({ type: "readAgain" });
+    }
   } else if (reading.room?.title === s.lastRoomTitle) s.pendingRoomTitle = null;
 
   // the end of a fight: the end banner, or several readings in a row without the fight buttons

@@ -32,6 +32,13 @@ describe("director", () => {
     expect(log[3]).toContainEqual({ type: "loadRoom", room: roomB });
   });
 
+  it("asks for the confirming reading at once when a new room is seen once (owner, 2026-11-20: 10 s waits)", () => {
+    const { log } = run([read({ room: roomA }), read({ room: roomB }), read({ room: roomB })]);
+    expect(types(log[1])).toContain("readAgain"); // seen once: read again now, not at the next safety reading
+    expect(types(log[2])).not.toContain("readAgain"); // confirmed: loaded, nothing more to ask
+    expect(types(log[0])).not.toContain("readAgain"); // the first room ever loads at once
+  });
+
   it("ignores a room read on a single frame", () => {
     const { log } = run([read({ room: roomA }), read({ room: roomB }), read({ room: roomA }), read({ room: roomA })]);
     expect(log.slice(1).flat().filter((a) => a.type === "loadRoom")).toEqual([]);

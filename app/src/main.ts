@@ -1677,7 +1677,9 @@ function zoneStatus(kind: StatusKind, text = ""): void {
 
 async function apply(actions: Action[]): Promise<void> {
   for (const a of actions) {
-    if (a.type === "loadRoom") {
+    if (a.type === "readAgain") {
+      void invoke("read_again"); // the new room's second reading, now rather than at the next safety reading
+    } else if (a.type === "loadRoom") {
       diag("zone", `room loaded: ${a.room.title} (${a.room.monsters.length} monsters)`);
       zoneRoom = a.room;
       keepZone(a.room);
