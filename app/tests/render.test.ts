@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { renderMonster, renderPeek, renderTags } from "../src/render/monster";
+import { phaseThresholds, renderMonster, renderPeek, renderTags } from "../src/render/monster";
 import { renderRoom } from "../src/render/panel";
 import { renderSpellSheet } from "../src/render/spellSheet";
 import { prose, sentences } from "../src/render/html";
@@ -125,10 +125,18 @@ describe("renderMonster", () => {
     expect([...card.querySelectorAll(".tag")].map((t) => t.className.split(" ")[1])).toEqual(["danger", "tip", "mechanic"]);
   });
 
+  it("reads the HP thresholds of the phases, not other percentages", () => {
+    expect(phaseThresholds(["à 75, 50 et 25 % PV"])).toEqual([75, 50, 25]);
+    expect(phaseThresholds(["à 70 % et 40 % PV, début de tour"])).toEqual([70, 40]);
+    expect(phaseThresholds(["monture à 50 %, soin 25 % à 1 PV"])).toEqual([50]);
+    expect(phaseThresholds(["at 75, 50 and 25% HP"])).toEqual([75, 50, 25]);
+    expect(phaseThresholds(["à la mort du Professeur Xa"])).toEqual([]);
+  });
+
   it("shows the phases beside the HP, each one on hover, and not as a badge", () => {
     const card = dom(renderMonster(m, s.spells, { tags: [...tags, { id: "phase", param: "à 25 % PV" }] }, ALL, everyIcon, true, VOCAB));
     const phase = card.querySelector(".stats .phase")!;
-    expect(phase.getAttribute("title")!.replace(/ /g, " ")).toBe("Change de phase : à 50 % PV ; à 25 % PV");
+    expect(phase.getAttribute("title")!.replace(/ /g, " ")).toBe("P1 50 % - P2 25 %");
     expect(card.querySelector(".tag.mechanic")).toBeNull();
     expect(dom(renderMonster(m, s.spells, { tags: [{ id: "one_shot", param: "au CaC" }] }, ALL, everyIcon, true, VOCAB)).querySelector(".phase")).toBeNull();
   });

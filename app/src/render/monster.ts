@@ -48,8 +48,11 @@ export function renderMonster(
   if (!open) return `<div class="${cls}" data-monster="${m.id}"${more} data-open="false">${parts.join("")}</div>`;
   // its phases (the « Change de phase » badges): beside its HP, each one on hover (owner, 2026-11-19)
   const phases = (summary?.tags ?? []).filter((tag) => tag.id === "phase").map((tag) => frenchSpaces(tag.param?.trim() ?? "")).filter(Boolean);
+  // the HP thresholds as « P1 75 % - P2 50 % - P3 25 % » when the badges give them, else their words
+  const thresholds = phaseThresholds(phases);
+  const phaseText = thresholds.length ? thresholds.map((p, i) => `P${i + 1} ${p} %`).join(" - ") : `${t("monster.phasesTitle")} ${phases.join(" ; ")}`;
   const phaseSpan = phases.length
-    ? `<span class="phase" tabindex="0" title="${esc(`${t("monster.phasesTitle")} ${phases.join(" ; ")}`)}">${img(icon, "badges/phase.webp")}${esc(t("monster.phases"))}</span>`
+    ? `<span class="phase" tabindex="0" title="${esc(frenchSpaces(phaseText))}">${img(icon, "badges/phase.webp")}${esc(t("monster.phases"))}</span>`
     : "";
   if (show.details) {
     parts.push(
@@ -167,4 +170,16 @@ export function renderTags(list: Tag[], vocab: Vocabulary, show: Display, icon: 
       return `<span class="tag ${spec.category}">${kind}${ic}${escText(frenchSpaces(tagLabel(spec)))}${param}</span>`;
     })
     .join("")}</div>`;
+}
+
+/** The HP percentages at which a monster changes phase, read off its « Change de phase » badges: only those after
+ * « à » / « at » (« à 75, 50 et 25 % PV », « à 70 % et 40 % PV »), not a heal or another percentage (« soin 25 % »). */
+export function phaseThresholds(phases: string[]): number[] {
+  const out: number[] = [];
+  for (const text of phases) {
+    for (const m of text.matchAll(/(?<![\p{L}])(?:à|at)\s+((?:\d+\s*%?\s*(?:,|et|and)\s*)*\d+)\s*%/giu)) {
+      for (const n of m[1].match(/\d+/g) ?? []) out.push(Number(n));
+    }
+  }
+  return [...new Set(out)].sort((a, b) => b - a);
 }
