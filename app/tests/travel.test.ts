@@ -44,4 +44,13 @@ describe("how to get there", () => {
     expect(box.querySelectorAll(".travel").length).toBe(1);
     expect(renderTrip(null)).toBe("");
   });
+
+  it("shows a written route instead of the nearest zaap: its steps in order, commands to copy", () => {
+    const box = document.createElement("div");
+    const route = ["/zaap -78 -41", "Transporteur frigostien → Larmes d'Ouronigride", "/travel -69 -87"];
+    box.innerHTML = renderTrip({ to: { x: -69, y: -87, world: 1, route }, zaap: zaap(-50, -50, "Somewhere") });
+    expect([...box.querySelectorAll(".step")].map((li) => li.textContent)).toEqual(route);
+    expect([...box.querySelectorAll(".travel")].map((b) => (b as HTMLElement).dataset.copy)).toEqual(["/zaap -78 -41", "/travel -69 -87"]);
+    expect(box.querySelector(".zaap")).toBeNull(); // no computed zaap beside a written route
+  });
 });

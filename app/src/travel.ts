@@ -10,6 +10,10 @@ export interface Spot {
   y: number;
   /** The world map (Amakna's, Incarnam's…): a zaap only takes you within its own. */
   world: number;
+  /** A route written by hand where the nearest zaap is not the way in (a transporter, a boat: data/travel-overrides.json):
+   * its steps in order, a step starting with « / » being a command to copy; `routeEn` in English (else `route`). */
+  route?: string[];
+  routeEn?: string[];
 }
 
 export interface Zaap extends Spot {
@@ -66,6 +70,8 @@ const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&l
  * copy icon after it); once copied, `.tripmsg` says where to paste it (main.ts). */
 export function renderTrip(trip: Trip | null): string {
   if (!trip) return "";
+  const route = (getLang() === "en" && trip.to.routeEn?.length ? trip.to.routeEn : trip.to.route) ?? [];
+  if (route.length) return renderRoute(route);
   const travel = travelCommand(trip.to);
   const go = `<span class="go">${esc(t("trip.go"))}</span><button type="button" class="travel" data-copy="${esc(travel)}" title="${esc(t("trip.copy", { command: travel }))}"><span class="lbl">[${trip.to.x},${trip.to.y}]</span>${icon("copy")}</button>`;
   const msg = `<span class="tripmsg" role="status"></span>`;
@@ -74,4 +80,17 @@ export function renderTrip(trip: Trip | null): string {
   const command = zaapCommand(trip.zaap, trip.to);
   const zaap = `<button type="button" class="travel zaap" data-copy="${esc(command)}" title="${esc(t("trip.copyZaap", { command, zone }))}"><img src="/icons/hud/zaap.png" alt=""><span class="lbl">${esc(zone)}</span>${icon("copy")}</button>`;
   return `<div class="trip">${go}${zaap}${msg}</div>`;
+}
+
+/** A written route: « Trajet : » then its steps in order; a command step (« /zaap … », « /travel … ») is a button that
+ * copies it, the others (« Transporteur frigostien → Larmes d'Ouronigride ») are text. */
+function renderRoute(route: string[]): string {
+  const steps = route
+    .map((step) => {
+      const s = step.trim();
+      if (!s.startsWith("/")) return `<li class="step">${esc(s)}</li>`;
+      return `<li class="step"><button type="button" class="travel" data-copy="${esc(s)}" title="${esc(t("trip.copy", { command: s }))}"><span class="lbl">${esc(s)}</span>${icon("copy")}</button></li>`;
+    })
+    .join("");
+  return `<div class="trip route"><span class="go">${esc(t("trip.route"))}</span><ol class="steps">${steps}</ol><span class="tripmsg" role="status"></span></div>`;
 }

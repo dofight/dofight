@@ -1,5 +1,5 @@
 {
- "_note": "Positions the game client does not give (filled by hand): x, y of the entrance (and world, 1 by default). private/tools/client.py merges them over the client's; null = no « Aller en » button.",
+ "_note": "Positions the game client does not give, and written routes, filled by hand. A dungeon (by id) or a zone (by French name) can have x, y (and world, 1 by default) and/or « route »: its steps in order, a step starting with « / » being a command the app copies (« /zaap x y », « /travel x y »), the others plain text (« Transporteur frigostien → Larmes d'Ouronigride »); « routeEn » for English (else route). A route replaces the nearest zaap the app computes. private/tools/client.py merges this file over the client's data; null = no « Aller en » button.",
  "dungeons": {
   "-101": {
    "name": "Caverne de Cire Momore",
