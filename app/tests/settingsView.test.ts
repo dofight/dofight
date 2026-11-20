@@ -17,7 +17,7 @@ vi.mock("@tauri-apps/plugin-clipboard-manager", () => ({ readText: vi.fn(async (
 vi.mock("@tauri-apps/plugin-window-state", () => ({ saveWindowState: vi.fn(), StateFlags: { ALL: 63, VISIBLE: 2 } }));
 vi.mock("@tauri-apps/api/window", () => {
   const win = {
-    show: vi.fn(), hide: vi.fn(), isVisible: vi.fn(async () => true), setSize: vi.fn(), setPosition: vi.fn(),
+    show: vi.fn(), hide: vi.fn(), isVisible: vi.fn(async () => true), setSize: vi.fn(), setPosition: vi.fn(), scaleFactor: vi.fn(async () => 1),
     startDragging: vi.fn(), setResizable: vi.fn(async () => {}), onResized: vi.fn(async () => () => {}), onMoved: vi.fn(async () => () => {}), onCloseRequested: vi.fn(async () => () => {}), isMinimized: vi.fn(async () => false),
     outerPosition: vi.fn(async () => ({ x: 1590, y: 40 })), outerSize: vi.fn(async () => ({ width: 320, height: 1000 })),
     innerPosition: vi.fn(async () => ({ x: 1590, y: 40 })), innerSize: vi.fn(async () => ({ width: 320, height: 1000 })),
@@ -619,4 +619,32 @@ it("pins a spell's sheet beside the panel on a click, not inside the card; a sec
   expect(document.querySelector("#room .mob .sheet")).toBeNull(); // nothing opens inside the card
   sp.click();
   expect(sp.getAttribute("aria-pressed")).toBe("false");
+});
+
+it("« Comment y aller » stays open through a redraw and a scroll, and closes on the player's next action (owner, 2026-11-20)", async () => {
+  if (!document.getElementById("view-settings")!.hidden) (document.getElementById("back") as HTMLButtonElement).click();
+  const q = document.getElementById("q") as HTMLInputElement;
+  q.value = "Antre du Korriandre";
+  q.dispatchEvent(new Event("input", { bubbles: true }));
+  document.querySelector<HTMLElement>("#results .res-item")!.click();
+  const access = await vi.waitFor(() => document.querySelector<HTMLElement>("#room .access")!);
+  access.click();
+  const render = await vi.waitFor(() => {
+    const r = emitted.filter((e) => e.event === "peek:render").at(-1)!;
+    expect(r.payload.html).toContain("access-sheet");
+    return r;
+  });
+  await handler("peek:size")({ payload: { token: render.payload.token, height: 300 } }); // the sheet is shown
+  const hide = (await (await import("@tauri-apps/api/window")).Window.getByLabel("peek"))!.hide as unknown as { mock: { calls: unknown[] } };
+  const before = hide.mock.calls.length;
+  // the zone read while travelling redraws the list, which scrolls it: the sheet stays
+  document.getElementById("view-main")!.dispatchEvent(new Event("scroll"));
+  q.value = "Antre du Korriandre";
+  q.dispatchEvent(new Event("input", { bubbles: true }));
+  document.querySelector<HTMLElement>("#results .res-item")!.click();
+  await new Promise((r) => setTimeout(r, 50));
+  expect(hide.mock.calls.length).toBe(before);
+  // the player clicks in Dofight: it closes
+  document.getElementById("view-main")!.dispatchEvent(new Event("pointerdown", { bubbles: true }));
+  await vi.waitFor(() => expect(hide.mock.calls.length).toBeGreaterThan(before));
 });

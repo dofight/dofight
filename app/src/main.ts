@@ -185,7 +185,7 @@ async function showOverlay(): Promise<void> {
  * next fight, and a fight's end never reopens it. */
 async function hidePanel(byPlayer: boolean): Promise<void> {
   openSettings(false); // hides the preview too
-  hidePeek();
+  hidePeek(true);
   await foldAway();
   if (byPlayer) director = { ...director, hiddenByPlayer: director.inFight, openedByPlayer: false };
 }
@@ -718,7 +718,15 @@ function setPinned(el: HTMLElement | null): void {
   el?.setAttribute(pressedAttr(el), "true");
 }
 
-function hidePeek(): void {
+/** « Comment y aller » is open: it stays until the player does something in Dofight (owner, 2026-11-20), so a zone
+ * read while travelling (the list drawn again, its scroll) never takes the next commands away. */
+let accessOpen = false;
+
+/** Closes the side window. `force`: the player did something (a click in the panel, Escape, the settings…); without
+ * it (the list drawn again, a scroll) an open « Comment y aller » stays. */
+function hidePeek(force = false): void {
+  if (accessOpen && !force) return;
+  accessOpen = false;
   if (pinned) setPinned(null);
   window.clearTimeout(peekTimer);
   peekRow = null;
@@ -794,7 +802,7 @@ void listen<{ token: number; height: number }>("peek:size", async ({ payload }) 
 // a mechanic's chip (room header or a monster's card): its sheet in the side preview, after `delay` ms; pinned by a
 // click, the sheet stays and links to its guide section
 function showMechanic(mech: HTMLElement, delay: number, pin = false): void {
-  hidePeek();
+  hidePeek(pin);
   peekRow = mech;
   if (pin) setPinned(mech);
   peekTimer = window.setTimeout(() => {
@@ -808,10 +816,11 @@ function showMechanic(mech: HTMLElement, delay: number, pin = false): void {
 // « Comment y aller » (the header's button): the place's requirements and route, pinned beside the panel at once (no
 // hover preview: it is read, not glanced at); a second click closes it
 function showAccess(btn: HTMLElement): void {
-  hidePeek();
+  hidePeek(true);
   if (!accessShown) return;
   peekRow = btn;
   setPinned(btn);
+  accessOpen = true;
   peekAnchor = { base: win, top: btn.getBoundingClientRect().top };
   void emit("peek:render", { token: ++peekToken, html: renderAccessSheet(accessShown.title, accessShown.pa, accessShown.trip) });
 }
@@ -819,7 +828,7 @@ function showAccess(btn: HTMLElement): void {
 // a spell (an open card's spell button): its sheet in the side preview, after `delay` ms; pinned by a click (owner,
 // 2026-11-19: the sheet sits beside the panel, as the hover preview does, not inside the card)
 function showSpellAside(sp: HTMLElement, delay: number, pin = false): void {
-  hidePeek();
+  hidePeek(pin);
   peekRow = sp;
   if (pin) setPinned(sp);
   peekTimer = window.setTimeout(() => {
@@ -859,14 +868,14 @@ $("room").addEventListener("pointerleave", () => {
 });
 $("room").addEventListener("pointerdown", (e) => {
   if ((e.target as HTMLElement).closest(".mech, .sp, .access")) return; // the click below pins or unpins
-  hidePeek(); // a click unfolds the row: the preview goes (a pinned sheet too)
+  hidePeek(true); // a click unfolds the row: the preview goes (a pinned sheet too)
 });
 // a click (or Enter) on a mechanic's chip or a spell pins its sheet beside the panel, even with the hover preview
 // off; a second click closes it
 $("room").addEventListener("click", (e) => {
   const access = (e.target as HTMLElement).closest<HTMLElement>("#room .access");
   if (access) {
-    if (pinned === access) hidePeek();
+    if (accessOpen) hidePeek(true);
     else showAccess(access);
     return;
   }
@@ -874,12 +883,12 @@ $("room").addEventListener("click", (e) => {
   const sp = mech ? null : (e.target as HTMLElement).closest<HTMLElement>(".sp");
   const el = mech ?? sp;
   if (!el) return;
-  if (pinned === el) hidePeek();
+  if (pinned === el) hidePeek(true);
   else if (mech) showMechanic(mech, 0, true);
   else showSpellAside(sp!, 0, true);
 });
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && pinned) hidePeek();
+  if (e.key === "Escape" && (pinned || accessOpen)) hidePeek(true);
 });
 // a command copied from a pinned sheet (« Comment y aller »): the side window cannot take the focus, and once the
 // player has clicked into the game the panel has lost it too, so the copy goes through the clipboard plugin (no focus
@@ -894,7 +903,11 @@ void listen<string>("peek:open", ({ payload }) => {
   if (/^https:\/\//.test(payload)) void openUrl(payload);
   hidePeek();
 });
-$("view-main").addEventListener("scroll", hidePeek);
+$("view-main").addEventListener("scroll", () => hidePeek()); // not an open « Comment y aller » (a redraw scrolls too)
+// any click in the panel is the player's: an open « Comment y aller » closes (its own button toggles it)
+document.addEventListener("pointerdown", (e) => {
+  if (accessOpen && !(e.target as HTMLElement).closest?.("#room .access")) hidePeek(true);
+});
 
 function update(patch: Partial<Settings>): void {
   const logged = loggableSettings(patch);
@@ -923,7 +936,7 @@ function update(patch: Partial<Settings>): void {
 }
 
 function openSettings(open: boolean): void {
-  hidePeek();
+  hidePeek(true);
   if (open) $("view-guide").hidden = true;
   else guideReturn = false; // the settings left any way: their back arrow no longer leads to the guide
   $("view-settings").hidden = !open;
@@ -1073,7 +1086,7 @@ function showGuideTexts(): void {
 
 /** `first`: opened by itself on the first use (« C'est parti »); from the menu or the settings, « Retour ». */
 function openGuide(first = false, restart = true): void {
-  hidePeek();
+  hidePeek(true);
   const back = guideReturnFocus;
   guideReturn = false;
   guideReturnFocus = "";
@@ -1705,7 +1718,7 @@ async function apply(actions: Action[]): Promise<void> {
     } else if (a.type === "hideAll") {
       diag("panel", "Dofus not in front: minimised");
       dofusAway = true;
-      hidePeek();
+      hidePeek(true);
       visibleBeforeHide = await panelOpen();
       await invoke("panel_show", { mode: "min" }); // the taskbar button stays
       await placePreview();
