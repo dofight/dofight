@@ -437,7 +437,7 @@ struct Reader {
     /// When the text was last read, and the header corner it showed.
     last_read: Option<Instant>,
     read_mask: Option<Vec<bool>>,
-    /// The header changed at the last reading: read once more to confirm the new room.
+    /// Read once more on the next tick, to confirm the last reading (see confirm_next).
     confirm: bool,
     was_front: bool,
     /// Where the mouse was last seen (None until it was over the window once).
@@ -520,6 +520,12 @@ fn emit_scan(app: &AppHandle, engine: Option<&OcrEngine>, frame: Option<&Frame>,
     };
     diag::log("screen", &format!("scan asked: corner read ({} lines, {left} more)", scan.lines.len()));
     let _ = app.emit("screen:scan", scan);
+}
+
+/// Whether the next tick reads again to confirm this reading: a new room needs two same readings in a row
+/// (director.ts), so every reading is confirmed at once, except a confirmation whose corner did not change since.
+fn confirm_next(changed: bool, was_confirmation: bool) -> bool {
+    changed || !was_confirmation
 }
 
 /// What the page is told when the window could not be captured (`Tick.error`); nothing for a minimised window.
@@ -700,7 +706,7 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                     && r.last_read.is_none_or(|t| t.elapsed() >= CHANGE_READ_EVERY);
                 let asked = songe.1.swap(false, Ordering::Relaxed);
                 if !r.was_front || r.confirm || changed || bar_changed || due || asked {
-                    r.confirm = changed;
+                    r.confirm = confirm_next(changed, r.confirm);
                     r.read_mask = Some(mask);
                     r.last_read = Some(Instant::now());
                     let started = Instant::now();
@@ -789,6 +795,17 @@ mod tests {
         assert_eq!(capture_error_kind(&CaptureError::Minimized), None); // nothing to read, nothing to say
         assert_eq!(capture_error_kind(&CaptureError::Permission), Some("no-permission"));
         assert_eq!(capture_error_kind(&CaptureError::Failed), Some("no-capture"));
+    }
+
+    #[test]
+    fn every_reading_gets_its_confirmation_on_the_next_tick() {
+        // a zone needs two same readings in a row (director.ts): a reading started for any reason (Dofus back in
+        // front, a retry, the safety reading) is confirmed at once, not 10 s later (owner, 2026-11-20)
+        assert!(confirm_next(false, false));
+        assert!(confirm_next(true, false));
+        // the confirmation itself is not confirmed again, unless the corner changed meanwhile
+        assert!(!confirm_next(false, true));
+        assert!(confirm_next(true, true));
     }
 
     #[test]
