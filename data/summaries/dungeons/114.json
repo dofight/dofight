@@ -32,11 +32,6 @@
     {
      "id": "removes",
      "param": "PA sur Cible lunaire"
-    },
-    {
-     "id": "moves",
-     "param": "se téléporte",
-     "source": "spells"
     }
    ],
    "detail": "Sa Lunorbe rend tout ennemi invulnérable : une ligne de dégâts depuis le glyphe bleu lève cet état sur la cible pour ton tour. La tuer en Nouvelle ou Pleine lune, ou par une invocation, évite le one-shot ; morte, tout devient vulnérable."
@@ -88,6 +83,10 @@
   "5807": {
    "tags": [
     {
+     "id": "poison_mp",
+     "param": "Eau"
+    },
+    {
      "id": "moves",
      "param": "attire en ligne et diagonale"
     },
@@ -95,7 +94,8 @@
      "id": "glyphs",
      "param": "piège qui repousse"
     }
-   ]
+   ],
+   "detail": "Poison pétrifiant (2 tours) : dégâts Eau par PM utilisé (par PA en Cible lunaire). Sans PM utilisé (sans PA en Cible lunaire), il te téléporte d'une case en fin de tour."
   }
  }
 }

@@ -75,6 +75,11 @@
   "7844": {
    "tags": [
     {
+     "id": "reflect",
+     "param": "autour de lui (Manteau)",
+     "source": "spells"
+    },
+    {
      "id": "big_damage",
      "param": "CaC"
     },

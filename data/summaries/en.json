@@ -400,7 +400,7 @@
   "Indéplaçables (sauf Mer Cure)": "Unmovable (except Sea An Enemy)",
   "Inoffensif à distance : jouer à distance ou le tacler. Météore met Météoroïde ; sur une cible Tyrannisée (Grozilla), il retire 50 % des PV actuels. Son rush sur une cible Tyrannisée annule son prochain tour.": "Harmless at range: play at range or lock him. Meteor applies Meteoroid; on a Tyrannised target (Grozilla), it removes 50% of current HP. His rush on a Tyrannised target cancels his next turn.",
   "Inoffensif à distance : jouer à distance ou le tacler. Tyrannisation met Tyrannisé ; sur une cible Météoroïde (Grasmera), elle retire 50 % des PV actuels. Son attirance sur une cible Météoroïde annule son prochain tour.": "Harmless at range: play at range or lock him. Tyrannisation applies Tyrannised; on a Meteoroid target (Grasmera), it removes 50% of current HP. His pull on a Meteoroid target cancels his next turn.",
-  "Inoffensif à distance. Coraillement Magistral : +12 PA mais 0 PM pendant 4 tours (relance 5 tours), il ne peut presque pas avancer. Beaucoup de PV, peu de résistances.": "Harmless at range. Masterly Coralaction: +12 AP but 0 MP for 4 turns (5-turn cooldown), he can barely move. Lots of HP, low resistances.",
+  "Inoffensif à distance. Coraillement Magistral : +12 PA mais 0 PM pendant 4 tours (relance 5 tours). Beaucoup de PV, peu de résistances.": "Harmless at range. Masterly Coralaction: +12 AP but 0 MP for 4 turns (5-turn cooldown). Lots of HP, low resistances.",
   "Insoignable": "Unhealable",
   "Insoignable (At-oni)": "Unhealable (At-oni)",
   "Insoignable (désenvoûtable)": "Unhealable (dispellable)",
@@ -2481,7 +2481,11 @@
   "Gourlo doit être collé au Tonneau à ce moment-là : il tombe à 0 % dans cet élément. Un seul Tonneau suffit.": "Gourlo must be next to the Barrel at that moment: he drops to 0% in that element. A single Barrel is enough.",
   "Pour qu'il ne s'éloigne pas : le bloquer entre 4 Tonneaux, ou coller 1 Tonneau et boucher ses 3 autres côtés (personnages, obstacles).": "To stop him moving away: block him between 4 Barrels, or stick 1 Barrel to him and close his 3 other sides (characters, obstacles).",
   "Garder les Tonneaux de l'élément dans lequel tu tapes : ils ont 0 PM et ne bougent pas.": "Keep the Barrels of the element you hit in: they have 0 MP and do not move.",
-  "Tes personnages collés au Tonneau perdent aussi 200 % de résistance ; Rhum Fourbe soigne Gourlo et lui donne des Dommages.": "Your characters next to the Barrel lose 200% resistance too; Treacherous Rhum heals Gourlo and gives him Damage."
+  "Tes personnages collés au Tonneau perdent aussi 200 % de résistance ; Rhum Fourbe soigne Gourlo et lui donne des Dommages.": "Your characters next to the Barrel lose 200% resistance too; Treacherous Rhum heals Gourlo and gives him Damage.",
+  "monstres au CaC du perso soigné": "monsters next to the healed character",
+  "te téléporte de l'autre côté": "teleports you to its other side",
+  "3 PM à qui soigne sa cible": "3 MP from whoever heals its target",
+  "Poison pétrifiant (2 tours) : dégâts Eau par PM utilisé (par PA en Cible lunaire). Sans PM utilisé (sans PA en Cible lunaire), il te téléporte d'une case en fin de tour.": "Petrifying Poison (2 turns): Water damage per MP used (per AP used under Lunar Target). With no MP used (no AP used under Lunar Target), it teleports you one cell at the end of your turn."
  },
  "token": {
   "-résistances": "-resistances",

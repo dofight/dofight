@@ -37,6 +37,10 @@
      "id": "buffs_allies",
      "param": "Critique, Bouclier",
      "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "te téléporte de l'autre côté"
     }
    ]
   },

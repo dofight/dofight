@@ -26,6 +26,10 @@
      "source": "spells"
     },
     {
+     "id": "erodes",
+     "source": "spells"
+    },
+    {
      "id": "out_of_sight",
      "param": "se téléporte en ligne de vue"
     },
@@ -54,6 +58,11 @@
     {
      "id": "dispel",
      "param": "échange de Martignasse"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Vitalité",
+     "source": "spells"
     },
     {
      "id": "moves",

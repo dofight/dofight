@@ -1,14 +1,14 @@
 {
  "53": {
   "name": "Bwork Mage",
-  "spells": "cd9ba5266e",
+  "spells": "54886fd9a9",
   "tags": {
    "moves": "owner reviewed this summary"
   }
  },
  "74": {
   "name": "Bwork Archer",
-  "spells": "17dea4ebc5",
+  "spells": "a52f59cbdc",
   "tags": {
    "buffs_allies": "guide: « Augmente les dommages du Bwork Archer ou de l'allié ciblé » (owner reviewed this summary)"
   }
@@ -39,7 +39,7 @@
  },
  "97": {
   "name": "Wo Wabbit",
-  "spells": "7e8ff16d5c",
+  "spells": "b83efe0ea8",
   "tags": {
    "moves": "owner reviewed this summary"
   }
@@ -75,7 +75,7 @@
  },
  "180": {
   "name": "Wa Wabbit",
-  "spells": "ee08815820",
+  "spells": "72fa6e970f",
   "tags": {
    "summons": "owner reviewed this summary"
   }
@@ -110,9 +110,17 @@
  },
  "215": {
   "name": "Trukikol",
-  "spells": "259e18aa55",
+  "spells": "aba6b0efd9",
   "tags": {
-   "glyphs": "guide: « Virevoltage collant : Glyphe qui retire 100 PM »"
+   "glyphs": "guide: « Virevoltage collant : Glyphe qui retire 100 PM »",
+   "moves": "client data, triggered sub-spell: Électromagnétisme 6075/2 « Attire de 3 cases »"
+  }
+ },
+ "217": {
+  "name": "Fourbasse",
+  "spells": "64fbba4a99",
+  "tags": {
+   "glyphs": "the glyph of L'Attaque du Chasseur (6080/2: -63 Portée) is the PO removal already written"
   }
  },
  "225": {
@@ -185,30 +193,38 @@
  },
  "273": {
   "name": "Blop Coco",
-  "spells": "ff26be44ec",
+  "spells": "21aaeaed47",
   "tags": {
-   "removes": "glyphs « retire 1 PM, tape en fin de tour » le dit déjà (le -1 PM vient du Blyphe)"
+   "removes": "glyphs « retire 1 PM, tape en fin de tour » le dit déjà (le -1 PM vient du Blyphe)",
+   "invisible": "Cache Biblop targets its own summons (mask « i », circle 5): the written « Booste ses alliés · rend ses invocations invisibles » says it",
+   "buffs_allies": "Cache Biblop targets its own summons (mask « i », circle 5): the written « Booste ses alliés · rend ses invocations invisibles » says it"
   }
  },
  "274": {
   "name": "Blop Indigo",
-  "spells": "ff26be44ec",
+  "spells": "1f752bd727",
   "tags": {
-   "removes": "glyphs « retire 1 PM, tape en fin de tour » le dit déjà (le -1 PM vient du Blyphe)"
+   "removes": "glyphs « retire 1 PM, tape en fin de tour » le dit déjà (le -1 PM vient du Blyphe)",
+   "invisible": "Cache Biblop targets its own summons (mask « i », circle 5): the written « Booste ses alliés · rend ses invocations invisibles » says it",
+   "buffs_allies": "Cache Biblop targets its own summons (mask « i », circle 5): the written « Booste ses alliés · rend ses invocations invisibles » says it"
   }
  },
  "275": {
   "name": "Blop Griotte",
-  "spells": "ff26be44ec",
+  "spells": "dc88062a10",
   "tags": {
-   "removes": "glyphs « retire 1 PM, tape en fin de tour » le dit déjà (le -1 PM vient du Blyphe)"
+   "removes": "glyphs « retire 1 PM, tape en fin de tour » le dit déjà (le -1 PM vient du Blyphe)",
+   "invisible": "Cache Biblop targets its own summons (mask « i », circle 5): the written « Booste ses alliés · rend ses invocations invisibles » says it",
+   "buffs_allies": "Cache Biblop targets its own summons (mask « i », circle 5): the written « Booste ses alliés · rend ses invocations invisibles » says it"
   }
  },
  "276": {
   "name": "Blop Reinette",
-  "spells": "ff26be44ec",
+  "spells": "eb883a9ffc",
   "tags": {
-   "removes": "glyphs « retire 1 PM, tape en fin de tour » le dit déjà (le -1 PM vient du Blyphe)"
+   "removes": "glyphs « retire 1 PM, tape en fin de tour » le dit déjà (le -1 PM vient du Blyphe)",
+   "invisible": "Cache Biblop targets its own summons (mask « i », circle 5): the written « Booste ses alliés · rend ses invocations invisibles » says it",
+   "buffs_allies": "Cache Biblop targets its own summons (mask « i », circle 5): the written « Booste ses alliés · rend ses invocations invisibles » says it"
   }
  },
  "289": {
@@ -245,7 +261,7 @@
  },
  "483": {
   "name": "Craqueboule",
-  "spells": "7ca732d267",
+  "spells": "6b3c394341",
   "tags": {
    "reflect": "guide: « Manteau Tellurique : ... il renvoie 200% des dommages subis sous forme de dégâts terre » (data: Répartit 45% des dommages subis)"
   }
@@ -276,7 +292,7 @@
  },
  "675": {
   "name": "Saphira",
-  "spells": "53d6a59a1b",
+  "spells": "16f29f10a0",
   "tags": {
    "dispels_you": "owner reviewed this summary",
    "erodes": "owner reviewed this summary",
@@ -285,7 +301,7 @@
  },
  "677": {
   "name": "Rubise",
-  "spells": "f8716ef79c",
+  "spells": "2113f9cc77",
   "tags": {
    "dispels_you": "owner reviewed this summary",
    "moves": "owner reviewed this summary"
@@ -293,7 +309,7 @@
  },
  "681": {
   "name": "Diamantine",
-  "spells": "80cdfa6899",
+  "spells": "a4029766dd",
   "tags": {
    "heals": "owner reviewed this summary",
    "removes": "owner reviewed this summary",
@@ -396,16 +412,23 @@
  },
  "876": {
   "name": "Bwork",
-  "spells": "de21509a3d",
+  "spells": "a96595dd93",
   "tags": {
    "moves": "owner reviewed this summary"
   }
  },
  "992": {
   "name": "Abrakne Sombre Irascible",
-  "spells": "47cce2b2ab",
+  "spells": "ff0c35e7ab",
   "tags": {
    "dispels_you": "guide: « peut retirer des résistances et peut désenvoûter »"
+  }
+ },
+ "1043": {
+  "name": "Poolay",
+  "spells": "965a58b091",
+  "tags": {
+   "moves": "minor: Poolay frit pulls 2 cells"
   }
  },
  "1072": {
@@ -455,6 +478,13 @@
   "spells": "e35d1e5720",
   "tags": {
    "removes": "6 tags (limit); a -20 % Air resistance matters less than all of them"
+  }
+ },
+ "1194": {
+  "name": "Père Fwetar",
+  "spells": "669cdf29d5",
+  "tags": {
+   "buffs_allies": "6 tags (limit): +100 Puissance to allies matters less than the written ones"
   }
  },
  "2850": {
@@ -549,7 +579,8 @@
   "spells": "fcea698f85",
   "tags": {
    "buffs_allies": "limite de 6 badges : « vol Feu » : c'est sa frappe en vol de vie (guide : « Frappe du 550 dans l'élément feu en vol de vie »), pas un boost compte moins que les badges écrits",
-   "summons": "guide : « transformé en Germe de Dremoan (via le sort « Graine de Dremoan ») »"
+   "summons": "guide : « transformé en Germe de Dremoan (via le sort « Graine de Dremoan ») »",
+   "revives": "the resurrection is the Germe mechanic, already in summons and the detail (guide: ressuscité en état Zombi, puis transformé en Germe)"
   }
  },
  "2910": {
@@ -607,7 +638,7 @@
  },
  "2992": {
   "name": "Professeur Xa",
-  "spells": "78216b8513",
+  "spells": "30ba8d5d63",
   "tags": {
    "buffs_allies": "guide: « un sort 1 tour sur 2 sur tous ses alliés qui fait gagner 100 dommages à chaque coup reçus » (boss)"
   }
@@ -617,6 +648,13 @@
   "spells": "b9f8a6406c",
   "tags": {
    "moves": "6 tags once buffs_allies is added; the written big_damage « poussée, ... » and the detail « Repousse de 4 cases en ligne » already say it"
+  }
+ },
+ "3100": {
+  "name": "Nelween",
+  "spells": "fff8db5ea2",
+  "tags": {
+   "heals": "client data, triggered sub-spell: Soin Diffus 8625/2 « Soin : 100% des dommages subis » on the monsters next to the healed target (owner, 2026-11-19)"
   }
  },
  "3109": {
@@ -638,6 +676,13 @@
   "spells": "80063a291f",
   "tags": {
    "moves": "guide: « Magnétisme : S'attire de 4 cases sur la cible » (spell: Avance de 4 cases)"
+  }
+ },
+ "3235": {
+  "name": "Boostache Prépubère",
+  "spells": "47de5e4d14",
+  "tags": {
+   "heals": "minor: 21-30 heal on one adjacent ally"
   }
  },
  "3238": {
@@ -713,6 +758,13 @@
   "tags": {
    "erodes": "guide: « renvoyer tous les dégâts à distance ... et d'appliquer 20% d'érosion »",
    "reflect": "guide: « Le Stalak possède un sort qui lui permet de renvoyer tous les dégâts à distance »"
+  }
+ },
+ "3387": {
+  "name": "Karkanik",
+  "spells": "22693a2458",
+  "tags": {
+   "inflicts": "client data, triggered sub-spell: Corde vocale 3508 « État Pesanteur (1 tour) », circle 6"
   }
  },
  "3391": {
@@ -814,6 +866,13 @@
    "reflect": "guide: « Pour chaque coup reçu au corps à corps, le monstre renvoie les dommages »"
   }
  },
+ "3459": {
+  "name": "Wobot Tamponneur",
+  "spells": "97d170e155",
+  "tags": {
+   "moves": "no spells in the game data (summon of the Wa Wobot); written from the guide"
+  }
+ },
  "3461": {
   "name": "Black Wo Wabbit",
   "spells": "675c1f10e0",
@@ -859,7 +918,7 @@
  },
  "3528": {
   "name": "Amy l'empoisonneuse",
-  "spells": "530849883e",
+  "spells": "80a64407dc",
   "tags": {
    "poison_mp": "limite de 6 badges : un poison de 10 PV par PM pour 1 tour compte moins que les badges écrits",
    "erodes": "limite de 6 badges : l'érosion de Vignes vampiriques (seulement sur les persos Parasites) compte moins que les badges écrits",
@@ -869,7 +928,7 @@
  },
  "3534": {
   "name": "Merkator",
-  "spells": "b8bb46ed61",
+  "spells": "8df7599f77",
   "tags": {
    "inflicts": "6 tags (limit): matters less than the written ones (every character is already Indéplaçable in this dungeon)",
    "moves": "guide: « au début de son tour Merkator attire les ennemis en ligne jusqu'à sa mêlée »",
@@ -907,9 +966,11 @@
  },
  "3564": {
   "name": "Ombre",
-  "spells": "25f18e740d",
+  "spells": "4ba8156053",
   "tags": {
-   "summons": "guide: « Au début du combat, Ombre Invoque un Globilum » (boss)"
+   "summons": "guide: « Au début du combat, Ombre Invoque un Globilum » (boss)",
+   "glyphs": "the written removes « Fuite et Tacle (glyphe) » is this Paranoïa glyph",
+   "removes": "client data, triggered sub-spell: Paranoïa glyph 32612/2 « -100% Tacle, -100% Fuite »"
   }
  },
  "3566": {
@@ -973,7 +1034,8 @@
   "name": "Mère Veilleuse",
   "spells": "4a0eba0747",
   "tags": {
-   "buffs_allies": "guide: « Phormage : Applique un effet au monstre ciblé qui est différent selon le type de Phorreur »"
+   "buffs_allies": "guide: « Phormage : Applique un effet au monstre ciblé qui est différent selon le type de Phorreur »",
+   "heals": "client data, triggered sub-spell: Morphorage 4553 « Soin : 10% des PV max »; guide: Phormage"
   }
  },
  "3670": {
@@ -1092,7 +1154,7 @@
  },
  "3845": {
   "name": "Morblok",
-  "spells": "7c773c8d70",
+  "spells": "33c7b33c9b",
   "tags": {
    "reflect": "guide : « il repartit 50% des dommages qu'il subit aux ennemis comme alliés … dans un cercle de rayon 2 »",
    "removes": "guide : « Si vous attaquez Eau : Retire 1PA … Air : Met un malus de 50 Puissance »"
@@ -1274,14 +1336,14 @@
  },
  "4297": {
   "name": "Chacrebleu",
-  "spells": "b30b6ceb42",
+  "spells": "fdd0a20fe3",
   "tags": {
    "steals": "guide: « En état Matoumorphose le monstre peut en plus vous voler 2PM pour 1 tour »"
   }
  },
  "4299": {
   "name": "Chargus",
-  "spells": "a60c5e9aad",
+  "spells": "ee83d8ea34",
   "tags": {
    "removes": "the written steals « Puissance » already says it (data: -200 Puissance to the target, +200 to itself)",
    "steals": "guide: « Vieillissement Prématuré : ... vol 200 puissance pour 1 tour »",
@@ -1348,36 +1410,46 @@
  },
  "4449": {
   "name": "N'yalg",
-  "spells": "4365b57249",
+  "spells": "299c0ee70a",
   "tags": {
-   "moves": "guide: « Enfouissement : ... attire les personnages passant en ligne du monstre jusqu'à 4PO à son càc »"
+   "moves": "guide: « Enfouissement : ... attire les personnages passant en ligne du monstre jusqu'à 4PO à son càc »",
+   "summons": "client data, triggered sub-spell: Expulsion Miasmatique 6730/2 « Invoque : Miasme Polarisateur »"
   }
  },
  "4450": {
   "name": "Shokkoth",
-  "spells": "27035aafc3",
+  "spells": "553acc4db4",
   "tags": {
-   "summons": "guide: « Le Shokkoth peut invoquer des doubles de vos personnages »"
+   "summons": "guide: « Le Shokkoth peut invoquer des doubles de vos personnages »",
+   "glyphs": "the Triangle Dément glyph is how the doubles get summoned (written summons)"
   }
  },
  "4451": {
   "name": "Li-Fo",
-  "spells": "6ca9a7200f",
+  "spells": "af64d54cc8",
   "tags": {
    "summons": "guide: « Le Li-Fo peut invoquer un double d'un monstre jusqu'à 3PO à partir du tour 2 »"
   }
  },
+ "4455": {
+  "name": "Mol Usk",
+  "spells": "f237d21ec7",
+  "tags": {
+   "glyphs": "the Traînée Collante glyph is the PM/Vitalité removal already written"
+  }
+ },
  "4460": {
   "name": "Capitaine Meno",
-  "spells": "f0f4ba09ad",
+  "spells": "98b4fba0bb",
   "tags": {
    "heals": "guide: « À chaque fois qu'un monstre ou le Capitaine Meno inflige des dégâts … cela va soigner le Meno »",
-   "summons": "guide: « à partir du tour 2, il invoque 2 monstres par tour »"
+   "summons": "guide: « à partir du tour 2, il invoque 2 monstres par tour »",
+   "glyphs": "client data, triggered sub-spell: 6797/2 lays the Crystalisation glyph; guide"
   }
  },
  "4506": {
   "name": "Buldalazred",
-  "spells": "1f733ec177",
+  "spells": "12623236b0",
   "tags": {
    "glyphs": "guide : « Il va poser un glyphe noir de rayon 2 invisible à chacun de ses débuts de tour »",
    "moves": "guide : « Buldalazred attire de 3 cases tous les ennemis qui sont dans sa ligne de vue »"
@@ -1421,7 +1493,7 @@
  },
  "4622": {
   "name": "Roi Camole",
-  "spells": "5753de3901",
+  "spells": "9443131d63",
   "tags": {
    "inflicts": "guide : « Le Roi Camole peut mettre l'état Cacterrorisé à une cible »",
    "summons": "guide : « invoquera 16 Cactruc dans les lignes et diagonales de la cible »"
@@ -1438,11 +1510,12 @@
  },
  "4727": {
   "name": "Pikténia",
-  "spells": "78093b7dbd",
+  "spells": "10dca42610",
   "tags": {
    "glyphs": "guide: « Gyroskopik : Échange de place avec la cible et pose un glyphe noir sous votre personnage »",
    "moves": "guide: « Gyroskopik : Échange de place avec la cible »",
-   "reflect": "guide: « Pik Ver : ... il renvoie 30% des dommages qu'il subit »"
+   "reflect": "guide: « Pik Ver : ... il renvoie 30% des dommages qu'il subit »",
+   "removes": "the -2 PA is the Gyroskopik glyph (7387/4), guide: « retire 2PA … quand on commence son tour dedans »"
   }
  },
  "4728": {
@@ -1468,6 +1541,14 @@
    "removes": "limite de 6 badges : le retrait de PM de Bouse de là compte moins que les badges écrits",
    "glyphs": "limite de 6 badges : le piège sous la Boule Puante compte moins que les badges écrits",
    "summons": "guide : « en passant vulnérable il invoque une Boule Puante » ; « Il peut invoquer des Boulettes Puantes »"
+  }
+ },
+ "4737": {
+  "name": "Ka'Youloud",
+  "spells": "4fc7d2bb85",
+  "tags": {
+   "buffs_allies": "6 tags (limit): matters less than the written ones",
+   "heals": "client data, triggered sub-spell: Mâche Ouille 8075/2 « Soin : 6% des PV max » on himself"
   }
  },
  "4740": {
@@ -1508,9 +1589,16 @@
    "erodes": "guide: « Piège Érosif : Pose un glyphe vert … applique 10% d'érosion »"
   }
  },
+ "4814": {
+  "name": "Simbadas",
+  "spells": "99f0921ccc",
+  "tags": {
+   "removes": "client data, triggered sub-spell: Saut précipité 8539/2 « -20 Fuite (1 tour) »; guide"
+  }
+ },
  "4815": {
   "name": "Carlita de l'Aguerfelde",
-  "spells": "37217d89bd",
+  "spells": "2dab222970",
   "tags": {
    "inflicts": "glyphs « piège : -15 PM, Pesanteur » dit déjà la Pesanteur",
    "removes": "glyphs « piège : -15 PM, Pesanteur » dit déjà le retrait de PM",
@@ -1644,7 +1732,7 @@
  },
  "5073": {
   "name": "Gobrechaun",
-  "spells": "15a2ba343c",
+  "spells": "beb0f7979d",
   "tags": {
    "glyphs": "Jig ne pose pas de glyphe (il déclenche bombes/runes/pièges) ; guide : « Jig : Frappe du 120 dans l'élément air en zone triangle »",
    "buffs_allies": "guide : « Gobrechaun et tous les monstres gagnent des bonus aléatoires … à chaque fois qu'ils subissent des dommages »"
@@ -1652,21 +1740,22 @@
  },
  "5074": {
   "name": "Vashkiwi",
-  "spells": "7cb0859b8f",
+  "spells": "df817e455e",
   "tags": {
-   "glyphs": "guide : « La fontaine pose un glyphe bleu en damier autour d'elle »"
+   "glyphs": "guide : « La fontaine pose un glyphe bleu en damier autour d'elle »",
+   "moves": "client data, triggered sub-spell: Sensations Pures 8981/2 « Attire de 4 cases »"
   }
  },
  "5076": {
   "name": "Darma",
-  "spells": "3009175758",
+  "spells": "1e678741b2",
   "tags": {
    "glyphs": "guide : « Les tours impairs, elle invoque des glyphes verts de rayon 3 autour de tous les monstres »"
   }
  },
  "5077": {
   "name": "Mogligli",
-  "spells": "efe0a5a60b",
+  "spells": "e01e405f10",
   "tags": {
    "buffs_allies": "guide : « Boost tous les monstres (dont lui-même) de la map de 2PM, 20 Tacle et 20 Fuite »",
    "inflicts": "guide : « met l'état Indéplaçable à la cible »",
@@ -1730,14 +1819,14 @@
  },
  "5110": {
   "name": "Bethel Akarna",
-  "spells": "9defbe83db",
+  "spells": "bfd7f9d848",
   "tags": {
    "summons": "guide: « Contrat Indicible : Invoque un Monolithe et un Dagon des profondeurs »"
   }
  },
  "5113": {
   "name": "Funespadon",
-  "spells": "c38a604b91",
+  "spells": "77b0aae157",
   "tags": {
    "reflect": "guide: « Piquants : Sort lui permettant de renvoyer une partie des dommages pour 2 tours »"
   }
@@ -1761,6 +1850,14 @@
   "spells": "e048731a04",
   "tags": {
    "buffs_allies": "the written dispel « Nintrépidité (PM, bouclier) » already says it"
+  }
+ },
+ "5499": {
+  "name": "Poutch Ingball",
+  "spells": "f0c14f4b9f",
+  "tags": {
+   "dispels_you": "owner 2026-11-19: we don't care, it's a dummy to test damages",
+   "steals": "owner 2026-11-19: we don't care, it's a dummy to test damages"
   }
  },
  "5653": {
@@ -1790,6 +1887,13 @@
   "spells": "72f63ebf70",
   "tags": {
    "buffs_allies": "guide: « Glaçage : Applique une réduction des dommages subis de 20% ... à elle-même et à ses alliés »"
+  }
+ },
+ "5671": {
+  "name": "Températurge",
+  "spells": "fdd9800ded",
+  "tags": {
+   "inflicts": "client data, triggered sub-spell: Choc Thermique 11983 « État Pacifiste (1 tour) »"
   }
  },
  "5677": {
@@ -1830,9 +1934,24 @@
  },
  "5807": {
   "name": "Kashkaille",
-  "spells": "a5e51c5fad",
+  "spells": "78df583e3c",
   "tags": {
-   "glyphs": "guide: « Traquenard reptilien : Pose un piège en zone croix de taille 1 »"
+   "glyphs": "guide: « Traquenard reptilien : Pose un piège en zone croix de taille 1 »",
+   "poison_mp": "client data, triggered sub-spell: Poison pétrifiant 14432/1 « 5 dommages Eau pour 1 PM utilisé » (per PA under Cible lunaire); guide"
+  }
+ },
+ "5808": {
+  "name": "Voapah",
+  "spells": "0807fac059",
+  "tags": {
+   "moves": "client data, triggered sub-spell: 13965/2 « Téléporte sur la case ciblée »; guide: « se téléporte à son càc »"
+  }
+ },
+ "5809": {
+  "name": "Caïguille",
+  "spells": "0d8e7a4149",
+  "tags": {
+   "inflicts": "client data, triggered sub-spell: Prison sanguine 13956/3 « État Cible lunaire », /2 « État Insoignable »"
   }
  },
  "5815": {
@@ -1892,7 +2011,7 @@
  },
  "5979": {
   "name": "Armécréante",
-  "spells": "b07aee4f2b",
+  "spells": "d8e01eec64",
   "tags": {
    "summons": "guide: « Escarmouche : … elle va invoquer un « Iopprimé » »"
   }
@@ -1943,7 +2062,7 @@
  },
  "6014": {
   "name": "Guerre",
-  "spells": "677ec30e64",
+  "spells": "1fee8a34ba",
   "tags": {
    "moves": "6 tags (limit); her swaps with her weapons are covered by « Gros dégâts · zone, via ses armes » (guide: se transposer avec ses armes)",
    "summons": "guide: « Invoque une arme … à chaque fois qu'elle atteint un seuil de 20% PV retirés »"
@@ -1951,9 +2070,16 @@
  },
  "6021": {
   "name": "Ravalame",
-  "spells": "2b098f0176",
+  "spells": "5f805a49f5",
   "tags": {
    "steals": "guide: « Pluie de Lames : ... vol 30 de fuite » (data: -30 Fuite to the target, +30 to itself)"
+  }
+ },
+ "6022": {
+  "name": "Fléaunide",
+  "spells": "de5f96d99e",
+  "tags": {
+   "moves": "client data, triggered sub-spell: Cérébrute 15349/2 « Attire de 1 case » (the target pulls its allies)"
   }
  },
  "6025": {
@@ -2016,7 +2142,7 @@
  },
  "6218": {
   "name": "Tanukouï San",
-  "spells": "1792bf0c4f",
+  "spells": "eeb0ed076e",
   "tags": {
    "heals": "guide: « des phases X.5 … qui, si vous ne le passez pas dans la phase suivante avant le début de son tour, le soignera »"
   }
@@ -2030,11 +2156,32 @@
  },
  "6220": {
   "name": "Ishigro Pake",
-  "spells": "92add61f24",
+  "spells": "edab0cf9fd",
   "tags": {
    "glyphs": "covered by « Érode · autour de lui »: the glyph of Élévation du Jardin de Pierres is the erosion on the cells around him (guide: « applique 20% d'érosion à toutes les cases à son contact »)",
    "erodes": "guide: « Élévation du Jardin de Pierres : … applique 20% d'érosion à toutes les cases à son contact »",
    "summons": "guide: « Élévation du Jardin de Pierres : … invoque des pierres taillés autour de lui »"
+  }
+ },
+ "6221": {
+  "name": "Tétonuki",
+  "spells": "696e8c8f75",
+  "tags": {
+   "removes": "client data, triggered sub-spell: Karmamelon 16769/2 « -2 PM (1 tour) »"
+  }
+ },
+ "6233": {
+  "name": "Bombombre",
+  "spells": "97d170e155",
+  "tags": {
+   "glyphs": "no spells in the game data (summon of the Nagate fight); written from the guide"
+  }
+ },
+ "6234": {
+  "name": "Bombombre à Eau",
+  "spells": "97d170e155",
+  "tags": {
+   "moves": "no spells in the game data (summon of the Nagate fight); written from the guide"
   }
  },
  "6249": {
@@ -2052,6 +2199,13 @@
    "moves": "guide: « Hors de ma vue : … renvoie la cible hors de l'îlot ou se trouve Nagate »"
   }
  },
+ "6322": {
+  "name": "Bulbiflore",
+  "spells": "656d5dd727",
+  "tags": {
+   "moves": "minor: Pollinisation only makes it advance 4 cells"
+  }
+ },
  "6326": {
   "name": "Damadrya",
   "spells": "293a57bbc3",
@@ -2061,7 +2215,7 @@
  },
  "6383": {
   "name": "Tsukinochi",
-  "spells": "a966d10eca",
+  "spells": "f3f8b23731",
   "tags": {
    "moves": "guide: « À chaque alternance de lune, il repousse ou attire tous les ennemis »",
    "reflect": "guide: « Croissant réflecteur : Renvoie environ 30% des dommages reçus pour 1 tour »"
@@ -2112,6 +2266,14 @@
    "summons": "guide: « Kaokurimono : Invoque un tas d'or au càc d'un de ses ennemis »"
   }
  },
+ "6392": {
+  "name": "Tsume-bozu",
+  "spells": "5e917d345e",
+  "tags": {
+   "buffs_allies": "client data, triggered sub-spell: Bozoeil 17356/2-12 « 2 Portée (2 tours) » to allies",
+   "heals": "client data, triggered sub-spell: Bozoeil 17356/2-12 « Soin : 10% des PV max » to allies"
+  }
+ },
  "6393": {
   "name": "Onigori",
   "spells": "343dea1ae8",
@@ -2121,7 +2283,7 @@
  },
  "6394": {
   "name": "Koumiho",
-  "spells": "2944df23a9",
+  "spells": "3de5c7ee74",
   "tags": {
    "buffs_allies": "6 tags (limit): matters less than the written ones",
    "moves": "6 tags (limit): matters less than the written ones (he swaps with a Kitsounebi, in the detail)",
@@ -2138,14 +2300,23 @@
  },
  "6469": {
   "name": "Imiyama",
-  "spells": "d6ae682415",
+  "spells": "081dc003cd",
   "tags": {
-   "summons": "guide: « Bois Blancs : Invoque un Imikaminokin (invocation statique) »"
+   "summons": "guide: « Bois Blancs : Invoque un Imikaminokin (invocation statique) »",
+   "buffs_allies": "minor: +40 Fuite for 1 turn to allies",
+   "removes": "client data, triggered sub-spell: Ronces de Papier 18401/2 « -3 PM (1 tour) » when the target is healed; guide: « Si la cible est soignée, le lanceur du soin perd 3PM » (owner, 2026-11-19)"
+  }
+ },
+ "6473": {
+  "name": "Shinlam",
+  "spells": "77ccf88a32",
+  "tags": {
+   "moves": "« Recule de 3 cases » is the Shinlam stepping back (guide: « repousse le lanceur de 3 cases »), not a push on the player"
   }
  },
  "6475": {
   "name": "Mabram",
-  "spells": "bd24a5f15a",
+  "spells": "3fa65fdb15",
   "tags": {
    "summons": "guide: « Le Mabram invoque un kinkutsubram »"
   }
@@ -2167,19 +2338,20 @@
  },
  "6652": {
   "name": "Bwariok",
-  "spells": "6660ee8a81",
+  "spells": "736c146fdb",
   "tags": {
    "inflicts": "written state « Pesanteur autour de lui » says the same"
   }
  },
  "6654": {
   "name": "Kabahal",
-  "spells": "2ea4c57224",
+  "spells": "496eb9c614",
   "tags": {
    "inflicts": "written big_damage « CaC, Insoignable » says the same",
    "removes": "6 tags (limit): matters less than the written ones",
    "buffs_allies": "6 tags (limit): matters less than the written ones",
-   "summons": "guide: « il n'y a que le Kabahal qui peut invoquer des Bras démoniaques »"
+   "summons": "guide: « il n'y a que le Kabahal qui peut invoquer des Bras démoniaques »",
+   "moves": "client data, triggered sub-spell: 19918 « Attire de 63 cases », cast by a Bras démoniaque in line"
   }
  },
  "6744": {
@@ -2218,6 +2390,13 @@
    "poison_ap": "guide: « Malergie : Donne 3PA … applique un poison … pour chaque PA utilisé » (his Malterego)"
   }
  },
+ "6873": {
+  "name": "Malalfa",
+  "spells": "1430fc2b8e",
+  "tags": {
+   "buffs_allies": "client data, triggered sub-spell: Malarmiste 21508/2 « Bouclier : 20% des PV max, 50 Tacle » to allies"
+  }
+ },
  "6900": {
   "name": "Gobichon",
   "spells": "5de6c91e7f",
@@ -2248,16 +2427,25 @@
  },
  "7197": {
   "name": "Rakoopeur",
-  "spells": "a783aacd4d",
+  "spells": "fd4f70eb30",
   "tags": {
    "buffs_allies": "guide (boss): « Camaraderie : Se téléporte en mêlée avec un de ses alliés et le boost de 200% de son niveau en bouclier »",
    "moves": "guide (boss): « Camaraderie : Se téléporte en mêlée avec un de ses alliés »",
    "removes": "guide (boss): « Il met un malus de 10% de résistances dans tous les éléments à sa cible »"
   }
  },
+ "7205": {
+  "name": "Soldalia",
+  "spells": "042ca1d888",
+  "tags": {
+   "moves": "minor: the 1-cell pull of Liane attirante only sets up the root already written",
+   "inflicts": "client data, triggered sub-spell: Liane attirante 23717/3 « État Enraciné (2 tours) »; guide",
+   "removes": "client data, triggered sub-spell: Liane attirante 23717/3 « -3 PM », Liane entravante 32722 « -2/-3 PA »; guide"
+  }
+ },
  "7207": {
   "name": "Armuguet",
-  "spells": "aa78613dfc",
+  "spells": "a235cdfb0c",
   "tags": {
    "moves": "owner reviewed this summary"
   }
@@ -2280,7 +2468,7 @@
  },
  "7210": {
   "name": "Belladone",
-  "spells": "e6ec254577",
+  "spells": "bb57c170d2",
   "tags": {
    "heals": "owner reviewed this summary",
    "removes": "owner reviewed this summary",
@@ -2290,10 +2478,17 @@
  },
  "7214": {
   "name": "Blindur",
-  "spells": "5523f820f2",
+  "spells": "cdaf38b9df",
   "tags": {
    "erodes": "guide: « Ninculpation : ... Met un malus de 20% d'érosion »",
    "steals": "guide: « Ninculpation : ... vole 30 Fuite et 30 Tacle pour 2 tours »"
+  }
+ },
+ "7215": {
+  "name": "Marthos",
+  "spells": "660f7eda45",
+  "tags": {
+   "heals": "guide: « Se soigne lui et ses alliés dans la zone de 3% de leurs PV maximum » (data: self heal in sub-spells 24058/2, 24059/2)"
   }
  },
  "7218": {
@@ -2324,9 +2519,23 @@
    "moves": "6 tags (limit): matters less than the written ones (inflicts Insoignable was added instead)"
   }
  },
+ "7811": {
+  "name": "Fourbasse",
+  "spells": "eed10b353b",
+  "tags": {
+   "glyphs": "the glyph of L'Attaque du Chasseur (-63 Portée) is the PO removal already written"
+  }
+ },
+ "7813": {
+  "name": "Trukikol",
+  "spells": "d6256eb123",
+  "tags": {
+   "moves": "client data, triggered sub-spell: Électromagnétisme 28960/2 « Attire de 3 cases »"
+  }
+ },
  "7827": {
   "name": "Maître Corbac",
-  "spells": "8febab6f81",
+  "spells": "882627558f",
   "tags": {
    "buffs_allies": "guide (Expédition de guilde): « Le Maître Corbac donne 50% de résistance à tous ses alliés au début du combat »",
    "reflect": "owner ruling 2026-11-07 (Carapace d'Ailes reflects damage); guide: « il renvoie 400 de dégâts … quand il subit des dommages »"
@@ -2336,7 +2545,24 @@
   "name": "Bouftou Royal",
   "spells": "066205f809",
   "tags": {
-   "heals": "guide (Expédition de guilde): « Le Bouftou Royal se soin de 100% de ses PV à chaque début de tour »"
+   "heals": "guide (Expédition de guilde): « Le Bouftou Royal se soin de 100% de ses PV à chaque début de tour »",
+   "inflicts": "Cuirasse Laineuse is cast on an ally (x70% damage taken, Indéplaçable): the written buffs_allies says it",
+   "buffs_allies": "Cuirasse Laineuse: « Dommages subis x70% » and « État Indéplaçable » on an ally (not read as a boost by derive)"
+  }
+ },
+ "7842": {
+  "name": "Craqueleur Légendaire",
+  "spells": "45d9070bcc",
+  "tags": {
+   "removes": "the written team_damage « à 20 PA, retire 6 PA à tous » says it"
+  }
+ },
+ "7844": {
+  "name": "Craqueboule",
+  "spells": "3bee157b1d",
+  "tags": {
+   "heals": "minor: 5% PV self heal of Manteau Tellurique",
+   "reflect": "client data, triggered sub-spell: Manteau Tellurique 29103/2 « Dommages Terre : 200% des dommages finaux subis », ring 2-4 (owner, 2026-11-19)"
   }
  },
  "7852": {
@@ -2345,6 +2571,20 @@
   "tags": {
    "moves": "lock « l'entourer (il pousse) » le dit déjà",
    "inflicts": "expedition guide (boss): « Royal Bécot … applique l'état pesanteur sur la case ciblée » (sub-spell not in the data)"
+  }
+ },
+ "7866": {
+  "name": "Don Dorgan",
+  "spells": "4998966b00",
+  "tags": {
+   "removes": "client data, triggered sub-spell: Menottage 29712/2 « -5 PM (1 tour) »"
+  }
+ },
+ "7868": {
+  "name": "Porsalu",
+  "spells": "fef9081ab2",
+  "tags": {
+   "moves": "client data, triggered sub-spell: Flèche Renifleuse 29719/3 « Attire de 4 cases »"
   }
  },
  "7872": {
@@ -2377,6 +2617,13 @@
    "glyphs": "guide (Expédition de guilde): « le glyphe rouge du Pichon Orange qui retire 10PM »"
   }
  },
+ "7879": {
+  "name": "Chafer Rōnin",
+  "spells": "3fa19b881b",
+  "tags": {
+   "inflicts": "Kikoha puts Indéplaçable on the swapped ally in « Tas d'Os » (guide), not on players"
+  }
+ },
  "7896": {
   "name": "Koulosse",
   "spells": "3e682f078c",
@@ -2387,9 +2634,16 @@
  },
  "7906": {
   "name": "Crocabulia",
-  "spells": "382601b8c4",
+  "spells": "a9aeb5724d",
   "tags": {
    "heals": "guide (Expédition de guilde): « Si des monstres alliés sont présents dans une zone cercle de taille 3 autour d'une Coquille quand elle explose, ils sont entièrement soignés »"
+  }
+ },
+ "7908": {
+  "name": "Dragmatique",
+  "spells": "fe7eb6b4ef",
+  "tags": {
+   "moves": "client data, triggered sub-spell: Dragmaturge 29544/2 « Attire de 2 cases »"
   }
  },
  "7913": {
@@ -2397,6 +2651,20 @@
   "spells": "3966b5a4f2",
   "tags": {
    "reflect": "guide (Expédition de guilde): « Avec l'état Renvoi, il renvoie 100% des dégâts qu'il subit » (boss)"
+  }
+ },
+ "7918": {
+  "name": "Aloevée Rate",
+  "spells": "9aa88629df",
+  "tags": {
+   "moves": "minor: Pousserat pushes 2 cells without damage, in melee"
+  }
+ },
+ "7927": {
+  "name": "Mominotor",
+  "spells": "2b08cd72ec",
+  "tags": {
+   "removes": "client data, triggered sub-spell: En bandelette organisée 29661/2 « -4 Portée (1 tour) », cross 1"
   }
  },
  "7929": {
@@ -2408,7 +2676,7 @@
  },
  "8037": {
   "name": "Déchireuse",
-  "spells": "10d8e56a3b",
+  "spells": "0cf499d39b",
   "tags": {
    "removes": "owner reviewed this summary",
    "steals": "owner reviewed this summary",
@@ -2417,19 +2685,21 @@
  },
  "8038": {
   "name": "Ébourifauve",
-  "spells": "5e24ec6e5b",
+  "spells": "bcd59f6762",
   "tags": {
    "steals": "owner reviewed this summary",
    "moves": "owner reviewed this summary",
-   "reflect": "guide: « Saison du Repos : L'Ébourifauve gagne un renvoi de sort sur la prochaine attaque »"
+   "reflect": "guide: « Saison du Repos : L'Ébourifauve gagne un renvoi de sort sur la prochaine attaque »",
+   "buffs_allies": "client data, triggered sub-spell: Féligance 30912/3 « 10% Résistance (1 tour) » to allies"
   }
  },
  "8040": {
   "name": "Voracle",
-  "spells": "517b320468",
+  "spells": "ab7d4c26cf",
   "tags": {
    "buffs_allies": "owner reviewed this summary",
-   "glyphs": "owner reviewed this summary"
+   "glyphs": "owner reviewed this summary",
+   "moves": "minor: Hauspice pushes 2 cells, next to its heal and damage"
   }
  },
  "8047": {
@@ -2484,6 +2754,13 @@
   "tags": {
    "inflicts": "6 tags already; Pesanteur lasts 1 turn on the character shut between the Sceaux Telluriques",
    "dispels_you": "guide (boss): « Le Gargameha retire 1 tour d'envoûtement »"
+  }
+ },
+ "8063": {
+  "name": "Ganos",
+  "spells": "b47b97d93d",
+  "tags": {
+   "removes": "client data, triggered sub-spell: Groincision 31345/2 « -50 Dommages Critiques »"
   }
  }
 }

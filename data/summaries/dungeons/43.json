@@ -36,6 +36,11 @@
      "id": "moves",
      "param": "se téléporte",
      "source": "spells"
+    },
+    {
+     "id": "glyphs",
+     "param": "augmente les dommages mêlée",
+     "source": "spells"
     }
    ]
   },

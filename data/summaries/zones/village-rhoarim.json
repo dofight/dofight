@@ -30,6 +30,11 @@
      "param": "échange de Martignasse"
     },
     {
+     "id": "buffs_allies",
+     "param": "Vitalité",
+     "source": "spells"
+    },
+    {
      "id": "moves",
      "param": "échange de place"
     }

@@ -1783,6 +1783,10 @@
         {
           "id": "removes",
           "param": "10 PO tout le combat, Fuite"
+        },
+        {
+          "id": "moves",
+          "param": "se téléporte"
         }
       ],
       "detail": "Chaque perso mort le booste en PM et en Puissance pour tout le combat : garder tout le monde en vie.",

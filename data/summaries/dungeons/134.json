@@ -51,6 +51,11 @@
      "param": "distance, plus il perd de PV"
     },
     {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
      "id": "buffs_allies",
      "param": "PM, PO, dommages distance"
     },

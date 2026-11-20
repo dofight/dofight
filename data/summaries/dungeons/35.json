@@ -10,7 +10,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "ceux qui frappent sa cible"
+     "param": "monstres au CaC du perso soigné"
     },
     {
      "id": "removes",
