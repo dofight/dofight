@@ -4,7 +4,7 @@
  "guide": "https://www.dofuspourlesnoobs.com/atelier-du-tanukoui-san.html",
  "guideUpdated": "26/03/2024",
  "status": "draft",
- "strategy": "Chaque Tanuki est invulnérable sur un géoglyphe : le frapper à distance l'attire de 2 cases, au CaC le repousse de 2. Éloigner les monstres les uns des autres pour que leurs géoglyphes ne se recouvrent pas.",
+ "strategy": "Chaque Tanuki est invulnérable sur un géoglyphe (le sien ou celui d'un autre) : tant qu'il y est, le frapper à distance l'attire de 2 cases, au CaC le repousse de 2. Le sortir du géoglyphe pour le taper.",
  "roomTags": [
   {
    "id": "invulnerable",

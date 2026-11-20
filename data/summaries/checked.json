@@ -2041,7 +2041,8 @@
   "name": "Founoroshi",
   "spells": "02fc78b546",
   "tags": {
-   "glyphs": "guide: « un glyphe noir invoqué par le Founoroshi … qui vous donne l'état « Extinction des feux » »"
+   "glyphs": "guide: « un glyphe noir invoqué par le Founoroshi … qui vous donne l'état « Extinction des feux » »",
+   "buffs_allies": "dropped for the 6-badge limit when one_shot « si tous les feux se rallument » was added (owner, 2026-11-19); 40 Fuite to allies around the Lanterne bombe is the least important"
   }
  },
  "6256": {

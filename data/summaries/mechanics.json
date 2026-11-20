@@ -418,5 +418,24 @@
   ],
   "guide": "https://www.dofuspourlesnoobs.com/ventre-de-la-baleine.html#effets-dislocation-restauration",
   "status": "draft"
+ },
+ "founoroshi-fires": {
+  "title": "Feux du Founoroshi",
+  "gist": "Tous les ennemis sont invulnérables tant que les 8 feux brûlent : les éteindre un par un avec l'état Extinction des feux.",
+  "points": [
+   "À la fin de son tour, le Founoroshi pose des glyphes bleus (de plus en plus, 4 au maximum) ; ils disparaissent au début de son tour suivant.",
+   "Marcher dans un glyphe bleu donne l'état Extinction des feux : -3 PO et -20 d'esquive PA/PM tant que tu le portes.",
+   "Avec l'état, marcher sur la case marron à droite d'un feu l'éteint. Tu perds alors l'état : en reprendre un pour le feu suivant.",
+   "L'état ne se cumule pas (un feu par état) ; tu le gardes d'un tour à l'autre tant que tu n'as pas éteint de feu.",
+   "Les compagnons et les invocations mobiles peuvent aussi éteindre les feux.",
+   "Chaque feu éteint donne au Founoroshi 1 PM, 1 PO et 10 % de dommages pendant 4 tours.",
+   "Un feu éteint se rallume après 8 tours.",
+   "Les 8 feux éteints : tous les ennemis deviennent vulnérables et le restent, et le Founoroshi devient invisible.",
+   "Les feux peuvent encore se rallumer ensuite : si tous les feux se rallument, toute l'équipe meurt.",
+   "Une fois les ennemis vulnérables, tes personnages gagnent 15 % de dégâts à chaque tour.",
+   "Taper un Tonneau anti-incendie : au CaC, il te repousse de 3 cases et te donne 10 % de dommages finaux ; à distance, il t'attire, te soigne et te protège."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/fabrique-de-foux-d-artifice.html#principe-combat",
+  "status": "draft"
  }
 }

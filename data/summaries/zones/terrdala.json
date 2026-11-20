@@ -1,0 +1,240 @@
+{
+ "zone": "Terrdala",
+ "dungeonId": 126,
+ "guide": "https://www.dofuspourlesnoobs.com/atelier-du-tanukoui-san.html",
+ "guideUpdated": "26/03/2024",
+ "dungeon": "Atelier du Tanukouï San",
+ "status": "draft",
+ "strategy": "Chaque Tanuki est invulnérable sur un géoglyphe (le sien ou celui d'un autre) : tant qu'il y est, le frapper à distance l'attire de 2 cases, au CaC le repousse de 2. Le sortir du géoglyphe pour le taper.",
+ "roomTags": [
+  {
+   "id": "invulnerable",
+   "param": "les sortir de leur géoglyphe"
+  }
+ ],
+ "monsters": {
+  "6220": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "param": "autour de lui"
+    },
+    {
+     "id": "moves",
+     "param": "avance, pousse",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "pierres (bouclier pour lui)"
+    }
+   ]
+  },
+  "6221": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire, pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "6222": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "tous les PA (Théière)"
+    },
+    {
+     "id": "moves",
+     "param": "échange de place, se téléporte"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Fuite",
+     "source": "spells"
+    }
+   ],
+   "detail": "Taper l'allié changé en Théière annule l'effet."
+  },
+  "6223": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    },
+    {
+     "id": "summons",
+     "param": "poteries autour de la cible"
+    }
+   ]
+  },
+  "2598": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "avance, pousse",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "source": "spells"
+    }
+   ]
+  },
+  "2414": {
+   "tags": [
+    {
+     "id": "inflicts",
+     "param": "Pesanteur",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Dommages",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire, pousse",
+     "source": "spells"
+    }
+   ]
+  },
+  "2527": {
+   "tags": [
+    {
+     "id": "removes",
+     "param": "PA, Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Fuite",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "se téléporte, échange de place",
+     "source": "spells"
+    }
+   ]
+  },
+  "2434": {
+   "tags": [
+    {
+     "id": "summons",
+     "param": "Jarre Tanuki",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PO",
+     "source": "spells"
+    }
+   ]
+  },
+  "4949": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "tuer la Bouteille à l'invocation"
+    },
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire en étoile, début de tour"
+    },
+    {
+     "id": "summons",
+     "param": "Bouteille de Pandabsynthe",
+     "source": "spells"
+    }
+   ],
+   "detail": "Sa Bouteille de Pandabsynthe (tours impairs) lui donne 80 % de résistances : la tuer le tour où elle apparaît, il est attaquable au tour pair. Bloquer les cases autour de lui empêche l'invocation.",
+   "guide": "https://www.dofuspourlesnoobs.com/on-recherche-jerart-dupaindur.html"
+  },
+  "5741": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui-même",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM, Puissance",
+     "source": "spells"
+    }
+   ]
+  },
+  "5758": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui-même",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "PM, Puissance",
+     "source": "spells"
+    }
+   ]
+  },
+  "7890": {
+   "tags": [
+    {
+     "id": "heals",
+     "param": "lui et ses alliés",
+     "source": "spells"
+    },
+    {
+     "id": "buffs_allies",
+     "param": "Bouclier, Résistance, PM, PA",
+     "source": "spells"
+    },
+    {
+     "id": "moves",
+     "param": "attire, pousse",
+     "source": "spells"
+    }
+   ]
+  }
+ }
+}

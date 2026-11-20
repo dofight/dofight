@@ -9,6 +9,10 @@
   "6249": {
    "tags": [
     {
+     "id": "one_shot",
+     "param": "si tous les feux se rallument"
+    },
+    {
      "id": "invulnerable",
      "param": "éteindre les 8 feux"
     },
@@ -19,23 +23,21 @@
     },
     {
      "id": "glyphs",
-     "param": "bleu : Extinction des feux"
+     "param": "bleu : y marcher, puis un feu"
     },
     {
      "id": "summons",
-     "param": "Lanterne qui explose"
+     "param": "Lanterne bombe (invulnérable)"
     },
     {
      "id": "invisible",
-     "param": "une fois vulnérable"
-    },
-    {
-     "id": "buffs_allies",
-     "param": "Fuite",
-     "source": "spells"
+     "param": "une fois les 8 feux éteints"
     }
    ],
-   "detail": "La case marron à droite d'un feu l'éteint (sous Extinction des feux). Les 8 éteints, tous les ennemis restent vulnérables ; avant, un feu se rallume en 8 tours. Chaque feu éteint lui donne PM, PO et dommages 4 tours."
+   "detail": "Les 8 feux éteints, tous les ennemis deviennent vulnérables et le Founoroshi invisible. Un feu se rallume après 8 tours : si tous les feux se rallument, toute l'équipe meurt.",
+   "mechanics": [
+    "founoroshi-fires"
+   ]
   },
   "6255": {
    "tags": [
@@ -121,17 +123,17 @@
     }
    ]
   },
+  "6265": {
+   "tags": [],
+   "detail": "Explose à la fin de son tour au contact d'un de tes personnages : faibles dégâts Terre."
+  },
   "6266": {
-   "tags": [
-    {
-     "id": "area_damage",
-     "param": "elle explose"
-    }
-   ]
+   "tags": []
   }
  },
  "bossSummons": {
   "6249": [
+   6265,
    6266
   ]
  }
