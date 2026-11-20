@@ -54,7 +54,7 @@ export function renderMonster(
   const thresholds = phaseThresholds(phases);
   const phaseText = thresholds.map((p, i) => `P${i + 1} ${p} %`).join(" - ");
   const phaseSpan = thresholds.length
-    ? `<span class="phase" tabindex="0" title="${esc(frenchSpaces(phaseText))}">${img(icon, "badges/phase.webp")}${esc(t("monster.phases"))}</span>`
+    ? `<span class="phase" tabindex="0" title="${esc(frenchSpaces(phaseText))}">${img(icon, "badges/phase.webp")}${esc(frenchSpaces(`${thresholds.join(" · ")} %`))}</span>`
     : "";
   if (show.details) {
     parts.push(
@@ -73,9 +73,8 @@ export function renderMonster(
       }).join("")}</div>`,
     );
   }
-  // (shown beside the HP, the phases leave the badges)
-  const shownTags = show.details && thresholds.length ? (summary?.tags ?? []).filter((tag) => !isPhase(tag)) : (summary?.tags ?? []);
-  const tags = renderTags(shownTags, vocab, show, icon);
+  // (the « Change de phase » badge stays as well: owner, 2026-11-19)
+  const tags = renderTags(summary?.tags ?? [], vocab, show, icon);
   if (tags) {
     parts.push(tags);
   } else if (summary && summary.tags.length === 0) {
