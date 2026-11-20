@@ -9,6 +9,8 @@ export interface Room {
   pinned?: number;
   /** « Songe » mode: how many of each monster the hovered groups hold (shown as « ×2 »). */
   counts?: Map<number, number>;
+  /** A sub-area the game has no monsters in (a village, a port): its name and coordinates were read for sure. */
+  empty?: true;
 }
 
 function inSubarea(s: Snapshot, area: string): Monster[] {

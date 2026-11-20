@@ -1,5 +1,5 @@
 import type { Access } from "./access";
-import { areasOf, placesOf, type Travel } from "./travel";
+import { areasOf, emptyPlacesOf, placesOf, type Travel } from "./travel";
 import type { Dungeon, Mechanic, Monster, MonsterSummary, RoomSummary, Snapshot, Spell, Vocabulary } from "./types";
 
 export type FetchJson = (path: string) => Promise<unknown>;
@@ -31,7 +31,7 @@ export async function loadSnapshot(fetchJson: FetchJson): Promise<Snapshot> {
     mechanics: new Map(Object.entries(mechanics ?? {})),
     monsterSummaries: new Map(Object.entries(perMonster ?? {}).map(([id, m]) => [Number(id), m])),
     ...(access ? { access } : {}),
-    ...(travel ? { travel, places: placesOf(travel), areas: areasOf(travel) } : {}),
+    ...(travel ? { travel, places: placesOf(travel), areas: areasOf(travel), emptyAt: emptyPlacesOf(travel) } : {}),
   };
 }
 

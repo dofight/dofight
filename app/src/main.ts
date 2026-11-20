@@ -231,7 +231,7 @@ function roomHtml(r: Room): string {
     if (special) accessShown = { title: v.title, pa, trip: to };
     trip = renderTrip(to, { special });
   }
-  return renderRoom(v.dungeon, v.monsters, summaryOf(r), view, show, iconResolver(view), v.title, isOpen, v.pinned, v.counts, trip);
+  return renderRoom(v.dungeon, v.monsters, summaryOf(r), view, show, iconResolver(view), v.title, isOpen, v.pinned, v.counts, trip, !!r.empty);
 }
 
 /* ---------- « Songe » mode: the monster groups hovered on the map ---------- */
@@ -1868,7 +1868,7 @@ void listen<{ front: boolean; lines: OcrLine[]; error: string | null; bar: BarSt
     // what the zone header matched, once per change (out of a fight: in a fight it is not used); the title read is
     // written only when it matched nothing, the first time (garbled titles differ at every reading)
     if (!director.inFight) {
-      const what = found ? `zone header → ${found.title}` : header ? "zone header not recognised" : "no zone header found";
+      const what = found ? `zone header → ${found.title}${found.empty ? " (no monsters here)" : ""}` : header ? "zone header not recognised" : "no zone header found";
       // each different misreading is written (it is what shows why a zone was missed)
       const line = !found && header ? `${what}: « ${header.title} »${header.x != null ? ` (${header.x}, ${header.y})` : ""}` : what;
       if (line !== lastHeaderLog) diag("zone", line);

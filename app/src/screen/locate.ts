@@ -146,5 +146,16 @@ function byCoordinates(s: Snapshot, h: Header, names: Set<string>): string | nul
 /** The room or sub-area a map header points to, or null (cut title, unknown place). */
 export function locate(s: Snapshot, h: Header): Room | null {
   if (h.cut || !h.title) return null;
-  return dungeonRoom(s, h) ?? subareaRoom(s, h);
+  return dungeonRoom(s, h) ?? subareaRoom(s, h) ?? emptyRoom(s, h);
+}
+
+/** A sub-area with no monsters (« Montagne des Koalaks (Village des Éleveurs) », -17, 0), only when sure: the name
+ * between both parentheses (a few misread letters allowed) is a monster-free sub-area that is at the coordinates
+ * read. Anything less is left « not recognised » (the panel keeps what it shows). */
+function emptyRoom(s: Snapshot, h: Header): Room | null {
+  if (h.x === null || h.y === null || !s.emptyAt) return null;
+  const inside = /\(([^()]+)\)/.exec(h.title)?.[1];
+  if (!inside) return null;
+  const name = (s.emptyAt.get(`${h.x},${h.y}`) ?? []).find((n) => noisyMatch(n, inside));
+  return name ? { dungeon: null, title: name, monsters: [], empty: true } : null;
 }

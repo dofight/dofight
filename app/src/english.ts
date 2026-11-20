@@ -53,6 +53,13 @@ export async function loadEnglish(fetchJson: FetchJson, fr: Snapshot): Promise<E
       }
     });
   }
+  // the sub-areas without monsters, named by travel.json (no monster lists them)
+  for (const [zone, name] of fr.travel?.emptyZones ?? []) {
+    if (name && !en.zoneEn.has(zone)) {
+      en.zoneEn.set(zone, name);
+      en.zoneFr.set(name, zone);
+    }
+  }
   return en;
 }
 
@@ -135,7 +142,9 @@ export function englishReading(fr: Snapshot, en: English): Snapshot {
   // and each zone's area by its English name (zoneAreas: [French, English])
   const englishArea = new Map((fr.travel?.zoneAreas ?? []).map(([f, e]) => [f, e || f]));
   const areas = fr.areas && new Map([...fr.areas].map(([zone, area]) => [en.zoneEn.get(zone) ?? zone, englishArea.get(area) ?? area]));
-  return { ...fr, dungeons, monsters, ...(places ? { places } : {}), ...(areas ? { areas } : {}) };
+  // the sub-areas without monsters too (a village: « Breeder Village »)
+  const emptyAt = fr.emptyAt && new Map([...fr.emptyAt].map(([at, zones]) => [at, zones.map((z) => en.zoneEn.get(z) ?? z)]));
+  return { ...fr, dungeons, monsters, ...(places ? { places } : {}), ...(areas ? { areas } : {}), ...(emptyAt ? { emptyAt } : {}) };
 }
 
 /** A room read on an English client, as the French room the rest of Dofight works with (summaries are keyed by the

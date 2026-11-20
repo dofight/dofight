@@ -159,6 +159,8 @@ export interface Snapshot {
   areas?: Map<string, string>;
   /** What each dungeon and area needs before going there (data/access.json). */
   access?: Access;
+  /** Map coordinates (« x,y ») → the sub-areas without monsters there (data/travel.json emptyPlaces). */
+  emptyAt?: Map<string, string[]>;
 }
 
 /** What the panel shows; Settings extends it. */

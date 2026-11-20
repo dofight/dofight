@@ -56,12 +56,14 @@ export function renderRoom(
   pinned?: number,
   counts?: Map<number, number>,
   trip = "",
+  /** A sub-area the game has no monsters in (a village): says so, with no list. */
+  empty = false,
 ): string {
   const head = d
     ? `<div class="dj"><b>${esc(d.name)}</b><small>${t("monster.level", { level: d.level })}</small></div>`
     : `<div class="dj"><b>${esc(title ?? "")}</b></div>`;
   const written = summary?.strategy ?? "";
-  const strategy = !show.roomSummary ? "" : summary?.strategy !== undefined || d ? (written ? prose(frenchSpaces(written), "strat") : "") : zoneSummaryHtml(monsters, s);
+  const strategy = empty ? `<div class="strat">${esc(t("room.noMonsters"))}</div>` : !show.roomSummary ? "" : summary?.strategy !== undefined || d ? (written ? prose(frenchSpaces(written), "strat") : "") : zoneSummaryHtml(monsters, s);
   const roomTags = show.roomSummary ? renderTags(summary?.roomTags ?? [], s.vocabulary, show, icon, "tags roomtags") : "";
   const mechanics = show.roomSummary ? renderMechanicChips(summary?.mechanics, s.mechanics) : "";
   const guide = summary?.guide && /^https:\/\//.test(summary.guide)

@@ -82,6 +82,24 @@ describe("an English game client", () => {
   });
 });
 
+describe("a sub-area with no monsters, in English (owner, 2026-11-20)", () => {
+  it("is found by its English name, shown in English, kept French for the reading", async () => {
+    const fr = makeSnapshot();
+    fr.travel = { zaaps: [], dungeons: {}, zones: {}, emptyZones: [["Village des Éleveurs", "Breeder Village"]], emptyPlaces: { "-17,0": [0] } };
+    fr.emptyAt = new Map([["-17,0", ["Village des Éleveurs"]]]);
+    const files: Record<string, unknown> = {
+      "snapshot/en/monsters.json": [...fr.monsters.values()],
+      "snapshot/en/dungeons.json": [...fr.dungeons.values()],
+      "snapshot/en/spells.json": [],
+    };
+    const en = await loadEnglish(async (path) => files[path] ?? null, fr);
+    const found = locate(englishReading(fr, en), { title: "Koalak Mountain (Breeder Village)", x: -17, y: 0, cut: false });
+    expect(found?.empty).toBe(true);
+    expect(frenchRoom(fr, en, found!).title).toBe("Village des Éleveurs");
+    expect(zoneName(en, "Village des Éleveurs")).toBe("Breeder Village");
+  });
+});
+
 describe("English mechanic sheets", () => {
   it("translates a sheet's title, gist and points, French when missing", async () => {
     const fr = { ...makeSnapshot(), mechanics: new Map([["lunar-cycle", { title: "Cycle lunaire", gist: "Une phase par tour.", points: ["Pas encore traduit."] }]]) };

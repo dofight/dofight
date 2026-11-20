@@ -125,3 +125,27 @@ describe("locate by the map coordinates", () => {
     expect(locate(snow, head("Île de dtOüronigride)", 5, 5))).toBeNull();
   });
 });
+
+describe("a place with no monsters (owner, 2026-11-20)", () => {
+  const e = makeSnapshot();
+  e.monsters = s.monsters;
+  e.emptyAt = new Map([["-17,0", ["Village des Éleveurs"]]]);
+
+  it("is a room with no monster when its whole name and its coordinates agree", () => {
+    expect(locate(e, head("Montagne des Koalaks (Village des E leveurs)", -17, 0))).toEqual({
+      dungeon: null, title: "Village des Éleveurs", monsters: [], empty: true,
+    });
+  });
+
+  it("is never guessed: no coordinates, other coordinates, a cut header, another name, no parentheses", () => {
+    expect(locate(e, head("Montagne des Koalaks (Village des Éleveurs)"))).toBeNull();
+    expect(locate(e, head("Montagne des Koalaks (Village des Éleveurs)", -10, 5))).toBeNull();
+    expect(locate(e, head("Montagne des Koalaks (Village des Éleveurs)", -17, 0, true))).toBeNull();
+    expect(locate(e, head("Montagne des Koalaks (Port de Madrestam)", -17, 0))).toBeNull(); // another place, not a misreading
+    expect(locate(e, head("Village des Éleveurs", -17, 0))).toBeNull();
+  });
+
+  it("a zone with monsters always wins", () => {
+    expect(locate(e, head("Brâkmar (Haras de Brâkmar)", -17, 0))?.title).toBe("Haras de Brâkmar");
+  });
+});

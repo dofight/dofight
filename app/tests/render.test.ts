@@ -521,3 +521,13 @@ describe("mechanic sheets", () => {
     expect(el.querySelector(".mech")).not.toBeNull();
   });
 });
+
+describe("a sub-area with no monsters (owner, 2026-11-20)", () => {
+  it("says so under its name, with no list", () => {
+    const html = renderRoom(null, [], undefined, makeSnapshot(), ALL, noIcon, "Village des Éleveurs", undefined, undefined, undefined, "", true);
+    const room = dom(html);
+    expect(plain(room.querySelector(".dj")!.textContent!)).toBe("Village des Éleveurs");
+    expect(plain(room.textContent!)).toContain("Aucun monstre dans cette sous-zone.");
+    expect(room.querySelectorAll(".mob")).toHaveLength(0);
+  });
+});

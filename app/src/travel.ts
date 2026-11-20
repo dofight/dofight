@@ -31,12 +31,21 @@ export interface Travel {
   /** Each zone's area, French and English (« Île de Frigost », « Frigost Island »), in the order of zoneNames. */
   zoneAreas?: [string, string][];
   places?: Record<string, number[]>;
+  /** The sub-areas without monsters: [French, English] names, and the coordinates of their maps (« x,y » → indexes). */
+  emptyZones?: [string, string][];
+  emptyPlaces?: Record<string, number[]>;
 }
 
 /** French zone name → its area's French name. */
 export function areasOf(travel: Travel): Map<string, string> {
   const names = travel.zoneNames ?? [];
   return new Map(names.map((n, i) => [n, travel.zoneAreas?.[i]?.[0] ?? ""]));
+}
+
+/** Map coordinates (« x,y ») → the French names of the sub-areas without monsters there. */
+export function emptyPlacesOf(travel: Travel): Map<string, string[]> {
+  const names = travel.emptyZones ?? [];
+  return new Map(Object.entries(travel.emptyPlaces ?? {}).map(([at, ids]) => [at, ids.map((i) => names[i]?.[0]).filter(Boolean)]));
 }
 
 /** Map coordinates (« x,y ») → the French names of the zones with monsters there. */
