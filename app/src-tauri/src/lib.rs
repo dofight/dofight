@@ -101,10 +101,16 @@ fn panel_show(app: tauri::AppHandle, mode: String) -> Result<(), String> {
 /// Dev builds: shows or hides the red boxes of the areas read (the « debug » window, made only in dev builds; in a
 /// release there is no such window and no switch).
 #[tauri::command]
-fn set_debug_areas(app: tauri::AppHandle, on: bool) -> Result<(), String> {
+fn set_debug_areas(app: tauri::AppHandle, on: bool, wanted: tauri::State<DebugAreasOn>) -> Result<(), String> {
+    wanted.0.store(on, std::sync::atomic::Ordering::Relaxed);
+    // at launch the panel may ask before the setup made the window: the setup shows it then (owner, 2026-11-20)
     let Some(debug) = app.get_webview_window("debug") else { return Ok(()) };
     if on { debug.show() } else { debug.hide() }.map_err(|e| e.to_string())
 }
+
+/// Whether the red boxes are wanted (dev builds), kept for the debug window made after the panel asked.
+#[derive(Default)]
+struct DebugAreasOn(std::sync::atomic::AtomicBool);
 
 /// « Songe » mode on or off (the toggle next to the search bar).
 #[tauri::command]
@@ -246,6 +252,7 @@ pub fn run() {
         )
         .plugin(tauri_plugin_opener::init())
         .manage(screen::Reference::default())
+        .manage(DebugAreasOn::default())
         .manage(screen::Songe::default())
         .manage(screen::InFight::default())
         .manage(screen::Reading::default())
@@ -286,6 +293,9 @@ pub fn run() {
                         .visible(false)
                         .build()?;
                     debug.set_ignore_cursor_events(true)?;
+                    if app.state::<DebugAreasOn>().0.load(std::sync::atomic::Ordering::Relaxed) {
+                        debug.show()?;
+                    }
                 }
             }
             let reference = app.state::<screen::Reference>().inner().clone();
