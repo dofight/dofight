@@ -46,12 +46,14 @@ export function renderMonster(
   const cue = open ? "" : dangerCue(summary, vocab, show, icon);
   parts.push(`<div class="mh" role="button" tabindex="0" aria-expanded="${open}">${thumb}<span class="mtitle"><span class="mline"><span class="mname">${esc(m.name)}</span>${count && count > 1 ? `<small class="mcount">×${count}</small>` : ""}</span>${kind ? `<small class="mkind"${kindTitle}>${esc(kind)}</small>` : ""}</span>${cue}<span class="chev" aria-hidden="true">${navIcon("chevron")}</span></div>`);
   if (!open) return `<div class="${cls}" data-monster="${m.id}"${more} data-open="false">${parts.join("")}</div>`;
-  // its phases (the « Change de phase » badges): beside its HP, each one on hover (owner, 2026-11-19)
-  const phases = (summary?.tags ?? []).filter((tag) => tag.id === "phase").map((tag) => frenchSpaces(tag.param?.trim() ?? "")).filter(Boolean);
-  // the HP thresholds as « P1 75 % - P2 50 % - P3 25 % » when the badges give them, else their words
+  // its phases: HP thresholds only (a « Change de phase » badge with percentages), beside its HP with the yellow heart,
+  // « P1 75 % - P2 50 % - P3 25 % » on hover (owner, 2026-11-19: a phase is an HP threshold; a change on an event
+  // stays a badge)
+  const isPhase = (tag: Tag) => tag.id === "phase" && phaseThresholds([tag.param ?? ""]).length > 0;
+  const phases = (summary?.tags ?? []).filter(isPhase).map((tag) => tag.param ?? "");
   const thresholds = phaseThresholds(phases);
-  const phaseText = thresholds.length ? thresholds.map((p, i) => `P${i + 1} ${p} %`).join(" - ") : `${t("monster.phasesTitle")} ${phases.join(" ; ")}`;
-  const phaseSpan = phases.length
+  const phaseText = thresholds.map((p, i) => `P${i + 1} ${p} %`).join(" - ");
+  const phaseSpan = thresholds.length
     ? `<span class="phase" tabindex="0" title="${esc(frenchSpaces(phaseText))}">${img(icon, "badges/phase.webp")}${esc(t("monster.phases"))}</span>`
     : "";
   if (show.details) {
@@ -72,7 +74,7 @@ export function renderMonster(
     );
   }
   // (shown beside the HP, the phases leave the badges)
-  const shownTags = show.details && phases.length ? (summary?.tags ?? []).filter((tag) => tag.id !== "phase") : (summary?.tags ?? []);
+  const shownTags = show.details && thresholds.length ? (summary?.tags ?? []).filter((tag) => !isPhase(tag)) : (summary?.tags ?? []);
   const tags = renderTags(shownTags, vocab, show, icon);
   if (tags) {
     parts.push(tags);

@@ -44,8 +44,8 @@
      "source": "spells"
     },
     {
-     "id": "phase",
-     "param": "à la mort du Professeur Xa"
+     "id": "state",
+     "param": "renforcé à la mort de Xa"
     },
     {
      "id": "moves",

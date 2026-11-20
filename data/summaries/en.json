@@ -2457,7 +2457,8 @@
   "un allié au CaC": "an ally in melee",
   "2 tours sur 4": "2 turns out of 4",
   "lui-même, 20 % de ses PV": "itself, 20% of its HP",
-  "PA entre alliés (glyphe marron)": "AP between allies (brown glyph)"
+  "PA entre alliés (glyphe marron)": "AP between allies (brown glyph)",
+  "renforcé à la mort de Xa": "strengthened when Xa dies"
  },
  "token": {
   "-résistances": "-resistances",
