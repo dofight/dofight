@@ -35,12 +35,14 @@
    "name": "Épave du Grolandais violent",
    "route": [
     "/zaap -78 -41 ; /travel -68 -34",
-    "Prendre le Transporteur frigostien vers Berceau d'Alma (ou une {skis} Paire de skis rustiques jetables, après la quête [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Ou, plus rapide : une {skis} Paire de skis rustiques jetables (après la quête [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html)) mène directement au transporteur",
+    "Prendre le Transporteur frigostien vers Berceau d'Alma",
     "/travel -60 -84"
    ],
    "routeEn": [
     "/zaap -78 -41 ; /travel -68 -34",
-    "Take the Frigostian Carrier to Alma's Cradle (or a {skis} Pair of Disposable Rustic Skis, after the quest [Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Or faster: a {skis} Pair of Disposable Rustic Skis (after the quest [Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html)) takes you straight to the carrier",
+    "Take the Frigostian Carrier to Alma's Cradle",
     "/travel -60 -84"
    ]
   },
@@ -48,12 +50,14 @@
    "name": "Hypogée de l'Obsidiantre",
    "route": [
     "/zaap -78 -41 ; /travel -68 -34",
-    "Prendre le Transporteur frigostien vers Larmes d'Ouronigride (ou une {skis} Paire de skis rustiques jetables, après la quête [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Ou, plus rapide : une {skis} Paire de skis rustiques jetables (après la quête [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html)) mène directement au transporteur",
+    "Prendre le Transporteur frigostien vers Larmes d'Ouronigride",
     "/travel -71 -83"
    ],
    "routeEn": [
     "/zaap -78 -41 ; /travel -68 -34",
-    "Take the Frigostian Carrier to Tears of Ouronigride (or a {skis} Pair of Disposable Rustic Skis, after the quest [Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Or faster: a {skis} Pair of Disposable Rustic Skis (after the quest [Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html)) takes you straight to the carrier",
+    "Take the Frigostian Carrier to Tears of Ouronigride",
     "/travel -71 -83"
    ]
   },
@@ -61,12 +65,14 @@
    "name": "Tanière Givrefoux",
    "route": [
     "/zaap -78 -41 ; /travel -68 -34",
-    "Prendre le Transporteur frigostien vers Crevasse Perge (ou une {skis} Paire de skis rustiques jetables, après la quête [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Ou, plus rapide : une {skis} Paire de skis rustiques jetables (après la quête [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html)) mène directement au transporteur",
+    "Prendre le Transporteur frigostien vers Crevasse Perge",
     "/travel -76 -75"
    ],
    "routeEn": [
     "/zaap -78 -41 ; /travel -68 -34",
-    "Take the Frigostian Carrier to Asparah Gorge (or a {skis} Pair of Disposable Rustic Skis, after the quest [Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Or faster: a {skis} Pair of Disposable Rustic Skis (after the quest [Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html)) takes you straight to the carrier",
+    "Take the Frigostian Carrier to Asparah Gorge",
     "/travel -76 -75"
    ]
   },
@@ -74,12 +80,14 @@
    "name": "Antre du Korriandre",
    "route": [
     "/zaap -78 -41 ; /travel -68 -34",
-    "Prendre le Transporteur frigostien vers Forêt pétrifiée (ou une {skis} Paire de skis rustiques jetables, après la quête [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Ou, plus rapide : une {skis} Paire de skis rustiques jetables (après la quête [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html)) mène directement au transporteur",
+    "Prendre le Transporteur frigostien vers Forêt pétrifiée",
     "/travel -73 -69"
    ],
    "routeEn": [
     "/zaap -78 -41 ; /travel -68 -34",
-    "Take the Frigostian Carrier to Petrified Forest (or a {skis} Pair of Disposable Rustic Skis, after the quest [Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Or faster: a {skis} Pair of Disposable Rustic Skis (after the quest [Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html)) takes you straight to the carrier",
+    "Take the Frigostian Carrier to Petrified Forest",
     "/travel -73 -69"
    ]
   },
@@ -87,12 +95,14 @@
    "name": "Brasserie du roi Dazak",
    "route": [
     "/zaap -78 -41 ; /travel -68 -34",
-    "Prendre le Transporteur frigostien vers Forêt pétrifiée (ou une {skis} Paire de skis rustiques jetables, après la quête [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Ou, plus rapide : une {skis} Paire de skis rustiques jetables (après la quête [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html)) mène directement au transporteur",
+    "Prendre le Transporteur frigostien vers Forêt pétrifiée",
     "/travel -62 -70"
    ],
    "routeEn": [
     "/zaap -78 -41 ; /travel -68 -34",
-    "Take the Frigostian Carrier to Petrified Forest (or a {skis} Pair of Disposable Rustic Skis, after the quest [Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Or faster: a {skis} Pair of Disposable Rustic Skis (after the quest [Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html)) takes you straight to the carrier",
+    "Take the Frigostian Carrier to Petrified Forest",
     "/travel -62 -70"
    ]
   },
@@ -100,12 +110,14 @@
    "name": "Cavernes du Kolosso",
    "route": [
     "/zaap -78 -41 ; /travel -68 -34",
-    "Prendre le Transporteur frigostien vers Crocs de verre (ou une {skis} Paire de skis rustiques jetables, après la quête [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Ou, plus rapide : une {skis} Paire de skis rustiques jetables (après la quête [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html)) mène directement au transporteur",
+    "Prendre le Transporteur frigostien vers Crocs de verre",
     "/travel -61 -69"
    ],
    "routeEn": [
     "/zaap -78 -41 ; /travel -68 -34",
-    "Take the Frigostian Carrier to Fangs of Glass (or a {skis} Pair of Disposable Rustic Skis, after the quest [Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Or faster: a {skis} Pair of Disposable Rustic Skis (after the quest [Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html)) takes you straight to the carrier",
+    "Take the Frigostian Carrier to Fangs of Glass",
     "/travel -61 -69"
    ]
   },
@@ -113,12 +125,14 @@
    "name": "Antichambre des Gloursons",
    "route": [
     "/zaap -78 -41 ; /travel -68 -34",
-    "Prendre le Transporteur frigostien vers Mont Torrideau (ou une {skis} Paire de skis rustiques jetables, après la quête [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Ou, plus rapide : une {skis} Paire de skis rustiques jetables (après la quête [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html)) mène directement au transporteur",
+    "Prendre le Transporteur frigostien vers Mont Torrideau",
     "/travel -63 -75"
    ],
    "routeEn": [
     "/zaap -78 -41 ; /travel -68 -34",
-    "Take the Frigostian Carrier to Mount Scauldron (or a {skis} Pair of Disposable Rustic Skis, after the quest [Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Or faster: a {skis} Pair of Disposable Rustic Skis (after the quest [Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html)) takes you straight to the carrier",
+    "Take the Frigostian Carrier to Mount Scauldron",
     "/travel -63 -75"
    ]
   }
@@ -399,72 +413,84 @@
   "Berceau d'Alma": {
    "route": [
     "/zaap -78 -41 ; /travel -68 -34",
-    "Prendre le Transporteur frigostien vers Berceau d'Alma (ou une {skis} Paire de skis rustiques jetables, après la quête [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Ou, plus rapide : une {skis} Paire de skis rustiques jetables (après la quête [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html)) mène directement au transporteur",
+    "Prendre le Transporteur frigostien vers Berceau d'Alma",
     "/travel -56 -76"
    ],
    "routeEn": [
     "/zaap -78 -41 ; /travel -68 -34",
-    "Take the Frigostian Carrier to Alma's Cradle (or a {skis} Pair of Disposable Rustic Skis, after the quest [Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Or faster: a {skis} Pair of Disposable Rustic Skis (after the quest [Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html)) takes you straight to the carrier",
+    "Take the Frigostian Carrier to Alma's Cradle",
     "/travel -56 -76"
    ]
   },
   "Larmes d'Ouronigride": {
    "route": [
     "/zaap -78 -41 ; /travel -68 -34",
-    "Prendre le Transporteur frigostien vers Larmes d'Ouronigride (ou une {skis} Paire de skis rustiques jetables, après la quête [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Ou, plus rapide : une {skis} Paire de skis rustiques jetables (après la quête [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html)) mène directement au transporteur",
+    "Prendre le Transporteur frigostien vers Larmes d'Ouronigride",
     "/travel -70 -85"
    ],
    "routeEn": [
     "/zaap -78 -41 ; /travel -68 -34",
-    "Take the Frigostian Carrier to Tears of Ouronigride (or a {skis} Pair of Disposable Rustic Skis, after the quest [Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Or faster: a {skis} Pair of Disposable Rustic Skis (after the quest [Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html)) takes you straight to the carrier",
+    "Take the Frigostian Carrier to Tears of Ouronigride",
     "/travel -70 -85"
    ]
   },
   "Crevasse Perge": {
    "route": [
     "/zaap -78 -41 ; /travel -68 -34",
-    "Prendre le Transporteur frigostien vers Crevasse Perge (ou une {skis} Paire de skis rustiques jetables, après la quête [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Ou, plus rapide : une {skis} Paire de skis rustiques jetables (après la quête [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html)) mène directement au transporteur",
+    "Prendre le Transporteur frigostien vers Crevasse Perge",
     "/travel -78 -79"
    ],
    "routeEn": [
     "/zaap -78 -41 ; /travel -68 -34",
-    "Take the Frigostian Carrier to Asparah Gorge (or a {skis} Pair of Disposable Rustic Skis, after the quest [Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Or faster: a {skis} Pair of Disposable Rustic Skis (after the quest [Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html)) takes you straight to the carrier",
+    "Take the Frigostian Carrier to Asparah Gorge",
     "/travel -78 -79"
    ]
   },
   "Forêt pétrifiée": {
    "route": [
     "/zaap -78 -41 ; /travel -68 -34",
-    "Prendre le Transporteur frigostien vers Forêt pétrifiée (ou une {skis} Paire de skis rustiques jetables, après la quête [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Ou, plus rapide : une {skis} Paire de skis rustiques jetables (après la quête [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html)) mène directement au transporteur",
+    "Prendre le Transporteur frigostien vers Forêt pétrifiée",
     "/travel -76 -69"
    ],
    "routeEn": [
     "/zaap -78 -41 ; /travel -68 -34",
-    "Take the Frigostian Carrier to Petrified Forest (or a {skis} Pair of Disposable Rustic Skis, after the quest [Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Or faster: a {skis} Pair of Disposable Rustic Skis (after the quest [Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html)) takes you straight to the carrier",
+    "Take the Frigostian Carrier to Petrified Forest",
     "/travel -76 -69"
    ]
   },
   "Crocs de verre": {
    "route": [
     "/zaap -78 -41 ; /travel -68 -34",
-    "Prendre le Transporteur frigostien vers Crocs de verre (ou une {skis} Paire de skis rustiques jetables, après la quête [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Ou, plus rapide : une {skis} Paire de skis rustiques jetables (après la quête [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html)) mène directement au transporteur",
+    "Prendre le Transporteur frigostien vers Crocs de verre",
     "/travel -66 -67"
    ],
    "routeEn": [
     "/zaap -78 -41 ; /travel -68 -34",
-    "Take the Frigostian Carrier to Fangs of Glass (or a {skis} Pair of Disposable Rustic Skis, after the quest [Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Or faster: a {skis} Pair of Disposable Rustic Skis (after the quest [Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html)) takes you straight to the carrier",
+    "Take the Frigostian Carrier to Fangs of Glass",
     "/travel -66 -67"
    ]
   },
   "Mont Torrideau": {
    "route": [
     "/zaap -78 -41 ; /travel -68 -34",
-    "Prendre le Transporteur frigostien vers Mont Torrideau (ou une {skis} Paire de skis rustiques jetables, après la quête [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Ou, plus rapide : une {skis} Paire de skis rustiques jetables (après la quête [Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html)) mène directement au transporteur",
+    "Prendre le Transporteur frigostien vers Mont Torrideau",
     "/travel -66 -73"
    ],
    "routeEn": [
     "/zaap -78 -41 ; /travel -68 -34",
-    "Take the Frigostian Carrier to Mount Scauldron (or a {skis} Pair of Disposable Rustic Skis, after the quest [Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Or faster: a {skis} Pair of Disposable Rustic Skis (after the quest [Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html)) takes you straight to the carrier",
+    "Take the Frigostian Carrier to Mount Scauldron",
     "/travel -66 -73"
    ]
   }
