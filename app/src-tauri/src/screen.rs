@@ -374,15 +374,19 @@ pub fn read_frame(
 }
 
 
-/// A group tooltip's background (slightly see-through): a dark neutral grey, or tinted warm over lava. Measured on the
-/// owner's captures (2026-11-20) and known from the game: the map's dark rocks are tinted, so they do not match.
+/// A group tooltip's background (slightly see-through): a dark, even colour of any tint, the game's interface theme
+/// colours it (owner, 2026-11-20: every theme alike). Measured: (36, 36, 31) in the default theme, (41, 36, 45) in
+/// Belladone, warmer over lava. The map's dark patches are told apart by the box's shape (find_tooltips).
 fn tooltip_background(p: &[u8]) -> bool {
     let (b, g, r) = (p[0] as i32, p[1] as i32, p[2] as i32);
     let (hi, lo) = (r.max(g).max(b), r.min(g).min(b));
-    let grey = hi - lo <= 6 && lo >= 16 && hi <= 48;
-    let warm = hi - lo <= 14 && lo >= 18 && hi <= 56 && r >= g && g >= b && r - b >= 4;
-    grey || warm
+    (TOOLTIP_DARKEST..=TOOLTIP_BRIGHTEST).contains(&lo) && hi <= TOOLTIP_BRIGHTEST && hi - lo <= TOOLTIP_TINT
 }
+
+/// A tooltip background's channels: from 14 to 58, at most 20 apart (any hue).
+const TOOLTIP_DARKEST: i32 = 14;
+const TOOLTIP_BRIGHTEST: i32 = 58;
+const TOOLTIP_TINT: i32 = 20;
 
 /// The size of a group tooltip (frame pixels): one level line up to eight monster lines, the longest names (a lone
 /// « Tofu (36) » is about 80 wide).
@@ -998,7 +1002,7 @@ mod tests {
     }
 
     /// The owner's Songe captures (2026-11-20): image, mouse in it, the group's level, monsters read.
-    const SONGE: [(&str, (i32, i32), &str, &[&str]); 6] = [
+    const SONGE: [(&str, (i32, i32), &str, &[&str]); 7] = [
         ("songe_1.png", (420, 41), "168", &["Tofoune", "Tofu Noir"]),
         ("songe_2.png", (420, 470), "110", &["Tofoune", "Tofu"]),
         ("songe_3.png", (416, 20), "248", &["Tofu Noir"]),
@@ -1006,6 +1010,8 @@ mod tests {
         ("songe_5.png", (420, 425), "1612", &["Mominotor", "Trezz"]),
         // a one-monster tooltip (narrow), the mouse low: the chat and the spell bar are as dark as a tooltip
         ("songe_chat.png", (420, 470), "36", &["Tofu"]),
+        // the game's Belladone theme: the tooltip is tinted purple (owner, 2026-11-20: every theme alike)
+        ("songe_belladone.png", (420, 470), "132", &["Tofoune", "Tofu"]),
     ];
 
     #[test]
