@@ -65,6 +65,10 @@ function placeTip(): void {
   const tip = box.querySelector<HTMLElement>(".tour-tip");
   if (!tourTarget || !tip || !box.contains(tourTarget)) return;
   const b = box.getBoundingClientRect();
+  // as wide as the window (2 px from its edges), so the arrow can reach the elements at the sample's edges
+  const view = (box.closest(".view") ?? document.body).getBoundingClientRect();
+  tip.style.left = `${Math.round(view.left + 2 - b.left)}px`;
+  tip.style.width = `${Math.round((box.closest(".view")?.clientWidth ?? view.width) - 4)}px`;
   const shot = tourTarget.closest(".corner-shot")?.getBoundingClientRect();
   const t = tourTarget.getBoundingClientRect();
   const r = shot ? { top: shot.top, bottom: shot.bottom, left: t.left, width: t.width } : t;
@@ -72,9 +76,10 @@ function placeTip(): void {
   tip.classList.toggle("below", below);
   tip.classList.toggle("above", !below);
   tip.style.top = `${below ? r.bottom - b.top + GAP : r.top - b.top - tip.offsetHeight - GAP}px`;
-  // the arrow (10 px wide) under the element's middle, as far as the bubble's edges allow
+  // the arrow (a 10 px square turned, 7 px either side of its middle) under the element's middle, always on the
+  // bubble's straight edge, never over a rounded corner (owner, 2026-11-20): its middle 16 px from the bubble's ends
   const middle = r.left + r.width / 2 - tip.getBoundingClientRect().left;
-  tip.style.setProperty("--arrow", `${Math.round(Math.max(4, Math.min(middle - 5, tip.offsetWidth - 14)))}px`);
+  tip.style.setProperty("--arrow", `${Math.round(Math.max(16, Math.min(middle, tip.offsetWidth - 16)) - 5)}px`);
 }
 const tourBox = document.getElementById("preview")!;
 new ResizeObserver(() => requestAnimationFrame(placeTip)).observe(tourBox);
