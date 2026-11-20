@@ -50,20 +50,37 @@ void listen<{ label: string; html: string; sel: string; text: string }>("preview
     img.addEventListener("error", done, { once: true });
   });
   target.scrollIntoView({ block: "center" });
-  // beside the element, in the sample's coordinates: below it when there is room on screen, else above; on the game's
-  // corner, under the whole picture (its other parts stay visible), the arrow still on the ringed part
-  requestAnimationFrame(() => {
-    const b = box.getBoundingClientRect();
-    const shot = target.closest(".corner-shot")?.getBoundingClientRect();
-    const t = target.getBoundingClientRect();
-    const r = shot ? { top: shot.top, bottom: shot.bottom, left: t.left, width: t.width } : t;
-    const below = r.bottom + tip.offsetHeight + 16 <= window.innerHeight;
-    tip.classList.toggle("below", below);
-    tip.classList.toggle("above", !below);
-    tip.style.top = `${below ? r.bottom - b.top + 10 : r.top - b.top - tip.offsetHeight - 10}px`;
-    tip.style.setProperty("--arrow", `${Math.max(10, Math.min(r.left + r.width / 2 - b.left - 13, b.width - 34))}px`);
-  });
+  tourTarget = target;
+  requestAnimationFrame(placeTip);
 });
+
+// the element the bubble points at; the bubble is placed again whenever the sample's layout moves (a portrait or an
+// icon loaded, the fonts, the window sized: owner, 2026-11-20, bubbles a few pixels off)
+let tourTarget: HTMLElement | null = null;
+const GAP = 14; // between the element and the bubble: the arrow (7 px out of it) stops short of the gold ring (4 px)
+/** Beside the element, in the sample's coordinates: below it when there is room on screen, else above; on the game's
+ * corner, under the whole picture (its other parts stay visible), the arrow still on the ringed part. */
+function placeTip(): void {
+  const box = document.getElementById("preview")!;
+  const tip = box.querySelector<HTMLElement>(".tour-tip");
+  if (!tourTarget || !tip || !box.contains(tourTarget)) return;
+  const b = box.getBoundingClientRect();
+  const shot = tourTarget.closest(".corner-shot")?.getBoundingClientRect();
+  const t = tourTarget.getBoundingClientRect();
+  const r = shot ? { top: shot.top, bottom: shot.bottom, left: t.left, width: t.width } : t;
+  const below = r.bottom + tip.offsetHeight + GAP + 6 <= window.innerHeight;
+  tip.classList.toggle("below", below);
+  tip.classList.toggle("above", !below);
+  tip.style.top = `${below ? r.bottom - b.top + GAP : r.top - b.top - tip.offsetHeight - GAP}px`;
+  // the arrow (10 px wide) under the element's middle, as far as the bubble's edges allow
+  const middle = r.left + r.width / 2 - tip.getBoundingClientRect().left;
+  tip.style.setProperty("--arrow", `${Math.round(Math.max(4, Math.min(middle - 5, tip.offsetWidth - 14)))}px`);
+}
+const tourBox = document.getElementById("preview")!;
+new ResizeObserver(() => requestAnimationFrame(placeTip)).observe(tourBox);
+tourBox.addEventListener("load", () => requestAnimationFrame(placeTip), true); // an image in the sample
+window.addEventListener("resize", () => requestAnimationFrame(placeTip));
+void document.fonts.ready.then(() => requestAnimationFrame(placeTip));
 
 // a folded row hovered here shows the same badge preview as in the panel (the panel places it); the example only
 // shows, so clicks do nothing
