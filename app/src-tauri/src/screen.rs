@@ -195,13 +195,13 @@ fn binarize(bgra: &[u8], width: u32, height: u32, threshold: u8) -> (Vec<u8>, u3
 
 /// The top-left corner the zone reading needs: the zone name, the map coordinates, a Songe's « Palier / Profondeur »
 /// lines (header.ts and dream.ts look there). The rest of the screen is never read for the zone or the fight (the fight
-/// comes from the icon bar), which keeps each reading small. Sized for a 1009-pixel-high game, scaled with it: 720
-/// wide (the longest header, about 590), 120 high (the zone name and coordinates, or a Songe's three lines; the quest
+/// comes from the icon bar), which keeps each reading small. Sized for a 1009-pixel-high game, scaled with it: 620
+/// wide (the longest header in the game ends at about 582, measured on the owner's screen), 120 high (the zone name and coordinates, or a Songe's three lines; the quest
 /// list below was read for nothing and sometimes taken for the header; owner, 2026-11-20). Only this piece of the
 /// window is captured for it (platform::capture_region).
 pub fn corner_size(width: u32, height: u32) -> (u32, u32) {
     let f = (height as f32 / 1009.0).max(1.0);
-    (width.min((720.0 * f) as u32), height.min((120.0 * f) as u32))
+    (width.min((620.0 * f) as u32), height.min((120.0 * f) as u32))
 }
 
 /// OCR lines of the frame's top-left corner (see corner_size), in the frame's pixels.
@@ -1187,8 +1187,10 @@ mod tests {
     #[test]
     fn corner_size_scales_with_the_window_and_stays_inside() {
         // the zone name and coordinates, or a Songe's three lines (« Cauchemar 1 » ends about 110), not the quest list
-        assert_eq!(corner_size(1920, 1009), (720, 120));
-        assert_eq!(corner_size(3840, 2018), (1440, 240));
+        // the longest header in the game, « Montagne des Koalaks (Territoire des dragodindes sauvages) », ends at about
+        // 582 (owner's screen, 2026-11-20)
+        assert_eq!(corner_size(1920, 1009), (620, 120));
+        assert_eq!(corner_size(3840, 2018), (1240, 240));
         assert_eq!(corner_size(500, 120), (500, 120));
     }
 
