@@ -437,5 +437,19 @@
   ],
   "guide": "https://www.dofuspourlesnoobs.com/fabrique-de-foux-d-artifice.html#principe-combat",
   "status": "draft"
+ },
+ "gourlo-barrels": {
+  "title": "Tonneaux de Gourlo",
+  "gist": "Gourlo le Terrible a 200 % de résistances partout : un Tonneau Pirate collé à lui les lui retire, dans un seul élément par Tonneau.",
+  "points": [
+   "Chaque Tonneau résiste à 100 % à un seul élément : c'est cet élément qu'il retire. Regarder ses résistances en jeu.",
+   "Un Tonneau invoqué depuis 3 tours lance Rhum Fourbe à son tour : -200 % de résistance dans son élément à tout ce qui le touche, 3 tours.",
+   "Gourlo doit être collé au Tonneau à ce moment-là : il tombe à 0 % dans cet élément. Un seul Tonneau suffit.",
+   "Pour qu'il ne s'éloigne pas : le bloquer entre 4 Tonneaux, ou coller 1 Tonneau et boucher ses 3 autres côtés (personnages, obstacles).",
+   "Garder les Tonneaux de l'élément dans lequel tu tapes : ils ont 0 PM et ne bougent pas.",
+   "Tes personnages collés au Tonneau perdent aussi 200 % de résistance ; Rhum Fourbe soigne Gourlo et lui donne des Dommages."
+  ],
+  "guide": "https://www.dofuspourlesnoobs.com/arche-dotomaiuml.html",
+  "status": "draft"
  }
 }

@@ -59,7 +59,7 @@
    "tags": [
     {
      "id": "invulnerable",
-     "param": "200 % rés. sans Tonneau collé"
+     "param": "sans Tonneau Pirate collé à lui"
     },
     {
      "id": "big_damage",
@@ -75,13 +75,16 @@
      "param": "Tonneau Pirate, chaque tour"
     }
    ],
-   "detail": "Le rendre vulnérable avec un Tonneau Pirate collé à lui : bloque ses autres côtés (Tonneaux, personnages ou obstacles)."
+   "detail": "Coller des Tonneaux Pirate contre lui : chacun lui retire 200 % de résistance dans un élément, celui auquel ce Tonneau résiste. Le bloquer entre les Tonneaux pour qu'il reste à leur contact.",
+   "mechanics": [
+    "gourlo-barrels"
+   ]
   },
   "1080": {
    "tags": [
     {
      "id": "removes",
-     "param": "200 % rés. à qui le touche"
+     "param": "200 % rés. à ce qui le touche"
     },
     {
      "id": "heals",
@@ -94,7 +97,7 @@
      "source": "spells"
     }
    ],
-   "detail": "100 % de résistance dans un élément au hasard. Invoqué depuis 3 tours, il met à son tour -200 % de résistance dans cet élément à ce qui le touche, pour 3 tours : le coller au Gourlo. Garder ceux de ton élément."
+   "detail": "Résiste à 100 % à un seul élément. Invoqué depuis 3 tours, il retire à son tour 200 % de résistance dans cet élément à tout ce qui le touche, pour 3 tours : Gourlo, mais aussi tes personnages. Il ne bouge pas."
   },
   "1049": {
    "tags": [
