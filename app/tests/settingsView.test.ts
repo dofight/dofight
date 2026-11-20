@@ -664,9 +664,10 @@ it("a pinned sheet dragged away stays, and the next sheet goes to a new side win
   await handler("peek:size")({ payload: { token: render.payload.token, height: 300, label: "peek" } });
   const hide = (await (await import("@tauri-apps/api/window")).Window.getByLabel("peek"))!.hide as unknown as { mock: { calls: unknown[] } };
   const before = hide.mock.calls.length;
-  // the player drags it away: a new side window is made for the next sheet
+  // the player drags it away: a new side window is made for the next sheet (Rust names it)
+  vi.mocked(invoke).mockImplementationOnce(async () => "peek-1");
   await handler("peek:detach")({ payload: { label: "peek" } });
-  expect(invoke).toHaveBeenCalledWith("side_window", { label: "peek-1" });
+  expect(invoke).toHaveBeenCalledWith("side_window");
   // the player's next click in Dofight leaves the detached sheet
   document.getElementById("view-main")!.dispatchEvent(new Event("pointerdown", { bubbles: true }));
   await new Promise((r) => setTimeout(r, 50));

@@ -743,8 +743,8 @@ function setPinned(el: HTMLElement | null): void {
  * is dragged away (detached, owner 2026-11-20: it stays where it is dropped, until its ✕). A new one is ready once its
  * page says so; a sheet asked for before that waits for it. */
 let sideLabel = "peek";
-let sideCount = 0;
 let sideReady = true;
+const readySides = new Set<string>(); // pages that said they are ready (before or after their label came back)
 let sideWaiting: { token: number; html: string; pinned?: boolean } | null = null;
 const detachedSheets = new Set<string>();
 function toSide(payload: { token: number; html: string; pinned?: boolean }): void {
@@ -755,12 +755,16 @@ function toSide(payload: { token: number; html: string; pinned?: boolean }): voi
   void emit("peek:render", { ...payload, to: sideLabel });
 }
 void listen<{ label: string }>("peek:ready", ({ payload }) => {
-  if (payload.label !== sideLabel || sideReady) return;
+  readySides.add(payload.label);
+  if (payload.label === sideLabel) sideIsReady();
+});
+function sideIsReady(): void {
+  if (sideReady) return;
   sideReady = true;
   const waiting = sideWaiting;
   sideWaiting = null;
   if (waiting && waiting.token === peekToken) toSide(waiting);
-});
+}
 
 /** « Comment y aller » is open: it stays until the player does something in Dofight (owner, 2026-11-20), so a zone
  * read while travelling (the list drawn again, its scroll) never takes the next commands away. */
@@ -960,9 +964,21 @@ void listen<{ label: string }>("peek:detach", ({ payload }) => {
   peekAnchor = null;
   peekToken++;
   peekShown = false;
-  sideLabel = `peek-${++sideCount}`;
+  sideLabel = ""; // until the new one is made
   sideReady = false;
-  invoke("side_window", { label: sideLabel }).catch((e) => diag("sheet", `side window not made: ${e}`));
+  invoke<string>("side_window").then(
+    (label) => {
+      sideLabel = label;
+      if (readySides.has(label)) sideIsReady();
+    },
+    (e) => {
+      // no new window: the sheets go back to this one (taken back from the player, rather than no sheets at all)
+      diag("sheet", `side window not made: ${e}`);
+      detachedSheets.delete(payload.label);
+      sideLabel = payload.label;
+      sideIsReady();
+    },
+  );
 });
 // the « Guide » link of a pinned sheet, clicked in the preview window (which can only talk to the panel)
 void listen<string>("peek:open", ({ payload }) => {
