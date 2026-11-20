@@ -1,3 +1,4 @@
+import type { Access } from "./access";
 import type { Travel } from "./travel";
 
 export type Element = "n" | "e" | "f" | "w" | "a";
@@ -156,6 +157,8 @@ export interface Snapshot {
   /** Zone → its area (« Lac gelé » → « Île de Frigost »), named as the snapshot names them: a header read with only
    * its area still points to the one zone of that area at its coordinates. */
   areas?: Map<string, string>;
+  /** What each dungeon and area needs before going there (data/access.json). */
+  access?: Access;
 }
 
 /** What the panel shows; Settings extends it. */

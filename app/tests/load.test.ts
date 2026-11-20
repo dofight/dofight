@@ -33,3 +33,18 @@ it("loads the snapshot into maps", async () => {
   expect(s.icons.size).toBe(0);
   expect(s.vocabulary.tags).toEqual({});
 });
+
+it("loads data/access.json when there, and does without it", async () => {
+  const access = { areas: {}, dungeons: { "1": { area: "Astrub", level: 30, key: null, reqs: [] } } };
+  const s = await loadSnapshot(async (p) => {
+    const all: Record<string, unknown> = { ...files, "access.json": access };
+    if (!(p in all)) throw new Error("404");
+    return all[p];
+  });
+  expect(s.access).toEqual(access);
+  const none = await loadSnapshot(async (p) => {
+    if (!(p in files)) throw new Error("404");
+    return files[p];
+  });
+  expect(none.access).toBeUndefined();
+});
