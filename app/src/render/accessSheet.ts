@@ -47,7 +47,7 @@ export function renderAccessSheet(title: string, pa: PlaceAccess | null, trip: T
   const guide = pa?.guide && /^https:\/\//.test(pa.guide)
     ? `<a class="guide" href="${esc(pa.guide)}" target="_blank" rel="noopener">${esc(t("access.guide"))}${icon("external")}</a>`
     : "";
-  return `<div class="mob peek access-sheet"><b class="title">${line(t("access.title", { place: title }))}</b>${needs}${way}${guide}<span class="tripmsg" role="status"></span></div>`;
+  return `<div class="mob peek access-sheet"><b class="title">${line(t("access.title", { place: title }))}</b>${needs}${way}${guide}</div>`;
 }
 
 /** A click in the side window on one of the sheet's copy buttons: the command goes to the panel (`send`), which owns
@@ -62,17 +62,22 @@ export function sheetCopy(target: Element, send: (command: string) => void): boo
 
 let copiedTimer: number | undefined;
 
-/** The panel's answer to a copy: copied (the button shows it, the sheet says where to paste) or refused (the sheet
- * shows the command, to type by hand), for 2 s. */
+/** The panel's answer to a copy: « Copié » right after the button (or « Copie impossible » when the clipboard refused),
+ * for 2 s, as in the header. */
 export function sheetCopied(root: ParentNode, command: string, ok: boolean): void {
-  const msg = root.querySelector<HTMLElement>(".access-sheet > .tripmsg");
   const button = [...root.querySelectorAll<HTMLElement>(".access-sheet .travel")].find((b) => b.dataset.copy === command);
   root.querySelectorAll(".access-sheet .copied").forEach((b) => b.classList.remove("copied"));
-  if (ok) button?.classList.add("copied");
-  if (msg) msg.textContent = ok ? t("trip.copied") : t("access.copyFailed", { command });
+  root.querySelectorAll(".access-sheet .copied-tag").forEach((tag) => tag.remove());
+  if (!button) return;
+  if (ok) button.classList.add("copied");
+  const tag = document.createElement("span");
+  tag.className = ok ? "copied-tag" : "copied-tag failed";
+  tag.setAttribute("role", "status");
+  tag.textContent = t(ok ? "access.copied" : "access.copyFailed");
+  button.after(tag);
   window.clearTimeout(copiedTimer);
   copiedTimer = window.setTimeout(() => {
-    button?.classList.remove("copied");
-    if (msg) msg.textContent = "";
+    button.classList.remove("copied");
+    tag.remove();
   }, 2000);
 }

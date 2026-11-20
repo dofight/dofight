@@ -446,9 +446,10 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .access-sheet li b{color:var(--fg);font-size:inherit}
 .access-sheet .event{color:var(--gold)}
 .access-sheet a.quest{color:var(--blue);text-decoration:underline;text-underline-offset:2px}
-/* the sheet's own « Copié » line keeps its room (the side window is sized once); the inner trip lines' are unused */
+/* « Copié » right after the button copied in the sheet (2 s); the trip lines' own message is unused there */
 .access-sheet .trip .tripmsg{display:none}
-.access-sheet > .tripmsg{display:block;min-height:1.4em;font-size:12px;color:var(--blue)}
+.access-sheet .copied-tag{margin-left:4px;font-size:12px;color:var(--blue)}
+.access-sheet .copied-tag.failed{color:var(--gold)}
 .access-sheet .travel.copied{background:color-mix(in srgb,var(--blue) 18%,transparent)}
 /* the ☰ menu (like Ganymède's): under the title bar, on the left */
 .menu{position:absolute;z-index:6;top:34px;left:6px;min-width:220px;display:grid;gap:2px;padding:5px;border-radius:9px;border:1px solid var(--line);background:var(--card);box-shadow:0 8px 22px rgba(0,0,0,.5)}

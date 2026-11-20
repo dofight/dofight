@@ -123,23 +123,27 @@ describe("the « Comment y aller » sheet", () => {
 });
 
 describe("copying from the sheet (the side window cannot take the focus)", () => {
-  it("sends the command to the panel and says where to paste", () => {
+  it("sends the command to the panel, then says « Copié » right after the button", () => {
     const { box } = sheet(baleine);
     const sent: string[] = [];
     const button = box.querySelectorAll<HTMLElement>(".travel")[0];
     expect(sheetCopy(button.querySelector(".lbl")!, (c) => sent.push(c))).toBe(true);
     expect(sent).toEqual(["/travel -55 15"]);
-    const msg = box.querySelector(".access-sheet > .tripmsg")!;
-    expect(msg.textContent).toBe(""); // not before the panel says the clipboard took it
+    expect(box.querySelector(".copied-tag")).toBeNull(); // not before the panel says the clipboard took it
     sheetCopied(box, "/travel -55 15", true);
     expect(button.classList.contains("copied")).toBe(true);
-    expect(msg.textContent).toContain("Ctrl+V");
+    const tag = button.nextElementSibling!;
+    expect(tag.classList.contains("copied-tag")).toBe(true);
+    expect(tag.textContent).toBe("Copié");
+    expect(box.querySelector(".access-sheet > .tripmsg")).toBeNull(); // no line of its own under the sheet
+    sheetCopied(box, "/travel -55 15", true); // copied again: still one tag
+    expect(box.querySelectorAll(".copied-tag")).toHaveLength(1);
   });
 
-  it("says so when the clipboard refused", () => {
+  it("says so beside the button when the clipboard refused", () => {
     const { box } = sheet(baleine);
     sheetCopied(box, "/travel -55 15", false);
-    expect(box.querySelector(".access-sheet > .tripmsg")!.textContent).toContain("/travel -55 15");
+    expect(box.querySelector(".copied-tag")!.textContent).toBe("Copie impossible");
     expect(box.querySelector(".copied")).toBeNull();
   });
 
