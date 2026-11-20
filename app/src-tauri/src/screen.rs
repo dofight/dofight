@@ -1,30 +1,15 @@
 //! Reads the reference Dofus window like a player looks at it: its own content is captured (Dofight's windows
-//! never hide it), light text is kept, and the Windows OCR reads it. Nothing is ever sent to the game.
+//! never hide it), light text is kept, and the platform's OCR reads it (platform/: Windows OCR, Vision on macOS). Nothing is ever sent to the game.
 
 use crate::diag;
 use crate::iconbar::{Bar, read_bar, scores};
-use crate::ocr::{self, OcrLine};
+use crate::ocr::OcrLine;
+use crate::platform::{self, CaptureError, DofusWindow, Frame, OcrEngine, WindowId};
 use serde::Serialize;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
 use tauri::{AppHandle, Emitter};
-use windows::Win32::Foundation::{HWND, LPARAM, POINT, RECT};
-use windows::Win32::Graphics::Gdi::{
-    BI_RGB, BITMAPINFO, BITMAPINFOHEADER, BitBlt, ClientToScreen, CreateCompatibleBitmap,
-    CreateCompatibleDC, DIB_RGB_COLORS, DeleteDC, DeleteObject, GetDC, GetDIBits, ReleaseDC,
-    SRCCOPY, ScreenToClient, SelectObject,
-};
-use windows::Win32::Storage::Xps::{PRINT_WINDOW_FLAGS, PrintWindow};
-use windows::Win32::System::Threading::{
-    GetCurrentProcessId, OpenProcess, PROCESS_NAME_WIN32, PROCESS_QUERY_LIMITED_INFORMATION,
-    QueryFullProcessImageNameW,
-};
-use windows::Win32::UI::WindowsAndMessaging::{
-    EnumWindows, GetClientRect, GetCursorPos, GetForegroundWindow, GetWindowTextW, GetWindowThreadProcessId,
-    IsIconic, IsWindowVisible,
-};
-use windows::core::{BOOL, PWSTR};
 
 /// Every TICK the window is captured and its map header compared with the last reading (about a millisecond). The
 /// text is read (about 120 ms) only when that header changed (another map: read twice, as a new room needs two same
@@ -58,7 +43,6 @@ const HOVER_TRIES: [Duration; 3] = [
 const HOVER_HALF_WIDTH: i32 = 400;
 const HOVER_ABOVE: i32 = 450;
 const HOVER_BELOW: i32 = 250;
-const PW_RENDERFULLCONTENT: u32 = 2;
 /// Grey level above which a pixel counts as light text (the header, the fight button, « Combat terminé »).
 pub const LIGHT: u8 = 200;
 pub const SCALE: u32 = 2;
@@ -67,12 +51,6 @@ pub const TOOLTIP_TEXT: u8 = 100;
 /// Area read under a group tooltip's « Niveau N » header: up to 8 monster lines and the XP line.
 const TOOLTIP_HALF_WIDTH: i32 = 180;
 const TOOLTIP_HEIGHT: i32 = 200;
-
-#[derive(Debug, Clone, Serialize)]
-pub struct DofusWindow {
-    pub hwnd: isize,
-    pub title: String,
-}
 
 #[derive(Debug, Clone, Serialize)]
 pub struct Tick {
@@ -121,64 +99,16 @@ pub struct Scan {
     pub left: u8,
 }
 
-fn process_name(pid: u32) -> Option<String> {
-    unsafe {
-        let handle = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, false, pid).ok()?;
-        let mut buf = [0u16; 512];
-        let mut len = buf.len() as u32;
-        QueryFullProcessImageNameW(
-            handle,
-            PROCESS_NAME_WIN32,
-            PWSTR(buf.as_mut_ptr()),
-            &mut len,
-        )
-        .ok()?;
-        let path = String::from_utf16_lossy(&buf[..len as usize]);
-        path.rsplit('\\').next().map(|s| s.to_lowercase())
-    }
-}
-
-fn window_title(hwnd: HWND) -> String {
-    let mut buf = [0u16; 256];
-    let n = unsafe { GetWindowTextW(hwnd, &mut buf) };
-    String::from_utf16_lossy(&buf[..n.max(0) as usize])
-}
-
-fn window_pid(hwnd: HWND) -> u32 {
-    let mut pid = 0u32;
-    unsafe { GetWindowThreadProcessId(hwnd, Some(&mut pid)) };
-    pid
-}
-
-/// Visible top-level windows of Dofus.exe, in z-order.
-pub fn dofus_windows() -> Vec<DofusWindow> {
-    unsafe extern "system" fn collect(hwnd: HWND, lparam: LPARAM) -> BOOL {
-        let list = unsafe { &mut *(lparam.0 as *mut Vec<DofusWindow>) };
-        if unsafe { IsWindowVisible(hwnd) }.as_bool() {
-            let title = window_title(hwnd);
-            if !title.is_empty() && process_name(window_pid(hwnd)).as_deref() == Some("dofus.exe") {
-                list.push(DofusWindow {
-                    hwnd: hwnd.0 as isize,
-                    title,
-                });
-            }
-        }
-        BOOL(1)
-    }
-    let mut list: Vec<DofusWindow> = Vec::new();
-    unsafe {
-        let _ = EnumWindows(Some(collect), LPARAM(&mut list as *mut _ as isize));
-    }
-    list
-}
-
 /// Gives the focus back to the reference Dofus window (the player just clicked « Songe » in Dofight: the game only shows
 /// a group's tooltip on hover when it is in front). A window activation only: nothing is sent to the game.
 pub fn focus_reference(prefix: &str) -> bool {
-    use windows::Win32::UI::WindowsAndMessaging::SetForegroundWindow;
-    let Some(target) = pick(&dofus_windows(), prefix) else { return false };
-    // allowed by Windows: Dofight is in front (the player just clicked it)
-    unsafe { SetForegroundWindow(HWND(target.hwnd as *mut _)).as_bool() }
+    let Some(target) = pick(&platform::dofus_windows(), prefix) else { return false };
+    platform::focus(target.id)
+}
+
+/// The visible Dofus windows (see platform).
+pub fn dofus_windows() -> Vec<DofusWindow> {
+    platform::dofus_windows()
 }
 
 fn pick(windows: &[DofusWindow], prefix: &str) -> Option<DofusWindow> {
@@ -207,70 +137,6 @@ pub fn is_blank(bgra: &[u8]) -> bool {
         i += step;
     }
     lit * 200 < seen
-}
-
-/// The window's content: its own drawing first (works while Dofight's windows cover it), else the screen pixels of
-/// its client area (the window is in front when this runs).
-fn capture(hwnd: HWND) -> Option<(Vec<u8>, u32, u32)> {
-    match capture_window(hwnd, false) {
-        Some(frame) if !is_blank(&frame.0) => Some(frame),
-        _ => capture_window(hwnd, true),
-    }
-}
-
-fn capture_window(hwnd: HWND, from_screen: bool) -> Option<(Vec<u8>, u32, u32)> {
-    unsafe {
-        if IsIconic(hwnd).as_bool() {
-            return None;
-        }
-        let mut rect = RECT::default();
-        GetClientRect(hwnd, &mut rect).ok()?;
-        let (w, h) = (
-            (rect.right - rect.left) as i32,
-            (rect.bottom - rect.top) as i32,
-        );
-        if w <= 0 || h <= 0 {
-            return None;
-        }
-        let screen = GetDC(None);
-        let dc = CreateCompatibleDC(Some(screen));
-        let bmp = CreateCompatibleBitmap(screen, w, h);
-        let old = SelectObject(dc, bmp.into());
-        let ok = if from_screen {
-            let mut origin = POINT { x: 0, y: 0 };
-            let _ = ClientToScreen(hwnd, &mut origin);
-            BitBlt(dc, 0, 0, w, h, Some(screen), origin.x, origin.y, SRCCOPY).is_ok()
-        } else {
-            PrintWindow(hwnd, dc, PRINT_WINDOW_FLAGS(PW_RENDERFULLCONTENT | 1)).as_bool() // 1 = client only
-        };
-        let mut info = BITMAPINFO {
-            bmiHeader: BITMAPINFOHEADER {
-                biSize: size_of::<BITMAPINFOHEADER>() as u32,
-                biWidth: w,
-                biHeight: -h,
-                biPlanes: 1,
-                biBitCount: 32,
-                biCompression: BI_RGB.0,
-                ..Default::default()
-            },
-            ..Default::default()
-        };
-        let mut pixels = vec![0u8; (w * h * 4) as usize];
-        let rows = GetDIBits(
-            dc,
-            bmp,
-            0,
-            h as u32,
-            Some(pixels.as_mut_ptr().cast()),
-            &mut info,
-            DIB_RGB_COLORS,
-        );
-        SelectObject(dc, old);
-        let _ = DeleteObject(bmp.into());
-        let _ = DeleteDC(dc);
-        ReleaseDC(None, screen);
-        (ok && rows == h).then_some((pixels, w as u32, h as u32))
-    }
 }
 
 /// Light text becomes black on white, scaled `SCALE` times: what the Windows OCR reads best on game frames.
@@ -335,11 +201,11 @@ pub fn corner_size(width: u32, height: u32) -> (u32, u32) {
 
 /// OCR lines of the frame's top-left corner (see corner_size), in the frame's pixels.
 pub fn read_corner(
-    engine: &windows::Media::Ocr::OcrEngine,
+    engine: &OcrEngine,
     bgra: &[u8],
     width: u32,
     height: u32,
-) -> windows::core::Result<Vec<OcrLine>> {
+) -> Result<Vec<OcrLine>, String> {
     let (cw, ch) = corner_size(width, height);
     let mut corner = Vec::with_capacity((cw * ch * 4) as usize);
     for y in 0..ch {
@@ -349,7 +215,7 @@ pub fn read_corner(
     // the header text is white with a dark outline: read only that (a bright, busy map behind it, the world map open,
     // added stray letters); when that finds no coordinates (a Songe's header, a menu), read the light pixels as before
     let (img, w, h) = outlined_text(&corner, cw, ch);
-    let lines = scaled_down(ocr::recognize(engine, &img, w, h)?);
+    let lines = scaled_down(platform::recognize(engine, &img, w, h)?);
     if lines.iter().any(|l| has_coordinates(&l.text)) {
         return Ok(lines);
     }
@@ -395,13 +261,13 @@ fn scaled_down(lines: Vec<OcrLine>) -> Vec<OcrLine> {
 
 /// OCR lines of one frame, in the frame's pixels.
 pub fn read_frame(
-    engine: &windows::Media::Ocr::OcrEngine,
+    engine: &OcrEngine,
     bgra: &[u8],
     width: u32,
     height: u32,
-) -> windows::core::Result<Vec<OcrLine>> {
+) -> Result<Vec<OcrLine>, String> {
     let (img, w, h) = light_text(bgra, width, height);
-    let lines = ocr::recognize(engine, &img, w, h)?;
+    let lines = platform::recognize(engine, &img, w, h)?;
     let s = SCALE as i32;
     Ok(lines
         .into_iter()
@@ -418,12 +284,12 @@ pub fn read_frame(
 /// The monster lines of the group tooltips on the frame, read under each « Niveau N » / « Level N » header found
 /// in `lines` (the first reading keeps only white text; these lines are light grey). Frame pixels.
 pub fn read_tooltips(
-    engine: &windows::Media::Ocr::OcrEngine,
+    engine: &OcrEngine,
     bgra: &[u8],
     width: u32,
     height: u32,
     lines: &[OcrLine],
-) -> windows::core::Result<Vec<OcrLine>> {
+) -> Result<Vec<OcrLine>, String> {
     let mut out = Vec::new();
     for header in lines.iter().filter(|l| is_group_header(&l.text)) {
         let cx = header.x + header.w / 2;
@@ -437,13 +303,13 @@ pub fn read_tooltips(
 /// The group tooltips around the resting mouse (`cx`, `cy` in frame pixels): their headers, then their monster
 /// lines. Empty when no group tooltip is there.
 pub fn read_hovered(
-    engine: &windows::Media::Ocr::OcrEngine,
+    engine: &OcrEngine,
     bgra: &[u8],
     width: u32,
     height: u32,
     cx: i32,
     cy: i32,
-) -> windows::core::Result<Vec<OcrLine>> {
+) -> Result<Vec<OcrLine>, String> {
     let area = (cx - HOVER_HALF_WIDTH, cy - HOVER_ABOVE, cx + HOVER_HALF_WIDTH, cy + HOVER_BELOW);
     let mut lines = read_area(engine, bgra, width, height, area, LIGHT)?;
     if !lines.iter().any(|l| is_group_header(&l.text)) {
@@ -456,13 +322,13 @@ pub fn read_hovered(
 
 /// The text in one area of the frame (x0, y0, x1, y1, clipped to it): pixels brighter than `threshold`. Frame pixels.
 fn read_area(
-    engine: &windows::Media::Ocr::OcrEngine,
+    engine: &OcrEngine,
     bgra: &[u8],
     width: u32,
     height: u32,
     (x0, y0, x1, y1): (i32, i32, i32, i32),
     threshold: u8,
-) -> windows::core::Result<Vec<OcrLine>> {
+) -> Result<Vec<OcrLine>, String> {
     let (x0, y0) = (x0.max(0), y0.max(0));
     let (x1, y1) = (x1.min(width as i32), y1.min(height as i32));
     if x1 - x0 < 20 || y1 - y0 < 10 {
@@ -476,7 +342,7 @@ fn read_area(
     }
     let (img, w, h) = binarize(&crop, cw, ch, threshold);
     let s = SCALE as i32;
-    Ok(ocr::recognize(engine, &img, w, h)?
+    Ok(platform::recognize(engine, &img, w, h)?
         .into_iter()
         .map(|l| OcrLine {
             x: x0 + l.x / s,
@@ -514,24 +380,6 @@ fn edit_distance(a: &str, b: &str) -> usize {
         }
     }
     row[b.len()]
-}
-
-/// The mouse in the window's client area (frame pixels), when it is over it. Only its position is read.
-fn cursor_in(hwnd: HWND, width: u32, height: u32) -> Option<(i32, i32)> {
-    let mut p = POINT::default();
-    unsafe {
-        GetCursorPos(&mut p).ok()?;
-        if !ScreenToClient(hwnd, &mut p).as_bool() {
-            return None;
-        }
-    }
-    (p.x >= 0 && p.y >= 0 && p.x < width as i32 && p.y < height as i32).then_some((p.x, p.y))
-}
-
-fn client_size(hwnd: HWND) -> Option<(u32, u32)> {
-    let mut rect = RECT::default();
-    unsafe { GetClientRect(hwnd, &mut rect).ok()? };
-    Some(((rect.right - rect.left) as u32, (rect.bottom - rect.top) as u32))
 }
 
 /// What the reading loop remembers between ticks.
@@ -613,22 +461,32 @@ fn scan_due(app: &AppHandle, asked: &Mutex<Option<(Instant, u8)>>) -> Option<u8>
 }
 
 /// One reading for « Scanner ma sous-zone »: the corner of `frame`, sent as `screen:scan`.
-fn emit_scan(app: &AppHandle, engine: Option<&windows::Media::Ocr::OcrEngine>, frame: Option<&(Vec<u8>, u32, u32)>, left: u8) {
+fn emit_scan(app: &AppHandle, engine: Option<&OcrEngine>, frame: Option<&Frame>, left: u8) {
     let scan = match (engine, frame) {
         (None, _) => Scan { lines: vec![], bar: None, error: Some("no-ocr".into()), left },
         (_, None) => Scan { lines: vec![], bar: None, error: Some("no-capture".into()), left },
         (Some(engine), Some((px, w, h))) => match read_corner(engine, px, *w, *h) {
             Ok(lines) => Scan { lines, bar: Some(read_bar(px, *w, *h)), error: None, left },
-            Err(e) => Scan { lines: vec![], bar: None, error: Some(e.message().to_string()), left },
+            Err(e) => Scan { lines: vec![], bar: None, error: Some(e), left },
         },
     };
     diag::log("screen", &format!("scan asked: corner read ({} lines, {left} more)", scan.lines.len()));
     let _ = app.emit("screen:scan", scan);
 }
 
-fn timed_capture(hwnd: HWND, stats: &mut Stats) -> Option<(Vec<u8>, u32, u32)> {
+/// What the page is told when the window could not be captured (`Tick.error`); nothing for a minimised window.
+fn capture_error_kind(e: &CaptureError) -> Option<&'static str> {
+    match e {
+        CaptureError::Gone => Some("no-dofus"),
+        CaptureError::Minimized => None,
+        CaptureError::Permission => Some("no-permission"),
+        CaptureError::Failed => Some("no-capture"),
+    }
+}
+
+fn timed_capture(id: WindowId, stats: &mut Stats) -> Result<Frame, CaptureError> {
     let started = Instant::now();
-    let frame = capture(hwnd);
+    let frame = platform::capture(id);
     stats.captures += 1;
     stats.capture_ms += started.elapsed().as_millis();
     frame
@@ -656,7 +514,7 @@ pub fn start(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFig
 
 fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, reading: Reading) {
     {
-        let engine = ocr::engine();
+        let engine = platform::ocr_engine();
         let now = Instant::now();
         let mut r = Reader {
             loop_start: now,
@@ -704,7 +562,7 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                 r.last_slow = Some(Instant::now());
             }
             let prefix = reference.0.lock().map(|p| p.clone()).unwrap_or_default();
-            let Some(target) = pick(&dofus_windows(), &prefix) else {
+            let Some(target) = pick(&platform::dofus_windows(), &prefix) else {
                 note(&mut r, "no Dofus window".into());
                 r.was_front = false;
                 if slow_due {
@@ -719,21 +577,20 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                 if slow_due {
                     emit(fail("off"));
                     // « Scanner ma sous-zone » clicked: one reading of the corner now, the switch staying off
-                    if unsafe { GetForegroundWindow() }.0 as isize == target.hwnd {
+                    if platform::front_window() == Some(target.id) {
                         if let Some(left) = scan_due(&app, &reading.1) {
-                            let frame = timed_capture(HWND(target.hwnd as *mut _), &mut r.stats);
+                            let frame = timed_capture(target.id, &mut r.stats).ok();
                             emit_scan(&app, engine.as_ref().ok(), frame.as_ref(), left);
                         }
                     }
                 }
                 continue;
             }
-            let front_hwnd = unsafe { GetForegroundWindow() };
-            if front_hwnd.0 as isize != target.hwnd {
+            if platform::front_window() != Some(target.id) {
                 note(&mut r, "Dofus not in front".into());
                 r.was_front = false;
                 if slow_due {
-                    let ours = window_pid(front_hwnd) == unsafe { GetCurrentProcessId() };
+                    let ours = platform::front_is_ours();
                     emit(Tick {
                         front: ours,
                         lines: vec![],
@@ -746,22 +603,27 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
             let engine = match &engine {
                 Ok(engine) => engine,
                 Err(_) => {
-                    note(&mut r, "no French OCR on this Windows".into());
+                    note(&mut r, "no French OCR on this system".into());
                     if slow_due {
                         emit(fail("no-ocr"));
                     }
                     continue;
                 }
             };
-            let hwnd = HWND(target.hwnd as *mut _);
+            let id = target.id;
             let mut frame = None;
             if slow_due {
-                frame = timed_capture(hwnd, &mut r.stats);
-                let Some((px, w, h)) = &frame else {
-                    note(&mut r, "capture failed".into());
-                    emit(fail("no-capture"));
-                    continue;
+                frame = match timed_capture(id, &mut r.stats) {
+                    Ok(f) => Some(f),
+                    Err(e) => {
+                        note(&mut r, format!("capture failed: {e:?}"));
+                        if let Some(kind) = capture_error_kind(&e) {
+                            emit(fail(kind));
+                        }
+                        continue;
+                    }
                 };
+                let Some((px, w, h)) = &frame else { continue };
                 note(&mut r, format!("reading Dofus, {w}×{h}"));
                 // « Scanner ma sous-zone » clicked with the zone not followed (its option off): this frame answers it
                 if let Some(left) = scan_due(&app, &reading.1) {
@@ -803,8 +665,8 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                             bar: Some(r.bar.unwrap_or(Bar::Unknown)),
                         },
                         Err(e) => {
-                            diag::log("screen", &format!("OCR error: {}", e.message()));
-                            fail(&e.message().to_string())
+                            diag::log("screen", &format!("OCR error: {e}"));
+                            fail(&e)
                         }
                     };
                     r.stats.reads += 1;
@@ -816,10 +678,10 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
             if !hovering {
                 continue;
             }
-            let Some((w, h)) = frame.as_ref().map(|(_, w, h)| (*w, *h)).or_else(|| client_size(hwnd)) else {
+            let Some((w, h)) = frame.as_ref().map(|(_, w, h)| (*w, *h)).or_else(|| platform::client_size(id)) else {
                 continue;
             };
-            let Some((cx, cy)) = cursor_in(hwnd, w, h) else {
+            let Some((cx, cy)) = platform::cursor_in(id, w, h) else {
                 continue;
             };
             let moved = r.cursor.is_none_or(|(x, y)| (cx - x).abs() > 3 || (cy - y).abs() > 3);
@@ -834,7 +696,7 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
             }
             r.hover_tries += 1;
             if frame.is_none() {
-                frame = timed_capture(hwnd, &mut r.stats);
+                frame = timed_capture(id, &mut r.stats).ok();
             }
             let Some((px, w, h)) = &frame else {
                 continue;
@@ -866,11 +728,19 @@ mod tests {
 
     fn texts(name: &str) -> Vec<String> {
         let (px, w, h) = load(name);
-        read_frame(&ocr::engine().expect("fr-FR OCR"), &px, w, h)
+        read_frame(&platform::ocr_engine().expect("fr-FR OCR"), &px, w, h)
             .unwrap()
             .into_iter()
             .map(|l| l.text)
             .collect()
+    }
+
+    #[test]
+    fn tick_error_for_each_capture_error() {
+        assert_eq!(capture_error_kind(&CaptureError::Gone), Some("no-dofus"));
+        assert_eq!(capture_error_kind(&CaptureError::Minimized), None); // nothing to read, nothing to say
+        assert_eq!(capture_error_kind(&CaptureError::Permission), Some("no-permission"));
+        assert_eq!(capture_error_kind(&CaptureError::Failed), Some("no-capture"));
     }
 
     #[test]

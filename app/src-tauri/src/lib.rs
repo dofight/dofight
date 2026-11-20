@@ -1,10 +1,9 @@
-#[cfg(windows)]
 pub mod diag;
 pub mod iconbar;
 mod iconbar_refs;
 pub mod ocr;
+pub mod platform;
 pub mod report;
-#[cfg(windows)]
 pub mod screen;
 pub mod selfupdate;
 
@@ -95,21 +94,8 @@ fn open_log_folder(app: tauri::AppHandle) -> Result<(), String> {
 /// from the taskbar too (not used by the page today: the taskbar button always stays).
 #[tauri::command]
 fn panel_show(app: tauri::AppHandle, mode: String) -> Result<(), String> {
-    use windows::Win32::Foundation::HWND;
-    use windows::Win32::UI::WindowsAndMessaging::{
-        ShowWindow, SW_HIDE, SW_SHOWMINNOACTIVE, SW_SHOWNOACTIVATE,
-    };
     let panel = app.get_webview_window("panel").ok_or("no panel")?;
-    let hwnd = panel.hwnd().map_err(|e| e.to_string())?;
-    let cmd = match mode.as_str() {
-        "open" => SW_SHOWNOACTIVATE,
-        "min" => SW_SHOWMINNOACTIVE,
-        _ => SW_HIDE,
-    };
-    unsafe {
-        let _ = ShowWindow(HWND(hwnd.0 as _), cmd);
-    }
-    Ok(())
+    platform::show_panel(&panel, &mode)
 }
 
 /// « Songe » mode on or off (the toggle next to the search bar).
@@ -165,7 +151,8 @@ struct PendingUpdate(std::sync::Mutex<Option<tauri_plugin_updater::Update>>);
 /// from anywhere else, which replaces its own exe (see selfupdate.rs).
 #[tauri::command]
 fn update_kind(exe: tauri::State<Exe>) -> &'static str {
-    if selfupdate::is_installed(&exe.0) {
+    // macOS: the updater replaces the whole .app bundle, like the Windows installer does
+    if cfg!(not(windows)) || selfupdate::is_installed(&exe.0) {
         "installer"
     } else {
         "portable"
