@@ -81,15 +81,15 @@ export interface TripOptions {
 }
 
 /** The trip line of a room's header: « Aller en [x,y] », then the zaap to take. Each button copies its command (a
- * copy icon after it); once copied, `.tripmsg` says where to paste it (main.ts). */
+ * copy icon after it); once copied, the button says « Copié » in place of its text for a moment (`showCopied`). */
 export function renderTrip(trip: Trip | null, opts: TripOptions = {}): string {
   // no known position (a dungeon the client does not place): the button alone, when there is something to know
   if (!trip) return opts.special ? `<div class="trip">${accessButton()}</div>` : "";
   const route = routeOf(trip.to);
   if (route.length && !opts.special) return renderRoute(route);
   const travel = travelCommand(trip.to);
-  const go = `<span class="go">${esc(t("trip.go"))}</span><button type="button" class="travel" data-copy="${esc(travel)}" title="${esc(t("trip.copy", { command: travel }))}">${STEPS}<span class="lbl">[${trip.to.x},${trip.to.y}]</span>${icon("copy")}</button>`;
-  const msg = `<span class="tripmsg" role="status"></span>`;
+  const go = `<span class="go">${esc(t("trip.go"))}</span><button type="button" class="travel" data-copy="${esc(travel)}" title="${esc(t("trip.copy", { command: travel }))}">${STEPS}<span class="lbl" aria-live="polite">[${trip.to.x},${trip.to.y}]</span>${icon("copy")}</button>`;
+  const msg = "";
   // « Comment y aller » (the sheet has the route and what to do first), or the key at the end of the line
   const extra = opts.special
     ? accessButton()
@@ -100,7 +100,7 @@ export function renderTrip(trip: Trip | null, opts: TripOptions = {}): string {
   if (!trip.zaap || route.length) return `<div class="trip">${go}${extra}${msg}</div>`;
   const zone = trip.zaap.zone[getLang()] || trip.zaap.zone.fr;
   const command = zaapCommand(trip.zaap, trip.to);
-  const zaap = `<button type="button" class="travel zaap" data-copy="${esc(command)}" title="${esc(t("trip.copyZaap", { command, zone }))}">${ZAAP}<span class="lbl">${esc(zone)}</span>${icon("copy")}</button>`;
+  const zaap = `<button type="button" class="travel zaap" data-copy="${esc(command)}" title="${esc(t("trip.copyZaap", { command, zone }))}">${ZAAP}<span class="lbl" aria-live="polite">${esc(zone)}</span>${icon("copy")}</button>`;
   return `<div class="trip">${go}${zaap}${extra}${msg}</div>`;
 }
 
@@ -134,9 +134,33 @@ export function renderRoute(route: string[], label = true): string {
       const bar = trimmed.indexOf(" | ");
       const s = bar < 0 ? trimmed : trimmed.slice(0, bar).trim();
       const after = bar < 0 ? "" : ` ${withLinks(trimmed.slice(bar + 3).trim())}`;
-      return `<li class="step"><button type="button" class="travel" data-copy="${esc(s)}" title="${esc(t("trip.copy", { command: s }))}">${s.startsWith("/zaap ") ? ZAAP : STEPS}<span class="lbl">${esc(s)}</span>${icon("copy")}</button>${after}</li>`;
+      return `<li class="step"><button type="button" class="travel" data-copy="${esc(s)}" title="${esc(t("trip.copy", { command: s }))}">${s.startsWith("/zaap ") ? ZAAP : STEPS}<span class="lbl" aria-live="polite">${esc(s)}</span>${icon("copy")}</button>${after}</li>`;
     })
     .join("");
   const head = label ? `<span class="go">${esc(t("trip.route"))}</span>` : "";
-  return `<div class="trip route">${head}<ol class="steps">${steps}</ol><span class="tripmsg" role="status"></span></div>`;
+  return `<div class="trip route">${head}<ol class="steps">${steps}</ol></div>`;
+}
+
+const COPIED_MS = 2000;
+const restore = new WeakMap<HTMLElement, number>();
+
+/** A copy button just used: « Copié » (or « Copie impossible ») in place of its text, for 2 s, keeping its width so
+ * nothing around it moves (owner, 2026-11-20: in the button, not on a line under it). */
+export function showCopied(button: HTMLElement, ok: boolean): void {
+  const lbl = button.querySelector<HTMLElement>(".lbl");
+  if (!lbl) return;
+  if (lbl.dataset.text === undefined) {
+    lbl.dataset.text = lbl.textContent ?? "";
+    if (button.offsetWidth) button.style.minWidth = `${button.offsetWidth}px`;
+  }
+  lbl.textContent = t(ok ? "access.copied" : "access.copyFailed");
+  button.classList.toggle("copied", ok);
+  button.classList.toggle("failed", !ok);
+  window.clearTimeout(restore.get(button));
+  restore.set(button, window.setTimeout(() => {
+    lbl.textContent = lbl.dataset.text ?? "";
+    delete lbl.dataset.text;
+    button.classList.remove("copied", "failed");
+    button.style.minWidth = "";
+  }, COPIED_MS));
 }

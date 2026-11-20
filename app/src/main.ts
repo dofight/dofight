@@ -24,7 +24,7 @@ import { saveWindowState, StateFlags } from "@tauri-apps/plugin-window-state";
 import logo from "./assets/icon-app.png";
 import { enableDragAnywhere } from "./drag";
 import { fetchFromApp, loadSnapshot } from "./load";
-import { renderTrip, tripTo, type Trip } from "./travel";
+import { renderTrip, showCopied, tripTo, type Trip } from "./travel";
 import { accessOf, isSpecial, type PlaceAccess } from "./access";
 import { renderAccessSheet } from "./render/accessSheet";
 import { englishReading, englishView, frenchRoom, loadEnglish, zoneName, type English } from "./english";
@@ -1556,9 +1556,6 @@ $("discord").addEventListener("click", () => void openUrl(DISCORD_URL));
 
 /* ---------- main view ---------- */
 
-const COPIED_MS = 2000;
-let copiedTimer: number | undefined;
-
 document.addEventListener("click", async (e) => {
   const target = e.target as HTMLElement;
   const res = target.closest<HTMLElement>("#results .res-item");
@@ -1586,20 +1583,9 @@ document.addEventListener("click", async (e) => {
   const travel = target.closest<HTMLElement>("#room .travel");
   if (travel) {
     // the player pastes it in the game chat himself: Dofight never types in the game
-    try {
-      await navigator.clipboard.writeText(travel.dataset.copy ?? "");
-      // the button stays as it is; the line under it says where to paste (for 2 s)
-      const msg = travel.closest(".trip")?.querySelector<HTMLElement>(".tripmsg");
-      travel.classList.add("copied");
-      if (msg) msg.textContent = t("trip.copied");
-      window.clearTimeout(copiedTimer);
-      copiedTimer = window.setTimeout(() => {
-        travel.classList.remove("copied");
-        if (msg) msg.textContent = "";
-      }, COPIED_MS);
-    } catch {
-      /* no clipboard: nothing to do, the command is on screen */
-    }
+    // the button says « Copié » in place of its text for 2 s (or « Copie impossible »: the command is on screen)
+    const ok = await navigator.clipboard.writeText(travel.dataset.copy ?? "").then(() => true, () => false);
+    showCopied(travel, ok);
     return;
   }
   if (target.closest("#room .suggest")) {

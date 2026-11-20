@@ -1,6 +1,6 @@
 import type { PlaceAccess, Req, Text } from "../access";
 import { frenchSpaces, getLang, t } from "../i18n";
-import { renderRoute, renderTrip, routeOf, type Trip } from "../travel";
+import { renderRoute, renderTrip, routeOf, showCopied, type Trip } from "../travel";
 import { esc, escText } from "./html";
 import { icon } from "./icons";
 
@@ -60,24 +60,9 @@ export function sheetCopy(target: Element, send: (command: string) => void): boo
   return true;
 }
 
-let copiedTimer: number | undefined;
-
-/** The panel's answer to a copy: « Copié » right after the button (or « Copie impossible » when the clipboard refused),
- * for 2 s, as in the header. */
+/** The panel's answer to a copy: the button says « Copié » (or « Copie impossible ») in place of its text, as in the
+ * header (`showCopied`). */
 export function sheetCopied(root: ParentNode, command: string, ok: boolean): void {
   const button = [...root.querySelectorAll<HTMLElement>(".access-sheet .travel")].find((b) => b.dataset.copy === command);
-  root.querySelectorAll(".access-sheet .copied").forEach((b) => b.classList.remove("copied"));
-  root.querySelectorAll(".access-sheet .copied-tag").forEach((tag) => tag.remove());
-  if (!button) return;
-  if (ok) button.classList.add("copied");
-  const tag = document.createElement("span");
-  tag.className = ok ? "copied-tag" : "copied-tag failed";
-  tag.setAttribute("role", "status");
-  tag.textContent = t(ok ? "access.copied" : "access.copyFailed");
-  button.after(tag);
-  window.clearTimeout(copiedTimer);
-  copiedTimer = window.setTimeout(() => {
-    button.classList.remove("copied");
-    tag.remove();
-  }, 2000);
+  if (button) showCopied(button, ok);
 }

@@ -320,7 +320,7 @@ it("says a failed sending in words; the raw error goes to the diagnostic log onl
   if (!document.getElementById("view-settings")!.hidden) (document.getElementById("back") as HTMLButtonElement).click();
 });
 
-it("copies the travel command and says where to paste it, for 2 s", async () => {
+it("copies the travel command; the button says « Copié » for 2 s", async () => {
   if (!document.getElementById("view-settings")!.hidden) (document.getElementById("back") as HTMLButtonElement).click();
   const copied: string[] = [];
   vi.stubGlobal("navigator", { ...navigator, clipboard: { writeText: async (text: string) => void copied.push(text) } });
@@ -329,11 +329,13 @@ it("copies the travel command and says where to paste it, for 2 s", async () => 
   q.dispatchEvent(new Event("input", { bubbles: true }));
   document.querySelector<HTMLElement>("#results .res-item")!.click();
   vi.useFakeTimers();
-  document.querySelector<HTMLElement>("#room .travel")!.click();
-  await vi.waitFor(() => expect(plain(document.querySelector("#room .tripmsg")!.textContent)).toBe("Copié : colle dans le chat (Ctrl+V)"));
+  const button = document.querySelector<HTMLElement>("#room .travel")!;
+  const text = button.querySelector(".lbl")!.textContent;
+  button.click();
+  await vi.waitFor(() => expect(button.querySelector(".lbl")!.textContent).toBe("Copié"));
   expect(copied[0].startsWith("/travel ")).toBe(true);
   vi.advanceTimersByTime(2000);
-  expect(document.querySelector("#room .tripmsg")!.textContent).toBe("");
+  expect(button.querySelector(".lbl")!.textContent).toBe(text);
   vi.useRealTimers();
   vi.unstubAllGlobals();
 });

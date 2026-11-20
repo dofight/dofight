@@ -1,5 +1,5 @@
-import { describe, expect, it } from "vitest";
-import { renderRoute, renderTrip, travelCommand, tripTo, zaapCommand, type Travel } from "../src/travel";
+import { describe, expect, it, vi } from "vitest";
+import { renderRoute, renderTrip, showCopied, travelCommand, tripTo, zaapCommand, type Travel } from "../src/travel";
 
 const zaap = (x: number, y: number, fr: string, world = 1) => ({ x, y, world, zone: { fr, en: `${fr} EN` } });
 const travel: Travel = {
@@ -38,7 +38,7 @@ describe("how to get there", () => {
     // a small copy icon after each, and a line that tells where to paste once copied
     expect(go.querySelector("svg.ic-copy")).not.toBeNull();
     expect(zaap.querySelector("svg.ic-copy")).not.toBeNull();
-    expect(box.querySelector(".tripmsg")!.getAttribute("role")).toBe("status");
+    expect(box.querySelector(".travel .lbl")!.getAttribute("aria-live")).toBe("polite"); // « Copié » is read out
     // no zaap on that world map: only the coordinates
     box.innerHTML = renderTrip({ to: { x: 1, y: 2, world: 9 }, zaap: null });
     expect(box.querySelectorAll(".travel").length).toBe(1);
@@ -92,6 +92,26 @@ describe("how to get there", () => {
     expect(step.querySelector("img[src='/icons/hud/skis.png']")).not.toBeNull();
     expect(step.querySelector("a.quest")!.textContent).toBe("Star ski et Dutch");
     expect(step.textContent).toBe("/travel -68 -34 ou  Paire de skis rustiques jetables (Star ski et Dutch)");
+  });
+
+  it("once copied, the button says « Copié » in place of its text for a moment, then its text again", () => {
+    vi.useFakeTimers();
+    const box = document.createElement("div");
+    box.innerHTML = renderTrip(tripTo(travel, 1, "x"));
+    const button = box.querySelector<HTMLElement>(".travel")!;
+    showCopied(button, true);
+    expect(button.querySelector(".lbl")!.textContent).toBe("Copié");
+    expect(button.classList.contains("copied")).toBe(true);
+    showCopied(button, true); // clicked again: still restores the real text
+    vi.advanceTimersByTime(2000);
+    expect(button.querySelector(".lbl")!.textContent).toBe("[2,-34]");
+    expect(button.classList.contains("copied")).toBe(false);
+    showCopied(button, false);
+    expect(button.querySelector(".lbl")!.textContent).toBe("Copie impossible");
+    expect(button.classList.contains("failed")).toBe(true);
+    vi.advanceTimersByTime(2000);
+    expect(button.querySelector(".lbl")!.textContent).toBe("[2,-34]");
+    vi.useRealTimers();
   });
 
   describe("« Comment y aller » in the header", () => {
