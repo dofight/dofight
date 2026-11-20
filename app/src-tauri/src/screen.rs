@@ -216,11 +216,51 @@ pub fn read_corner(
     // added stray letters); when that finds no coordinates (a Songe's header, a menu), read the light pixels as before
     let (img, w, h) = outlined_text(&corner, cw, ch);
     let lines = scaled_down(platform::recognize(engine, &img, w, h)?);
-    if lines.iter().any(|l| has_coordinates(&l.text) || has_whole_title(&l.text)) {
+    let readable = |lines: &[OcrLine]| lines.iter().any(|l| has_coordinates(&l.text) || has_whole_title(&l.text));
+    if readable(&lines) {
         return Ok(lines);
+    }
+    // on snow the outline blends into the white behind it (owner's capture, 2026-11-20): the letters' cores are pure
+    // white, which the snow never is
+    let (img, w, h) = pure_white_text(&corner, cw, ch);
+    // the OCR reads that thin « ( » as « { » now and then; a zone name never holds braces
+    let white: Vec<OcrLine> = scaled_down(platform::recognize(engine, &img, w, h)?)
+        .into_iter()
+        .map(|l| OcrLine { text: l.text.replace('{', "(").replace('}', ")"), ..l })
+        .collect();
+    if readable(&white) {
+        return Ok(white);
     }
     read_frame(engine, &corner, cw, ch)
 }
+
+/// The header's pure white pixels (every channel at PURE_WHITE or more), specks dropped, black on white, scaled `SCALE`
+/// times: the letters when the background is white too (snow).
+fn pure_white_text(bgra: &[u8], width: u32, height: u32) -> (Vec<u8>, u32, u32) {
+    let mut keep: Vec<bool> = bgra.chunks_exact(4).map(|p| p[..3].iter().all(|&c| c >= PURE_WHITE)).collect();
+    // the background is almost never pure white: only lone pixels to drop, the minus signs and commas stay
+    drop_specks(&mut keep, width, height, PURE_SPECK_MAX);
+    let (ow, oh) = (width * SCALE, height * SCALE);
+    let mut out = vec![255u8; (ow * oh * 4) as usize];
+    for y in 0..height {
+        for x in 0..width {
+            if keep[(y * width + x) as usize] {
+                for dy in 0..SCALE {
+                    for dx in 0..SCALE {
+                        let o = (((y * SCALE + dy) * ow + x * SCALE + dx) * 4) as usize;
+                        out[o..o + 3].copy_from_slice(&[0, 0, 0]);
+                    }
+                }
+            }
+        }
+    }
+    (out, ow, oh)
+}
+
+const PURE_SPECK_MAX: usize = 3;
+
+/// The header letters' cores (measured on snow and bright grass captures: letters 255, the background at most 254).
+const PURE_WHITE: u8 = 254;
 
 /// « 3,26 • Niveau 30 », « -16, 19 »: a line that starts like map coordinates.
 fn has_coordinates(text: &str) -> bool {
@@ -816,6 +856,17 @@ mod tests {
         let (px, w, h) = load("header_bright_fullscreen.png");
         let lines = read_corner(&platform::ocr_engine().expect("fr-FR OCR"), &px, w, h).unwrap();
         assert!(lines.iter().any(|l| l.text.contains("Champ des Ingalsse)")), "{:?}", lines.iter().map(|l| &l.text).collect::<Vec<_>>());
+    }
+
+    #[test]
+    #[cfg(windows)]
+    fn reads_the_header_and_coordinates_on_snow() {
+        // windowed, white snow behind the header (owner, 2026-11-20, Entrée du château de Harebourg)
+        let (px, w, h) = load("header_snow_windowed.png");
+        let lines = read_corner(&platform::ocr_engine().expect("fr-FR OCR"), &px, w, h).unwrap();
+        let texts: Vec<&str> = lines.iter().map(|l| l.text.as_str()).collect();
+        assert!(texts.iter().any(|t| t.contains("Harebourg)")), "{texts:?}");
+        assert!(texts.iter().any(|t| has_coordinates(t) && t.contains("68") && t.contains("78")), "{texts:?}");
     }
 
     #[test]
