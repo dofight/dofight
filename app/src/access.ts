@@ -15,6 +15,8 @@ export interface QuestReq {
   level: number;
   /** Where the quest starts (its first NPC's map), or null when the client does not say. */
   start: { x: number; y: number } | null;
+  /** Its page on Dofus pour les Noobs, when one was found. */
+  url?: string;
 }
 
 export type Req =

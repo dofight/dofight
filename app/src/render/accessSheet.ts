@@ -18,7 +18,8 @@ function req(r: Req): string {
   if ("quest" in r) {
     const q = r.quest;
     const go = q.start ? ` ${copyButton(travelCommand({ x: q.start.x, y: q.start.y, world: 1 }))}` : "";
-    return `<li>${line(`${say(q)} (${t("access.questLevel", { level: q.level })})`)}${go}</li>`;
+    const name = q.url && /^https:\/\//.test(q.url) ? `<a class="quest" href="${esc(q.url)}" target="_blank" rel="noopener">${line(say(q))}</a>` : line(say(q));
+    return `<li>${name} ${line(`(${t("access.questLevel", { level: q.level })})`)}${go}</li>`;
   }
   if ("beat" in r) return `<li>${line(t("access.beat", { name: say(r.beat) }))}</li>`;
   if ("item" in r) return `<li><b>${line(say(r.item))}</b>${r.how ? line(` : ${say(r.how)}`) : ""}</li>`;
@@ -29,7 +30,7 @@ function req(r: Req): string {
 }
 
 const list = (head: string, reqs: Req[]): string =>
-  reqs.length ? `<div class="reqs"><span class="head">${line(head)}</span><ol>${reqs.map(req).join("")}</ol></div>` : "";
+  reqs.length ? `<div class="reqs">${head ? `<span class="head">${line(head)}</span>` : ""}<ol>${reqs.map(req).join("")}</ol></div>` : "";
 
 /** The sheet of `title`: « Prérequis » (level and key, the area's requirements, the place's own), then « Trajet »
  * (the written route, else « Aller en » and the nearest zaap), then the guide. `pa` null: the route only. */
@@ -43,7 +44,7 @@ export function renderAccessSheet(title: string, pa: PlaceAccess | null, trip: T
     ].filter(Boolean);
     const area = (getLang() === "en" && pa.areaEn) || pa.areaName || "";
     const areaHead = pa.dimension ? t("access.dimension", { area }) : t("access.quests", { area });
-    const body = (facts.length ? `<div class="facts">${line(facts.join(" · "))}</div>` : "") + list(areaHead, pa.areaReqs) + list(t("access.ownQuests"), pa.ownReqs);
+    const body = (facts.length ? `<div class="facts">${line(facts.join(" · "))}</div>` : "") + list(areaHead, pa.areaReqs) + list("", pa.ownReqs);
     if (body) needs = `<section class="needs"><h3>${line(t("access.needs"))}</h3>${body}</section>`;
   }
   const route = trip ? routeOf(trip.to) : [];

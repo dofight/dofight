@@ -21,7 +21,7 @@ window.addEventListener("storage", (e) => e.key === KEY && syncTheme());
 document.addEventListener("click", (e) => {
   // « Comment y aller »: a command to copy goes to the panel, which owns the clipboard
   if (sheetCopy(e.target as Element, (command) => void emit("peek:copy", command))) return;
-  const link = (e.target as HTMLElement).closest<HTMLAnchorElement>("a.guide");
+  const link = (e.target as HTMLElement).closest<HTMLAnchorElement>("a.guide, a.quest");
   if (!link) return;
   e.preventDefault();
   void emit("peek:open", link.href);

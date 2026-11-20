@@ -445,6 +445,7 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .access-sheet li::marker{color:var(--muted)}
 .access-sheet li b{color:var(--fg);font-size:inherit}
 .access-sheet .event{color:var(--gold)}
+.access-sheet a.quest{color:var(--blue);text-decoration:underline;text-underline-offset:2px}
 /* the sheet's own « Copié » line keeps its room (the side window is sized once); the inner trip lines' are unused */
 .access-sheet .trip .tripmsg{display:none}
 .access-sheet > .tripmsg{display:block;min-height:1.4em;font-size:12px;color:var(--blue)}

@@ -38,6 +38,14 @@ describe("the « Comment y aller » sheet", () => {
     expect(box.querySelector<HTMLAnchorElement>("a.guide")!.href).toBe("https://www.dofuspourlesnoobs.com/ventre.html");
   });
 
+  it("a quest with its DPLN page is a link to it", () => {
+    const pa: PlaceAccess = { ...baleine, areaReqs: [{ quest: { id: 231, fr: "Le nouveau monde", en: "The New World", level: 35, start: null, url: "https://www.dofuspourlesnoobs.com/le-nouveau-monde.html" } }] };
+    const link = sheet(pa).box.querySelector<HTMLAnchorElement>("a.quest")!;
+    expect(link.href).toBe("https://www.dofuspourlesnoobs.com/le-nouveau-monde.html");
+    expect(link.textContent).toBe("Le nouveau monde");
+    expect(sheet(baleine).box.querySelector("a.quest")).toBeNull(); // no page: plain text
+  });
+
   it("shows the level of a quest, and no button when the quest's start is unknown", () => {
     const { box, all } = sheet({ ...baleine, areaReqs: [{ quest: { id: 1, fr: "Sans départ", en: "x", level: 80, start: null } }] });
     expect(all).toContain("Sans départ (niv. 80)");
@@ -75,7 +83,7 @@ describe("the « Comment y aller » sheet", () => {
       ],
     };
     const { all } = sheet(pa);
-    expect(all).toContain("Ce lieu :");
+    expect(all).not.toContain("Ce lieu");
     expect(all).toContain("Vaincre Antre du Korriandre");
     expect(all).toContain("Baguette Rikiki : L'équiper.");
     expect(all).toContain("Au choix :");
