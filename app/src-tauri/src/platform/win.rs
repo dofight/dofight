@@ -164,6 +164,12 @@ fn capture_window(hwnd: HWND, from_screen: bool) -> Option<Frame> {
     }
 }
 
+/// Where the client area's top left is on screen (physical pixels): the debug window draws there.
+pub fn client_origin(id: WindowId) -> Option<(i32, i32)> {
+    let mut origin = POINT { x: 0, y: 0 };
+    unsafe { ClientToScreen(hwnd(id), &mut origin) }.as_bool().then_some((origin.x, origin.y))
+}
+
 /// The window's client area size, in frame pixels.
 pub fn client_size(id: WindowId) -> Option<(u32, u32)> {
     let mut rect = RECT::default();

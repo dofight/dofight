@@ -15,6 +15,7 @@ export default defineConfig(() => ({
         main: resolve(import.meta.dirname, "index.html"),
         preview: resolve(import.meta.dirname, "preview.html"),
         peek: resolve(import.meta.dirname, "peek.html"),
+        debug: resolve(import.meta.dirname, "debug.html"),
       },
     },
   },

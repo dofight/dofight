@@ -256,6 +256,28 @@ pub fn run() {
                 &format!("Dofight {} on {}", app.package_info().version, if cfg!(windows) { "Windows" } else { "macOS" }),
             );
             platform::setup(app)?;
+            // dev builds only: a click-through window over the screen that draws the areas read (red boxes)
+            #[cfg(debug_assertions)]
+            {
+                use tauri::{WebviewUrl, WebviewWindowBuilder};
+                if let Some(monitor) = app.primary_monitor()? {
+                    let size = monitor.size().to_logical::<f64>(monitor.scale_factor());
+                    let debug = WebviewWindowBuilder::new(app, "debug", WebviewUrl::App("debug.html".into()))
+                        .title("Dofight – debug")
+                        .transparent(true)
+                        .decorations(false)
+                        .shadow(false)
+                        .always_on_top(true)
+                        .skip_taskbar(true)
+                        .focused(false)
+                        .focusable(false)
+                        .resizable(false)
+                        .position(0.0, 0.0)
+                        .inner_size(size.width, size.height)
+                        .build()?;
+                    debug.set_ignore_cursor_events(true)?;
+                }
+            }
             let reference = app.state::<screen::Reference>().inner().clone();
             let songe = app.state::<screen::Songe>().inner().clone();
             let in_fight = app.state::<screen::InFight>().inner().clone();

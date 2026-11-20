@@ -562,6 +562,20 @@ fn emit_scan(app: &AppHandle, engine: Option<&OcrEngine>, frame: Option<&Frame>,
     let _ = app.emit("screen:scan", scan);
 }
 
+/// Dev builds only (`pnpm tauri dev`): the areas just read, in frame pixels (x, y, width, height), and where the frame's
+/// top left is on screen, for the debug window's red boxes (debugPage.ts). Release builds send nothing.
+#[derive(Debug, Clone, Serialize)]
+pub struct DebugAreas {
+    pub origin: Option<(i32, i32)>,
+    pub areas: Vec<(i32, i32, i32, i32)>,
+}
+
+fn show_areas(app: &AppHandle, id: WindowId, areas: Vec<(i32, i32, i32, i32)>) {
+    if cfg!(debug_assertions) {
+        let _ = app.emit("screen:debug", DebugAreas { origin: platform::client_origin(id), areas });
+    }
+}
+
 /// What the page is told when the window could not be captured (`Tick.error`); nothing for a minimised window.
 fn capture_error_kind(e: &CaptureError) -> Option<&'static str> {
     match e {
@@ -676,6 +690,7 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
             }
             if platform::front_window() != Some(target.id) {
                 note(&mut r, "Dofus not in front".into());
+                show_areas(&app, target.id, vec![]);
                 r.was_front = false;
                 if slow_due {
                     let ours = platform::front_is_ours();
@@ -713,6 +728,8 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                 };
                 let Some((px, w, h)) = &frame else { continue };
                 note(&mut r, format!("reading Dofus, {w}×{h}"));
+                let (cw, ch) = corner_size(*w, *h);
+                show_areas(&app, id, vec![(0, 0, cw as i32, ch as i32)]);
                 // « Scanner ma sous-zone » clicked with the zone not followed (its option off): this frame answers it
                 if let Some(left) = scan_due(&app, &reading.1) {
                     emit_scan(&app, Some(engine), frame.as_ref(), left);
@@ -791,6 +808,9 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
             };
             let started = Instant::now();
             let lines = read_hovered(engine, px, *w, *h, cx, cy).unwrap_or_default();
+            let (cw, ch) = corner_size(*w, *h);
+            let hover = (cx - HOVER_HALF_WIDTH, cy - HOVER_ABOVE, 2 * HOVER_HALF_WIDTH, HOVER_ABOVE + HOVER_BELOW);
+            show_areas(&app, id, vec![(0, 0, cw as i32, ch as i32), hover]);
             r.stats.hovers += 1;
             r.stats.hover_ms += started.elapsed().as_millis();
             if !lines.is_empty() {

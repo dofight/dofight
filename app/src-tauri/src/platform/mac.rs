@@ -188,6 +188,13 @@ fn bgra_of(image: &objc2_core_graphics::CGImage) -> Result<Frame, CaptureError> 
     Ok((out, w as u32, h as u32))
 }
 
+/// Where the content's top left is on screen (points, origin at the top left of the main screen).
+pub fn client_origin(id: WindowId) -> Option<(i32, i32)> {
+    let (_, frame) = entry(id)?;
+    let (x, y, _, _) = content(frame);
+    Some((x as i32, y as i32))
+}
+
 /// The window's content size, in points (one frame pixel per point).
 pub fn client_size(id: WindowId) -> Option<(u32, u32)> {
     let (_, frame) = entry(id)?;
