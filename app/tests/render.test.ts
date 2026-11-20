@@ -133,13 +133,14 @@ describe("renderMonster", () => {
     expect(phaseThresholds(["à la mort du Professeur Xa"])).toEqual([]);
   });
 
-  it("shows the phases beside the HP, P1, P2… on hover, and keeps the badge", () => {
+  it("shows « Phases » beside the HP, the thresholds on the badge", () => {
     const card = dom(renderMonster(m, s.spells, { tags: [...tags, { id: "phase", param: "à 25 % PV" }] }, ALL, everyIcon, true, VOCAB));
     const phase = card.querySelector(".stats .phase")!;
-    expect(phase.getAttribute("title")!.replace(/ /g, " ")).toBe("P1 50 % - P2 25 %");
+    expect(phase.hasAttribute("title")).toBe(false); // no tooltip: the badge says the thresholds
     expect(phase.textContent!.replace(/ /g, " ")).toBe("Phases"); // the details are on the badge
     expect(card.querySelector(".tag.mechanic")).not.toBeNull(); // the badge stays, with P1… on hover
-    expect(card.querySelector(".tag.mechanic")!.getAttribute("title")!.replace(/ /g, " ")).toBe("P1 50 %");
+    expect(badgeText(card.querySelector(".tag.mechanic")).replace(/ /g, " ")).toBe("Change de phase · 50 %");
+    expect(card.querySelector(".tag.mechanic")!.hasAttribute("title")).toBe(false);
     expect(dom(renderMonster(m, s.spells, { tags: [{ id: "one_shot", param: "au CaC" }] }, ALL, everyIcon, true, VOCAB)).querySelector(".phase")).toBeNull();
   });
 

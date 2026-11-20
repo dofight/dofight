@@ -52,9 +52,8 @@ export function renderMonster(
   const isPhase = (tag: Tag) => tag.id === "phase" && phaseThresholds([tag.param ?? ""]).length > 0;
   const phases = (summary?.tags ?? []).filter(isPhase).map((tag) => tag.param ?? "");
   const thresholds = phaseThresholds(phases);
-  const phaseText = thresholds.map((p, i) => `P${i + 1} ${p} %`).join(" - ");
   const phaseSpan = thresholds.length
-    ? `<span class="phase" tabindex="0" title="${esc(frenchSpaces(phaseText))}">${img(icon, "badges/phase.webp")}${esc(t("monster.phases"))}</span>`
+    ? `<span class="phase">${img(icon, "badges/phase.webp")}${esc(t("monster.phases"))}</span>`
     : "";
   if (show.details) {
     parts.push(
@@ -168,10 +167,10 @@ export function renderTags(list: Tag[], vocab: Vocabulary, show: Display, icon: 
       const param = tag.param?.trim() ? ` · ${escText(frenchSpaces(tag.param.trim()))}` : "";
       // the category is told by colour on screen, and in words to screen readers
       const kind = `<span class="sr-only">${esc(t(TAG_KIND_LABEL[spec.category]))}, </span>`;
-      // a phase badge with HP thresholds: « P1 75 % - P2 50 % » on hover
+      // a phase badge with HP thresholds says just them: « Change de phase · 70 % | 30 % » (owner, 2026-11-19)
       const steps = tag.id === "phase" ? phaseThresholds([tag.param ?? ""]) : [];
-      const title = steps.length ? ` title="${esc(frenchSpaces(steps.map((p, i) => `P${i + 1} ${p} %`).join(" - ")))}"` : "";
-      return `<span class="tag ${spec.category}"${title}>${kind}${ic}${escText(frenchSpaces(tagLabel(spec)))}${param}</span>`;
+      const shown = steps.length ? ` · ${escText(frenchSpaces(steps.map((p) => `${p} %`).join(" | ")))}` : param;
+      return `<span class="tag ${spec.category}">${kind}${ic}${escText(frenchSpaces(tagLabel(spec)))}${shown}</span>`;
     })
     .join("")}</div>`;
 }
