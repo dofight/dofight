@@ -430,6 +430,18 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .mech-sheet b{color:var(--yellow);font-size:14px}
 .mech-sheet .gist{color:var(--fg)}
 .mech-sheet li b{color:var(--fg);font-size:inherit}
+/* « Comment y aller » (render/accessSheet.ts): the requirements, then the route, as a mechanic sheet */
+.access-sheet{display:grid;gap:8px;font-size:13px}
+.access-sheet .title{color:var(--yellow);font-size:14px}
+.access-sheet h3{margin:0 0 3px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.access-sheet .facts{font-weight:600}
+.access-sheet .reqs{margin-top:4px}
+.access-sheet .reqs .head{color:var(--fg)}
+.access-sheet ol,.access-sheet ul{margin:2px 0 0;padding-left:20px;display:grid;gap:2px}
+.access-sheet li::marker{color:var(--muted)}
+.access-sheet li b{color:var(--fg);font-size:inherit}
+.access-sheet .event{color:var(--gold)}
+.access-sheet .tripmsg:empty{display:none}
 /* the ☰ menu (like Ganymède's): under the title bar, on the left */
 .menu{position:absolute;z-index:6;top:34px;left:6px;min-width:220px;display:grid;gap:2px;padding:5px;border-radius:9px;border:1px solid var(--line);background:var(--card);box-shadow:0 8px 22px rgba(0,0,0,.5)}
 .menu[hidden]{display:none}

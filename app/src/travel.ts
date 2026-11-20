@@ -61,6 +61,9 @@ export function tripTo(travel: Travel | undefined, dungeonId: number | null, zon
   return { to, zaap };
 }
 
+/** The written route of a spot in the interface language (`routeEn` in English when there is one), [] when none. */
+export const routeOf = (to: Spot): string[] => (getLang() === "en" && to.routeEn?.length ? to.routeEn : to.route) ?? [];
+
 export const travelCommand = (s: Spot): string => `/travel ${s.x} ${s.y}`;
 export const zaapCommand = (z: Spot, to: Spot): string => `/zaap ${z.x} ${z.y} ; ${travelCommand(to)}`;
 
@@ -70,7 +73,7 @@ const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&l
  * copy icon after it); once copied, `.tripmsg` says where to paste it (main.ts). */
 export function renderTrip(trip: Trip | null): string {
   if (!trip) return "";
-  const route = (getLang() === "en" && trip.to.routeEn?.length ? trip.to.routeEn : trip.to.route) ?? [];
+  const route = routeOf(trip.to);
   if (route.length) return renderRoute(route);
   const travel = travelCommand(trip.to);
   const go = `<span class="go">${esc(t("trip.go"))}</span><button type="button" class="travel" data-copy="${esc(travel)}" title="${esc(t("trip.copy", { command: travel }))}"><span class="lbl">[${trip.to.x},${trip.to.y}]</span>${icon("copy")}</button>`;
@@ -82,9 +85,10 @@ export function renderTrip(trip: Trip | null): string {
   return `<div class="trip">${go}${zaap}${msg}</div>`;
 }
 
-/** A written route: « Trajet : » then its steps in order; a command step (« /zaap … », « /travel … ») is a button that
- * copies it, the others (« Transporteur frigostien → Larmes d'Ouronigride ») are text. */
-function renderRoute(route: string[]): string {
+/** A written route: « Trajet : » (unless `label` is false: the sheet has its own heading) then its steps in order; a
+ * command step (« /zaap … », « /travel … ») is a button that copies it, the others (« Transporteur frigostien → Larmes
+ * d'Ouronigride ») are text. */
+export function renderRoute(route: string[], label = true): string {
   const steps = route
     .map((step) => {
       const s = step.trim();
@@ -92,5 +96,6 @@ function renderRoute(route: string[]): string {
       return `<li class="step"><button type="button" class="travel" data-copy="${esc(s)}" title="${esc(t("trip.copy", { command: s }))}"><span class="lbl">${esc(s)}</span>${icon("copy")}</button></li>`;
     })
     .join("");
-  return `<div class="trip route"><span class="go">${esc(t("trip.route"))}</span><ol class="steps">${steps}</ol><span class="tripmsg" role="status"></span></div>`;
+  const head = label ? `<span class="go">${esc(t("trip.route"))}</span>` : "";
+  return `<div class="trip route">${head}<ol class="steps">${steps}</ol><span class="tripmsg" role="status"></span></div>`;
 }
