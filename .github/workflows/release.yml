@@ -1,6 +1,8 @@
 # Builds the signed Windows installer on a version tag (vX.Y.Z) and publishes it, with latest.json for the
 # auto-updater, to this repository's releases; then the Mac .dmg and its updater files, added to the same release (a
-# Mac failure never holds the Windows release back; « only_macos » re-runs the Mac half alone).
+# Mac failure never holds the Windows release back; « only_macos » re-runs the Mac half alone). Until the repository
+# variable MAC_RELEASE is « true », a tag publishes Windows only: the Mac files are added by hand with « only_macos »
+# once the Mac build was tested (owner, 2026-11-20).
 # Publishing uses the gh CLI, which also writes latest.json and the plain exe for the auto-updater.
 name: release
 
@@ -135,7 +137,7 @@ jobs:
   # the release the Windows job published; latest.json gets its darwin entries (tools/merge_latest.mjs)
   macos:
     needs: windows
-    if: ${{ always() && (needs.windows.result == 'success' || needs.windows.result == 'skipped') }}
+    if: ${{ always() && (inputs.only_macos || vars.MAC_RELEASE == 'true') && (needs.windows.result == 'success' || needs.windows.result == 'skipped') }}
     runs-on: macos-latest
     permissions:
       contents: write
