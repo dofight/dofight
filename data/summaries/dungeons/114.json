@@ -95,7 +95,7 @@
      "param": "piège qui repousse"
     }
    ],
-   "detail": "Poison pétrifiant (2 tours) : dégâts Eau par PM utilisé (par PA en Cible lunaire). Sans PM utilisé (sans PA en Cible lunaire), il te téléporte d'une case en fin de tour."
+   "detail": "Poison pétrifiant (2 tours) : dégâts Eau par PM utilisé (par PA en Cible lunaire). Si tu infliges des dégâts sous ce poison, il te renvoie à ta position précédente."
   }
  }
 }
