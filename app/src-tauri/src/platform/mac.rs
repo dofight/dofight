@@ -103,8 +103,88 @@ fn content(frame: (f64, f64, f64, f64)) -> (f64, f64, f64, f64) {
     if y <= 0.0 { (x, y, w, h) } else { (x, y + TITLE_BAR, w, (h - TITLE_BAR).max(0.0)) }
 }
 
-pub fn capture(_id: WindowId) -> Result<Frame, CaptureError> {
-    Err(CaptureError::Failed)
+#[link(name = "CoreGraphics", kind = "framework")]
+unsafe extern "C" {
+    fn CGPreflightScreenCaptureAccess() -> bool;
+    fn CGRequestScreenCaptureAccess() -> bool;
+}
+
+/// macOS asks the player once per run at most (the system shows its own dialog the first time).
+static ASKED: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(false);
+
+/// How long a capture may take before it counts as failed.
+const CAPTURE_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(2);
+
+/// The window's content (without its title bar when windowed), one pixel per point (Retina: halved), in BGRA:
+/// ScreenCaptureKit's one-shot capture of that window only (macOS 14), whatever covers it.
+pub fn capture(id: WindowId) -> Result<Frame, CaptureError> {
+    use block2::RcBlock;
+    use objc2_core_foundation::{CGPoint, CGRect as SCRect, CGSize};
+    use objc2_core_graphics::CGImage;
+    use objc2_foundation::NSError;
+    use objc2_screen_capture_kit::{SCContentFilter, SCScreenshotManager, SCShareableContent, SCStreamConfiguration};
+    use std::sync::mpsc;
+
+    if !unsafe { CGPreflightScreenCaptureAccess() } {
+        if !ASKED.swap(true, std::sync::atomic::Ordering::Relaxed) {
+            unsafe { CGRequestScreenCaptureAccess() };
+        }
+        return Err(CaptureError::Permission);
+    }
+    let Some((_, frame)) = entry(id) else { return Err(CaptureError::Gone) };
+    let (cx, cy, w, h) = content(frame);
+    if w < 1.0 || h < 1.0 {
+        return Err(CaptureError::Minimized);
+    }
+    let (inner_x, inner_y) = (cx - frame.0, cy - frame.1); // the content inside the window (the title bar above)
+    let (tx, rx) = mpsc::channel::<Result<Frame, CaptureError>>();
+    let window_id = id as u32;
+    let handler = RcBlock::new(move |content: *mut SCShareableContent, _error: *mut NSError| {
+        let tx = tx.clone();
+        // SAFETY: ScreenCaptureKit hands a valid content (or null on error) for the duration of the call
+        let Some(content) = (unsafe { content.as_ref() }) else {
+            let _ = tx.send(Err(CaptureError::Failed));
+            return;
+        };
+        let windows = unsafe { content.windows() };
+        let Some(window) = windows.iter().find(|win| unsafe { win.windowID() } == window_id) else {
+            let _ = tx.send(Err(CaptureError::Gone));
+            return;
+        };
+        let filter = unsafe { SCContentFilter::initWithDesktopIndependentWindow(SCContentFilter::alloc(), &window) };
+        let config = unsafe { SCStreamConfiguration::new() };
+        unsafe {
+            config.setSourceRect(SCRect { origin: CGPoint { x: inner_x, y: inner_y }, size: CGSize { width: w, height: h } });
+            config.setWidth(w as usize);
+            config.setHeight(h as usize);
+            config.setShowsCursor(false);
+            config.setPixelFormat(0x4247_5241); // 'BGRA'
+        }
+        let done = RcBlock::new(move |image: *mut CGImage, _error: *mut NSError| {
+            let _ = tx.send(unsafe { image.as_ref() }.map(bgra_of).unwrap_or(Err(CaptureError::Failed)));
+        });
+        unsafe { SCScreenshotManager::captureImageWithFilter_configuration_completionHandler(&filter, &config, Some(&done)) };
+    });
+    unsafe { SCShareableContent::getShareableContentExcludingDesktopWindows_onScreenWindowsOnly_completionHandler(true, true, &handler) };
+    rx.recv_timeout(CAPTURE_TIMEOUT).unwrap_or(Err(CaptureError::Failed))
+}
+
+/// A captured image's pixels as tight BGRA rows.
+fn bgra_of(image: &objc2_core_graphics::CGImage) -> Result<Frame, CaptureError> {
+    use objc2_core_graphics::{CGDataProviderCopyData, CGImageGetBytesPerRow, CGImageGetDataProvider, CGImageGetHeight, CGImageGetWidth};
+    let (w, h) = (CGImageGetWidth(Some(image)), CGImageGetHeight(Some(image)));
+    let row = CGImageGetBytesPerRow(Some(image));
+    let provider = CGImageGetDataProvider(Some(image)).ok_or(CaptureError::Failed)?;
+    let data = CGDataProviderCopyData(Some(&provider)).ok_or(CaptureError::Failed)?;
+    let bytes = unsafe { data.as_bytes_unchecked() };
+    if w == 0 || h == 0 || row < w * 4 || bytes.len() < row * h {
+        return Err(CaptureError::Failed);
+    }
+    let mut out = Vec::with_capacity(w * h * 4);
+    for y in 0..h {
+        out.extend_from_slice(&bytes[y * row..y * row + w * 4]);
+    }
+    Ok((out, w as u32, h as u32))
 }
 
 /// The window's content size, in points (one frame pixel per point).
@@ -124,15 +204,59 @@ pub fn cursor_in(id: WindowId, width: u32, height: u32) -> Option<(i32, i32)> {
     (px >= 0 && py >= 0 && px < width as i32 && py < height as i32).then_some((px, py))
 }
 
-/// Vision's text recognition settings (to come).
+/// Vision's text recognition (accurate, French then English, no language correction: place names). Vision's objects
+/// are made for each reading, so the engine holds no state.
 pub struct OcrEngine;
 
 pub fn ocr_engine() -> Result<OcrEngine, String> {
-    Err("macOS OCR not there yet".into())
+    Ok(OcrEngine)
 }
 
-pub fn recognize(_engine: &OcrEngine, _bgra: &[u8], _width: u32, _height: u32) -> Result<Vec<OcrLine>, String> {
-    Ok(Vec::new())
+/// Lines read in a BGRA image (`width * height * 4` bytes), in image pixels.
+pub fn recognize(_engine: &OcrEngine, bgra: &[u8], width: u32, height: u32) -> Result<Vec<OcrLine>, String> {
+    use super::vision_box_to_frame;
+    use core_graphics::base::{kCGBitmapByteOrder32Little, kCGImageAlphaPremultipliedFirst, kCGRenderingIntentDefault};
+    use core_graphics::color_space::CGColorSpace;
+    use core_graphics::data_provider::CGDataProvider;
+    use core_graphics::image::CGImage as CgImage;
+    use objc2::AllocAnyThread;
+    use objc2_foundation::{NSArray, NSDictionary, NSString};
+    use objc2_vision::{VNImageRequestHandler, VNRecognizeTextRequest, VNRequest, VNRequestTextRecognitionLevel};
+
+    if width == 0 || height == 0 || bgra.len() < (width * height * 4) as usize {
+        return Ok(Vec::new());
+    }
+    let image = CgImage::new(
+        width as usize,
+        height as usize,
+        8,
+        32,
+        width as usize * 4,
+        &CGColorSpace::create_device_rgb(),
+        kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst,
+        &CGDataProvider::from_buffer(std::sync::Arc::new(bgra.to_vec())),
+        false,
+        kCGRenderingIntentDefault,
+    );
+    // SAFETY: the same CoreGraphics image, seen through objc2's binding
+    let cg = unsafe { &*(foreign_types::ForeignType::as_ptr(&image) as *const objc2_core_graphics::CGImage) };
+    let request = unsafe { VNRecognizeTextRequest::new() };
+    unsafe {
+        request.setRecognitionLevel(VNRequestTextRecognitionLevel::Accurate);
+        request.setRecognitionLanguages(&NSArray::from_retained_slice(&[NSString::from_str("fr-FR"), NSString::from_str("en-US")]));
+        request.setUsesLanguageCorrection(false);
+    }
+    let handler = unsafe { VNImageRequestHandler::initWithCGImage_options(VNImageRequestHandler::alloc(), cg, &NSDictionary::new()) };
+    let requests: [&VNRequest; 1] = [&request];
+    unsafe { handler.performRequests_error(&NSArray::from_slice(&requests)) }.map_err(|e| e.localizedDescription().to_string())?;
+    let mut out = Vec::new();
+    for observation in unsafe { request.results() }.into_iter().flatten() {
+        let Some(best) = unsafe { observation.topCandidates(1) }.firstObject() else { continue };
+        let b = unsafe { observation.boundingBox() };
+        let (x, y, w, h) = vision_box_to_frame((b.origin.x, b.origin.y, b.size.width, b.size.height), width, height);
+        out.push(OcrLine { text: unsafe { best.string() }.to_string(), x, y, w, h });
+    }
+    Ok(out)
 }
 
 /// The panel's AppKit window, on the main thread only.
@@ -199,4 +323,21 @@ pub fn setup(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
         })
         .build(app)?;
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn capture_of_an_unknown_window_never_panics() {
+        // no window 0: gone, or refused on a machine where Dofight may not record the screen
+        assert!(matches!(capture(0), Err(CaptureError::Gone | CaptureError::Permission | CaptureError::Failed)));
+    }
+
+    #[test]
+    fn a_blank_image_reads_nothing() {
+        let white = vec![255u8; 200 * 50 * 4];
+        assert_eq!(recognize(&OcrEngine, &white, 200, 50).unwrap(), vec![]);
+    }
 }
