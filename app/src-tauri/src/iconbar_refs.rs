@@ -2,13 +2,17 @@
 //! Havre-Sac bar has the « i » but no eye), the heart only in a fight. Compared by normalised correlation, so a lit
 //! or a greyed icon match the same.
 //!
-//! Each icon is kept as several looks, because the game's theme changes the interface's colours and one look does
-//! not answer for the others: the plain name is the one taken from the saved 1920×1009 Windows frames, `_B` the one
-//! taken on the owner's Mac, on another theme. Every look is in the same frame (ICON_FRAME_H), so a new one is a
-//! crop of `iconbar::corner`'s own area and nothing else.
+//! Each icon is kept as several looks, because one look does not answer for every screen: the plain name is the one
+//! taken from the saved 1920×1009 Windows frames, `_B` the one the owner's Mac really captures, where the same eye
+//! scores 0.89. Every look is in the same frame (ICON_FRAME_H), so a new one is a crop of `iconbar::corner`'s own
+//! area and nothing else.
 //!
-//! The « i » has no second look: that theme draws it as a round disc with a small mark, close enough to other round
-//! things that holding it read a menu covering the bar as a calm bar, at 0.915 (owner, 2026-11-21).
+//! Not the theme: all eleven of the game's themes were captured and the three icons score the same in every one of
+//! them (0.94, 0.98, 0.76). What `_B` holds is the Mac's capture of a Retina window asked for at point size, which
+//! is softer than a frame saved on Windows (owner, 2026-11-21).
+//!
+//! The « i » has no second look: the Mac's is a round disc with a small mark, close enough to other round things
+//! that holding it read a menu covering the bar as a calm bar, at 0.915.
 
 /// The frame height the icons were taken at; other heights are scaled to it.
 pub const ICON_FRAME_H: u32 = 1009;

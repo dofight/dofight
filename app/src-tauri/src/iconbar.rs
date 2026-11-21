@@ -66,10 +66,9 @@ fn centred(icon: &[u8]) -> (Vec<f32>, f32) {
 
 /// Best normalised correlation anywhere in the corner, over every known look of the icon.
 ///
-/// The game's theme changes the interface's colours, so one saved look is not enough: the eye of a calm bar taken
-/// from the owner's Windows theme scores 0.89 on the Mac's, a hair under the 0.90 a match needs. The looks are
-/// walked together at each place rather than one after the other, so the patch and its mean are worked out once
-/// however many there are (owner, 2026-11-21).
+/// One saved look is not enough: the eye taken from the saved Windows frames scores 0.89 on what the owner's Mac
+/// captures, a hair under the 0.90 a match needs. The looks are walked together at each place rather than one after
+/// the other, so the patch and its mean are worked out once however many there are (owner, 2026-11-21).
 fn best(area: &[f32], looks: &[&[u8]], w: u32, h: u32) -> f32 {
     let centred: Vec<(Vec<f32>, f32)> = looks.iter().map(|icon| centred(icon)).collect();
     let n = (w * h) as f32;
@@ -214,21 +213,23 @@ mod tests {
     }
 
     #[test]
-    fn tells_fights_from_calm_on_another_theme() {
-        // The game's theme changes the interface's colours. On the owner's Mac, on another theme than the saved
-        // Windows frames', the eye of a calm bar scored 0.894 against the 0.90 a match needs — it answered, but by
-        // a hair, and nothing in the tests held that theme at all. These two are the icon bar alone, 240 × 40 of a
-        // 1440×847 game's corner: no name of any kind is in them (owner, 2026-11-21).
+    fn tells_fights_from_calm_on_the_macs_own_capture() {
+        // What the owner's Mac really captures: the eye of a calm bar scored 0.894 there against the 0.90 a match
+        // needs — it answered, but by a hair, and no test held anything but the saved Windows frames. These two are
+        // the icon bar alone, 240 × 40 of a 1440×847 game's corner: no name of any kind is in them.
         //
-        // The « i » of this theme is deliberately not among the looks: it is a round disc with a small mark, close
-        // enough to other round things that adding it read a menu covering the bar as a calm bar (0.915).
-        let dir = format!("{}/tests/fixtures/iconbar-themes", env!("CARGO_MANIFEST_DIR"));
+        // Not a theme: all eleven of the game's themes score the same (0.94, 0.98, 0.76). This is a Retina window
+        // asked for at point size, which comes back softer than a frame saved on Windows (owner, 2026-11-21).
+        //
+        // Its « i » is deliberately not among the looks: a round disc with a small mark, close enough to other
+        // round things that adding it read a menu covering the bar as a calm bar (0.915).
+        let dir = format!("{}/tests/fixtures/iconbar-mac", env!("CARGO_MANIFEST_DIR"));
         let mut checked = 0;
         for entry in std::fs::read_dir(dir).unwrap() {
             let name = entry.unwrap().file_name().into_string().unwrap();
             let expected = if name.starts_with("fight") { Bar::Fight } else { Bar::Calm };
             let window_h: u32 = name.trim_end_matches(".png").rsplit('_').next().unwrap().parse().unwrap();
-            let img = image::open(format!("{}/tests/fixtures/iconbar-themes/{name}", env!("CARGO_MANIFEST_DIR")))
+            let img = image::open(format!("{}/tests/fixtures/iconbar-mac/{name}", env!("CARGO_MANIFEST_DIR")))
                 .unwrap()
                 .to_rgba8();
             let (w, h) = img.dimensions();

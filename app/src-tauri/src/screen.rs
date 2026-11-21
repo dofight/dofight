@@ -799,18 +799,32 @@ fn dump_square(bgra: &[u8], w: u32, h: u32, cx: i32, cy: i32, boxes: usize) {
 /// machine really draws (owner, 2026-11-21).
 fn dump_corner(bgra: &[u8], w: u32, h: u32, bar: Bar, window_h: u32) {
     let Some(dir) = std::env::var_os("DOFIGHT_DUMP") else { return };
-    static DONE: std::sync::Mutex<Vec<Bar>> = std::sync::Mutex::new(Vec::new());
-    let mut done = DONE.lock().unwrap();
-    if done.contains(&bar) {
-        return;
-    }
-    done.push(bar);
+    // several a state, not one: the game's theme changes the icons, and the owner goes through the themes in one
+    // sitting. One corner every CORNER_EVERY is enough to catch each of them without filling the disk, and the
+    // first of a state is kept at once (owner, 2026-11-21).
+    const CORNER_EVERY: Duration = Duration::from_secs(5);
+    const CORNERS_PER_STATE: usize = 12;
+    static KEPT: std::sync::Mutex<Vec<(Bar, usize, Option<Instant>)>> = std::sync::Mutex::new(Vec::new());
+    let mut kept = KEPT.lock().unwrap();
     let state = match bar {
         Bar::Fight => "fight",
         Bar::Calm => "calm",
         Bar::Unknown => "unknown",
     };
-    let path = std::path::Path::new(&dir).join(format!("corner-{state}-{w}x{h}-win{window_h}.bmp"));
+    let slot = match kept.iter_mut().find(|(b, _, _)| *b == bar) {
+        Some(slot) => slot,
+        None => {
+            kept.push((bar, 0, None));
+            kept.last_mut().unwrap()
+        }
+    };
+    if slot.1 >= CORNERS_PER_STATE || slot.2.is_some_and(|t| t.elapsed() < CORNER_EVERY) {
+        return;
+    }
+    slot.1 += 1;
+    slot.2 = Some(Instant::now());
+    let n = slot.1;
+    let path = std::path::Path::new(&dir).join(format!("corner-{state}-{n}-{w}x{h}-win{window_h}.bmp"));
     write_bmp(&path, bgra, w, h, "fight");
 }
 
