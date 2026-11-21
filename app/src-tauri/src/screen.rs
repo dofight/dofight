@@ -392,20 +392,17 @@ pub fn read_frame(
 }
 
 
-/// A group tooltip's background (slightly see-through): a dark, even colour of any tint, the game's interface theme
-/// colours it (owner, 2026-11-20: every theme alike). Measured: (36, 36, 31) and (41, 36, 45) (Belladone), (31, 34, 49)
-/// (Standard), warmer over lava. The map's dark patches are told apart by the box's shape (find_tooltips).
-fn tooltip_background(p: &[u8]) -> bool {
-    let (b, g, r) = (p[0] as i32, p[1] as i32, p[2] as i32);
-    let (hi, lo) = (r.max(g).max(b), r.min(g).min(b));
-    (TOOLTIP_DARKEST..=TOOLTIP_BRIGHTEST).contains(&lo) && hi <= TOOLTIP_BRIGHTEST && hi - lo <= TOOLTIP_TINT
-}
+/// A rule: a row whose pixels differ from the row under it by this much, on any channel. A tooltip's border and the
+/// separators inside it are drawn that way, over whatever happens to be behind them.
+const RULE_EDGE: i32 = 10;
 
-/// A tooltip background's channels: from 14 to 58, at most 28 apart, any hue (Standard, the most common theme: 17
-/// to 27 apart).
-const TOOLTIP_DARKEST: i32 = 14;
-const TOOLTIP_BRIGHTEST: i32 = 58;
-const TOOLTIP_TINT: i32 = 28;
+/// Two rules belong to the same box when they overlap by this much of the wider one (percent).
+const RULE_OVERLAP: i32 = 85;
+
+/// A tooltip draws at least this many rules: its top border, the lines under its level and its experience, the line
+/// over its monsters, its bottom border. Measured on the nine frames kept: never fewer than six. Four is the floor
+/// that still leaves the game's own panels out (the life and stars widget draws three).
+const RULE_MIN: usize = 4;
 
 /// The size of a group tooltip (frame pixels): one level line up to eight monster lines, the longest names (a lone
 /// « Tofu (36) » is about 80 wide).
@@ -413,8 +410,6 @@ const TOOLTIP_MIN: (i32, i32) = (60, 40);
 const TOOLTIP_MAX: (i32, i32) = (520, 420);
 /// The game's bottom bar (chat, life, spells), from the bottom of a 1009-pixel-high game (scaled with it).
 const BOTTOM_BAR: f32 = 135.0;
-/// Share of a tooltip's box that is its background (the rest is its text).
-const TOOLTIP_FILL: f32 = 0.5;
 
 /// The group tooltips' boxes around the mouse (x, y, width, height in frame pixels): the tooltip-coloured blobs of
 /// a tooltip's size, wherever they are around the mouse (above it, or pushed below or aside by a screen edge). Pixels
@@ -434,7 +429,7 @@ pub fn hover_square(cx: i32, cy: i32, (width, height): (u32, u32)) -> (i32, i32,
 /// `find_tooltips` on a piece of the window (`bgra`, `iw` × `ih`, its top left at `at` in the window of size `window`):
 /// the mouse and the boxes found are in the window's pixels.
 pub fn find_tooltips_in(bgra: &[u8], iw: u32, ih: u32, at: (i32, i32), window: (u32, u32), cx: i32, cy: i32) -> Vec<(i32, i32, i32, i32)> {
-    let (width, height) = window;
+    let (_width, height) = window;
     let (sx, sy, sw, sh) = hover_square(cx, cy, window);
     let (x0, y0) = (sx.max(at.0), sy.max(at.1));
     let (x1, y1) = ((sx + sw).min(at.0 + iw as i32), (sy + sh).min(at.1 + ih as i32));
@@ -442,86 +437,72 @@ pub fn find_tooltips_in(bgra: &[u8], iw: u32, ih: u32, at: (i32, i32), window: (
         return Vec::new();
     }
     let (w, h) = ((x1 - x0) as usize, (y1 - y0) as usize);
-    let mask: Vec<bool> = (0..w * h)
-        .map(|i| {
-            let (x, y) = ((x0 - at.0) as usize + i % w, (y0 - at.1) as usize + i / w);
-            let o = (y * iw as usize + x) * 4;
-            tooltip_background(&bgra[o..o + 3])
-        })
-        .collect();
-    let mut seen = vec![false; w * h];
+    let at = |x: usize, y: usize| {
+        let o = (((y0 - at.1) as usize + y) * iw as usize + (x0 - at.0) as usize + x) * 4;
+        &bgra[o..o + 3]
+    };
+    // A tooltip is the only thing on screen drawn as several straight horizontal rules of the same width, one under
+    // the other: its top border, the line under its level, the line over its monsters, its bottom border. The map
+    // has none, however dark it is, and this says nothing about colour, so the game's themes are all alike (owner,
+    // 2026-11-21: on a Pandala night the ground reads as a tooltip background on 60 % of its pixels, which is why
+    // the colour it is drawn in cannot tell the two apart).
+    let mut rules: Vec<(usize, usize, usize)> = Vec::new(); // (row, first column, last column)
+    for y in 0..h.saturating_sub(1) {
+        let mut from = None;
+        for x in 0..=w {
+            let edge = x < w && {
+                let (a, b) = (at(x, y), at(x, y + 1));
+                (0..3).any(|c| (a[c] as i32 - b[c] as i32).abs() >= RULE_EDGE)
+            };
+            match (edge, from) {
+                (true, None) => from = Some(x),
+                (false, Some(f)) => {
+                    if x - f >= TOOLTIP_MIN.0 as usize {
+                        rules.push((y, f, x - 1));
+                    }
+                    from = None;
+                }
+                _ => {}
+            }
+        }
+    }
+    // the rules under one of them and as wide as it are its box's: the box is what they all cover
+    let mut taken = vec![false; rules.len()];
     let mut out = Vec::new();
-    let mut blob = Vec::new();
-    for start in 0..w * h {
-        if seen[start] || !mask[start] {
+    for i in 0..rules.len() {
+        if taken[i] {
             continue;
         }
-        blob.clear();
-        blob.push(start);
-        seen[start] = true;
-        let (mut bx0, mut by0, mut bx1, mut by1) = (usize::MAX, usize::MAX, 0, 0);
-        let mut cut = false;
-        let mut k = 0;
-        while k < blob.len() {
-            let i = blob[k];
-            k += 1;
-            let (x, y) = (i % w, i / w);
-            (bx0, by0, bx1, by1) = (bx0.min(x), by0.min(y), bx1.max(x), by1.max(y));
-            // it goes on past the area looked at (the chat, the spell bar…): not a whole tooltip near the mouse; a
-            // tooltip pushed against the game's own edge is whole, the frame's border does not count
-            cut |= (x == 0 && x0 > 0) || (y == 0 && y0 > 0) || (x + 1 == w && x1 < width as i32) || (y + 1 == h && y1 < height as i32);
-            let mut visit = |j: usize| {
-                if !seen[j] && mask[j] {
-                    seen[j] = true;
-                    blob.push(j);
-                }
-            };
-            if x > 0 { visit(i - 1); }
-            if x + 1 < w { visit(i + 1); }
-            if y > 0 { visit(i - w); }
-            if y + 1 < h { visit(i + w); }
+        let (top, sx, ex) = rules[i];
+        let (mut bx0, mut bx1, mut bottom, mut n) = (sx, ex, top, 1);
+        for j in i + 1..rules.len() {
+            let (y, jsx, jex) = rules[j];
+            if (y - top) as i32 > TOOLTIP_MAX.1 {
+                break; // the rules come row by row: the rest is too far under this one
+            }
+            if taken[j] {
+                continue;
+            }
+            let overlap = jex.min(ex) as i32 - jsx.max(sx) as i32 + 1;
+            let widest = (ex - sx).max(jex - jsx) as i32 + 1;
+            if overlap > 0 && overlap * 100 >= widest * RULE_OVERLAP {
+                taken[j] = true;
+                (bx0, bx1, bottom, n) = (bx0.min(jsx), bx1.max(jex), y, n + 1);
+            }
         }
-        let (bw, bh) = ((bx1 - bx0 + 1) as i32, (by1 - by0 + 1) as i32);
-        let fill = blob.len() as f32 / (bw * bh) as f32;
-        // a part of a tooltip may be small (its title band): the size is checked once the parts are joined
-        if !cut && bw >= TOOLTIP_MIN.0 && bh >= 12 && fill >= TOOLTIP_FILL {
-            out.push((x0 + bx0 as i32, y0 + by0 as i32, bw, bh));
+        if n >= RULE_MIN {
+            taken[i] = true;
+            out.push((x0 + bx0 as i32, y0 + top as i32, (bx1 - bx0 + 1) as i32, (bottom - top + 1) as i32));
         }
     }
     // the game's bottom bar (chat, life, spells) is as dark as a tooltip; a group's tooltip never sits on it (it shows
     // above its group)
     let bar_top = height as i32 - (BOTTOM_BAR * (height as f32 / 1009.0).max(1.0)) as i32;
-    join_stacked(out)
-        .into_iter()
+    out.into_iter()
         .filter(|&(_, y, bw, bh)| bw >= TOOLTIP_MIN.0 && bh >= TOOLTIP_MIN.1 && bw <= TOOLTIP_MAX.0 && bh <= TOOLTIP_MAX.1 && y < bar_top)
         .collect()
 }
 
-/// A tooltip's title band and its monster list are cut apart by a light separator line: boxes one above the other,
-/// aligned and a few pixels apart, are one tooltip.
-fn join_stacked(mut boxes: Vec<(i32, i32, i32, i32)>) -> Vec<(i32, i32, i32, i32)> {
-    const GAP: i32 = 6;
-    let mut joined = true;
-    while joined {
-        joined = false;
-        'pairs: for i in 0..boxes.len() {
-            for j in 0..boxes.len() {
-                let (a, b) = (boxes[i], boxes[j]);
-                let overlap = (a.0 + a.2).min(b.0 + b.2) - a.0.max(b.0);
-                let gap = b.1 - (a.1 + a.3);
-                if i != j && (0..=GAP).contains(&gap) && overlap * 10 >= a.2.min(b.2) * 8 {
-                    let (x0, y0) = (a.0.min(b.0), a.1);
-                    let (x1, y1) = ((a.0 + a.2).max(b.0 + b.2), b.1 + b.3);
-                    boxes[i] = (x0, y0, x1 - x0, y1 - y0);
-                    boxes.remove(j);
-                    joined = true;
-                    break 'pairs;
-                }
-            }
-        }
-    }
-    boxes
-}
 
 /// The group tooltips around the resting mouse (`cx`, `cy` in frame pixels): their headers, then their monster
 /// lines. Empty when no group tooltip is there.
@@ -728,6 +709,49 @@ fn emit_scan(app: &AppHandle, engine: Option<&OcrEngine>, corner: Option<&(Frame
 pub struct DebugAreas {
     pub origin: Option<(i32, i32)>,
     pub areas: Vec<(i32, i32, i32, i32)>,
+}
+
+/// At most this many squares written in one run: a debug aid, not a way to fill the disk.
+const DUMP_MAX: usize = 8;
+
+/// The hovered square written as a BMP into the directory `DOFIGHT_DUMP` names: what a reading that found nothing
+/// was actually looking at, kept so it can be tried again off the game (owner, 2026-11-21). Dev builds only, like
+/// everything else here. BMP and not PNG: the capture is already BGR, and no encoder is linked into the app.
+fn dump_square(bgra: &[u8], w: u32, h: u32) {
+    let Some(dir) = std::env::var_os("DOFIGHT_DUMP") else { return };
+    static LEFT: std::sync::Mutex<usize> = std::sync::Mutex::new(DUMP_MAX);
+    let mut left = LEFT.lock().unwrap();
+    if *left == 0 {
+        return;
+    }
+    *left -= 1;
+    let n = DUMP_MAX - *left;
+    let (w, h) = (w as usize, h as usize);
+    let stride = (w * 3 + 3) & !3; // a BMP row is padded to four bytes
+    let size = 54 + stride * h;
+    let mut out: Vec<u8> = Vec::with_capacity(size);
+    out.extend_from_slice(b"BM");
+    out.extend_from_slice(&(size as u32).to_le_bytes());
+    out.extend_from_slice(&[0; 4]);
+    out.extend_from_slice(&54u32.to_le_bytes());
+    out.extend_from_slice(&40u32.to_le_bytes());
+    out.extend_from_slice(&(w as i32).to_le_bytes());
+    out.extend_from_slice(&(h as i32).to_le_bytes());
+    out.extend_from_slice(&1u16.to_le_bytes());
+    out.extend_from_slice(&24u16.to_le_bytes());
+    out.extend_from_slice(&[0; 24]);
+    for y in (0..h).rev() {
+        let row = y * w * 4;
+        for x in 0..w {
+            out.extend_from_slice(&bgra[row + x * 4..row + x * 4 + 3]);
+        }
+        out.resize(out.len() + stride - w * 3, 0);
+    }
+    let path = std::path::Path::new(&dir).join(format!("songe-{n}-{w}x{h}.bmp"));
+    match std::fs::write(&path, &out) {
+        Ok(()) => diag::log("songe", &format!("square written to {}", path.display())),
+        Err(e) => diag::log("songe", &format!("square not written: {e}")),
+    }
 }
 
 fn show_areas(app: &AppHandle, id: WindowId, areas: Vec<(i32, i32, i32, i32)>) {
@@ -994,11 +1018,26 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
             };
             let started = Instant::now();
             let lines = read_hovered_in(engine, &px, sw, sh, at, (ww, wh), cx, cy).unwrap_or_default();
-            // dev builds: the header corner and the tooltip boxes read
+            // dev builds: the header corner and the tooltip boxes read, with what the colour test let through
+            // (what tells a tooltip found from one missed)
             if cfg!(debug_assertions) {
                 let (cw, ch) = corner_size(ww, wh);
+                let boxes = find_tooltips_in(&px, sw, sh, at, (ww, wh), cx, cy);
+                diag::log(
+                    "songe",
+                    &format!(
+                        "cursor {cx},{cy} square {sw}×{sh}@{},{} | {} boxes {boxes:?} | {} lines read",
+                        at.0,
+                        at.1,
+                        boxes.len(),
+                        lines.len()
+                    ),
+                );
+                if boxes.is_empty() {
+                    dump_square(&px, sw, sh); // nothing found: the square is kept, to be tried again off the game
+                }
                 let mut areas = vec![(0, 0, cw as i32, ch as i32)];
-                areas.extend(find_tooltips_in(&px, sw, sh, at, (ww, wh), cx, cy));
+                areas.extend(boxes);
                 show_areas(&app, id, areas);
             }
             r.stats.hovers += 1;
