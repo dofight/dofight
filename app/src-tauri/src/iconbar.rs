@@ -28,16 +28,27 @@ const MATCH: f32 = 0.9;
 /// window's top left (the whole window, or only its header corner); `window_h` is the window's height.
 fn corner(bgra: &[u8], width: u32, height: u32, window_h: u32) -> Option<Vec<f32>> {
     let scale = window_h as f32 / ICON_FRAME_H as f32;
+    // the window's own corner, far enough in to hold the area once it is scaled back up
+    if (AREA_W as f32 * scale) as u32 >= width || (AREA_H as f32 * scale) as u32 >= height {
+        return None;
+    }
+    let grey = |x: u32, y: u32| {
+        let i = ((y.min(height - 1) * width + x.min(width - 1)) * 4) as usize;
+        (bgra[i] as u32 * 114 + bgra[i + 1] as u32 * 587 + bgra[i + 2] as u32 * 299) as f32 / 1000.0
+    };
     let mut out = Vec::with_capacity((AREA_W * AREA_H) as usize);
     for y in 0..AREA_H {
         for x in 0..AREA_W {
-            let fx = (x as f32 * scale) as u32;
-            let fy = (y as f32 * scale) as u32;
-            if fx >= width || fy >= height {
-                return None;
-            }
-            let i = ((fy * width + fx) * 4) as usize;
-            out.push((bgra[i] as u32 * 114 + bgra[i + 1] as u32 * 587 + bgra[i + 2] as u32 * 299) as f32 / 1000.0);
+            // each pixel mixed from the four around it, never the nearest one: the icons are drawn at the window's
+            // own size, so anything but a 1009-pixel-high game lands between pixels. Taking the nearest dropped the
+            // eye of a calm bar from 0.99 to 0.89 and its « i » from 1.00 to 0.91 at a 847-pixel-high window, a hair
+            // over the 0.90 a match needs, and under it at 800 — where no fight was seen at all (owner, 2026-11-21).
+            let (fx, fy) = (x as f32 * scale, y as f32 * scale);
+            let (x0, y0) = (fx.floor() as u32, fy.floor() as u32);
+            let (tx, ty) = (fx - x0 as f32, fy - y0 as f32);
+            let above = grey(x0, y0) * (1.0 - tx) + grey(x0 + 1, y0) * tx;
+            let below = grey(x0, y0 + 1) * (1.0 - tx) + grey(x0 + 1, y0 + 1) * tx;
+            out.push(above * (1.0 - ty) + below * ty);
         }
     }
     Some(out)
@@ -147,6 +158,50 @@ mod tests {
         assert!(checked >= 10);
     }
 
+    /// A frame rendered smaller, as the game draws its icons in a smaller window: the closest stand-in there is for
+    /// a game played at anything but 1009 pixels high.
+    fn smaller(px: &[u8], w: u32, h: u32, nh: u32) -> (Vec<u8>, u32, u32) {
+        let nw = (w as f32 * nh as f32 / h as f32).round() as u32;
+        let mut out = vec![0u8; (nw * nh * 4) as usize];
+        let at = |x: i64, y: i64, c: usize| px[((y.clamp(0, h as i64 - 1) * w as i64 + x.clamp(0, w as i64 - 1)) * 4) as usize + c] as f32;
+        for y in 0..nh {
+            for x in 0..nw {
+                let (fx, fy) = ((x as f32 + 0.5) * w as f32 / nw as f32 - 0.5, (y as f32 + 0.5) * h as f32 / nh as f32 - 0.5);
+                let (x0, y0) = (fx.floor() as i64, fy.floor() as i64);
+                let (tx, ty) = (fx - x0 as f32, fy - y0 as f32);
+                for c in 0..3 {
+                    let a = at(x0, y0, c) * (1.0 - tx) + at(x0 + 1, y0, c) * tx;
+                    let b = at(x0, y0 + 1, c) * (1.0 - tx) + at(x0 + 1, y0 + 1, c) * tx;
+                    out[((y * nw + x) * 4) as usize + c] = (a * (1.0 - ty) + b * ty).round() as u8;
+                }
+                out[((y * nw + x) * 4) as usize + 3] = 255;
+            }
+        }
+        (out, nw, nh)
+    }
+
+    #[test]
+    fn tells_fights_from_calm_in_a_smaller_window_too() {
+        // the saved frames are 1009 pixels high, the height the icons were measured at, so nothing but this test
+        // ever asks what happens between pixels. A Mac windowed game is 847 high and saw no fight at all: the eye of
+        // a calm bar scored 0.89 and its « i » 0.91 against the 0.90 a match needs, and 0.88 and 0.89 at 800
+        // (owner, 2026-11-21). The icons are read between pixels now, and the scores are back above 0.95.
+        let dir = format!("{}/tests/fixtures/iconbar", env!("CARGO_MANIFEST_DIR"));
+        for entry in std::fs::read_dir(dir).unwrap() {
+            let name = entry.unwrap().file_name().into_string().unwrap();
+            let expected = match name.split('_').next().unwrap() {
+                "fight" => Bar::Fight,
+                "calm" => Bar::Calm,
+                _ => continue, // a covered or folded bar: nothing to find at any size
+            };
+            let (px, w, h) = frame(&name);
+            for nh in [950, 847, 800] {
+                let (small, sw, sh) = smaller(&px, w, h, nh);
+                assert_eq!(read_bar(&small, sw, sh), expected, "{name} at {nh} high: eye, info, heart {:?}", scores(&small, sw, sh));
+            }
+        }
+    }
+
     #[test]
     fn reads_the_bar_on_the_header_corner_alone() {
         // only the header corner is captured (owner, 2026-11-20): every saved frame gets the same answer from it
@@ -164,3 +219,4 @@ mod tests {
         }
     }
 }
+
