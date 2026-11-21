@@ -789,8 +789,36 @@ fn dump_square(bgra: &[u8], w: u32, h: u32, cx: i32, cy: i32, boxes: usize) {
     }
     *left -= 1;
     let n = DUMP_MAX - *left;
+    // the mouse goes in the name: the probe needs it, and reading it back out of the log is guesswork
+    let path = std::path::Path::new(&dir).join(format!("songe-{n}-{w}x{h}-at{cx},{cy}-{boxes}box.bmp"));
+    write_bmp(&path, bgra, w, h, "songe");
+}
+
+/// The header corner as the reader sees it, one for each state of the icon bar in a run. The icons are matched
+/// against ones taken from Windows frames and scaled; a corner taken here says how far that is from what this
+/// machine really draws (owner, 2026-11-21).
+fn dump_corner(bgra: &[u8], w: u32, h: u32, bar: Bar, window_h: u32) {
+    let Some(dir) = std::env::var_os("DOFIGHT_DUMP") else { return };
+    static DONE: std::sync::Mutex<Vec<Bar>> = std::sync::Mutex::new(Vec::new());
+    let mut done = DONE.lock().unwrap();
+    if done.contains(&bar) {
+        return;
+    }
+    done.push(bar);
+    let state = match bar {
+        Bar::Fight => "fight",
+        Bar::Calm => "calm",
+        Bar::Unknown => "unknown",
+    };
+    let path = std::path::Path::new(&dir).join(format!("corner-{state}-{w}x{h}-win{window_h}.bmp"));
+    write_bmp(&path, bgra, w, h, "fight");
+}
+
+/// BGRA rows as a 24-bit BMP: bottom-up, each row padded to four bytes. BMP and not PNG, the capture being already
+/// BGR and no encoder linked into the app.
+fn write_bmp(path: &std::path::Path, bgra: &[u8], w: u32, h: u32, area: &str) {
     let (w, h) = (w as usize, h as usize);
-    let stride = (w * 3 + 3) & !3; // a BMP row is padded to four bytes
+    let stride = (w * 3 + 3) & !3;
     let size = 54 + stride * h;
     let mut out: Vec<u8> = Vec::with_capacity(size);
     out.extend_from_slice(b"BM");
@@ -810,11 +838,9 @@ fn dump_square(bgra: &[u8], w: u32, h: u32, cx: i32, cy: i32, boxes: usize) {
         }
         out.resize(out.len() + stride - w * 3, 0);
     }
-    // the mouse goes in the name: the probe needs it, and reading it back out of the log is guesswork
-    let path = std::path::Path::new(&dir).join(format!("songe-{n}-{w}x{h}-at{cx},{cy}-{boxes}box.bmp"));
-    match std::fs::write(&path, &out) {
-        Ok(()) => diag::log("songe", &format!("square written to {}", path.display())),
-        Err(e) => diag::log("songe", &format!("square not written: {e}")),
+    match std::fs::write(path, &out) {
+        Ok(()) => diag::log(area, &format!("written to {}", path.display())),
+        Err(e) => diag::log(area, &format!("not written: {e}")),
     }
 }
 
@@ -1024,6 +1050,9 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                 // said once a run even when it changes nothing: the scores used to be written on a change alone, so a
                 // run that never recognised the bar said nothing at all, and there was no way to tell a game without
                 // a fight from a bar never found (owner, 2026-11-21)
+                if cfg!(debug_assertions) {
+                    dump_corner(px, *w, *h, bar, *wh);
+                }
                 if bar_changed || !r.bar_said {
                     r.bar_said = true;
                     let (eye, info, heart) = scores_in(px, *w, *h, *wh);
