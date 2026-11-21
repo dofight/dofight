@@ -18,8 +18,8 @@ use core_graphics::window::{
 };
 use crate::ocr::OcrLine;
 use objc2_app_kit::{
-    NSApplicationActivationOptions, NSFloatingWindowLevel, NSRunningApplication, NSWindow, NSWindowCollectionBehavior,
-    NSWorkspace,
+    NSApplicationActivationOptions, NSFloatingWindowLevel, NSPanel, NSRunningApplication, NSWindow,
+    NSWindowCollectionBehavior, NSWindowLevel, NSWindowStyleMask, NSWorkspace,
 };
 use tauri::Manager;
 
@@ -290,20 +290,112 @@ fn with_ns_window(panel: &tauri::WebviewWindow, f: impl FnOnce(&NSWindow) + Send
     });
 }
 
-/// The panel floats over every Space and over a full-screen app (Dofus in full screen), at the floating level.
+/// NSStatusWindowLevel: over a full-screen game, under the system's own menus.
+const OVERLAY_LEVEL: NSWindowLevel = 25;
+
+/// The class each converted window had, by label. Turning a window into a panel swaps its Objective-C class, and the
+/// exit path (tao, the plugins) expects the one it made: left swapped, closing Dofight raises an Objective-C
+/// exception, which Rust cannot catch and which aborts the process (owner, 2026-11-20).
+static CONVERTED: std::sync::Mutex<Vec<(String, usize)>> = std::sync::Mutex::new(Vec::new());
+
+#[link(name = "objc")]
+unsafe extern "C" {
+    fn object_getClass(object: *const std::ffi::c_void) -> *const std::ffi::c_void;
+    fn object_setClass(object: *const std::ffi::c_void, class: *const std::ffi::c_void) -> *const std::ffi::c_void;
+}
+
+/// Gives one converted window its class back, before it is torn down. A detached sheet closes on its own, long
+/// before Dofight exits, and took the whole app down with it while it was still a panel (owner, 2026-11-20).
+fn restore_panel(window: &tauri::WebviewWindow) {
+    let class = {
+        let mut converted = CONVERTED.lock().unwrap();
+        let Some(i) = converted.iter().position(|(label, _)| label == window.label()) else { return };
+        converted.swap_remove(i).1
+    };
+    let Ok(ptr) = window.ns_window() else { return };
+    // SAFETY: the window is still alive here, and `class` is the one this very instance was made with
+    unsafe {
+        if let Some(ns) = (ptr as *const NSPanel).as_ref() {
+            ns.setStyleMask(ns.styleMask() & !NSWindowStyleMask::NonactivatingPanel);
+        }
+        object_setClass(ptr as *const std::ffi::c_void, class as *const std::ffi::c_void);
+    }
+}
+
+/// The same for whatever is left, as Dofight exits.
+pub fn restore_panels(app: &tauri::AppHandle) {
+    let labels: Vec<String> = CONVERTED.lock().unwrap().iter().map(|(label, _)| label.clone()).collect();
+    for label in labels {
+        if let Some(window) = app.get_webview_window(&label) {
+            restore_panel(&window);
+        }
+    }
+}
+
+/// The panel floats over every Space and over a full-screen app (Dofus in full screen), and answers the pointer
+/// without ever activating Dofight.
+///
+/// It becomes a non-activating `NSPanel` first. macOS sends no mouse event at all to a plain `NSWindow` of an app
+/// that is not the active one, so nothing was hovered until Dofight had been clicked, and that click took the focus
+/// from the game; the sheets' own buttons (the ✕, « Guide ») never answered either. A non-activating panel takes the
+/// pointer and leaves the game active (owner, 2026-11-20).
 pub fn float_panel(panel: &tauri::WebviewWindow) {
-    with_ns_window(panel, |ns| {
+    use tauri_nspanel::WebviewWindowExt;
+    let window = panel.clone();
+    let _ = panel.run_on_main_thread(move || {
+        let Ok(ptr) = window.ns_window() else { return };
+        // SAFETY: reading the class of a live Objective-C object on the main thread
+        let was = unsafe { object_getClass(ptr as *const std::ffi::c_void) } as usize;
+        // a plain window if it cannot be converted: the overlay still shows, only the panel behaviour is missing
+        let panel = match window.to_panel() {
+            Ok(_) => true,
+            Err(e) => {
+                eprintln!("[overlay] {} stays a plain window: {e:?}", window.label());
+                false
+            }
+        };
+        // SAFETY: Tauri hands the window's own NSWindow, alive as long as the window, on the main thread here;
+        // `to_panel` swaps the class of that same instance, so the pointer stays good either way
+        let Some(ns) = (unsafe { (ptr as *const NSWindow).as_ref() }) else { return };
+        ns.setLevel(if panel { OVERLAY_LEVEL } else { NSFloatingWindowLevel });
+        ns.setCollectionBehavior(
+            NSWindowCollectionBehavior::CanJoinAllSpaces | NSWindowCollectionBehavior::FullScreenAuxiliary,
+        );
+        // an NSPanel hides itself whenever its app stops being the active one, which is all the time here
+        ns.setHidesOnDeactivate(false);
+        if panel {
+            // SAFETY: the instance is an NSPanel, `to_panel` having succeeded
+            let ns = unsafe { &*(ptr as *const NSPanel) };
+            ns.setStyleMask(ns.styleMask() | NSWindowStyleMask::NonactivatingPanel);
+            // the keyboard only when something really asks for it (the search field): with this off, a plain click on
+            // the panel made it the key window and took Dofus out of focus (owner, 2026-11-20). Clicks still reach
+            // the page without it, the windows having « acceptFirstMouse ».
+            ns.setBecomesKeyOnlyIfNeeded(true);
+            // mouse-moved events are not sent to a window that does not ask for them (hover)
+            ns.setAcceptsMouseMovedEvents(true);
+            CONVERTED.lock().unwrap().push((window.label().to_string(), was));
+            let closing = window.clone();
+            window.on_window_event(move |event| {
+                if let tauri::WindowEvent::CloseRequested { .. } = event {
+                    restore_panel(&closing);
+                }
+            });
+        }
+    });
+}
+
+/// A side window made at run time (a detached sheet's replacement): it floats as the panel does, but it is NOT turned
+/// into a panel. `to_panel` over-releases on a window built at run time and the process dies with a segmentation
+/// fault inside `objc_release` (dragging a sheet away, owner 2026-11-20). The windows made at launch convert fine, so
+/// the first sheet keeps the panel behaviour; a replacement is a plain floating window until the crate is sorted out.
+pub fn float_side(side: &tauri::WebviewWindow) {
+    with_ns_window(side, |ns| {
         ns.setLevel(NSFloatingWindowLevel);
         ns.setCollectionBehavior(
             NSWindowCollectionBehavior::CanJoinAllSpaces | NSWindowCollectionBehavior::FullScreenAuxiliary,
         );
         ns.setHidesOnDeactivate(false);
     });
-}
-
-/// A side window made at run time (a detached sheet's replacement), floating as the panel does.
-pub fn float_side(side: &tauri::WebviewWindow) {
-    float_panel(side);
 }
 
 /// « open »: shown without activating Dofight (the game keeps the focus); « min » and « hidden »: hidden (the menu-bar
@@ -320,6 +412,31 @@ pub fn show_panel(panel: &tauri::WebviewWindow, mode: &str) -> Result<(), String
     Ok(())
 }
 
+/// A sheet the player dragged away is their own window from then on: a click on it may make it the key window, so
+/// Escape closes it. The others never take the keyboard, so the game keeps it (owner, 2026-11-20).
+pub fn detached_side(side: &tauri::WebviewWindow) {
+    let window = side.clone();
+    let _ = side.run_on_main_thread(move || {
+        let Ok(ptr) = window.ns_window() else { return };
+        // only a converted window answers the NSPanel-only selectors: a side window made at run time is a plain
+        // NSWindow (float_side), and sending it one of them aborts the process from inside Objective-C
+        let converted = CONVERTED.lock().unwrap().iter().any(|(label, _)| label == window.label());
+        // SAFETY: the window is alive, on the main thread, and an NSPanel only when it was converted
+        let Some(ns) = (unsafe { (ptr as *const NSPanel).as_ref() }) else { return };
+        if converted {
+            ns.setBecomesKeyOnlyIfNeeded(false);
+        }
+        ns.makeKeyWindow(); // NSWindow's own: safe either way
+    });
+}
+
+/// Shows a side window (a sheet, a preview) without making it the key window. Tauri's own `show()` does
+/// `makeKeyAndOrderFront`, and macOS then sends what the pointer does to that sheet instead of the panel: hovering
+/// another row did nothing at all until the pointer had left Dofight (owner, 2026-11-20).
+pub fn show_side(side: &tauri::WebviewWindow) {
+    with_ns_window(side, |ns| ns.orderFrontRegardless());
+}
+
 pub fn panel_shown(panel: &tauri::WebviewWindow) -> bool {
     panel.is_visible().unwrap_or(false)
 }
@@ -332,9 +449,13 @@ pub fn setup(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
     if let Some(panel) = app.get_webview_window("panel") {
         float_panel(&panel);
     }
-    // the side window (sheets, previews) floats over a full-screen game too
+    // the side windows float, but are NOT turned into panels (float_side). Only the panel is, and it is made once
+    // and never closed: converting a window that opens and closes again and again crashed Dofight from inside AppKit
+    // (closing a sheet, and `to_panel` on a window made at run time). They keep everything else: clicks through
+    // « acceptFirstMouse », the pointer followed by the panel, and `orderFrontRegardless` so they never take the
+    // focus. What they lose is being drawn over a full-screen Dofus (owner, 2026-11-20).
     if let Some(side) = app.get_webview_window("peek") {
-        float_panel(&side);
+        float_side(&side);
     }
     TrayIconBuilder::with_id("dofight")
         .icon(Image::from_bytes(include_bytes!("../../icons/menubar.png"))?)
