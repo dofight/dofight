@@ -401,10 +401,12 @@ fn tooltip_background(p: &[u8]) -> bool {
     (TOOLTIP_DARKEST..=TOOLTIP_BRIGHTEST).contains(&lo) && hi <= TOOLTIP_BRIGHTEST && hi - lo <= TOOLTIP_TINT
 }
 
-/// A tooltip background's channels: from 14 to 58, at most 28 apart, any hue (Standard, the most common theme: 17
-/// to 27 apart).
+/// A tooltip background's channels: from 14 to 52, at most 28 apart, any hue (Standard, the most common theme: 17
+/// to 27 apart). 52 and not 58: on a dark map (a Pandala night) the ground itself passed the test and the tooltip
+/// was joined to it in one blob reaching the edge of the square, which find_tooltips drops. Measured on such a map:
+/// the ground went from 21-33 % of pixels passing to 8-16 %, the tooltip staying at 61 % (owner, 2026-11-21).
 const TOOLTIP_DARKEST: i32 = 14;
-const TOOLTIP_BRIGHTEST: i32 = 58;
+const TOOLTIP_BRIGHTEST: i32 = 52;
 const TOOLTIP_TINT: i32 = 28;
 
 /// The size of a group tooltip (frame pixels): one level line up to eight monster lines, the longest names (a lone
@@ -447,6 +449,20 @@ pub fn find_tooltips_in(bgra: &[u8], iw: u32, ih: u32, at: (i32, i32), window: (
             let (x, y) = ((x0 - at.0) as usize + i % w, (y0 - at.1) as usize + i / w);
             let o = (y * iw as usize + x) * 4;
             tooltip_background(&bgra[o..o + 3])
+        })
+        .collect();
+    // The ground can be as dark, as flat and as neutral as a tooltip: measured on a Pandala night, a patch of it
+    // passed the colour test on 96 % of its pixels, more than the tooltip itself (73 %). What tells them apart is
+    // that a tooltip is a solid rectangle: eroding the mask once breaks the thin joins through which the ground
+    // reaches it, so the tooltip is a blob of its own again. The pixels on the edge of the square keep their value,
+    // the « cut » test below reading them to know that a blob goes on past what was looked at (owner, 2026-11-21).
+    let mask: Vec<bool> = (0..w * h)
+        .map(|i| {
+            let (x, y) = (i % w, i / w);
+            if x == 0 || y == 0 || x + 1 == w || y + 1 == h {
+                return mask[i];
+            }
+            mask[i] && mask[i - 1] && mask[i + 1] && mask[i - w] && mask[i + w]
         })
         .collect();
     let mut seen = vec![false; w * h];
