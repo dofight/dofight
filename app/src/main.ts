@@ -13,7 +13,7 @@ import { initialState, step, type Action, type DirectorState } from "./screen/di
 import { readFight, type BarState } from "./screen/fight";
 import { parseHeader } from "./screen/header";
 import { locate } from "./screen/locate";
-import { nameIndex, readGroups } from "./screen/songe";
+import { lineName, nameIndex, readGroups } from "./screen/songe";
 import { inDream } from "./screen/dream";
 import { initialStatus, statusText, statusWarns, steadyStatus, type StatusKind } from "./screen/status";
 import type { OcrLine } from "./screen/ocr";
@@ -107,6 +107,7 @@ async function ensureEnglish(): Promise<void> {
   if (english) {
     readEnglish = englishReading(snap, english);
     songeIndex = null; // built again with the English names too
+    songeZoneFor = undefined;
   }
 }
 
@@ -242,10 +243,18 @@ let zoneAsked = false;
 /** Where « Réinitialiser » waits while it is not shown (it moves into the hovered group's header card). */
 const resetHome = document.getElementById("backzone")!;
 let songeIndex: ReturnType<typeof nameIndex> | null = null;
+/** The zone's own names, looked in before the whole game's; null in a Songe, where the zone is unknown. */
+let songeZoneIndex: ReturnType<typeof nameIndex> | null = null;
+/** The room `songeZoneIndex` was built for: `undefined` while none was, so a zone of null builds one too. */
+let songeZoneFor: Room | null | undefined = undefined;
 /** The room shown when Songe was turned on: it comes back when Songe goes off, unless a zone was read meanwhile. */
 let beforeSonge: Room | null = null;
 let zoneReadInSonge = false;
 let songeSignature = "";
+/** The last tooltip read that held no group: written once, so a group missed again and again says it once. */
+let songeMissed = "";
+/** The last names read that stood for no monster, written once for the same reason. */
+let songeUnknown = "";
 
 function showSongeState(): void {
   $("songe").setAttribute("aria-pressed", String(settings.songe));
@@ -260,16 +269,47 @@ function showSongeState(): void {
 function songeTick(lines: OcrLine[]): void {
   if (!snap || !settings.songe || !lines.length) return;
   // a French or an English client: the monster names of both (the English ones point to the same monsters)
-  songeIndex ??= nameIndex(readEnglish ? [...snap.monsters.values(), ...readEnglish.monsters.values()] : snap.monsters.values());
-  const groups = readGroups(lines, songeIndex);
-  if (!groups.length) return;
+  const every = () => (readEnglish ? [...snap!.monsters.values(), ...readEnglish.monsters.values()] : [...snap!.monsters.values()]);
+  songeIndex ??= nameIndex(every());
+  // the zone's own monsters are looked in first (songe.ts matchName): a dozen or two names instead of five
+  // thousand, so a name the OCR damaged has far fewer ways to land on the wrong monster. A name read whole still
+  // wins wherever it is, and the whole game answers for a group the zone does not hold (owner, 2026-11-21).
+  if (songeZoneFor !== zoneRoom) {
+    songeZoneFor = zoneRoom;
+    const ids = new Set(zoneRoom?.monsters.map((m) => m.id));
+    songeZoneIndex = ids.size ? nameIndex(every().filter((m) => ids.has(m.id))) : null;
+  }
+  const missed: string[] = [];
+  // the two experience lines match no monster and never will, so reporting them would cry wolf at every reading.
+  // They are told apart by what is left once the level is taken off the line: a run of digits (« 155 538 ») is an
+  // experience line, letters are a name the reading got wrong (owner, 2026-11-21).
+  const groups = readGroups(lines, songeZoneIndex ? [songeZoneIndex, songeIndex] : songeIndex, (text) => {
+    const name = lineName(text);
+    if (/\p{L}{4,}/u.test(name) && !/\d{3}/.test(name)) missed.push(text);
+  });
+  // a line of a tooltip that matched no monster: the group is read short, and only the log can show why
+  if (missed.length) {
+    const texts = missed.join(" | ");
+    if (texts !== songeUnknown) diag("songe", `name not recognised: « ${texts} »`);
+    songeUnknown = texts;
+  }
+  if (!groups.length) {
+    // the tooltip was found and read, but nothing in it was a group: its level line or its names were misread, and
+    // that is what the reading has to show (owner, 2026-11-21: a group that would not scan, with nothing said why)
+    const texts = lines.map((l) => l.text).join(" | ");
+    if (texts !== songeMissed) diag("songe", `read but no group in it: « ${texts} »`);
+    songeMissed = texts;
+    return;
+  }
+  songeMissed = "";
   const counts = new Map<number, number>();
   const monsters = [] as Room["monsters"];
   for (const g of groups) for (const { monster, count } of g.monsters) {
     if (!counts.has(monster.id)) monsters.push(snap.monsters.get(monster.id) ?? monster); // the French entry, shown in the interface language
     counts.set(monster.id, (counts.get(monster.id) ?? 0) + count);
   }
-  const signature = monsters.map((m) => `${m.id}x${counts.get(m.id)}`).join(",");
+  // the level belongs to the signature: two groups of the same monsters at different levels are not the same reading
+  const signature = `${groups.map((g) => g.level ?? "?").join("+")} ${monsters.map((m) => `${m.id}x${counts.get(m.id)}`).join(",")}`;
   if (signature === songeSignature && room === songeRoom) return;
   songeSignature = signature;
   const title = groups.length > 1 ? t("songe.titleMany") : groups[0].level !== null ? t("songe.title", { level: groups[0].level }) : t("songe.titleNoLevel");
@@ -622,14 +662,19 @@ window.setInterval(() => {
 }, POINTER_WATCH);
 
 // dev builds only: « DEV » beside the title and in the window title, so a dev window is never taken for the
-// installed Dofight (both can run at once)
-if (import.meta.env.DEV) {
+// installed Dofight (both can run at once). The backend is asked what it is: under Vite's dev server
+// import.meta.env.DEV answers, but a bundle built with `tauri build --debug` is a dev build it knows nothing of.
+function showDevTools(): void {
   document.querySelector(".title")?.insertAdjacentHTML("beforeend", '<small class="devtag">DEV</small>');
   document.title = "Dofight DEV";
+  debugAreasSwitch();
 }
+// not awaited at the top of the module: everything after such an await waits with it, and the page must not
+if (import.meta.env.DEV) showDevTools();
+else void invoke<boolean>("dev_build").then((dev) => dev && showDevTools()).catch(() => {});
 
-// dev builds only (`pnpm tauri dev`, never a release): outline the areas read in red (the debug window, screen.rs)
-if (import.meta.env.DEV) {
+// dev builds only (never a release): outline the areas read in red (the debug window, screen.rs)
+function debugAreasSwitch(): void {
   const box = $<HTMLInputElement>("debug-areas");
   $("debug-areas-row").hidden = false;
   try {
