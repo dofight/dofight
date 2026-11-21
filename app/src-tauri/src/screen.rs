@@ -31,6 +31,8 @@ const TEXT_WHITE: u32 = 225;
 const TEXT_OUTLINE: u32 = 90;
 /// A header change is read at most this often (an animated corner could otherwise ask for a reading every tick).
 const CHANGE_READ_EVERY: Duration = Duration::from_millis(1000);
+/// Dev builds: the icon bar's scores are written again this often even when nothing changes.
+const BAR_SAY_EVERY: Duration = Duration::from_secs(10);
 /// « Songe » mode, out of a fight: the mouse is checked this often. Once it rests, the area around it is read after
 /// these delays (the tooltip may take a moment to show) until a group tooltip is found; nothing while it moves.
 const HOVER_TICK: Duration = Duration::from_millis(50);
@@ -710,6 +712,10 @@ struct Reader {
     hover_tries: usize,
     /// Whether the icon bar's scores were written this run (once, then on a change).
     bar_said: bool,
+    /// When they were last written: dev builds say them again every BAR_SAY_EVERY, however little changes.
+    bar_at: Option<Instant>,
+    /// Whether Songe was last seen waiting for a fight to end (said once, not every tick).
+    songe_waiting: bool,
     /// The last known icon bar (never Unknown): None until the bar was recognised once.
     bar: Option<Bar>,
     /// What was last written to the diagnostic log about the window (errors, size), to log changes only.
@@ -1010,6 +1016,8 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
             still_since: now,
             hover_tries: 0,
             bar_said: false,
+            bar_at: None,
+            songe_waiting: false,
             bar: None,
             logged_state: String::new(),
             stats: Stats::default(),
@@ -1036,7 +1044,20 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                 Some(bar) => bar == Bar::Fight,
                 None => in_fight.0.load(Ordering::Relaxed),
             };
-            let hovering = songe.0.load(Ordering::Relaxed) && !fighting;
+            let songe_on = songe.0.load(Ordering::Relaxed);
+            let hovering = songe_on && !fighting;
+            // said once, when it starts: Songe reads nothing during a fight, and the player sees only that the red
+            // square around the mouse is gone. The fight itself comes from the game's own icon bar, which the game
+            // can leave on its fight icons after a fight is over — then nothing is hovered and nothing says why
+            // (owner, 2026-11-21).
+            if songe_on && fighting != r.songe_waiting {
+                r.songe_waiting = fighting;
+                if fighting {
+                    note(&mut r, "Songe on, but a fight is in progress: nothing is read until it is over".into());
+                } else {
+                    note(&mut r, "Songe reads again: the fight is over".into());
+                }
+            }
             let period = if hovering { HOVER_TICK } else { TICK };
             std::thread::sleep(period.saturating_sub(r.loop_start.elapsed()));
             r.loop_start = Instant::now();
@@ -1112,7 +1133,8 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                 let ((px, w, h), (ww, wh)) = &corner;
                 window = Some((*ww, *wh));
                 note(&mut r, format!("reading Dofus, {ww}×{wh}"));
-                show_areas(&app, id, vec![(0, 0, *w as i32, *h as i32)]);
+                let scale = platform::capture_scale();
+                show_areas(&app, id, vec![(0, 0, (*w / scale) as i32, (*h / scale) as i32)]);
                 // « Scanner ma sous-zone » clicked with the zone not followed (its option off): this corner answers it
                 if let Some(left) = scan_due(&app, &reading.1) {
                     emit_scan(&app, Some(engine), Some(&corner), left);
@@ -1127,8 +1149,10 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                 if cfg!(debug_assertions) {
                     dump_corner(px, *w, *h, bar, *wh);
                 }
-                if bar_changed || !r.bar_said {
+                let said_long_ago = cfg!(debug_assertions) && r.bar_at.is_none_or(|t| t.elapsed() >= BAR_SAY_EVERY);
+                if bar_changed || !r.bar_said || said_long_ago {
                     r.bar_said = true;
+                    r.bar_at = Some(Instant::now());
                     let (eye, info, heart) = scores_in(px, *w, *h, *wh * platform::capture_scale());
                     diag::log(
                         "fight",
