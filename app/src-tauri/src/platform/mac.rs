@@ -241,6 +241,9 @@ fn shoot(
         config.setHeight(shot.h as usize);
         config.setShowsCursor(false);
         config.setPixelFormat(0x4247_5241); // 'BGRA'
+        // sRGB, not the screen's own space: the pixels are compared to numbers measured on Windows (the tooltip
+        // colours Songe looks for), and a wide-gamut screen gives the same colour other numbers (owner, 2026-11-20)
+        config.setColorSpaceName(objc2_core_graphics::kCGColorSpaceSRGB);
     }
     let done = RcBlock::new(move |image: *mut CGImage, _error: *mut NSError| {
         let _ = tx.send(unsafe { image.as_ref() }.map(bgra_of).unwrap_or(Err(CaptureError::Failed)));
