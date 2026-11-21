@@ -50,6 +50,19 @@ const HOVER_BELOW: i32 = 250;
 /// Grey level above which a pixel counts as light text (the header, the fight button, « Combat terminé »).
 pub const LIGHT: u8 = 200;
 pub const SCALE: u32 = 2;
+
+/// How much the image handed to the OCR is enlarged beyond what was captured. The capture already gives
+/// `capture_scale` pixels per point of the window, so only what is missing is added: on a Retina screen the pixels
+/// are the screen's own instead of a guess between them (owner, 2026-11-21).
+fn ocr_up() -> u32 {
+    SCALE.div_ceil(platform::capture_scale()).max(1)
+}
+
+/// How much larger than the window's points that image is, whatever the screen gave: `scaled_down` undoes it, so a
+/// line read always comes back in points, as it always did.
+fn ocr_total() -> u32 {
+    platform::capture_scale() * ocr_up()
+}
 // A tooltip's text is no longer cut at a grey of its own (140 for its monster lines, the light 200 for its bold level
 // line read apart in a band at the top): `smooth_text` keeps every grey and the one pass finds both.
 
@@ -193,11 +206,12 @@ fn smooth_text(bgra: &[u8], width: u32, height: u32) -> (Vec<u8>, u32, u32) {
     let span = hi.saturating_sub(lo).max(1) as f32;
     let page: Vec<f32> = greys.iter().map(|&g| 255.0 - (g.saturating_sub(lo) as f32 / span) * 255.0).collect();
     let at = |x: i64, y: i64| page[(y.clamp(0, h as i64 - 1) * w as i64 + x.clamp(0, w as i64 - 1)) as usize];
-    let (ow, oh) = (width * SCALE, height * SCALE);
+    let up = ocr_up();
+    let (ow, oh) = (width * up, height * up);
     let mut out = vec![255u8; (ow * oh * 4) as usize];
     for y in 0..oh {
         for x in 0..ow {
-            let (fx, fy) = ((x as f32 + 0.5) / SCALE as f32 - 0.5, (y as f32 + 0.5) / SCALE as f32 - 0.5);
+            let (fx, fy) = ((x as f32 + 0.5) / up as f32 - 0.5, (y as f32 + 0.5) / up as f32 - 0.5);
             let (x0, y0) = (fx.floor() as i64, fy.floor() as i64);
             let (tx, ty) = (fx - x0 as f32, fy - y0 as f32);
             let above = at(x0, y0) * (1.0 - tx) + at(x0 + 1, y0) * tx;
@@ -211,11 +225,12 @@ fn smooth_text(bgra: &[u8], width: u32, height: u32) -> (Vec<u8>, u32, u32) {
 }
 
 fn binarize(bgra: &[u8], width: u32, height: u32, threshold: u8) -> (Vec<u8>, u32, u32) {
-    let (ow, oh) = (width * SCALE, height * SCALE);
+    let up = ocr_up();
+    let (ow, oh) = (width * up, height * up);
     let mut out = vec![255u8; (ow * oh * 4) as usize];
     for y in 0..oh {
         for x in 0..ow {
-            let i = (((y / SCALE) * width + (x / SCALE)) * 4) as usize;
+            let i = (((y / up) * width + (x / up)) * 4) as usize;
             if grey(&bgra[i..i + 3]) > threshold as u32 {
                 let o = ((y * ow + x) * 4) as usize;
                 out[o..o + 3].copy_from_slice(&[0, 0, 0]);
@@ -294,14 +309,15 @@ fn pure_white_text(bgra: &[u8], width: u32, height: u32) -> (Vec<u8>, u32, u32) 
     let mut keep: Vec<bool> = bgra.as_chunks::<4>().0.iter().map(|p| p[..3].iter().all(|&c| c >= PURE_WHITE)).collect();
     // the background is almost never pure white: only lone pixels to drop, the minus signs and commas stay
     drop_specks(&mut keep, width, height, PURE_SPECK_MAX);
-    let (ow, oh) = (width * SCALE, height * SCALE);
+    let up = ocr_up();
+    let (ow, oh) = (width * up, height * up);
     let mut out = vec![255u8; (ow * oh * 4) as usize];
     for y in 0..height {
         for x in 0..width {
             if keep[(y * width + x) as usize] {
-                for dy in 0..SCALE {
-                    for dx in 0..SCALE {
-                        let o = (((y * SCALE + dy) * ow + x * SCALE + dx) * 4) as usize;
+                for dy in 0..up {
+                    for dx in 0..up {
+                        let o = (((y * up + dy) * ow + x * up + dx) * 4) as usize;
                         out[o..o + 3].copy_from_slice(&[0, 0, 0]);
                     }
                 }
@@ -333,14 +349,15 @@ fn outlined_text(bgra: &[u8], width: u32, height: u32) -> (Vec<u8>, u32, u32) {
     };
     let mut keep: Vec<bool> = (0..width * height).map(|i| at(i % width, i / width) > LIGHT as u32 && near_dark(i % width, i / width)).collect();
     drop_specks(&mut keep, width, height, SPECK_MAX);
-    let (ow, oh) = (width * SCALE, height * SCALE);
+    let up = ocr_up();
+    let (ow, oh) = (width * up, height * up);
     let mut out = vec![255u8; (ow * oh * 4) as usize];
     for y in 0..height {
         for x in 0..width {
             if keep[(y * width + x) as usize] {
-                for dy in 0..SCALE {
-                    for dx in 0..SCALE {
-                        let o = (((y * SCALE + dy) * ow + x * SCALE + dx) * 4) as usize;
+                for dy in 0..up {
+                    for dx in 0..up {
+                        let o = (((y * up + dy) * ow + x * up + dx) * 4) as usize;
                         out[o..o + 3].copy_from_slice(&[0, 0, 0]);
                     }
                 }
@@ -397,7 +414,7 @@ fn has_whole_title(text: &str) -> bool {
 }
 
 fn scaled_down(lines: Vec<OcrLine>) -> Vec<OcrLine> {
-    let s = SCALE as i32;
+    let s = ocr_total() as i32;
     lines.into_iter().map(|l| OcrLine { x: l.x / s, y: l.y / s, w: l.w / s, h: l.h / s, ..l }).collect()
 }
 
@@ -410,7 +427,7 @@ pub fn read_frame(
 ) -> Result<Vec<OcrLine>, String> {
     let (img, w, h) = light_text(bgra, width, height);
     let lines = platform::recognize(engine, &img, w, h)?;
-    let s = SCALE as i32;
+    let s = ocr_total() as i32;
     Ok(lines
         .into_iter()
         .map(|l| OcrLine {
@@ -574,33 +591,35 @@ pub fn read_hovered(
     cx: i32,
     cy: i32,
 ) -> Result<Vec<OcrLine>, String> {
-    read_hovered_in(engine, bgra, width, height, (0, 0), (width, height), cx, cy)
+    read_hovered_in(engine, bgra, bgra, width, height, (0, 0), (width, height), cx, cy, 1)
 }
 
 /// `read_hovered` on a piece of the window (see find_tooltips_in): lines in the window's pixels.
 #[allow(clippy::too_many_arguments)]
 pub fn read_hovered_in(
     engine: &OcrEngine,
-    bgra: &[u8],
+    points: &[u8],
+    pixels: &[u8],
     iw: u32,
     ih: u32,
     at: (i32, i32),
     window: (u32, u32),
     cx: i32,
     cy: i32,
+    scale: u32,
 ) -> Result<Vec<OcrLine>, String> {
     // only the tooltips' own boxes are read (found by their colour, on any side of the mouse): about a tenth of the
     // area read before, and none of the bright map around them (owner, 2026-11-20)
     let mut lines = Vec::new();
     let back = |l: OcrLine| OcrLine { x: l.x + at.0, y: l.y + at.1, ..l };
-    for (x, y, w, h) in find_tooltips_in(bgra, iw, ih, at, window, cx, cy) {
+    for (x, y, w, h) in find_tooltips_in(points, iw, ih, at, window, cx, cy) {
         let (x, y) = (x - at.0, y - at.1);
         // the bold white level line reads best on its own, light pixels only; the grey monster lines below at a
         // lower threshold (measured on the owner's five captures, 2026-11-20)
         // one pass, not two: the level line used to be read on its own, light pixels only, because the cut at a
         // fixed grey lost it among the monster lines. The whole box read at once finds it now, and a Songe reading
         // costs half what it did (owner, 2026-11-21).
-        let body = read_area(engine, bgra, iw, ih, (x, y, x + w, y + h))?;
+        let body = read_area(engine, pixels, iw * scale, ih * scale, (x, y, x + w, y + h), scale)?;
         let level = body.iter().find(|l| is_group_header(&l.text)).cloned();
         if let Some(level) = level {
             let below = level.y + level.h / 2;
@@ -618,20 +637,23 @@ fn read_area(
     width: u32,
     height: u32,
     (x0, y0, x1, y1): (i32, i32, i32, i32),
+    scale: u32,
 ) -> Result<Vec<OcrLine>, String> {
+    // the area is in the window's points, `bgra` in the screen's pixels: on a Retina screen there are two of them
+    // to a point, and those are the ones the OCR reads (owner, 2026-11-21)
     let (x0, y0) = (x0.max(0), y0.max(0));
-    let (x1, y1) = (x1.min(width as i32), y1.min(height as i32));
+    let (x1, y1) = (x1.min((width / scale) as i32), y1.min((height / scale) as i32));
     if x1 - x0 < 20 || y1 - y0 < 10 {
         return Ok(vec![]);
     }
-    let (cw, ch) = ((x1 - x0) as u32, (y1 - y0) as u32);
+    let (cw, ch) = ((x1 - x0) as u32 * scale, (y1 - y0) as u32 * scale);
     let mut crop = Vec::with_capacity((cw * ch * 4) as usize);
-    for y in y0..y1 {
-        let start = ((y as u32 * width + x0 as u32) * 4) as usize;
+    for y in y0 as u32 * scale..y1 as u32 * scale {
+        let start = ((y * width + x0 as u32 * scale) * 4) as usize;
         crop.extend_from_slice(&bgra[start..start + (cw * 4) as usize]);
     }
     let (img, w, h) = smooth_text(&crop, cw, ch);
-    let s = SCALE as i32;
+    let s = (scale * ocr_up()) as i32;
     Ok(platform::recognize(engine, &img, w, h)?
         .into_iter()
         .map(|l| OcrLine {
@@ -893,18 +915,56 @@ fn timed_corner(id: WindowId, stats: &mut Stats) -> Result<(Frame, (u32, u32)), 
 
 /// Songe: the square around the mouse (hover_square), cut out of a capture at once (the rest is dropped there), and
 /// its top left in the window.
-fn timed_square(id: WindowId, cx: i32, cy: i32, stats: &mut Stats) -> Option<(Frame, (i32, i32))> {
+fn timed_square(id: WindowId, cx: i32, cy: i32, window: (u32, u32), stats: &mut Stats) -> Option<(Frame, Frame, (i32, i32))> {
+    let scale = platform::capture_scale();
     let (full, fw, fh) = timed_capture(id, stats).ok()?;
-    let (sx, sy, sw, sh) = hover_square(cx, cy, (fw, fh));
+    let (sx, sy, sw, sh) = hover_square(cx, cy, window);
     if sw <= 0 || sh <= 0 {
         return None;
     }
-    let mut square = Vec::with_capacity((sw * sh * 4) as usize);
-    for y in sy..sy + sh {
-        let start = ((y as u32 * fw + sx as u32) * 4) as usize;
-        square.extend_from_slice(&full[start..start + (sw * 4) as usize]);
+    // the square in the screen's own pixels, clipped to what was really captured
+    let (px0, py0) = (sx as u32 * scale, sy as u32 * scale);
+    let pw = (sw as u32 * scale).min(fw.saturating_sub(px0));
+    let ph = (sh as u32 * scale).min(fh.saturating_sub(py0));
+    if pw < scale || ph < scale {
+        return None;
     }
-    Some(((square, sw as u32, sh as u32), (sx, sy)))
+    let mut pixels = Vec::with_capacity((pw * ph * 4) as usize);
+    for y in py0..py0 + ph {
+        let start = ((y * fw + px0) * 4) as usize;
+        pixels.extend_from_slice(&full[start..start + (pw * 4) as usize]);
+    }
+    let points = to_points(&pixels, pw, ph, scale);
+    Some((points, (pixels, pw, ph), (sx, sy)))
+}
+
+/// A capture in the screen's pixels, averaged down to the window's points: what every measurement is made on. The
+/// tooltips are found on this, and their text read on the pixels it came from (owner, 2026-11-21).
+fn to_points(px: &[u8], w: u32, h: u32, scale: u32) -> Frame {
+    if scale <= 1 {
+        return (px.to_vec(), w, h);
+    }
+    let (ow, oh) = (w / scale, h / scale);
+    let mut out = vec![255u8; (ow * oh * 4) as usize];
+    let n = scale * scale;
+    for y in 0..oh {
+        for x in 0..ow {
+            let mut sum = [0u32; 3];
+            for dy in 0..scale {
+                for dx in 0..scale {
+                    let i = (((y * scale + dy) * w + x * scale + dx) * 4) as usize;
+                    for (c, v) in sum.iter_mut().enumerate() {
+                        *v += px[i + c] as u32;
+                    }
+                }
+            }
+            let o = ((y * ow + x) * 4) as usize;
+            for (c, v) in sum.iter().enumerate() {
+                out[o + c] = (v / n) as u8;
+            }
+        }
+    }
+    (out, ow, oh)
 }
 
 fn timed_capture(id: WindowId, stats: &mut Stats) -> Result<Frame, CaptureError> {
@@ -1059,7 +1119,7 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                 }
                 let mask = corner_mask(px, *w, *h);
                 let changed = r.read_mask.as_ref().is_none_or(|m| corner_changed(m, &mask));
-                let bar = read_bar_in(px, *w, *h, *wh);
+                let bar = read_bar_in(px, *w, *h, *wh * platform::capture_scale());
                 let bar_changed = bar != Bar::Unknown && r.bar != Some(bar);
                 // said once a run even when it changes nothing: the scores used to be written on a change alone, so a
                 // run that never recognised the bar said nothing at all, and there was no way to tell a game without
@@ -1069,7 +1129,7 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                 }
                 if bar_changed || !r.bar_said {
                     r.bar_said = true;
-                    let (eye, info, heart) = scores_in(px, *w, *h, *wh);
+                    let (eye, info, heart) = scores_in(px, *w, *h, *wh * platform::capture_scale());
                     diag::log(
                         "fight",
                         &format!("icon bar: {bar:?} (eye {eye:.2}, i {info:.2}, heart {heart:.2}), window {ww}×{wh}"),
@@ -1139,11 +1199,12 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
             }
             r.hover_tries += 1;
             // only the square around the mouse is kept of this capture (owner, 2026-11-20)
-            let Some(((px, sw, sh), at)) = timed_square(id, cx, cy, &mut r.stats) else {
+            let Some(((px, sw, sh), (pixels, _, _), at)) = timed_square(id, cx, cy, (ww, wh), &mut r.stats) else {
                 continue;
             };
             let started = Instant::now();
-            let lines = read_hovered_in(engine, &px, sw, sh, at, (ww, wh), cx, cy).unwrap_or_default();
+            let scale = platform::capture_scale();
+            let lines = read_hovered_in(engine, &px, &pixels, sw, sh, at, (ww, wh), cx, cy, scale).unwrap_or_default();
             // dev builds: the header corner and the tooltip boxes read, with what the colour test let through
             // (what tells a tooltip found from one missed)
             if cfg!(debug_assertions) {
@@ -1294,6 +1355,32 @@ mod tests {
             for m in monsters {
                 assert!(texts.iter().any(|t| t.contains(m)), "{name}: {m} in {texts:?}");
             }
+        }
+    }
+
+    #[test]
+    fn a_retina_capture_reads_the_same_group() {
+        // On a Retina screen the window is captured at two pixels to a point: the tooltips are found on the points
+        // and the text read on the pixels. Here the saved frame stands for the points and is doubled to stand for
+        // the pixels, so the plumbing is exercised end to end — the same group has to come back (owner, 2026-11-21).
+        let engine = platform::ocr_engine().expect("fr-FR OCR");
+        let (name, (cx, cy), level, monsters) = SONGE[0];
+        let (px, w, h) = load(name);
+        let (pw, ph) = (w * 2, h * 2);
+        let mut pixels = vec![0u8; (pw * ph * 4) as usize];
+        for y in 0..ph {
+            for x in 0..pw {
+                let from = (((y / 2) * w + x / 2) * 4) as usize;
+                let to = ((y * pw + x) * 4) as usize;
+                pixels[to..to + 4].copy_from_slice(&px[from..from + 4]);
+            }
+        }
+        assert_eq!(to_points(&pixels, pw, ph, 2).0, px, "doubled and averaged back gives the frame again");
+        let lines = read_hovered_in(&engine, &px, &pixels, w, h, (0, 0), (w, h), cx, cy, 2).unwrap();
+        let texts: Vec<&str> = lines.iter().map(|l| l.text.as_str()).collect();
+        assert!(texts.iter().any(|t| is_group_header(t) && t.contains(level)), "{name}: {texts:?}");
+        for m in monsters {
+            assert!(texts.iter().any(|t| t.contains(m)), "{name}: {m} in {texts:?}");
         }
     }
 

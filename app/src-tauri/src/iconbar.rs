@@ -38,19 +38,35 @@ fn corner(bgra: &[u8], width: u32, height: u32, window_h: u32) -> Option<Vec<f32
         let i = ((y.min(height - 1) * width + x.min(width - 1)) * 4) as usize;
         (bgra[i] as u32 * 114 + bgra[i + 1] as u32 * 587 + bgra[i + 2] as u32 * 299) as f32 / 1000.0
     };
+    // how many captured pixels one pixel of the icons' frame covers, when the capture holds more of them
+    let step = scale.round().max(1.0) as u32;
     let mut out = Vec::with_capacity((AREA_W * AREA_H) as usize);
     for y in 0..AREA_H {
         for x in 0..AREA_W {
-            // each pixel mixed from the four around it, never the nearest one: the icons are drawn at the window's
-            // own size, so anything but a 1009-pixel-high game lands between pixels. Taking the nearest dropped the
-            // eye of a calm bar from 0.99 to 0.89 and its « i » from 1.00 to 0.91 at a 847-pixel-high window, a hair
-            // over the 0.90 a match needs, and under it at 800 — where no fight was seen at all (owner, 2026-11-21).
+            // never the nearest pixel: the icons are drawn at the window's own size, so anything but a
+            // 1009-pixel-high game lands between pixels. Taking the nearest dropped the eye of a calm bar from 0.99
+            // to 0.89 and its « i » from 1.00 to 0.91 at a 847-pixel-high window, a hair over the 0.90 a match
+            // needs, and under it at 800 — where no fight was seen at all (owner, 2026-11-21).
             let (fx, fy) = (x as f32 * scale, y as f32 * scale);
-            let (x0, y0) = (fx.floor() as u32, fy.floor() as u32);
-            let (tx, ty) = (fx - x0 as f32, fy - y0 as f32);
-            let above = grey(x0, y0) * (1.0 - tx) + grey(x0 + 1, y0) * tx;
-            let below = grey(x0, y0 + 1) * (1.0 - tx) + grey(x0 + 1, y0 + 1) * tx;
-            out.push(above * (1.0 - ty) + below * ty);
+            out.push(if step > 1 {
+                // the capture holds more pixels than the frame the icons were measured in (a Retina screen): each
+                // one is the whole square it stands for, averaged. Mixing the four nearest instead skips the rest
+                // and the « i » of a calm bar fell from 0.94 to 0.90 (owner, 2026-11-21).
+                let (x0, y0) = (fx.round() as u32, fy.round() as u32);
+                let mut sum = 0.0;
+                for dy in 0..step {
+                    for dx in 0..step {
+                        sum += grey(x0 + dx, y0 + dy);
+                    }
+                }
+                sum / (step * step) as f32
+            } else {
+                let (x0, y0) = (fx.floor() as u32, fy.floor() as u32);
+                let (tx, ty) = (fx - x0 as f32, fy - y0 as f32);
+                let above = grey(x0, y0) * (1.0 - tx) + grey(x0 + 1, y0) * tx;
+                let below = grey(x0, y0 + 1) * (1.0 - tx) + grey(x0 + 1, y0 + 1) * tx;
+                above * (1.0 - ty) + below * ty
+            });
         }
     }
     Some(out)

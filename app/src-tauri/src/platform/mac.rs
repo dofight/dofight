@@ -149,7 +149,19 @@ fn forget_content() {
     }
 }
 
-/// The window's content (without its title bar when windowed), one pixel per point (Retina: halved), in BGRA:
+/// How many captured pixels go to one point of the window: 2 on a Retina screen, 1 elsewhere. Read once, at setup.
+static CAPTURE_SCALE: std::sync::atomic::AtomicU32 = std::sync::atomic::AtomicU32::new(1);
+
+/// Captured pixels per point of the window.
+///
+/// The window used to be asked for at its size in points, which on a Retina screen is half of what the screen
+/// draws: the game's text came back at eleven pixels a line when twenty-two were there, and the icon bar's eye
+/// scored 0.89 against the 0.94 the same eye scores on a screenshot of the same window (owner, 2026-11-21).
+pub fn capture_scale() -> u32 {
+    CAPTURE_SCALE.load(std::sync::atomic::Ordering::Relaxed)
+}
+
+/// The window's content (without its title bar when windowed), `capture_scale` pixels per point, in BGRA:
 /// ScreenCaptureKit's one-shot capture of that window only (macOS 14), whatever covers it.
 pub fn capture(id: WindowId) -> Result<Frame, CaptureError> {
     capture_rect(id, None)
@@ -177,7 +189,7 @@ fn capture_rect(id: WindowId, size: Option<(f64, f64)>) -> Result<Frame, Capture
     let (inner_x, inner_y) = (cx - frame.0, cy - frame.1); // the content inside the window (the title bar above)
     let (tx, rx) = mpsc::channel::<Result<Frame, CaptureError>>();
     let window_id = id as u32;
-    let shot = Shot { window_id, inner_x, inner_y, w, h };
+    let shot = Shot { window_id, inner_x, inner_y, w, h, scale: capture_scale() };
     // the list of shareable windows from the last few seconds, when it still has the game's window: asking macOS
     // for a fresh one costs about 100 ms every time (owner, 2026-11-20)
     let mut asked = false;
@@ -213,6 +225,7 @@ struct Shot {
     inner_y: f64,
     w: f64,
     h: f64,
+    scale: u32,
 }
 
 /// Takes the shot from a list of shareable windows, answering on `tx`. False when that list has no such window, and
@@ -237,8 +250,10 @@ fn shoot(
     let config = unsafe { SCStreamConfiguration::new() };
     unsafe {
         config.setSourceRect(SCRect { origin: CGPoint { x: shot.inner_x, y: shot.inner_y }, size: CGSize { width: shot.w, height: shot.h } });
-        config.setWidth(shot.w as usize);
-        config.setHeight(shot.h as usize);
+        // the rectangle asked for is in points, the image asked for is in pixels: that is where the screen's own
+        // detail comes from on a Retina display
+        config.setWidth(shot.w as usize * shot.scale as usize);
+        config.setHeight(shot.h as usize * shot.scale as usize);
         config.setShowsCursor(false);
         config.setPixelFormat(0x4247_5241); // 'BGRA'
         // sRGB, not the screen's own space: the pixels are compared to numbers measured on Windows (the tooltip
@@ -522,6 +537,11 @@ pub fn setup(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
     use tauri::image::Image;
     use tauri::tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent};
     app.set_activation_policy(tauri::ActivationPolicy::Accessory);
+    // read here, on the main thread, for the reader's own thread to use (NSScreen is main-thread only)
+    if let Some(monitor) = app.primary_monitor()? {
+        CAPTURE_SCALE.store(monitor.scale_factor().round().max(1.0) as u32, std::sync::atomic::Ordering::Relaxed);
+    }
+    crate::diag::log("screen", &format!("captures at {} pixels per point", capture_scale()));
     if let Some(panel) = app.get_webview_window("panel") {
         float_panel(&panel);
     }
