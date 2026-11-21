@@ -23,7 +23,7 @@
 </p>
 
 Gratuit et open source. Dofight lit **le coin en haut à gauche de la fenêtre Dofus** : le nom de la sous-zone, les
-coordonnées de la carte et la barre d'icônes, qui lui indique qu'un combat commence. En mode Songe, il lit aussi une
+coordonnées de la carte et la barre d'icônes, qui lui indique qu'un combat commence. En mode Songes, il lit aussi une
 zone autour de ta souris, pour y trouver l'infobulle du groupe de monstres survolé. Un interrupteur coupe cette
 lecture (Paramètres → « Lecture de l'écran »). Il ne joue pas à ta place, n'envoie rien au jeu et ne lit ni sa
 mémoire, ni ses fichiers, ni son trafic réseau.
@@ -63,7 +63,7 @@ l'affiche ou le cache (raccourci modifiable dans les paramètres). Les mises à 
 - **Résistances et sorts** de chaque monstre, avec le détail de chaque sort.
 - **Les grosses mécaniques expliquées** (cycle lunaire, vagues de monstres, modificateurs de dimension…) : survole
   la pastille « ⓘ » pour un aperçu, clique pour l'épingler.
-- **Mode Songe** : il s'active tout seul quand tu entres dans un Songe ; survole un groupe de monstres sur la carte
+- **Mode Songes** : il s'active tout seul quand tu entres dans un Songe ; survole un groupe de monstres sur la carte
   et Dofight l'affiche avant le combat.
 - **Recherche** d'un donjon, d'une sous-zone ou d'un monstre ; « Aller en [x,y] » copie la commande de voyage à
   coller dans le chat.
@@ -79,7 +79,7 @@ l'affiche ou le cache (raccourci modifiable dans les paramètres). Les mises à 
 Il capture la fenêtre Dofus, seulement quand elle est au premier plan, et en lit le coin en haut à gauche (le nom de
 la sous-zone, les coordonnées de la carte et la barre d'icônes). En combat, il surveille surtout la barre d'icônes ;
 s'il ne connaît pas encore ta sous-zone (Dofight ouvert en plein combat), il relit le nom de la sous-zone plus
-souvent, jusqu'à la trouver. En mode Songe, hors combat, quand ta souris s'arrête, il lit aussi une zone autour
+souvent, jusqu'à la trouver. En mode Songes, hors combat, quand ta souris s'arrête, il lit aussi une zone autour
 d'elle (environ 800 × 700 pixels, surtout au-dessus) pour y trouver l'infobulle du groupe de monstres survolé ; il
 n'en retient que le texte de cette infobulle. Les captures ne quittent jamais ton PC. Tu peux couper cette lecture
 dans Paramètres → « Lecture de l'écran » : Dofight ne capture alors la fenêtre Dofus que lorsque tu cliques sur «
@@ -111,7 +111,7 @@ Website: [dofight.github.io](https://dofight.github.io/?lang=en) · [Discord](ht
 
 The fight assistant for Dofus 3: a panel next to the game that shows what makes the monsters around you dangerous,
 with their resistances and spells. Free and open source. Dofight reads **the top-left corner of the Dofus window**:
-the subarea name, the map coordinates and the icon bar, which tells it when a fight starts. In Songe mode, it also
+the subarea name, the map coordinates and the icon bar, which tells it when a fight starts. In Dreams mode, it also
 reads an area around your mouse to find the tooltip of the hovered monster group. One switch turns that off
 (Settings → “Screen reading”). It doesn't play for you, sends nothing to the game, and doesn't read the game's
 memory, files or network traffic.
@@ -147,7 +147,7 @@ The interface is in French by default: switch to English in Paramètres → Lang
 - **Resistances and spells** of each monster, with a detailed sheet for each spell.
 - **The big mechanics explained** (lunar cycle, monster waves, dimension modifiers…): hover over the “ⓘ” chip for a
   preview, click to pin it.
-- **Songe mode**: it turns on by itself when you enter a Songe; hover over a monster group on the map and Dofight
+- **Dreams mode**: it turns on by itself when you enter a Dream; hover over a monster group on the map and Dofight
   shows it before the fight.
 - **Search** for a dungeon, a subarea or a monster; “Go to [x,y]” copies the travel command to paste in the chat.
 - **Filter the results**: type a spell, a badge or an effect (“push”, “AP”…) to keep only the monsters concerned
@@ -163,7 +163,7 @@ Summaries are available in English; the linked guides are in French.
 **Is it allowed?** Dofight is neither a bot nor a mod: it does not click, sends nothing to the game and changes
 nothing. It captures the Dofus window, only while it's in the foreground, and reads its top-left corner (the subarea
 name, the map coordinates and the icon bar). In a fight it mostly watches the icon bar; if it doesn't know your
-subarea yet (Dofight opened mid-fight), it re-reads the subarea name more often until it finds it. In Songe mode,
+subarea yet (Dofight opened mid-fight), it re-reads the subarea name more often until it finds it. In Dreams mode,
 out of a fight, when your mouse stops, it also reads an area around it (about 800 × 700 pixels, mostly above it) to
 find the tooltip of the hovered monster group; it keeps only that tooltip's text. The captures never leave your PC.
 You can turn this off in Settings → “Screen reading”: Dofight then captures the Dofus window only when you click
