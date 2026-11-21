@@ -15,7 +15,10 @@ vi.mock("@tauri-apps/plugin-updater", () => ({ check: vi.fn(async () => null) })
 vi.mock("@tauri-apps/plugin-process", () => ({ relaunch: vi.fn() }));
 // the clipboard: what « Copier mes réglages » wrote is what « Coller des réglages » reads
 let clipboard = "";
-vi.mock("@tauri-apps/plugin-clipboard-manager", () => ({ readText: vi.fn(async () => clipboard) }));
+vi.mock("@tauri-apps/plugin-clipboard-manager", () => ({
+  readText: vi.fn(async () => clipboard),
+  writeText: vi.fn(async (text: string) => void (clipboard = text)),
+}));
 vi.mock("@tauri-apps/plugin-window-state", () => ({ saveWindowState: vi.fn(), StateFlags: { ALL: 63, VISIBLE: 2 } }));
 vi.mock("@tauri-apps/api/window", () => {
   const win = {
@@ -27,6 +30,8 @@ vi.mock("@tauri-apps/api/window", () => {
   const monitor = { position: { x: 0, y: 0 }, size: { width: 1920, height: 1080 }, scaleFactor: 1 };
   return {
     getCurrentWindow: () => win, currentMonitor: vi.fn(async () => monitor), LogicalSize: class {}, LogicalPosition: class {}, PhysicalSize: class {}, PhysicalPosition: class {},
+    // the panel asks where the pointer is, macOS telling an unfocused window nothing (main.ts): far away, so no preview
+    cursorPosition: vi.fn(async () => ({ x: -1, y: -1 })),
     Window: { getByLabel: vi.fn(async () => win) },
   };
 });
@@ -324,8 +329,9 @@ it("says a failed sending in words; the raw error goes to the diagnostic log onl
 
 it("copies the travel command; the button says « Copié » for 1 s", async () => {
   if (!document.getElementById("view-settings")!.hidden) (document.getElementById("back") as HTMLButtonElement).click();
-  const copied: string[] = [];
-  vi.stubGlobal("navigator", { ...navigator, clipboard: { writeText: async (text: string) => void copied.push(text) } });
+  // the copy goes through the clipboard plugin, not navigator.clipboard: the web one needs the document focused and
+  // the panel never takes the focus on macOS (main.ts)
+  clipboard = "";
   const q = document.getElementById("q") as HTMLInputElement;
   q.value = "Antre du Korriandre";
   q.dispatchEvent(new Event("input", { bubbles: true }));
@@ -335,7 +341,7 @@ it("copies the travel command; the button says « Copié » for 1 s", async () =
   const text = button.querySelector(".lbl")!.textContent;
   button.click();
   await vi.waitFor(() => expect(button.querySelector(".lbl")!.textContent).toBe("Copié"));
-  expect(copied[0].startsWith("/travel ")).toBe(true);
+  expect(clipboard.startsWith("/travel ")).toBe(true);
   vi.advanceTimersByTime(1000);
   expect(button.querySelector(".lbl")!.textContent).toBe(text);
   vi.useRealTimers();
