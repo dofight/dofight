@@ -115,6 +115,40 @@ static ASKED: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new
 /// How long a capture may take before it counts as failed.
 const CAPTURE_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(2);
 
+/// How long the list of shareable windows is kept before it is asked for again. Long on purpose: a list too old
+/// costs nothing, the game's window is simply not in it and a fresh one is asked for (another account's window, the
+/// game restarted).
+const CONTENT_TTL: std::time::Duration = std::time::Duration::from_secs(10);
+
+/// The windows ScreenCaptureKit is willing to share, kept for a moment. Asking macOS for them lists every window on
+/// the system and costs about 100 ms, measured, while the reader asks for a capture three times a second: it was
+/// 40 % of a capture. The list only has to hold the game's window, which does not come and go between two frames;
+/// anything else (it closed, another window) falls back to asking again (owner, 2026-11-20).
+struct Shareable(objc2::rc::Retained<objc2_screen_capture_kit::SCShareableContent>);
+/// SAFETY: a snapshot handed by ScreenCaptureKit and never mutated here; Objective-C objects are retained and read
+/// from whichever thread the reader runs on, which is what ARC guarantees.
+unsafe impl Send for Shareable {}
+static CONTENT: std::sync::Mutex<Option<(std::time::Instant, Shareable)>> = std::sync::Mutex::new(None);
+
+fn cached_content() -> Option<objc2::rc::Retained<objc2_screen_capture_kit::SCShareableContent>> {
+    let guard = CONTENT.lock().ok()?;
+    let (at, content) = guard.as_ref()?;
+    (at.elapsed() < CONTENT_TTL).then(|| content.0.clone())
+}
+
+fn remember_content(content: &objc2_screen_capture_kit::SCShareableContent) {
+    use objc2::Message as _;
+    if let Ok(mut guard) = CONTENT.lock() {
+        *guard = Some((std::time::Instant::now(), Shareable(content.retain())));
+    }
+}
+
+fn forget_content() {
+    if let Ok(mut guard) = CONTENT.lock() {
+        *guard = None;
+    }
+}
+
 /// The window's content (without its title bar when windowed), one pixel per point (Retina: halved), in BGRA:
 /// ScreenCaptureKit's one-shot capture of that window only (macOS 14), whatever covers it.
 pub fn capture(id: WindowId) -> Result<Frame, CaptureError> {
@@ -124,11 +158,8 @@ pub fn capture(id: WindowId) -> Result<Frame, CaptureError> {
 /// The window's content, or only its top-left `size` (points).
 fn capture_rect(id: WindowId, size: Option<(f64, f64)>) -> Result<Frame, CaptureError> {
     use block2::RcBlock;
-    use objc2::AnyThread;
-    use objc2_core_foundation::{CGPoint, CGRect as SCRect, CGSize};
-    use objc2_core_graphics::CGImage;
     use objc2_foundation::NSError;
-    use objc2_screen_capture_kit::{SCContentFilter, SCScreenshotManager, SCShareableContent, SCStreamConfiguration};
+    use objc2_screen_capture_kit::SCShareableContent;
     use std::sync::mpsc;
 
     if !unsafe { CGPreflightScreenCaptureAccess() } {
@@ -146,34 +177,76 @@ fn capture_rect(id: WindowId, size: Option<(f64, f64)>) -> Result<Frame, Capture
     let (inner_x, inner_y) = (cx - frame.0, cy - frame.1); // the content inside the window (the title bar above)
     let (tx, rx) = mpsc::channel::<Result<Frame, CaptureError>>();
     let window_id = id as u32;
-    let handler = RcBlock::new(move |content: *mut SCShareableContent, _error: *mut NSError| {
-        let tx = tx.clone();
-        // SAFETY: ScreenCaptureKit hands a valid content (or null on error) for the duration of the call
-        let Some(content) = (unsafe { content.as_ref() }) else {
-            let _ = tx.send(Err(CaptureError::Failed));
-            return;
-        };
-        let windows = unsafe { content.windows() };
-        let Some(window) = windows.iter().find(|win| unsafe { win.windowID() } == window_id) else {
-            let _ = tx.send(Err(CaptureError::Gone));
-            return;
-        };
-        let filter = unsafe { SCContentFilter::initWithDesktopIndependentWindow(SCContentFilter::alloc(), &window) };
-        let config = unsafe { SCStreamConfiguration::new() };
-        unsafe {
-            config.setSourceRect(SCRect { origin: CGPoint { x: inner_x, y: inner_y }, size: CGSize { width: w, height: h } });
-            config.setWidth(w as usize);
-            config.setHeight(h as usize);
-            config.setShowsCursor(false);
-            config.setPixelFormat(0x4247_5241); // 'BGRA'
+    let shot = Shot { window_id, inner_x, inner_y, w, h };
+    // the list of shareable windows from the last few seconds, when it still has the game's window: asking macOS
+    // for a fresh one costs about 100 ms every time (owner, 2026-11-20)
+    let mut asked = false;
+    if let Some(content) = cached_content() {
+        if !shoot(&content, &shot, tx.clone()) {
+            forget_content(); // the window is not in it any more: ask again below
+        } else {
+            asked = true;
         }
-        let done = RcBlock::new(move |image: *mut CGImage, _error: *mut NSError| {
-            let _ = tx.send(unsafe { image.as_ref() }.map(bgra_of).unwrap_or(Err(CaptureError::Failed)));
+    }
+    if !asked {
+        let handler = RcBlock::new(move |content: *mut SCShareableContent, _error: *mut NSError| {
+            // SAFETY: ScreenCaptureKit hands a valid content (or null on error) for the duration of the call
+            let Some(content) = (unsafe { content.as_ref() }) else {
+                let _ = tx.send(Err(CaptureError::Failed));
+                return;
+            };
+            remember_content(content);
+            if !shoot(content, &shot, tx.clone()) {
+                let _ = tx.send(Err(CaptureError::Gone));
+            }
         });
-        unsafe { SCScreenshotManager::captureImageWithFilter_configuration_completionHandler(&filter, &config, Some(&done)) };
-    });
-    unsafe { SCShareableContent::getShareableContentExcludingDesktopWindows_onScreenWindowsOnly_completionHandler(true, true, &handler) };
+        unsafe { SCShareableContent::getShareableContentExcludingDesktopWindows_onScreenWindowsOnly_completionHandler(true, true, &handler) };
+    }
     rx.recv_timeout(CAPTURE_TIMEOUT).unwrap_or(Err(CaptureError::Failed))
+}
+
+/// What one capture asks for: the window and the part of it to take.
+#[derive(Clone, Copy)]
+struct Shot {
+    window_id: u32,
+    inner_x: f64,
+    inner_y: f64,
+    w: f64,
+    h: f64,
+}
+
+/// Takes the shot from a list of shareable windows, answering on `tx`. False when that list has no such window, and
+/// nothing was sent.
+fn shoot(
+    content: &objc2_screen_capture_kit::SCShareableContent,
+    shot: &Shot,
+    tx: std::sync::mpsc::Sender<Result<Frame, CaptureError>>,
+) -> bool {
+    use block2::RcBlock;
+    use objc2::AnyThread;
+    use objc2_core_foundation::{CGPoint, CGRect as SCRect, CGSize};
+    use objc2_core_graphics::CGImage;
+    use objc2_foundation::NSError;
+    use objc2_screen_capture_kit::{SCContentFilter, SCScreenshotManager, SCStreamConfiguration};
+
+    let windows = unsafe { content.windows() };
+    let Some(window) = windows.iter().find(|win| unsafe { win.windowID() } == shot.window_id) else {
+        return false;
+    };
+    let filter = unsafe { SCContentFilter::initWithDesktopIndependentWindow(SCContentFilter::alloc(), &window) };
+    let config = unsafe { SCStreamConfiguration::new() };
+    unsafe {
+        config.setSourceRect(SCRect { origin: CGPoint { x: shot.inner_x, y: shot.inner_y }, size: CGSize { width: shot.w, height: shot.h } });
+        config.setWidth(shot.w as usize);
+        config.setHeight(shot.h as usize);
+        config.setShowsCursor(false);
+        config.setPixelFormat(0x4247_5241); // 'BGRA'
+    }
+    let done = RcBlock::new(move |image: *mut CGImage, _error: *mut NSError| {
+        let _ = tx.send(unsafe { image.as_ref() }.map(bgra_of).unwrap_or(Err(CaptureError::Failed)));
+    });
+    unsafe { SCScreenshotManager::captureImageWithFilter_configuration_completionHandler(&filter, &config, Some(&done)) };
+    true
 }
 
 /// The window's top-left piece only (`width` × `height` in its content's points): ScreenCaptureKit captures just that
