@@ -121,7 +121,7 @@ it("groups the window options in their own card; Apparence keeps language, theme
   expect(win.querySelector("#opacity")).not.toBeNull();
   // everything that looks at the game sits under the screen reading's own switch (owner, 2026-11-18)
   const reading = card("Lecture de l'écran");
-  expect(names(reading)).toEqual(["Suivre ta sous-zone automatiquement", "Ouvrir automatiquement en combat", "Mode Songe automatique", "Masquer hors du jeu"]);
+  expect(names(reading)).toEqual(["Suivre ta sous-zone automatiquement", "Ouvrir automatiquement en combat", "Mode Songes automatique", "Masquer hors du jeu"]);
   expect(reading.querySelector('.switch:has([data-key="hideWhenAway"]) .info')).not.toBeNull();
   expect(reading.querySelector(".cardtitle #opt-reading")).not.toBeNull(); // the card's own switch, in its title
   const look = card("Apparence");
