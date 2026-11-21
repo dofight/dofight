@@ -1,3 +1,4 @@
+import { invoke } from "@tauri-apps/api/core";
 import { emit, listen } from "@tauri-apps/api/event";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { setLang, t } from "./i18n";
@@ -50,8 +51,10 @@ document.addEventListener("pointermove", (e) => {
   if (!detached) {
     detached = true;
     void emit("peek:detach", { label });
-    // the player's own window now: a click on it gives it the focus (owner, 2026-11-20), so Escape closes it
+    // the player's own window now: a click on it gives it the focus (owner, 2026-11-20), so Escape closes it. On
+    // macOS the panel conversion also has to be told, or it keeps refusing the keyboard (platform::detached_side).
     void getCurrentWindow().setFocusable(true);
+    void invoke("side_detached", { label });
     const close = document.querySelector<HTMLElement>(".peek-close");
     close?.setAttribute("title", t("peek.closeDetached"));
     close?.setAttribute("aria-label", t("peek.closeDetached"));
@@ -78,8 +81,10 @@ void listen<{ token: number; html: string; pinned?: boolean; to: string }>("peek
     : "";
   box.innerHTML = close + payload.html;
   box.classList.toggle("pinned", !!payload.pinned);
-  // wait for the layout (and the badge icons, which have a fixed size) before measuring
-  requestAnimationFrame(() => void emit("peek:size", { token: payload.token, height: Math.ceil(box.getBoundingClientRect().height), label }));
+  // measured here and not in a requestAnimationFrame: this window is still hidden, and a hidden window runs no
+  // frames on macOS, so the panel never got the height and never showed the sheet. getBoundingClientRect forces
+  // the layout on its own, and the badge icons have a fixed size, so nothing is left to wait for.
+  void emit("peek:size", { token: payload.token, height: Math.ceil(box.getBoundingClientRect().height), label });
 });
 
 // a side window made after a detach: the panel waits for this before sending it a sheet

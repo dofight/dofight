@@ -17,10 +17,9 @@ import { nameIndex, readGroups } from "./screen/songe";
 import { inDream } from "./screen/dream";
 import { initialStatus, statusText, statusWarns, steadyStatus, type StatusKind } from "./screen/status";
 import type { OcrLine } from "./screen/ocr";
-import { currentMonitor, getCurrentWindow, LogicalPosition, LogicalSize, PhysicalPosition, PhysicalSize, Window } from "@tauri-apps/api/window";
+import { currentMonitor, cursorPosition, getCurrentWindow, LogicalPosition, LogicalSize, PhysicalPosition, PhysicalSize, Window } from "@tauri-apps/api/window";
 import { GAP, previewRect } from "./previewSide";
 import { openUrl } from "@tauri-apps/plugin-opener";
-import { saveWindowState, StateFlags } from "@tauri-apps/plugin-window-state";
 import logo from "./assets/icon-app.png";
 import { enableDragAnywhere } from "./drag";
 import { fetchFromApp, loadSnapshot } from "./load";
@@ -150,7 +149,8 @@ let peekRow: HTMLElement | null = null;
 let peekToken = 0;
 let peekShown = false;
 
-const saveGeometry = () => void saveWindowState(StateFlags.ALL & ~StateFlags.VISIBLE);
+// saved by Rust on the main thread: the plugin's own JS call deadlocked macOS while the panel moved (see save_geometry)
+const saveGeometry = () => void invoke("save_geometry");
 
 /** First launch only: right side of the screen, almost full height. Afterwards the saved geometry is kept. */
 async function placeOnce(): Promise<void> {
@@ -547,7 +547,7 @@ document.addEventListener("focusin", () => document.querySelectorAll(".switch.ti
 
 $("settings-export").addEventListener("click", async () => {
   try {
-    await navigator.clipboard.writeText(exportSettings(settings));
+    await writeText(exportSettings(settings));
     $("backup-status").textContent = t("settings.exported");
   } catch (err) {
     diag("settings", `export failed: ${String(err)}`);
@@ -583,6 +583,51 @@ $("settings-import").addEventListener("click", async () => {
 
 /* ---------- diagnostic: copy the recent log, open its folder ---------- */
 
+// The panel lost the pointer and the keyboard (the player went back to Dofus): whatever had the focus gives it up.
+// A focused field keeps the browser's attention, so the next click on the panel scrolled the list back to it instead
+// of leaving it where the player had scrolled (owner, 2026-11-20).
+window.addEventListener("blur", () => {
+  const el = document.activeElement;
+  if (el instanceof HTMLElement && el !== document.body) el.blur();
+  // the preview is NOT hidden here: showing a sheet makes its own window the key one, which blurs the panel, so the
+  // sheet would close the instant it opened (owner, 2026-11-20). The pointer leaving the page handles it instead.
+});
+
+// Where the pointer is, asked rather than waited for. macOS only sends what the pointer does to the key window of the
+// active application: while the player is in Dofus, the page is told nothing at all, so nothing was hovered until
+// Dofight had been clicked, and a preview already up never went away. Asking for the pointer works whatever has the
+// focus, so the panel looks for itself and feeds the same `hoverOver` the real events do (owner, 2026-11-20).
+const POINTER_WATCH = 120; // ms between two looks
+window.setInterval(() => {
+  if (pinned || (!settings.hoverPeek && !peekShown)) return;
+  void Promise.all([cursorPosition(), win.innerPosition(), win.innerSize(), win.scaleFactor()])
+    .then(([pointer, origin, size, scale]) => {
+      const inside =
+        pointer.x >= origin.x && pointer.x < origin.x + size.width && pointer.y >= origin.y && pointer.y < origin.y + size.height;
+      if (!inside) {
+        if (peekShown && !pinned) hidePeek();
+        return;
+      }
+      // the page's own coordinates: physical pixels from the content's corner, back to CSS ones
+      const x = (pointer.x - origin.x) / scale;
+      const y = (pointer.y - origin.y) / scale;
+      const under = document.elementFromPoint(x, y);
+      // only ever used to show something: were the two coordinate systems ever to disagree, the real pointer events
+      // keep working as they always did instead of this hiding what they just opened (owner, 2026-11-20)
+      if (under instanceof HTMLElement && $("room").contains(under)) hoverOver(under);
+    })
+    .catch(() => {
+      /* the window is going away */
+    });
+}, POINTER_WATCH);
+
+// dev builds only: « DEV » beside the title and in the window title, so a dev window is never taken for the
+// installed Dofight (both can run at once)
+if (import.meta.env.DEV) {
+  document.querySelector(".title")?.insertAdjacentHTML("beforeend", '<small class="devtag">DEV</small>');
+  document.title = "Dofight DEV";
+}
+
 // dev builds only (`pnpm tauri dev`, never a release): outline the areas read in red (the debug window, screen.rs)
 if (import.meta.env.DEV) {
   const box = $<HTMLInputElement>("debug-areas");
@@ -611,7 +656,9 @@ $("log-copy").addEventListener("click", async () => {
       $("log-status").textContent = t("settings.logEmpty");
       return;
     }
-    await navigator.clipboard.writeText(text);
+    // the plugin, never navigator.clipboard: the web one wants the document focused and the panel never takes the
+    // focus on macOS, so it answered NotAllowedError and nothing was copied (owner, 2026-11-20)
+    await writeText(text);
     $("log-status").textContent = t("settings.logCopied");
   } catch (err) {
     diag("log", `copy failed: ${String(err)}`); // the player reads words, the log keeps the error
@@ -844,7 +891,7 @@ void listen<{ token: number; height: number; label: string }>("peek:size", async
   await peek.setSize(new PhysicalSize(side.width, height));
   await peek.setPosition(new PhysicalPosition(side.x, y));
   if (payload.token !== peekToken) return; // hidden meanwhile (the pointer left, the list was drawn again)
-  await peek.show(); // no focus (the window cannot take it)
+  await invoke("side_show", { label: sideLabel }); // never Tauri's show(): it would make the sheet the key window
 });
 
 // a mechanic's chip (room header or a monster's card): its sheet in the side preview, after `delay` ms; pinned by a
@@ -887,9 +934,10 @@ function showSpellAside(sp: HTMLElement, delay: number, pin = false): void {
   }, delay);
 }
 
-$("room").addEventListener("pointerover", (e) => {
+/** What the pointer is over: a mechanic's chip, a spell, a folded monster, or nothing of the three. */
+function hoverOver(target: HTMLElement | null): void {
   if (pinned) return; // a pinned sheet stays while the pointer moves around
-  const mech = (e.target as HTMLElement).closest<HTMLElement>(".mech");
+  const mech = target?.closest<HTMLElement>(".mech") ?? null;
   if (mech) {
     if (mech === peekRow) return;
     if (settings.hoverPeek) showMechanic(mech, PEEK_DELAY);
@@ -897,20 +945,22 @@ $("room").addEventListener("pointerover", (e) => {
     return;
   }
   // a spell of an open card: its sheet in the side preview (a click pins it there)
-  const sp = (e.target as HTMLElement).closest<HTMLElement>(".sp");
+  const sp = target?.closest<HTMLElement>(".sp") ?? null;
   if (sp) {
     if (sp === peekRow) return;
     if (settings.hoverPeek) showSpellAside(sp, PEEK_DELAY);
     else hidePeek();
     return;
   }
-  const row = (e.target as HTMLElement).closest<HTMLElement>('.mob[data-open="false"]');
+  const row = target?.closest<HTMLElement>('.mob[data-open="false"]') ?? null;
   if (row === peekRow) return;
   hidePeek();
   if (!row || !settings.hoverPeek) return;
   peekRow = row;
   peekTimer = window.setTimeout(() => showPeek(row), PEEK_DELAY);
-});
+}
+
+$("room").addEventListener("pointerover", (e) => hoverOver(e.target as HTMLElement));
 $("room").addEventListener("pointerleave", () => {
   if (!pinned) hidePeek(); // a pinned sheet can be reached with the pointer (its « Guide » link)
 });
@@ -1679,7 +1729,7 @@ document.addEventListener("click", async (e) => {
   if (travel) {
     // the player pastes it in the game chat himself: Dofight never types in the game
     // the button says « Copié » in place of its text for 2 s (or « Copie impossible »: the command is on screen)
-    const ok = await navigator.clipboard.writeText(travel.dataset.copy ?? "").then(() => true, () => false);
+    const ok = await writeText(travel.dataset.copy ?? "").then(() => true, () => false);
     showCopied(travel, ok);
     return;
   }

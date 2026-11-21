@@ -6,6 +6,8 @@ import { plain } from "./fixtures";
 // the real overlay page, its real data, and Tauri replaced by inert stubs
 const emitted: { event: string; payload: any }[] = [];
 const listeners = new Map<string, (e: { payload: unknown }) => unknown>();
+// the panel window's own handlers (onMoved…), kept here: mock call histories are cleared between tests
+const windowHandlers = new Map<string, () => unknown>();
 vi.mock("@tauri-apps/api/event", () => ({ listen: vi.fn(async (event: string, cb: (e: { payload: unknown }) => unknown) => (listeners.set(event, cb), () => {})), emit: vi.fn((event: string, payload: unknown) => emitted.push({ event, payload })) }));
 vi.mock("@tauri-apps/plugin-opener", () => ({ openUrl: vi.fn() }));
 vi.mock("@tauri-apps/api/core", () => ({ invoke: vi.fn(async () => []) }));
@@ -13,18 +15,23 @@ vi.mock("@tauri-apps/plugin-updater", () => ({ check: vi.fn(async () => null) })
 vi.mock("@tauri-apps/plugin-process", () => ({ relaunch: vi.fn() }));
 // the clipboard: what « Copier mes réglages » wrote is what « Coller des réglages » reads
 let clipboard = "";
-vi.mock("@tauri-apps/plugin-clipboard-manager", () => ({ readText: vi.fn(async () => clipboard) }));
+vi.mock("@tauri-apps/plugin-clipboard-manager", () => ({
+  readText: vi.fn(async () => clipboard),
+  writeText: vi.fn(async (text: string) => void (clipboard = text)),
+}));
 vi.mock("@tauri-apps/plugin-window-state", () => ({ saveWindowState: vi.fn(), StateFlags: { ALL: 63, VISIBLE: 2 } }));
 vi.mock("@tauri-apps/api/window", () => {
   const win = {
     show: vi.fn(), hide: vi.fn(), isVisible: vi.fn(async () => true), setSize: vi.fn(), setPosition: vi.fn(), scaleFactor: vi.fn(async () => 1),
-    startDragging: vi.fn(), setResizable: vi.fn(async () => {}), onResized: vi.fn(async () => () => {}), onMoved: vi.fn(async () => () => {}), onCloseRequested: vi.fn(async () => () => {}), isMinimized: vi.fn(async () => false),
+    startDragging: vi.fn(), setResizable: vi.fn(async () => {}), onResized: vi.fn(async () => () => {}), onMoved: vi.fn(async (cb: () => unknown) => (windowHandlers.set("moved", cb), () => {})), onCloseRequested: vi.fn(async () => () => {}), isMinimized: vi.fn(async () => false),
     outerPosition: vi.fn(async () => ({ x: 1590, y: 40 })), outerSize: vi.fn(async () => ({ width: 320, height: 1000 })),
     innerPosition: vi.fn(async () => ({ x: 1590, y: 40 })), innerSize: vi.fn(async () => ({ width: 320, height: 1000 })),
   };
   const monitor = { position: { x: 0, y: 0 }, size: { width: 1920, height: 1080 }, scaleFactor: 1 };
   return {
     getCurrentWindow: () => win, currentMonitor: vi.fn(async () => monitor), LogicalSize: class {}, LogicalPosition: class {}, PhysicalSize: class {}, PhysicalPosition: class {},
+    // the panel asks where the pointer is, macOS telling an unfocused window nothing (main.ts): far away, so no preview
+    cursorPosition: vi.fn(async () => ({ x: -1, y: -1 })),
     Window: { getByLabel: vi.fn(async () => win) },
   };
 });
@@ -114,7 +121,7 @@ it("groups the window options in their own card; Apparence keeps language, theme
   expect(win.querySelector("#opacity")).not.toBeNull();
   // everything that looks at the game sits under the screen reading's own switch (owner, 2026-11-18)
   const reading = card("Lecture de l'écran");
-  expect(names(reading)).toEqual(["Suivre ta sous-zone automatiquement", "Ouvrir automatiquement en combat", "Mode Songe automatique", "Masquer hors du jeu"]);
+  expect(names(reading)).toEqual(["Suivre ta sous-zone automatiquement", "Ouvrir automatiquement en combat", "Mode Songes automatique", "Masquer hors du jeu"]);
   expect(reading.querySelector('.switch:has([data-key="hideWhenAway"]) .info')).not.toBeNull();
   expect(reading.querySelector(".cardtitle #opt-reading")).not.toBeNull(); // the card's own switch, in its title
   const look = card("Apparence");
@@ -322,8 +329,9 @@ it("says a failed sending in words; the raw error goes to the diagnostic log onl
 
 it("copies the travel command; the button says « Copié » for 1 s", async () => {
   if (!document.getElementById("view-settings")!.hidden) (document.getElementById("back") as HTMLButtonElement).click();
-  const copied: string[] = [];
-  vi.stubGlobal("navigator", { ...navigator, clipboard: { writeText: async (text: string) => void copied.push(text) } });
+  // the copy goes through the clipboard plugin, not navigator.clipboard: the web one needs the document focused and
+  // the panel never takes the focus on macOS (main.ts)
+  clipboard = "";
   const q = document.getElementById("q") as HTMLInputElement;
   q.value = "Antre du Korriandre";
   q.dispatchEvent(new Event("input", { bubbles: true }));
@@ -333,7 +341,7 @@ it("copies the travel command; the button says « Copié » for 1 s", async () =
   const text = button.querySelector(".lbl")!.textContent;
   button.click();
   await vi.waitFor(() => expect(button.querySelector(".lbl")!.textContent).toBe("Copié"));
-  expect(copied[0].startsWith("/travel ")).toBe(true);
+  expect(clipboard.startsWith("/travel ")).toBe(true);
   vi.advanceTimersByTime(1000);
   expect(button.querySelector(".lbl")!.textContent).toBe(text);
   vi.useRealTimers();
@@ -689,4 +697,20 @@ it("dev builds: Diagnostic has a switch that outlines the areas read in red (own
   box.checked = true;
   box.dispatchEvent(new Event("change"));
   expect(invoke).toHaveBeenCalledWith("set_debug_areas", { on: true });
+});
+
+it("saves the panel's place from Rust on the main thread after a move, never through the plugin's call (a deadlock on macOS)", async () => {
+  const { invoke } = await import("@tauri-apps/api/core");
+  const { saveWindowState } = await import("@tauri-apps/plugin-window-state");
+  const moved = windowHandlers.get("moved")!;
+  vi.mocked(invoke).mockClear();
+  vi.useFakeTimers();
+  try {
+    moved();
+    vi.advanceTimersByTime(400);
+  } finally {
+    vi.useRealTimers();
+  }
+  expect(vi.mocked(invoke).mock.calls.some(([cmd]) => cmd === "save_geometry")).toBe(true);
+  expect(saveWindowState).not.toHaveBeenCalled();
 });

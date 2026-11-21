@@ -319,6 +319,17 @@ pub fn setup(_app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
 /// A side window made at run time (a detached sheet's replacement): its config's always-on-top is enough here.
 pub fn float_side(_side: &tauri::WebviewWindow) {}
 
+/// macOS only (the panels' classes): nothing to put back here.
+pub fn restore_panels(_app: &tauri::AppHandle) {}
+
+/// macOS only: a Windows window already takes the keyboard once it is focusable.
+pub fn detached_side(_side: &tauri::WebviewWindow) {}
+
+/// Windows shows a side window as it always did: a window here never takes the focus on its own.
+pub fn show_side(side: &tauri::WebviewWindow) {
+    let _ = side.show();
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

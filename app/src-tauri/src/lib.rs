@@ -36,9 +36,26 @@ async fn side_window(app: tauri::AppHandle) -> Result<String, String> {
     Ok(label)
 }
 
+/// The sheet the page names was dragged away: it may take the keyboard from now on (Escape closes it).
+#[tauri::command]
+fn side_detached(app: tauri::AppHandle, label: String) -> Result<(), String> {
+    let side = app.get_webview_window(&label).ok_or("no such window")?;
+    platform::detached_side(&side);
+    Ok(())
+}
+
+/// Shows the side window the page names, without taking the focus (platform::show_side).
+#[tauri::command]
+fn side_show(app: tauri::AppHandle, label: String) -> Result<(), String> {
+    let side = app.get_webview_window(&label).ok_or("no such window")?;
+    platform::show_side(&side);
+    Ok(())
+}
+
 /// "Fermer Dofight": closes every window, icon included.
 #[tauri::command]
 fn quit(app: tauri::AppHandle) {
+    diag::log("quit", "asked from the panel (the × of the title bar)");
     app.exit(0);
 }
 
@@ -100,6 +117,19 @@ fn open_log_folder(app: tauri::AppHandle) -> Result<(), String> {
     use tauri_plugin_opener::OpenerExt;
     let dir = diag::dir().ok_or("no-log")?;
     app.opener().open_path(dir.to_string_lossy(), None::<&str>).map_err(|e| e.to_string())
+}
+
+/// Saves every window's size and place now (the plugin also saves at exit, which a killed Dofight never reaches). On
+/// the main thread: the plugin's own command holds its lock while asking each window for its size, which on macOS waits
+/// for the main thread, itself waiting for that lock in the next Resized or Moved event, so the panel froze while it
+/// was moved or resized (owner, 2026-11-20).
+#[tauri::command]
+fn save_geometry(app: tauri::AppHandle) {
+    use tauri_plugin_window_state::AppHandleExt;
+    let handle = app.clone();
+    let _ = app.run_on_main_thread(move || {
+        let _ = handle.save_window_state(StateFlags::all() & !StateFlags::VISIBLE);
+    });
 }
 
 /// The overlay panel, never activated (the game keeps the focus): "open" restores it, "min" leaves only its
@@ -244,7 +274,11 @@ async fn portable_install(
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    tauri::Builder::default()
+    let builder = tauri::Builder::default();
+    // macOS: lets platform/mac.rs turn the overlay windows into non-activating NSPanels
+    #[cfg(target_os = "macos")]
+    let builder = builder.plugin(tauri_nspanel::init());
+    builder
         .plugin(
             tauri_plugin_global_shortcut::Builder::new()
                 .with_handler(|app, _shortcut, event| {
@@ -335,6 +369,9 @@ pub fn run() {
             diagnostic_text,
             open_log_folder,
             panel_show,
+            side_show,
+            side_detached,
+            save_geometry,
             set_shortcut,
             set_songe,
             set_in_fight,
@@ -344,6 +381,12 @@ pub fn run() {
             portable_check,
             portable_install
         ])
-        .run(tauri::generate_context!())
-        .expect("error while running Dofight");
+        .build(tauri::generate_context!())
+        .expect("error while running Dofight")
+        // the overlay windows are Objective-C panels on macOS: their own classes go back before they are torn down
+        .run(|app, event| {
+            if let tauri::RunEvent::Exit = event {
+                platform::restore_panels(app);
+            }
+        });
 }
