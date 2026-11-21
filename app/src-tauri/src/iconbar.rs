@@ -7,7 +7,9 @@
 //! shape match alike), anywhere in the top-left corner (the bar may sit a little elsewhere). On ~220 saved frames
 //! the real icons score 0.95 or more and everything else under 0.8.
 
-use crate::iconbar_refs::{EYE, EYE_H, EYE_W, HEART, HEART_H, HEART_W, ICON_FRAME_H, INFO, INFO_H, INFO_W};
+use crate::iconbar_refs::{
+    EYE, EYE_B, EYE_H, EYE_W, HEART, HEART_B, HEART_H, HEART_W, ICON_FRAME_H, INFO, INFO_H, INFO_W,
+};
 use serde::Serialize;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
@@ -62,30 +64,39 @@ fn centred(icon: &[u8]) -> (Vec<f32>, f32) {
     (c, norm)
 }
 
-/// Best normalised correlation of the icon anywhere in the corner.
-fn best(area: &[f32], icon: &[u8], w: u32, h: u32) -> f32 {
-    let (t, t_norm) = centred(icon);
+/// Best normalised correlation anywhere in the corner, over every known look of the icon.
+///
+/// The game's theme changes the interface's colours, so one saved look is not enough: the eye of a calm bar taken
+/// from the owner's Windows theme scores 0.89 on the Mac's, a hair under the 0.90 a match needs. The looks are
+/// walked together at each place rather than one after the other, so the patch and its mean are worked out once
+/// however many there are (owner, 2026-11-21).
+fn best(area: &[f32], looks: &[&[u8]], w: u32, h: u32) -> f32 {
+    let centred: Vec<(Vec<f32>, f32)> = looks.iter().map(|icon| centred(icon)).collect();
     let n = (w * h) as f32;
     let mut top = 0f32;
+    let mut patch = vec![0f32; (w * h) as usize];
     for y0 in 0..=AREA_H - h {
         for x0 in 0..=AREA_W - w {
             let mut sum = 0f32;
             for y in 0..h {
                 let row = ((y0 + y) * AREA_W + x0) as usize;
-                sum += area[row..row + w as usize].iter().sum::<f32>();
+                let line = &area[row..row + w as usize];
+                sum += line.iter().sum::<f32>();
+                patch[(y * w) as usize..((y + 1) * w) as usize].copy_from_slice(line);
             }
             let mean = sum / n;
-            let (mut num, mut var) = (0f32, 0f32);
-            for y in 0..h {
-                let row = ((y0 + y) * AREA_W + x0) as usize;
-                for x in 0..w as usize {
-                    let d = area[row + x] - mean;
-                    num += d * t[(y * w) as usize + x];
-                    var += d * d;
-                }
+            let mut var = 0f32;
+            for p in patch.iter_mut() {
+                *p -= mean;
+                var += *p * *p;
             }
-            if var > 0.0 {
-                top = top.max(num / (var.sqrt() * t_norm));
+            if var <= 0.0 {
+                continue;
+            }
+            let spread = var.sqrt();
+            for (t, t_norm) in &centred {
+                let num: f32 = patch.iter().zip(t).map(|(d, v)| d * v).sum();
+                top = top.max(num / (spread * t_norm));
             }
         }
     }
@@ -101,9 +112,9 @@ pub fn scores(bgra: &[u8], width: u32, height: u32) -> (f32, f32, f32) {
 pub fn scores_in(bgra: &[u8], width: u32, height: u32, window_h: u32) -> (f32, f32, f32) {
     match corner(bgra, width, height, window_h) {
         Some(area) => (
-            best(&area, &EYE, EYE_W, EYE_H),
-            best(&area, &INFO, INFO_W, INFO_H),
-            best(&area, &HEART, HEART_W, HEART_H),
+            best(&area, &[&EYE, &EYE_B], EYE_W, EYE_H),
+            best(&area, &[&INFO], INFO_W, INFO_H),
+            best(&area, &[&HEART, &HEART_B], HEART_W, HEART_H),
         ),
         None => (0.0, 0.0, 0.0),
     }
@@ -200,6 +211,41 @@ mod tests {
                 assert_eq!(read_bar(&small, sw, sh), expected, "{name} at {nh} high: eye, info, heart {:?}", scores(&small, sw, sh));
             }
         }
+    }
+
+    #[test]
+    fn tells_fights_from_calm_on_another_theme() {
+        // The game's theme changes the interface's colours. On the owner's Mac, on another theme than the saved
+        // Windows frames', the eye of a calm bar scored 0.894 against the 0.90 a match needs — it answered, but by
+        // a hair, and nothing in the tests held that theme at all. These two are the icon bar alone, 240 × 40 of a
+        // 1440×847 game's corner: no name of any kind is in them (owner, 2026-11-21).
+        //
+        // The « i » of this theme is deliberately not among the looks: it is a round disc with a small mark, close
+        // enough to other round things that adding it read a menu covering the bar as a calm bar (0.915).
+        let dir = format!("{}/tests/fixtures/iconbar-themes", env!("CARGO_MANIFEST_DIR"));
+        let mut checked = 0;
+        for entry in std::fs::read_dir(dir).unwrap() {
+            let name = entry.unwrap().file_name().into_string().unwrap();
+            let expected = if name.starts_with("fight") { Bar::Fight } else { Bar::Calm };
+            let window_h: u32 = name.trim_end_matches(".png").rsplit('_').next().unwrap().parse().unwrap();
+            let img = image::open(format!("{}/tests/fixtures/iconbar-themes/{name}", env!("CARGO_MANIFEST_DIR")))
+                .unwrap()
+                .to_rgba8();
+            let (w, h) = img.dimensions();
+            let mut px = vec![0u8; (w * h * 4) as usize];
+            for (x, y, p) in img.enumerate_pixels() {
+                let i = ((y * w + x) * 4) as usize;
+                px[i..i + 4].copy_from_slice(&[p[2], p[1], p[0], 255]);
+            }
+            assert_eq!(
+                read_bar_in(&px, w, h, window_h),
+                expected,
+                "{name}: eye, info, heart {:?}",
+                scores_in(&px, w, h, window_h)
+            );
+            checked += 1;
+        }
+        assert_eq!(checked, 2);
     }
 
     #[test]
