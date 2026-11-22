@@ -114,13 +114,20 @@ type Index = Map<string, Monster[]>;
 export function matchName(read: string, ...indexes: Index[]): Monster | null {
   const key = normalize(read);
   if (key.length < 3) return null;
-  if (NEVER_A_NAME.some((word) => editDistance(key, word) <= 1)) return null;
-  // a name read whole beats a near miss wherever it is: the zone goes first only among guesses. « Croqueleur » read
-  // cleanly is a Croqueleur even in a zone that holds a Craqueleur and no Croqueleur (owner, 2026-11-21).
-  for (const index of indexes) {
-    const exact = index.get(key);
-    if (exact) return exact[0];
+  // a name read whole comes first, in the order given — but not over one of the zone's own that is a single letter
+  // away: the OCR turns « Bouftou Noir » into « Boufton Noir », and both of those are monsters, so a clean reading
+  // is not proof. A zone holding one and not the other decides it (review, 2026-11-22).
+  for (let i = 0; i < indexes.length; i++) {
+    const exact = indexes[i].get(key);
+    if (!exact) continue;
+    for (const earlier of indexes.slice(0, i)) {
+      const near = nearest(key, earlier);
+      if (near && near.d <= 1) return near.m;
+    }
+    return exact[0];
   }
+  // after the exact pass: « Groute » is a monster as well as one letter from « Groupe », and was never matchable
+  if (NEVER_A_NAME.some((word) => editDistance(key, word) <= 1)) return null;
   for (const index of indexes) {
     const found = matchIn(read, key, index);
     if (found) return found;
@@ -128,16 +135,36 @@ export function matchName(read: string, ...indexes: Index[]): Monster | null {
   return null;
 }
 
+/** The name of this list closest to what was read, whatever the distance: what tells a misreading from another name. */
+function nearest(key: string, index: Index): { m: Monster; d: number } | null {
+  let best: { m: Monster; d: number } | null = null;
+  for (const [name, list] of index) {
+    if (Math.abs(name.length - key.length) > 3) continue;
+    const d = editDistance(name, key);
+    if (!best || d < best.d) best = { m: list[0], d };
+  }
+  return best;
+}
+
 function matchIn(read: string, key: string, index: Index): Monster | null {
   let best: { m: Monster; d: number } | null = null;
+  let runnerUp = Infinity;
   for (const [name, list] of index) {
     if (Math.abs(name.length - key.length) > 3 && !(key.length >= 10 && name.startsWith(key))) continue;
     const d = name.startsWith(key) && key.length >= 10 ? 0.5 : editDistance(name, key);
     // a short name has no room for two wrong letters: at two, « P1ou » was a « Fou » and « Lvl » a « Lie »
     const allowed = name.length <= 5 ? 1 : Math.max(2, Math.floor(name.length * 0.15));
-    if (d <= allowed && (!best || d < best.d)) best = { m: list[0], d };
+    if (d > allowed) continue;
+    if (!best || d < best.d) {
+      runnerUp = best?.d ?? runnerUp;
+      best = { m: list[0], d };
+    } else if (d < runnerUp) {
+      runnerUp = d;
+    }
   }
-  if (best) return best.m;
+  // two names as close as each other and nothing to tell them apart: a wrong monster is worse than a missing one
+  // (review, 2026-11-22: « Crqueleur » was a Craqueleur only because it came first in the list)
+  if (best && runnerUp > best.d) return best.m;
   // nothing close read as it stands: the same again on a badly read line, lookalikes folded and misread digits
   // forgiven. Only for something that reads as a name at all — half its characters letters — so an experience line
   // (« 155 538 7P ») is never bent into one.

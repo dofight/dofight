@@ -390,7 +390,7 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .optname{display:block} /* the name wraps as text, and its « i » follows the last word of it */
 /* room kept at the end of the last line for the « i », which is then pulled back into it: a plain inline icon with a
    margin drops onto a line of its own whenever the last line is full, which looks worse than the old floating one.
-   Padding on an inline box only attaches to its last fragment, so the room travels with the last word (Fable, 2026-11-21) */
+   Padding on an inline box only attaches to its last fragment, so the room travels with the last word (owner, 2026-11-21) */
 .optname>label:has(+.info),.optname>h2:has(+.info){padding-right:24px}
 .optname>h2{display:inline} /* the card title with its « i » (index.html) */
 .optname .info{vertical-align:middle;margin-left:-18px}

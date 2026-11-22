@@ -52,6 +52,8 @@ describe("songe: group tooltips", () => {
   it("refuses the words of a tooltip that are no monster", () => {
     // « Groupe » is one letter from « Groute », a real monster
     expect(matchName("Groupe", index)).toBeNull();
+    // but « Groute » is a monster as well as one letter from « Groupe »: an exact name is never a stopword
+    expect(matchName("Groute", index)?.name).toBe("Groute");
     expect(matchName("Niveau", index)).toBeNull();
     expect(matchName("Level", index)).toBeNull();
   });
@@ -68,8 +70,11 @@ describe("songe: group tooltips", () => {
     // « Craqueleur » and « Croqueleur » are both real and one letter apart: a name read short sits between them
     const zone = nameIndex(monsters.filter((m) => m.name === "Craqueleur"));
     expect(matchName("Crqueleur", zone, index)?.name).toBe("Craqueleur");
-    // and the whole game is still there for a monster the zone does not hold
-    expect(matchName("Croqueleur", zone, index)?.name).toBe("Croqueleur");
+    // and a name read whole, one letter from the zone's own, is that one misread: « a » for « o » is what the OCR
+    // does, and a zone holding the one and not the other is what tells them apart
+    expect(matchName("Croqueleur", zone, index)?.name).toBe("Craqueleur");
+    // the whole game still answers for a monster the zone has nothing like
+    expect(matchName("Croqueleur", nameIndex(monsters.filter((m) => m.name === "Tofu")), index)?.name).toBe("Croqueleur");
   });
 
   it("reads a group whose levels lost their brackets (owner's dark map, 2026-11-21)", () => {
