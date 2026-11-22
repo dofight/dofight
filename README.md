@@ -23,10 +23,10 @@
 </p>
 
 Gratuit et open source. Dofight lit **le coin en haut à gauche de la fenêtre Dofus** : le nom de la sous-zone, les
-coordonnées de la carte et la barre d'icônes, qui lui indique qu'un combat commence. En mode Songes, il lit aussi une
-zone autour de ta souris, pour y trouver l'infobulle du groupe de monstres survolé. Un interrupteur coupe cette
-lecture (Paramètres → « Lecture de l'écran »). Il ne joue pas à ta place, n'envoie rien au jeu et ne lit ni sa
-mémoire, ni ses fichiers, ni son trafic réseau.
+coordonnées de la carte et la barre d'icônes, qui lui indique qu'un combat commence. En mode Songes, il cherche
+aussi les infobulles de groupes de monstres dans toute la fenêtre, et n'en garde que le texte. Un interrupteur
+coupe cette lecture (Paramètres → « Lecture de l'écran »). Il ne joue pas à ta place, n'envoie rien au jeu et ne
+lit ni sa mémoire, ni ses fichiers, ni son trafic réseau.
 
 Pour chaque monstre autour de toi, tu vois ce qui peut te faire perdre le combat (un one-shot, une invulnérabilité,
 une mécanique), puis ses résistances et ses sorts.
@@ -114,7 +114,7 @@ Website: [dofight.github.io](https://dofight.github.io/?lang=en) · [Discord](ht
 The fight assistant for Dofus 3: a panel next to the game that shows what makes the monsters around you dangerous,
 with their resistances and spells. Free and open source. Dofight reads **the top-left corner of the Dofus window**:
 the subarea name, the map coordinates and the icon bar, which tells it when a fight starts. In Dreams mode, it also
-reads an area around your mouse to find the tooltip of the hovered monster group. One switch turns that off
+looks for monster group tooltips anywhere in the window, and keeps only their text. One switch turns that off
 (Settings → “Screen reading”). It doesn't play for you, sends nothing to the game, and doesn't read the game's
 memory, files or network traffic.
 
