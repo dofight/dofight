@@ -4,7 +4,7 @@
  "guide": "https://www.dofuspourlesnoobs.com/nid-du-kwakwa.html",
  "guideUpdated": "17/06/2024",
  "status": "draft",
- "strategy": "Des dommages de poussée retirent 10 % de résistances à un monstre pendant 3 tours.",
+ "strategy": "Tous les monstres du donjon, Kwakwa compris : chaque dommage de poussée subi leur retire 10 % de résistances et leur donne 10 dommages de poussée pendant 3 tours (cumulable, non désenvoûtable).",
  "roomTags": [
   {
    "id": "state",
