@@ -22,6 +22,8 @@ import { GAP, previewRect } from "./previewSide";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import logo from "./assets/icon-app.png";
 import { enableDragAnywhere } from "./drag";
+import { copyableSelection, selectionTouches } from "./selection";
+import { showToast } from "./render/toast";
 import { fetchFromApp, loadSnapshot } from "./load";
 import { renderTrip, showCopied, tripTo, type Trip } from "./travel";
 import { accessOf, isSpecial, type PlaceAccess } from "./access";
@@ -1058,6 +1060,19 @@ void listen<{ command: string; label: string }>("peek:copy", async ({ payload })
   const ok = await writeText(payload.command).then(() => true, () => false);
   void emit("peek:copied", { command: payload.command, ok, to: payload.label });
 });
+// text selected in a sheet: copied by the panel too, the sheet says « Copié »
+void listen<{ text: string; label: string }>("peek:copytext", async ({ payload }) => {
+  const ok = await writeText(payload.text.slice(0, 5000)).then(() => true, () => false);
+  void emit("peek:textcopied", { ok, to: payload.label });
+});
+// text selected in the results (a name, a summary, a badge): copied when the mouse is released, through the plugin
+// (no focus needed), to paste it to other players (owner, 2026-11-22)
+document.addEventListener("mouseup", (e) => {
+  if (e.button !== 0) return;
+  const text = copyableSelection(window.getSelection(), $("room"));
+  if (!text) return;
+  void writeText(text).then(() => true, () => false).then((ok) => showToast(document, ok));
+});
 // the close button of a pinned sheet (owner, 2026-11-20)
 void listen<{ label: string }>("peek:close", ({ payload }) => {
   if (payload.label === sideLabel) return hidePeek(true);
@@ -1799,6 +1814,8 @@ document.addEventListener("click", async (e) => {
     return;
   }
   const head = target.closest<HTMLElement>("#room .mh");
+  // a press and drag over the name selected it (copied on release): that is not a click to fold the card
+  if (head && selectionTouches(head)) return;
   if (head) {
     const mob = head.closest<HTMLElement>(".mob")!;
     const id = Number(mob.dataset.monster);

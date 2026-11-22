@@ -2,7 +2,9 @@ import { invoke } from "@tauri-apps/api/core";
 import { emit, listen } from "@tauri-apps/api/event";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { setLang, t } from "./i18n";
-import { icon } from "./render/icons";
+import { copyableSelection } from "./selection";
+import { sheetBar, startsSheetDrag } from "./render/sheetBar";
+import { showToast } from "./render/toast";
 import { sheetCopied, sheetCopy } from "./render/accessSheet";
 import { KEY, loadSettings } from "./settings";
 import { applyTextSize, applyTheme } from "./theme";
@@ -37,12 +39,23 @@ document.addEventListener("click", (e) => {
   void emit("peek:open", link.href);
 });
 
-// a pinned sheet pressed then moved (not on a button or a link): it comes off the panel and follows the pointer
+// text selected in the sheet (its title too): the panel copies it, this window cannot take the focus
+document.addEventListener("mouseup", (e) => {
+  if (e.button !== 0) return;
+  const text = copyableSelection(window.getSelection(), document.getElementById("peek")!);
+  if (text) void emit("peek:copytext", { text, label });
+});
+void listen<{ ok: boolean; to: string }>("peek:textcopied", ({ payload }) => {
+  if (payload.to === label) showToast(document, payload.ok);
+});
+
+// a pinned sheet pressed on its bar then moved: it comes off the panel and follows the pointer (the rest of the sheet
+// selects its text)
 const DRAG_MIN = 4; // px moved before a press is a drag (a plain click stays a click)
 let press: { x: number; y: number } | null = null;
 document.addEventListener("pointerdown", (e) => {
   const box = document.getElementById("peek")!;
-  press = e.button === 0 && box.classList.contains("pinned") && !(e.target as Element).closest("button, a") ? { x: e.screenX, y: e.screenY } : null;
+  press = e.button === 0 && box.classList.contains("pinned") && startsSheetDrag(e.target as Element) ? { x: e.screenX, y: e.screenY } : null;
 });
 document.addEventListener("pointerup", () => (press = null));
 document.addEventListener("pointermove", (e) => {
@@ -75,11 +88,11 @@ void listen<{ command: string; ok: boolean; to: string }>("peek:copied", ({ payl
 void listen<{ token: number; html: string; pinned?: boolean; to: string }>("peek:render", ({ payload }) => {
   if (payload.to !== label || detached) return;
   const box = document.getElementById("peek")!;
-  // a pinned sheet (clicked, or « Comment y aller ») can be closed from here; a hover preview goes with the pointer
-  const close = payload.pinned
-    ? `<button type="button" class="peek-close" title="${t("peek.close")}" aria-label="${t("peek.close")}">${icon("close")}</button>`
-    : "";
-  box.innerHTML = close + payload.html;
+  // a pinned sheet (clicked, or « Comment y aller ») has its bar: moved and closed from there; a hover preview goes
+  // with the pointer
+  box.innerHTML = payload.html;
+  // inside the sheet's own box (its border), above its title
+  (box.firstElementChild ?? box).insertAdjacentHTML("afterbegin", sheetBar(!!payload.pinned));
   box.classList.toggle("pinned", !!payload.pinned);
   // measured here and not in a requestAnimationFrame: this window is still hidden, and a hidden window runs no
   // frames on macOS, so the panel never got the height and never showed the sheet. getBoundingClientRect forces

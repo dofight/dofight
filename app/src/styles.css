@@ -191,6 +191,8 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .pill:hover:where(:not(:disabled)){border-color:var(--muted)} /* (0,2,0): the coloured pills below keep their border */
 #preview .room{gap:6px}
 .mh{cursor:pointer}
+/* text a player can select and copy (selection.ts SELECTABLE, same list) */
+#app :is(.mname, .dj, .strat, .detail, .tag, .empty){user-select:text;cursor:text}
 .mh:focus-visible{border-radius:6px}
 /* navigation icons (render/icons.ts): one stroke in the text colour, sized here */
 .ic{display:inline-block;width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-3px}
@@ -437,12 +439,16 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 /* hover preview window (peek.html): only the card */
 #peek{padding:0;position:relative}
 /* a pinned sheet's close button, top right (owner, 2026-11-20) */
-.peek-close{position:absolute;top:6px;right:6px;z-index:1;display:grid;place-items:center;width:22px;height:22px;padding:0;border:0;border-radius:6px;background:none;color:var(--muted);cursor:pointer}
+.peek-close{display:grid;place-items:center;width:22px;height:22px;padding:0;border:0;border-radius:6px;background:none;color:var(--muted);cursor:pointer}
 .peek-close:hover{background:var(--line);color:var(--fg)}
 .peek-close .ic{width:14px;height:14px}
-#peek.pinned>:not(.peek-close)>:first-child{padding-right:22px} /* the title clears the button */
-#peek.pinned>.mob{cursor:grab} /* dragged away, a pinned sheet stays where it is dropped */
-#peek.pinned>.mob :is(button,a){cursor:pointer}
+#peek{user-select:text} /* a sheet's text, its title too, can be selected and copied (owner, 2026-11-22) */
+/* a pinned sheet's bar: dragged, the sheet comes off the panel and stays where it is dropped */
+.peek-bar{display:flex;align-items:center;justify-content:space-between;height:20px;margin:-4px -6px 0 -4px;cursor:grab;user-select:none;color:var(--muted)}
+.peek-bar .grip{font-size:13px;line-height:1;letter-spacing:-1px;opacity:.7}
+.peek-bar:active{cursor:grabbing}
+.toast{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);z-index:20;padding:4px 12px;border-radius:999px;background:var(--gold);color:var(--bg);font-size:12px;font-weight:700;pointer-events:none;user-select:none;box-shadow:0 2px 8px rgba(0,0,0,.35)}
+.toast.failed{background:var(--line);color:var(--fg)}
 .mob.peek{border-radius:10px} /* no shadow: the window is exactly the card's size */
 /* a mechanic's chip in the room header (hover: its sheet in the preview window) */
 .mechs{display:flex;flex-wrap:wrap;gap:4px}

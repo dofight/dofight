@@ -1,8 +1,10 @@
+import { SELECTABLE } from "./selection";
+
 const CONTROLS = "input, button, a, select, textarea, label, [contenteditable]";
 
-/** True when a press on `target` may move the window (anything but a control). */
+/** True when a press on `target` may move the window: anything but a control or text the player can select. */
 export function startsDrag(target: HTMLElement): boolean {
-  return !target.closest(CONTROLS);
+  return !target.closest(CONTROLS) && !target.closest(SELECTABLE);
 }
 
 /** Press and move more than 4 px on a non-control moves the window; a plain click stays a click. */

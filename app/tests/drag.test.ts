@@ -8,7 +8,7 @@ function el(html: string, selector: string): HTMLElement {
 }
 
 it("drags from plain text and empty areas", () => {
-  expect(startsDrag(el('<div class="mob"><span class="mname">Bouftou</span></div>', ".mname"))).toBe(true);
+  expect(startsDrag(el('<div class="mob"><span class="mtitle">Bouftou</span></div>', ".mtitle"))).toBe(true);
   expect(startsDrag(el('<div class="room"></div>', ".room"))).toBe(true);
 });
 
