@@ -36,6 +36,10 @@ const BAR_SAY_EVERY: Duration = Duration::from_secs(10);
 /// « Songe » mode, out of a fight: the mouse is checked this often. Once it rests, the area around it is read after
 /// these delays (the tooltip may take a moment to show) until a group tooltip is found; nothing while it moves.
 const HOVER_TICK: Duration = Duration::from_millis(50);
+/// « Songe » mode, the mouse at rest and its tooltip already read: how often the window is looked at again, in case
+/// the player showed the groups' tooltips with the game's own key instead of the mouse. Only the boxes are looked
+/// for; the text is read again when they changed (owner, 2026-11-22).
+const REST_READ_EVERY: Duration = Duration::from_secs(2);
 /// At most this many tooltips are read in one reading. A group's tooltip takes about 150 ms, and the game can show
 /// every group's at once: without a cap one reading could hold the thread for seconds (owner, 2026-11-22).
 const TOOLTIPS_AT_ONCE: usize = 10;
@@ -662,12 +666,28 @@ pub fn read_tooltips_in(
     area: (i32, i32, i32, i32),
     scale: u32,
 ) -> Result<Vec<OcrLine>, String> {
+    let boxes = find_tooltips_within(points, iw, ih, at, window, area);
+    read_boxes_in(engine, pixels, iw, ih, at, &boxes, scale)
+}
+
+/// `read_tooltips_in` on boxes already found: the reader looks for them itself, to know whether anything changed
+/// before it pays for the text (owner, 2026-11-22).
+#[allow(clippy::too_many_arguments)]
+pub fn read_boxes_in(
+    engine: &OcrEngine,
+    pixels: &[u8],
+    iw: u32,
+    ih: u32,
+    at: (i32, i32),
+    boxes: &[(i32, i32, i32, i32)],
+    scale: u32,
+) -> Result<Vec<OcrLine>, String> {
     // only the tooltips' own boxes are read (found by their colour, on any side of the mouse): about a tenth of the
     // area read before, and none of the bright map around them (owner, 2026-11-20)
     let mut lines = Vec::new();
     let back = |l: OcrLine| OcrLine { x: l.x + at.0, y: l.y + at.1, ..l };
     // a tooltip costs about 150 ms to read: a reading stays bounded however many of them are on screen at once
-    for (x, y, w, h) in find_tooltips_within(points, iw, ih, at, window, area).into_iter().take(TOOLTIPS_AT_ONCE) {
+    for &(x, y, w, h) in boxes.iter().take(TOOLTIPS_AT_ONCE) {
         let (x, y) = (x - at.0, y - at.1);
         // the bold white level line reads best on its own, light pixels only; the grey monster lines below at a
         // lower threshold (measured on the owner's five captures, 2026-11-20)
@@ -769,6 +789,12 @@ struct Reader {
     bar_at: Option<Instant>,
     /// Whether Songe was last seen waiting for a fight to end (said once, not every tick).
     songe_waiting: bool,
+    /// When the window was last looked at with the mouse at rest and its tooltip already read.
+    looked_at: Option<Instant>,
+    /// The sizes of the tooltips of the last reading, sorted: what says the window still shows what was read.
+    shapes: Vec<(i32, i32)>,
+    /// Boxes that held no line where they are: looked at again, they are not read again.
+    empty: Vec<(i32, i32, i32, i32)>,
     /// The last known icon bar (never Unknown): None until the bar was recognised once.
     bar: Option<Bar>,
     /// What was last written to the diagnostic log about the window (errors, size), to log changes only.
@@ -1058,6 +1084,9 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
             bar_said: false,
             bar_at: None,
             songe_waiting: false,
+            looked_at: None,
+            shapes: Vec::new(),
+            empty: Vec::new(),
             bar: None,
             logged_state: String::new(),
             stats: Stats::default(),
@@ -1258,10 +1287,20 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                 r.hover_tries = 0;
                 continue;
             }
-            if r.hover_tries >= HOVER_TRIES.len() || r.still_since.elapsed() < HOVER_TRIES[r.hover_tries] {
+            // Once the tries are spent nothing was looked at again until the mouse moved, so a tooltip shown by
+            // the key the player chooses — every group's at once, the mouse untouched — was never read. The window
+            // is looked at again every REST_READ_EVERY; the boxes are cheap to find, and the text, which is not,
+            // is only read when they are not the ones already read (owner, 2026-11-22).
+            let spent = r.hover_tries >= HOVER_TRIES.len();
+            let look_again = spent && r.looked_at.is_none_or(|t| t.elapsed() >= REST_READ_EVERY);
+            if !look_again && (spent || r.still_since.elapsed() < HOVER_TRIES[r.hover_tries]) {
                 continue;
             }
-            r.hover_tries += 1;
+            if look_again {
+                r.looked_at = Some(Instant::now());
+            } else {
+                r.hover_tries += 1;
+            }
             // the whole window, not a square around the mouse: the game shows every group's tooltip at once on a key
             // the player chooses, and a tooltip belongs to its group's place on the map, not to the pointer. Nothing
             // more of the screen is captured for it — the whole window was already captured and the square cut out
@@ -1272,11 +1311,37 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
             let started = Instant::now();
             let scale = platform::capture_scale();
             let whole = (0, 0, ww as i32, wh as i32);
-            let lines = read_tooltips_in(engine, &px, &pixels, sw, sh, at, (ww, wh), whole, scale).unwrap_or_default();
+            let boxes = find_tooltips_within(&px, sw, sh, at, (ww, wh), whole);
+            // the same tooltips as the last reading: their text is not read again for nothing.
+            //
+            // What is compared is their shapes, not their places. A group walks its map and its tooltip walks with
+            // it: the same three groups came back at three different places every two seconds, each time with the
+            // same eighteen lines, and reading them again cost 464 ms a time — a sixth of a processor for nothing.
+            // A tooltip that only moved keeps its size; one that appears or leaves changes the set (owner,
+            // 2026-11-22).
+            let shapes: Vec<(i32, i32)> = {
+                let mut v: Vec<(i32, i32)> = boxes.iter().map(|&(_, _, w, h)| (w, h)).collect();
+                v.sort_unstable();
+                v
+            };
+            if look_again && shapes == r.shapes {
+                continue;
+            }
+            r.shapes = shapes;
+            // A box the game draws that is not a group's tooltip — the Songes Infinis panel, a window of the
+            // interface — is found like one and costs its own reading, 150 ms and more, for the nothing it holds:
+            // a box gives no line at all unless a « Niveau N » is in it. One that gave nothing where it is and as
+            // it is costs nothing again until the mouse moves, which reads everything afresh (owner, 2026-11-22).
+            let to_read: Vec<(i32, i32, i32, i32)> =
+                boxes.iter().copied().filter(|b| !look_again || !r.empty.contains(b)).collect();
+            let lines = read_boxes_in(engine, &pixels, sw, sh, at, &to_read, scale).unwrap_or_default();
+            let holds = |&(bx, by, bw, bh): &(i32, i32, i32, i32)| {
+                lines.iter().any(|l| l.x >= bx && l.x < bx + bw && l.y >= by && l.y < by + bh)
+            };
+            r.empty = boxes.iter().copied().filter(|b| !to_read.contains(b) || !holds(b)).collect();
             // dev builds: the header corner and the tooltip boxes read (what tells a tooltip found from one missed)
             if cfg!(debug_assertions) {
                 let (cw, ch) = corner_size(ww, wh);
-                let boxes = find_tooltips_within(&px, sw, sh, at, (ww, wh), whole);
                 diag::log(
                     "songe",
                     &format!("cursor {cx},{cy} window {sw}×{sh} | {} boxes {boxes:?} | {} lines read", boxes.len(), lines.len()),
@@ -1299,7 +1364,8 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                 // count as found, and the mouse had to be moved away and back for another try. The lines go to the
                 // page either way (it keeps the best of them); only the tries go on (owner, 2026-11-21).
                 if lines.len() >= TOOLTIP_LINES_ENOUGH {
-                    r.hover_tries = HOVER_TRIES.len(); // found: nothing more until the mouse moves
+                    // found: nothing more until the mouse moves or the window shows something else
+                    r.hover_tries = HOVER_TRIES.len();
                 }
                 let _ = app.emit("screen:songe", lines);
             }
