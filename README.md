@@ -76,15 +76,17 @@ l'affiche ou le cache (raccourci modifiable dans les paramètres). Les mises à 
 ## Questions fréquentes
 
 **C'est autorisé ?** Dofight n'est ni un bot ni un mod : il ne clique pas, n'envoie rien au jeu et ne modifie rien.
-Il capture la fenêtre Dofus, seulement quand elle est au premier plan, et en lit le coin en haut à gauche (le nom de
-la sous-zone, les coordonnées de la carte et la barre d'icônes). En combat, il surveille surtout la barre d'icônes ;
-s'il ne connaît pas encore ta sous-zone (Dofight ouvert en plein combat), il relit le nom de la sous-zone plus
-souvent, jusqu'à la trouver. En mode Songes, hors combat, quand ta souris s'arrête, il lit aussi une zone autour
-d'elle (environ 800 × 700 pixels, surtout au-dessus) pour y trouver l'infobulle du groupe de monstres survolé ; il
-n'en retient que le texte de cette infobulle. Les captures ne quittent jamais ton PC. Tu peux couper cette lecture
-dans Paramètres → « Lecture de l'écran » : Dofight ne capture alors la fenêtre Dofus que lorsque tu cliques sur «
-Scanner ma sous-zone ». Ce qu'il affiche est public (données du jeu, guides). C'est un outil fait par des fans, sans
-lien avec Ankama, qui ne l'a ni validé ni approuvé : tu l'utilises sous ta propre responsabilité.
+Il capture la fenêtre Dofus, seulement quand elle est au premier plan, et en lit le coin en haut à gauche (le nom
+de la sous-zone, les coordonnées de la carte et la barre d'icônes). En combat, il surveille surtout la barre
+d'icônes ; s'il ne connaît pas encore ta sous-zone (Dofight ouvert en plein combat), il relit le nom de la
+sous-zone plus souvent, jusqu'à la trouver. En mode Songes, hors combat, quand ta souris s'arrête, il cherche les
+infobulles de groupes de monstres dans toute la fenêtre du jeu : elles s'affichent où se trouve le groupe, et le
+jeu peut toutes les montrer d'un coup. Il n'en retient que leur texte, et rien d'autre de l'écran n'est gardé ni
+envoyé : ni le tchat, ni les noms de joueurs, de guilde ou d'alliance, ni ton inventaire. Les captures ne quittent
+jamais ton PC. Tu peux couper cette lecture dans Paramètres → « Lecture de l'écran » : Dofight ne capture alors la
+fenêtre Dofus que lorsque tu cliques sur « Scanner ma sous-zone ». Ce qu'il affiche est public (données du jeu,
+guides). C'est un outil fait par des fans, sans lien avec Ankama, qui ne l'a ni validé ni approuvé : tu l'utilises
+sous ta propre responsabilité.
 
 **Qu'est-ce que Dofight envoie sur Internet ?** Rien pendant que tu joues : pas de compte, pas de statistiques.
 Il contacte GitHub pour ses mises à jour. Si tu envoies une suggestion, il transmet ton message et, si tu laisses
@@ -161,14 +163,15 @@ Summaries are available in English; the linked guides are in French.
 ### FAQ
 
 **Is it allowed?** Dofight is neither a bot nor a mod: it does not click, sends nothing to the game and changes
-nothing. It captures the Dofus window, only while it's in the foreground, and reads its top-left corner (the subarea
-name, the map coordinates and the icon bar). In a fight it mostly watches the icon bar; if it doesn't know your
-subarea yet (Dofight opened mid-fight), it re-reads the subarea name more often until it finds it. In Dreams mode,
-out of a fight, when your mouse stops, it also reads an area around it (about 800 × 700 pixels, mostly above it) to
-find the tooltip of the hovered monster group; it keeps only that tooltip's text. The captures never leave your PC.
-You can turn this off in Settings → “Screen reading”: Dofight then captures the Dofus window only when you click
-“Scan my subarea”. What it shows is public (game data, guides). It is a fan-made tool, not affiliated with, reviewed
-or approved by Ankama: you use it at your own risk.
+nothing. It captures the Dofus window, only while it's in the foreground, and reads its top-left corner (the
+subarea name, the map coordinates and the icon bar). In a fight it mostly watches the icon bar; if it doesn't know
+your subarea yet (Dofight opened mid-fight), it re-reads the subarea name more often until it finds it. In Dreams
+mode, out of a fight, when your mouse stops, it looks for monster group tooltips anywhere in the game window: they
+appear where the group is, and the game can show them all at once. It keeps only their text, and nothing else on
+screen is kept or sent: not the chat, not player, guild or alliance names, not your inventory. The captures never
+leave your PC. You can turn this off in Settings → “Screen reading”: Dofight then captures the Dofus window only
+when you click “Scan my subarea”. What it shows is public (game data, guides). It is a fan-made tool, not
+affiliated with, reviewed or approved by Ankama: you use it at your own risk.
 
 **What does Dofight send over the Internet?** Nothing while you play: no account, no statistics. It contacts
 GitHub for its updates. If you use “Suggestion”, it sends your message and, if you leave both switches on,
