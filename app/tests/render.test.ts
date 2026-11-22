@@ -337,9 +337,10 @@ describe("special monsters", () => {
     const names = (showSpecial: boolean) => [...dom(renderRoom(null, ms, undefined, s, { ...ALL, showSpecial }, noIcon, "Zone")).querySelectorAll(".mname")].map((e) => e.textContent);
     expect(names(false)).toEqual(["Local"]);
     expect(names(true)).toEqual(["Local", "Œuf de Pwâk"]);
-    // the monster the player searched for stays visible
-    const pinned = [...dom(renderRoom(null, ms, undefined, s, { ...ALL, showSpecial: false }, noIcon, "Zone", () => true, 2)).querySelectorAll(".mname")].map((e) => e.textContent);
-    expect(pinned).toEqual(["Local", "Œuf de Pwâk"]);
+    // the monster the player searched for stays visible, first, above « Dans cette sous-zone »
+    const el = dom(renderRoom(null, ms, undefined, s, { ...ALL, showSpecial: false }, noIcon, "Zone", () => true, 2));
+    expect([...el.querySelectorAll(".mname")].map((e) => e.textContent)).toEqual(["Œuf de Pwâk", "Local"]);
+    expect(plain(el.querySelector(".room-sep")?.textContent)).toBe("Dans cette sous-zone : Zone");
   });
 });
 
@@ -406,6 +407,51 @@ describe("boss summons", () => {
     expect(summon.classList.contains("summon") && summon.classList.contains("boss")).toBe(true);
     expect(plain(summon.querySelector(".mkind")?.textContent)).toBe("Invocation");
     expect(summon.querySelector(".detail")?.textContent).toBe("Ses glyphes comptent.");
+  });
+});
+
+describe("a monster searched for (owner, 2026-11-22: « ogivol »)", () => {
+  const ids = (el: HTMLElement) => [...el.querySelectorAll<HTMLElement>(".mob")].map((m) => m.dataset.monster);
+  const sep = (el: HTMLElement) => plain(el.querySelector(".room-sep")?.textContent);
+  const room = (pinned?: number, summary?: RoomSummary) => {
+    const snap = makeSnapshot();
+    snap.monsters.set(900, monster({ id: 900, name: "Disciple" }));
+    const d = snap.dungeons.get(165)!;
+    return dom(renderRoom(d, d.monsterIds.map((id) => snap.monsters.get(id)!), summary, snap, ALL, noIcon, d.name, () => true, pinned));
+  };
+  const summons: RoomSummary = { dungeonId: 165, dungeon: "Autel de la Déchireuse", status: "draft", strategy: "", bossSummons: { "8037": [900] }, monsters: {} };
+
+  it("comes first, then « Dans ce donjon » and the rest, itself not repeated", () => {
+    const el = room(8040);
+    expect(ids(el)).toEqual(["8040", "8037"]);
+    expect(sep(el)).toBe("Dans ce donjon : Autel de la Déchireuse");
+    // the separator sits between the searched card and the others
+    const order = [...el.querySelectorAll(".mob, .room-sep")].map((e) => (e.classList.contains("room-sep") ? "sep" : (e as HTMLElement).dataset.monster));
+    expect(order).toEqual(["8040", "sep", "8037"]);
+  });
+
+  it("a boss searched for comes first with its summons under it, and none of them again below", () => {
+    const el = room(8037, summons);
+    expect(ids(el)).toEqual(["8037", "900", "8040"]);
+    expect([...el.querySelectorAll(".mob, .room-sep")].map((e) => (e.classList.contains("room-sep") ? "sep" : (e as HTMLElement).dataset.monster))).toEqual(["8037", "900", "sep", "8040"]);
+  });
+
+  it("a boss's summon searched for comes first, and not again under its boss", () => {
+    const el = room(900, summons);
+    expect(ids(el)).toEqual(["900", "8037", "8040"]);
+    expect(el.querySelector<HTMLElement>('.mob[data-monster="900"]')!.classList.contains("summon")).toBe(true);
+  });
+
+  it("nothing searched for: no separator, the zone's own order", () => {
+    const el = room(undefined);
+    expect(el.querySelector(".room-sep")).toBeNull();
+    expect(ids(el)).toEqual(["8037", "8040"]);
+  });
+
+  it("alone in its zone: no separator over nothing", () => {
+    const s = makeSnapshot();
+    const only = [monster({ id: 1, name: "Seul" })];
+    expect(dom(renderRoom(null, only, undefined, s, ALL, noIcon, "Zone", () => true, 1)).querySelector(".room-sep")).toBeNull();
   });
 });
 

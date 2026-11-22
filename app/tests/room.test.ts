@@ -10,9 +10,10 @@ it("a dungeon result loads its monsters", () => {
   expect(r.monsters.map((m) => m.id)).toEqual([8037, 8040]);
 });
 
-it("a monster in a dungeon loads that dungeon", () => {
+it("a monster in a dungeon loads that dungeon, pinned: the one searched for is shown first (owner, 2026-11-22)", () => {
   const r = roomFor(s, { kind: "monster", label: "Voracle", info: "", monsterId: 8040 });
   expect(r.dungeon?.id).toBe(165);
+  expect(r.pinned).toBe(8040);
 });
 
 it("a monster outside dungeons loads its sub-area", () => {

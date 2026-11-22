@@ -34,7 +34,8 @@ export function roomFor(s: Snapshot, r: Result): Room {
   const m = r.monsterId !== undefined ? s.monsters.get(r.monsterId) : undefined;
   if (!m) return { dungeon: null, title: r.label, monsters: [] };
   const d = m.dungeonIds.map((id) => s.dungeons.get(id)).find((x): x is Dungeon => !!x);
-  if (d) return ofDungeon(s, d);
+  // the one searched for is pinned wherever it lives: shown first, then the rest of its dungeon (owner, 2026-11-22)
+  if (d) return { ...ofDungeon(s, d), pinned: m.id };
   // a summon that drives a boss fight (« bossSummons »): the boss's dungeon, where it is shown under its boss
   const owner = [...s.summaries.values()].find((r) => Object.values(r.bossSummons ?? {}).some((ids) => ids.includes(m.id)));
   const od = owner ? s.dungeons.get(owner.dungeonId) : undefined;

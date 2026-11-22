@@ -1766,8 +1766,8 @@ document.addEventListener("click", async (e) => {
     room = roomFor(snap, picked.subarea && english ? { ...picked, subarea: english.zoneFr.get(picked.subarea) ?? picked.subarea } : picked);
     zoneAsked = false; // the player chose what to see
     flipped.clear();
-    // a boss's summon searched for: its boss's dungeon, with the summon unfolded
-    if (room.dungeon && room.pinned !== undefined && !isOpen(room.pinned)) flipped.add(room.pinned);
+    // a monster searched for: its card unfolded, first, above the rest of its zone (owner, 2026-11-22)
+    if (room.pinned !== undefined && !isOpen(room.pinned)) flipped.add(room.pinned);
     $<HTMLInputElement>("q").value = "";
     $("results").innerHTML = "";
     showRoom();

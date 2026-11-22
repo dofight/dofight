@@ -278,6 +278,8 @@ const fr = {
   // room
   "room.nothing": "Rien de spécial dans cette sous-zone.",
   "room.noMonsters": "Aucun monstre dans cette sous-zone.",
+  "room.inDungeon": "Dans ce donjon : {name}",
+  "room.inZone": "Dans cette sous-zone : {name}",
   "room.watch": "À surveiller : {list}.",
   "room.watchHead": "À surveiller :",
   "room.watchAll": "Tous les monstres ({what})",
@@ -624,6 +626,8 @@ const en: Record<Key, string> = {
   "category.glyph": "Glyph or trap",
   "room.nothing": "Nothing special in this subarea.",
   "room.noMonsters": "No monsters in this subarea.",
+  "room.inDungeon": "In this dungeon: {name}",
+  "room.inZone": "In this subarea: {name}",
   "room.watch": "Watch out for: {list}.",
   "room.watchHead": "Watch out for:",
   "room.watchAll": "Every monster ({what})",

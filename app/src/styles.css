@@ -64,6 +64,8 @@ button:not(:disabled),a[href],[role=button],[role=radio],[role=option],select,in
 
 /* room and monster cards */
 .room{display:grid;gap:8px}
+/* between the monster searched for and the rest of its zone (owner, 2026-11-22) */
+.room-sep{margin:4px 2px 0;padding-top:6px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;font-weight:600}
 .dj{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 8px}
 .dj b{font-size:16px;color:var(--yellow)}
 .dj small{color:var(--muted)}

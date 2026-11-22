@@ -81,12 +81,22 @@ export function renderRoom(
     renderMonster(m, s.spells, summary?.monsters[String(m.id)] ?? s.monsterSummaries?.get(m.id), show, icon, isOpen(m.id), s.vocabulary, counts?.get(m.id), summon, summons, s.mechanics);
   // a boss's key summons (« bossSummons ») come right under it, as part of its fight
   const listed = new Set(ordered.map((m) => m.id));
-  const cards = ordered
-    .map((m) => {
-      const summons = (summary?.bossSummons?.[String(m.id)] ?? []).map((id) => s.monsters.get(id)).filter((x): x is Monster => !!x && !listed.has(x.id));
-      return card(m, undefined, summons.map((x) => x.id)) + summons.map((x) => card(x, { of: m.name })).join("");
-    })
-    .join("");
+  const summonsOf = (m: Monster) =>
+    (summary?.bossSummons?.[String(m.id)] ?? []).map((id) => s.monsters.get(id)).filter((x): x is Monster => !!x && !listed.has(x.id));
+  // the monster the player searched for (owner, 2026-11-22: « ogivol »): its card first, then « Dans ce donjon : X »
+  // and the rest of the zone, the searched one not repeated. A boss's summon is searched for too: it is not in the
+  // zone's own list, it comes under its boss, and then it comes first instead.
+  const bossOf = pinned === undefined || listed.has(pinned) ? undefined : ordered.find((m) => summonsOf(m).some((x) => x.id === pinned));
+  const first = pinned === undefined ? undefined : listed.has(pinned) ? ordered.find((m) => m.id === pinned) : bossOf && s.monsters.get(pinned);
+  const withSummons = (m: Monster) => {
+    const summons = summonsOf(m).filter((x) => x.id !== first?.id);
+    return card(m, undefined, summons.map((x) => x.id)) + summons.map((x) => card(x, { of: m.name })).join("");
+  };
+  const rest = ordered.filter((m) => m.id !== first?.id);
+  const top = !first ? "" : bossOf ? card(first, { of: bossOf.name }) : withSummons(first);
+  const where = d ? t("room.inDungeon", { name: d.name }) : t("room.inZone", { name: title ?? "" });
+  const sep = top && rest.length ? `<div class="room-sep">${esc(where)}</div>` : "";
+  const cards = top + sep + rest.map(withSummons).join("");
   // the room's name, how to get there (`trip`, see travel.ts), summary, badges and guide link in one header card
   // (readable over any map)
   // one « Suggestion » button, at the very bottom of the results (the settings' example has none)
