@@ -134,10 +134,6 @@ mod probe {
             }
         }
     }
-
-    /// Windows: the probe is macOS only, but every example needs a `main` for `cargo build --examples`.
-    #[cfg(not(target_os = "macos"))]
-    fn main() {}
 }
 
 #[cfg(target_os = "macos")]

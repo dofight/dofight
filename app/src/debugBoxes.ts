@@ -3,7 +3,7 @@
 export interface DebugAreas {
   /** Where the read frame's top left is on screen, in the reader's pixels; null when unknown. */
   origin: [number, number] | null;
-  /** x, y, width, height in the frame's pixels: the header corner, Songe's area around the mouse. */
+  /** x, y, width, height in the frame's pixels: the header corner, then each tooltip Songe found. */
   areas: [number, number, number, number][];
 }
 

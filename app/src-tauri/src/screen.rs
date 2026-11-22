@@ -206,8 +206,12 @@ pub fn corner_mask(bgra: &[u8], width: u32, height: u32, scale: u32) -> Vec<bool
 }
 
 /// True when the header corner shows something else (a few pixels may flicker on an animated map).
-pub fn corner_changed(before: &[bool], now: &[bool]) -> bool {
-    before.len() != now.len() || before.iter().zip(now).filter(|(a, b)| a != b).count() > CORNER_CHANGE
+pub fn corner_changed(before: &[bool], now: &[bool], scale: u32) -> bool {
+    // the threshold counts pixels and the mask holds `scale` of them to a point each way, so it grows with the
+    // square of the scale: left at forty, a Retina corner was four times readier to call itself changed, and each
+    // change is a corner reading of more than a second on the thread the hover tick shares (review, 2026-11-22)
+    let enough = CORNER_CHANGE * (scale * scale) as usize;
+    before.len() != now.len() || before.iter().zip(now).filter(|(a, b)| a != b).count() > enough
 }
 
 /// Pixels brighter than `threshold` become black on white, scaled `SCALE` times.
@@ -671,6 +675,27 @@ pub fn read_tooltips_in(
 ) -> Result<Vec<OcrLine>, String> {
     let boxes = find_tooltips_within(points, iw, ih, at, window, area);
     read_boxes_in(engine, pixels, iw, ih, at, &boxes, scale)
+}
+
+/// How many tooltips are on screen and how tall each one is, in steps of SHAPE_STEP and sorted: what says the
+/// window still shows the tooltips that were read. Not where they are, nor how wide: a group walks its map and its
+/// tooltip walks with it, and a tooltip's width breathes as its rules run as far as the ground behind them lets
+/// them (owner, 2026-11-22).
+pub fn tooltip_shapes(boxes: &[(i32, i32, i32, i32)]) -> Vec<i32> {
+    let mut shapes: Vec<i32> = boxes.iter().map(|&(_, _, _, h)| h / SHAPE_STEP).collect();
+    shapes.sort_unstable();
+    shapes
+}
+
+/// The boxes whose text is worth reading: all of them when the mouse has just come to rest, and on a look taken
+/// while it rests only those not already known to hold nothing — the game draws panels shaped like a tooltip and
+/// each costs its own reading (owner, 2026-11-22).
+pub fn boxes_to_read(
+    boxes: &[(i32, i32, i32, i32)],
+    empty: &[(i32, i32, i32, i32)],
+    look_again: bool,
+) -> Vec<(i32, i32, i32, i32)> {
+    boxes.iter().copied().filter(|b| !look_again || !empty.contains(b)).collect()
 }
 
 /// `read_tooltips_in` on boxes already found: the reader looks for them itself, to know whether anything changed
@@ -1223,7 +1248,7 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                     emit_scan(&app, Some(engine), Some(&corner), left);
                 }
                 let mask = corner_mask(px, *w, *h, platform::capture_scale());
-                let changed = r.read_mask.as_ref().is_none_or(|m| corner_changed(m, &mask));
+                let changed = r.read_mask.as_ref().is_none_or(|m| corner_changed(m, &mask, platform::capture_scale()));
                 let bar = read_bar_in(px, *w, *h, *wh * platform::capture_scale());
                 let bar_changed = bar != Bar::Unknown && r.bar != Some(bar);
                 // said once a run even when it changes nothing: the scores used to be written on a change alone, so a
@@ -1244,6 +1269,13 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                 }
                 if bar != Bar::Unknown {
                     r.bar = Some(bar);
+                }
+                // the corner changed, so the map did: what Songe read belongs to the map before it. Without this the
+                // next idle look compares against the old tooltips and, two maps of the same groups being alike,
+                // can hold a group that is no longer there (review, 2026-11-22)
+                if changed {
+                    r.shapes.clear();
+                    r.empty.clear();
                 }
                 let every = match (r.bar, fighting) {
                     (Some(_), _) => SAFETY_READ_EVERY,
@@ -1299,6 +1331,7 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                 r.cursor = Some((cx, cy));
                 r.still_since = Instant::now();
                 r.hover_tries = 0;
+                r.looked_at = None;
                 continue;
             }
             // Once the tries are spent nothing was looked at again until the mouse moved, so a tooltip shown by
@@ -1336,11 +1369,7 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
             // never moving); its height is the border walked down and holds still. A tooltip appearing or leaving
             // changes how many there are, and one holding another monster changes how tall it is (owner,
             // 2026-11-22).
-            let shapes: Vec<i32> = {
-                let mut v: Vec<i32> = boxes.iter().map(|&(_, _, _, h)| h / SHAPE_STEP).collect();
-                v.sort_unstable();
-                v
-            };
+            let shapes = tooltip_shapes(&boxes);
             if look_again && shapes == r.shapes {
                 continue;
             }
@@ -1349,13 +1378,21 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
             // interface — is found like one and costs its own reading, 150 ms and more, for the nothing it holds:
             // a box gives no line at all unless a « Niveau N » is in it. One that gave nothing where it is and as
             // it is costs nothing again until the mouse moves, which reads everything afresh (owner, 2026-11-22).
-            let to_read: Vec<(i32, i32, i32, i32)> =
-                boxes.iter().copied().filter(|b| !look_again || !r.empty.contains(b)).collect();
+            let to_read = boxes_to_read(&boxes, &r.empty, look_again);
             let lines = read_boxes_in(engine, &pixels, sw, sh, at, &to_read, scale).unwrap_or_default();
             let holds = |&(bx, by, bw, bh): &(i32, i32, i32, i32)| {
                 lines.iter().any(|l| l.x >= bx && l.x < bx + bw && l.y >= by && l.y < by + bh)
             };
-            r.empty = boxes.iter().copied().filter(|b| !to_read.contains(b) || !holds(b)).collect();
+            // a box is known empty when it was read and held nothing, or when it was skipped for being empty
+            // already. A box past TOOLTIPS_AT_ONCE was never looked at, so nothing is known of it and it is read
+            // next time (review, 2026-11-22).
+            let read_now: Vec<_> = to_read.iter().copied().take(TOOLTIPS_AT_ONCE).collect();
+            let was_empty = std::mem::take(&mut r.empty);
+            r.empty = boxes
+                .iter()
+                .copied()
+                .filter(|b| if read_now.contains(b) { !holds(b) } else { was_empty.contains(b) })
+                .collect();
             // dev builds: the header corner and the tooltip boxes read (what tells a tooltip found from one missed)
             if cfg!(debug_assertions) {
                 let (cw, ch) = corner_size(ww, wh);
@@ -1383,6 +1420,7 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                 if lines.len() >= TOOLTIP_LINES_ENOUGH {
                     // found: nothing more until the mouse moves or the window shows something else
                     r.hover_tries = HOVER_TRIES.len();
+                    r.looked_at = Some(Instant::now()); // the next look is REST_READ_EVERY away, not a tick away
                 }
                 let _ = app.emit("screen:songe", lines);
             }
@@ -1525,6 +1563,31 @@ mod tests {
         for m in monsters {
             assert!(texts.iter().any(|t| t.contains(m)), "{name}: {m} in {texts:?}");
         }
+    }
+
+    #[test]
+    fn the_same_tooltips_moved_about_are_the_same_tooltips() {
+        // a group walks its map and its tooltip walks with it, and the tooltip's width breathes by a few pixels as
+        // its rules run over the scenery. One tooltip measured 126, 124, 119 and 122 wide in twenty seconds with
+        // the mouse never moving, and each of those bought another reading of the same lines (owner, 2026-11-22).
+        let then = tooltip_shapes(&[(921, 126, 223, 182), (974, 313, 198, 92), (562, 500, 208, 109)]);
+        let moved = tooltip_shapes(&[(1077, 80, 198, 92), (922, 177, 211, 182), (488, 463, 207, 109)]);
+        assert_eq!(then, moved, "the same three, elsewhere and a little wider");
+        // a tooltip holding one monster more is a line taller: eighteen points, and SHAPE_STEP is four
+        let taller = tooltip_shapes(&[(921, 126, 223, 200), (974, 313, 198, 92), (562, 500, 208, 109)]);
+        assert_ne!(then, taller);
+        // one leaving, or one arriving
+        assert_ne!(then, tooltip_shapes(&[(974, 313, 198, 92), (562, 500, 208, 109)]));
+    }
+
+    #[test]
+    fn a_box_that_held_nothing_is_read_again_once_the_mouse_moves() {
+        let boxes = [(0, 516, 227, 212), (566, 330, 116, 127)];
+        let empty = [(0, 516, 227, 212)]; // the game's own panel, shaped like a tooltip and holding no « Niveau »
+        // a look taken while the mouse rests leaves it alone
+        assert_eq!(boxes_to_read(&boxes, &empty, true), vec![(566, 330, 116, 127)]);
+        // the mouse having moved, everything is read again: a tooltip caught mid-fade is not written off for good
+        assert_eq!(boxes_to_read(&boxes, &empty, false), boxes.to_vec());
     }
 
     #[test]

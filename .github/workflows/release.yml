@@ -144,8 +144,9 @@ jobs:
     env:
       TAG: ${{ github.event.inputs.tag || github.ref_name }}
       RELEASE_REPO: ${{ vars.RELEASE_REPO || github.repository }}
-      # here and not on the steps: a step's « if » cannot read the secrets, nor the env of the step it is on
-      MAC_SIGN_P12: ${{ secrets.MAC_SIGN_P12 }}
+      # a flag and not the certificate: a step's « if » cannot read the secrets, and the job's env is handed to
+      # everything the job runs — pnpm's install scripts, every build.rs, the actions
+      MAC_SIGN: ${{ secrets.MAC_SIGN_P12 != '' }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -178,8 +179,9 @@ jobs:
       # certificate root = H"…" », which does not move. The certificate is self-signed and never has to be trusted:
       # it only has to stay the same (owner, 2026-11-22, measured on a Mac over two builds).
       - name: The signing certificate
-        if: env.MAC_SIGN_P12 != ''
+        if: env.MAC_SIGN == 'true'
         env:
+          MAC_SIGN_P12: ${{ secrets.MAC_SIGN_P12 }}
           MAC_SIGN_P12_PASSWORD: ${{ secrets.MAC_SIGN_P12_PASSWORD }}
         run: |
           set -euo pipefail
@@ -208,15 +210,19 @@ jobs:
           APPLE_SIGNING_IDENTITY: ${{ secrets.MAC_SIGN_P12 != '' && 'Dofight Release' || '-' }}
 
       - name: The build is signed with the certificate, not ad-hoc
-        if: env.MAC_SIGN_P12 != ''
+        if: env.MAC_SIGN == 'true'
         run: |
           set -euo pipefail
           app=app/src-tauri/target/universal-apple-darwin/release/bundle/macos/Dofight.app
-          req=$(codesign -d -r- "$app" 2>&1 | grep designated)
-          echo "$req"
-          # a cdhash here means the grant would be lost at the next update: that is the whole point of the above
-          case "$req" in *cdhash*) echo "signed ad-hoc: the screen-recording grant would not survive"; exit 1;; esac
-          case "$req" in *"certificate root"*|*"certificate leaf"*) ;; *) echo "unexpected requirement"; exit 1;; esac
+          codesign --verify --deep --strict --verbose=2 "$app"
+          # both halves of a universal bundle, not just the one this runner happens to be
+          for arch in x86_64 arm64; do
+            req=$(codesign -d -r- --arch "$arch" "$app" 2>&1 | grep designated)
+            echo "$arch: $req"
+            # a cdhash here means the grant would be lost at the next update: the whole point of the step above
+            case "$req" in *cdhash*) echo "signed ad-hoc: the screen-recording grant would not survive"; exit 1;; esac
+            case "$req" in *"certificate root"*|*"certificate leaf"*) ;; *) echo "unexpected requirement"; exit 1;; esac
+          done
 
       - name: Add the Mac files to the release
         env:
