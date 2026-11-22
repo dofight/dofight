@@ -17,3 +17,9 @@ export function previewRect(overlay: Rect, screen: Rect, gap = 0): Rect {
   x = Math.min(Math.max(x, screen.x), screen.x + screen.width - overlay.width);
   return { x, y: overlay.y, width: overlay.width, height: overlay.height };
 }
+
+/** A side window's height in physical pixels, for a sheet `cssHeight` tall: never taller than the screen, the sheet
+ * scrolls inside instead (a long « Comment y aller » went off the bottom). */
+export function sideHeight(cssHeight: number, scale: number, screenHeight: number): number {
+  return Math.min(Math.round(cssHeight * scale), screenHeight);
+}

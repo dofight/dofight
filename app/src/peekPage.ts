@@ -3,6 +3,7 @@ import { emit, listen } from "@tauri-apps/api/event";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { setLang, t } from "./i18n";
 import { takeSelection } from "./selection";
+import { addResizeEdges, isMac, sheetHeight } from "./resizeEdges";
 import { sheetBar, startsSheetDrag } from "./render/sheetBar";
 import { showToast } from "./render/toast";
 import { sheetCopied, sheetCopy } from "./render/accessSheet";
@@ -67,7 +68,10 @@ document.addEventListener("pointermove", (e) => {
     // the player's own window now: a click on it gives it the focus (owner, 2026-11-20), so Escape closes it. On
     // macOS the panel conversion also has to be told, or it keeps refusing the keyboard (platform::detached_side).
     void getCurrentWindow().setFocusable(true);
-    void invoke("side_detached", { label });
+    void invoke("side_detached", { label }); // resizable from here on (and at least big enough to read)
+    // the sheet fills the window the player sizes and scrolls inside; macOS gets strips to catch its edges by
+    document.getElementById("peek")!.classList.add("detached");
+    if (isMac()) addResizeEdges(document, (dir) => void getCurrentWindow().startResizeDragging(dir));
     const close = document.querySelector<HTMLElement>(".peek-close");
     close?.setAttribute("title", t("peek.closeDetached"));
     close?.setAttribute("aria-label", t("peek.closeDetached"));
@@ -97,7 +101,11 @@ void listen<{ token: number; html: string; pinned?: boolean; to: string }>("peek
   // measured here and not in a requestAnimationFrame: this window is still hidden, and a hidden window runs no
   // frames on macOS, so the panel never got the height and never showed the sheet. getBoundingClientRect forces
   // the layout on its own, and the badge icons have a fixed size, so nothing is left to wait for.
-  void emit("peek:size", { token: payload.token, height: Math.ceil(box.getBoundingClientRect().height), label });
+  // the sheet's whole height, not what shows: it is capped to this window (styles.css) and this window may still be
+  // the size of a shorter sheet
+  const card = box.firstElementChild as HTMLElement | null;
+  const height = card ? sheetHeight(card) : box.getBoundingClientRect().height;
+  void emit("peek:size", { token: payload.token, height: Math.ceil(height), label });
 });
 
 // the panel (re)started: it learns which side windows the player has dragged away

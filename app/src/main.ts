@@ -18,7 +18,8 @@ import { inDream } from "./screen/dream";
 import { initialStatus, statusText, statusWarns, steadyStatus, type StatusKind } from "./screen/status";
 import type { OcrLine } from "./screen/ocr";
 import { currentMonitor, cursorPosition, getCurrentWindow, LogicalPosition, LogicalSize, PhysicalPosition, PhysicalSize, Window } from "@tauri-apps/api/window";
-import { GAP, previewRect } from "./previewSide";
+import { GAP, previewRect, sideHeight } from "./previewSide";
+import { addResizeEdges, isMac } from "./resizeEdges";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import logo from "./assets/icon-app.png";
 import { enableDragAnywhere } from "./drag";
@@ -948,7 +949,7 @@ void listen<{ token: number; height: number; label: string }>("peek:size", async
     const x = panel.x < pos.x ? pos.x + size.width + gap : pos.x - size.width - gap;
     side = { ...side, x: Math.min(Math.max(x, screen.x), screen.x + screen.width - size.width) };
   }
-  const height = Math.round(payload.height * scale);
+  const height = sideHeight(payload.height, scale, monitor.size.height);
   const top = pos.y + Math.round(anchor.top * scale);
   const y = Math.max(screen.y, Math.min(top, screen.y + screen.height - height));
   if (payload.token !== peekToken) return;
@@ -2180,8 +2181,11 @@ void win.onMoved(saveSoon);
 $<HTMLImageElement>("logo").src = logo;
 // locked (the padlock next to the menu): no move by dragging, no resize by the edges
 enableDragAnywhere(() => (settings.locked ? Promise.resolve() : win.startDragging()));
+// macOS gives a frameless window only a sliver of edge to resize it by: strips of our own (Windows' edge is fine)
+const edges = isMac() ? addResizeEdges(document, (dir) => void win.startResizeDragging(dir)) : null;
 function showLock(): void {
   void win.setResizable(!settings.locked);
+  if (edges) edges.hidden = settings.locked;
   const lock = $("lock");
   lock.setAttribute("aria-pressed", String(settings.locked));
   lock.dataset.icon = settings.locked ? "lock" : "unlock";

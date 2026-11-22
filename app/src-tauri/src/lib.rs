@@ -36,10 +36,13 @@ async fn side_window(app: tauri::AppHandle) -> Result<String, String> {
     Ok(label)
 }
 
-/// The sheet the page names was dragged away: it may take the keyboard from now on (Escape closes it).
+/// The sheet the page names was dragged away: it may take the keyboard from now on (Escape closes it), and the
+/// player may resize it (owner, 2026-11-22), down to a size still worth reading. Beside the panel the panel sizes it.
 #[tauri::command]
 fn side_detached(app: tauri::AppHandle, label: String) -> Result<(), String> {
     let side = app.get_webview_window(&label).ok_or("no such window")?;
+    side.set_min_size(Some(tauri::LogicalSize::new(200.0, 120.0))).map_err(|e| e.to_string())?;
+    side.set_resizable(true).map_err(|e| e.to_string())?;
     platform::detached_side(&side);
     Ok(())
 }
