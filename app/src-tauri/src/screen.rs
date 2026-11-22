@@ -172,18 +172,26 @@ fn grey(bgr: &[u8]) -> u32 {
 /// Only white pixels with the game's dark outline around them count (the header text is drawn that way), so a bright,
 /// animated map behind the header (a town, lava) does not look like a change: on a bright map, about 1 100 text
 /// pixels against 24 000 light ones.
-pub fn corner_mask(bgra: &[u8], width: u32, height: u32) -> Vec<bool> {
-    let (w, h) = (CORNER_W.min(width), CORNER_H.min(height));
+pub fn corner_mask(bgra: &[u8], width: u32, height: u32, scale: u32) -> Vec<bool> {
+    // the piece looked at and the step to the letter's outline are both in the window's points, and `bgra` holds
+    // `scale` pixels to a point: left in pixels on a Retina screen this watched a quarter of the header, and looked
+    // for the outline one point away instead of two, inside the stroke rather than beside it. The zone is re-read
+    // on this mask changing while Songe has the reader busy, so it would have stopped following the map
+    // (review, 2026-11-22).
+    let (w, h) = ((CORNER_W * scale).min(width), (CORNER_H * scale).min(height));
+    let step = 2 * scale;
     let at = |x: u32, y: u32| grey(&bgra[((y * width + x) * 4) as usize..][..3]);
     let mut mask = Vec::with_capacity((w * h) as usize);
     for y in 0..h {
         for x in 0..w {
             let text = at(x, y) > TEXT_WHITE
-                && x >= 2
-                && y >= 2
-                && x + 2 < width
-                && y + 2 < height
-                && [at(x - 2, y), at(x + 2, y), at(x, y - 2), at(x, y + 2)].into_iter().any(|g| g < TEXT_OUTLINE);
+                && x >= step
+                && y >= step
+                && x + step < width
+                && y + step < height
+                && [at(x - step, y), at(x + step, y), at(x, y - step), at(x, y + step)]
+                    .into_iter()
+                    .any(|g| g < TEXT_OUTLINE);
             mask.push(text);
         }
     }
@@ -1171,7 +1179,7 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                 if let Some(left) = scan_due(&app, &reading.1) {
                     emit_scan(&app, Some(engine), Some(&corner), left);
                 }
-                let mask = corner_mask(px, *w, *h);
+                let mask = corner_mask(px, *w, *h, platform::capture_scale());
                 let changed = r.read_mask.as_ref().is_none_or(|m| corner_changed(m, &mask));
                 let bar = read_bar_in(px, *w, *h, *wh * platform::capture_scale());
                 let bar_changed = bar != Bar::Unknown && r.bar != Some(bar);
