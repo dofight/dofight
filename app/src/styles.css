@@ -387,7 +387,13 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .mcount{flex:none;color:var(--gold);font-size:12px;font-weight:700;margin-left:4px}
 /* an option's « i »: why something must be set in the game, on hover or keyboard focus */
 .switch{position:relative}
-.optname{display:flex;align-items:center;gap:6px}
+.optname{display:block} /* the name wraps as text, and its « i » follows the last word of it */
+/* room kept at the end of the last line for the « i », which is then pulled back into it: a plain inline icon with a
+   margin drops onto a line of its own whenever the last line is full, which looks worse than the old floating one.
+   Padding on an inline box only attaches to its last fragment, so the room travels with the last word (Fable, 2026-11-21) */
+.optname>label:has(+.info),.optname>h2:has(+.info){padding-right:24px}
+.optname>h2{display:inline} /* the card title with its « i » (index.html) */
+.optname .info{vertical-align:middle;margin-left:-18px}
 .switch label{cursor:pointer} /* the name toggles its switch */
 /* 18 px drawn, 26 px to hit */
 .info{position:relative;flex:none;display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;padding:0;border:0;border-radius:50%;background:none;color:var(--muted);cursor:help}
