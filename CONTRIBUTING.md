@@ -65,6 +65,12 @@ Notes-en: Bosses' summons now show under them, with their card.
 `Notes-kind` is `new`, `change` (the default) or `fix`, for the notes after it. Several `Notes-fr` / `Notes-en` pairs
 can follow each other.
 
+Text and summary changes stay generic. A wording change in the app (the guide, a label, a message) gets one line:
+`Notes-fr: Textes de l'application revus.` / `Notes-en: App texts reviewed.` A summary or monster card update names
+the monsters only, never what changed in them: `Notes-fr: Fiches de monstres mises à jour : A, B.` /
+`Notes-en: Monster cards updated: A, B.`, with the English client's names on the English line. When a release has
+several of these, the notes keep one line of each kind.
+
 A commit that touches what players see (`app/src/`, `app/src-tauri/src/`, the app's pages, `data/summaries/`,
 `data/snapshot/`, `data/guide/`, `data/travel.json`, `data/overrides.json`) needs these lines, or `Notes: none` when
 players will not notice it (a refactor, a comment). Other commits (tests, tools, docs, CI) need nothing. A
