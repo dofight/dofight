@@ -618,8 +618,11 @@ pub fn find_tooltips_within(
             // over different pixels of the map, so a gradient under them can cancel the step on a row the way it
             // broke the bottom edge. A few such rows are stepped over (review, 2026-11-22).
             let floor = h;
-            // the two colours this tooltip draws its left edge with, taken from a row that is certainly inside it
-            let inside = (top + 4).min(bottom);
+            // the two colours this tooltip draws its left edge with, taken from the row just over its last rule: the
+            // part the walk goes on from. Not from near its top: the title band can be drawn darker than the body
+            // (its edge 40 / 23 where the body's is 54 / 31), and with its colours no row of the body was the
+            // tooltip's own, so the box stopped at the first separator (owner, 2026-11-22, a dark map on Windows)
+            let inside = bottom.saturating_sub(1).max(top + 1).min(bottom);
             let (edge, under) = (at(bx0, inside).to_vec(), at(bx0 + 1, inside).to_vec());
             let same = |a: &[u8], b: &[u8]| (0..3).all(|c| (a[c] as i32 - b[c] as i32).abs() <= BORDER_SAME);
             let mut bottom = bottom;
@@ -1509,7 +1512,7 @@ mod tests {
     }
 
     /// The owner's Songe captures (2026-11-20): image, mouse in it, the group's level, monsters read.
-    const SONGE: [(&str, (i32, i32), &str, &[&str]); 8] = [
+    const SONGE: [(&str, (i32, i32), &str, &[&str]); 9] = [
         ("songe_1.png", (420, 41), "168", &["Tofoune", "Tofu Noir"]),
         ("songe_2.png", (420, 470), "110", &["Tofoune", "Tofu"]),
         ("songe_3.png", (416, 20), "248", &["Tofu Noir"]),
@@ -1521,7 +1524,20 @@ mod tests {
         ("songe_belladone.png", (420, 470), "132", &["Tofoune", "Tofu"]),
         // the Standard theme, the one most players keep: bluish, its channels 17 to 25 apart
         ("songe_standard.png", (420, 470), "132", &["Tofoune", "Tofu"]),
+        // a dark map on Windows, its bottom border broken by the map: the title band is drawn darker than the body
+        // (owner, 2026-11-22)
+        ("songe_title_band.png", (420, 89), "804", &["Crachefoux", "Boumbardier", "Rouquette"]),
     ];
+
+    #[test]
+    fn a_title_band_darker_than_the_body_does_not_end_the_box() {
+        // Its title band draws its left edge 40 / 23, the body under the experience line 54 / 31. The border was
+        // followed down with the title band's colours, so it stopped at the first separator: 49 pixels tall, the
+        // six monsters under it never read (owner, 2026-11-22, a dark map on Windows).
+        let (px, w, h) = load("songe_title_band.png");
+        let boxes = find_tooltips(&px, w, h, 420, 89);
+        assert!(boxes.iter().any(|&(_, y, _, bh)| y < 70 && bh >= 150), "{boxes:?}");
+    }
 
     #[test]
     fn reads_the_hovered_group_wherever_its_tooltip_is() {
