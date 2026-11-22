@@ -22,7 +22,7 @@ import { GAP, previewRect } from "./previewSide";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import logo from "./assets/icon-app.png";
 import { enableDragAnywhere } from "./drag";
-import { copyableSelection, selectionTouches } from "./selection";
+import { selectionTouches, takeSelection } from "./selection";
 import { sidesAfterReload, type SideState } from "./sides";
 import { showToast } from "./render/toast";
 import { fetchFromApp, loadSnapshot } from "./load";
@@ -1070,7 +1070,7 @@ void listen<{ text: string; label: string }>("peek:copytext", async ({ payload }
 // (no focus needed), to paste it to other players (owner, 2026-11-22)
 document.addEventListener("mouseup", (e) => {
   if (e.button !== 0) return;
-  const text = copyableSelection(window.getSelection(), $("room"));
+  const text = takeSelection(window.getSelection(), $("room"));
   if (!text) return;
   void writeText(text).then(() => true, () => false).then((ok) => showToast(document, ok));
 });

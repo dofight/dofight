@@ -2,7 +2,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { emit, listen } from "@tauri-apps/api/event";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { setLang, t } from "./i18n";
-import { copyableSelection } from "./selection";
+import { takeSelection } from "./selection";
 import { sheetBar, startsSheetDrag } from "./render/sheetBar";
 import { showToast } from "./render/toast";
 import { sheetCopied, sheetCopy } from "./render/accessSheet";
@@ -42,7 +42,7 @@ document.addEventListener("click", (e) => {
 // text selected in the sheet (its title too): the panel copies it, this window cannot take the focus
 document.addEventListener("mouseup", (e) => {
   if (e.button !== 0) return;
-  const text = copyableSelection(window.getSelection(), document.getElementById("peek")!);
+  const text = takeSelection(window.getSelection(), document.getElementById("peek")!);
   if (text) void emit("peek:copytext", { text, label });
 });
 void listen<{ ok: boolean; to: string }>("peek:textcopied", ({ payload }) => {

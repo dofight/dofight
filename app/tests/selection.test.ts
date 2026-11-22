@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { afterEach, expect, it, vi } from "vitest";
 import { startsDrag } from "../src/drag";
-import { copyableSelection, SELECTABLE, selectionTouches } from "../src/selection";
+import { copyableSelection, SELECTABLE, selectionTouches, takeSelection } from "../src/selection";
 import { showToast } from "../src/render/toast";
 import { sheetBar, startsSheetDrag } from "../src/render/sheetBar";
 import { setLang } from "../src/i18n";
@@ -34,6 +34,20 @@ it("copies a selection of two characters or more inside the results, trimmed", (
   expect(copyableSelection(select(name, 0, 8), room)).toBe("Bouftou");
   expect(copyableSelection(select(name, 0, 1), room)).toBe("");
   expect(copyableSelection(select(document.getElementById("out")!.firstChild!, 0, 8), room)).toBe("");
+});
+
+it("unselects what it copied, and leaves a selection it does not copy alone (owner, 2026-11-22)", () => {
+  const room = mount('<div id="room"><span class="mname">Bouftou Royal</span></div>');
+  const name = room.querySelector(".mname")!.firstChild!;
+  vi.useFakeTimers();
+  const sel = select(name, 0, 7);
+  expect(takeSelection(sel, room)).toBe("Bouftou");
+  expect(selectionTouches(room.querySelector(".mname")!)).toBe(true); // the click after the release still sees it
+  vi.runAllTimers();
+  expect(sel.rangeCount).toBe(0);
+  select(name, 0, 1);
+  expect(takeSelection(sel, room)).toBe("");
+  expect(sel.rangeCount).toBe(1);
 });
 
 it("knows a selection made in a card header, so the click that ends it does not fold the card", () => {

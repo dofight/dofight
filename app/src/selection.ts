@@ -18,3 +18,12 @@ export function selectionTouches(el: Element): boolean {
   if (!sel || sel.isCollapsed || !sel.rangeCount) return false;
   return sel.getRangeAt(0).intersectsNode(el);
 }
+
+/** copyableSelection, then unselected once taken: the highlight would stay on the panel otherwise (owner,
+ * 2026-11-22). A selection too short to copy is left as it is. Unselected just after, not at once: the click that
+ * follows the release must still see it, or a name selected in a card's header would fold the card. */
+export function takeSelection(sel: Selection | null, root: Element): string {
+  const text = copyableSelection(sel, root);
+  if (text) setTimeout(() => sel!.removeAllRanges(), 0);
+  return text;
+}
