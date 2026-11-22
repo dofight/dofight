@@ -144,6 +144,8 @@ jobs:
     env:
       TAG: ${{ github.event.inputs.tag || github.ref_name }}
       RELEASE_REPO: ${{ vars.RELEASE_REPO || github.repository }}
+      # here and not on the steps: a step's « if » cannot read the secrets, nor the env of the step it is on
+      MAC_SIGN_P12: ${{ secrets.MAC_SIGN_P12 }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -170,6 +172,31 @@ jobs:
           v=$(node -p "require('./app/src-tauri/tauri.conf.json').version")
           test "v$v" = "$TAG" || { echo "tauri.conf.json says $v but the tag is $TAG"; exit 1; }
 
+      # macOS books « Enregistrement de l'écran » against the code's designated requirement. Signed ad-hoc that
+      # requirement is the binary's own hash, so every update is a new app to it and the player, still ticked in the
+      # settings, silently stops being read. Signed with one certificate it is « identifier app.dofight and
+      # certificate root = H"…" », which does not move. The certificate is self-signed and never has to be trusted:
+      # it only has to stay the same (owner, 2026-11-22, measured on a Mac over two builds).
+      - name: The signing certificate
+        if: env.MAC_SIGN_P12 != ''
+        env:
+          MAC_SIGN_P12_PASSWORD: ${{ secrets.MAC_SIGN_P12_PASSWORD }}
+        run: |
+          set -euo pipefail
+          kc="$RUNNER_TEMP/dofight.keychain-db"
+          pw=$(openssl rand -base64 18)
+          echo "$MAC_SIGN_P12" | base64 --decode > "$RUNNER_TEMP/cert.p12"
+          security create-keychain -p "$pw" "$kc"
+          security set-keychain-settings -lut 21600 "$kc"
+          security unlock-keychain -p "$pw" "$kc"
+          # the .p12 has to be written by `openssl pkcs12 -export -legacy`: OpenSSL 3's own encryption is refused
+          # here, and the error says « MAC verification failed (wrong password?) » whatever the password is
+          security import "$RUNNER_TEMP/cert.p12" -k "$kc" -P "$MAC_SIGN_P12_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$pw" "$kc" > /dev/null
+          # codesign looks the identity up in the keychains it searches, not in the one it is handed
+          security list-keychains -d user -s "$kc" $(security list-keychains -d user | tr -d '"')
+          rm -f "$RUNNER_TEMP/cert.p12"
+
       - name: Build the .dmg and the updater files
         working-directory: app
         run: pnpm tauri build --target universal-apple-darwin --bundles app dmg
@@ -177,6 +204,19 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
           DOFIGHT_WEBHOOK: ${{ secrets.DOFIGHT_WEBHOOK }}
+          # tauri.conf.json stays on « - », so a Mac without the certificate still builds; this overrides it
+          APPLE_SIGNING_IDENTITY: ${{ secrets.MAC_SIGN_P12 != '' && 'Dofight Release' || '-' }}
+
+      - name: The build is signed with the certificate, not ad-hoc
+        if: env.MAC_SIGN_P12 != ''
+        run: |
+          set -euo pipefail
+          app=app/src-tauri/target/universal-apple-darwin/release/bundle/macos/Dofight.app
+          req=$(codesign -d -r- "$app" 2>&1 | grep designated)
+          echo "$req"
+          # a cdhash here means the grant would be lost at the next update: that is the whole point of the above
+          case "$req" in *cdhash*) echo "signed ad-hoc: the screen-recording grant would not survive"; exit 1;; esac
+          case "$req" in *"certificate root"*|*"certificate leaf"*) ;; *) echo "unexpected requirement"; exit 1;; esac
 
       - name: Add the Mac files to the release
         env:
