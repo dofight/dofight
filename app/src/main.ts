@@ -1117,9 +1117,10 @@ function makeSide(old: string): void {
 const sideStates: SideState[] = [];
 void listen<SideState>("peek:state", ({ payload }) => void sideStates.push(payload)).then(() => {
   void emit("peek:hello");
-  window.setTimeout(() => {
-    if (!sideStates.some((x) => x.detached)) return;
-    const { side, detached } = sidesAfterReload(sideStates);
+  window.setTimeout(async () => {
+    const peekExists = !!(await Window.getByLabel("peek"));
+    if (peekExists && !sideStates.some((x) => x.detached)) return;
+    const { side, detached } = sidesAfterReload(sideStates, peekExists);
     detached.forEach((label) => detachedSheets.add(label));
     diag("sheet", `after a reload: sheets to ${side ?? "a new window"}, detached ${detached.join(", ")}`);
     if (side === null) makeSide("peek");

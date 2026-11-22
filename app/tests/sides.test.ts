@@ -14,3 +14,8 @@ it("sends the sheets to the window made after a detach, and keeps the detached o
 it("asks for a new window when every side window was detached", () => {
   expect(sidesAfterReload([{ label: "peek", detached: true }])).toEqual({ side: null, detached: ["peek"] });
 });
+
+it("does not send the sheets to « peek » once the player closed it (detached then ✕, then a reload, 2026-11-22)", () => {
+  expect(sidesAfterReload([{ label: "peek-1", detached: false }], false)).toEqual({ side: "peek-1", detached: [] });
+  expect(sidesAfterReload([], false)).toEqual({ side: null, detached: [] });
+});
