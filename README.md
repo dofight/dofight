@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/dofight/dofight/releases/latest"><b>⬇ Télécharger pour Windows</b></a>
+  <a href="https://github.com/dofight/dofight/releases/latest"><b>⬇ Télécharger pour Windows ou Mac</b></a>
   · <a href="https://dofight.github.io">Site</a>
   · <a href="https://discord.gg/G8G4cyvpx6">Discord</a>
   · <a href="#english">English</a>
@@ -15,6 +15,7 @@
 <p align="center">
   <a href="https://github.com/dofight/dofight/releases/latest"><img alt="Dernière version" src="https://img.shields.io/github/v/release/dofight/dofight?label=version"></a>
   <img alt="Windows 10 et 11" src="https://img.shields.io/badge/Windows-10%20%7C%2011-blue">
+  <img alt="macOS 14 ou plus récent" src="https://img.shields.io/badge/macOS-14%2B-lightgrey">
   <img alt="Licence MIT" src="https://img.shields.io/github/license/dofight/dofight">
 </p>
 
@@ -33,26 +34,34 @@ une mécanique), puis ses résistances et ses sorts.
 
 ## Avant de commencer
 
-- Windows 10 ou 11, et Dofus 3 (en français ou en anglais).
-- Le français parmi les langues de Windows (Paramètres Windows → Heure et langue → Langue et région) : Dofight s'en
-  sert pour lire le texte à l'écran. Si ton Windows est en français, tu n'as rien à faire.
+- Dofus 3 (en français ou en anglais), sur Windows 10 ou 11, ou sur un Mac avec macOS 14 ou plus récent.
+- Sur Windows, le français parmi les langues de Windows (Paramètres Windows → Heure et langue → Langue et région) :
+  Dofight s'en sert pour lire le texte à l'écran. Si ton Windows est en français, tu n'as rien à faire. Sur Mac, il
+  n'y a rien à ajouter.
 
 ## Installation
 
-1. Ouvre la page de la [dernière version](https://github.com/dofight/dofight/releases/latest) et télécharge le fichier
-   `Dofight_…_x64-setup.exe` (les autres fichiers servent aux mises à jour).
-2. Lance-le. Si Windows affiche « Windows a protégé votre ordinateur », clique sur « Informations
+1. Ouvre la page de la [dernière version](https://github.com/dofight/dofight/releases/latest) et télécharge, sur
+   Windows, le fichier `Dofight_…_x64-setup.exe`, ou sur Mac, le fichier `Dofight_…_universal.dmg` (Mac Intel et
+   Apple Silicon). Les autres fichiers servent aux mises à jour.
+2. **Sur Windows**, lance-le. Si Windows affiche « Windows a protégé votre ordinateur », clique sur « Informations
    complémentaires », puis sur « Exécuter quand même » : Dofight est un petit projet, qui n'a pas de certificat
    payant.
+   **Sur Mac**, ouvre le `.dmg` et glisse Dofight dans Applications. Lance Dofight une première fois : macOS refuse
+   de l'ouvrir, pour la même raison. Ferme le message, puis ouvre Réglages Système → Confidentialité et sécurité,
+   descends jusqu'à « Sécurité » et clique sur « Ouvrir quand même ». Autorise ensuite Dofight dans Réglages
+   Système → Confidentialité et sécurité → Enregistrement de l'écran (« Enregistrement de l'écran et de l'audio
+   système » sur macOS 15 et plus récent), puis quitte et rouvre-le.
 3. Dans Dofus, active **« Afficher les coordonnées de la carte »** dans les options (Interface → Cartes) : Dofight lit le nom de la
    sous-zone juste au-dessus des coordonnées.
 4. Laisse dépliée la barre d'icônes en haut à gauche du jeu (l'œil hors combat, le cœur en combat) : c'est elle
    qui indique à Dofight qu'un combat commence.
 
 Lance Dofus : Dofight affiche les monstres de ta sous-zone et s'ouvre tout seul en combat. **Ctrl+Maj+D**
-l'affiche ou le cache (raccourci modifiable dans les paramètres). Les mises à jour se font toutes seules.
+(Control+Maj+D sur Mac) l'affiche ou le cache (raccourci modifiable dans les paramètres). Les mises à jour se font toutes seules.
 
-**Désinstaller :** Paramètres Windows → Applications → Applications installées → Dofight → Désinstaller.
+**Désinstaller :** Paramètres Windows → Applications → Applications installées → Dofight → Désinstaller. Sur Mac,
+glisse Dofight d'Applications à la Corbeille.
 
 ## Ce que fait Dofight
 
@@ -68,7 +77,7 @@ l'affiche ou le cache (raccourci modifiable dans les paramètres). Les mises à 
 - **Recherche** d'un donjon, d'une sous-zone ou d'un monstre ; « Aller en [x,y] » copie la commande de voyage à
   coller dans le chat.
 - **Filtrer les résultats** : tape un sort, un badge ou un effet (« pousse », « PA »…) pour ne garder que les
-  monstres concernés (Ctrl+F).
+  monstres concernés (Ctrl+F, Cmd+F sur Mac).
 - **Ouverture automatique** : il s'ouvre au début du combat et se ferme à la fin ; Ctrl+Maj+D l'affiche ou le cache.
 - **Réglages** : thèmes assortis à ceux de Dofus, taille du texte, opacité, interface en français ou en anglais ;
   un cadenas fige la position et la taille du panneau.
@@ -83,7 +92,7 @@ sous-zone plus souvent, jusqu'à la trouver. En mode Songes, hors combat, quand 
 infobulles de groupes de monstres dans toute la fenêtre du jeu : elles s'affichent où se trouve le groupe, et le
 jeu peut toutes les montrer d'un coup. Il n'en retient que leur texte, et rien d'autre de l'écran n'est gardé ni
 envoyé : ni le tchat, ni les noms de joueurs, de guilde ou d'alliance, ni ton inventaire. Les captures ne quittent
-jamais ton PC. Tu peux couper cette lecture dans Paramètres → « Lecture de l'écran » : Dofight ne capture alors la
+jamais ton ordinateur. Tu peux couper cette lecture dans Paramètres → « Lecture de l'écran » : Dofight ne capture alors la
 fenêtre Dofus que lorsque tu cliques sur « Scanner ma sous-zone ». Ce qu'il affiche est public (données du jeu,
 guides). C'est un outil fait par des fans, sans lien avec Ankama, qui ne l'a ni validé ni approuvé : tu l'utilises
 sous ta propre responsabilité.
@@ -94,7 +103,8 @@ les deux options activées, l'état de Dofight (sous-zone lue, combat, version, 
 dernières minutes. Jamais de capture d'écran ni de chat, ni de nom de personnage, de guilde ou de compte.
 
 **Dofight n'affiche rien, ou pas les bons monstres ?** Revérifie les étapes 3 et 4 de l'installation, et assure-toi
-que le français fait bien partie des langues de Windows. Si tu joues sur plusieurs comptes, choisis la fenêtre à lire dans
+que le français fait bien partie des langues de Windows (sur Mac, que Dofight est autorisé dans Enregistrement de
+l'écran). Si tu joues sur plusieurs comptes, choisis la fenêtre à lire dans
 Paramètres → Lecture de l'écran.
 
 **Une erreur, une idée, besoin d'aide ?** Le bouton « Envoyer une suggestion » (en bas des résultats) envoie ton
@@ -120,26 +130,32 @@ memory, files or network traffic.
 
 ### What you need
 
-- Windows 10 or 11, and Dofus 3 (French or English client).
-- French among your Windows languages (Windows Settings → Time & language → Language & region → Add a language →
-  Français): Dofight uses it to read the text on screen, even with the game in English. You do not have to switch
-  Windows to French.
+- Dofus 3 (French or English client), on Windows 10 or 11, or on a Mac with macOS 14 or later.
+- On Windows, French among your Windows languages (Windows Settings → Time & language → Language & region → Add a
+  language → Français): Dofight uses it to read the text on screen, even with the game in English. You do not have
+  to switch Windows to French. On a Mac, there is nothing to add.
 
 ### Install
 
 1. Open the [latest release](https://github.com/dofight/dofight/releases/latest) and download
-   `Dofight_…_x64-setup.exe` (the other files are for updates).
-2. Run it. If Windows shows “Windows protected your PC”, click “More info”, then “Run anyway”: Dofight is a small
-   project without a paid certificate.
+   `Dofight_…_x64-setup.exe` on Windows, or `Dofight_…_universal.dmg` on a Mac (Intel and Apple Silicon). The other
+   files are for updates.
+2. **On Windows**, run it. If Windows shows “Windows protected your PC”, click “More info”, then “Run anyway”:
+   Dofight is a small project without a paid certificate.
+   **On a Mac**, open the `.dmg` and drag Dofight to Applications. Open Dofight once: macOS refuses, for the same
+   reason. Close the message, then open System Settings → Privacy & Security, scroll down to “Security” and click
+   “Open Anyway”. Then allow Dofight in System Settings → Privacy & Security → Screen Recording (“Screen & System
+   Audio Recording” on macOS 15 and later), and quit and reopen it.
 3. In Dofus, turn on **“Show map coordinates”** in the options: Dofight reads the subarea name just above them.
 4. Keep the icon bar in the game's top-left corner expanded (the eye out of combat, the heart in combat): it tells
    Dofight when a fight starts.
 
 Start Dofus: Dofight shows your subarea's monsters and opens by itself in fights.
-**Ctrl+Shift+D** shows or hides it (you can change it in the settings). Updates install themselves.
+**Ctrl+Shift+D** (Control+Shift+D on a Mac) shows or hides it (you can change it in the settings). Updates install themselves.
 The interface is in French by default: switch to English in Paramètres → Langue.
 
-**Uninstall:** Windows Settings → Apps → Installed apps → Dofight → Uninstall.
+**Uninstall:** Windows Settings → Apps → Installed apps → Dofight → Uninstall. On a Mac, drag Dofight from
+Applications to the Trash.
 
 ### What it does
 
@@ -153,7 +169,7 @@ The interface is in French by default: switch to English in Paramètres → Lang
   them all with the game's own key, and Dofight shows them before the fight.
 - **Search** for a dungeon, a subarea or a monster; “Go to [x,y]” copies the travel command to paste in the chat.
 - **Filter the results**: type a spell, a badge or an effect (“push”, “AP”…) to keep only the monsters concerned
-  (Ctrl+F).
+  (Ctrl+F, Cmd+F on a Mac).
 - **Opens by itself**: it opens when a fight starts and closes when it ends; Ctrl+Shift+D shows or hides it.
 - **Settings**: themes matching Dofus's, text size, opacity, French or English interface; a padlock fixes the
   panel's position and size.
@@ -169,7 +185,7 @@ your subarea yet (Dofight opened mid-fight), it re-reads the subarea name more o
 mode, out of a fight, when your mouse stops, it looks for monster group tooltips anywhere in the game window: they
 appear where the group is, and the game can show them all at once. It keeps only their text, and nothing else on
 screen is kept or sent: not the chat, not player, guild or alliance names, not your inventory. The captures never
-leave your PC. You can turn this off in Settings → “Screen reading”: Dofight then captures the Dofus window only
+leave your computer. You can turn this off in Settings → “Screen reading”: Dofight then captures the Dofus window only
 when you click “Scan my subarea”. What it shows is public (game data, guides). It is a fan-made tool, not
 affiliated with, reviewed or approved by Ankama: you use it at your own risk.
 
@@ -179,7 +195,7 @@ Dofight's state (subarea read, fight, version, settings) and its log of the last
 the chat, or a character, guild or account name.
 
 **Dofight shows nothing, or the wrong monsters?** Check steps 3 and 4 of the install, and that French is among
-your Windows languages. If you play several accounts, pick the window to read in Settings → Screen reading.
+your Windows languages (on a Mac, that Dofight is allowed in Screen Recording). If you play several accounts, pick the window to read in Settings → Screen reading.
 
 **A mistake, an idea, need help?** The “Send a suggestion” button (at the bottom of the results) sends it anonymously to
 the team. For an answer, use the [Discord](https://discord.gg/G8G4cyvpx6).
