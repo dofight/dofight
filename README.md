@@ -63,8 +63,8 @@ l'affiche ou le cache (raccourci modifiable dans les paramètres). Les mises à 
 - **Résistances et sorts** de chaque monstre, avec le détail de chaque sort.
 - **Les grosses mécaniques expliquées** (cycle lunaire, vagues de monstres, modificateurs de dimension…) : survole
   la pastille « ⓘ » pour un aperçu, clique pour l'épingler.
-- **Mode Songes** : il s'active tout seul quand tu entres dans les Songes ; survole un groupe de monstres sur la carte
-  et Dofight l'affiche avant le combat.
+- **Mode Songes** : il s'active tout seul quand tu entres dans les Songes ; survole un groupe de monstres sur la carte,
+  ou affiche-les tous avec la touche du jeu, et Dofight les affiche avant le combat.
 - **Recherche** d'un donjon, d'une sous-zone ou d'un monstre ; « Aller en [x,y] » copie la commande de voyage à
   coller dans le chat.
 - **Filtrer les résultats** : tape un sort, un badge ou un effet (« pousse », « PA »…) pour ne garder que les
@@ -149,8 +149,8 @@ The interface is in French by default: switch to English in Paramètres → Lang
 - **Resistances and spells** of each monster, with a detailed sheet for each spell.
 - **The big mechanics explained** (lunar cycle, monster waves, dimension modifiers…): hover over the “ⓘ” chip for a
   preview, click to pin it.
-- **Dreams mode**: it turns on by itself when you enter the Dreams; hover over a monster group on the map and Dofight
-  shows it before the fight.
+- **Dreams mode**: it turns on by itself when you enter the Dreams; hover over a monster group on the map, or show
+  them all with the game's own key, and Dofight shows them before the fight.
 - **Search** for a dungeon, a subarea or a monster; “Go to [x,y]” copies the travel command to paste in the chat.
 - **Filter the results**: type a spell, a badge or an effect (“push”, “AP”…) to keep only the monsters concerned
   (Ctrl+F).
