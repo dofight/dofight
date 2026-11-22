@@ -6,7 +6,7 @@ import { applyI18n, hasKey, setLang, t, type Key, type Lang } from "./i18n";
 import { check } from "@tauri-apps/plugin-updater";
 import { relaunch } from "@tauri-apps/plugin-process";
 import { autoUpdate, portableCheck, type DownloadEvent } from "./update";
-import { diag, diagOnChange, loggableSettings } from "./diag";
+import { diag, diagOnChange, loggableSettings, withRead } from "./diag";
 import { applyTextSize, applyTheme, THEMES, themeById, themeName } from "./theme";
 import { fromKeyEvent, shortcutLabel } from "./shortcut";
 import { initialState, step, type Action, type DirectorState } from "./screen/director";
@@ -290,15 +290,17 @@ function songeTick(lines: OcrLine[]): void {
   // a line of a tooltip that matched no monster: the group is read short, and only the log can show why
   if (missed.length) {
     const texts = missed.join(" | ");
-    if (texts !== songeUnknown) diag("songe", `name not recognised: « ${texts} »`);
-    songeUnknown = texts;
+    const line = withRead("name not recognised", texts);
+    if (line !== songeUnknown) diag("songe", line);
+    songeUnknown = line;
   }
   if (!groups.length) {
     // the tooltip was found and read, but nothing in it was a group: its level line or its names were misread, and
     // that is what the reading has to show (owner, 2026-11-21: a group that would not scan, with nothing said why)
     const texts = lines.map((l) => l.text).join(" | ");
-    if (texts !== songeMissed) diag("songe", `read but no group in it: « ${texts} »`);
-    songeMissed = texts;
+    const line = withRead("read but no group in it", texts);
+    if (line !== songeMissed) diag("songe", line);
+    songeMissed = line;
     return;
   }
   songeMissed = "";
@@ -2060,7 +2062,7 @@ void listen<{ front: boolean; lines: OcrLine[]; error: string | null; bar: BarSt
     if (!director.inFight) {
       const what = found ? `zone header → ${found.title}${found.empty ? " (no monsters here)" : ""}` : header ? "zone header not recognised" : "no zone header found";
       // each different misreading is written (it is what shows why a zone was missed)
-      const line = !found && header ? `${what}: « ${header.title} »${header.x != null ? ` (${header.x}, ${header.y})` : ""}` : what;
+      const line = !found && header ? withRead(what, `${header.title}${header.x != null ? ` (${header.x}, ${header.y})` : ""}`) : what;
       if (line !== lastHeaderLog) diag("zone", line);
       lastHeaderLog = line;
     }

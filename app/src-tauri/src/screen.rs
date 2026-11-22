@@ -484,8 +484,19 @@ pub fn hover_square(cx: i32, cy: i32, (width, height): (u32, u32)) -> (i32, i32,
 /// `find_tooltips` on a piece of the window (`bgra`, `iw` × `ih`, its top left at `at` in the window of size `window`):
 /// the mouse and the boxes found are in the window's pixels.
 pub fn find_tooltips_in(bgra: &[u8], iw: u32, ih: u32, at: (i32, i32), window: (u32, u32), cx: i32, cy: i32) -> Vec<(i32, i32, i32, i32)> {
+    find_tooltips_within(bgra, iw, ih, at, window, hover_square(cx, cy, window))
+}
+
+/// The group tooltips inside one area of the window (x, y, width, height in the window's points).
+pub fn find_tooltips_within(
+    bgra: &[u8],
+    iw: u32,
+    ih: u32,
+    at: (i32, i32),
+    window: (u32, u32),
+    (sx, sy, sw, sh): (i32, i32, i32, i32),
+) -> Vec<(i32, i32, i32, i32)> {
     let (_width, height) = window;
-    let (sx, sy, sw, sh) = hover_square(cx, cy, window);
     let (x0, y0) = (sx.max(at.0), sy.max(at.1));
     let (x1, y1) = ((sx + sw).min(at.0 + iw as i32), (sy + sh).min(at.1 + ih as i32));
     if x1 - x0 < TOOLTIP_MIN.0 || y1 - y0 < TOOLTIP_MIN.1 {
