@@ -23,7 +23,7 @@ import { openUrl } from "@tauri-apps/plugin-opener";
 import logo from "./assets/icon-app.png";
 import { enableDragAnywhere } from "./drag";
 import { selectionTouches, takeSelection } from "./selection";
-import { sidesAfterReload, type SideState } from "./sides";
+import { attachedSides, sidesAfterReload, type SideState } from "./sides";
 import { showToast } from "./render/toast";
 import { fetchFromApp, loadSnapshot } from "./load";
 import { renderTrip, showCopied, tripTo, type Trip } from "./travel";
@@ -1118,6 +1118,8 @@ const sideStates: SideState[] = [];
 void listen<SideState>("peek:state", ({ payload }) => void sideStates.push(payload)).then(() => {
   void emit("peek:hello");
   window.setTimeout(async () => {
+    // a sheet pinned before the reload, still on screen: hidden (this page does not know it shows)
+    for (const l of attachedSides(sideStates)) if (!(peekShown && l === sideLabel)) void Window.getByLabel(l).then((w) => w?.hide());
     const peekExists = !!(await Window.getByLabel("peek"));
     if (peekExists && !sideStates.some((x) => x.detached)) return;
     const { side, detached } = sidesAfterReload(sideStates, peekExists);

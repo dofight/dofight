@@ -16,3 +16,10 @@ export function sidesAfterReload(states: SideState[], peekExists = true): { side
   const attached = states.filter((s) => !s.detached).map((s) => s.label).sort();
   return { side: attached[0] ?? null, detached };
 }
+
+/** The side windows still beside the panel after a reload: a sheet pinned before it stays on screen, but the new page
+ * does not know it is shown, so its ✕ did nothing and a drag detached it unseen, leaving no sheets (Fable,
+ * 2026-11-22). The panel hides them; the next sheet shows again where it should. */
+export function attachedSides(states: SideState[]): string[] {
+  return states.filter((s) => !s.detached).map((s) => s.label).sort();
+}

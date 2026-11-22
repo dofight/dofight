@@ -452,9 +452,9 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 /* a sheet's: at the bottom of the sheet itself, which can be shorter than its window on macOS */
 .toast.in-box{position:absolute}
 /* a sheet never outgrows its window: taller than the screen, or a detached one made smaller, it scrolls inside */
-#peek>:not(.toast){max-height:100vh;overflow-y:auto;box-sizing:border-box}
+#peek>:not(.toast){max-height:calc(100vh / var(--zoom,1));overflow-y:auto;box-sizing:border-box}
 /* a detached sheet fills the window the player sized, its bar stays at the top while the text scrolls */
-#peek.detached>:not(.toast){height:100vh;align-content:start} /* the sheet, never the « Copié » placed in #peek */
+#peek.detached>:not(.toast){height:calc(100vh / var(--zoom,1));align-content:start} /* the sheet, never the « Copié » placed in #peek */
 #peek.detached .peek-bar{position:sticky;top:-8px;z-index:1;background:inherit} /* its sheet's own colour: a spell's is lighter than a monster's */
 .mob.peek{border-radius:10px} /* no shadow: the window is exactly the card's size */
 /* a mechanic's chip in the room header (hover: its sheet in the preview window) */
