@@ -133,7 +133,8 @@ jobs:
           curl -fsS -H "Content-Type: application/json" -d @announce.json "$WEBHOOK"
           echo "Announced on Discord"
 
-  # the Mac .dmg (Apple silicon and Intel, ad-hoc signed: no Apple account) and the updater's .app.tar.gz, added to
+  # the Mac .dmg (Apple silicon and Intel, signed with the project's own certificate: no Apple account, not
+  # notarised) and the updater's .app.tar.gz, added to
   # the release the Windows job published; latest.json gets its darwin entries (tools/merge_latest.mjs)
   macos:
     needs: windows
