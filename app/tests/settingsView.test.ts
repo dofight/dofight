@@ -257,6 +257,30 @@ it("empties the list when Songe mode is turned on, and waits for a hovered group
   expect(document.querySelector("#room .roomhead b")!.textContent).toBe(before);
 });
 
+it("a monster searched for stays unfolded after « Filtrer les résultats » is cleared and after Songes on and off (review, 2026-11-22)", () => {
+  if (!document.getElementById("view-settings")!.hidden) (document.getElementById("back") as HTMLButtonElement).click();
+  const q = document.getElementById("q") as HTMLInputElement;
+  q.value = "Ogivol Scalarcin";
+  q.dispatchEvent(new Event("input", { bubbles: true }));
+  const hit = [...document.querySelectorAll<HTMLElement>("#results .res-item")].find((r) => r.textContent?.includes("Ogivol Scalarcin"))!;
+  hit.click();
+  const open = () => document.querySelector<HTMLElement>("#room .mob")!;
+  expect(plain(open().querySelector(".mname")?.textContent)).toBe("Ogivol Scalarcin");
+  expect(open().dataset.open).toBe("true");
+  const find = document.getElementById("find-q") as HTMLInputElement;
+  find.value = "o";
+  find.dispatchEvent(new Event("input", { bubbles: true }));
+  find.value = "";
+  find.dispatchEvent(new Event("input", { bubbles: true }));
+  expect(plain(open().querySelector(".mname")?.textContent)).toBe("Ogivol Scalarcin");
+  expect(open().dataset.open).toBe("true");
+  const songe = document.getElementById("songe") as HTMLButtonElement;
+  songe.click();
+  songe.click();
+  expect(plain(open().querySelector(".mname")?.textContent)).toBe("Ogivol Scalarcin");
+  expect(open().dataset.open).toBe("true");
+});
+
 it("opens the suggestion from the bottom of the results, about the room shown; the subject can be searched", () => {
   if (!document.getElementById("view-settings")!.hidden) (document.getElementById("back") as HTMLButtonElement).click();
   const q = document.getElementById("q") as HTMLInputElement;

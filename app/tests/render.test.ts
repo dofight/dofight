@@ -340,7 +340,7 @@ describe("special monsters", () => {
     // the monster the player searched for stays visible, first, above « Dans cette sous-zone »
     const el = dom(renderRoom(null, ms, undefined, s, { ...ALL, showSpecial: false }, noIcon, "Zone", () => true, 2));
     expect([...el.querySelectorAll(".mname")].map((e) => e.textContent)).toEqual(["Œuf de Pwâk", "Local"]);
-    expect(plain(el.querySelector(".room-sep")?.textContent)).toBe("Dans cette sous-zone : Zone");
+    expect(plain(el.querySelector(".room-sep")?.textContent)).toBe("Dans cette sous-zone");
   });
 });
 
@@ -413,6 +413,11 @@ describe("boss summons", () => {
 describe("a monster searched for (owner, 2026-11-22: « ogivol »)", () => {
   const ids = (el: HTMLElement) => [...el.querySelectorAll<HTMLElement>(".mob")].map((m) => m.dataset.monster);
   const sep = (el: HTMLElement) => plain(el.querySelector(".room-sep")?.textContent);
+  // the room's blocks in order: a monster's id, « sep » for the label, « head » for the zone's card
+  const blocks = (el: HTMLElement) =>
+    [...el.querySelectorAll(".room > .mob, .room > .room-sep, .room > .roomhead")].map((e) =>
+      e.classList.contains("room-sep") ? "sep" : e.classList.contains("roomhead") ? "head" : (e as HTMLElement).dataset.monster,
+    );
   const room = (pinned?: number, summary?: RoomSummary) => {
     const snap = makeSnapshot();
     snap.monsters.set(900, monster({ id: 900, name: "Disciple" }));
@@ -421,37 +426,34 @@ describe("a monster searched for (owner, 2026-11-22: « ogivol »)", () => {
   };
   const summons: RoomSummary = { dungeonId: 165, dungeon: "Autel de la Déchireuse", status: "draft", strategy: "", bossSummons: { "8037": [900] }, monsters: {} };
 
-  it("comes first, then « Dans ce donjon » and the rest, itself not repeated", () => {
+  it("comes first, above the dungeon's own card (labelled « Dans ce donjon ») and the rest, itself not repeated", () => {
+    // Fable's review, approved by the owner: the answer first; the zone's card, with how to get there, under it
     const el = room(8040);
-    expect(ids(el)).toEqual(["8040", "8037"]);
-    expect(sep(el)).toBe("Dans ce donjon : Autel de la Déchireuse");
-    // the separator sits between the searched card and the others
-    const order = [...el.querySelectorAll(".mob, .room-sep")].map((e) => (e.classList.contains("room-sep") ? "sep" : (e as HTMLElement).dataset.monster));
-    expect(order).toEqual(["8040", "sep", "8037"]);
+    expect(blocks(el)).toEqual(["8040", "sep", "head", "8037"]);
+    expect(sep(el)).toBe("Dans ce donjon");
+    expect(plain(el.querySelector(".roomhead b")?.textContent)).toBe("Autel de la Déchireuse");
   });
 
   it("a boss searched for comes first with its summons under it, and none of them again below", () => {
-    const el = room(8037, summons);
-    expect(ids(el)).toEqual(["8037", "900", "8040"]);
-    expect([...el.querySelectorAll(".mob, .room-sep")].map((e) => (e.classList.contains("room-sep") ? "sep" : (e as HTMLElement).dataset.monster))).toEqual(["8037", "900", "sep", "8040"]);
+    expect(blocks(room(8037, summons))).toEqual(["8037", "900", "sep", "head", "8040"]);
   });
 
   it("a boss's summon searched for comes first, and not again under its boss", () => {
     const el = room(900, summons);
-    expect(ids(el)).toEqual(["900", "8037", "8040"]);
+    expect(blocks(el)).toEqual(["900", "sep", "head", "8037", "8040"]);
     expect(el.querySelector<HTMLElement>('.mob[data-monster="900"]')!.classList.contains("summon")).toBe(true);
   });
 
-  it("nothing searched for: no separator, the zone's own order", () => {
+  it("nothing searched for: the zone's card on top, no label, the zone's own order", () => {
     const el = room(undefined);
-    expect(el.querySelector(".room-sep")).toBeNull();
-    expect(ids(el)).toEqual(["8037", "8040"]);
+    expect(blocks(el)).toEqual(["head", "8037", "8040"]);
   });
 
-  it("alone in its zone: no separator over nothing", () => {
+  it("alone in its zone: still first, its zone's card under it", () => {
     const s = makeSnapshot();
-    const only = [monster({ id: 1, name: "Seul" })];
-    expect(dom(renderRoom(null, only, undefined, s, ALL, noIcon, "Zone", () => true, 1)).querySelector(".room-sep")).toBeNull();
+    const el = dom(renderRoom(null, [monster({ id: 1, name: "Seul" })], undefined, s, ALL, noIcon, "Zone", () => true, 1));
+    expect(blocks(el)).toEqual(["1", "sep", "head"]);
+    expect(sep(el)).toBe("Dans cette sous-zone");
   });
 });
 

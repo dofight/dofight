@@ -349,6 +349,7 @@ function setSonge(on: boolean, by: "player" | "dofight"): void {
     room = !zoneReadInSonge && beforeSonge ? beforeSonge : zoneRoom;
     zoneAsked = settings.fromHeader;
     flipped.clear();
+    openPinned();
   }
   if (!settings.songe) beforeSonge = null;
   songeRoom = null;
@@ -490,11 +491,17 @@ function openFind(): void {
   input.focus();
   input.select();
 }
+// a monster searched for: its card unfolded, first, above the rest of its zone (owner, 2026-11-22). Called again
+// wherever the unfolded cards are forgotten, or the card would fold back while the search still shows it (review).
+function openPinned(): void {
+  if (room?.pinned !== undefined && !isOpen(room.pinned)) flipped.add(room.pinned);
+}
 function clearFind(): void {
   if (!finding) return;
   finding = "";
   $<HTMLInputElement>("find-q").value = "";
   flipped.clear();
+  openPinned();
   showRoom();
 }
 $("find-close").addEventListener("click", () => {
@@ -504,6 +511,7 @@ $("find-close").addEventListener("click", () => {
 $("find-q").addEventListener("input", (e) => {
   finding = (e.target as HTMLInputElement).value;
   flipped.clear();
+  openPinned();
   showRoom();
 });
 $("find-q").addEventListener("keydown", (e) => {
@@ -1766,8 +1774,7 @@ document.addEventListener("click", async (e) => {
     room = roomFor(snap, picked.subarea && english ? { ...picked, subarea: english.zoneFr.get(picked.subarea) ?? picked.subarea } : picked);
     zoneAsked = false; // the player chose what to see
     flipped.clear();
-    // a monster searched for: its card unfolded, first, above the rest of its zone (owner, 2026-11-22)
-    if (room.pinned !== undefined && !isOpen(room.pinned)) flipped.add(room.pinned);
+    openPinned();
     $<HTMLInputElement>("q").value = "";
     $("results").innerHTML = "";
     showRoom();

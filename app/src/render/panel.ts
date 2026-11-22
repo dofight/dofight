@@ -94,12 +94,14 @@ export function renderRoom(
   };
   const rest = ordered.filter((m) => m.id !== first?.id);
   const top = !first ? "" : bossOf ? card(first, { of: bossOf.name }) : withSummons(first);
-  const where = d ? t("room.inDungeon", { name: d.name }) : t("room.inZone", { name: title ?? "" });
-  const sep = top && rest.length ? `<div class="room-sep">${esc(where)}</div>` : "";
-  const cards = top + sep + rest.map(withSummons).join("");
+  // the answer first, then its zone: « Dans ce donjon » over the zone's own card (how to get there, its summary),
+  // then the other monsters (Fable's review, owner, 2026-11-22). Nothing searched for: the zone's card on top.
+  const sep = top ? `<div class="room-sep">${esc(t(d ? "room.inDungeon" : "room.inZone"))}</div>` : "";
+  const cards = rest.map(withSummons).join("");
   // the room's name, how to get there (`trip`, see travel.ts), summary, badges and guide link in one header card
   // (readable over any map)
   // one « Suggestion » button, at the very bottom of the results (the settings' example has none)
   const suggest = show.suggest !== false ? `<button class="suggest" data-suggest-room>${navIcon("edit")}${esc(t("room.suggest"))}</button>` : "";
-  return `<div class="room"><div class="roomhead">${head}${trip}${strategy}${roomTags}${mechanics}${guide}</div>${cards}${suggest}</div>`;
+  const roomhead = `<div class="roomhead">${head}${trip}${strategy}${roomTags}${mechanics}${guide}</div>`;
+  return `<div class="room">${top}${sep}${roomhead}${cards}${suggest}</div>`;
 }
