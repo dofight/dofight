@@ -675,10 +675,17 @@ function showDevTools(): void {
 if (import.meta.env.DEV) showDevTools();
 else void invoke<boolean>("dev_build").then((dev) => dev && showDevTools()).catch(() => {});
 
-// dev builds only (never a release): outline the areas read in red (the debug window, screen.rs)
+// dev builds only (never a release): outline the areas read in red (the debug window, screen.rs). The switch is made
+// here and not written in index.html: written there with `hidden`, `.switch{display:flex}` overrode the attribute and
+// every release since 1.9.0 showed it to players, wired to nothing (owner, 2026-11-22)
 function debugAreasSwitch(): void {
+  const row = document.createElement("div");
+  row.className = "switch";
+  row.id = "debug-areas-row";
+  row.innerHTML = '<label for="debug-areas" data-i18n="settings.debugAreas"></label><input id="debug-areas" type="checkbox" role="switch">';
+  row.querySelector("label")!.textContent = t("settings.debugAreas");
+  $("log-status").after(row);
   const box = $<HTMLInputElement>("debug-areas");
-  $("debug-areas-row").hidden = false;
   try {
     box.checked = localStorage.getItem("dofight.debugAreas") === "1";
   } catch {
