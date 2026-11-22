@@ -12,3 +12,9 @@ export function sheetBar(pinned: boolean): string {
 export function startsSheetDrag(target: Element): boolean {
   return !!target.closest(".peek-bar") && !target.closest("button, a");
 }
+
+/** A sheet's whole height in CSS pixels, border included: its content's, even when the sheet is capped to the window
+ * (styles.css) and scrolls. Measured so, a sheet once shown in a short window still asks for all the room it needs. */
+export function sheetHeight(card: HTMLElement): number {
+  return card.scrollHeight + card.offsetHeight - card.clientHeight;
+}

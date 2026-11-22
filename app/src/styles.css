@@ -449,17 +449,6 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .peek-bar:active{cursor:grabbing}
 .toast{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);z-index:20;padding:4px 12px;border-radius:999px;background:var(--gold);color:var(--bg);font-size:12px;font-weight:700;pointer-events:none;user-select:none;box-shadow:0 2px 8px rgba(0,0,0,.35)}
 .toast.failed{background:var(--line);color:var(--fg)}
-/* macOS: strips along a window's edges and corners to resize it (resizeEdges.ts); Windows has its own */
-.edges[hidden]{display:none}
-.edge{position:fixed;z-index:30;user-select:none}
-.edge[data-dir="North"]{top:0;left:12px;right:12px;height:6px;cursor:ns-resize}
-.edge[data-dir="South"]{bottom:0;left:12px;right:12px;height:6px;cursor:ns-resize}
-.edge[data-dir="West"]{left:0;top:12px;bottom:12px;width:6px;cursor:ew-resize}
-.edge[data-dir="East"]{right:0;top:12px;bottom:12px;width:6px;cursor:ew-resize}
-.edge[data-dir="NorthWest"]{top:0;left:0;width:12px;height:12px;cursor:nwse-resize}
-.edge[data-dir="SouthEast"]{bottom:0;right:0;width:12px;height:12px;cursor:nwse-resize}
-.edge[data-dir="NorthEast"]{top:0;right:0;width:12px;height:12px;cursor:nesw-resize}
-.edge[data-dir="SouthWest"]{bottom:0;left:0;width:12px;height:12px;cursor:nesw-resize}
 /* a sheet never outgrows its window: taller than the screen, or a detached one made smaller, it scrolls inside */
 #peek>*{max-height:100vh;overflow-y:auto;box-sizing:border-box}
 /* a detached sheet fills the window the player sized, its bar stays at the top while the text scrolls */

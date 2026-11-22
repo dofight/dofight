@@ -3,8 +3,7 @@ import { emit, listen } from "@tauri-apps/api/event";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { setLang, t } from "./i18n";
 import { takeSelection } from "./selection";
-import { addResizeEdges, isMac, sheetHeight } from "./resizeEdges";
-import { sheetBar, startsSheetDrag } from "./render/sheetBar";
+import { sheetBar, sheetHeight, startsSheetDrag } from "./render/sheetBar";
 import { showToast } from "./render/toast";
 import { sheetCopied, sheetCopy } from "./render/accessSheet";
 import { KEY, loadSettings } from "./settings";
@@ -69,9 +68,8 @@ document.addEventListener("pointermove", (e) => {
     // macOS the panel conversion also has to be told, or it keeps refusing the keyboard (platform::detached_side).
     void getCurrentWindow().setFocusable(true);
     void invoke("side_detached", { label }); // resizable from here on (and at least big enough to read)
-    // the sheet fills the window the player sizes and scrolls inside; macOS gets strips to catch its edges by
+    // the sheet fills the window the player sizes, by its edges, and scrolls inside
     document.getElementById("peek")!.classList.add("detached");
-    if (isMac()) addResizeEdges(document, (dir) => void getCurrentWindow().startResizeDragging(dir));
     const close = document.querySelector<HTMLElement>(".peek-close");
     close?.setAttribute("title", t("peek.closeDetached"));
     close?.setAttribute("aria-label", t("peek.closeDetached"));

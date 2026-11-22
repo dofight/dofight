@@ -1,6 +1,6 @@
 import { SELECTABLE } from "./selection";
 
-const CONTROLS = "input, button, a, select, textarea, label, [contenteditable], .edge";
+const CONTROLS = "input, button, a, select, textarea, label, [contenteditable]";
 
 /** True when a press on `target` may move the window: anything but a control or text the player can select. */
 export function startsDrag(target: HTMLElement): boolean {
