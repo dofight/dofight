@@ -965,6 +965,14 @@ fn write_bmp(path: &std::path::Path, bgra: &[u8], w: u32, h: u32, area: &str) {
     }
 }
 
+/// Dev builds: the red boxes taken off the screen, there being no window to draw them over. Without it the last
+/// ones drawn stayed where they were while Dofus was shut or the reading turned off (owner, 2026-11-22).
+fn clear_areas(app: &AppHandle) {
+    if cfg!(debug_assertions) {
+        let _ = app.emit("screen:debug", DebugAreas { origin: None, areas: Vec::new() });
+    }
+}
+
 fn show_areas(app: &AppHandle, id: WindowId, areas: Vec<(i32, i32, i32, i32)>) {
     if cfg!(debug_assertions) {
         let origin = platform::client_origin(id);
@@ -1138,6 +1146,7 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
             let prefix = reference.0.lock().map(|p| p.clone()).unwrap_or_default();
             let Some(target) = pick(&platform::dofus_windows(), &prefix) else {
                 note(&mut r, "no Dofus window".into());
+                clear_areas(&app); // nothing to draw them over: they stayed on screen until Dofus came back
                 r.was_front = false;
                 if slow_due {
                     emit(fail("no-dofus"));
@@ -1147,6 +1156,7 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
             if !reading.0.load(Ordering::Relaxed) {
                 // « Lecture de l'écran » off: no capture, not even which window is in front; turned on again, the first tick reads at once (was_front)
                 note(&mut r, "reading turned off".into());
+                clear_areas(&app);
                 r.was_front = false;
                 if slow_due {
                     emit(fail("off"));
