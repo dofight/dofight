@@ -337,10 +337,10 @@ describe("special monsters", () => {
     const names = (showSpecial: boolean) => [...dom(renderRoom(null, ms, undefined, s, { ...ALL, showSpecial }, noIcon, "Zone")).querySelectorAll(".mname")].map((e) => e.textContent);
     expect(names(false)).toEqual(["Local"]);
     expect(names(true)).toEqual(["Local", "Œuf de Pwâk"]);
-    // the monster the player searched for stays visible, first, above « Dans cette sous-zone »
+    // the monster the player searched for stays visible, first, above « Sous-zone associée »
     const el = dom(renderRoom(null, ms, undefined, s, { ...ALL, showSpecial: false }, noIcon, "Zone", () => true, 2));
     expect([...el.querySelectorAll(".mname")].map((e) => e.textContent)).toEqual(["Œuf de Pwâk", "Local"]);
-    expect(plain(el.querySelector(".room-sep")?.textContent)).toBe("Dans cette sous-zone");
+    expect(plain(el.querySelector(".room-sep")?.textContent)).toBe("Sous-zone associée");
   });
 });
 
@@ -426,11 +426,11 @@ describe("a monster searched for (owner, 2026-11-22: « ogivol »)", () => {
   };
   const summons: RoomSummary = { dungeonId: 165, dungeon: "Autel de la Déchireuse", status: "draft", strategy: "", bossSummons: { "8037": [900] }, monsters: {} };
 
-  it("comes first, above the dungeon's own card (labelled « Dans ce donjon ») and the rest, itself not repeated", () => {
+  it("comes first, above the dungeon's own card (labelled « Donjon associé ») and the rest, itself not repeated", () => {
     // Fable's review, approved by the owner: the answer first; the zone's card, with how to get there, under it
     const el = room(8040);
     expect(blocks(el)).toEqual(["8040", "sep", "head", "8037"]);
-    expect(sep(el)).toBe("Dans ce donjon");
+    expect(sep(el)).toBe("Donjon associé");
     expect(plain(el.querySelector(".roomhead b")?.textContent)).toBe("Autel de la Déchireuse");
   });
 
@@ -453,7 +453,7 @@ describe("a monster searched for (owner, 2026-11-22: « ogivol »)", () => {
     const s = makeSnapshot();
     const el = dom(renderRoom(null, [monster({ id: 1, name: "Seul" })], undefined, s, ALL, noIcon, "Zone", () => true, 1));
     expect(blocks(el)).toEqual(["1", "sep", "head"]);
-    expect(sep(el)).toBe("Dans cette sous-zone");
+    expect(sep(el)).toBe("Sous-zone associée");
   });
 });
 

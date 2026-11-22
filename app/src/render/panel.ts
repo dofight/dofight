@@ -83,7 +83,7 @@ export function renderRoom(
   const listed = new Set(ordered.map((m) => m.id));
   const summonsOf = (m: Monster) =>
     (summary?.bossSummons?.[String(m.id)] ?? []).map((id) => s.monsters.get(id)).filter((x): x is Monster => !!x && !listed.has(x.id));
-  // the monster the player searched for (owner, 2026-11-22: « ogivol »): its card first, then « Dans ce donjon : X »
+  // the monster the player searched for (owner, 2026-11-22: « ogivol »): its card first, then « Donjon associé »
   // and the rest of the zone, the searched one not repeated. A boss's summon is searched for too: it is not in the
   // zone's own list, it comes under its boss, and then it comes first instead.
   const bossOf = pinned === undefined || listed.has(pinned) ? undefined : ordered.find((m) => summonsOf(m).some((x) => x.id === pinned));
@@ -94,7 +94,7 @@ export function renderRoom(
   };
   const rest = ordered.filter((m) => m.id !== first?.id);
   const top = !first ? "" : bossOf ? card(first, { of: bossOf.name }) : withSummons(first);
-  // the answer first, then its zone: « Dans ce donjon » over the zone's own card (how to get there, its summary),
+  // the answer first, then its zone: « Donjon associé » over the zone's own card (how to get there, its summary),
   // then the other monsters (Fable's review, owner, 2026-11-22). Nothing searched for: the zone's card on top.
   const sep = top ? `<div class="room-sep">${esc(t(d ? "room.inDungeon" : "room.inZone"))}</div>` : "";
   const cards = rest.map(withSummons).join("");
