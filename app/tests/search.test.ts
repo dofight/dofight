@@ -26,6 +26,18 @@ describe("search", () => {
     expect(search(t, "servitude").find((x) => x.monsterId === 5955)!.info).toContain("Fers de la Tyrannie");
   });
 
+  it("puts a monster whose whole name was typed first, before longer names holding it (« Hin », 2026-11-22)", () => {
+    const t = makeSnapshot();
+    const base = t.monsters.get(101)!;
+    // a wanted-poster monster, behind names that hold its three letters near their start, and their dungeons
+    t.monsters.set(3848, { ...base, id: 3848, name: "Hin", kind: "wanted", dungeonIds: [], subareas: ["Jour présent"] });
+    for (let i = 0; i < 8; i++) {
+      t.dungeons.set(900 + i, { id: 900 + i, name: `Donjon ${i}`, level: 50, monsterIds: [910 + i], maps: [] });
+      t.monsters.set(910 + i, { ...base, id: 910 + i, name: `Shin ${i}`, dungeonIds: [900 + i] });
+    }
+    expect(search(t, "hin")[0]).toMatchObject({ kind: "monster", monsterId: 3848 });
+  });
+
   it("tolerates a typo", () => {
     expect(search(s, "dechirreuse").some((x) => x.dungeonId === 165)).toBe(true);
   });

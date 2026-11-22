@@ -56,6 +56,9 @@ export function levelRange(m: Monster): string {
 }
 
 const MIN_FUZZY = 20;
+/** The whole name typed: above every name that only holds it, and their dungeons (« Hin » came 13th behind
+ * « Shin Larve » and its dungeon, owner, 2026-11-22). */
+const EXACT = 60;
 
 /** « Archimonstre · », « Avis de recherche · »… before the level of a monster that is not the zone's own; "" for a normal one. */
 const kindLabel = (kind: NonNullable<Monster["kind"]>): string => (kindName(kind) ? `${kindName(kind)} · ` : "");
@@ -63,11 +66,13 @@ const kindLabel = (kind: NonNullable<Monster["kind"]>): string => (kindName(kind
 export function search(s: Snapshot, query: string, limit = 8): (Result & { score?: number })[] {
   if (!query.trim()) return [];
   const scored: (Result & { score: number })[] = [];
+  const typed = normalize(query).trim();
+  const exact = (name: string) => (normalize(name) === typed ? EXACT : 0);
   const subareas = new Set<string>();
 
   for (const d of s.dungeons.values()) {
     const sc = score(d.name, query);
-    if (sc >= MIN_FUZZY) scored.push({ kind: "dungeon", label: d.name, info: t("monster.level", { level: d.level }), dungeonId: d.id, score: sc + 20 });
+    if (sc >= MIN_FUZZY) scored.push({ kind: "dungeon", label: d.name, info: t("monster.level", { level: d.level }), dungeonId: d.id, score: sc + 20 + exact(d.name) });
   }
   for (const m of s.monsters.values()) {
     m.subareas.forEach((a) => subareas.add(a));
@@ -83,11 +88,15 @@ export function search(s: Snapshot, query: string, limit = 8): (Result & { score
     const tag = kindLabel(m.kind ?? "normal");
     const info = tag + (where ? `${levelRange(m)} · ${where}` : levelRange(m));
     // normal monsters first, then expedition and wanted-poster versions of the same name
-    scored.push({ kind: "monster", label: m.name, info, monsterId: m.id, score: m.kind && m.kind !== "normal" ? sc - 5 : sc });
+    scored.push({ kind: "monster", label: m.name, info, monsterId: m.id, score: (m.kind && m.kind !== "normal" ? sc - 5 : sc) + exact(m.name) });
     // a monster's dungeons come first
     dungeons.forEach((dungeon, i) => {
-      if (sc < 50 || scored.some((r) => r.kind === "dungeon" && r.dungeonId === dungeon.id)) return;
-      scored.push({ kind: "dungeon", label: dungeon.name, info: t("search.contains", { name: m.name }), dungeonId: dungeon.id, score: sc + 30 - i * 0.1 });
+      if (sc < 50) return;
+      const score = sc + 30 + exact(m.name) - i * 0.1;
+      // already found by its own name (« Autel de la Déchireuse »): it still comes before its monster
+      const found = scored.find((r) => r.kind === "dungeon" && r.dungeonId === dungeon.id);
+      if (found) found.score = Math.max(found.score, score);
+      else scored.push({ kind: "dungeon", label: dungeon.name, info: t("search.contains", { name: m.name }), dungeonId: dungeon.id, score });
     });
   }
   const dungeonNames = new Set([...s.dungeons.values()].map((d) => normalize(d.name)));
@@ -95,7 +104,7 @@ export function search(s: Snapshot, query: string, limit = 8): (Result & { score
     if (dungeonNames.has(normalize(a))) continue; // a dungeon's sub-area has the dungeon's name
     const sc = score(a, query);
     // its area (« Amakna », « Île de Frigost »), which tells two zones apart better than « sous-zone »
-    if (sc >= MIN_FUZZY) scored.push({ kind: "subarea", label: a, info: s.areas?.get(a) ?? "", subarea: a, score: sc + 10 });
+    if (sc >= MIN_FUZZY) scored.push({ kind: "subarea", label: a, info: s.areas?.get(a) ?? "", subarea: a, score: sc + 10 + exact(a) });
   }
   return scored
     .sort((x, y) => y.score - x.score)
