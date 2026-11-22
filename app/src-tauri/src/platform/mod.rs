@@ -20,7 +20,7 @@ pub use shared::*;
 /// A game window: an `HWND` on Windows, a CGWindowID on macOS.
 pub type WindowId = isize;
 
-/// A captured window's content: BGRA pixels, width, height (one pixel per point on a Retina Mac).
+/// A captured window's content: BGRA pixels, width, height (`capture_scale()` pixels per point: two on a Retina Mac).
 pub type Frame = (Vec<u8>, u32, u32);
 
 /// A visible Dofus window (its title starts with the character's name).

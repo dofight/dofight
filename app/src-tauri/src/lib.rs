@@ -141,13 +141,24 @@ fn panel_show(app: tauri::AppHandle, mode: String) -> Result<(), String> {
     platform::show_panel(&panel, &mode)
 }
 
+/// A build with the dev tools in it. `import.meta.env.DEV` is not that: it is true under Vite's dev server alone, so
+/// a `tauri build --debug` bundle had the red boxes compiled in and no way to turn them on (owner, 2026-11-21).
+#[tauri::command]
+fn dev_build() -> bool {
+    cfg!(debug_assertions)
+}
+
 /// Dev builds: shows or hides the red boxes of the areas read (the « debug » window, made only in dev builds; in a
 /// release there is no such window and no switch).
 #[tauri::command]
 fn set_debug_areas(app: tauri::AppHandle, on: bool, wanted: tauri::State<DebugAreasOn>) -> Result<(), String> {
     wanted.0.store(on, std::sync::atomic::Ordering::Relaxed);
     // at launch the panel may ask before the setup made the window: the setup shows it then (owner, 2026-11-20)
-    let Some(debug) = app.get_webview_window("debug") else { return Ok(()) };
+    let Some(debug) = app.get_webview_window("debug") else {
+        diag::log("debug", &format!("red boxes {on}, overlay window not there yet"));
+        return Ok(());
+    };
+    diag::log("debug", &format!("red boxes {on}"));
     if on { debug.show() } else { debug.hide() }.map_err(|e| e.to_string())
 }
 
@@ -340,9 +351,17 @@ pub fn run() {
                         .visible(false)
                         .build()?;
                     debug.set_ignore_cursor_events(true)?;
-                    if app.state::<DebugAreasOn>().0.load(std::sync::atomic::Ordering::Relaxed) {
+                    // the same as the panel and the sheets: over every Space and over a full-screen game, and not
+                    // hidden when Dofight stops being the active app, which it always is. Without it the overlay was
+                    // made, shown, and drew its boxes with nobody ever seeing one (owner, 2026-11-21).
+                    platform::float_side(&debug);
+                    let wanted = app.state::<DebugAreasOn>().0.load(std::sync::atomic::Ordering::Relaxed);
+                    diag::log("debug", &format!("overlay window made, {}×{}, wanted {wanted}", size.width, size.height));
+                    if wanted {
                         debug.show()?;
                     }
+                } else {
+                    diag::log("debug", "no primary monitor: no overlay window");
                 }
             }
             let reference = app.state::<screen::Reference>().inner().clone();
@@ -360,6 +379,7 @@ pub fn run() {
             quit,
             side_window,
             set_debug_areas,
+            dev_build,
             list_dofus_windows,
             set_reference,
             read_again,

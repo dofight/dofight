@@ -317,6 +317,11 @@ pub fn setup(_app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
 }
 
 /// A side window made at run time (a detached sheet's replacement): its config's always-on-top is enough here.
+/// Captured pixels per point: Windows captures the window's own pixels, so always one.
+pub fn capture_scale() -> u32 {
+    1
+}
+
 pub fn float_side(_side: &tauri::WebviewWindow) {}
 
 /// macOS only (the panels' classes): nothing to put back here.

@@ -31,28 +31,48 @@ const TEXT_WHITE: u32 = 225;
 const TEXT_OUTLINE: u32 = 90;
 /// A header change is read at most this often (an animated corner could otherwise ask for a reading every tick).
 const CHANGE_READ_EVERY: Duration = Duration::from_millis(1000);
-/// « Songe » mode, out of a fight: the mouse is checked this often. Once it rests, the area around it is read after
-/// these delays (the tooltip may take a moment to show) until a group tooltip is found; nothing while it moves.
+/// Dev builds: the icon bar's scores are written again this often even when nothing changes.
+const BAR_SAY_EVERY: Duration = Duration::from_secs(10);
+/// « Songe » mode, out of a fight: the mouse is checked this often. Once it rests, the window is read after these
+/// delays (the tooltip may take a moment to show) until a group tooltip is found; nothing while it moves.
 const HOVER_TICK: Duration = Duration::from_millis(50);
+/// « Songe » mode, the mouse at rest and its tooltip already read: how often the window is looked at again, in case
+/// the player showed the groups' tooltips with the game's own key instead of the mouse. Only the boxes are looked
+/// for; the text is read again when they changed (owner, 2026-11-22).
+const REST_READ_EVERY: Duration = Duration::from_secs(2);
+/// Tooltips this much shorter or taller than the ones read are other tooltips. A monster's line is 18 points, so
+/// four leaves the height of a line well clear while swallowing the pixel a border walk gives or takes.
+const SHAPE_STEP: i32 = 4;
+/// At most this many tooltips are read in one reading. A group's tooltip takes about 150 ms, and the game can show
+/// every group's at once: without a cap one reading could hold the thread for seconds (owner, 2026-11-22).
+const TOOLTIPS_AT_ONCE: usize = 10;
+
+/// A tooltip worth stopping the tries for: its level line, its two experience lines, and at least one monster under
+/// them. Fewer than four lines is a box found but read short (owner, 2026-11-21).
+const TOOLTIP_LINES_ENOUGH: usize = 4;
 const HOVER_TRIES: [Duration; 3] = [
     Duration::from_millis(80),
     Duration::from_millis(350),
     Duration::from_millis(800),
 ];
-/// Where the group tooltips are looked for around the resting mouse (by their colour, no OCR: find_tooltips): above the
-/// hovered group, or pushed below or aside near a screen edge. Only the boxes found are read.
-const HOVER_HALF_WIDTH: i32 = 400;
-const HOVER_ABOVE: i32 = 450;
-const HOVER_BELOW: i32 = 250;
 /// Grey level above which a pixel counts as light text (the header, the fight button, « Combat terminé »).
 pub const LIGHT: u8 = 200;
 pub const SCALE: u32 = 2;
-/// Inside a found tooltip box, its light grey (about 170) monster lines on the dark box: at 160 letters break
-/// (« Tafounc »), at 120 words split (« Tofu kaz »), at 100 they thicken (« -rofukaz »). Its bold level line is read
-/// apart, light pixels only (at 140 « Niveau 168 » lost its digits).
-const TOOLTIP_BOX_TEXT: u8 = 140;
-/// A tooltip's level line, at the top of its box (frame pixels).
-const TOOLTIP_TITLE_BAND: i32 = 30;
+
+/// How much the image handed to the OCR is enlarged beyond what was captured. The capture already gives
+/// `capture_scale` pixels per point of the window, so only what is missing is added: on a Retina screen the pixels
+/// are the screen's own instead of a guess between them (owner, 2026-11-21).
+fn ocr_up() -> u32 {
+    SCALE.div_ceil(platform::capture_scale()).max(1)
+}
+
+/// How much larger than the window's points that image is, whatever the screen gave: `scaled_down` undoes it, so a
+/// line read always comes back in points, as it always did.
+fn ocr_total() -> u32 {
+    platform::capture_scale() * ocr_up()
+}
+// A tooltip's text is no longer cut at a grey of its own (140 for its monster lines, the light 200 for its bold level
+// line read apart in a band at the top): `smooth_text` keeps every grey and the one pass finds both.
 
 #[derive(Debug, Clone, Serialize)]
 pub struct Tick {
@@ -154,18 +174,26 @@ fn grey(bgr: &[u8]) -> u32 {
 /// Only white pixels with the game's dark outline around them count (the header text is drawn that way), so a bright,
 /// animated map behind the header (a town, lava) does not look like a change: on a bright map, about 1 100 text
 /// pixels against 24 000 light ones.
-pub fn corner_mask(bgra: &[u8], width: u32, height: u32) -> Vec<bool> {
-    let (w, h) = (CORNER_W.min(width), CORNER_H.min(height));
+pub fn corner_mask(bgra: &[u8], width: u32, height: u32, scale: u32) -> Vec<bool> {
+    // the piece looked at and the step to the letter's outline are both in the window's points, and `bgra` holds
+    // `scale` pixels to a point: left in pixels on a Retina screen this watched a quarter of the header, and looked
+    // for the outline one point away instead of two, inside the stroke rather than beside it. The zone is re-read
+    // on this mask changing while Songe has the reader busy, so it would have stopped following the map
+    // (review, 2026-11-22).
+    let (w, h) = ((CORNER_W * scale).min(width), (CORNER_H * scale).min(height));
+    let step = 2 * scale;
     let at = |x: u32, y: u32| grey(&bgra[((y * width + x) * 4) as usize..][..3]);
     let mut mask = Vec::with_capacity((w * h) as usize);
     for y in 0..h {
         for x in 0..w {
             let text = at(x, y) > TEXT_WHITE
-                && x >= 2
-                && y >= 2
-                && x + 2 < width
-                && y + 2 < height
-                && [at(x - 2, y), at(x + 2, y), at(x, y - 2), at(x, y + 2)].into_iter().any(|g| g < TEXT_OUTLINE);
+                && x >= step
+                && y >= step
+                && x + step < width
+                && y + step < height
+                && [at(x - step, y), at(x + step, y), at(x, y - step), at(x, y + step)]
+                    .into_iter()
+                    .any(|g| g < TEXT_OUTLINE);
             mask.push(text);
         }
     }
@@ -173,17 +201,56 @@ pub fn corner_mask(bgra: &[u8], width: u32, height: u32) -> Vec<bool> {
 }
 
 /// True when the header corner shows something else (a few pixels may flicker on an animated map).
-pub fn corner_changed(before: &[bool], now: &[bool]) -> bool {
-    before.len() != now.len() || before.iter().zip(now).filter(|(a, b)| a != b).count() > CORNER_CHANGE
+pub fn corner_changed(before: &[bool], now: &[bool], scale: u32) -> bool {
+    // the threshold counts pixels and the mask holds `scale` of them to a point each way, so it grows with the
+    // square of the scale: left at forty, a Retina corner was four times readier to call itself changed, and each
+    // change is a corner reading of more than a second on the thread the hover tick shares (review, 2026-11-22)
+    let enough = CORNER_CHANGE * (scale * scale) as usize;
+    before.len() != now.len() || before.iter().zip(now).filter(|(a, b)| a != b).count() > enough
 }
 
 /// Pixels brighter than `threshold` become black on white, scaled `SCALE` times.
-fn binarize(bgra: &[u8], width: u32, height: u32, threshold: u8) -> (Vec<u8>, u32, u32) {
-    let (ow, oh) = (width * SCALE, height * SCALE);
+/// A piece of the frame made ready for the OCR: its greys pulled apart and turned over (the game draws light text on
+/// a dark box, the OCR wants dark text on a page), then `SCALE` times larger with every new pixel mixed from the four
+/// around it.
+///
+/// Not a cut at a fixed grey any more, and not pixels repeated. At eleven pixels a line the letters are drawn with
+/// anti-aliased strokes one pixel wide: the cut at 140 threw a third of them away, and doubling what was left turned
+/// the rest into staircases. On one tooltip of a Pandala night Apple Vision read « Wolkorne ebene sauwage (00i » that
+/// way, and « Volkorne ébène sauvage (68) » this way — five names out of five instead of none, in 282 ms against 956
+/// (owner, 2026-11-21).
+fn smooth_text(bgra: &[u8], width: u32, height: u32) -> (Vec<u8>, u32, u32) {
+    let (w, h) = (width as usize, height as usize);
+    let greys: Vec<u8> = (0..w * h).map(|i| grey(&bgra[i * 4..i * 4 + 3]) as u8).collect();
+    let (lo, hi) = greys.iter().fold((255u8, 0u8), |(lo, hi), &g| (lo.min(g), hi.max(g)));
+    let span = hi.saturating_sub(lo).max(1) as f32;
+    let page: Vec<f32> = greys.iter().map(|&g| 255.0 - (g.saturating_sub(lo) as f32 / span) * 255.0).collect();
+    let at = |x: i64, y: i64| page[(y.clamp(0, h as i64 - 1) * w as i64 + x.clamp(0, w as i64 - 1)) as usize];
+    let up = ocr_up();
+    let (ow, oh) = (width * up, height * up);
     let mut out = vec![255u8; (ow * oh * 4) as usize];
     for y in 0..oh {
         for x in 0..ow {
-            let i = (((y / SCALE) * width + (x / SCALE)) * 4) as usize;
+            let (fx, fy) = ((x as f32 + 0.5) / up as f32 - 0.5, (y as f32 + 0.5) / up as f32 - 0.5);
+            let (x0, y0) = (fx.floor() as i64, fy.floor() as i64);
+            let (tx, ty) = (fx - x0 as f32, fy - y0 as f32);
+            let above = at(x0, y0) * (1.0 - tx) + at(x0 + 1, y0) * tx;
+            let below = at(x0, y0 + 1) * (1.0 - tx) + at(x0 + 1, y0 + 1) * tx;
+            let v = (above * (1.0 - ty) + below * ty).round().clamp(0.0, 255.0) as u8;
+            let o = ((y * ow + x) * 4) as usize;
+            out[o..o + 3].copy_from_slice(&[v, v, v]);
+        }
+    }
+    (out, ow, oh)
+}
+
+fn binarize(bgra: &[u8], width: u32, height: u32, threshold: u8) -> (Vec<u8>, u32, u32) {
+    let up = ocr_up();
+    let (ow, oh) = (width * up, height * up);
+    let mut out = vec![255u8; (ow * oh * 4) as usize];
+    for y in 0..oh {
+        for x in 0..ow {
+            let i = (((y / up) * width + (x / up)) * 4) as usize;
             if grey(&bgra[i..i + 3]) > threshold as u32 {
                 let o = ((y * ow + x) * 4) as usize;
                 out[o..o + 3].copy_from_slice(&[0, 0, 0]);
@@ -262,14 +329,15 @@ fn pure_white_text(bgra: &[u8], width: u32, height: u32) -> (Vec<u8>, u32, u32) 
     let mut keep: Vec<bool> = bgra.as_chunks::<4>().0.iter().map(|p| p[..3].iter().all(|&c| c >= PURE_WHITE)).collect();
     // the background is almost never pure white: only lone pixels to drop, the minus signs and commas stay
     drop_specks(&mut keep, width, height, PURE_SPECK_MAX);
-    let (ow, oh) = (width * SCALE, height * SCALE);
+    let up = ocr_up();
+    let (ow, oh) = (width * up, height * up);
     let mut out = vec![255u8; (ow * oh * 4) as usize];
     for y in 0..height {
         for x in 0..width {
             if keep[(y * width + x) as usize] {
-                for dy in 0..SCALE {
-                    for dx in 0..SCALE {
-                        let o = (((y * SCALE + dy) * ow + x * SCALE + dx) * 4) as usize;
+                for dy in 0..up {
+                    for dx in 0..up {
+                        let o = (((y * up + dy) * ow + x * up + dx) * 4) as usize;
                         out[o..o + 3].copy_from_slice(&[0, 0, 0]);
                     }
                 }
@@ -301,14 +369,15 @@ fn outlined_text(bgra: &[u8], width: u32, height: u32) -> (Vec<u8>, u32, u32) {
     };
     let mut keep: Vec<bool> = (0..width * height).map(|i| at(i % width, i / width) > LIGHT as u32 && near_dark(i % width, i / width)).collect();
     drop_specks(&mut keep, width, height, SPECK_MAX);
-    let (ow, oh) = (width * SCALE, height * SCALE);
+    let up = ocr_up();
+    let (ow, oh) = (width * up, height * up);
     let mut out = vec![255u8; (ow * oh * 4) as usize];
     for y in 0..height {
         for x in 0..width {
             if keep[(y * width + x) as usize] {
-                for dy in 0..SCALE {
-                    for dx in 0..SCALE {
-                        let o = (((y * SCALE + dy) * ow + x * SCALE + dx) * 4) as usize;
+                for dy in 0..up {
+                    for dx in 0..up {
+                        let o = (((y * up + dy) * ow + x * up + dx) * 4) as usize;
                         out[o..o + 3].copy_from_slice(&[0, 0, 0]);
                     }
                 }
@@ -365,7 +434,7 @@ fn has_whole_title(text: &str) -> bool {
 }
 
 fn scaled_down(lines: Vec<OcrLine>) -> Vec<OcrLine> {
-    let s = SCALE as i32;
+    let s = ocr_total() as i32;
     lines.into_iter().map(|l| OcrLine { x: l.x / s, y: l.y / s, w: l.w / s, h: l.h / s, ..l }).collect()
 }
 
@@ -378,7 +447,7 @@ pub fn read_frame(
 ) -> Result<Vec<OcrLine>, String> {
     let (img, w, h) = light_text(bgra, width, height);
     let lines = platform::recognize(engine, &img, w, h)?;
-    let s = SCALE as i32;
+    let s = ocr_total() as i32;
     Ok(lines
         .into_iter()
         .map(|l| OcrLine {
@@ -392,20 +461,29 @@ pub fn read_frame(
 }
 
 
-/// A group tooltip's background (slightly see-through): a dark, even colour of any tint, the game's interface theme
-/// colours it (owner, 2026-11-20: every theme alike). Measured: (36, 36, 31) and (41, 36, 45) (Belladone), (31, 34, 49)
-/// (Standard), warmer over lava. The map's dark patches are told apart by the box's shape (find_tooltips).
-fn tooltip_background(p: &[u8]) -> bool {
-    let (b, g, r) = (p[0] as i32, p[1] as i32, p[2] as i32);
-    let (hi, lo) = (r.max(g).max(b), r.min(g).min(b));
-    (TOOLTIP_DARKEST..=TOOLTIP_BRIGHTEST).contains(&lo) && hi <= TOOLTIP_BRIGHTEST && hi - lo <= TOOLTIP_TINT
-}
+/// A rule: a row whose pixels differ from the row under it by this much, on any channel. A tooltip's border and the
+/// separators inside it are drawn that way, over whatever happens to be behind them. 7 and not 10: over a dark map
+/// a tooltip's own border is faint (measured on a Pandala night, a level 958 group: its top border 6 and its bottom
+/// one 6, against 14 for the separators inside it). At 10 the box stopped at the separators, 41 pixels tall, and the
+/// seven monsters under them were never read. Under 6 a map's own edges start being taken for rules (owner,
+/// 2026-11-21).
+const RULE_EDGE: i32 = 7;
 
-/// A tooltip background's channels: from 14 to 58, at most 28 apart, any hue (Standard, the most common theme: 17
-/// to 27 apart).
-const TOOLTIP_DARKEST: i32 = 14;
-const TOOLTIP_BRIGHTEST: i32 = 58;
-const TOOLTIP_TINT: i32 = 28;
+/// Two rules belong to the same box when they overlap by this much of the wider one (percent).
+const RULE_OVERLAP: i32 = 85;
+
+/// A tooltip draws at least this many rules: its top border, the lines under its level and its experience, the line
+/// over its monsters, its bottom border. Measured on the nine frames kept: never fewer than six. Four is the floor
+/// that still leaves the game's own panels out (the life and stars widget draws three).
+const RULE_MIN: usize = 4;
+/// How many rows the box's side border may lose and still be followed down: the map behind it shows through, so a
+/// row or two can fall outside (review, 2026-11-22).
+const BORDER_GAP: usize = 3;
+/// How far a row of the side border may be from the colours the tooltip draws it with and still count as its own.
+/// Asking only that the two columns differ, as the rules do, followed the map instead: a textured ground has two
+/// neighbouring columns apart by more than RULE_EDGE on almost every row, and the box ran to its greatest height
+/// and was thrown out (review, 2026-11-22).
+const BORDER_SAME: i32 = 12;
 
 /// The size of a group tooltip (frame pixels): one level line up to eight monster lines, the longest names (a lone
 /// « Tofu (36) » is about 80 wide).
@@ -413,183 +491,205 @@ const TOOLTIP_MIN: (i32, i32) = (60, 40);
 const TOOLTIP_MAX: (i32, i32) = (520, 420);
 /// The game's bottom bar (chat, life, spells), from the bottom of a 1009-pixel-high game (scaled with it).
 const BOTTOM_BAR: f32 = 135.0;
-/// Share of a tooltip's box that is its background (the rest is its text).
-const TOOLTIP_FILL: f32 = 0.5;
 
-/// The group tooltips' boxes around the mouse (x, y, width, height in frame pixels): the tooltip-coloured blobs of
-/// a tooltip's size, wherever they are around the mouse (above it, or pushed below or aside by a screen edge). Pixels
-/// only, no OCR: Songe then reads just those boxes.
-pub fn find_tooltips(bgra: &[u8], width: u32, height: u32, cx: i32, cy: i32) -> Vec<(i32, i32, i32, i32)> {
-    find_tooltips_in(bgra, width, height, (0, 0), (width, height), cx, cy)
-}
-
-/// The square around the mouse Songe looks at (x, y, width, height in the window's pixels, clipped to it): only this
-/// piece of a capture is kept (owner, 2026-11-20).
-pub fn hover_square(cx: i32, cy: i32, (width, height): (u32, u32)) -> (i32, i32, i32, i32) {
-    let (x0, y0) = ((cx - HOVER_HALF_WIDTH).max(0), (cy - HOVER_ABOVE).max(0));
-    let (x1, y1) = ((cx + HOVER_HALF_WIDTH).min(width as i32), (cy + HOVER_BELOW).min(height as i32));
-    (x0, y0, (x1 - x0).max(0), (y1 - y0).max(0))
-}
-
-/// `find_tooltips` on a piece of the window (`bgra`, `iw` × `ih`, its top left at `at` in the window of size `window`):
-/// the mouse and the boxes found are in the window's pixels.
-pub fn find_tooltips_in(bgra: &[u8], iw: u32, ih: u32, at: (i32, i32), window: (u32, u32), cx: i32, cy: i32) -> Vec<(i32, i32, i32, i32)> {
-    let (width, height) = window;
-    let (sx, sy, sw, sh) = hover_square(cx, cy, window);
-    let (x0, y0) = (sx.max(at.0), sy.max(at.1));
-    let (x1, y1) = ((sx + sw).min(at.0 + iw as i32), (sy + sh).min(at.1 + ih as i32));
-    if x1 - x0 < TOOLTIP_MIN.0 || y1 - y0 < TOOLTIP_MIN.1 {
+/// The group tooltips' boxes in the whole window (x, y, width, height in the window's points): wherever they are,
+/// not only near the mouse, since the game shows every group's tooltip at once on a key the player chooses (owner,
+/// 2026-11-22). Pixels only, no OCR: Songe then reads just those boxes.
+pub fn find_tooltips(bgra: &[u8], width: u32, height: u32) -> Vec<(i32, i32, i32, i32)> {
+    if (width as i32) < TOOLTIP_MIN.0 || (height as i32) < TOOLTIP_MIN.1 {
         return Vec::new();
     }
-    let (w, h) = ((x1 - x0) as usize, (y1 - y0) as usize);
-    let mask: Vec<bool> = (0..w * h)
-        .map(|i| {
-            let (x, y) = ((x0 - at.0) as usize + i % w, (y0 - at.1) as usize + i / w);
-            let o = (y * iw as usize + x) * 4;
-            tooltip_background(&bgra[o..o + 3])
-        })
-        .collect();
-    let mut seen = vec![false; w * h];
-    let mut out = Vec::new();
-    let mut blob = Vec::new();
-    for start in 0..w * h {
-        if seen[start] || !mask[start] {
-            continue;
-        }
-        blob.clear();
-        blob.push(start);
-        seen[start] = true;
-        let (mut bx0, mut by0, mut bx1, mut by1) = (usize::MAX, usize::MAX, 0, 0);
-        let mut cut = false;
-        let mut k = 0;
-        while k < blob.len() {
-            let i = blob[k];
-            k += 1;
-            let (x, y) = (i % w, i / w);
-            (bx0, by0, bx1, by1) = (bx0.min(x), by0.min(y), bx1.max(x), by1.max(y));
-            // it goes on past the area looked at (the chat, the spell bar…): not a whole tooltip near the mouse; a
-            // tooltip pushed against the game's own edge is whole, the frame's border does not count
-            cut |= (x == 0 && x0 > 0) || (y == 0 && y0 > 0) || (x + 1 == w && x1 < width as i32) || (y + 1 == h && y1 < height as i32);
-            let mut visit = |j: usize| {
-                if !seen[j] && mask[j] {
-                    seen[j] = true;
-                    blob.push(j);
-                }
-            };
-            if x > 0 { visit(i - 1); }
-            if x + 1 < w { visit(i + 1); }
-            if y > 0 { visit(i - w); }
-            if y + 1 < h { visit(i + w); }
-        }
-        let (bw, bh) = ((bx1 - bx0 + 1) as i32, (by1 - by0 + 1) as i32);
-        let fill = blob.len() as f32 / (bw * bh) as f32;
-        // a part of a tooltip may be small (its title band): the size is checked once the parts are joined
-        if !cut && bw >= TOOLTIP_MIN.0 && bh >= 12 && fill >= TOOLTIP_FILL {
-            out.push((x0 + bx0 as i32, y0 + by0 as i32, bw, bh));
-        }
-    }
-    // the game's bottom bar (chat, life, spells) is as dark as a tooltip; a group's tooltip never sits on it (it shows
-    // above its group)
+    // the game's bottom bar (chat, life, spells) is as dark as a tooltip; a group's tooltip never sits on it (it
+    // shows above its group), and no box may reach into it
     let bar_top = height as i32 - (BOTTOM_BAR * (height as f32 / 1009.0).max(1.0)) as i32;
-    join_stacked(out)
-        .into_iter()
-        .filter(|&(_, y, bw, bh)| bw >= TOOLTIP_MIN.0 && bh >= TOOLTIP_MIN.1 && bw <= TOOLTIP_MAX.0 && bh <= TOOLTIP_MAX.1 && y < bar_top)
-        .collect()
-}
-
-/// A tooltip's title band and its monster list are cut apart by a light separator line: boxes one above the other,
-/// aligned and a few pixels apart, are one tooltip.
-fn join_stacked(mut boxes: Vec<(i32, i32, i32, i32)>) -> Vec<(i32, i32, i32, i32)> {
-    const GAP: i32 = 6;
-    let mut joined = true;
-    while joined {
-        joined = false;
-        'pairs: for i in 0..boxes.len() {
-            for j in 0..boxes.len() {
-                let (a, b) = (boxes[i], boxes[j]);
-                let overlap = (a.0 + a.2).min(b.0 + b.2) - a.0.max(b.0);
-                let gap = b.1 - (a.1 + a.3);
-                if i != j && (0..=GAP).contains(&gap) && overlap * 10 >= a.2.min(b.2) * 8 {
-                    let (x0, y0) = (a.0.min(b.0), a.1);
-                    let (x1, y1) = ((a.0 + a.2).max(b.0 + b.2), b.1 + b.3);
-                    boxes[i] = (x0, y0, x1 - x0, y1 - y0);
-                    boxes.remove(j);
-                    joined = true;
-                    break 'pairs;
+    let (w, h) = (width as usize, height as usize);
+    let at = |x: usize, y: usize| {
+        let o = (y * w + x) * 4;
+        &bgra[o..o + 3]
+    };
+    // A tooltip is the only thing on screen drawn as several straight horizontal rules of the same width, one under
+    // the other: its top border, the line under its level, the line over its monsters, its bottom border. The map
+    // has none, however dark it is, and this says nothing about colour, so the game's themes are all alike (owner,
+    // 2026-11-21: on a Pandala night the ground reads as a tooltip background on 60 % of its pixels, which is why
+    // the colour it is drawn in cannot tell the two apart).
+    let mut rules: Vec<(usize, usize, usize)> = Vec::new(); // (row, first column, last column)
+    for y in 0..h.saturating_sub(1) {
+        let mut from = None;
+        for x in 0..=w {
+            let edge = x < w && {
+                let (a, b) = (at(x, y), at(x, y + 1));
+                (0..3).any(|c| (a[c] as i32 - b[c] as i32).abs() >= RULE_EDGE)
+            };
+            match (edge, from) {
+                (true, None) => from = Some(x),
+                (false, Some(f)) => {
+                    if x - f >= TOOLTIP_MIN.0 as usize {
+                        rules.push((y, f, x - 1));
+                    }
+                    from = None;
                 }
+                _ => {}
             }
         }
     }
-    boxes
+    // the rules under one of them and as wide as it are its box's: the box is what they all cover
+    let mut taken = vec![false; rules.len()];
+    let mut out = Vec::new();
+    for i in 0..rules.len() {
+        if taken[i] {
+            continue;
+        }
+        let (top, sx, ex) = rules[i];
+        let (mut bx0, mut bx1, mut bottom) = (sx, ex, top);
+        // the rules this one would take, kept aside: a rule is spoken for only once the box is accepted. Marking
+        // them while scanning let a row that turns out to be no box at all carry off a real box's bottom border
+        // on the way — the box then ended at its last separator, 70 pixels tall, and the monsters under it were
+        // never read. A tooltip's rounded corners shorten its top and its bottom edge alike, so those two overlap
+        // each other well enough to group while neither reaches the full-width rules between them (owner, 2026-11-21).
+        let mut members = vec![i];
+        for j in i + 1..rules.len() {
+            let (y, jsx, jex) = rules[j];
+            if (y - top) as i32 > TOOLTIP_MAX.1 {
+                break; // the rules come row by row: the rest is too far under this one
+            }
+            if taken[j] {
+                continue;
+            }
+            let overlap = jex.min(ex) as i32 - jsx.max(sx) as i32 + 1;
+            let widest = (ex - sx).max(jex - jsx) as i32 + 1;
+            if overlap > 0 && overlap * 100 >= widest * RULE_OVERLAP {
+                members.push(j);
+                (bx0, bx1, bottom) = (bx0.min(jsx), bx1.max(jex), y);
+            }
+        }
+        if members.len() >= RULE_MIN {
+            for j in members {
+                taken[j] = true;
+            }
+            // A tooltip's bottom edge is drawn over the map, and the map breaks it: on one frame it came in two runs
+            // of 93 and 61 pixels across a 214-wide box, neither of them the 85 % a rule needs, so the box stopped at
+            // its last separator and the six monsters under it were never read. The same group read 146 pixels tall a
+            // second later, the mouse barely moved — the map behind it had changed, nothing else.
+            //
+            // Its left border is drawn over the map too, but the step from that border to the fill beside it is the
+            // tooltip's own and the same on every row of it. The box goes down while that step is there, and stops
+            // where both columns become the map (owner, 2026-11-21).
+            //
+            // What stops the walk is the tooltip's own colours, not the mere fact that two columns differ: a
+            // textured ground has neighbouring columns apart by more than RULE_EDGE on almost every row, and asking
+            // only for a difference followed the map down to the greatest height a box may have — where it was
+            // thrown out, and nothing was read at all (review, 2026-11-22).
+            //
+            // One row where the step is gone is not the end of the border either: the border and the fill are drawn
+            // over different pixels of the map, so a gradient under them can cancel the step on a row the way it
+            // broke the bottom edge. A few such rows are stepped over (review, 2026-11-22).
+            let floor = h;
+            // the two colours this tooltip draws its left edge with, taken from the row just over its last rule: the
+            // part the walk goes on from. Not from near its top: the title band can be drawn darker than the body
+            // (its edge 40 / 23 where the body's is 54 / 31), and with its colours no row of the body was the
+            // tooltip's own, so the box stopped at the first separator (owner, 2026-11-22, a dark map on Windows)
+            let inside = bottom.saturating_sub(1).max(top + 1).min(bottom);
+            let (edge, under) = (at(bx0, inside).to_vec(), at(bx0 + 1, inside).to_vec());
+            let same = |a: &[u8], b: &[u8]| (0..3).all(|c| (a[c] as i32 - b[c] as i32).abs() <= BORDER_SAME);
+            let mut bottom = bottom;
+            let (mut y, mut gap) = (bottom, 0);
+            while y + 1 < floor && bx0 + 1 < w && (y + 2 - top) as i32 <= TOOLTIP_MAX.1 {
+                y += 1;
+                if same(at(bx0, y), &edge) && same(at(bx0 + 1, y), &under) {
+                    bottom = y; // only a row still drawn like the tooltip's own edge moves the bottom
+                    gap = 0;
+                } else {
+                    gap += 1;
+                    if gap > BORDER_GAP {
+                        break;
+                    }
+                }
+            }
+            out.push((bx0 as i32, top as i32, (bx1 - bx0 + 1) as i32, (bottom - top + 1) as i32));
+        }
+    }
+    out.into_iter()
+        .filter(|&(_, y, bw, bh)| {
+            bw >= TOOLTIP_MIN.0 && bh >= TOOLTIP_MIN.1 && bw <= TOOLTIP_MAX.0 && bh <= TOOLTIP_MAX.1 && y < bar_top
+        })
+        .collect()
 }
 
-/// The group tooltips around the resting mouse (`cx`, `cy` in frame pixels): their headers, then their monster
-/// lines. Empty when no group tooltip is there.
-pub fn read_hovered(
+
+/// How many tooltips are on screen and how tall each one is, in steps of SHAPE_STEP and sorted: what says the
+/// window still shows the tooltips that were read. Not where they are, nor how wide: a group walks its map and its
+/// tooltip walks with it, and a tooltip's width breathes as its rules run as far as the ground behind them lets
+/// them (owner, 2026-11-22).
+pub fn tooltip_shapes(boxes: &[(i32, i32, i32, i32)]) -> Vec<i32> {
+    let mut shapes: Vec<i32> = boxes.iter().map(|&(_, _, _, h)| h / SHAPE_STEP).collect();
+    shapes.sort_unstable();
+    shapes
+}
+
+/// The boxes whose text is worth reading: all of them when the mouse has just come to rest, and on a look taken
+/// while it rests only those not already known to hold nothing — the game draws panels shaped like a tooltip and
+/// each costs its own reading (owner, 2026-11-22).
+pub fn boxes_to_read(
+    boxes: &[(i32, i32, i32, i32)],
+    empty: &[(i32, i32, i32, i32)],
+    look_again: bool,
+) -> Vec<(i32, i32, i32, i32)> {
+    boxes.iter().copied().filter(|b| !look_again || !empty.contains(b)).collect()
+}
+
+/// The text of the tooltip boxes found by `find_tooltips` (window points; `pixels` is the capture, `scale` pixels to
+/// a point): each box's level line, then its monster lines. The reader finds the boxes itself, to know whether
+/// anything changed before it pays for the text (owner, 2026-11-22).
+pub fn read_boxes(
     engine: &OcrEngine,
-    bgra: &[u8],
+    pixels: &[u8],
     width: u32,
     height: u32,
-    cx: i32,
-    cy: i32,
+    boxes: &[(i32, i32, i32, i32)],
+    scale: u32,
 ) -> Result<Vec<OcrLine>, String> {
-    read_hovered_in(engine, bgra, width, height, (0, 0), (width, height), cx, cy)
-}
-
-/// `read_hovered` on a piece of the window (see find_tooltips_in): lines in the window's pixels.
-#[allow(clippy::too_many_arguments)]
-pub fn read_hovered_in(
-    engine: &OcrEngine,
-    bgra: &[u8],
-    iw: u32,
-    ih: u32,
-    at: (i32, i32),
-    window: (u32, u32),
-    cx: i32,
-    cy: i32,
-) -> Result<Vec<OcrLine>, String> {
-    // only the tooltips' own boxes are read (found by their colour, on any side of the mouse): about a tenth of the
-    // area read before, and none of the bright map around them (owner, 2026-11-20)
+    // only the tooltips' own boxes are read: none of the map around them (owner, 2026-11-20)
     let mut lines = Vec::new();
-    let back = |l: OcrLine| OcrLine { x: l.x + at.0, y: l.y + at.1, ..l };
-    for (x, y, w, h) in find_tooltips_in(bgra, iw, ih, at, window, cx, cy) {
-        let (x, y) = (x - at.0, y - at.1);
-        // the bold white level line reads best on its own, light pixels only; the grey monster lines below at a
-        // lower threshold (measured on the owner's five captures, 2026-11-20)
-        let title = read_area(engine, bgra, iw, ih, (x, y, x + w, y + TOOLTIP_TITLE_BAND), LIGHT)?;
-        let body = read_area(engine, bgra, iw, ih, (x, y, x + w, y + h), TOOLTIP_BOX_TEXT)?;
-        let level = title.into_iter().find(|l| is_group_header(&l.text)).or_else(|| body.iter().find(|l| is_group_header(&l.text)).cloned());
+    // a tooltip costs about 150 ms to read: a reading stays bounded however many of them are on screen at once
+    for &(x, y, w, h) in boxes.iter().take(TOOLTIPS_AT_ONCE) {
+        // one pass over the whole box: the level line used to be read on its own, light pixels only, because the
+        // cut at a fixed grey lost it among the monster lines. Read at once it is found among them, and a Songe
+        // reading costs half what it did (owner, 2026-11-21).
+        let body = read_area(engine, pixels, width * scale, height * scale, (x, y, x + w, y + h), scale)?;
+        let level = body.iter().find(|l| is_group_header(&l.text)).cloned();
         if let Some(level) = level {
             let below = level.y + level.h / 2;
-            lines.push(back(level));
-            lines.extend(body.into_iter().filter(|l| !is_group_header(&l.text) && l.y > below).map(back));
+            lines.push(level);
+            lines.extend(body.into_iter().filter(|l| !is_group_header(&l.text) && l.y > below));
         }
     }
     Ok(lines)
 }
 
-/// The text in one area of the frame (x0, y0, x1, y1, clipped to it): pixels brighter than `threshold`. Frame pixels.
+/// The text in one area of the frame (x0, y0, x1, y1, clipped to it), prepared by `smooth_text`. Frame pixels.
 fn read_area(
     engine: &OcrEngine,
     bgra: &[u8],
     width: u32,
     height: u32,
     (x0, y0, x1, y1): (i32, i32, i32, i32),
-    threshold: u8,
+    scale: u32,
 ) -> Result<Vec<OcrLine>, String> {
+    // the area is in the window's points, `bgra` in the screen's pixels: on a Retina screen there are two of them
+    // to a point, and those are the ones the OCR reads (owner, 2026-11-21)
     let (x0, y0) = (x0.max(0), y0.max(0));
-    let (x1, y1) = (x1.min(width as i32), y1.min(height as i32));
+    let (x1, y1) = (x1.min((width / scale) as i32), y1.min((height / scale) as i32));
     if x1 - x0 < 20 || y1 - y0 < 10 {
         return Ok(vec![]);
     }
-    let (cw, ch) = ((x1 - x0) as u32, (y1 - y0) as u32);
+    let (cw, ch) = ((x1 - x0) as u32 * scale, (y1 - y0) as u32 * scale);
     let mut crop = Vec::with_capacity((cw * ch * 4) as usize);
-    for y in y0..y1 {
-        let start = ((y as u32 * width + x0 as u32) * 4) as usize;
+    for y in y0 as u32 * scale..y1 as u32 * scale {
+        let start = ((y * width + x0 as u32 * scale) * 4) as usize;
         crop.extend_from_slice(&bgra[start..start + (cw * 4) as usize]);
     }
-    let (img, w, h) = binarize(&crop, cw, ch, threshold);
-    let s = SCALE as i32;
+    let (img, w, h) = smooth_text(&crop, cw, ch);
+    let s = (scale * ocr_up()) as i32;
     Ok(platform::recognize(engine, &img, w, h)?
         .into_iter()
         .map(|l| OcrLine {
@@ -644,6 +744,19 @@ struct Reader {
     cursor: Option<(i32, i32)>,
     still_since: Instant,
     hover_tries: usize,
+    /// Whether the icon bar's scores were written this run (once, then on a change).
+    bar_said: bool,
+    /// When they were last written: dev builds say them again every BAR_SAY_EVERY, however little changes.
+    bar_at: Option<Instant>,
+    /// Whether Songe was last seen waiting for a fight to end (said once, not every tick).
+    songe_waiting: bool,
+    /// When the window was last looked at with the mouse at rest and its tooltip already read.
+    looked_at: Option<Instant>,
+    /// How tall each tooltip of the last reading was, in steps of SHAPE_STEP and sorted: what says the window
+    /// still shows what was read.
+    shapes: Vec<i32>,
+    /// Boxes that held no line where they are: looked at again, they are not read again.
+    empty: Vec<(i32, i32, i32, i32)>,
     /// The last known icon bar (never Unknown): None until the bar was recognised once.
     bar: Option<Bar>,
     /// What was last written to the diagnostic log about the window (errors, size), to log changes only.
@@ -714,7 +827,7 @@ fn emit_scan(app: &AppHandle, engine: Option<&OcrEngine>, corner: Option<&(Frame
         (None, _) => Scan { lines: vec![], bar: None, error: Some("no-ocr".into()), left },
         (_, None) => Scan { lines: vec![], bar: None, error: Some("no-capture".into()), left },
         (Some(engine), Some(((px, w, h), window))) => match read_corner_piece(engine, px, *w, *h) {
-            Ok(lines) => Scan { lines, bar: Some(read_bar_in(px, *w, *h, window.1)), error: None, left },
+            Ok(lines) => Scan { lines, bar: Some(read_bar_in(px, *w, *h, window.1 * platform::capture_scale())), error: None, left },
             Err(e) => Scan { lines: vec![], bar: None, error: Some(e), left },
         },
     };
@@ -730,9 +843,107 @@ pub struct DebugAreas {
     pub areas: Vec<(i32, i32, i32, i32)>,
 }
 
+/// At most this many windows written in one run: a debug aid, not a way to fill the disk.
+const DUMP_MAX: usize = 30;
+
+/// The window as Songe saw it, written as a BMP into the directory `DOFIGHT_DUMP` names: what a reading that found
+/// nothing was actually looking at, kept so it can be tried again off the game (owner, 2026-11-21). Dev builds only,
+/// like everything else here. BMP and not PNG: the capture is already BGR, and no encoder is linked into the app.
+fn dump_window(bgra: &[u8], w: u32, h: u32, cx: i32, cy: i32, boxes: usize) {
+    let Some(dir) = std::env::var_os("DOFIGHT_DUMP") else { return };
+    static LEFT: std::sync::Mutex<usize> = std::sync::Mutex::new(DUMP_MAX);
+    let mut left = LEFT.lock().unwrap();
+    if *left == 0 {
+        return;
+    }
+    *left -= 1;
+    let n = DUMP_MAX - *left;
+    // the mouse goes in the name: the probe needs it, and reading it back out of the log is guesswork
+    let path = std::path::Path::new(&dir).join(format!("songe-{n}-{w}x{h}-at{cx},{cy}-{boxes}box.bmp"));
+    write_bmp(&path, bgra, w, h, "songe");
+}
+
+/// The header corner as the reader sees it, one for each state of the icon bar in a run. The icons are matched
+/// against ones taken from Windows frames and scaled; a corner taken here says how far that is from what this
+/// machine really draws (owner, 2026-11-21).
+fn dump_corner(bgra: &[u8], w: u32, h: u32, bar: Bar, window_h: u32) {
+    let Some(dir) = std::env::var_os("DOFIGHT_DUMP") else { return };
+    // several a state, not one: the game's theme changes the icons, and the owner goes through the themes in one
+    // sitting. One corner every CORNER_EVERY is enough to catch each of them without filling the disk, and the
+    // first of a state is kept at once (owner, 2026-11-21).
+    const CORNER_EVERY: Duration = Duration::from_secs(5);
+    const CORNERS_PER_STATE: usize = 12;
+    static KEPT: std::sync::Mutex<Vec<(Bar, usize, Option<Instant>)>> = std::sync::Mutex::new(Vec::new());
+    let mut kept = KEPT.lock().unwrap();
+    let state = match bar {
+        Bar::Fight => "fight",
+        Bar::Calm => "calm",
+        Bar::Unknown => "unknown",
+    };
+    let slot = match kept.iter_mut().find(|(b, _, _)| *b == bar) {
+        Some(slot) => slot,
+        None => {
+            kept.push((bar, 0, None));
+            kept.last_mut().unwrap()
+        }
+    };
+    if slot.1 >= CORNERS_PER_STATE || slot.2.is_some_and(|t| t.elapsed() < CORNER_EVERY) {
+        return;
+    }
+    slot.1 += 1;
+    slot.2 = Some(Instant::now());
+    let n = slot.1;
+    let path = std::path::Path::new(&dir).join(format!("corner-{state}-{n}-{w}x{h}-win{window_h}.bmp"));
+    write_bmp(&path, bgra, w, h, "fight");
+}
+
+/// BGRA rows as a 24-bit BMP: bottom-up, each row padded to four bytes. BMP and not PNG, the capture being already
+/// BGR and no encoder linked into the app.
+fn write_bmp(path: &std::path::Path, bgra: &[u8], w: u32, h: u32, area: &str) {
+    let (w, h) = (w as usize, h as usize);
+    let stride = (w * 3 + 3) & !3;
+    let size = 54 + stride * h;
+    let mut out: Vec<u8> = Vec::with_capacity(size);
+    out.extend_from_slice(b"BM");
+    out.extend_from_slice(&(size as u32).to_le_bytes());
+    out.extend_from_slice(&[0; 4]);
+    out.extend_from_slice(&54u32.to_le_bytes());
+    out.extend_from_slice(&40u32.to_le_bytes());
+    out.extend_from_slice(&(w as i32).to_le_bytes());
+    out.extend_from_slice(&(h as i32).to_le_bytes());
+    out.extend_from_slice(&1u16.to_le_bytes());
+    out.extend_from_slice(&24u16.to_le_bytes());
+    out.extend_from_slice(&[0; 24]);
+    for y in (0..h).rev() {
+        let row = y * w * 4;
+        for x in 0..w {
+            out.extend_from_slice(&bgra[row + x * 4..row + x * 4 + 3]);
+        }
+        out.resize(out.len() + stride - w * 3, 0);
+    }
+    match std::fs::write(path, &out) {
+        Ok(()) => diag::log(area, &format!("written to {}", path.display())),
+        Err(e) => diag::log(area, &format!("not written: {e}")),
+    }
+}
+
+/// Dev builds: the red boxes taken off the screen, there being no window to draw them over. Without it the last
+/// ones drawn stayed where they were while Dofus was shut or the reading turned off (owner, 2026-11-22).
+fn clear_areas(app: &AppHandle) {
+    if cfg!(debug_assertions) {
+        let _ = app.emit("screen:debug", DebugAreas { origin: None, areas: Vec::new() });
+    }
+}
+
 fn show_areas(app: &AppHandle, id: WindowId, areas: Vec<(i32, i32, i32, i32)>) {
     if cfg!(debug_assertions) {
-        let _ = app.emit("screen:debug", DebugAreas { origin: platform::client_origin(id), areas });
+        let origin = platform::client_origin(id);
+        // said once a run: either the boxes never leave (no origin) or they do, and then the rest is the window's
+        static SAID: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(false);
+        if !areas.is_empty() && !SAID.swap(true, Ordering::Relaxed) {
+            diag::log("debug", &format!("boxes sent: origin {origin:?}, {} areas {areas:?}", areas.len()));
+        }
+        let _ = app.emit("screen:debug", DebugAreas { origin, areas });
     }
 }
 
@@ -757,20 +968,45 @@ fn timed_corner(id: WindowId, stats: &mut Stats) -> Result<(Frame, (u32, u32)), 
     corner.map(|c| (c, window))
 }
 
-/// Songe: the square around the mouse (hover_square), cut out of a capture at once (the rest is dropped there), and
-/// its top left in the window.
-fn timed_square(id: WindowId, cx: i32, cy: i32, stats: &mut Stats) -> Option<(Frame, (i32, i32))> {
-    let (full, fw, fh) = timed_capture(id, stats).ok()?;
-    let (sx, sy, sw, sh) = hover_square(cx, cy, (fw, fh));
-    if sw <= 0 || sh <= 0 {
+/// Songe: the whole window, in points (where the tooltips are found) and in the capture's own pixels (where their
+/// text is read).
+fn timed_frame(id: WindowId, stats: &mut Stats) -> Option<(Frame, Frame)> {
+    let scale = platform::capture_scale();
+    let (pixels, fw, fh) = timed_capture(id, stats).ok()?;
+    if fw < scale || fh < scale {
         return None;
     }
-    let mut square = Vec::with_capacity((sw * sh * 4) as usize);
-    for y in sy..sy + sh {
-        let start = ((y as u32 * fw + sx as u32) * 4) as usize;
-        square.extend_from_slice(&full[start..start + (sw * 4) as usize]);
+    let points = to_points(&pixels, fw, fh, scale);
+    Some((points, (pixels, fw, fh)))
+}
+
+/// A capture in the screen's pixels, averaged down to the window's points: what every measurement is made on. The
+/// tooltips are found on this, and their text read on the pixels it came from (owner, 2026-11-21).
+fn to_points(px: &[u8], w: u32, h: u32, scale: u32) -> Frame {
+    if scale <= 1 {
+        return (px.to_vec(), w, h);
     }
-    Some(((square, sw as u32, sh as u32), (sx, sy)))
+    let (ow, oh) = (w / scale, h / scale);
+    let mut out = vec![255u8; (ow * oh * 4) as usize];
+    let n = scale * scale;
+    for y in 0..oh {
+        for x in 0..ow {
+            let mut sum = [0u32; 3];
+            for dy in 0..scale {
+                for dx in 0..scale {
+                    let i = (((y * scale + dy) * w + x * scale + dx) * 4) as usize;
+                    for (c, v) in sum.iter_mut().enumerate() {
+                        *v += px[i + c] as u32;
+                    }
+                }
+            }
+            let o = ((y * ow + x) * 4) as usize;
+            for (c, v) in sum.iter().enumerate() {
+                out[o + c] = (v / n) as u8;
+            }
+        }
+    }
+    (out, ow, oh)
 }
 
 fn timed_capture(id: WindowId, stats: &mut Stats) -> Result<Frame, CaptureError> {
@@ -815,6 +1051,12 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
             cursor: None,
             still_since: now,
             hover_tries: 0,
+            bar_said: false,
+            bar_at: None,
+            songe_waiting: false,
+            looked_at: None,
+            shapes: Vec::new(),
+            empty: Vec::new(),
             bar: None,
             logged_state: String::new(),
             stats: Stats::default(),
@@ -841,7 +1083,20 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                 Some(bar) => bar == Bar::Fight,
                 None => in_fight.0.load(Ordering::Relaxed),
             };
-            let hovering = songe.0.load(Ordering::Relaxed) && !fighting;
+            let songe_on = songe.0.load(Ordering::Relaxed);
+            let hovering = songe_on && !fighting;
+            // said once, when it starts: Songe reads nothing during a fight, and the player sees only that the red
+            // boxes over the tooltips are gone. The fight itself comes from the game's own icon bar, which the game
+            // can leave on its fight icons after a fight is over — then nothing is hovered and nothing says why
+            // (owner, 2026-11-21).
+            if songe_on && fighting != r.songe_waiting {
+                r.songe_waiting = fighting;
+                if fighting {
+                    note(&mut r, "Songe on, but a fight is in progress: nothing is read until it is over".into());
+                } else {
+                    note(&mut r, "Songe reads again: the fight is over".into());
+                }
+            }
             let period = if hovering { HOVER_TICK } else { TICK };
             std::thread::sleep(period.saturating_sub(r.loop_start.elapsed()));
             r.loop_start = Instant::now();
@@ -853,6 +1108,7 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
             let prefix = reference.0.lock().map(|p| p.clone()).unwrap_or_default();
             let Some(target) = pick(&platform::dofus_windows(), &prefix) else {
                 note(&mut r, "no Dofus window".into());
+                clear_areas(&app); // nothing to draw them over: they stayed on screen until Dofus came back
                 r.was_front = false;
                 if slow_due {
                     emit(fail("no-dofus"));
@@ -862,6 +1118,7 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
             if !reading.0.load(Ordering::Relaxed) {
                 // « Lecture de l'écran » off: no capture, not even which window is in front; turned on again, the first tick reads at once (was_front)
                 note(&mut r, "reading turned off".into());
+                clear_areas(&app);
                 r.was_front = false;
                 if slow_due {
                     emit(fail("off"));
@@ -917,28 +1174,53 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                 let ((px, w, h), (ww, wh)) = &corner;
                 window = Some((*ww, *wh));
                 note(&mut r, format!("reading Dofus, {ww}×{wh}"));
-                show_areas(&app, id, vec![(0, 0, *w as i32, *h as i32)]);
+                let scale = platform::capture_scale();
+                show_areas(&app, id, vec![(0, 0, (*w / scale) as i32, (*h / scale) as i32)]);
                 // « Scanner ma sous-zone » clicked with the zone not followed (its option off): this corner answers it
                 if let Some(left) = scan_due(&app, &reading.1) {
                     emit_scan(&app, Some(engine), Some(&corner), left);
                 }
-                let mask = corner_mask(px, *w, *h);
-                let changed = r.read_mask.as_ref().is_none_or(|m| corner_changed(m, &mask));
-                let bar = read_bar_in(px, *w, *h, *wh);
+                let mask = corner_mask(px, *w, *h, platform::capture_scale());
+                let changed = r.read_mask.as_ref().is_none_or(|m| corner_changed(m, &mask, platform::capture_scale()));
+                let bar = read_bar_in(px, *w, *h, *wh * platform::capture_scale());
                 let bar_changed = bar != Bar::Unknown && r.bar != Some(bar);
-                if bar_changed {
-                    let (eye, info, heart) = scores_in(px, *w, *h, *wh);
-                    diag::log("fight", &format!("icon bar: {bar:?} (eye {eye:.2}, i {info:.2}, heart {heart:.2})"));
+                // said once a run even when it changes nothing: the scores used to be written on a change alone, so a
+                // run that never recognised the bar said nothing at all, and there was no way to tell a game without
+                // a fight from a bar never found (owner, 2026-11-21)
+                if cfg!(debug_assertions) {
+                    dump_corner(px, *w, *h, bar, *wh);
+                }
+                let said_long_ago = cfg!(debug_assertions) && r.bar_at.is_none_or(|t| t.elapsed() >= BAR_SAY_EVERY);
+                if bar_changed || !r.bar_said || said_long_ago {
+                    r.bar_said = true;
+                    r.bar_at = Some(Instant::now());
+                    let (eye, info, heart) = scores_in(px, *w, *h, *wh * platform::capture_scale());
+                    diag::log(
+                        "fight",
+                        &format!("icon bar: {bar:?} (eye {eye:.2}, i {info:.2}, heart {heart:.2}), window {ww}×{wh}"),
+                    );
                 }
                 if bar != Bar::Unknown {
                     r.bar = Some(bar);
+                }
+                // the corner changed, so the map did: what Songe read belongs to the map before it. Without this the
+                // next idle look compares against the old tooltips and, two maps of the same groups being alike,
+                // can hold a group that is no longer there (review, 2026-11-22)
+                if changed {
+                    r.shapes.clear();
+                    r.empty.clear();
                 }
                 let every = match (r.bar, fighting) {
                     (Some(_), _) => SAFETY_READ_EVERY,
                     (None, true) => FIGHT_READ_EVERY,
                     (None, false) => CALM_READ_EVERY,
                 };
-                let due = r.last_read.is_none_or(|t| t.elapsed() >= every);
+                // not while the mouse rests on a group: the zone cannot change under a still character, and this
+                // reading costs 1.2 to 1.5 s on a Mac, on the very thread the 50 ms hover tick runs on, so every
+                // other hover waited for it. A zone that really changes still comes through `changed` (the corner's
+                // pixels), a fight through the icon bar, which is read from those same pixels and needs no OCR
+                // (owner, 2026-11-21).
+                let due = !hovering && r.last_read.is_none_or(|t| t.elapsed() >= every);
                 // in a fight the header is not used (the turn order and spell effects keep changing that corner)
                 let changed = changed
                     && r.bar != Some(Bar::Fight)
@@ -982,29 +1264,95 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                 r.cursor = Some((cx, cy));
                 r.still_since = Instant::now();
                 r.hover_tries = 0;
+                r.looked_at = None;
                 continue;
             }
-            if r.hover_tries >= HOVER_TRIES.len() || r.still_since.elapsed() < HOVER_TRIES[r.hover_tries] {
+            // Once the tries are spent nothing was looked at again until the mouse moved, so a tooltip shown by
+            // the key the player chooses — every group's at once, the mouse untouched — was never read. The window
+            // is looked at again every REST_READ_EVERY; the boxes are cheap to find, and the text, which is not,
+            // is only read when they are not the ones already read (owner, 2026-11-22).
+            let spent = r.hover_tries >= HOVER_TRIES.len();
+            let look_again = spent && r.looked_at.is_none_or(|t| t.elapsed() >= REST_READ_EVERY);
+            if !look_again && (spent || r.still_since.elapsed() < HOVER_TRIES[r.hover_tries]) {
                 continue;
             }
-            r.hover_tries += 1;
-            // only the square around the mouse is kept of this capture (owner, 2026-11-20)
-            let Some(((px, sw, sh), at)) = timed_square(id, cx, cy, &mut r.stats) else {
+            if look_again {
+                r.looked_at = Some(Instant::now());
+            } else {
+                r.hover_tries += 1;
+            }
+            // the whole window, not a square around the mouse: the game shows every group's tooltip at once on a key
+            // the player chooses, and a tooltip belongs to its group's place on the map, not to the pointer (owner,
+            // 2026-11-22)
+            let Some(((px, sw, sh), (pixels, _, _))) = timed_frame(id, &mut r.stats) else {
                 continue;
             };
             let started = Instant::now();
-            let lines = read_hovered_in(engine, &px, sw, sh, at, (ww, wh), cx, cy).unwrap_or_default();
-            // dev builds: the header corner and the tooltip boxes read
+            let scale = platform::capture_scale();
+            let boxes = find_tooltips(&px, sw, sh);
+            // the same tooltips as the last reading: their text is not read again for nothing.
+            //
+            // What is compared is how many tooltips there are and how tall each one is, not where they are nor how
+            // wide. A group walks its map and its tooltip walks with it: the same three groups came back at three
+            // different places every two seconds, each with the same nineteen lines, and reading them again cost
+            // 600 ms a time. A tooltip's width breathes by a few pixels as it passes over the scenery, its rules
+            // running as far as the ground behind them lets them (126, 124, 119, 122 for one tooltip, the mouse
+            // never moving); its height is the border walked down and holds still. A tooltip appearing or leaving
+            // changes how many there are, and one holding another monster changes how tall it is (owner,
+            // 2026-11-22).
+            let shapes = tooltip_shapes(&boxes);
+            if look_again && shapes == r.shapes {
+                continue;
+            }
+            r.shapes = shapes;
+            // A box the game draws that is not a group's tooltip — the Songes Infinis panel, a window of the
+            // interface — is found like one and costs its own reading, 150 ms and more, for the nothing it holds:
+            // a box gives no line at all unless a « Niveau N » is in it. One that gave nothing where it is and as
+            // it is costs nothing again until the mouse moves, which reads everything afresh (owner, 2026-11-22).
+            let to_read = boxes_to_read(&boxes, &r.empty, look_again);
+            let lines = read_boxes(engine, &pixels, sw, sh, &to_read, scale).unwrap_or_default();
+            let holds = |&(bx, by, bw, bh): &(i32, i32, i32, i32)| {
+                lines.iter().any(|l| l.x >= bx && l.x < bx + bw && l.y >= by && l.y < by + bh)
+            };
+            // a box is known empty when it was read and held nothing, or when it was skipped for being empty
+            // already. A box past TOOLTIPS_AT_ONCE was never looked at, so nothing is known of it and it is read
+            // next time (review, 2026-11-22).
+            let read_now: Vec<_> = to_read.iter().copied().take(TOOLTIPS_AT_ONCE).collect();
+            let was_empty = std::mem::take(&mut r.empty);
+            r.empty = boxes
+                .iter()
+                .copied()
+                .filter(|b| if read_now.contains(b) { !holds(b) } else { was_empty.contains(b) })
+                .collect();
+            // dev builds: the header corner and the tooltip boxes read (what tells a tooltip found from one missed)
             if cfg!(debug_assertions) {
                 let (cw, ch) = corner_size(ww, wh);
+                diag::log(
+                    "songe",
+                    &format!("cursor {cx},{cy} window {sw}×{sh} | {} boxes {boxes:?} | {} lines read", boxes.len(), lines.len()),
+                );
+                // a reading that came back with next to nothing: no box at all is usually a mouse over bare ground,
+                // but it is also how a tooltip the detector cannot see looks, and that one has to be caught too
+                // (owner, 2026-11-21). The box count goes in the name.
+                if lines.len() < 4 {
+                    dump_window(&px, sw, sh, cx, cy, boxes.len());
+                }
+                // the header corner, then the tooltips found: the area looked at is the window itself now
                 let mut areas = vec![(0, 0, cw as i32, ch as i32)];
-                areas.extend(find_tooltips_in(&px, sw, sh, at, (ww, wh), cx, cy));
+                areas.extend(boxes);
                 show_areas(&app, id, areas);
             }
             r.stats.hovers += 1;
             r.stats.hover_ms += started.elapsed().as_millis();
             if !lines.is_empty() {
-                r.hover_tries = HOVER_TRIES.len(); // found: nothing more until the mouse moves
+                // a tooltip read down to its header — « Niveau 330 », its two experience lines, no monster — used to
+                // count as found, and the mouse had to be moved away and back for another try. The lines go to the
+                // page either way (it keeps the best of them); only the tries go on (owner, 2026-11-21).
+                if lines.len() >= TOOLTIP_LINES_ENOUGH {
+                    // found: nothing more until the mouse moves or the window shows something else
+                    r.hover_tries = HOVER_TRIES.len();
+                    r.looked_at = Some(Instant::now()); // the next look is REST_READ_EVERY away, not a tick away
+                }
                 let _ = app.emit("screen:songe", lines);
             }
         }
@@ -1091,28 +1439,47 @@ mod tests {
         assert!(texts.iter().any(|t| has_coordinates(t) && t.contains("13") && t.contains("35")), "{texts:?}");
     }
 
-    /// The owner's Songe captures (2026-11-20): image, mouse in it, the group's level, monsters read.
-    const SONGE: [(&str, (i32, i32), &str, &[&str]); 8] = [
-        ("songe_1.png", (420, 41), "168", &["Tofoune", "Tofu Noir"]),
-        ("songe_2.png", (420, 470), "110", &["Tofoune", "Tofu"]),
-        ("songe_3.png", (416, 20), "248", &["Tofu Noir"]),
-        ("songe_4.png", (420, 470), "176", &["Tofukaz", "Tofu Noir"]),
-        ("songe_5.png", (420, 425), "1612", &["Mominotor", "Trezz"]),
+    /// The owner's Songe captures (2026-11-20): image, the group's level, monsters read.
+    const SONGE: [(&str, &str, &[&str]); 9] = [
+        ("songe_1.png", "168", &["Tofoune", "Tofu Noir"]),
+        ("songe_2.png", "110", &["Tofoune", "Tofu"]),
+        ("songe_3.png", "248", &["Tofu Noir"]),
+        ("songe_4.png", "176", &["Tofukaz", "Tofu Noir"]),
+        ("songe_5.png", "1612", &["Mominotor", "Trezz"]),
         // a one-monster tooltip (narrow), the mouse low: the chat and the spell bar are as dark as a tooltip
-        ("songe_chat.png", (420, 470), "36", &["Tofu"]),
+        ("songe_chat.png", "36", &["Tofu"]),
         // the game's Belladone theme: the tooltip is tinted purple (owner, 2026-11-20: every theme alike)
-        ("songe_belladone.png", (420, 470), "132", &["Tofoune", "Tofu"]),
+        ("songe_belladone.png", "132", &["Tofoune", "Tofu"]),
         // the Standard theme, the one most players keep: bluish, its channels 17 to 25 apart
-        ("songe_standard.png", (420, 470), "132", &["Tofoune", "Tofu"]),
+        ("songe_standard.png", "132", &["Tofoune", "Tofu"]),
+        // a dark map on Windows, its bottom border broken by the map: the title band is drawn darker than the body
+        // (owner, 2026-11-22)
+        ("songe_title_band.png", "804", &["Crachefoux", "Boumbardier", "Rouquette"]),
     ];
 
     #[test]
-    #[cfg(windows)]
+    fn a_title_band_darker_than_the_body_does_not_end_the_box() {
+        // Its title band draws its left edge 40 / 23, the body under the experience line 54 / 31. The border was
+        // followed down with the title band's colours, so it stopped at the first separator: 49 pixels tall, the
+        // six monsters under it never read (owner, 2026-11-22, a dark map on Windows).
+        let (px, w, h) = load("songe_title_band.png");
+        let boxes = find_tooltips(&px, w, h);
+        assert!(boxes.iter().any(|&(_, y, _, bh)| y < 70 && bh >= 150), "{boxes:?}");
+    }
+
+    /// What Songe reads in a whole frame: the tooltips found, then their text.
+    fn read_window(engine: &OcrEngine, px: &[u8], w: u32, h: u32) -> Vec<OcrLine> {
+        read_boxes(engine, px, w, h, &find_tooltips(px, w, h), 1).unwrap()
+    }
+
+    #[test]
     fn reads_the_hovered_group_wherever_its_tooltip_is() {
+        // the whole window is looked at, wherever the mouse is: the game shows every group's tooltip at once on a
+        // key the player chooses, and a tooltip belongs to its group's place on the map (owner, 2026-11-22)
         let engine = platform::ocr_engine().expect("fr-FR OCR");
-        for (name, (cx, cy), level, monsters) in SONGE {
+        for (name, level, monsters) in SONGE {
             let (px, w, h) = load(name);
-            let lines = read_hovered(&engine, &px, w, h, cx, cy).unwrap();
+            let lines = read_window(&engine, &px, w, h);
             let texts: Vec<&str> = lines.iter().map(|l| l.text.as_str()).collect();
             // the level line, as the reader recognises it (« Niveau » may be misread: « Niueau 248 »)
             assert!(texts.iter().any(|t| is_group_header(t) && t.contains(level)), "{name}: {texts:?}");
@@ -1123,37 +1490,127 @@ mod tests {
     }
 
     #[test]
-    fn the_square_alone_finds_the_same_boxes_as_the_whole_frame() {
-        // Songe keeps only the square around the mouse of a capture (owner, 2026-11-20): nothing else is looked at
-        for (name, (cx, cy), _, _) in SONGE {
-            let (px, w, h) = load(name);
-            let (sx, sy, sw, sh) = hover_square(cx, cy, (w, h));
-            let mut square = Vec::with_capacity((sw * sh * 4) as usize);
-            for y in sy..sy + sh {
-                let start = ((y as u32 * w + sx as u32) * 4) as usize;
-                square.extend_from_slice(&px[start..start + (sw * 4) as usize]);
+    fn a_retina_capture_reads_the_same_group() {
+        // On a Retina screen the window is captured at two pixels to a point: the tooltips are found on the points
+        // and the text read on the pixels. Here the saved frame stands for the points and is doubled to stand for
+        // the pixels, so the plumbing is exercised end to end — the same group has to come back (owner, 2026-11-21).
+        let engine = platform::ocr_engine().expect("fr-FR OCR");
+        let (name, level, monsters) = SONGE[0];
+        let (px, w, h) = load(name);
+        let (pw, ph) = (w * 2, h * 2);
+        let mut pixels = vec![0u8; (pw * ph * 4) as usize];
+        for y in 0..ph {
+            for x in 0..pw {
+                let from = (((y / 2) * w + x / 2) * 4) as usize;
+                let to = ((y * pw + x) * 4) as usize;
+                pixels[to..to + 4].copy_from_slice(&px[from..from + 4]);
             }
-            let alone = find_tooltips_in(&square, sw as u32, sh as u32, (sx, sy), (w, h), cx, cy);
-            assert_eq!(alone, find_tooltips(&px, w, h, cx, cy), "{name}");
         }
+        assert_eq!(to_points(&pixels, pw, ph, 2).0, px, "doubled and averaged back gives the frame again");
+        let lines = read_boxes(&engine, &pixels, w, h, &find_tooltips(&px, w, h), 2).unwrap();
+        let texts: Vec<&str> = lines.iter().map(|l| l.text.as_str()).collect();
+        assert!(texts.iter().any(|t| is_group_header(t) && t.contains(level)), "{name}: {texts:?}");
+        for m in monsters {
+            assert!(texts.iter().any(|t| t.contains(m)), "{name}: {m} in {texts:?}");
+        }
+    }
+
+    #[test]
+    fn the_same_tooltips_moved_about_are_the_same_tooltips() {
+        // a group walks its map and its tooltip walks with it, and the tooltip's width breathes by a few pixels as
+        // its rules run over the scenery. One tooltip measured 126, 124, 119 and 122 wide in twenty seconds with
+        // the mouse never moving, and each of those bought another reading of the same lines (owner, 2026-11-22).
+        let then = tooltip_shapes(&[(921, 126, 223, 182), (974, 313, 198, 92), (562, 500, 208, 109)]);
+        let moved = tooltip_shapes(&[(1077, 80, 198, 92), (922, 177, 211, 182), (488, 463, 207, 109)]);
+        assert_eq!(then, moved, "the same three, elsewhere and a little wider");
+        // a tooltip holding one monster more is a line taller: eighteen points, and SHAPE_STEP is four
+        let taller = tooltip_shapes(&[(921, 126, 223, 200), (974, 313, 198, 92), (562, 500, 208, 109)]);
+        assert_ne!(then, taller);
+        // one leaving, or one arriving
+        assert_ne!(then, tooltip_shapes(&[(974, 313, 198, 92), (562, 500, 208, 109)]));
+    }
+
+    #[test]
+    fn a_box_that_held_nothing_is_read_again_once_the_mouse_moves() {
+        let boxes = [(0, 516, 227, 212), (566, 330, 116, 127)];
+        let empty = [(0, 516, 227, 212)]; // the game's own panel, shaped like a tooltip and holding no « Niveau »
+        // a look taken while the mouse rests leaves it alone
+        assert_eq!(boxes_to_read(&boxes, &empty, true), vec![(566, 330, 116, 127)]);
+        // the mouse having moved, everything is read again: a tooltip caught mid-fade is not written off for good
+        assert_eq!(boxes_to_read(&boxes, &empty, false), boxes.to_vec());
+    }
+
+    /// A tooltip on a map: its top border (corners drawn into the map, so its outer edge is the shorter), the
+    /// separator under its level and the one over its monsters, its side borders, and a bottom edge `bottom` wide
+    /// runs of pixels long. Everything a tooltip has that the detector looks at, and nothing else.
+    fn a_tooltip(bottom: &[(u32, u32)]) -> (Vec<u8>, u32, u32) {
+        const MAP: [u8; 4] = [70, 50, 60, 255];
+        const FILL: [u8; 4] = [50, 29, 28, 255];
+        const BORDER: [u8; 4] = [55, 41, 40, 255];
+        const RULE: [u8; 4] = [60, 45, 44, 255];
+        const CORNER: [u8; 4] = [67, 48, 57, 255]; // the corner, blended into the map: no edge against it
+        let (w, h) = (800u32, 700u32);
+        let mut px: Vec<u8> = MAP.iter().copied().cycle().take((w * h * 4) as usize).collect();
+        let (left, right) = (278u32, 491u32);
+        {
+            let mut draw = |y: u32, from: u32, to: u32, c: [u8; 4]| {
+                for x in from..=to {
+                    let o = ((y * w + x) * 4) as usize;
+                    px[o..o + 4].copy_from_slice(&c);
+                }
+            };
+            draw(225, left, right, BORDER); // the top border, its corners drawn into the map
+            draw(225, left, left + 5, CORNER);
+            draw(225, right - 29, right, CORNER);
+            for y in 226..=387 {
+                draw(y, left, right, FILL);
+                draw(y, left, left, BORDER); // the side borders, the same on every row
+                draw(y, right, right, BORDER);
+            }
+            draw(253, left + 1, right - 1, RULE); // under the level
+            draw(293, left + 1, right - 1, RULE); // over the monsters
+            for &(from, to) in bottom {
+                draw(387, from, to, CORNER);
+            }
+        }
+        (px, w, h)
+    }
+
+    #[test]
+    fn a_tooltip_keeps_its_monsters_when_its_bottom_edge_is_broken_by_the_map() {
+        // the map behind the bottom edge leaves two runs of it, 93 and 61 wide on a 214-wide box: neither is the
+        // 85 % a rule needs, so there is no bottom rule at all and the box used to stop at its last separator,
+        // seventy pixels tall, its monsters never read (owner, 2026-11-21)
+        let (px, w, h) = a_tooltip(&[(284, 376), (400, 460)]);
+        assert_eq!(find_tooltips(&px, w, h), vec![(278, 225, 214, 163)]);
+    }
+
+    #[test]
+    fn a_tooltip_keeps_its_monsters_when_its_corners_are_rounded() {
+        // A tooltip's top and bottom edges are both shortened by its rounded corners, so they overlap each other
+        // enough to be grouped while neither is wide enough to group with the full-width rules between them. The
+        // top edge alone is no box (two rules), but it used to carry off the bottom edge on its way out, and what
+        // was left stopped at the last separator: the header, 70 pixels, and not one monster (owner, 2026-11-21).
+        // the bottom edge whole, its own corners drawn into the map like the top one's
+        let (px, w, h) = a_tooltip(&[(278, 283), (491, 491)]);
+        // the whole box, from its top border to its bottom edge: the monster lines under the last separator are
+        // inside it
+        assert_eq!(find_tooltips(&px, w, h), vec![(278, 225, 214, 163)]);
     }
 
     #[test]
     fn the_chat_and_the_spell_bar_are_not_tooltips() {
-        // the mouse low on the screen: the area looked at reaches the chat and the spell bar, dark like a tooltip,
-        // but they go on past that area (owner, 2026-11-20: a red box over the chat)
+        // the chat and the spell bar are dark like a tooltip (owner, 2026-11-20: a red box over the chat)
         let (px, w, h) = load("songe_chat.png");
-        for cy in [600, 700, 800] {
-            let boxes = find_tooltips(&px, w, h, 420, cy);
-            assert!(boxes.iter().all(|&(_, y, _, bh)| y + bh < 740), "mouse at y {cy}: {boxes:?}");
-        }
+        let boxes = find_tooltips(&px, w, h);
+        assert!(boxes.iter().all(|&(_, y, _, bh)| y + bh < 740), "{boxes:?}");
     }
 
     #[test]
-    fn finds_one_tooltip_box_around_the_mouse() {
-        for (name, (cx, cy), _, _) in SONGE {
+    fn finds_one_tooltip_box_in_each_capture() {
+        for (name, _, _) in SONGE {
             let (px, w, h) = load(name);
-            let boxes = find_tooltips(&px, w, h, cx, cy);
+            let boxes = find_tooltips(&px, w, h);
             assert_eq!(boxes.len(), 1, "{name}: {boxes:?}");
             let (_, _, bw, bh) = boxes[0];
             assert!((60..=320).contains(&bw) && (60..=260).contains(&bh), "{name}: {boxes:?}");
