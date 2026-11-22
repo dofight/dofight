@@ -33,8 +33,8 @@ const TEXT_OUTLINE: u32 = 90;
 const CHANGE_READ_EVERY: Duration = Duration::from_millis(1000);
 /// Dev builds: the icon bar's scores are written again this often even when nothing changes.
 const BAR_SAY_EVERY: Duration = Duration::from_secs(10);
-/// « Songe » mode, out of a fight: the mouse is checked this often. Once it rests, the area around it is read after
-/// these delays (the tooltip may take a moment to show) until a group tooltip is found; nothing while it moves.
+/// « Songe » mode, out of a fight: the mouse is checked this often. Once it rests, the window is read after these
+/// delays (the tooltip may take a moment to show) until a group tooltip is found; nothing while it moves.
 const HOVER_TICK: Duration = Duration::from_millis(50);
 /// « Songe » mode, the mouse at rest and its tooltip already read: how often the window is looked at again, in case
 /// the player showed the groups' tooltips with the game's own key instead of the mouse. Only the boxes are looked
@@ -55,11 +55,6 @@ const HOVER_TRIES: [Duration; 3] = [
     Duration::from_millis(350),
     Duration::from_millis(800),
 ];
-/// Where the group tooltips are looked for around the resting mouse (by their colour, no OCR: find_tooltips): above the
-/// hovered group, or pushed below or aside near a screen edge. Only the boxes found are read.
-const HOVER_HALF_WIDTH: i32 = 400;
-const HOVER_ABOVE: i32 = 450;
-const HOVER_BELOW: i32 = 250;
 /// Grey level above which a pixel counts as light text (the header, the fight button, « Combat terminé »).
 pub const LIGHT: u8 = 200;
 pub const SCALE: u32 = 2;
@@ -497,48 +492,19 @@ const TOOLTIP_MAX: (i32, i32) = (520, 420);
 /// The game's bottom bar (chat, life, spells), from the bottom of a 1009-pixel-high game (scaled with it).
 const BOTTOM_BAR: f32 = 135.0;
 
-/// The group tooltips' boxes around the mouse (x, y, width, height in frame pixels): the tooltip-coloured blobs of
-/// a tooltip's size, wherever they are around the mouse (above it, or pushed below or aside by a screen edge). Pixels
-/// only, no OCR: Songe then reads just those boxes.
-pub fn find_tooltips(bgra: &[u8], width: u32, height: u32, cx: i32, cy: i32) -> Vec<(i32, i32, i32, i32)> {
-    find_tooltips_in(bgra, width, height, (0, 0), (width, height), cx, cy)
-}
-
-/// The square around the mouse Songe looks at (x, y, width, height in the window's pixels, clipped to it): only this
-/// piece of a capture is kept (owner, 2026-11-20).
-pub fn hover_square(cx: i32, cy: i32, (width, height): (u32, u32)) -> (i32, i32, i32, i32) {
-    let (x0, y0) = ((cx - HOVER_HALF_WIDTH).max(0), (cy - HOVER_ABOVE).max(0));
-    let (x1, y1) = ((cx + HOVER_HALF_WIDTH).min(width as i32), (cy + HOVER_BELOW).min(height as i32));
-    (x0, y0, (x1 - x0).max(0), (y1 - y0).max(0))
-}
-
-/// `find_tooltips` on a piece of the window (`bgra`, `iw` × `ih`, its top left at `at` in the window of size `window`):
-/// the mouse and the boxes found are in the window's pixels.
-pub fn find_tooltips_in(bgra: &[u8], iw: u32, ih: u32, at: (i32, i32), window: (u32, u32), cx: i32, cy: i32) -> Vec<(i32, i32, i32, i32)> {
-    find_tooltips_within(bgra, iw, ih, at, window, hover_square(cx, cy, window))
-}
-
-/// The group tooltips inside one area of the window (x, y, width, height in the window's points).
-pub fn find_tooltips_within(
-    bgra: &[u8],
-    iw: u32,
-    ih: u32,
-    at: (i32, i32),
-    window: (u32, u32),
-    (sx, sy, sw, sh): (i32, i32, i32, i32),
-) -> Vec<(i32, i32, i32, i32)> {
-    let (_width, height) = window;
-    let (x0, y0) = (sx.max(at.0), sy.max(at.1));
-    let (x1, y1) = ((sx + sw).min(at.0 + iw as i32), (sy + sh).min(at.1 + ih as i32));
-    if x1 - x0 < TOOLTIP_MIN.0 || y1 - y0 < TOOLTIP_MIN.1 {
+/// The group tooltips' boxes in the whole window (x, y, width, height in the window's points): wherever they are,
+/// not only near the mouse, since the game shows every group's tooltip at once on a key the player chooses (owner,
+/// 2026-11-22). Pixels only, no OCR: Songe then reads just those boxes.
+pub fn find_tooltips(bgra: &[u8], width: u32, height: u32) -> Vec<(i32, i32, i32, i32)> {
+    if (width as i32) < TOOLTIP_MIN.0 || (height as i32) < TOOLTIP_MIN.1 {
         return Vec::new();
     }
     // the game's bottom bar (chat, life, spells) is as dark as a tooltip; a group's tooltip never sits on it (it
     // shows above its group), and no box may reach into it
     let bar_top = height as i32 - (BOTTOM_BAR * (height as f32 / 1009.0).max(1.0)) as i32;
-    let (w, h) = ((x1 - x0) as usize, (y1 - y0) as usize);
+    let (w, h) = (width as usize, height as usize);
     let at = |x: usize, y: usize| {
-        let o = (((y0 - at.1) as usize + y) * iw as usize + (x0 - at.0) as usize + x) * 4;
+        let o = (y * w + x) * 4;
         &bgra[o..o + 3]
     };
     // A tooltip is the only thing on screen drawn as several straight horizontal rules of the same width, one under
@@ -639,7 +605,7 @@ pub fn find_tooltips_within(
                     }
                 }
             }
-            out.push((x0 + bx0 as i32, y0 + top as i32, (bx1 - bx0 + 1) as i32, (bottom - top + 1) as i32));
+            out.push((bx0 as i32, top as i32, (bx1 - bx0 + 1) as i32, (bottom - top + 1) as i32));
         }
     }
     out.into_iter()
@@ -649,36 +615,6 @@ pub fn find_tooltips_within(
         .collect()
 }
 
-
-/// The group tooltips around the resting mouse (`cx`, `cy` in frame pixels): their headers, then their monster
-/// lines. Empty when no group tooltip is there.
-pub fn read_hovered(
-    engine: &OcrEngine,
-    bgra: &[u8],
-    width: u32,
-    height: u32,
-    cx: i32,
-    cy: i32,
-) -> Result<Vec<OcrLine>, String> {
-    read_tooltips_in(engine, bgra, bgra, width, height, (0, 0), (width, height), hover_square(cx, cy, (width, height)), 1)
-}
-
-/// `read_hovered` on a piece of the window (see find_tooltips_in): lines in the window's pixels.
-#[allow(clippy::too_many_arguments)]
-pub fn read_tooltips_in(
-    engine: &OcrEngine,
-    points: &[u8],
-    pixels: &[u8],
-    iw: u32,
-    ih: u32,
-    at: (i32, i32),
-    window: (u32, u32),
-    area: (i32, i32, i32, i32),
-    scale: u32,
-) -> Result<Vec<OcrLine>, String> {
-    let boxes = find_tooltips_within(points, iw, ih, at, window, area);
-    read_boxes_in(engine, pixels, iw, ih, at, &boxes, scale)
-}
 
 /// How many tooltips are on screen and how tall each one is, in steps of SHAPE_STEP and sorted: what says the
 /// window still shows the tooltips that were read. Not where they are, nor how wide: a group walks its map and its
@@ -701,36 +637,30 @@ pub fn boxes_to_read(
     boxes.iter().copied().filter(|b| !look_again || !empty.contains(b)).collect()
 }
 
-/// `read_tooltips_in` on boxes already found: the reader looks for them itself, to know whether anything changed
-/// before it pays for the text (owner, 2026-11-22).
-#[allow(clippy::too_many_arguments)]
-pub fn read_boxes_in(
+/// The text of the tooltip boxes found by `find_tooltips` (window points; `pixels` is the capture, `scale` pixels to
+/// a point): each box's level line, then its monster lines. The reader finds the boxes itself, to know whether
+/// anything changed before it pays for the text (owner, 2026-11-22).
+pub fn read_boxes(
     engine: &OcrEngine,
     pixels: &[u8],
-    iw: u32,
-    ih: u32,
-    at: (i32, i32),
+    width: u32,
+    height: u32,
     boxes: &[(i32, i32, i32, i32)],
     scale: u32,
 ) -> Result<Vec<OcrLine>, String> {
-    // only the tooltips' own boxes are read (found by their colour, on any side of the mouse): about a tenth of the
-    // area read before, and none of the bright map around them (owner, 2026-11-20)
+    // only the tooltips' own boxes are read: none of the map around them (owner, 2026-11-20)
     let mut lines = Vec::new();
-    let back = |l: OcrLine| OcrLine { x: l.x + at.0, y: l.y + at.1, ..l };
     // a tooltip costs about 150 ms to read: a reading stays bounded however many of them are on screen at once
     for &(x, y, w, h) in boxes.iter().take(TOOLTIPS_AT_ONCE) {
-        let (x, y) = (x - at.0, y - at.1);
-        // the bold white level line reads best on its own, light pixels only; the grey monster lines below at a
-        // lower threshold (measured on the owner's five captures, 2026-11-20)
-        // one pass, not two: the level line used to be read on its own, light pixels only, because the cut at a
-        // fixed grey lost it among the monster lines. The whole box read at once finds it now, and a Songe reading
-        // costs half what it did (owner, 2026-11-21).
-        let body = read_area(engine, pixels, iw * scale, ih * scale, (x, y, x + w, y + h), scale)?;
+        // one pass over the whole box: the level line used to be read on its own, light pixels only, because the
+        // cut at a fixed grey lost it among the monster lines. Read at once it is found among them, and a Songe
+        // reading costs half what it did (owner, 2026-11-21).
+        let body = read_area(engine, pixels, width * scale, height * scale, (x, y, x + w, y + h), scale)?;
         let level = body.iter().find(|l| is_group_header(&l.text)).cloned();
         if let Some(level) = level {
             let below = level.y + level.h / 2;
-            lines.push(back(level));
-            lines.extend(body.into_iter().filter(|l| !is_group_header(&l.text) && l.y > below).map(back));
+            lines.push(level);
+            lines.extend(body.into_iter().filter(|l| !is_group_header(&l.text) && l.y > below));
         }
     }
     Ok(lines)
@@ -913,13 +843,13 @@ pub struct DebugAreas {
     pub areas: Vec<(i32, i32, i32, i32)>,
 }
 
-/// At most this many squares written in one run: a debug aid, not a way to fill the disk.
+/// At most this many windows written in one run: a debug aid, not a way to fill the disk.
 const DUMP_MAX: usize = 30;
 
-/// The hovered square written as a BMP into the directory `DOFIGHT_DUMP` names: what a reading that found nothing
-/// was actually looking at, kept so it can be tried again off the game (owner, 2026-11-21). Dev builds only, like
-/// everything else here. BMP and not PNG: the capture is already BGR, and no encoder is linked into the app.
-fn dump_square(bgra: &[u8], w: u32, h: u32, cx: i32, cy: i32, boxes: usize) {
+/// The window as Songe saw it, written as a BMP into the directory `DOFIGHT_DUMP` names: what a reading that found
+/// nothing was actually looking at, kept so it can be tried again off the game (owner, 2026-11-21). Dev builds only,
+/// like everything else here. BMP and not PNG: the capture is already BGR, and no encoder is linked into the app.
+fn dump_window(bgra: &[u8], w: u32, h: u32, cx: i32, cy: i32, boxes: usize) {
     let Some(dir) = std::env::var_os("DOFIGHT_DUMP") else { return };
     static LEFT: std::sync::Mutex<usize> = std::sync::Mutex::new(DUMP_MAX);
     let mut left = LEFT.lock().unwrap();
@@ -1038,16 +968,16 @@ fn timed_corner(id: WindowId, stats: &mut Stats) -> Result<(Frame, (u32, u32)), 
     corner.map(|c| (c, window))
 }
 
-/// Songe: the square around the mouse (hover_square), cut out of a capture at once (the rest is dropped there), and
-/// its top left in the window.
-fn timed_frame(id: WindowId, window: (u32, u32), stats: &mut Stats) -> Option<(Frame, Frame, (i32, i32))> {
+/// Songe: the whole window, in points (where the tooltips are found) and in the capture's own pixels (where their
+/// text is read).
+fn timed_frame(id: WindowId, stats: &mut Stats) -> Option<(Frame, Frame)> {
     let scale = platform::capture_scale();
     let (pixels, fw, fh) = timed_capture(id, stats).ok()?;
-    if fw < scale || fh < scale || window.0 == 0 || window.1 == 0 {
+    if fw < scale || fh < scale {
         return None;
     }
     let points = to_points(&pixels, fw, fh, scale);
-    Some((points, (pixels, fw, fh), (0, 0)))
+    Some((points, (pixels, fw, fh)))
 }
 
 /// A capture in the screen's pixels, averaged down to the window's points: what every measurement is made on. The
@@ -1156,7 +1086,7 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
             let songe_on = songe.0.load(Ordering::Relaxed);
             let hovering = songe_on && !fighting;
             // said once, when it starts: Songe reads nothing during a fight, and the player sees only that the red
-            // square around the mouse is gone. The fight itself comes from the game's own icon bar, which the game
+            // boxes over the tooltips are gone. The fight itself comes from the game's own icon bar, which the game
             // can leave on its fight icons after a fight is over — then nothing is hovered and nothing says why
             // (owner, 2026-11-21).
             if songe_on && fighting != r.songe_waiting {
@@ -1352,16 +1282,14 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                 r.hover_tries += 1;
             }
             // the whole window, not a square around the mouse: the game shows every group's tooltip at once on a key
-            // the player chooses, and a tooltip belongs to its group's place on the map, not to the pointer. Nothing
-            // more of the screen is captured for it — the whole window was already captured and the square cut out
-            // of it afterwards (owner, 2026-11-22).
-            let Some(((px, sw, sh), (pixels, _, _), at)) = timed_frame(id, (ww, wh), &mut r.stats) else {
+            // the player chooses, and a tooltip belongs to its group's place on the map, not to the pointer (owner,
+            // 2026-11-22)
+            let Some(((px, sw, sh), (pixels, _, _))) = timed_frame(id, &mut r.stats) else {
                 continue;
             };
             let started = Instant::now();
             let scale = platform::capture_scale();
-            let whole = (0, 0, ww as i32, wh as i32);
-            let boxes = find_tooltips_within(&px, sw, sh, at, (ww, wh), whole);
+            let boxes = find_tooltips(&px, sw, sh);
             // the same tooltips as the last reading: their text is not read again for nothing.
             //
             // What is compared is how many tooltips there are and how tall each one is, not where they are nor how
@@ -1382,7 +1310,7 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
             // a box gives no line at all unless a « Niveau N » is in it. One that gave nothing where it is and as
             // it is costs nothing again until the mouse moves, which reads everything afresh (owner, 2026-11-22).
             let to_read = boxes_to_read(&boxes, &r.empty, look_again);
-            let lines = read_boxes_in(engine, &pixels, sw, sh, at, &to_read, scale).unwrap_or_default();
+            let lines = read_boxes(engine, &pixels, sw, sh, &to_read, scale).unwrap_or_default();
             let holds = |&(bx, by, bw, bh): &(i32, i32, i32, i32)| {
                 lines.iter().any(|l| l.x >= bx && l.x < bx + bw && l.y >= by && l.y < by + bh)
             };
@@ -1407,7 +1335,7 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                 // but it is also how a tooltip the detector cannot see looks, and that one has to be caught too
                 // (owner, 2026-11-21). The box count goes in the name.
                 if lines.len() < 4 {
-                    dump_square(&px, sw, sh, cx, cy, boxes.len());
+                    dump_window(&px, sw, sh, cx, cy, boxes.len());
                 }
                 // the header corner, then the tooltips found: the area looked at is the window itself now
                 let mut areas = vec![(0, 0, cw as i32, ch as i32)];
@@ -1511,22 +1439,22 @@ mod tests {
         assert!(texts.iter().any(|t| has_coordinates(t) && t.contains("13") && t.contains("35")), "{texts:?}");
     }
 
-    /// The owner's Songe captures (2026-11-20): image, mouse in it, the group's level, monsters read.
-    const SONGE: [(&str, (i32, i32), &str, &[&str]); 9] = [
-        ("songe_1.png", (420, 41), "168", &["Tofoune", "Tofu Noir"]),
-        ("songe_2.png", (420, 470), "110", &["Tofoune", "Tofu"]),
-        ("songe_3.png", (416, 20), "248", &["Tofu Noir"]),
-        ("songe_4.png", (420, 470), "176", &["Tofukaz", "Tofu Noir"]),
-        ("songe_5.png", (420, 425), "1612", &["Mominotor", "Trezz"]),
+    /// The owner's Songe captures (2026-11-20): image, the group's level, monsters read.
+    const SONGE: [(&str, &str, &[&str]); 9] = [
+        ("songe_1.png", "168", &["Tofoune", "Tofu Noir"]),
+        ("songe_2.png", "110", &["Tofoune", "Tofu"]),
+        ("songe_3.png", "248", &["Tofu Noir"]),
+        ("songe_4.png", "176", &["Tofukaz", "Tofu Noir"]),
+        ("songe_5.png", "1612", &["Mominotor", "Trezz"]),
         // a one-monster tooltip (narrow), the mouse low: the chat and the spell bar are as dark as a tooltip
-        ("songe_chat.png", (420, 470), "36", &["Tofu"]),
+        ("songe_chat.png", "36", &["Tofu"]),
         // the game's Belladone theme: the tooltip is tinted purple (owner, 2026-11-20: every theme alike)
-        ("songe_belladone.png", (420, 470), "132", &["Tofoune", "Tofu"]),
+        ("songe_belladone.png", "132", &["Tofoune", "Tofu"]),
         // the Standard theme, the one most players keep: bluish, its channels 17 to 25 apart
-        ("songe_standard.png", (420, 470), "132", &["Tofoune", "Tofu"]),
+        ("songe_standard.png", "132", &["Tofoune", "Tofu"]),
         // a dark map on Windows, its bottom border broken by the map: the title band is drawn darker than the body
         // (owner, 2026-11-22)
-        ("songe_title_band.png", (420, 89), "804", &["Crachefoux", "Boumbardier", "Rouquette"]),
+        ("songe_title_band.png", "804", &["Crachefoux", "Boumbardier", "Rouquette"]),
     ];
 
     #[test]
@@ -1535,16 +1463,23 @@ mod tests {
         // followed down with the title band's colours, so it stopped at the first separator: 49 pixels tall, the
         // six monsters under it never read (owner, 2026-11-22, a dark map on Windows).
         let (px, w, h) = load("songe_title_band.png");
-        let boxes = find_tooltips(&px, w, h, 420, 89);
+        let boxes = find_tooltips(&px, w, h);
         assert!(boxes.iter().any(|&(_, y, _, bh)| y < 70 && bh >= 150), "{boxes:?}");
+    }
+
+    /// What Songe reads in a whole frame: the tooltips found, then their text.
+    fn read_window(engine: &OcrEngine, px: &[u8], w: u32, h: u32) -> Vec<OcrLine> {
+        read_boxes(engine, px, w, h, &find_tooltips(px, w, h), 1).unwrap()
     }
 
     #[test]
     fn reads_the_hovered_group_wherever_its_tooltip_is() {
+        // the whole window is looked at, wherever the mouse is: the game shows every group's tooltip at once on a
+        // key the player chooses, and a tooltip belongs to its group's place on the map (owner, 2026-11-22)
         let engine = platform::ocr_engine().expect("fr-FR OCR");
-        for (name, (cx, cy), level, monsters) in SONGE {
+        for (name, level, monsters) in SONGE {
             let (px, w, h) = load(name);
-            let lines = read_hovered(&engine, &px, w, h, cx, cy).unwrap();
+            let lines = read_window(&engine, &px, w, h);
             let texts: Vec<&str> = lines.iter().map(|l| l.text.as_str()).collect();
             // the level line, as the reader recognises it (« Niveau » may be misread: « Niueau 248 »)
             assert!(texts.iter().any(|t| is_group_header(t) && t.contains(level)), "{name}: {texts:?}");
@@ -1560,7 +1495,7 @@ mod tests {
         // and the text read on the pixels. Here the saved frame stands for the points and is doubled to stand for
         // the pixels, so the plumbing is exercised end to end — the same group has to come back (owner, 2026-11-21).
         let engine = platform::ocr_engine().expect("fr-FR OCR");
-        let (name, (cx, cy), level, monsters) = SONGE[0];
+        let (name, level, monsters) = SONGE[0];
         let (px, w, h) = load(name);
         let (pw, ph) = (w * 2, h * 2);
         let mut pixels = vec![0u8; (pw * ph * 4) as usize];
@@ -1572,8 +1507,7 @@ mod tests {
             }
         }
         assert_eq!(to_points(&pixels, pw, ph, 2).0, px, "doubled and averaged back gives the frame again");
-        let area = hover_square(cx, cy, (w, h));
-        let lines = read_tooltips_in(&engine, &px, &pixels, w, h, (0, 0), (w, h), area, 2).unwrap();
+        let lines = read_boxes(&engine, &pixels, w, h, &find_tooltips(&px, w, h), 2).unwrap();
         let texts: Vec<&str> = lines.iter().map(|l| l.text.as_str()).collect();
         assert!(texts.iter().any(|t| is_group_header(t) && t.contains(level)), "{name}: {texts:?}");
         for m in monsters {
@@ -1604,43 +1538,6 @@ mod tests {
         assert_eq!(boxes_to_read(&boxes, &empty, true), vec![(566, 330, 116, 127)]);
         // the mouse having moved, everything is read again: a tooltip caught mid-fade is not written off for good
         assert_eq!(boxes_to_read(&boxes, &empty, false), boxes.to_vec());
-    }
-
-    #[test]
-    fn a_tooltip_away_from_the_mouse_is_read_too() {
-        // the game shows every group's tooltip at once on a key the player chooses, and a tooltip belongs to its
-        // group's place on the map: Songe looks at the whole window, not at a square around the pointer
-        // (owner, 2026-11-22). The mouse is put in the far corner here, where the old square held nothing.
-        let engine = platform::ocr_engine().expect("fr-FR OCR");
-        for (name, (cx, cy), level, monsters) in SONGE {
-            let (px, w, h) = load(name);
-            // the mouse is nowhere near its group here, and plays no part at all: the area is the window itself
-            assert!(hover_square(0, 0, (w, h)) != (0, 0, w as i32, h as i32), "{name}: the square is the window");
-            assert!((cx, cy) != (0, 0));
-            let whole = (0, 0, w as i32, h as i32);
-            let lines = read_tooltips_in(&engine, &px, &px, w, h, (0, 0), (w, h), whole, 1).unwrap();
-            let texts: Vec<&str> = lines.iter().map(|l| l.text.as_str()).collect();
-            assert!(texts.iter().any(|t| is_group_header(t) && t.contains(level)), "{name}: {texts:?}");
-            for m in monsters {
-                assert!(texts.iter().any(|t| t.contains(m)), "{name}: {m} in {texts:?}");
-            }
-        }
-    }
-
-    #[test]
-    fn the_square_alone_finds_the_same_boxes_as_the_whole_frame() {
-        // Songe keeps only the square around the mouse of a capture (owner, 2026-11-20): nothing else is looked at
-        for (name, (cx, cy), _, _) in SONGE {
-            let (px, w, h) = load(name);
-            let (sx, sy, sw, sh) = hover_square(cx, cy, (w, h));
-            let mut square = Vec::with_capacity((sw * sh * 4) as usize);
-            for y in sy..sy + sh {
-                let start = ((y as u32 * w + sx as u32) * 4) as usize;
-                square.extend_from_slice(&px[start..start + (sw * 4) as usize]);
-            }
-            let alone = find_tooltips_in(&square, sw as u32, sh as u32, (sx, sy), (w, h), cx, cy);
-            assert_eq!(alone, find_tooltips(&px, w, h, cx, cy), "{name}");
-        }
     }
 
     /// A tooltip on a map: its top border (corners drawn into the map, so its outer edge is the shorter), the
@@ -1685,7 +1582,7 @@ mod tests {
         // 85 % a rule needs, so there is no bottom rule at all and the box used to stop at its last separator,
         // seventy pixels tall, its monsters never read (owner, 2026-11-21)
         let (px, w, h) = a_tooltip(&[(284, 376), (400, 460)]);
-        assert_eq!(find_tooltips(&px, w, h, 400, 450), vec![(278, 225, 214, 163)]);
+        assert_eq!(find_tooltips(&px, w, h), vec![(278, 225, 214, 163)]);
     }
 
     #[test]
@@ -1698,25 +1595,22 @@ mod tests {
         let (px, w, h) = a_tooltip(&[(278, 283), (491, 491)]);
         // the whole box, from its top border to its bottom edge: the monster lines under the last separator are
         // inside it
-        assert_eq!(find_tooltips(&px, w, h, 400, 450), vec![(278, 225, 214, 163)]);
+        assert_eq!(find_tooltips(&px, w, h), vec![(278, 225, 214, 163)]);
     }
 
     #[test]
     fn the_chat_and_the_spell_bar_are_not_tooltips() {
-        // the mouse low on the screen: the area looked at reaches the chat and the spell bar, dark like a tooltip,
-        // but they go on past that area (owner, 2026-11-20: a red box over the chat)
+        // the chat and the spell bar are dark like a tooltip (owner, 2026-11-20: a red box over the chat)
         let (px, w, h) = load("songe_chat.png");
-        for cy in [600, 700, 800] {
-            let boxes = find_tooltips(&px, w, h, 420, cy);
-            assert!(boxes.iter().all(|&(_, y, _, bh)| y + bh < 740), "mouse at y {cy}: {boxes:?}");
-        }
+        let boxes = find_tooltips(&px, w, h);
+        assert!(boxes.iter().all(|&(_, y, _, bh)| y + bh < 740), "{boxes:?}");
     }
 
     #[test]
-    fn finds_one_tooltip_box_around_the_mouse() {
-        for (name, (cx, cy), _, _) in SONGE {
+    fn finds_one_tooltip_box_in_each_capture() {
+        for (name, _, _) in SONGE {
             let (px, w, h) = load(name);
-            let boxes = find_tooltips(&px, w, h, cx, cy);
+            let boxes = find_tooltips(&px, w, h);
             assert_eq!(boxes.len(), 1, "{name}: {boxes:?}");
             let (_, _, bw, bh) = boxes[0];
             assert!((60..=320).contains(&bw) && (60..=260).contains(&bh), "{name}: {boxes:?}");

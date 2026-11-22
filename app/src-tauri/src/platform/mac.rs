@@ -298,14 +298,14 @@ pub fn client_origin(id: WindowId) -> Option<(i32, i32)> {
     Some((x as i32, y as i32))
 }
 
-/// The window's content size, in points (one frame pixel per point).
+/// The window's content size, in points (a capture holds `capture_scale()` pixels per point).
 pub fn client_size(id: WindowId) -> Option<(u32, u32)> {
     let (_, frame) = entry(id)?;
     let (_, _, w, h) = content(frame);
     Some((w as u32, h as u32))
 }
 
-/// The mouse in the window's content (frame pixels), when it is over it. Only its position is read.
+/// The mouse in the window's content (points), when it is over it. Only its position is read.
 pub fn cursor_in(id: WindowId, width: u32, height: u32) -> Option<(i32, i32)> {
     let (_, frame) = entry(id)?;
     let (x, y, _, _) = content(frame);
