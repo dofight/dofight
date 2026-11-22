@@ -18,8 +18,10 @@ it("keeps a sheet no taller than the screen (it scrolls inside)", () => {
 
 it("lets a sheet scroll inside its window, and a detached one fill the window the player sized", () => {
   const css = readFileSync("src/styles.css", "utf8");
-  expect(css).toContain("#peek>*{max-height:100vh;overflow-y:auto;box-sizing:border-box}");
-  expect(css).toContain("#peek.detached>*{height:100vh;align-content:start}");
+  expect(css).toContain("#peek>:not(.toast){max-height:100vh;overflow-y:auto;box-sizing:border-box}");
+  expect(css).toContain("#peek.detached>:not(.toast){height:100vh;align-content:start}");
+  // « Copié » goes inside #peek (toast.ts): a rule for every child stretched it to the window's height
+  expect(css).not.toMatch(/#peek(\.detached)?>\*\{/);
 });
 
 it("gives a detached sheet's bar its own sheet's colour, a spell's as well as a monster's", () => {
