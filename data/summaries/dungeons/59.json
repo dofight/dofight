@@ -10,11 +10,11 @@
    "tags": [
     {
      "id": "invulnerable",
-     "param": "Sporakne finit sur un glyphe"
+     "param": "jusqu'à Sporakne sur un glyphe"
     },
     {
      "id": "big_damage",
-     "param": "Hairpay : sa cible à chaque coup"
+     "param": "Hairpay : 450 Air par coup reçu"
     },
     {
      "id": "removes",
@@ -33,7 +33,7 @@
      "param": "attire, se téléporte"
     }
    ],
-   "detail": "Chaque personnage pose en début de tour un glyphe qui tue qui y commence ou finit son tour. Une fois vulnérable, le Korriandre le reste jusqu'à la fin du combat."
+   "detail": "Chaque personnage pose en début de tour un glyphe qui tue qui y commence ou finit son tour. Dès que la Sporakne finit son tour sur l'un d'eux, le Korriandre devient vulnérable jusqu'à la fin du combat, avec 1 PM et 200 Puissance en plus."
   },
   "2900": {
    "tags": [
@@ -42,7 +42,7 @@
      "param": "Soins au CaC"
     }
    ],
-   "detail": "La frapper avec un sort déclenche un Raulebaque (pas avec une arme). Tape en ligne."
+   "detail": "La frapper à distance avec un sort déclenche un Raulebaque (pas avec une arme). Tape en ligne."
   },
   "2898": {
    "tags": [
@@ -109,7 +109,7 @@
      "source": "spells"
     }
    ],
-   "detail": "Perd 1 PM par coup reçu (3 max) : la frapper ou lui retirer des PM pour qu'elle finisse son tour sur un glyphe. Poussée ou attirée, elle repousse d'une case tout ce qui est dans sa ligne. Tuée, elle revient en 3 tours."
+   "detail": "Perd 1 PM par coup reçu (3 max) : la frapper ou lui retirer ses PM, puis la pousser ou l'attirer sur un glyphe où elle finira son tour. Poussée ou attirée, elle repousse d'une case ce qui est dans sa ligne. Tuée, elle revient en 3 tours."
   }
  },
  "bossSummons": {
