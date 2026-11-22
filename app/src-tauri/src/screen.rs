@@ -40,6 +40,9 @@ const HOVER_TICK: Duration = Duration::from_millis(50);
 /// the player showed the groups' tooltips with the game's own key instead of the mouse. Only the boxes are looked
 /// for; the text is read again when they changed (owner, 2026-11-22).
 const REST_READ_EVERY: Duration = Duration::from_secs(2);
+/// Tooltips this much shorter or taller than the ones read are other tooltips. A monster's line is 18 points, so
+/// four leaves the height of a line well clear while swallowing the pixel a border walk gives or takes.
+const SHAPE_STEP: i32 = 4;
 /// At most this many tooltips are read in one reading. A group's tooltip takes about 150 ms, and the game can show
 /// every group's at once: without a cap one reading could hold the thread for seconds (owner, 2026-11-22).
 const TOOLTIPS_AT_ONCE: usize = 10;
@@ -791,8 +794,9 @@ struct Reader {
     songe_waiting: bool,
     /// When the window was last looked at with the mouse at rest and its tooltip already read.
     looked_at: Option<Instant>,
-    /// The sizes of the tooltips of the last reading, sorted: what says the window still shows what was read.
-    shapes: Vec<(i32, i32)>,
+    /// How tall each tooltip of the last reading was, in steps of SHAPE_STEP and sorted: what says the window
+    /// still shows what was read.
+    shapes: Vec<i32>,
     /// Boxes that held no line where they are: looked at again, they are not read again.
     empty: Vec<(i32, i32, i32, i32)>,
     /// The last known icon bar (never Unknown): None until the bar was recognised once.
@@ -1324,13 +1328,16 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
             let boxes = find_tooltips_within(&px, sw, sh, at, (ww, wh), whole);
             // the same tooltips as the last reading: their text is not read again for nothing.
             //
-            // What is compared is their shapes, not their places. A group walks its map and its tooltip walks with
-            // it: the same three groups came back at three different places every two seconds, each time with the
-            // same eighteen lines, and reading them again cost 464 ms a time — a sixth of a processor for nothing.
-            // A tooltip that only moved keeps its size; one that appears or leaves changes the set (owner,
+            // What is compared is how many tooltips there are and how tall each one is, not where they are nor how
+            // wide. A group walks its map and its tooltip walks with it: the same three groups came back at three
+            // different places every two seconds, each with the same nineteen lines, and reading them again cost
+            // 600 ms a time. A tooltip's width breathes by a few pixels as it passes over the scenery, its rules
+            // running as far as the ground behind them lets them (126, 124, 119, 122 for one tooltip, the mouse
+            // never moving); its height is the border walked down and holds still. A tooltip appearing or leaving
+            // changes how many there are, and one holding another monster changes how tall it is (owner,
             // 2026-11-22).
-            let shapes: Vec<(i32, i32)> = {
-                let mut v: Vec<(i32, i32)> = boxes.iter().map(|&(_, _, w, h)| (w, h)).collect();
+            let shapes: Vec<i32> = {
+                let mut v: Vec<i32> = boxes.iter().map(|&(_, _, _, h)| h / SHAPE_STEP).collect();
                 v.sort_unstable();
                 v
             };
