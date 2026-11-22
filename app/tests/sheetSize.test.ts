@@ -21,3 +21,8 @@ it("lets a sheet scroll inside its window, and a detached one fill the window th
   expect(css).toContain("#peek>*{max-height:100vh;overflow-y:auto;box-sizing:border-box}");
   expect(css).toContain("#peek.detached>*{height:100vh;align-content:start}");
 });
+
+it("gives a detached sheet's bar its own sheet's colour, a spell's as well as a monster's", () => {
+  const css = readFileSync("src/styles.css", "utf8");
+  expect(css).toMatch(/#peek\.detached \.peek-bar\{[^}]*background:inherit[^}]*\}/);
+});

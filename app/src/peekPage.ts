@@ -46,7 +46,7 @@ document.addEventListener("mouseup", (e) => {
   if (text) void emit("peek:copytext", { text, label });
 });
 void listen<{ ok: boolean; to: string }>("peek:textcopied", ({ payload }) => {
-  if (payload.to === label) showToast(document, payload.ok);
+  if (payload.to === label) showToast(document, payload.ok, document.getElementById("peek")!);
 });
 
 // a pinned sheet pressed on its bar then moved: it comes off the panel and follows the pointer (the rest of the sheet

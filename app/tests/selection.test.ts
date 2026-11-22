@@ -94,6 +94,17 @@ it("says « Copié » at the bottom of the window for a second, « Copie impossi
   expect(document.querySelector(".toast")!.textContent).toBe("Copied");
 });
 
+it("says « Copié » inside a sheet, at its bottom, not at the bottom of a taller window", () => {
+  const box = mount(`<div id="peek"><div class="pop">Wakpot Kwayal</div></div>`);
+  showToast(document, true, box);
+  const toast = document.querySelector<HTMLElement>(".toast")!;
+  expect(toast.parentElement).toBe(box);
+  expect(toast.classList.contains("in-box")).toBe(true);
+  const css = readFileSync("src/styles.css", "utf8");
+  expect(css).toContain(".toast.in-box{position:absolute}");
+  expect(css).toContain("#peek{padding:0;position:relative}"); // the box the toast is placed in
+});
+
 it("gives a pinned sheet a bar with a grip and ✕, and a hover preview none", () => {
   const bar = mount(sheetBar(true));
   expect(bar.classList.contains("peek-bar")).toBe(true);
