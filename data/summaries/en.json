@@ -2213,7 +2213,7 @@
   "Sans attaque de l'élément reçu : des dégâts dans cet élément, et rien n'est ajouté.": "Without an attack of the element received: damage in that element, and nothing is added.",
   "Hairpay : sa cible à chaque coup": "Arepee: its target, on every hit",
   "Magnétisme : Grasmera s'attire de 4 cases sur toi ; une cible Tyrannisée passe son prochain tour.": "Magnetism: Grasmera pulls itself 4 cells onto you; a Tyrannised target skips its next turn.",
-  "La frapper avec un sort déclenche un Raulebaque (pas avec une arme au CaC). Tape en ligne.": "Hitting her with a spell triggers a Rhol Bak (not with a melee weapon). Hits in a line.",
+  "La frapper avec un sort déclenche un Raulebaque (pas avec une arme). Tape en ligne.": "Hitting her with a spell triggers a Rhol Bak (not with a weapon). Hits in a line.",
   "Les monstres de la saison arrivent par vagues de 3, 4 puis 5 : les garder à distance. En phase 4, un boss de saison et 5 monstres.": "Season monsters come in waves of 3, 4, then 5: keep them at a distance. In phase 4, a season boss and 5 monsters.",
   "Retirer de la PO au Kanniboul Sarbak.": "Remove range from the Kanniball Sarbak.",
   "Bénédiction Moonesque": "Bénédiction Moonesque",
@@ -2221,7 +2221,6 @@
   "Séparer les monstres : qu'aucun ne soit à 2 cases ou moins de celui que tu frappes.": "Separate the monsters: none should be within 2 cells of the one you hit.",
   "Ne jamais taper un Kanniboul à 2 cases ou moins du Kanniboul Ebil : celui-ci serait soigné de la moitié des dégâts.": "Never hit a Kanniball within 2 cells of the Kanniball Andchain: he would be healed for half the damage.",
   "Taper un seul monstre à la fois, à l'écart des autres, limite ces soins.": "Hitting one monster at a time, away from the others, limits these heals.",
-  "Chaque personnage pose en début de tour un glyphe qui tue qui y commence ou finit son tour. La Sporakne perd 1 PM par coup reçu (3 max) : la frapper ou lui retirer des PM pour qu'elle finisse sur l'un d'eux. Tuée, elle revient en 3 tours.": "Each character lays a glyph at turn start that kills whoever starts or ends a turn in it. The Sporachnee loses 1 MP per hit taken (3 max): hit it or remove its MP so it ends on one of them. If killed, it returns in 3 turns.",
   "Sous leur état, frapper au CaC le Blérice retire 100 PM à l'équipe et le Fleuro vole des PV.": "Under their state, hitting the Blerice in melee removes 100 MP from the team, and the Fleuro steals HP.",
   "Aucun soin possible de tout le combat, sauf par le Kirbili du Professeur Xa. Razepoutine ne part que si quelqu'un est à son CaC, en cône, plus fort à bas PV. Mort de Xa : +1 PM, Puissance et un sort à distance qui retire de la Fuite.": "No healing at all for the whole fight, except through Professor Xa's Kirbili. Razepoutine only fires if someone is in melee, in a cone, stronger at low HP. On Xa's death: +1 MP, Power and a ranged spell that removes Dodge.",
   "Carcassetagne": "Carcassetagne",
@@ -2486,7 +2485,9 @@
   "monstres au CaC du perso soigné": "monsters next to the healed character",
   "te téléporte de l'autre côté": "teleports you to its other side",
   "3 PM à qui soigne sa cible": "3 MP from whoever heals its target",
-  "Poison pétrifiant (2 tours, désenvoûtable) : dégâts Eau en fin de tour selon tes PA/PM utilisés, et te téléporte au CaC du monstre le plus proche. En Cible lunaire, utiliser des PA ou PM l'évite.": "Petrifying Poison (2 turns, dispellable): Water damage at the end of your turn according to the AP/MP you used, and it teleports you next to the nearest monster. Under Lunar Target, using AP or MP avoids it."
+  "Poison pétrifiant (2 tours, désenvoûtable) : dégâts Eau en fin de tour selon tes PA/PM utilisés, et te téléporte au CaC du monstre le plus proche. En Cible lunaire, utiliser des PA ou PM l'évite.": "Petrifying Poison (2 turns, dispellable): Water damage at the end of your turn according to the AP/MP you used, and it teleports you next to the nearest monster. Under Lunar Target, using AP or MP avoids it.",
+  "Chaque personnage pose en début de tour un glyphe qui tue qui y commence ou finit son tour. Une fois vulnérable, le Korriandre le reste jusqu'à la fin du combat.": "Each character lays a glyph at turn start that kills whoever starts or ends a turn in it. Once vulnerable, the Korriander stays so until the end of the fight.",
+  "Perd 1 PM par coup reçu (3 max) : la frapper ou lui retirer des PM pour qu'elle finisse son tour sur un glyphe. Poussée ou attirée, elle repousse d'une case tout ce qui est dans sa ligne. Tuée, elle revient en 3 tours.": "Loses 1 MP per hit taken (3 max): hit it or remove its MP so it ends its turn on a glyph. Pushed or pulled, it pushes everything in its line back one cell. If killed, it returns in 3 turns."
  },
  "token": {
   "-résistances": "-resistances",

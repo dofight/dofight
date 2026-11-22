@@ -33,7 +33,7 @@
      "param": "attire, se téléporte"
     }
    ],
-   "detail": "Chaque personnage pose en début de tour un glyphe qui tue qui y commence ou finit son tour. La Sporakne perd 1 PM par coup reçu (3 max) : la frapper ou lui retirer des PM pour qu'elle finisse sur l'un d'eux. Tuée, elle revient en 3 tours."
+   "detail": "Chaque personnage pose en début de tour un glyphe qui tue qui y commence ou finit son tour. Une fois vulnérable, le Korriandre le reste jusqu'à la fin du combat."
   },
   "2900": {
    "tags": [
@@ -42,7 +42,7 @@
      "param": "Soins au CaC"
     }
    ],
-   "detail": "La frapper avec un sort déclenche un Raulebaque (pas avec une arme au CaC). Tape en ligne."
+   "detail": "La frapper avec un sort déclenche un Raulebaque (pas avec une arme). Tape en ligne."
   },
   "2898": {
    "tags": [
@@ -108,7 +108,8 @@
      "param": "pousse",
      "source": "spells"
     }
-   ]
+   ],
+   "detail": "Perd 1 PM par coup reçu (3 max) : la frapper ou lui retirer des PM pour qu'elle finisse son tour sur un glyphe. Poussée ou attirée, elle repousse d'une case tout ce qui est dans sa ligne. Tuée, elle revient en 3 tours."
   }
  },
  "bossSummons": {
