@@ -2,7 +2,7 @@
 
 <p align="center">
   <b>L'assistant de combat pour Dofus 3.</b><br>
-  Un panneau à côté du jeu qui te montre les dangers des monstres autour de toi.
+  Un panneau à côté du jeu qui te montre le détail des monstres autour de toi.
 </p>
 
 <p align="center">
@@ -29,8 +29,8 @@ aussi les infobulles de groupes de monstres dans toute la fenêtre, et n'en gard
 coupe cette lecture (Paramètres → « Lecture de l'écran »). Il ne joue pas à ta place, n'envoie rien au jeu et ne
 lit ni sa mémoire, ni ses fichiers, ni son trafic réseau.
 
-Pour chaque monstre autour de toi, tu vois ce qui peut te faire perdre le combat (un one-shot, une invulnérabilité,
-une mécanique), puis ses résistances et ses sorts.
+Pour chaque monstre autour de toi, tu vois son détail : ce qui est dangereux (un one-shot, une invulnérabilité, une
+mécanique), ses résistances et ses sorts.
 
 ## Avant de commencer
 
@@ -121,7 +121,7 @@ Ankama Games.
 
 Website: [dofight.github.io](https://dofight.github.io/?lang=en) · [Discord](https://discord.gg/G8G4cyvpx6)
 
-The fight assistant for Dofus 3: a panel next to the game that shows what makes the monsters around you dangerous,
+The fight assistant for Dofus 3: a panel next to the game that shows you the details of the monsters around you,
 with their resistances and spells. Free and open source. Dofight reads **the top-left corner of the Dofus window**:
 the subarea name, the map coordinates and the icon bar, which tells it when a fight starts. In Dreams mode, it also
 looks for monster group tooltips anywhere in the window, and keeps only their text. One switch turns that off
