@@ -100,5 +100,8 @@ void listen<{ token: number; html: string; pinned?: boolean; to: string }>("peek
   void emit("peek:size", { token: payload.token, height: Math.ceil(box.getBoundingClientRect().height), label });
 });
 
+// the panel (re)started: it learns which side windows the player has dragged away
+void listen("peek:hello", () => void emit("peek:state", { label, detached }));
+
 // a side window made after a detach: the panel waits for this before sending it a sheet
 void emit("peek:ready", { label });

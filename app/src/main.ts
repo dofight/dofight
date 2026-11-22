@@ -23,6 +23,7 @@ import { openUrl } from "@tauri-apps/plugin-opener";
 import logo from "./assets/icon-app.png";
 import { enableDragAnywhere } from "./drag";
 import { copyableSelection, selectionTouches } from "./selection";
+import { sidesAfterReload, type SideState } from "./sides";
 import { showToast } from "./render/toast";
 import { fetchFromApp, loadSnapshot } from "./load";
 import { renderTrip, showCopied, tripTo, type Trip } from "./travel";
@@ -1091,6 +1092,11 @@ void listen<{ label: string }>("peek:detach", ({ payload }) => {
   peekAnchor = null;
   peekToken++;
   peekShown = false;
+  makeSide(payload.label);
+});
+/** A new side window for the next sheets, `old` being detached; when none can be made, the sheets go back to `old`
+ * (taken back from the player, rather than no sheets at all). */
+function makeSide(old: string): void {
   sideLabel = ""; // until the new one is made
   sideReady = false;
   invoke<string>("side_window").then(
@@ -1099,13 +1105,29 @@ void listen<{ label: string }>("peek:detach", ({ payload }) => {
       if (readySides.has(label)) sideIsReady();
     },
     (e) => {
-      // no new window: the sheets go back to this one (taken back from the player, rather than no sheets at all)
       diag("sheet", `side window not made: ${e}`);
-      detachedSheets.delete(payload.label);
-      sideLabel = payload.label;
+      detachedSheets.delete(old);
+      sideLabel = old;
       sideIsReady();
     },
   );
+}
+// the panel reloaded (Ctrl+R) with sheets detached: it asks the side windows which ones are, so the next sheets do
+// not go to a detached one (which ignores them) and the detached ones still close by their ✕ (owner, 2026-11-22)
+const sideStates: SideState[] = [];
+void listen<SideState>("peek:state", ({ payload }) => void sideStates.push(payload)).then(() => {
+  void emit("peek:hello");
+  window.setTimeout(() => {
+    if (!sideStates.some((x) => x.detached)) return;
+    const { side, detached } = sidesAfterReload(sideStates);
+    detached.forEach((label) => detachedSheets.add(label));
+    diag("sheet", `after a reload: sheets to ${side ?? "a new window"}, detached ${detached.join(", ")}`);
+    if (side === null) makeSide("peek");
+    else if (side !== sideLabel) {
+      sideLabel = side;
+      sideReady = true;
+    }
+  }, 300);
 });
 // the « Guide » link of a pinned sheet, clicked in the preview window (which can only talk to the panel)
 void listen<string>("peek:open", ({ payload }) => {
