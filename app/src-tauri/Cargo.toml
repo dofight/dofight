@@ -1,6 +1,6 @@
 [package]
 name = "dofight"
-version = "1.11.0"
+version = "1.11.1"
 description = "Dofight"
 authors = ["Dofight"]
 edition = "2024"
