@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildReport, changedSettings, cooldownLeft, COOLDOWN_MS } from "../src/report";
+import { buildReport, changedSettings, cooldownLeft, COOLDOWN_MS, headerForReport } from "../src/report";
 import { DEFAULTS } from "../src/settings";
 import { monster } from "./fixtures";
 
@@ -49,5 +49,27 @@ describe("report", () => {
     expect(cooldownLeft(null, 5)).toBe(0);
     expect(cooldownLeft(1000, 1000 + 10_000)).toBe(COOLDOWN_MS - 10_000);
     expect(cooldownLeft(1000, 1000 + COOLDOWN_MS)).toBe(0);
+  });
+});
+
+describe("what a suggestion never sends", () => {
+  it("keeps the header's title out unless it matched a sub-area", () => {
+    // matched: the title is the game's own name for the place, and the developers need it
+    expect(headerForReport("Cour du Bouftou Royal - Première salle", "Cour du Bouftou Royal")).toBe(
+      "Cour du Bouftou Royal - Première salle",
+    );
+    // not matched: whatever the OCR made of the top of the corner, where the guild and the alliance are written
+    expect(headerForReport("* Mon-Alliance :.:", null)).toBeNull();
+    expect(headerForReport(undefined, undefined)).toBeNull();
+  });
+
+  it("has no header title in it when the header matched no sub-area", () => {
+    // the corner holds the guild and the alliance under the coordinates, and a header that matched nothing is
+    // whatever the OCR made of those pixels: one of the owner's own held a guild tag (owner, 2026-11-22)
+    const sent = JSON.stringify(
+      buildReport({ ...base, reading: { zoneRead: null, located: null, fight: "none", front: true } }),
+    );
+    expect(sent).toContain("not recognised");
+    expect(sent).not.toContain("Première salle");
   });
 });

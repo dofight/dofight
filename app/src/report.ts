@@ -18,10 +18,20 @@ export const COOLDOWN_MS = 60_000;
 
 /** What Dofight last understood from the screen (no raw OCR: it may contain names or chat). */
 export interface Reading {
-  zoneRead: string | null; // the map header title as read
+  /** The sub-area name the header matched, and nothing when it matched none: what the OCR made of those pixels is
+   *  not ours to send. When no coordinates line is found the title read is whatever stood at the top of the corner,
+   *  which on the owner's own screen was a guild tag (owner, 2026-11-22). */
+  zoneRead: string | null;
   located: string | null; // the room or sub-area it was matched to
   fight: string; // none / fight / end
   front: boolean;
+}
+
+/** What a suggestion may say of the header that was read: the sub-area's name once it matched one, and nothing at
+ * all otherwise. Unmatched, the title is whatever the OCR made of the top of the corner — where the guild and the
+ * alliance are written when no coordinates line is found (owner, 2026-11-22). */
+export function headerForReport(title: string | null | undefined, matched: string | null | undefined): string | null {
+  return matched ? (title ?? null) : null;
 }
 
 export interface ReportInput {
@@ -56,7 +66,7 @@ export function buildReport(r: ReportInput) {
   if (r.room) fields.push(field("Room or zone shown", r.room));
   if (r.attachState) {
     const read = r.reading;
-    fields.push(field("Read on screen", read ? `${read.zoneRead ?? "no zone name"} → ${read.located ?? "not recognised"}` : "nothing read", false));
+    fields.push(field("Read on screen", read ? `${read.zoneRead ?? "not recognised"} → ${read.located ?? "not recognised"}` : "nothing read", false));
     fields.push(field("Fight", read ? `${read.fight}${read.front ? "" : " (Dofus not in front)"}` : "—"));
     fields.push(field("Settings", changedSettings(r.settings), false));
   }

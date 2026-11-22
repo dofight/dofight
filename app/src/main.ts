@@ -1,7 +1,7 @@
 import { emit, listen } from "@tauri-apps/api/event";
 import { Channel, invoke } from "@tauri-apps/api/core";
 import { getVersion } from "@tauri-apps/api/app";
-import { buildReport, cooldownLeft, KINDS, type Reading, type ReportKind } from "./report";
+import { buildReport, cooldownLeft, KINDS, type Reading, type ReportKind, headerForReport } from "./report";
 import { applyI18n, hasKey, setLang, t, type Key, type Lang } from "./i18n";
 import { check } from "@tauri-apps/plugin-updater";
 import { relaunch } from "@tauri-apps/plugin-process";
@@ -2055,7 +2055,7 @@ void listen<{ front: boolean; lines: OcrLine[]; error: string | null; bar: BarSt
     else if (!header.cut) zoneStatus("unknown", header.title);
   }
   if (payload.front && payload.lines.length) {
-    lastReading = { zoneRead: header?.title ?? null, located: found?.title ?? null, fight, front: true };
+    lastReading = { zoneRead: headerForReport(header?.title, found?.title), located: found?.title ?? null, fight, front: true };
     // the zone header as read (the cleaned title only) and what it matched, when it changes
     // what the zone header matched, once per change (out of a fight: in a fight it is not used); the title read is
     // written only when it matched nothing, the first time (garbled titles differ at every reading)
