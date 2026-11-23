@@ -47,6 +47,13 @@ button:not(:disabled),a[href],[role=button],[role=radio],[role=option],select,in
 #q:focus-visible{outline-offset:0}
 #q::placeholder,.text::placeholder{color:var(--muted)}
 .results{display:grid;gap:4px;max-height:calc(8 * 38px);overflow-y:auto;overscroll-behavior:contain}
+/* the main view's head: search and filter, always in view over the list (#main-body scrolls on its own) */
+.mainhead{display:grid;gap:8px;padding:10px 14px 8px 10px;min-width:0}
+.mainhead .find[hidden]{display:none}
+.searchbox{position:relative;min-width:0}
+/* the results lie over the list, opaque, instead of pushing it down at every letter */
+.searchbox .results{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:8;max-height:min(calc(8 * 38px), calc(60vh / var(--zoom,1)));padding:4px;border-radius:10px;background:rgb(var(--win));border:1px solid var(--line);box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.searchbox .results:empty,.searchbox .results[hidden]{display:none}
 .results::-webkit-scrollbar{width:8px}
 .results::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--muted) 45%,var(--card));border-radius:8px;border:2px solid transparent;background-clip:padding-box}
 .results::-webkit-scrollbar-button{display:none}

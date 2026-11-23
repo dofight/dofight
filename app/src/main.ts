@@ -542,6 +542,7 @@ const resultInfo = (r: Result) => (r.info ? `<small>${esc(r.info)}</small>` : ""
 
 function showResults(): void {
   const q = $<HTMLInputElement>("q").value;
+  $("results").hidden = false; // a press outside the search hid it (it lies over the list)
   results = searchView ? search(searchView, q) : [];
   active = 0;
   $("results").innerHTML = results
@@ -1137,7 +1138,7 @@ void listen<string>("peek:open", ({ payload }) => {
   if (/^https:\/\//.test(payload)) void openUrl(payload);
   hidePeek();
 });
-$("view-main").addEventListener("scroll", () => hidePeek()); // not an open « Comment y aller » (a redraw scrolls too)
+$("main-body").addEventListener("scroll", () => hidePeek()); // not an open « Comment y aller » (a redraw scrolls too)
 // any click in the panel is the player's: an open « Comment y aller » closes (its own button toggles it)
 document.addEventListener("pointerdown", (e) => {
   if (accessOpen && !(e.target as HTMLElement).closest?.("#room .access")) hidePeek(true);
@@ -1802,6 +1803,12 @@ const DISCORD_URL = "https://discord.gg/G8G4cyvpx6";
 $("discord").addEventListener("click", () => void openUrl(DISCORD_URL));
 
 /* ---------- main view ---------- */
+
+// the results lie over the list: a press anywhere else puts them away (typing or focusing the field again shows them)
+document.addEventListener("pointerdown", (e) => {
+  if (!(e.target as HTMLElement).closest?.(".searchbox")) $("results").hidden = true;
+});
+$("q").addEventListener("focus", () => ($("results").hidden = false));
 
 document.addEventListener("click", async (e) => {
   const target = e.target as HTMLElement;

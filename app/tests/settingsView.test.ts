@@ -670,7 +670,7 @@ it("« Comment y aller » stays open through a redraw and a scroll, and closes o
   const hide = (await (await import("@tauri-apps/api/window")).Window.getByLabel("peek"))!.hide as unknown as { mock: { calls: unknown[] } };
   const before = hide.mock.calls.length;
   // the zone read while travelling redraws the list, which scrolls it: the sheet stays
-  document.getElementById("view-main")!.dispatchEvent(new Event("scroll"));
+  document.getElementById("main-body")!.dispatchEvent(new Event("scroll"));
   q.value = "Antre du Korriandre";
   q.dispatchEvent(new Event("input", { bubbles: true }));
   document.querySelector<HTMLElement>("#results .res-item")!.click();
