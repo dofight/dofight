@@ -200,6 +200,17 @@
     "Click the door",
     "Cross the room, press the switch next to the painting, go behind the painting, then 1 map to the left"
    ]
+  },
+  "121": {
+   "name": "Tempête de l'Eliocalypse",
+   "route": [
+    "/zaap 15 -20 | Arche de Vili",
+    "Cliquer sur le zaap et choisir « Voyager dans le temps »"
+   ],
+   "routeEn": [
+    "/zaap 15 -20 | Arch of Vili",
+    "Click the zaap and pick \"Travel through time\""
+   ]
   }
  },
  "zones": {
