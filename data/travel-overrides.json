@@ -76,7 +76,7 @@
     "/travel -68 -34 | or {skis} Pair of Disposable Rustic Skis ([Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
     "Take the Frigostian Carrier to **Asparah Gorge**",
     "/travel -80 -75",
-    "Talk to Givrihaltès to enter the cave, then 1 map to the right",
+    "Talk to Dave Growl to enter the cave, then 1 map to the right",
     "/travel -76 -75"
    ]
   },
@@ -234,7 +234,7 @@
     "/zaap -17 -47 ; /travel -15 -62 | sinon, par les **Plaines Rocheuses**"
    ],
    "routeEn": [
-    "/zaap 5 -18 ; /travel -15 -62 | with the stagecoach (quest [Shushu et Lulu](https://www.dofuspourlesnoobs.com/shushu-et-lulu.html))",
+    "/zaap 5 -18 ; /travel -15 -62 | with the stagecoach (quest [Shushu Shack](https://www.dofuspourlesnoobs.com/shushu-et-lulu.html))",
     "/zaap -17 -47 ; /travel -15 -62 | otherwise, through the **Rocky Plains**"
    ]
   },
@@ -571,8 +571,8 @@
     "/travel -9 29"
    ],
    "routeEn": [
-    "/zaap 5 -18 ; /travel -9 31 | with the stagecoach (quest [Shushu et Lulu](https://www.dofuspourlesnoobs.com/shushu-et-lulu.html))",
-    "/zaap -26 37 | otherwise: Brakmar, then the **Atelier des alchimistes** zaapi and [-9,31]",
+    "/zaap 5 -18 ; /travel -9 31 | with the stagecoach (quest [Shushu Shack](https://www.dofuspourlesnoobs.com/shushu-et-lulu.html))",
+    "/zaap -26 37 | otherwise: Brakmar, then the **Alchemists' Workshop** zaapi and [-9,31]",
     "Go 1 map down",
     "/travel -9 29"
    ]
@@ -583,7 +583,7 @@
     "Double-cliquer sur un Multygely : il te téléporte"
    ],
    "routeEn": [
-    "Double-click a Multygely: it teleports you"
+    "Double-click a Multijely: it teleports you"
    ]
   },
   "28": {
@@ -734,7 +734,18 @@
    ],
    "routeEn": [
     "/zaap -1 13 ; /travel -5 13 | Edge of the Evil Forest",
-    "Walk to -3,19: the autopilot does not work in Dark Vlad's maze"
+    "Walk to -3,19: the autopilot does not work in Dark Vlad's Labyrinth"
+   ]
+  },
+  "17": {
+   "name": "Terrier du Wa Wabbit",
+   "route": [
+    "/zaap 27 -14 ; /travel 28 -12 | Laboratoires abandonnés",
+    "L'entrée est dans les **Souterrains des Wabbits**"
+   ],
+   "routeEn": [
+    "/zaap 27 -14 ; /travel 28 -12 | Abandoned Labowatowies",
+    "The entrance is in the **Wabbit Tunnels**"
    ]
   }
  },
