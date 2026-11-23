@@ -747,13 +747,138 @@
     "/zaap 27 -14 ; /travel 28 -12 | Abandoned Labowatowies",
     "The entrance is in the **Wabbit Tunnels**"
    ]
+  },
+  "42": {
+   "name": "Garde-manger du Rat Blanc",
+   "route": [
+    "/zaap -31 -56 ; /travel -32 -58 | Bonta (Cœur immaculé)",
+    "Entrer dans les égouts",
+    "/travel -34 -59"
+   ],
+   "routeEn": [
+    "/zaap -31 -56 ; /travel -32 -58 | Bonta (Immaculate Heart)",
+    "Go into the sewers",
+    "/travel -34 -59"
+   ]
+  },
+  "43": {
+   "name": "Sousouricière du Rat Noir",
+   "route": [
+    "/zaap -26 37 ; /travel -25 39 | Brâkmar (La Cuirasse)",
+    "Entrer dans les égouts",
+    "/travel -28 37"
+   ],
+   "routeEn": [
+    "/zaap -26 37 ; /travel -25 39 | Brakmar (The Breastplate)",
+    "Go into the sewers",
+    "/travel -28 37"
+   ]
+  },
+  "7": {
+   "name": "Antre de Crocabulia",
+   "route": [
+    "/zaap -1 24 ; /travel -4 24 | Plaine des Scarafeuilles",
+    "Entrer dans le Kanojedo, puis cliquer sur l'échelle",
+    "/travel -2 25"
+   ],
+   "routeEn": [
+    "/zaap -1 24 ; /travel -4 24 | Scaraleaf Plain",
+    "Go into the Kanojedo, then click the ladder",
+    "/travel -2 25"
+   ]
+  },
+  "46": {
+   "name": "Repaire de Skeunk",
+   "route": [
+    "/zaap -16 1 ; /travel -20 10 | Village des Éleveurs"
+   ],
+   "routeEn": [
+    "/zaap -16 1 ; /travel -20 10 | Breeder Village"
+   ]
+  },
+  "50": {
+   "name": "Tofulailler Royal",
+   "route": [
+    "/zaap 5 7 ; /travel 5 6 | Coin des Bouftous",
+    "Entrer dans l'atelier et cliquer sur l'échelle pour descendre"
+   ],
+   "routeEn": [
+    "/zaap 5 7 ; /travel 5 6 | Gobball Corner",
+    "Go into the workshop and click the ladder to go down"
+   ]
+  },
+  "48": {
+   "name": "Donjon des Tofus",
+   "route": [
+    "/zaap 5 7 ; /travel 5 6 | Coin des Bouftous",
+    "Entrer dans l'atelier et cliquer sur l'échelle pour descendre"
+   ],
+   "routeEn": [
+    "/zaap 5 7 ; /travel 5 6 | Gobball Corner",
+    "Go into the workshop and click the ladder to go down"
+   ]
+  },
+  "80": {
+   "name": "Volière de la Haute Truche",
+   "route": [
+    "/zaap -11 -36 ; /travel -10 -43 | Foire du Trool",
+    "Cliquer sur l'escalier, puis suivre le chemin jusqu'au donjon"
+   ],
+   "routeEn": [
+    "/zaap -11 -36 ; /travel -10 -43 | Trool Fair",
+    "Click the stairs, then follow the path to the dungeon"
+   ]
+  },
+  "44": {
+   "name": "Repaire de Sphincter Cell",
+   "route": [
+    "/zaap 7 -4 | Port de Madrestam",
+    "Entrer dans la grotte",
+    "/travel 3 -6"
+   ],
+   "routeEn": [
+    "/zaap 7 -4 | Madrestam Harbour",
+    "Go into the cave",
+    "/travel 3 -6"
+   ]
+  },
+  "14": {
+   "name": "Grotte du Bworker",
+   "route": [
+    "/zaap -12 19 | Cimetière primitif",
+    "1 carte à gauche, entrer dans la grotte à gauche et sauter en bas",
+    "/travel -15 14"
+   ],
+   "routeEn": [
+    "/zaap -12 19 | Primitive Cemetery",
+    "1 map to the left, go into the cave on the left and jump down",
+    "/travel -15 14"
+   ]
+  },
+  "141": {
+   "name": "Bastion des Marteaux-Aigris",
+   "route": [
+    "/zaap 39 -82 ; /travel 33 -70 | Futaie enneigée",
+    "Entrer dans la grotte",
+    "/travel 32 -64"
+   ],
+   "routeEn": [
+    "/zaap 39 -82 ; /travel 33 -70 | Snowbound Timberland",
+    "Go into the cave",
+    "/travel 32 -64"
+   ]
+  },
+  "62": {
+   "name": "Donjon de la mine de Sakaï",
+   "route": [
+    "/zaap 7 -4 ; /travel -52 -45 | Port de Madrestam : l'autopilote prend le bateau"
+   ],
+   "routeEn": [
+    "/zaap 7 -4 ; /travel -52 -45 | Madrestam Harbour: the autopilot takes the boat"
+   ]
   }
  },
  "zones": {
-  "Arènes de Goultard": {
-   "x": null,
-   "y": null
-  },
   "Expédition - Antre de Crocabulia": {
    "x": null,
    "y": null,
@@ -1375,10 +1500,6 @@
    "y": null
   },
   "Territoire souterrain des Porcos": {
-   "x": null,
-   "y": null
-  },
-  "Test conventionné": {
    "x": null,
    "y": null
   },
