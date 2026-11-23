@@ -239,6 +239,11 @@ mod tests {
         //
         // Its « i » is deliberately not among the looks: a round disc with a small mark, close enough to other
         // round things that adding it read a menu covering the bar as a calm bar (0.915).
+        //
+        // The `_retina_1694` ones are the same 847-point game captured at the Retina screen's own size, as a run
+        // reads it: a calm bar's eye 0.975 and « i » 0.924, the Havre-Sac's « i » 0.926 (no eye there), a fight's
+        // heart 0.989; nothing else reaches 0.82. An « i » cut from them lifts these to 1.00 but the covered menu
+        // to 0.920 as well, so it still stays out (owner, 2026-11-22).
         let dir = format!("{}/tests/fixtures/iconbar-mac", env!("CARGO_MANIFEST_DIR"));
         let mut checked = 0;
         for entry in std::fs::read_dir(dir).unwrap() {
@@ -262,7 +267,7 @@ mod tests {
             );
             checked += 1;
         }
-        assert_eq!(checked, 2);
+        assert_eq!(checked, 5);
     }
 
     #[test]
