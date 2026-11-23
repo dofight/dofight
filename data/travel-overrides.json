@@ -222,6 +222,17 @@
     "/zaap -16 1 ; /travel -16 8 | Breeder Village",
     "Go 1 map to the left"
    ]
+  },
+  "3": {
+   "name": "Bibliothèque du Maître Corbac",
+   "route": [
+    "/zaap 5 -18 ; /travel -15 -62 | avec la diligence (quête [Shushu et Lulu](https://www.dofuspourlesnoobs.com/shushu-et-lulu.html))",
+    "/zaap -17 -47 ; /travel -15 -62 | sinon, par les **Plaines Rocheuses**"
+   ],
+   "routeEn": [
+    "/zaap 5 -18 ; /travel -15 -62 | with the stagecoach (quest [Shushu et Lulu](https://www.dofuspourlesnoobs.com/shushu-et-lulu.html))",
+    "/zaap -17 -47 ; /travel -15 -62 | otherwise, through the **Rocky Plains**"
+   ]
   }
  },
  "zones": {
