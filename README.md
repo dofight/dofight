@@ -75,7 +75,7 @@ glisse Dofight d'Applications à la Corbeille.
 - **Mode Songes** : il s'active tout seul quand tu entres dans les Songes ; survole un groupe de monstres sur la carte,
   ou affiche-les tous avec la touche du jeu, et Dofight les affiche avant le combat.
 - **Recherche** d'un donjon, d'une sous-zone ou d'un monstre ; « Aller en [x,y] » copie la commande de voyage à
-  coller dans le chat.
+  coller dans le tchat.
 - **Filtrer les résultats** : tape un sort, un badge ou un effet (« pousse », « PA »…) pour ne garder que les
   monstres concernés (Ctrl+F, Cmd+F sur Mac).
 - **Ouverture automatique** : il s'ouvre au début du combat et se ferme à la fin ; Ctrl+Maj+D l'affiche ou le cache.
@@ -100,7 +100,7 @@ sous ta propre responsabilité.
 **Qu'est-ce que Dofight envoie sur Internet ?** Rien pendant que tu joues : pas de compte, pas de statistiques.
 Il contacte GitHub pour ses mises à jour. Si tu envoies une suggestion, il transmet ton message et, si tu laisses
 les deux options activées, l'état de Dofight (sous-zone lue, combat, version, paramètres) et son journal des 10
-dernières minutes. Jamais de capture d'écran ni de chat, ni de nom de personnage, de guilde ou de compte.
+dernières minutes. Jamais de capture d'écran ni de tchat, ni de nom de personnage, de guilde ou de compte.
 
 **Dofight n'affiche rien, ou pas les bons monstres ?** Revérifie les étapes 3 et 4 de l'installation, et assure-toi
 que le français fait bien partie des langues de Windows (sur Mac, que Dofight est autorisé dans Enregistrement de

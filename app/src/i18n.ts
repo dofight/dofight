@@ -197,7 +197,7 @@ const fr = {
   "report.placeholder": "Ex. : il retire aussi 2 PM en zone",
   "report.attach": "Joindre l'état de Dofight (sous-zone lue, combat, version, paramètres)",
   "report.attachShort": "Joindre l'état de Dofight",
-  "report.attachLog": "Joindre le journal de diagnostic (ce que Dofight a lu et fait ces 10 dernières minutes, sans chat ni noms)",
+  "report.attachLog": "Joindre le journal de diagnostic (ce que Dofight a lu et fait ces 10 dernières minutes, sans tchat ni noms)",
   "report.attachLogShort": "Joindre le journal de diagnostic",
   "settings.backup": "Import / Export",
   "settings.backupHint": "Copie tes réglages pour les retrouver sur un autre PC, ou pour les partager.",
