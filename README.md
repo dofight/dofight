@@ -25,7 +25,7 @@
 
 Gratuit et open source. Dofight lit **le coin en haut à gauche de la fenêtre Dofus** : le nom de la sous-zone, les
 coordonnées de la carte et la barre d'icônes, qui lui indique qu'un combat commence. En mode Songes, il cherche
-aussi les infobulles de groupes de monstres dans toute la fenêtre, et n'en garde que le texte. Un interrupteur
+aussi les infobulles de groupes de monstres dans toute la fenêtre, et n'en garde que le texte. Une option
 coupe cette lecture (Paramètres → « Lecture de l'écran »). Il ne joue pas à ta place, n'envoie rien au jeu et ne
 lit ni sa mémoire, ni ses fichiers, ni son trafic réseau.
 
