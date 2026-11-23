@@ -68,10 +68,10 @@ describe("the « Comment y aller » sheet", () => {
     expect(sheet(baleine).box.querySelector(".reqs ol")).toBeNull(); // bullets: requirements are not steps
   });
 
-  it("a dimension heads its lines « Dimension X : »", () => {
+  it("a dimension heads its lines « Accès dimension X : » (owner review, 2026-11-22)", () => {
     const pa: PlaceAccess = { ...baleine, areaName: "Osavora", dimension: true, areaReqs: [{ level: 50 }, { other: { fr: "Faire la chasse d'Osavora une fois.", en: "Do the hunt." } }] };
     const { all } = sheet(pa);
-    expect(all).toContain("Dimension Osavora :");
+    expect(all).toContain("Accès dimension Osavora :");
     expect(all).toContain("Niveau 50 minimum");
     expect(all).toContain("Faire la chasse d'Osavora une fois.");
     expect(all).not.toContain("Accès (");

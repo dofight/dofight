@@ -88,8 +88,32 @@
       "en": "Iroru Symbol"
      },
      "how": {
-      "fr": "quête « Deux souffles, une inspiration » (Le Grandapan, Taverne interdite [23,-32], après « Main dans la main ») jusqu'au palais de bambou [22,-29]. Ensuite, au sanctuaire du Wukang [15,-31] ou du Wukin [20,-38] (par le Kwak des sommets), parler à Daoh et répondre à ses deux questions (le feu de ta classe, puis « Le dragon de Pandala ») : en sortant du temple, on arrive dans le royaume.",
-      "en": "quest “Two Breaths, One Inhalation” (the Grandapan, Forbidden Inn [23,-32], after “Hand in Hand”) up to the Bamboo Palace [22,-29]. Then, at the Wukang sanctuary [15,-31] or the Wukin one [20,-38] (through the Highland Kwak), talk to Daoh and answer his two questions (your class's fire, then Pandala's dragon): leaving the temple takes you into the realm."
+      "fr": "Daoh te le donne à ta première visite, au sanctuaire du Wukang [15,-31] ou du Wukin (accès en [20,-38] par le Kwak des sommets).",
+      "en": "Daoh gives it to you on your first visit, at the Wukang sanctuary [15,-31] or the Wukin one (reached at [20,-38] through the Highland Kwak)."
+     }
+    },
+    {
+     "other": {
+      "fr": "Choisis « En savoir plus sur cet endroit », puis réponds à ses deux questions.",
+      "en": "Pick “Find out more about this place”, then answer his two questions."
+     }
+    },
+    {
+     "other": {
+      "fr": "Question 1, le feu de ta classe : « Le Feu Blanc » (Ecaflip, Eniripsa, Iop, Crâ, Féca, Sacrieur, Eliotrope), « Le Feu Noir » (Sadida, Osamodas, Enutrof, Sram, Xélor, Pandawa, Roublard, Zobal, Steamer, Ouginak) ou « Le Feu Blanc et le Feu Noir » (Huppermage, Forgelance).",
+      "en": "Question 1, your class's fire: “White Fire” (Ecaflip, Eniripsa, Iop, Cra, Feca, Sacrier, Eliotrope), “Black Fire” (Sadida, Osamodas, Enutrof, Sram, Xelor, Pandawa, Rogue, Masqueraider, Foggernaut, Ouginak) or “White Fire and Black Fire” (Huppermage, Forgelance)."
+     }
+    },
+    {
+     "other": {
+      "fr": "Question 2 : « Le dragon de Pandala ».",
+      "en": "Question 2: “The Dragon of Pandala”."
+     }
+    },
+    {
+     "other": {
+      "fr": "Sors ensuite du sanctuaire : tu arrives dans le royaume.",
+      "en": "Then leave the sanctuary: you arrive in the kingdom."
      }
     }
    ],
@@ -111,13 +135,31 @@
      }
     },
     {
+     "other": {
+      "fr": "Aller sur l'Atoll : sur Grobe en [41,-45], parle au bateau-démon Voh'Râss' et choisis « Embarquer pour l'Atoll ». C'est gratuit.",
+      "en": "Getting to the Atoll: on Nolifis at [41,-45], talk to the demon ship Vor'Eshis' and pick “Set out for the Atoll”. It is free."
+     }
+    },
+    {
      "item": {
       "fr": "Signe des Possédés",
       "en": "Sign of the Possessed"
      },
      "how": {
-      "fr": "se loot sur les Possédés du Port des Ravageurs (15 %) ; le Gardien du Pandamonium en [41,-56] laisse alors monter les escaliers. L'Atoll : le bateau-démon Voh'Râss' en [41,-45] sur Grobe.",
-      "en": "dropped by the Possessed of the Destroyers' Port (15%); the Pandamonium Guardian at [41,-56] then lets you climb the stairs. The Atoll: the demon ship Vor'Eshis' at [41,-45] on Nolifis."
+      "fr": "il ouvre le Pandamonium, la partie de l'Atoll où se trouve le donjon.",
+      "en": "it opens the Pandamonium, the part of the Atoll where the dungeon is."
+     }
+    },
+    {
+     "other": {
+      "fr": "Il se loote sur les Possédés du Port des Ravageurs (15 % de base).",
+      "en": "It drops from the Possessed of the Destroyers' Port (15% base rate)."
+     }
+    },
+    {
+     "other": {
+      "fr": "Avec le signe, monte les escaliers en [41,-56], gardés par le Gardien du Pandamonium.",
+      "en": "With the sign, climb the stairs at [41,-56], guarded by the Pandamonium Guardian."
      }
     }
    ],
@@ -271,8 +313,20 @@
     },
     {
      "other": {
-      "fr": "Faire une fois la chasse d'Osavora (Tour des Voyageurs [-22,-24], Salle de localisation) : elle donne à vie l'altération qui ouvre son portail. Participer au combat final de la chasse d'un autre suffit.",
-      "en": "Do the Osavora hunt once (Voyagers' Tower [-22,-24], Tracking Room): it gives the lifelong alteration that opens its portal. Joining the final fight of someone else's hunt is enough."
+      "fr": "Faire une fois la chasse d'Osavora : Tour des Voyageurs [-22,-24], Salle de localisation.",
+      "en": "Do the Osavora hunt once: Voyagers' Tower [-22,-24], Tracking Room."
+     }
+    },
+    {
+     "other": {
+      "fr": "Elle te donne à vie l'altération qui ouvre le portail d'Osavora.",
+      "en": "It gives you, for life, the alteration that opens the Osavora portal."
+     }
+    },
+    {
+     "other": {
+      "fr": "Participer au combat de la chasse d'un autre joueur suffit.",
+      "en": "Joining the fight of another player's hunt is enough."
      }
     }
    ],
@@ -283,8 +337,20 @@
    "reqs": [
     {
      "other": {
-      "fr": "Faire une fois la chasse d'Enutrosor (Tour des Voyageurs [-22,-24], Salle de localisation) : elle donne à vie l'altération qui ouvre son portail. Participer au combat final de la chasse d'un autre suffit.",
-      "en": "Do the Enurado hunt once (Voyagers' Tower [-22,-24], Tracking Room): it gives the lifelong alteration that opens its portal. Joining the final fight of someone else's hunt is enough."
+      "fr": "Faire une fois la chasse d'Enutrosor : Tour des Voyageurs [-22,-24], Salle de localisation.",
+      "en": "Do the Enurado hunt once: Voyagers' Tower [-22,-24], Tracking Room."
+     }
+    },
+    {
+     "other": {
+      "fr": "Elle te donne à vie l'altération qui ouvre le portail d'Enutrosor.",
+      "en": "It gives you, for life, the alteration that opens the Enurado portal."
+     }
+    },
+    {
+     "other": {
+      "fr": "Participer au combat de la chasse d'un autre joueur suffit.",
+      "en": "Joining the fight of another player's hunt is enough."
      }
     }
    ],
@@ -295,8 +361,20 @@
    "reqs": [
     {
      "other": {
-      "fr": "Faire une fois la chasse de Srambad (Tour des Voyageurs [-22,-24], Salle de localisation) : elle donne à vie l'altération qui ouvre son portail. Participer au combat final de la chasse d'un autre suffit.",
-      "en": "Do the Srambad hunt once (Voyagers' Tower [-22,-24], Tracking Room): it gives the lifelong alteration that opens its portal. Joining the final fight of someone else's hunt is enough."
+      "fr": "Faire une fois la chasse de Srambad : Tour des Voyageurs [-22,-24], Salle de localisation.",
+      "en": "Do the Srambad hunt once: Voyagers' Tower [-22,-24], Tracking Room."
+     }
+    },
+    {
+     "other": {
+      "fr": "Elle te donne à vie l'altération qui ouvre le portail de Srambad.",
+      "en": "It gives you, for life, the alteration that opens the Srambad portal."
+     }
+    },
+    {
+     "other": {
+      "fr": "Participer au combat de la chasse d'un autre joueur suffit.",
+      "en": "Joining the fight of another player's hunt is enough."
      }
     }
    ],
@@ -307,8 +385,20 @@
    "reqs": [
     {
      "other": {
-      "fr": "Faire une fois la chasse de Xélorium (Tour des Voyageurs [-22,-24], Salle de localisation) : elle donne à vie l'altération qui ouvre son portail. Participer au combat final de la chasse d'un autre suffit.",
-      "en": "Do the Xelorium hunt once (Voyagers' Tower [-22,-24], Tracking Room): it gives the lifelong alteration that opens its portal. Joining the final fight of someone else's hunt is enough."
+      "fr": "Faire une fois la chasse de Xélorium : Tour des Voyageurs [-22,-24], Salle de localisation.",
+      "en": "Do the Xelorium hunt once: Voyagers' Tower [-22,-24], Tracking Room."
+     }
+    },
+    {
+     "other": {
+      "fr": "Elle te donne à vie l'altération qui ouvre le portail de Xélorium.",
+      "en": "It gives you, for life, the alteration that opens the Xelorium portal."
+     }
+    },
+    {
+     "other": {
+      "fr": "Participer au combat de la chasse d'un autre joueur suffit.",
+      "en": "Joining the fight of another player's hunt is enough."
      }
     }
    ],
@@ -319,8 +409,20 @@
    "reqs": [
     {
      "other": {
-      "fr": "Faire une fois la chasse d'Ecaflipus (Tour des Voyageurs [-22,-24], Salle de localisation) : elle donne à vie l'altération qui ouvre son portail. Participer au combat final de la chasse d'un autre suffit.",
-      "en": "Do the Ecaflipus hunt once (Voyagers' Tower [-22,-24], Tracking Room): it gives the lifelong alteration that opens its portal. Joining the final fight of someone else's hunt is enough."
+      "fr": "Faire une fois la chasse d'Ecaflipus : Tour des Voyageurs [-22,-24], Salle de localisation.",
+      "en": "Do the Ecaflipus hunt once: Voyagers' Tower [-22,-24], Tracking Room."
+     }
+    },
+    {
+     "other": {
+      "fr": "Elle te donne à vie l'altération qui ouvre le portail d'Ecaflipus.",
+      "en": "It gives you, for life, the alteration that opens the Ecaflipus portal."
+     }
+    },
+    {
+     "other": {
+      "fr": "Participer au combat de la chasse d'un autre joueur suffit.",
+      "en": "Joining the fight of another player's hunt is enough."
      }
     }
    ],
@@ -359,8 +461,20 @@
    "reqs": [
     {
      "other": {
-      "fr": "En plus de la clef : donner à Lorkos, au centre (salle 13), les deux reliques qui se lootent sur le Mominotor et le Déminoboule dans le labyrinthe.",
-      "en": "Besides the key: give Lorkos, at the centre (room 13), the two relics dropped by the Mumminotor and the Deminoball in the labyrinth."
+      "fr": "En plus de la clef : donne à Lorkos, au centre du labyrinthe, la Relique du Mominotor et la Relique du Déminoboule.",
+      "en": "Besides the key: give Lorkos, at the centre of the labyrinth, the Mumminotor Relic and the Deminoball Relic."
+     }
+    },
+    {
+     "other": {
+      "fr": "Les reliques se lootent sur le Mominotor et le Déminoboule, qui sont dans une salle au hasard du labyrinthe.",
+      "en": "The relics drop from the Mumminotor and the Deminoball, which are in a random room of the labyrinth."
+     }
+    },
+    {
+     "other": {
+      "fr": "Prévois un autre joueur : à deux, on se déplace bien plus facilement dans le labyrinthe.",
+      "en": "Bring another player: with two, moving through the labyrinth is much easier."
      }
     }
    ],
@@ -829,9 +943,16 @@
    },
    "reqs": [
     {
+     "beat": {
+      "id": 11,
+      "fr": "Clos des Blops",
+      "en": "Blop Fields"
+     }
+    },
+    {
      "other": {
-      "fr": "Finir le Clos des Blops, puis entrer depuis sa salle de sortie.",
-      "en": "Finish the Blop Fields, then enter from its exit room."
+      "fr": "L'entrée est dans la salle de sortie du Clos des Blops (parle à Bibiblop) : il faut le refaire à chaque fois.",
+      "en": "The entrance is in the exit room of the Blop Fields (talk to Bibiblop): you have to do it again each time."
      }
     }
    ],
@@ -1284,7 +1405,34 @@
     "fr": "Clef du Mégalithe de Fraktale",
     "en": "Fraktal's Megalith Key"
    },
-   "reqs": [],
+   "reqs": [
+    {
+     "item": {
+      "fr": "Montre en avance",
+      "en": "Watch Running Fast"
+     },
+     "how": {
+      "fr": "elle te fait avancer d'une époque (Chemins d'hier, puis Jour présent, puis Lendemains incertains).",
+      "en": "it moves you one era forward (Gonebyways, then Present Day, then Uncertain Future)."
+     }
+    },
+    {
+     "item": {
+      "fr": "Montre en retard",
+      "en": "Watch Running Slow"
+     },
+     "how": {
+      "fr": "elle te fait reculer d'une époque.",
+      "en": "it moves you one era back."
+     }
+    },
+    {
+     "other": {
+      "fr": "Une de chaque suffit : elles ne se détruisent pas quand tu les utilises.",
+      "en": "One of each is enough: they are not destroyed when you use them."
+     }
+    }
+   ],
    "offKeyring": true,
    "guide": "https://www.dofuspourlesnoobs.com/meacutegalithe-de-fraktale.html"
   },
@@ -1295,7 +1443,34 @@
     "fr": "Clef de l'Horologium de XLII",
     "en": "XLII's Metronomicon Key"
    },
-   "reqs": [],
+   "reqs": [
+    {
+     "item": {
+      "fr": "Montre en avance",
+      "en": "Watch Running Fast"
+     },
+     "how": {
+      "fr": "elle te fait avancer d'une époque (Chemins d'hier, puis Jour présent, puis Lendemains incertains).",
+      "en": "it moves you one era forward (Gonebyways, then Present Day, then Uncertain Future)."
+     }
+    },
+    {
+     "item": {
+      "fr": "Montre en retard",
+      "en": "Watch Running Slow"
+     },
+     "how": {
+      "fr": "elle te fait reculer d'une époque.",
+      "en": "it moves you one era back."
+     }
+    },
+    {
+     "other": {
+      "fr": "Une de chaque suffit : elles ne se détruisent pas quand tu les utilises.",
+      "en": "One of each is enough: they are not destroyed when you use them."
+     }
+    }
+   ],
    "offKeyring": true,
    "guide": "https://www.dofuspourlesnoobs.com/horologium-de-xlii.html"
   },
@@ -1306,7 +1481,34 @@
     "fr": "Clef de l'Œil de Vortex",
     "en": "Vortex's Eye Key"
    },
-   "reqs": [],
+   "reqs": [
+    {
+     "item": {
+      "fr": "Montre en avance",
+      "en": "Watch Running Fast"
+     },
+     "how": {
+      "fr": "elle te fait avancer d'une époque (Chemins d'hier, puis Jour présent, puis Lendemains incertains).",
+      "en": "it moves you one era forward (Gonebyways, then Present Day, then Uncertain Future)."
+     }
+    },
+    {
+     "item": {
+      "fr": "Montre en retard",
+      "en": "Watch Running Slow"
+     },
+     "how": {
+      "fr": "elle te fait reculer d'une époque.",
+      "en": "it moves you one era back."
+     }
+    },
+    {
+     "other": {
+      "fr": "Une de chaque suffit : elles ne se détruisent pas quand tu les utilises.",
+      "en": "One of each is enough: they are not destroyed when you use them."
+     }
+    }
+   ],
    "offKeyring": true,
    "guide": "https://www.dofuspourlesnoobs.com/oeil-de-vortex.html"
   },
@@ -1319,13 +1521,25 @@
    },
    "reqs": [
     {
+     "other": {
+      "fr": "En [3,-17], entre dans la Boutique de Kerubim et monte au grenier (deuxième étage).",
+      "en": "At [3,-17], go into Kerub's Shop and up to the attic (two floors up)."
+     }
+    },
+    {
      "item": {
       "fr": "Baguette Rikiki",
       "en": "Rikiki Wand"
      },
      "how": {
-      "fr": "l'équiper pour rapetisser et passer le trou ; une par groupe suffit (son porteur téléporte les autres).",
-      "en": "equip it to shrink and go through the hole; one per group is enough (its holder teleports the others)."
+      "fr": "équipe-la pour rapetisser, puis passe par le trou pour entrer dans le donjon.",
+      "en": "equip it to shrink, then go through the hole to enter the dungeon."
+     }
+    },
+    {
+     "other": {
+      "fr": "Une seule baguette suffit pour le groupe : son porteur téléporte les autres.",
+      "en": "One wand is enough for the group: its holder teleports the others."
      }
     }
    ],
@@ -2187,6 +2401,125 @@
     }
    ],
    "guide": "https://www.dofuspourlesnoobs.com/temple-de-gargandyas.html"
+  }
+ },
+ "zones": {
+  "Berceau d'Alma": {
+   "reqs": [
+    {
+     "beat": {
+      "id": 55,
+      "fr": "Excavation du Mansot Royal",
+      "en": "Royal Pingwin's Excavation"
+     }
+    },
+    {
+     "beat": {
+      "id": 54,
+      "fr": "Serre du Royalmouth",
+      "en": "Royal Mastogob's Greenhouse"
+     }
+    }
+   ]
+  },
+  "Larmes d'Ouronigride": {
+   "reqs": [
+    {
+     "beat": {
+      "id": 56,
+      "fr": "Épave du Grolandais violent",
+      "en": "The Wreck of the Hesperus"
+     }
+    }
+   ]
+  },
+  "Crevasse Perge": {
+   "reqs": [
+    {
+     "beat": {
+      "id": 57,
+      "fr": "Hypogée de l'Obsidiantre",
+      "en": "The Obsidemon's Hypogeum"
+     }
+    }
+   ]
+  },
+  "Forêt pétrifiée": {
+   "reqs": [
+    {
+     "beat": {
+      "id": 58,
+      "fr": "Tanière Givrefoux",
+      "en": "Snowfoux Den"
+     }
+    }
+   ]
+  },
+  "Crocs de verre": {
+   "reqs": [
+    {
+     "beat": {
+      "id": 59,
+      "fr": "Antre du Korriandre",
+      "en": "Korriander's Lair"
+     }
+    }
+   ]
+  },
+  "Mont Torrideau": {
+   "reqs": [
+    {
+     "beat": {
+      "id": 60,
+      "fr": "Cavernes du Kolosso",
+      "en": "Kolosso's Caverns"
+     }
+    }
+   ]
+  },
+  "Remparts à vent": {
+   "reqs": [
+    {
+     "beat": {
+      "id": 61,
+      "fr": "Antichambre des Gloursons",
+      "en": "Bearbarian Antichamber"
+     }
+    }
+   ]
+  },
+  "Tannerie Écarlate": {
+   "reqs": [
+    {
+     "beat": {
+      "id": 61,
+      "fr": "Antichambre des Gloursons",
+      "en": "Bearbarian Antichamber"
+     }
+    }
+   ]
+  },
+  "Bastion des froides légions": {
+   "reqs": [
+    {
+     "beat": {
+      "id": 61,
+      "fr": "Antichambre des Gloursons",
+      "en": "Bearbarian Antichamber"
+     }
+    }
+   ]
+  },
+  "Jardins d'Hiver": {
+   "reqs": [
+    {
+     "beat": {
+      "id": 61,
+      "fr": "Antichambre des Gloursons",
+      "en": "Bearbarian Antichamber"
+     }
+    }
+   ]
   }
  }
 }

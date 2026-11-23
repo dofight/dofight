@@ -34,6 +34,9 @@ export interface Access {
   /** Keyed by the area's French name; `dimension` for the five divine dimensions. */
   areas: Record<string, { reqs: Req[]; en?: string; dimension?: true }>;
   dungeons: Record<string, { area: string; level: number; key: Text | null; offKeyring?: true; reqs: Req[]; guide?: string }>;
+  /** A zone's own requirements, on top of its area's, keyed by its French name (the Frigost zones: the previous dungeon
+   * won, owner review 2026-11-22). */
+  zones?: Record<string, { reqs: Req[] }>;
 }
 
 /** Everything known about getting into one dungeon or zone. */
@@ -65,7 +68,10 @@ export function accessOf(access: Access | undefined, areas: Map<string, string> 
   const name = areas?.get(zone);
   const area = name ? access.areas[name] : undefined;
   if (!name || !area) return null;
-  return { level: null, key: null, offKeyring: false, areaName: name, areaEn: area.en ?? null, dimension: !!area.dimension, areaReqs: area.reqs, ownReqs: [], guide: null };
+  return {
+    level: null, key: null, offKeyring: false, areaName: name, areaEn: area.en ?? null, dimension: !!area.dimension, areaReqs: area.reqs,
+    ownReqs: access.zones?.[zone]?.reqs ?? [], guide: null,
+  };
 }
 
 /** Whether « Comment y aller » is worth a button: requirements, a key the keyring does not hold, or a written route (the

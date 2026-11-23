@@ -6,14 +6,16 @@ const access: Access = {
   areas: {
     "Île d'Otomaï": { reqs: [q(231, "Le nouveau monde"), q(232, "L'île des naufragés")], en: "Otomai Island" },
     Osavora: { reqs: [], dimension: true },
+    "Île de Frigost": { reqs: [q(612, "La terre banquise")], en: "Frigost Island" },
   },
+  zones: { "Berceau d'Alma": { reqs: [{ beat: { id: 55, fr: "Excavation du Mansot Royal", en: "Royal Pingwin's Excavation" } }] } },
   dungeons: {
     "84": { area: "Île d'Otomaï", level: 190, key: { fr: "Clef A", en: "Key A" }, reqs: [{ other: { fr: "a", en: "b" } }], guide: "https://g" },
     "1": { area: "Astrub", level: 30, key: { fr: "Clef B", en: "Key B" }, reqs: [] },
     "93": { area: "Osavora", level: 190, key: { fr: "Clef D", en: "Key D" }, offKeyring: true, reqs: [] },
   },
 };
-const areas = new Map([["Forêt de Moon", "Île de Moon"], ["Jungle obscure", "Île d'Otomaï"]]);
+const areas = new Map([["Forêt de Moon", "Île de Moon"], ["Jungle obscure", "Île d'Otomaï"], ["Berceau d'Alma", "Île de Frigost"], ["Port de givre", "Île de Frigost"]]);
 
 describe("a place's access", () => {
   it("a dungeon: its level, key, its area's requirements and its own", () => {
@@ -34,6 +36,13 @@ describe("a place's access", () => {
       level: null, key: null, offKeyring: false, areaName: "Île d'Otomaï", areaEn: "Otomai Island", dimension: false,
       areaReqs: access.areas["Île d'Otomaï"].reqs, ownReqs: [], guide: null,
     });
+  });
+
+  it("a zone with its own requirement: the previous dungeon won, under its island's (Frigost, owner review 2026-11-22)", () => {
+    const pa = accessOf(access, areas, null, "Berceau d'Alma")!;
+    expect(pa.areaReqs).toEqual(access.areas["Île de Frigost"].reqs);
+    expect(pa.ownReqs).toEqual([{ beat: { id: 55, fr: "Excavation du Mansot Royal", en: "Royal Pingwin's Excavation" } }]);
+    expect(accessOf(access, areas, null, "Port de givre")!.ownReqs).toEqual([]); // a zone with none of its own
   });
 
   it("nothing known: null", () => {
