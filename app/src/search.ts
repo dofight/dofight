@@ -63,7 +63,11 @@ const EXACT = 60;
 /** « Archimonstre · », « Avis de recherche · »… before the level of a monster that is not the zone's own; "" for a normal one. */
 const kindLabel = (kind: NonNullable<Monster["kind"]>): string => (kindName(kind) ? `${kindName(kind)} · ` : "");
 
-export function search(s: Snapshot, query: string, limit = 8): (Result & { score?: number })[] {
+/** How many results the search box lists: about 8 show, the rest scroll inside the list (owner, 2026-11-22: a short
+ * name matched more than 8 and the one wanted was cut off). */
+export const SEARCH_LIMIT = 30;
+
+export function search(s: Snapshot, query: string, limit = SEARCH_LIMIT): (Result & { score?: number })[] {
   if (!query.trim()) return [];
   const scored: (Result & { score: number })[] = [];
   const typed = normalize(query).trim();

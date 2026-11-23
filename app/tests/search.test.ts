@@ -1,5 +1,6 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { normalize, search } from "../src/search";
+import { normalize, search, SEARCH_LIMIT } from "../src/search";
 import { makeSnapshot } from "./fixtures";
 
 describe("search", () => {
@@ -88,4 +89,20 @@ describe("expedition and wanted-poster monsters", () => {
     expect(info(9002)).toContain("Sans sous-zone");
     expect(search(s, "bouftou", 20).filter((x) => x.kind === "monster")[0].monsterId).toBe(101);
   });
+
+  it("gives more than 8 results, up to SEARCH_LIMIT, best first (owner, 2026-11-22: scroll past the first 8)", () => {
+    const t = makeSnapshot();
+    const base = t.monsters.get(101)!;
+    for (let i = 0; i < 60; i++) t.monsters.set(9000 + i, { ...base, id: 9000 + i, name: `Bouftou ${i}`, dungeonIds: [], subareas: [] });
+    const r = search(t, "bouftou");
+    expect(SEARCH_LIMIT).toBe(30);
+    expect(r).toHaveLength(SEARCH_LIMIT);
+    expect(search(t, "bouftou", 5)).toHaveLength(5); // the suggestion form's subject keeps its own short list
+  });
+
+  it("keeps the results to about 8 rows on screen, the rest scrolls inside the list", () => {
+    const css = readFileSync("src/styles.css", "utf8");
+    expect(css).toMatch(/\.results\{[^}]*max-height:[^;}]+;[^}]*overflow-y:auto/);
+  });
 });
+
