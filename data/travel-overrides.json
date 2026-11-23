@@ -490,132 +490,112 @@
    "route": [
     "/zaap -78 -41",
     "/travel -68 -34 | ou {skis} Paire de skis rustiques jetables ([Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
-    "Prendre le Transporteur frigostien vers **Berceau d'Alma**",
-    "/travel -56 -76"
+    "Prendre le Transporteur frigostien vers **Berceau d'Alma**"
    ],
    "routeEn": [
     "/zaap -78 -41",
     "/travel -68 -34 | or {skis} Pair of Disposable Rustic Skis ([Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
-    "Take the Frigostian Carrier to **Alma's Cradle**",
-    "/travel -56 -76"
+    "Take the Frigostian Carrier to **Alma's Cradle**"
    ]
   },
   "Larmes d'Ouronigride": {
    "route": [
     "/zaap -78 -41",
     "/travel -68 -34 | ou {skis} Paire de skis rustiques jetables ([Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
-    "Prendre le Transporteur frigostien vers **Larmes d'Ouronigride**",
-    "/travel -70 -85"
+    "Prendre le Transporteur frigostien vers **Larmes d'Ouronigride**"
    ],
    "routeEn": [
     "/zaap -78 -41",
     "/travel -68 -34 | or {skis} Pair of Disposable Rustic Skis ([Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
-    "Take the Frigostian Carrier to **Tears of Ouronigride**",
-    "/travel -70 -85"
+    "Take the Frigostian Carrier to **Tears of Ouronigride**"
    ]
   },
   "Crevasse Perge": {
    "route": [
     "/zaap -78 -41",
     "/travel -68 -34 | ou {skis} Paire de skis rustiques jetables ([Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
-    "Prendre le Transporteur frigostien vers **Crevasse Perge**",
-    "/travel -78 -79"
+    "Prendre le Transporteur frigostien vers **Crevasse Perge**"
    ],
    "routeEn": [
     "/zaap -78 -41",
     "/travel -68 -34 | or {skis} Pair of Disposable Rustic Skis ([Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
-    "Take the Frigostian Carrier to **Asparah Gorge**",
-    "/travel -78 -79"
+    "Take the Frigostian Carrier to **Asparah Gorge**"
    ]
   },
   "Forêt pétrifiée": {
    "route": [
     "/zaap -78 -41",
     "/travel -68 -34 | ou {skis} Paire de skis rustiques jetables ([Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
-    "Prendre le Transporteur frigostien vers **Forêt pétrifiée**",
-    "/travel -76 -69"
+    "Prendre le Transporteur frigostien vers **Forêt pétrifiée**"
    ],
    "routeEn": [
     "/zaap -78 -41",
     "/travel -68 -34 | or {skis} Pair of Disposable Rustic Skis ([Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
-    "Take the Frigostian Carrier to **Petrified Forest**",
-    "/travel -76 -69"
+    "Take the Frigostian Carrier to **Petrified Forest**"
    ]
   },
   "Crocs de verre": {
    "route": [
     "/zaap -78 -41",
     "/travel -68 -34 | ou {skis} Paire de skis rustiques jetables ([Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
-    "Prendre le Transporteur frigostien vers **Crocs de verre**",
-    "/travel -66 -67"
+    "Prendre le Transporteur frigostien vers **Crocs de verre**"
    ],
    "routeEn": [
     "/zaap -78 -41",
     "/travel -68 -34 | or {skis} Pair of Disposable Rustic Skis ([Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
-    "Take the Frigostian Carrier to **Fangs of Glass**",
-    "/travel -66 -67"
+    "Take the Frigostian Carrier to **Fangs of Glass**"
    ]
   },
   "Mont Torrideau": {
    "route": [
     "/zaap -78 -41",
     "/travel -68 -34 | ou {skis} Paire de skis rustiques jetables ([Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
-    "Prendre le Transporteur frigostien vers **Mont Torrideau**",
-    "/travel -66 -73"
+    "Prendre le Transporteur frigostien vers **Mont Torrideau**"
    ],
    "routeEn": [
     "/zaap -78 -41",
     "/travel -68 -34 | or {skis} Pair of Disposable Rustic Skis ([Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
-    "Take the Frigostian Carrier to **Mount Scauldron**",
-    "/travel -66 -73"
+    "Take the Frigostian Carrier to **Mount Scauldron**"
    ]
   },
   "Remparts à vent": {
    "route": [
     "/zaap -67 -77 ; /travel -73 -84",
-    "Prendre le transporteur vers **Remparts à vent**",
-    "/travel -53 -84"
+    "Prendre le transporteur vers **Remparts à vent**"
    ],
    "routeEn": [
     "/zaap -67 -77 ; /travel -73 -84",
-    "Take the carrier to **Windblast Barricade**",
-    "/travel -53 -84"
+    "Take the carrier to **Windblast Barricade**"
    ]
   },
   "Tannerie Écarlate": {
    "route": [
     "/zaap -67 -77 ; /travel -73 -84",
-    "Prendre le transporteur vers **Tannerie Écarlate**",
-    "/travel -63 -91"
+    "Prendre le transporteur vers **Tannerie Écarlate**"
    ],
    "routeEn": [
     "/zaap -67 -77 ; /travel -73 -84",
-    "Take the carrier to **Scarlet Tannery**",
-    "/travel -63 -91"
+    "Take the carrier to **Scarlet Tannery**"
    ]
   },
   "Bastion des froides légions": {
    "route": [
     "/zaap -67 -77 ; /travel -73 -84",
-    "Prendre le transporteur vers **Bastion des froides légions**",
-    "/travel -71 -86"
+    "Prendre le transporteur vers **Bastion des froides légions**"
    ],
    "routeEn": [
     "/zaap -67 -77 ; /travel -73 -84",
-    "Take the carrier to **Bleak Legion Bastion**",
-    "/travel -71 -86"
+    "Take the carrier to **Bleak Legion Bastion**"
    ]
   },
   "Jardins d'Hiver": {
    "route": [
     "/zaap -67 -77 ; /travel -73 -84",
-    "Prendre le transporteur vers **Jardins d'Hiver**",
-    "/travel -59 -72"
+    "Prendre le transporteur vers **Jardins d'Hiver**"
    ],
    "routeEn": [
     "/zaap -67 -77 ; /travel -73 -84",
-    "Take the carrier to **Winter Gardens**",
-    "/travel -59 -72"
+    "Take the carrier to **Winter Gardens**"
    ]
   }
  }
