@@ -1,6 +1,6 @@
 import type { PlaceAccess, Req, Text } from "../access";
 import { frenchSpaces, getLang, t } from "../i18n";
-import { renderRoute, renderTrip, routeOf, showCopied, withPositions, type Trip } from "../travel";
+import { marks, renderRoute, renderTrip, routeOf, showCopied, withPositions, type Trip } from "../travel";
 import { esc, escText } from "./html";
 import { icon } from "./icons";
 
@@ -8,7 +8,7 @@ import { icon } from "./icons";
  * the side window beside the panel (pinned by a click on the header's button, as a mechanic sheet). */
 
 const say = (text: Text): string => (getLang() === "en" ? text.en : text.fr) || text.fr;
-const line = (text: string): string => withPositions(escText(frenchSpaces(text)));
+const line = (text: string): string => withPositions(marks(escText(frenchSpaces(text))));
 
 function req(r: Req): string {
   if ("quest" in r) {

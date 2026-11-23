@@ -107,11 +107,14 @@ export function renderTrip(trip: Trip | null, opts: TripOptions = {}): string {
 }
 
 // the game's own pictures (private/tools/client.py): the zaap, the footprints at the end of a path on the map (a
-// /travel), the disposable rustic skis (« {skis} » in a step's text, owner 2026-11-20)
+// /travel), and items named in a text (« {skis} »: the disposable rustic skis, owner 2026-11-20; the dark skis and
+// Xélorium's two watches, owner review 2026-11-23)
 const hud = (name: string) => `<img src="/icons/hud/${name}.png" alt="">`;
 const ZAAP = hud("zaap");
 const STEPS = hud("steps");
-const MARKS: Record<string, string> = { skis: hud("skis") };
+const MARKS: Record<string, string> = {
+  skis: hud("skis"), skis_sombres: hud("skis-sombres"), montre_avance: hud("montre-avance"), montre_retard: hud("montre-retard"),
+};
 /** A position written in an escaped text, « [15,-31] », as a button that copies « /travel 15 -31 » (owner, 2026-11-20:
  * every position a player reads can be copied). */
 export function withPositions(html: string): string {
@@ -121,8 +124,9 @@ export function withPositions(html: string): string {
   });
 }
 
-/** « {skis} » in escaped text → its picture; an unknown mark stays as it is. */
-const marks = (html: string): string =>
+/** « {skis} » in escaped text → its picture; an unknown mark stays as it is. A requirement line of « Comment y aller »
+ * uses it too (render/accessSheet.ts). */
+export const marks = (html: string): string =>
   html
     .replace(/\{(\w+)\}/g, (all, name: string) => MARKS[name] ?? all)
     // « **Larmes d'Ouronigride** »: the name to pick (at a transporter, a boat), in bold

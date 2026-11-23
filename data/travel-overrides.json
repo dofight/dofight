@@ -67,12 +67,16 @@
     "/zaap -78 -41",
     "/travel -68 -34 | ou {skis} Paire de skis rustiques jetables ([Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
     "Prendre le Transporteur frigostien vers **Crevasse Perge**",
+    "/travel -80 -75",
+    "Parler à Givrihaltès pour entrer dans la caverne, puis 1 carte à droite",
     "/travel -76 -75"
    ],
    "routeEn": [
     "/zaap -78 -41",
     "/travel -68 -34 | or {skis} Pair of Disposable Rustic Skis ([Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
     "Take the Frigostian Carrier to **Asparah Gorge**",
+    "/travel -80 -75",
+    "Talk to Givrihaltès to enter the cave, then 1 map to the right",
     "/travel -76 -75"
    ]
   },
@@ -232,6 +236,505 @@
    "routeEn": [
     "/zaap 5 -18 ; /travel -15 -62 | with the stagecoach (quest [Shushu et Lulu](https://www.dofuspourlesnoobs.com/shushu-et-lulu.html))",
     "/zaap -17 -47 ; /travel -15 -62 | otherwise, through the **Rocky Plains**"
+   ]
+  },
+  "76": {
+   "name": "Palais du roi Nidas",
+   "route": [
+    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
+    "Aller à la salle du portail dimensionnel",
+    "Ouvrir le portail vers **Enutrosor** avec la console de portail",
+    "/travel -5 -5"
+   ],
+   "routeEn": [
+    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
+    "Go to the dimensional portal room",
+    "Open the portal to **Enurado** with the portal console",
+    "/travel -5 -5"
+   ]
+  },
+  "77": {
+   "name": "Fabrique de Malléfisk",
+   "route": [
+    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
+    "Aller à la salle du portail dimensionnel",
+    "Ouvrir le portail vers **Enutrosor** avec la console de portail",
+    "/travel -6 -2"
+   ],
+   "routeEn": [
+    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
+    "Go to the dimensional portal room",
+    "Open the portal to **Enurado** with the portal console",
+    "/travel -6 -2"
+   ]
+  },
+  "79": {
+   "name": "Galerie du Phossile",
+   "route": [
+    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
+    "Aller à la salle du portail dimensionnel",
+    "Ouvrir le portail vers **Enutrosor** avec la console de portail",
+    "/travel -2 -3"
+   ],
+   "routeEn": [
+    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
+    "Go to the dimensional portal room",
+    "Open the portal to **Enurado** with the portal console",
+    "/travel -2 -3"
+   ]
+  },
+  "81": {
+   "name": "Ring du Capitaine Ekarlatte",
+   "route": [
+    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
+    "Aller à la salle du portail dimensionnel",
+    "Ouvrir le portail vers **Srambad** avec la console de portail",
+    "/travel 6 3"
+   ],
+   "routeEn": [
+    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
+    "Go to the dimensional portal room",
+    "Open the portal to **Srambad** with the portal console",
+    "/travel 6 3"
+   ]
+  },
+  "82": {
+   "name": "Cave du Toxoliath",
+   "route": [
+    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
+    "Aller à la salle du portail dimensionnel",
+    "Ouvrir le portail vers **Srambad** avec la console de portail",
+    "/travel 8 8"
+   ],
+   "routeEn": [
+    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
+    "Go to the dimensional portal room",
+    "Open the portal to **Srambad** with the portal console",
+    "/travel 8 8"
+   ]
+  },
+  "83": {
+   "name": "Trône de la Cour Sombre",
+   "route": [
+    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
+    "Aller à la salle du portail dimensionnel",
+    "Ouvrir le portail vers **Srambad** avec la console de portail",
+    "/travel 8 -4"
+   ],
+   "routeEn": [
+    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
+    "Go to the dimensional portal room",
+    "Open the portal to **Srambad** with the portal console",
+    "/travel 8 -4"
+   ]
+  },
+  "85": {
+   "name": "Mégalithe de Fraktale",
+   "route": [
+    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
+    "Aller à la salle du portail dimensionnel",
+    "Ouvrir le portail vers **Xélorium** avec la console de portail",
+    "/travel 7 3"
+   ],
+   "routeEn": [
+    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
+    "Go to the dimensional portal room",
+    "Open the portal to **Xelorium** with the portal console",
+    "/travel 7 3"
+   ]
+  },
+  "86": {
+   "name": "Horologium de XLII",
+   "route": [
+    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
+    "Aller à la salle du portail dimensionnel",
+    "Ouvrir le portail vers **Xélorium** avec la console de portail",
+    "/travel 7 -2"
+   ],
+   "routeEn": [
+    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
+    "Go to the dimensional portal room",
+    "Open the portal to **Xelorium** with the portal console",
+    "/travel 7 -2"
+   ]
+  },
+  "87": {
+   "name": "Œil de Vortex",
+   "route": [
+    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
+    "Aller à la salle du portail dimensionnel",
+    "Ouvrir le portail vers **Xélorium** avec la console de portail",
+    "/travel 7 -7"
+   ],
+   "routeEn": [
+    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
+    "Go to the dimensional portal room",
+    "Open the portal to **Xelorium** with the portal console",
+    "/travel 7 -7"
+   ]
+  },
+  "93": {
+   "name": "Miausolée du Pounicheur",
+   "route": [
+    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
+    "Aller à la salle du portail dimensionnel",
+    "Ouvrir le portail vers **Ecaflipus** avec la console de portail",
+    "/travel 3 -9"
+   ],
+   "routeEn": [
+    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
+    "Go to the dimensional portal room",
+    "Open the portal to **Ecaflipus** with the portal console",
+    "/travel 3 -9"
+   ]
+  },
+  "94": {
+   "name": "Plateau de Ush",
+   "route": [
+    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
+    "Aller à la salle du portail dimensionnel",
+    "Ouvrir le portail vers **Ecaflipus** avec la console de portail",
+    "/travel 7 -3"
+   ],
+   "routeEn": [
+    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
+    "Go to the dimensional portal room",
+    "Open the portal to **Ecaflipus** with the portal console",
+    "/travel 7 -3"
+   ]
+  },
+  "95": {
+   "name": "Défi du Chalœil",
+   "route": [
+    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
+    "Aller à la salle du portail dimensionnel",
+    "Ouvrir le portail vers **Ecaflipus** avec la console de portail",
+    "/travel -9 -22"
+   ],
+   "routeEn": [
+    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
+    "Go to the dimensional portal room",
+    "Open the portal to **Ecaflipus** with the portal console",
+    "/travel -9 -22"
+   ]
+  },
+  "163": {
+   "name": "Poste de contrôle du Supervizœuf",
+   "route": [
+    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
+    "Aller à la salle du portail dimensionnel",
+    "Ouvrir le portail vers **Osavora** avec la console de portail",
+    "/travel 24 23"
+   ],
+   "routeEn": [
+    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
+    "Go to the dimensional portal room",
+    "Open the portal to **Osavora** with the portal console",
+    "/travel 24 23"
+   ]
+  },
+  "164": {
+   "name": "Breuil du Vénérable",
+   "route": [
+    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
+    "Aller à la salle du portail dimensionnel",
+    "Ouvrir le portail vers **Osavora** avec la console de portail",
+    "/travel 6 9"
+   ],
+   "routeEn": [
+    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
+    "Go to the dimensional portal room",
+    "Open the portal to **Osavora** with the portal console",
+    "/travel 6 9"
+   ]
+  },
+  "165": {
+   "name": "Autel de la Déchireuse",
+   "route": [
+    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
+    "Aller à la salle du portail dimensionnel",
+    "Ouvrir le portail vers **Osavora** avec la console de portail",
+    "/travel 12 2"
+   ],
+   "routeEn": [
+    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
+    "Go to the dimensional portal room",
+    "Open the portal to **Osavora** with the portal console",
+    "/travel 12 2"
+   ]
+  },
+  "111": {
+   "name": "Temple du dieu Kao",
+   "route": [
+    "/zaap -2 0 ; /travel 1 -4 | cloche de Pwâk ([Île de Pwâk](https://www.dofuspourlesnoobs.com/ile-de-pwak.html))",
+    "/travel -1 -10"
+   ],
+   "routeEn": [
+    "/zaap -2 0 ; /travel 1 -4 | the Fleaster Island bell ([Fleaster Island](https://www.dofuspourlesnoobs.com/ile-de-pwak.html))",
+    "/travel -1 -10"
+   ]
+  },
+  "112": {
+   "name": "Croquanterie",
+   "route": [
+    "/zaap -2 0 ; /travel 1 -4 | cloche de Pwâk ([Île de Pwâk](https://www.dofuspourlesnoobs.com/ile-de-pwak.html))",
+    "/travel -1 -7"
+   ],
+   "routeEn": [
+    "/zaap -2 0 ; /travel 1 -4 | the Fleaster Island bell ([Fleaster Island](https://www.dofuspourlesnoobs.com/ile-de-pwak.html))",
+    "/travel -1 -7"
+   ]
+  },
+  "113": {
+   "name": "Fonderie des Waddicts",
+   "route": [
+    "/zaap -2 0 ; /travel 1 -4 | cloche de Pwâk ([Île de Pwâk](https://www.dofuspourlesnoobs.com/ile-de-pwak.html))",
+    "/travel -3 -4"
+   ],
+   "routeEn": [
+    "/zaap -2 0 ; /travel 1 -4 | the Fleaster Island bell ([Fleaster Island](https://www.dofuspourlesnoobs.com/ile-de-pwak.html))",
+    "/travel -3 -4"
+   ]
+  },
+  "36": {
+   "name": "Donjon de Nowel",
+   "route": [
+    "/zaap 7 -4 ; /travel 8 -6 | Port de Madrestam",
+    "Prendre le bateau",
+    "/travel -32 -89"
+   ],
+   "routeEn": [
+    "/zaap 7 -4 ; /travel 8 -6 | Madrestam Harbour",
+    "Take the boat",
+    "/travel -32 -89"
+   ]
+  },
+  "37": {
+   "name": "Caverne de Nowel",
+   "route": [
+    "/zaap 7 -4 ; /travel 8 -6 | Port de Madrestam",
+    "Prendre le bateau",
+    "/travel -36 -89"
+   ],
+   "routeEn": [
+    "/zaap 7 -4 ; /travel 8 -6 | Madrestam Harbour",
+    "Take the boat",
+    "/travel -36 -89"
+   ]
+  },
+  "38": {
+   "name": "Maison du Papa Nowel",
+   "route": [
+    "/zaap 7 -4 ; /travel 8 -6 | Port de Madrestam",
+    "Prendre le bateau",
+    "/travel -34 -89"
+   ],
+   "routeEn": [
+    "/zaap 7 -4 ; /travel 8 -6 | Madrestam Harbour",
+    "Take the boat",
+    "/travel -34 -89"
+   ]
+  },
+  "4": {
+   "name": "Centre du Labyrinthe du Minotoror",
+   "route": [
+    "/zaap -34 -8 ; /travel -42 -17 | Village des Dopeuls"
+   ],
+   "routeEn": [
+    "/zaap -34 -8 ; /travel -42 -17 | Dopple Village"
+   ]
+  },
+  "53": {
+   "name": "Salle du Minotot",
+   "route": [
+    "/zaap -34 -8 ; /travel -42 -17 | Village des Dopeuls"
+   ],
+   "routeEn": [
+    "/zaap -34 -8 ; /travel -42 -17 | Dopple Village"
+   ]
+  },
+  "19": {
+   "name": "Château Ensablé",
+   "route": [
+    "/zaap 5 -18 ; /travel 13 -28 | Cité d'Astrub"
+   ],
+   "routeEn": [
+    "/zaap 5 -18 ; /travel 13 -28 | Astrub City"
+   ]
+  },
+  "22": {
+   "name": "Temple du Grand Ougah",
+   "route": [
+    "/zaap 5 -18 ; /travel -9 31 | avec la diligence (quête [Shushu et Lulu](https://www.dofuspourlesnoobs.com/shushu-et-lulu.html))",
+    "/zaap -26 37 | sinon : Brâkmar, puis le zaapi **Atelier des alchimistes** et [-9,31]",
+    "Descendre d'1 carte",
+    "/travel -9 29"
+   ],
+   "routeEn": [
+    "/zaap 5 -18 ; /travel -9 31 | with the stagecoach (quest [Shushu et Lulu](https://www.dofuspourlesnoobs.com/shushu-et-lulu.html))",
+    "/zaap -26 37 | otherwise: Brakmar, then the **Atelier des alchimistes** zaapi and [-9,31]",
+    "Go 1 map down",
+    "/travel -9 29"
+   ]
+  },
+  "24": {
+   "name": "Gelaxième Dimension",
+   "route": [
+    "Double-cliquer sur un Multygely : il te téléporte"
+   ],
+   "routeEn": [
+    "Double-click a Multygely: it teleports you"
+   ]
+  },
+  "28": {
+   "name": "Canopée du Kimbo",
+   "route": [
+    "/zaap -54 16 ; /travel -52 17 | Village de la Canopée",
+    "Prendre l'escalier à gauche",
+    "/travel -54 16"
+   ],
+   "routeEn": [
+    "/zaap -54 16 ; /travel -52 17 | Canopy Village",
+    "Take the stairs on the left",
+    "/travel -54 16"
+   ]
+  },
+  "33": {
+   "name": "Donjon des Larves",
+   "route": [
+    "/zaap -2 0 ; /travel -2 -5 | Village d'Amakna",
+    "Entrer dans la grotte, puis à l'intersection prendre le chemin de gauche jusqu'au fond"
+   ],
+   "routeEn": [
+    "/zaap -2 0 ; /travel -2 -5 | Amakna Village",
+    "Go into the cave, then at the fork take the left path to the far end"
+   ]
+  },
+  "39": {
+   "name": "Cale de l'Arche d'Otomaï",
+   "route": [
+    "/zaap -46 18 ; /travel -55 -4 | Village côtier"
+   ],
+   "routeEn": [
+    "/zaap -46 18 ; /travel -55 -4 | Coastal Village"
+   ]
+  },
+  "55": {
+   "name": "Excavation du Mansot Royal",
+   "route": [
+    "/zaap -78 -41",
+    "/travel -64 -55 | ou {skis_sombres} Paire de skis sombres jetables",
+    "Parler à Waldos pour descendre dans les cavernes, puis aller tout au fond"
+   ],
+   "routeEn": [
+    "/zaap -78 -41",
+    "/travel -64 -55 | or {skis_sombres} Pair of Disposable Dark Skis",
+    "Talk to Waldos to go down into the caverns, then go to the far end"
+   ]
+  },
+  "71": {
+   "name": "Donjon du Comte Harebourg",
+   "route": [
+    "/zaap -67 -77 ; /travel -59 -89",
+    "Monter tout en haut de la tour"
+   ],
+   "routeEn": [
+    "/zaap -67 -77 ; /travel -59 -89",
+    "Climb to the very top of the tower"
+   ]
+  },
+  "72": {
+   "name": "Théâtre de Dramak",
+   "route": [
+    "/zaap 10 22 ; /travel 21 7 | Rivage sufokien"
+   ],
+   "routeEn": [
+    "/zaap 10 22 ; /travel 21 7 | Sufokian Shoreline"
+   ]
+  },
+  "84": {
+   "name": "Ventre de la Baleine",
+   "route": [
+    "/zaap -78 -41 ; /travel -85 -59 | La Bourgade"
+   ],
+   "routeEn": [
+    "/zaap -78 -41 ; /travel -85 -59 | Frigost Village"
+   ]
+  },
+  "96": {
+   "name": "Temple Maudit d'Araknas",
+   "route": [
+    "/zaap -12 19 | Cimetière primitif",
+    "1 carte à gauche, entrer dans la grotte à gauche et sauter en bas",
+    "/travel -10 22"
+   ],
+   "routeEn": [
+    "/zaap -12 19 | Primitive Cemetery",
+    "1 map to the left, go into the cave on the left and jump down",
+    "/travel -10 22"
+   ]
+  },
+  "103": {
+   "name": "Chambre de Tal Kasha",
+   "route": [
+    "/zaap 15 -58 ; /travel 9 -72 | Saharach",
+    "Entrer dans la pyramide"
+   ],
+   "routeEn": [
+    "/zaap 15 -58 ; /travel 9 -72 | Saharach",
+    "Go into the pyramid"
+   ]
+  },
+  "108": {
+   "name": "Tour de Bethel",
+   "route": [
+    "/zaap -78 -41",
+    "/travel -68 -34 | ou {skis} Paire de skis rustiques jetables ([Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Prendre le Transporteur frigostien vers **Berceau d'Alma**",
+    "/travel -48 -78",
+    "Parler au Marin frigostien du haut pour s'installer dans la cloche",
+    "/travel -48 -82"
+   ],
+   "routeEn": [
+    "/zaap -78 -41",
+    "/travel -68 -34 | or {skis} Pair of Disposable Rustic Skis ([Star Ski and Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))",
+    "Take the Frigostian Carrier to **Alma's Cradle**",
+    "/travel -48 -78",
+    "Talk to the upper Frigostian Sailor to get into the bell",
+    "/travel -48 -82"
+   ]
+  },
+  "136": {
+   "name": "Bataille de l'Aurore Pourpre",
+   "route": [
+    "/zaap 40 -44 ; /travel 43 -59 | Mont des Tombeaux",
+    "Cliquer sur la statue du Ch'tyx",
+    "/travel 1 0"
+   ],
+   "routeEn": [
+    "/zaap 40 -44 ; /travel 43 -59 | Mount Tombs",
+    "Click the Ch'tyx statue",
+    "/travel 1 0"
+   ]
+  },
+  "138": {
+   "name": "Akadémie des Gobs",
+   "route": [
+    "/zaap -1 13 ; /travel -5 3 | Bord de la forêt maléfique"
+   ],
+   "routeEn": [
+    "/zaap -1 13 ; /travel -5 3 | Edge of the Evil Forest"
+   ]
+  },
+  "139": {
+   "name": "Tertre du long sommeil",
+   "route": [
+    "/zaap -1 13 ; /travel -5 13 | Bord de la forêt maléfique",
+    "Aller à pied jusqu'en -3,19 : l'autopilote ne marche pas dans le Dédale du Dark Vlad"
+   ],
+   "routeEn": [
+    "/zaap -1 13 ; /travel -5 13 | Edge of the Evil Forest",
+    "Walk to -3,19: the autopilot does not work in Dark Vlad's maze"
    ]
   }
  },

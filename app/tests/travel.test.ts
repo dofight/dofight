@@ -77,6 +77,10 @@ describe("how to get there", () => {
     expect(steps[1].querySelector("img")!.getAttribute("src")).toBe("/icons/hud/skis.png");
     expect(steps[1].textContent).toBe("Prendre le Transporteur (ou une  Paire de skis rustiques jetables)");
     expect(steps[3].textContent).toBe("{autre}"); // an unknown mark stays text
+    // the dark skis and Xélorium's watches (owner review, 2026-11-23)
+    box.innerHTML = renderRoute(["{skis_sombres} skis", "{montre_avance} et {montre_retard}"]);
+    expect([...box.querySelectorAll(".step img")].map((i) => i.getAttribute("src"))).toEqual(
+      ["/icons/hud/skis-sombres.png", "/icons/hud/montre-avance.png", "/icons/hud/montre-retard.png"]);
     // « Aller en [x,y] » too: footprints
     box.innerHTML = renderTrip(tripTo(travel, 1, "x"));
     expect(box.querySelector(".travel:not(.zaap) img")!.getAttribute("src")).toBe("/icons/hud/steps.png");

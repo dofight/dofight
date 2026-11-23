@@ -169,6 +169,47 @@
    "reqs": [
     {
      "quest": {
+      "id": 2149,
+      "fr": "Le réveil de Pandala",
+      "en": "Pandala Awakens",
+      "level": 30,
+      "start": {
+       "x": 12,
+       "y": -21
+      },
+      "url": "https://www.dofuspourlesnoobs.com/le-reveil-de-pandala.html"
+     }
+    },
+    {
+     "other": {
+      "fr": "Aller sur l'Atoll : sur Grobe en [41,-45], parle au bateau-démon Voh'Râss' et choisis « Embarquer pour l'Atoll ». C'est gratuit.",
+      "en": "Getting to the Atoll: on Nolifis at [41,-45], talk to the demon ship Vor'Eshis' and pick “Set out for the Atoll”. It is free."
+     }
+    },
+    {
+     "item": {
+      "fr": "Signe des Possédés",
+      "en": "Sign of the Possessed"
+     },
+     "how": {
+      "fr": "il ouvre le Pandamonium, que la quête « Le poids de son regard » demande.",
+      "en": "it opens the Pandamonium, which the quest “The Weight of Its Gaze” needs."
+     }
+    },
+    {
+     "other": {
+      "fr": "Il se loote sur les Possédés du Port des Ravageurs (15 % de base).",
+      "en": "It drops from the Possessed of the Destroyers' Port (15% base rate)."
+     }
+    },
+    {
+     "other": {
+      "fr": "Avec le signe, monte les escaliers en [41,-56], gardés par le Gardien du Pandamonium.",
+      "en": "With the sign, climb the stairs at [41,-56], guarded by the Pandamonium Guardian."
+     }
+    },
+    {
+     "quest": {
       "id": 2424,
       "fr": "Le poids de son regard",
       "en": "The Weight of Its Gaze",
@@ -1414,29 +1455,9 @@
    },
    "reqs": [
     {
-     "item": {
-      "fr": "Montre en avance",
-      "en": "Watch Running Fast"
-     },
-     "how": {
-      "fr": "elle te fait avancer d'une époque (Chemins d'hier, puis Jour présent, puis Lendemains incertains).",
-      "en": "it moves you one era forward (Gonebyways, then Present Day, then Uncertain Future)."
-     }
-    },
-    {
-     "item": {
-      "fr": "Montre en retard",
-      "en": "Watch Running Slow"
-     },
-     "how": {
-      "fr": "elle te fait reculer d'une époque.",
-      "en": "it moves you one era back."
-     }
-    },
-    {
      "other": {
-      "fr": "Une de chaque suffit : elles ne se détruisent pas quand tu les utilises.",
-      "en": "One of each is enough: they are not destroyed when you use them."
+      "fr": "{montre_avance} Montre en avance et {montre_retard} Montre en retard pour naviguer entre les époques (Chemins d'hier, puis Jour présent, puis Lendemains incertains).",
+      "en": "{montre_avance} Watch Running Fast and {montre_retard} Watch Running Slow to move between eras (Gonebyways, then Present Day, then Uncertain Future)."
      }
     }
    ],
@@ -1452,29 +1473,9 @@
    },
    "reqs": [
     {
-     "item": {
-      "fr": "Montre en avance",
-      "en": "Watch Running Fast"
-     },
-     "how": {
-      "fr": "elle te fait avancer d'une époque (Chemins d'hier, puis Jour présent, puis Lendemains incertains).",
-      "en": "it moves you one era forward (Gonebyways, then Present Day, then Uncertain Future)."
-     }
-    },
-    {
-     "item": {
-      "fr": "Montre en retard",
-      "en": "Watch Running Slow"
-     },
-     "how": {
-      "fr": "elle te fait reculer d'une époque.",
-      "en": "it moves you one era back."
-     }
-    },
-    {
      "other": {
-      "fr": "Une de chaque suffit : elles ne se détruisent pas quand tu les utilises.",
-      "en": "One of each is enough: they are not destroyed when you use them."
+      "fr": "{montre_avance} Montre en avance et {montre_retard} Montre en retard pour naviguer entre les époques (Chemins d'hier, puis Jour présent, puis Lendemains incertains).",
+      "en": "{montre_avance} Watch Running Fast and {montre_retard} Watch Running Slow to move between eras (Gonebyways, then Present Day, then Uncertain Future)."
      }
     }
    ],
@@ -1490,29 +1491,9 @@
    },
    "reqs": [
     {
-     "item": {
-      "fr": "Montre en avance",
-      "en": "Watch Running Fast"
-     },
-     "how": {
-      "fr": "elle te fait avancer d'une époque (Chemins d'hier, puis Jour présent, puis Lendemains incertains).",
-      "en": "it moves you one era forward (Gonebyways, then Present Day, then Uncertain Future)."
-     }
-    },
-    {
-     "item": {
-      "fr": "Montre en retard",
-      "en": "Watch Running Slow"
-     },
-     "how": {
-      "fr": "elle te fait reculer d'une époque.",
-      "en": "it moves you one era back."
-     }
-    },
-    {
      "other": {
-      "fr": "Une de chaque suffit : elles ne se détruisent pas quand tu les utilises.",
-      "en": "One of each is enough: they are not destroyed when you use them."
+      "fr": "{montre_avance} Montre en avance et {montre_retard} Montre en retard pour naviguer entre les époques (Chemins d'hier, puis Jour présent, puis Lendemains incertains).",
+      "en": "{montre_avance} Watch Running Fast and {montre_retard} Watch Running Slow to move between eras (Gonebyways, then Present Day, then Uncertain Future)."
      }
     }
    ],

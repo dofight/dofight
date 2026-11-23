@@ -23,6 +23,14 @@ function sheet(pa: PlaceAccess | null, trip: Trip | null = zaapTrip, title = "Ve
 afterEach(() => setLang("fr"));
 
 describe("the « Comment y aller » sheet", () => {
+  it("a requirement line shows the item pictures it names, as a route step does (« {montre_avance} »)", () => {
+    const watches: PlaceAccess = { ...baleine, areaReqs: [], ownReqs: [{ other: { fr: "{montre_avance} Montre en avance et {montre_retard} Montre en retard", en: "x" } }] };
+    const { box, text } = sheet(watches);
+    const line = box.querySelector(".needs li")!;
+    expect([...line.querySelectorAll("img")].map((i) => i.getAttribute("src"))).toEqual(["/icons/hud/montre-avance.png", "/icons/hud/montre-retard.png"]);
+    expect(text(line)).toBe(" Montre en avance et  Montre en retard");
+  });
+
   it("lists the requirements, then the route, then the guide", () => {
     const { box, all } = sheet(baleine);
     const order = ["Comment y aller : Ventre de la Baleine", "Prérequis", "Accès (Île d'Otomaï) :",
