@@ -2,7 +2,7 @@
  "dungeonId": 19,
  "dungeon": "Château Ensablé",
  "guide": "https://www.dofuspourlesnoobs.com/chateau-ensable.html",
- "status": "draft",
+ "status": "reviewed",
  "strategy": "",
  "monsters": {
   "928": {
