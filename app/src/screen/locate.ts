@@ -55,8 +55,11 @@ function subareaRoom(s: Snapshot, h: Header): Room | null {
       score = normalize(name) === normalize(h.title) ? 1 : 0;
     } else {
       const ws = words(name);
-      score = ws.length ? ws.filter((w) => titleWords.has(w)).length / ws.length : 0;
+      const shared = ws.filter((w) => titleWords.has(w)).length;
+      score = ws.length ? shared / ws.length : 0;
       if (score < 0.6) score = 0;
+      // equal shares: the name that covers more of the title wins (« Forêt pétrifiée » 2 of 2 over « Forêt » 1 of 1)
+      else score += shared / 1000;
     }
     if (score > 0 && (!best || score > best.score)) best = { name, score };
   }

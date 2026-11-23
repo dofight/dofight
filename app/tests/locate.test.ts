@@ -61,6 +61,15 @@ describe("locate", () => {
     expect(locate(s, head("Baie de des Muldos)", 20, 23))?.title).toBe("Bassin des Muldos");
   });
 
+  it("the opening parenthesis lost, the zone that shares the most words wins (« Forêt pétrifiée », not « Forêt »)", () => {
+    // owner, 2026-11-23: in the Forêt pétrifiée (-81, -69), the panel flipped to Incarnam's « Forêt » now and then
+    const t = makeSnapshot();
+    t.monsters.set(1, monster({ id: 1, name: "Tigrimas", subareas: ["Forêt"] }));
+    t.monsters.set(2, monster({ id: 2, name: "Dramanite", subareas: ["Forêt pétrifiée"] }));
+    expect(locate(t, head("Île de Frigost Forêt pétrifiée)", -81, -69))?.title).toBe("Forêt pétrifiée");
+    expect(locate(t, head("Forêt pétrifiée)"))?.title).toBe("Forêt pétrifiée");
+  });
+
   it("does not guess a sub-area from an area name alone", () => {
     s.monsters.set(503, monster({ id: 503, name: "Wabbit", subareas: ["Souterrains des Wabbits"] }));
     expect(locate(s, head("Île des Wabbits"))).toBeNull();
