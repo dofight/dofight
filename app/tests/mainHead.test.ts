@@ -21,3 +21,10 @@ it("lays the search results over the list instead of pushing it down", () => {
   expect(css).toMatch(/\.searchbox\{[^}]*position:relative/);
   expect(css).toMatch(/\.searchbox \.results\{[^}]*position:absolute/);
 });
+
+it("keeps the usual 8 px between the filter and the list: no empty status line, no doubled padding (owner, 2026-11-22)", () => {
+  const css = readFileSync("src/styles.css", "utf8");
+  expect(css).toContain("#main-body>.status:empty{display:none}");
+  expect(css).toMatch(/#view-main>\.pagebody\{[^}]*padding-top:0/);
+  expect(css).not.toContain("#view-main>.status"); // the status lines are in #main-body now
+});

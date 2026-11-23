@@ -51,6 +51,9 @@ button:not(:disabled),a[href],[role=button],[role=radio],[role=option],select,in
 .mainhead{display:grid;gap:8px;padding:10px 14px 8px 10px;min-width:0}
 .mainhead .find[hidden]{display:none}
 .searchbox{position:relative;min-width:0}
+/* the list starts 8 px under the filter, as everywhere else: an empty status line takes no gap */
+#view-main>.pagebody{padding-top:0}
+#main-body>.status:empty{display:none}
 /* the results lie over the list, opaque, instead of pushing it down at every letter */
 .searchbox .results{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:8;max-height:min(calc(8 * 38px), calc(60vh / var(--zoom,1)));padding:4px;border-radius:10px;background:rgb(var(--win));border:1px solid var(--line);box-shadow:0 6px 18px rgba(0,0,0,.35)}
 .searchbox .results:empty,.searchbox .results[hidden]{display:none}
@@ -68,7 +71,7 @@ button:not(:disabled),a[href],[role=button],[role=radio],[role=option],select,in
 .res-item .kind{color:var(--gold);font-size:11px;text-transform:uppercase;letter-spacing:.06em;margin-right:6px}
 .status,.hint{font-size:12.5px;color:var(--muted);margin:0}
 /* a message that blocks the reading (no zone header, no French OCR): a warning line the player sees */
-#view-main>.status.warn:not(:empty){font-size:13px;padding:6px 10px;border-radius:8px;background:var(--warn-bg);color:var(--warn-fg);text-shadow:none}
+#main-body>.status.warn:not(:empty){font-size:13px;padding:6px 10px;border-radius:8px;background:var(--warn-bg);color:var(--warn-fg);text-shadow:none}
 .empty{font-size:13px;color:var(--muted);font-style:italic}
 #room>.empty.intro{margin:4px 0;font-style:normal;line-height:1.5} /* the first screen: what shows here, and the search */
 
@@ -261,7 +264,7 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .card .pill{border-radius:10px}
 .pill.primary{color:var(--fg);border-color:var(--gold)}
 .pill:disabled{opacity:.5}
-#view-main>.scan:not([hidden]){display:flex;flex-wrap:wrap;align-items:center;gap:6px} /* like .songe-off */
+#main-body>.scan:not([hidden]){display:flex;flex-wrap:wrap;align-items:center;gap:6px} /* like .songe-off */
 /* the last settings card: three actions, the same icon size and place, each in its own colour */
 .pill.act{display:flex;align-items:center;justify-content:center;gap:9px;color:var(--fg)}
 .pill.act .act-ic{display:inline-flex;flex:none;width:18px;height:18px}
@@ -278,13 +281,12 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .pill.support:hover{background:color-mix(in srgb,#ff5e5b 18%,var(--bg))}
 /* text sitting on the see-through background (not in a card) keeps a dark outline, like Ganymède, so it stays
    readable over a bright map at any opacity */
-#room>.empty,.room>.empty,#view-main>.status,.view>.back b{text-shadow:0 0 2px rgba(0,0,0,.95),0 1px 3px rgba(0,0,0,.9)}
-#room>.empty,.room>.empty,#view-main>.status{color:color-mix(in srgb,var(--fg) 80%,var(--muted))}
+#room>.empty,.room>.empty,#main-body>.status,.view>.back b{text-shadow:0 0 2px rgba(0,0,0,.95),0 1px 3px rgba(0,0,0,.9)}
+#room>.empty,.room>.empty,#main-body>.status{color:color-mix(in srgb,var(--fg) 80%,var(--muted))}
 /* the French texts wait for the chosen language before showing (no French flash for English players) */
 .i18n-pending #app{visibility:hidden}
 /* an empty message line takes no room (it stays in the page so screen readers hear what comes in) */
 /* empty message slots and results take no room (absolute: out of the grid, still in the page for screen readers) */
-#view-main>.status:empty,#view-main>.results:empty{position:absolute}
 .songe-reset{display:inline-flex;align-items:center;gap:4px;flex:none;align-self:center;background:none;border:1px solid var(--line);border-radius:8px;color:var(--muted);font:inherit;font-size:12px;padding:3px 8px;cursor:pointer}
 .songe-reset[hidden]{display:none}
 .songe-reset:hover{border-color:var(--gold);color:var(--fg)}
@@ -333,7 +335,7 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 #opt-reading.flash{animation:pulse .6s ease-in-out 3} /* reached from « Ouvrir les paramètres »: three pulses */
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 transparent}50%{box-shadow:0 0 0 6px var(--gold)}}
 @media (prefers-reduced-motion:reduce){#opt-reading.flash{animation:none;box-shadow:0 0 0 3px var(--gold)}}
-#view-main>.songe-off:not([hidden]){display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+#main-body>.songe-off:not([hidden]){display:flex;flex-wrap:wrap;align-items:center;gap:6px}
 .switch.cardtitle #opt-reading{margin-left:auto} /* the card's own switch, at the right of its title */
 /* a card folds on a click on its title (the switch, the « i » and the arrow keep their own click) */
 .cardhead{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
