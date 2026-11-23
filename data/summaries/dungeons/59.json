@@ -42,7 +42,7 @@
      "param": "Soins au CaC"
     }
    ],
-   "detail": "La frapper à distance avec un sort déclenche un Raulebaque (pas avec une arme). Tape en ligne."
+   "detail": "La frapper à distance déclenche un Raulebaque (téléportation à la case de début de combat). Tape en ligne."
   },
   "2898": {
    "tags": [
