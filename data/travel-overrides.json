@@ -211,6 +211,17 @@
     "/zaap 15 -20 | Arch of Vili",
     "Click the zaap and pick \"Travel through time\""
    ]
+  },
+  "30": {
+   "name": "Caverne du Koulosse",
+   "route": [
+    "/zaap -16 1 ; /travel -16 8 | Village des Éleveurs",
+    "Aller 1 carte à gauche"
+   ],
+   "routeEn": [
+    "/zaap -16 1 ; /travel -16 8 | Breeder Village",
+    "Go 1 map to the left"
+   ]
   }
  },
  "zones": {
