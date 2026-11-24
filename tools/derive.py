@@ -22,7 +22,6 @@ _NOT_A_STAT = re.compile(r"^-?0(?: à -?0)? |\b(?:dommages|vol) (?:Neutre|Terre|
 _HEALS_CUT = re.compile(r"^Soins reçus x(\d+)%")
 # « 12 dommages Feu pour 1 PA utilisé (2 tours) »: the target loses life for each PA (or PM) it spends
 _POISON = re.compile(r"^\d+ dommages (\w+) pour \d+ (PA|PM) utilisé")
-MAX_TAGS = 6  # derived cards stay short; a written card may hold up to limits.tagsPerMonster (8), shown as 5 + « +N »
 # states that hinder a player (the others in the game data are mostly internal markers)
 HINDERING_STATES = ["Pesanteur", "Insoignable", "Affaibli", "Pacifiste", "Enraciné", "Infecté", "Lourd", "Silencieux",
                     "Maudit", "Endormi", "Empoisonné", "Indéplaçable", "Intacleur"]
@@ -229,4 +228,4 @@ def derive(spells: list) -> dict:
         add("glyphs")  # what the glyph does is not in the spell data: no parameter rather than a placeholder
 
     harmless = melee_only and not tags and not (cats & _DANGEROUS_CATEGORIES)
-    return {"harmless": harmless, "tags": tags[:MAX_TAGS]}
+    return {"harmless": harmless, "tags": tags}  # no limit (owner, 2026-11-24)

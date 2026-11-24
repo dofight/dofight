@@ -60,7 +60,7 @@ le taper te soigne »).
 
 ## Form
 
-- At most 6 tags per monster (`limits.tagsPerMonster`), most important first; danger before tip before mechanic.
+- No limit on tags per monster: give the ones that matter, most important first; danger before mechanic before tip.
 - Parameters in French, at most 32 characters, no final full stop, no exact numbers unless they are the mechanic
   (« à 50 % PV » is fine).
 - `detail`: only for what no tag can say (a seasonal unlock, a sequence of steps). At most 240 characters.
@@ -182,7 +182,7 @@ vulnerable, a per-season table) gets a sheet, keyed by an English id, and the ro
     PV », never « de ses PV ». An effect on the player says so (« te téléporte », « sa cible subit … »).
   - The same state twice (`inflicts` « Met en état · X » and `state` « État · X »): keep `inflicts`, its param
     carries the precision.
-  - Up to 6 badges per monster.
+  - As many badges per monster as it needs.
   - A mechanic sheet can open by click too (for players with the hover preview off).
   - The player is « tu », as in the interface (owner, 2026-11-18): « tu perds », « tes personnages »; instructions
     stay in the infinitive (« rester à distance »).

@@ -73,8 +73,6 @@ def validate(summary: dict, vocab: dict, snapshot: dict, mechanics: dict | None 
     groups += [(f"monster {mid}", entry.get("tags") or []) for mid, entry in (summary.get("monsters") or {}).items()]
     for owner, mtags in groups:
         mid = owner
-        if len(mtags) > limits["tagsPerMonster"]:
-            errors.append(f"{where}: {owner} has more than {limits['tagsPerMonster']} tags")
         for tag in mtags:
             tid = tag.get("id")
             spec = tags.get(tid)

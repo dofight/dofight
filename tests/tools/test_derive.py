@@ -56,10 +56,11 @@ def test_a_positive_bonus_is_not_a_removal():
     assert all(t["id"] != "removes" for t in out["tags"])
 
 
-def test_at_most_six_tags():
+def test_no_limit_on_tags():
+    # every badge found is kept (owner, 2026-11-24): this spell gives 7
     effects = ["Invoque : A", "Soin : 10% des PV max", "-1 PA (1 tour)", "Vole 1 PO (1 tour)", "Repousse de 2 cases",
                "10% Érosion (1 tour)", "Rend la cible invisible (1 tour)"]
-    assert len(derive([spell("Tout", 5, [], effects)])["tags"]) == 6
+    assert len(derive([spell("Tout", 5, [], effects)])["tags"]) > 6
 
 
 def eff(text, target="enemies", zone=None):

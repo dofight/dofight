@@ -481,31 +481,13 @@ describe("written summaries as bullets", () => {
   });
 });
 
-describe("more than 6 badges (owner, 2026-11-24)", () => {
-  const many = (n: number) =>
-    [{ id: "one_shot", param: "x" }, ...Array.from({ length: n - 1 }, (_, i) => ({ id: "phase", param: `à ${90 - i * 10} % PV` }))];
-  it("shows the first 5, then « +N autres », the others in a bubble that takes no room", () => {
+describe("many badges (owner, 2026-11-24)", () => {
+  it("shows every badge, however many, with no « +N »", () => {
+    const many = [{ id: "one_shot", param: "x" }, ...Array.from({ length: 9 }, (_, i) => ({ id: "phase", param: `à ${90 - i * 10} % PV` }))];
     const room = document.createElement("div");
-    room.innerHTML = renderTags(many(8), VOCAB, ALL, () => null);
-    const box = room.querySelector(".tags.folded")!;
-    expect([...box.children].filter((c) => c.matches(".tag:not(.more)"))).toHaveLength(5);
-    const chip = box.querySelector<HTMLButtonElement>("button.tag.more")!;
-    expect(chip.textContent).toBe("+3 autres");
-    const pop = box.querySelector(".tagpop")!;
-    expect(pop.querySelectorAll(".tag")).toHaveLength(3);
-    expect(chip.getAttribute("aria-describedby")).toBe(pop.id);
-    expect(box.querySelector(".tag.danger")!.closest(".tagpop")).toBeNull(); // the danger comes first
-    // shown on the chip's hover only, floating (owner: the card jumped when the whole row was hovered)
-    const css = readFileSync("src/styles.css", "utf8");
-    expect(css).toContain(".tags:has(.more:hover) .tagpop");
-    expect(css).toMatch(/\.tagpop\{display:none;position:absolute/);
-    expect(css).not.toContain(".tags.folded:is(:hover");
-  });
-  it("6 badges or fewer: all shown, no « +N »", () => {
-    const room = document.createElement("div");
-    room.innerHTML = renderTags(many(6), VOCAB, ALL, () => null);
+    room.innerHTML = renderTags(many, VOCAB, ALL, () => null);
+    expect(room.querySelectorAll(".tag")).toHaveLength(10);
     expect(room.querySelector(".folded, .tag.more, .tagpop")).toBeNull();
-    expect(room.querySelectorAll(".tag")).toHaveLength(6);
   });
 });
 

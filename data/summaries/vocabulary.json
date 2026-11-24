@@ -318,7 +318,6 @@
   },
   "limits": {
     "paramMaxChars": 32,
-    "tagsPerMonster": 8,
     "detailMaxChars": 240,
     "strategyMaxChars": 220
   },

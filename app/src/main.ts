@@ -33,7 +33,7 @@ import { englishReading, englishView, frenchRoom, loadEnglish, zoneName, type En
 import { esc } from "./render/html";
 import { applyIcons, icon } from "./render/icons";
 import { highlight, matches, monsterText, spellsMatching } from "./findInList";
-import { renderPeek, watchTagPops } from "./render/monster";
+import { renderPeek } from "./render/monster";
 import { renderRoom } from "./render/panel";
 import { renderSpellSheet } from "./render/spellSheet";
 import { renderMechanicSheet } from "./render/mechanic";
@@ -587,7 +587,6 @@ function switches(container: string, flags: Flag[]): void {
     .join("");
 }
 
-watchTagPops(); // a card's « +N autres » badges
 
 // Escape closes an option's explanation (until the pointer or the focus leaves its « i »)
 document.addEventListener("keydown", (e) => {

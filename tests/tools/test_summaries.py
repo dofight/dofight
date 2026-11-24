@@ -45,13 +45,12 @@ def test_param_too_long():
     assert any("32" in e for e in errors)
 
 
-def test_too_many_tags():
-    # 8 at most (owner, 2026-11-24: past 6, the card shows 5 and « +N »)
+def test_no_limit_on_tags():
+    # a card holds as many badges as it needs (owner, 2026-11-24)
     tags = [{"id": t} for t in ("flees", "buffs_allies", "lock", "spread_out", "no_melee_end", "out_of_sight", "moves",
                                 "moves_self", "heals")]
     errors = validate(summary(monsters={"147": {"tags": tags}, "101": {"tags": []}}), VOCAB, SNAPSHOT)
-    assert any("more than 8 tags" in e for e in errors)
-    assert not any("more than" in e for e in validate(summary(monsters={"147": {"tags": tags[:8]}, "101": {"tags": []}}), VOCAB, SNAPSHOT))
+    assert not any("tags" in e and "more than" in e for e in errors)
 
 
 def test_monster_not_in_dungeon_and_missing_monster():
