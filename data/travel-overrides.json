@@ -955,12 +955,12 @@
    "route": [
     "/zaap -1 13 ; /travel 6 13 | Bord de la forêt maléfique",
     "Cliquer sur la faille, puis sur le portail",
-    "3 cartes à gauche, 1 carte à droite, le portail en bas à droite, 1 carte en bas, le portail, 2 cartes à droite, 2 cartes en bas, 1 carte à droite"
+    "Gauche ×3, droite, portail en bas à droite, bas, portail, droite ×2, bas ×2, droite"
    ],
    "routeEn": [
     "/zaap -1 13 ; /travel 6 13 | Edge of the Evil Forest",
     "Click the rift, then the portal",
-    "3 maps left, 1 map right, the bottom-right portal, 1 map down, the portal, 2 maps right, 2 maps down, 1 map right"
+    "Left ×3, right, bottom-right portal, down, portal, right ×2, down ×2, right"
    ]
   },
   "140": {
@@ -1001,16 +1001,14 @@
     "/zaap 13 26",
     "Prendre le zaapi **Quai de la voie du temple**",
     "/travel 23 24",
-    "Entrer dans le palais, puis prendre la porte à gauche",
-    "Cliquer sur le bassin",
+    "Entrer dans le palais, prendre la porte à gauche, puis cliquer sur le bassin",
     "/travel 24 27"
    ],
    "routeEn": [
     "/zaap 13 26",
     "Take the **Temple Way Quay** zaapi",
     "/travel 23 24",
-    "Go into the palace, then through the door on the left",
-    "Click the basin",
+    "Go into the palace, through the door on the left, then click the basin",
     "/travel 24 27"
    ]
   },
@@ -1020,16 +1018,14 @@
     "/zaap 13 26",
     "Prendre le zaapi **Quai de la voie du temple**",
     "/travel 23 24",
-    "Entrer dans le palais, puis prendre la porte à gauche",
-    "Cliquer sur le bassin",
+    "Entrer dans le palais, prendre la porte à gauche, puis cliquer sur le bassin",
     "/travel 27 26"
    ],
    "routeEn": [
     "/zaap 13 26",
     "Take the **Temple Way Quay** zaapi",
     "/travel 23 24",
-    "Go into the palace, then through the door on the left",
-    "Click the basin",
+    "Go into the palace, through the door on the left, then click the basin",
     "/travel 27 26"
    ]
   },
@@ -1039,16 +1035,14 @@
     "/zaap 13 26",
     "Prendre le zaapi **Quai de la voie du temple**",
     "/travel 23 24",
-    "Entrer dans le palais, puis prendre la porte à gauche",
-    "Cliquer sur le bassin",
+    "Entrer dans le palais, prendre la porte à gauche, puis cliquer sur le bassin",
     "/travel 19 26"
    ],
    "routeEn": [
     "/zaap 13 26",
     "Take the **Temple Way Quay** zaapi",
     "/travel 23 24",
-    "Go into the palace, then through the door on the left",
-    "Click the basin",
+    "Go into the palace, through the door on the left, then click the basin",
     "/travel 19 26"
    ]
   }
@@ -1855,16 +1849,14 @@
     "/zaap 13 26",
     "Prendre le zaapi **Quai de la voie du temple**",
     "/travel 23 24",
-    "Entrer dans le palais, puis prendre la porte à gauche",
-    "Cliquer sur le bassin",
+    "Entrer dans le palais, prendre la porte à gauche, puis cliquer sur le bassin",
     "/travel 26 32"
    ],
    "routeEn": [
     "/zaap 13 26",
     "Take the **Temple Way Quay** zaapi",
     "/travel 23 24",
-    "Go into the palace, then through the door on the left",
-    "Click the basin",
+    "Go into the palace, through the door on the left, then click the basin",
     "/travel 26 32"
    ]
   },
@@ -1873,16 +1865,14 @@
     "/zaap 13 26",
     "Prendre le zaapi **Quai de la voie du temple**",
     "/travel 23 24",
-    "Entrer dans le palais, puis prendre la porte à gauche",
-    "Cliquer sur le bassin",
+    "Entrer dans le palais, prendre la porte à gauche, puis cliquer sur le bassin",
     "/travel 23 30"
    ],
    "routeEn": [
     "/zaap 13 26",
     "Take the **Temple Way Quay** zaapi",
     "/travel 23 24",
-    "Go into the palace, then through the door on the left",
-    "Click the basin",
+    "Go into the palace, through the door on the left, then click the basin",
     "/travel 23 30"
    ]
   },
@@ -1891,16 +1881,14 @@
     "/zaap 13 26",
     "Prendre le zaapi **Quai de la voie du temple**",
     "/travel 23 24",
-    "Entrer dans le palais, puis prendre la porte à gauche",
-    "Cliquer sur le bassin",
+    "Entrer dans le palais, prendre la porte à gauche, puis cliquer sur le bassin",
     "/travel 20 27"
    ],
    "routeEn": [
     "/zaap 13 26",
     "Take the **Temple Way Quay** zaapi",
     "/travel 23 24",
-    "Go into the palace, then through the door on the left",
-    "Click the basin",
+    "Go into the palace, through the door on the left, then click the basin",
     "/travel 20 27"
    ]
   },
@@ -1909,16 +1897,14 @@
     "/zaap 13 26",
     "Prendre le zaapi **Quai de la voie du temple**",
     "/travel 23 24",
-    "Entrer dans le palais, puis prendre la porte à gauche",
-    "Cliquer sur le bassin",
+    "Entrer dans le palais, prendre la porte à gauche, puis cliquer sur le bassin",
     "/travel 20 30"
    ],
    "routeEn": [
     "/zaap 13 26",
     "Take the **Temple Way Quay** zaapi",
     "/travel 23 24",
-    "Go into the palace, then through the door on the left",
-    "Click the basin",
+    "Go into the palace, through the door on the left, then click the basin",
     "/travel 20 30"
    ]
   },
@@ -1927,16 +1913,14 @@
     "/zaap 13 26",
     "Prendre le zaapi **Quai de la voie du temple**",
     "/travel 23 24",
-    "Entrer dans le palais, puis prendre la porte à gauche",
-    "Cliquer sur le bassin",
+    "Entrer dans le palais, prendre la porte à gauche, puis cliquer sur le bassin",
     "/travel 26 30"
    ],
    "routeEn": [
     "/zaap 13 26",
     "Take the **Temple Way Quay** zaapi",
     "/travel 23 24",
-    "Go into the palace, then through the door on the left",
-    "Click the basin",
+    "Go into the palace, through the door on the left, then click the basin",
     "/travel 26 30"
    ]
   },
@@ -1945,16 +1929,14 @@
     "/zaap 13 26",
     "Prendre le zaapi **Quai de la voie du temple**",
     "/travel 23 24",
-    "Entrer dans le palais, puis prendre la porte à gauche",
-    "Cliquer sur le bassin",
+    "Entrer dans le palais, prendre la porte à gauche, puis cliquer sur le bassin",
     "/travel 19 26"
    ],
    "routeEn": [
     "/zaap 13 26",
     "Take the **Temple Way Quay** zaapi",
     "/travel 23 24",
-    "Go into the palace, then through the door on the left",
-    "Click the basin",
+    "Go into the palace, through the door on the left, then click the basin",
     "/travel 19 26"
    ]
   },
@@ -1963,16 +1945,14 @@
     "/zaap 13 26",
     "Prendre le zaapi **Quai de la voie du temple**",
     "/travel 23 24",
-    "Entrer dans le palais, puis prendre la porte à gauche",
-    "Cliquer sur le bassin",
+    "Entrer dans le palais, prendre la porte à gauche, puis cliquer sur le bassin",
     "/travel 26 27"
    ],
    "routeEn": [
     "/zaap 13 26",
     "Take the **Temple Way Quay** zaapi",
     "/travel 23 24",
-    "Go into the palace, then through the door on the left",
-    "Click the basin",
+    "Go into the palace, through the door on the left, then click the basin",
     "/travel 26 27"
    ]
   },
@@ -1981,16 +1961,14 @@
     "/zaap 13 26",
     "Prendre le zaapi **Quai de la voie du temple**",
     "/travel 23 24",
-    "Entrer dans le palais, puis prendre la porte à gauche",
-    "Cliquer sur le bassin",
+    "Entrer dans le palais, prendre la porte à gauche, puis cliquer sur le bassin",
     "/travel 27 26"
    ],
    "routeEn": [
     "/zaap 13 26",
     "Take the **Temple Way Quay** zaapi",
     "/travel 23 24",
-    "Go into the palace, then through the door on the left",
-    "Click the basin",
+    "Go into the palace, through the door on the left, then click the basin",
     "/travel 27 26"
    ]
   },
@@ -1999,16 +1977,14 @@
     "/zaap 13 26",
     "Prendre le zaapi **Quai de la voie du temple**",
     "/travel 23 24",
-    "Entrer dans le palais, puis prendre la porte à gauche",
-    "Cliquer sur le bassin",
+    "Entrer dans le palais, prendre la porte à gauche, puis cliquer sur le bassin",
     "/travel 20 33"
    ],
    "routeEn": [
     "/zaap 13 26",
     "Take the **Temple Way Quay** zaapi",
     "/travel 23 24",
-    "Go into the palace, then through the door on the left",
-    "Click the basin",
+    "Go into the palace, through the door on the left, then click the basin",
     "/travel 20 33"
    ]
   },
@@ -2017,16 +1993,14 @@
     "/zaap 13 26",
     "Prendre le zaapi **Quai de la voie du temple**",
     "/travel 23 24",
-    "Entrer dans le palais, puis prendre la porte à gauche",
-    "Cliquer sur le bassin",
+    "Entrer dans le palais, prendre la porte à gauche, puis cliquer sur le bassin",
     "/travel 24 27"
    ],
    "routeEn": [
     "/zaap 13 26",
     "Take the **Temple Way Quay** zaapi",
     "/travel 23 24",
-    "Go into the palace, then through the door on the left",
-    "Click the basin",
+    "Go into the palace, through the door on the left, then click the basin",
     "/travel 24 27"
    ]
   },
@@ -2035,16 +2009,14 @@
     "/zaap 13 26",
     "Prendre le zaapi **Quai de la voie du temple**",
     "/travel 23 24",
-    "Entrer dans le palais, puis prendre la porte à gauche",
-    "Cliquer sur le bassin",
+    "Entrer dans le palais, prendre la porte à gauche, puis cliquer sur le bassin",
     "/travel 23 33"
    ],
    "routeEn": [
     "/zaap 13 26",
     "Take the **Temple Way Quay** zaapi",
     "/travel 23 24",
-    "Go into the palace, then through the door on the left",
-    "Click the basin",
+    "Go into the palace, through the door on the left, then click the basin",
     "/travel 23 33"
    ]
   },
@@ -2053,16 +2025,14 @@
     "/zaap 13 26",
     "Prendre le zaapi **Quai de la voie du temple**",
     "/travel 23 24",
-    "Entrer dans le palais, puis prendre la porte à gauche",
-    "Cliquer sur le bassin",
+    "Entrer dans le palais, prendre la porte à gauche, puis cliquer sur le bassin",
     "/travel 23 27"
    ],
    "routeEn": [
     "/zaap 13 26",
     "Take the **Temple Way Quay** zaapi",
     "/travel 23 24",
-    "Go into the palace, then through the door on the left",
-    "Click the basin",
+    "Go into the palace, through the door on the left, then click the basin",
     "/travel 23 27"
    ]
   }
