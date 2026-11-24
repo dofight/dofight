@@ -32,3 +32,8 @@ it("gives a detached sheet's bar its own sheet's colour, a spell's as well as a 
   const css = readFileSync("src/styles.css", "utf8");
   expect(css).toMatch(/#peek\.detached \.peek-bar\{[^}]*background:inherit[^}]*\}/);
 });
+
+it("gives a spell's sheet the colour of the other sheets (« Comment y aller », a monster's), not the lighter grey of the pills (owner, 2026-11-24)", () => {
+  const css = readFileSync("src/styles.css", "utf8");
+  expect(css).toMatch(/\.pop\{background:var\(--card\);/);
+});
