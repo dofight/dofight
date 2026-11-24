@@ -31,8 +31,8 @@ windows = { version = "0.62", features = ["Foundation", "Foundation_Collections"
 
 # macOS: AppKit (the panel, the menu bar), and later CoreGraphics, ScreenCaptureKit and Vision for the reading
 [target.'cfg(target_os = "macos")'.dependencies]
-# the overlay windows become non-activating NSPanels (platform/mac.rs): not on crates.io, so a git branch
-tauri-nspanel = { git = "https://github.com/ahkohd/tauri-nspanel", branch = "v2" }
+# the overlay windows become non-activating NSPanels (platform/mac.rs): not on crates.io, so a git commit (of branch v2)
+tauri-nspanel = { git = "https://github.com/ahkohd/tauri-nspanel", rev = "18ffb9a201fbf6fedfaa382fd4b92315ea30ab1a" }
 objc2 = "0.6"
 objc2-foundation = "0.3"
 objc2-app-kit = "0.3"
