@@ -555,13 +555,13 @@
    "route": [
     "Avec la diligence (quête [Shushu et Lulu](https://www.dofuspourlesnoobs.com/shushu-et-lulu.html)) : {/zaap 5 -18 ; /travel -9 31}",
     "Sinon : {/zaap -26 37}, puis le zaapi **Atelier des alchimistes** et [-9,31]",
-    "Descendre dans la caverne en bas",
+    "Aller en bas pour descendre dans la caverne",
     "/travel -9 29"
    ],
    "routeEn": [
     "With the stagecoach (quest [Shushu Shack](https://www.dofuspourlesnoobs.com/shushu-et-lulu.html)): {/zaap 5 -18 ; /travel -9 31}",
     "Otherwise: {/zaap -26 37}, then the **Alchemists' Workshop** zaapi and [-9,31]",
-    "Go down into the cave below",
+    "Go down to get into the cave",
     "/travel -9 29"
    ]
   },
