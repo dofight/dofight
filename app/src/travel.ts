@@ -184,17 +184,26 @@ function commandButtons(command: string, zaaps: Zaap[]): { html: string; name: s
  * (« /travel -68 -34 | ou {skis} Paire de skis… »); the others (« Prendre le Transporteur frigostien vers … ») are text,
  * a quest in them a link to its page. */
 export function renderRoute(route: string[], label = true, zaaps: Zaap[] = []): string {
-  const steps = route
-    .map((step) => {
-      const trimmed = step.trim();
-      if (!trimmed.startsWith("/")) return `<li class="step">${withLinks(trimmed, zaaps)}</li>`;
-      const bar = trimmed.indexOf(" | ");
-      const s = bar < 0 ? trimmed : trimmed.slice(0, bar).trim();
-      const text = bar < 0 ? "" : trimmed.slice(bar + 3).trim();
-      const { html, name } = commandButtons(s, zaaps);
-      const after = text && !(name && same(text, name)) ? ` ${withLinks(text, zaaps)}` : "";
-      return `<li class="step">${html}${after}</li>`;
-    })
+  const body = (trimmed: string): string => {
+    if (!trimmed.startsWith("/")) return withLinks(trimmed, zaaps);
+    const bar = trimmed.indexOf(" | ");
+    const s = bar < 0 ? trimmed : trimmed.slice(0, bar).trim();
+    const text = bar < 0 ? "" : trimmed.slice(bar + 3).trim();
+    const { html, name } = commandButtons(s, zaaps);
+    return `${html}${text && !(name && same(text, name)) ? ` ${withLinks(text, zaaps)}` : ""}`;
+  };
+  // « Sinon : … » / « Otherwise: … » is the other way to do the step before it: same number, on its own line (review, 2026-11-23:
+  // numbered after it, the Aquadôme's and the Grand Ougah's two ways read as two steps in a row)
+  const groups: { main: string; alts: string[] }[] = [];
+  for (const step of route) {
+    const trimmed = step.trim();
+    if (groups.length && /^(sinon|otherwise)\s*:/i.test(trimmed)) groups[groups.length - 1].alts.push(body(trimmed));
+    else groups.push({ main: body(trimmed), alts: [] });
+  }
+  const steps = groups
+    .map(({ main, alts }) => alts.length
+      ? `<li class="step"><div class="choice">${main}</div>${alts.map((a) => `<div class="choice alt">${a}</div>`).join("")}</li>`
+      : `<li class="step">${main}</li>`)
     .join("");
   const head = label ? `<span class="go">${esc(t("trip.route"))}</span>` : "";
   return `<div class="trip route">${head}<ol class="steps">${steps}</ol></div>`;

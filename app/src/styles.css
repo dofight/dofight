@@ -105,6 +105,7 @@ button:not(:disabled),a[href],[role=button],[role=radio],[role=option],select,in
 .trip.route{align-items:flex-start;flex-direction:column}
 .trip .steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:2px}
 .trip .step{color:var(--fg)}
+.trip .step .alt{margin-top:1px}
 .trip .step::marker{color:var(--muted)}
 .trip .step img{width:16px;height:16px;vertical-align:-3px}
 img.mark{width:16px;height:16px;vertical-align:-3px} /* an item named in a text, wherever it is */

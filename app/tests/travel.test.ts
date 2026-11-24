@@ -80,11 +80,28 @@ describe("how to get there", () => {
     const zaaps = [zaap(5, -18, "Cité d'Astrub"), zaap(-26, 37, "La Cuirasse")];
     box.innerHTML = renderRoute(["Avec la diligence : {/zaap 5 -18 ; /travel -9 31}", "Sinon : {/zaap -26 37}, puis [-9,31]", "{/zaap x} {/rm -rf}"], false, zaaps);
     const steps = box.querySelectorAll(".step");
-    expect(steps[0].textContent).toBe("Avec la diligence : Cité d'Astrub");
+    expect(steps[0].querySelector(".choice")!.textContent).toBe("Avec la diligence : Cité d'Astrub");
     expect(steps[0].querySelector<HTMLElement>(".zaap")!.dataset.copy).toBe("/zaap 5 -18 ; /travel -9 31");
-    expect([...steps[1].querySelectorAll<HTMLElement>(".travel")].map((b) => b.dataset.copy)).toEqual(["/zaap -26 37", "/travel -9 31"]);
-    expect(steps[2].textContent).toBe("{/zaap x} {/rm -rf}"); // not a command: stays text
-    expect(steps[2].querySelector("button")).toBeNull();
+    expect([...steps[0].querySelectorAll<HTMLElement>(".alt .travel")].map((b) => b.dataset.copy)).toEqual(["/zaap -26 37", "/travel -9 31"]);
+    expect(steps[1].textContent).toBe("{/zaap x} {/rm -rf}"); // not a command: stays text
+    expect(steps[1].querySelector("button")).toBeNull();
+  });
+
+  it("a step starting « Sinon : » / « Otherwise: » is the other way to do the step before it, under the same number (review, 2026-11-23)", () => {
+    const box = document.createElement("div");
+    box.innerHTML = renderRoute(["/travel 23 18", "Ascenseurs débloqués : 1 carte à gauche", "Sinon : suivre le chemin", "Entrer"], false);
+    const steps = [...box.querySelectorAll(".steps > .step")];
+    expect(steps).toHaveLength(3);
+    expect(steps[1].querySelector(".choice")!.textContent).toBe("Ascenseurs débloqués : 1 carte à gauche");
+    expect(steps[1].querySelector(".alt")!.textContent).toBe("Sinon : suivre le chemin");
+    expect(steps[2].textContent).toBe("Entrer");
+    box.innerHTML = renderRoute(["Lifts unlocked: 1 map left", "Otherwise: follow the way"], false);
+    expect(box.querySelectorAll(".steps > .step")).toHaveLength(1);
+    expect(box.querySelector(".alt")!.textContent).toBe("Otherwise: follow the way");
+    // a first step cannot be an alternative to nothing: it stays a step; « Sinonien » is not « Sinon »
+    box.innerHTML = renderRoute(["Sinon : x", "Sinonien y"], false);
+    expect(box.querySelectorAll(".steps > .step")).toHaveLength(2);
+    expect(box.querySelector(".alt")).toBeNull();
   });
 
   it("a route step can link a quest to its page: [name](https://…)", () => {
