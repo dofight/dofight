@@ -124,9 +124,10 @@ const travelButton = (to: { x: number; y: number }): string => {
   const command = `/travel ${to.x} ${to.y}`;
   return `<button type="button" class="travel" data-copy="${command}" title="${command}">${STEPS}<span class="lbl" aria-live="polite">[${to.x},${to.y}]</span>${icon("copy")}</button>`;
 };
-/** The zaap and its name: copies the whole command (« /zaap 5 -18 ; /travel 3 -21 »). */
+/** The zaap and its name: copies the whole command (« /zaap 5 -18 ; /travel 3 -21 »); the footprints after the zaap
+ * when the command goes on with a /travel (owner review 2026-11-23: zaap, footprints, name, in one button). */
 const zaapButton = (command: string, name: string): string =>
-  `<button type="button" class="travel zaap" data-copy="${esc(command)}" title="${esc(command)}">${ZAAP}<span class="lbl" aria-live="polite">${esc(name)}</span>${icon("copy")}</button>`;
+  `<button type="button" class="travel zaap" data-copy="${esc(command)}" title="${esc(command)}">${ZAAP}${command.includes("/travel") ? STEPS : ""}<span class="lbl" aria-live="polite">${esc(name)}</span>${icon("copy")}</button>`;
 
 /** A position written in an escaped text, « [15,-31] », as a button that copies « /travel 15 -31 » (owner, 2026-11-20:
  * every position a player reads can be copied). */
@@ -143,18 +144,22 @@ export const marks = (html: string): string =>
     .replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
 
 /** A text step, escaped, its « [name](https://…) » parts made links (a quest's page: « après [Star ski et Dutch](…) »);
- * any other link stays as text. */
-function withLinks(step: string): string {
+ * any other link stays as text. A command in braces, « Sinon : {/zaap -26 37}, puis … », is its button in the text
+ * (owner review 2026-11-23: the way to choose before the button, the Temple du Grand Ougah). */
+function withLinks(step: string, zaaps: Zaap[] = []): string {
   const parts = step.split(/\[([^\]]+)\]\((https:\/\/[^)\s"]+)\)/);
+  const commands = (html: string) => html.replace(/\{(\/(?:zaap|travel) [^{}]+)\}/g, (all, c: string) => (COMMAND.test(c) ? commandButtons(c, zaaps).html : all));
   return parts
-    .map((p, i) => (i % 3 === 0 ? withPositions(marks(esc(p))) : i % 3 === 1 ? `<a class="quest" href="${esc(parts[i + 1])}" target="_blank" rel="noopener">${esc(p)}</a>` : ""))
+    .map((p, i) => (i % 3 === 0 ? commands(withPositions(marks(esc(p)))) : i % 3 === 1 ? `<a class="quest" href="${esc(parts[i + 1])}" target="_blank" rel="noopener">${esc(p)}</a>` : ""))
     .join("");
 }
 
 const same = (a: string, b: string) => normalize(a) === normalize(b);
 
-/** A command step's buttons, as in the header's trip line (owner, 2026-11-23: the same everywhere): « /travel x y » is
- * the footprints and « [x,y] »; « /zaap a b ; /travel x y » is those, then the zaap and its name copying the whole
+const COMMAND = /^\/zaap -?\d+ -?\d+(?: ; \/travel -?\d+ -?\d+)?$|^\/travel -?\d+ -?\d+$/;
+
+/** A command step's button (owner review 2026-11-23: the same everywhere): « /travel x y » is the footprints and
+ * « [x,y] »; « /zaap a b ; /travel x y » is one button, the zaap, the footprints and the zaap's name, copying the whole
  * command; « /zaap a b » alone is the zaap and its name. A zaap not found keeps its command as its text. Returns the
  * zaap's name too, so text after « | » that only repeats it is left out. */
 function commandButtons(command: string, zaaps: Zaap[]): { html: string; name: string | null } {
@@ -163,8 +168,7 @@ function commandButtons(command: string, zaaps: Zaap[]): { html: string; name: s
   if (command.startsWith("/travel")) return { html: travelButton({ x: Number(m[1]), y: Number(m[2]) }), name: null };
   const z = zaaps.find((z) => z.x === Number(m[1]) && z.y === Number(m[2]));
   const name = z ? zaapName(z) : null;
-  const go = m[3] !== undefined ? travelButton({ x: Number(m[3]), y: Number(m[4]) }) : "";
-  return { html: go + zaapButton(command, name ?? command), name };
+  return { html: zaapButton(command, name ?? command), name };
 }
 
 /** A written route: « Trajet : » (unless `label` is false: the sheet has its own heading) then its steps in order; a
@@ -175,12 +179,12 @@ export function renderRoute(route: string[], label = true, zaaps: Zaap[] = []): 
   const steps = route
     .map((step) => {
       const trimmed = step.trim();
-      if (!trimmed.startsWith("/")) return `<li class="step">${withLinks(trimmed)}</li>`;
+      if (!trimmed.startsWith("/")) return `<li class="step">${withLinks(trimmed, zaaps)}</li>`;
       const bar = trimmed.indexOf(" | ");
       const s = bar < 0 ? trimmed : trimmed.slice(0, bar).trim();
       const text = bar < 0 ? "" : trimmed.slice(bar + 3).trim();
       const { html, name } = commandButtons(s, zaaps);
-      const after = text && !(name && same(text, name)) ? ` ${withLinks(text)}` : "";
+      const after = text && !(name && same(text, name)) ? ` ${withLinks(text, zaaps)}` : "";
       return `<li class="step">${html}${after}</li>`;
     })
     .join("");
