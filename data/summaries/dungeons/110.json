@@ -36,7 +36,7 @@
      "param": "Nintrépidité (PM, bouclier)"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "bond de 5 cases, tours pairs"
     }
    ],
@@ -64,7 +64,11 @@
     },
     {
      "id": "moves",
-     "param": "pousse et s'attire"
+     "param": "pousse"
+    },
+    {
+     "id": "moves_self",
+     "param": "s'attire"
     }
    ]
   },
@@ -83,7 +87,7 @@
      "param": "Vitalité (Nimpatience 3)"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "s'attire sur sa cible en ligne"
     }
    ]

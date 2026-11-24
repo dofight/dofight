@@ -97,7 +97,7 @@
      "id": "no_melee_end"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte",
      "source": "spells"
     },
@@ -125,7 +125,7 @@
      "source": "spells"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte",
      "source": "spells"
     },

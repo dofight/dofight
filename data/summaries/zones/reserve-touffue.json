@@ -32,8 +32,13 @@
      "param": "Bébé Amphibouc"
     },
     {
+     "id": "moves_self",
+     "param": "avance, se téléporte",
+     "source": "spells"
+    },
+    {
      "id": "moves",
-     "param": "avance, se téléporte, attire",
+     "param": "attire",
      "source": "spells"
     }
    ]
@@ -49,8 +54,12 @@
      "param": "Bébé Gropotam"
     },
     {
+     "id": "moves_self",
+     "param": "fonce"
+    },
+    {
      "id": "moves",
-     "param": "fonce et repousse"
+     "param": "repousse"
     }
    ]
   },
@@ -97,8 +106,12 @@
      "param": "Bébé Lapilope"
     },
     {
+     "id": "moves_self",
+     "param": "se téléporte"
+    },
+    {
      "id": "moves",
-     "param": "se téléporte, pousse, échange"
+     "param": "pousse, échange"
     }
    ]
   },

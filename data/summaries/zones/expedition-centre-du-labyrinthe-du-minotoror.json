@@ -118,7 +118,7 @@
      "source": "spells"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte jusqu'à 10 PO"
     }
    ]

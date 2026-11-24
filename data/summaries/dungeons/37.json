@@ -75,8 +75,12 @@
   "845": {
    "tags": [
     {
+     "id": "moves_self",
+     "param": "se téléporte au contact"
+    },
+    {
      "id": "moves",
-     "param": "se téléporte au contact, pousse"
+     "param": "pousse"
     }
    ]
   },

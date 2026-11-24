@@ -169,6 +169,13 @@
       "param": "how",
       "icon": "badges/moves.webp"
     },
+    "moves_self": {
+      "category": "mechanic",
+      "label": "Se déplace",
+      "labelEn": "Moves",
+      "param": "how",
+      "icon": "badges/moves.webp"
+    },
     "glyphs": {
       "category": "mechanic",
       "label": "Pose des glyphes",

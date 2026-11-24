@@ -35,7 +35,12 @@
     },
     {
      "id": "moves",
-     "param": "pousse, se téléporte",
+     "param": "pousse",
+     "source": "spells"
+    },
+    {
+     "id": "moves_self",
+     "param": "se téléporte",
      "source": "spells"
     }
    ]

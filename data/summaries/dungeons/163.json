@@ -73,7 +73,7 @@
      "param": "Zoeuf de Kamikabz"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "fonce sur sa cible en ligne"
     }
    ]
@@ -97,7 +97,7 @@
      "param": "Zoeuf de Toubibz"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte"
     }
    ],

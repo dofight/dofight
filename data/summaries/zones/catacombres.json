@@ -58,7 +58,7 @@
      "param": "50 % des PV actuels, 1 tour"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "fonce sur sa cible"
     }
    ],
@@ -76,8 +76,12 @@
      "source": "spells"
     },
     {
+     "id": "moves_self",
+     "param": "se téléporte"
+    },
+    {
      "id": "moves",
-     "param": "se téléporte, attire"
+     "param": "attire"
     }
    ]
   },

@@ -99,7 +99,7 @@
      "source": "spells"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte",
      "source": "spells"
     }

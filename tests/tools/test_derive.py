@@ -17,9 +17,11 @@ def test_a_ranged_hit_is_not_harmless_but_gets_no_tag_by_itself():
 
 
 def test_movement_spells_make_a_moves_tag_even_at_melee():
+    # « Déplace » for what moves you, « Se déplace » for what moves the monster itself (owner, 2026-11-22)
     out = derive([spell("Charge", 1, ["move"], ["Attire de 3 cases", "Téléporte sur la case ciblée"])])
     assert out["harmless"] is False
-    assert {"id": "moves", "param": "attire, se téléporte", "source": "spells"} in out["tags"]
+    assert {"id": "moves", "param": "attire", "source": "spells"} in out["tags"]
+    assert {"id": "moves_self", "param": "se téléporte", "source": "spells"} in out["tags"]
 
 
 def test_a_teleport_aimed_at_enemies_teleports_you_not_the_monster():
@@ -157,7 +159,7 @@ def tags_of(*spells):
 
 
 def test_a_rush_is_a_move():
-    assert tags_of(sp("Charge", 1, 5, [eff("Avance de 4 cases", "all")]))["moves"] == "avance"
+    assert tags_of(sp("Charge", 1, 5, [eff("Avance de 4 cases", "all")]))["moves_self"] == "avance"
 
 
 def test_shields_given_to_allies_are_a_buff():

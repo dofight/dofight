@@ -27,7 +27,7 @@
      "param": "PM et dommages finaux"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte au CaC d'une Goule"
     }
    ],
@@ -36,8 +36,13 @@
   "4881": {
    "tags": [
     {
+     "id": "moves_self",
+     "param": "se téléporte",
+     "source": "spells"
+    },
+    {
      "id": "moves",
-     "param": "se téléporte, attire",
+     "param": "attire",
      "source": "spells"
     }
    ]

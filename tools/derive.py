@@ -9,6 +9,7 @@ import re
 
 _MOVES = (("attire", "attire"), ("repousse", "pousse"), ("recule", "pousse"), ("téléporte", "se téléporte"),
           ("téléportation", "se téléporte"), ("échange de positions", "échange de place"), ("avance de", "avance"))
+_SELF_MOVES = {"se téléporte", "avance"}
 # « Téléporte ou échange de positions »: one move, a swap (not « se téléporte » as well)
 _SWAP_OR_TELEPORT = "téléporte ou échange de positions"
 _DANGEROUS_CATEGORIES = {"move", "summon", "glyph", "heal", "hinder"}
@@ -204,8 +205,13 @@ def derive(spells: list) -> dict:
                 label = "te téléporte"
             if key in low and label not in moves:
                 moves.append(label)
-    if moves:
-        add("moves", _join(moves))
+    # « Se déplace » when the monster moves itself, « Déplace » when it moves others (owner, 2026-11-22: « on sépare »)
+    own = [m for m in moves if m in _SELF_MOVES]
+    others = [m for m in moves if m not in _SELF_MOVES]
+    if others:
+        add("moves", _join(others))
+    if own:
+        add("moves_self", _join(own))
     if any("Érosion" in t for t in texts):
         add("erodes")
     if any("invisible" in t.lower() and not t.startswith("Dévoile") for t in texts):

@@ -41,7 +41,7 @@
      "param": "PM autour de lui"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "fonce sur sa cible"
     }
    ],

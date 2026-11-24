@@ -129,8 +129,12 @@
      "param": "PM"
     },
     {
+     "id": "moves_self",
+     "param": "bondit"
+    },
+    {
      "id": "moves",
-     "param": "bondit, pousse"
+     "param": "pousse"
     }
    ],
    "detail": "Hanque : gagne des PV à chaque coup reçu pendant 4 tours."

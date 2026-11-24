@@ -92,7 +92,7 @@
      "param": "Puissance, autour de lui"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "s'attire sur sa cible en ligne"
     }
    ],

@@ -123,7 +123,7 @@
      "param": "bouclier"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte"
     }
    ],

@@ -28,7 +28,7 @@
      "source": "spells"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte sur un allié",
      "source": "spells"
     },

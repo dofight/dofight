@@ -28,8 +28,13 @@
      "source": "spells"
     },
     {
+     "id": "moves_self",
+     "param": "se téléporte",
+     "source": "spells"
+    },
+    {
      "id": "moves",
-     "param": "se téléporte, pousse",
+     "param": "pousse",
      "source": "spells"
     }
    ]
@@ -62,7 +67,11 @@
     },
     {
      "id": "moves",
-     "param": "attire autour de lui, avance"
+     "param": "attire autour de lui"
+    },
+    {
+     "id": "moves_self",
+     "param": "avance"
     }
    ]
   },

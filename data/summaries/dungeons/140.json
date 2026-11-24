@@ -90,7 +90,11 @@
     },
     {
      "id": "moves",
-     "param": "pousse et se téléporte"
+     "param": "pousse"
+    },
+    {
+     "id": "moves_self",
+     "param": "se téléporte"
     }
    ],
    "detail": "L'état Pesanteur l'empêche de se téléporter sur tes personnages."

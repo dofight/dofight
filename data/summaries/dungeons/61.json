@@ -80,7 +80,11 @@
     },
     {
      "id": "moves",
-     "param": "pousse, se téléporte"
+     "param": "pousse"
+    },
+    {
+     "id": "moves_self",
+     "param": "se téléporte"
     }
    ],
    "detail": "Gloursbi-boulga : chaque coup reçu lui donne des dommages de poussée. Le désenvoûter ou ne pas le frapper."

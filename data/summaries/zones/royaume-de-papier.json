@@ -50,8 +50,12 @@
      "param": "Kinkutsubram"
     },
     {
+     "id": "moves_self",
+     "param": "fonce"
+    },
+    {
      "id": "moves",
-     "param": "fonce et repousse"
+     "param": "repousse"
     }
    ]
   },

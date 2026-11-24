@@ -21,7 +21,7 @@
      "param": "affaiblit les autres Gelées"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte",
      "source": "spells"
     }
@@ -48,7 +48,7 @@
      "param": "affaiblit les autres Gelées"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte",
      "source": "spells"
     }
@@ -76,7 +76,7 @@
      "source": "spells"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte",
      "source": "spells"
     }
@@ -104,7 +104,7 @@
      "source": "spells"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte",
      "source": "spells"
     }
@@ -118,7 +118,7 @@
      "param": "Agilité"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte",
      "source": "spells"
     },
@@ -141,7 +141,7 @@
      "source": "spells"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte",
      "source": "spells"
     },
@@ -164,7 +164,7 @@
      "source": "spells"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte",
      "source": "spells"
     },
@@ -187,7 +187,7 @@
      "source": "spells"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte",
      "source": "spells"
     },

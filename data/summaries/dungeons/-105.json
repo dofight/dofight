@@ -17,7 +17,7 @@
      "param": "bloque son rush"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "s'attire sur sa cible"
     },
     {
@@ -101,7 +101,7 @@
      "source": "spells"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte",
      "source": "spells"
     }

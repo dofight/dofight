@@ -65,7 +65,7 @@
      "param": "un allié invulnérable à distance"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte",
      "source": "spells"
     }
@@ -74,7 +74,7 @@
   "6216": {
    "tags": [
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte",
      "source": "spells"
     }
@@ -92,8 +92,13 @@
      "param": "Dommages finaux, Vitalité, PM"
     },
     {
+     "id": "moves_self",
+     "param": "se téléporte",
+     "source": "spells"
+    },
+    {
      "id": "moves",
-     "param": "se téléporte, pousse",
+     "param": "pousse",
      "source": "spells"
     },
     {
@@ -127,7 +132,7 @@
      "param": "PM et dommages à mi-PV"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "fonce au CaC"
     },
     {

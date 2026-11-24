@@ -50,7 +50,11 @@
     },
     {
      "id": "moves",
-     "param": "pousse, se téléporte"
+     "param": "pousse"
+    },
+    {
+     "id": "moves_self",
+     "param": "se téléporte"
     },
     {
      "id": "state",
@@ -106,8 +110,12 @@
      "param": "PM, bouclier"
     },
     {
+     "id": "moves_self",
+     "param": "fonce sur sa cible"
+    },
+    {
      "id": "moves",
-     "param": "fonce sur sa cible, pousse"
+     "param": "pousse"
     }
    ]
   },

@@ -83,8 +83,13 @@
      "source": "spells"
     },
     {
+     "id": "moves_self",
+     "param": "avance",
+     "source": "spells"
+    },
+    {
      "id": "moves",
-     "param": "avance, pousse, te téléporte",
+     "param": "pousse, te téléporte",
      "source": "spells"
     }
    ]

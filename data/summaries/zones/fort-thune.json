@@ -59,8 +59,12 @@
      "source": "spells"
     },
     {
+     "id": "moves_self",
+     "param": "se téléporte"
+    },
+    {
      "id": "moves",
-     "param": "se téléporte, attire en ligne"
+     "param": "attire en ligne"
     },
     {
      "id": "state",

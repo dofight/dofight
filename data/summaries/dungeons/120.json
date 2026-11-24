@@ -48,7 +48,7 @@
      "param": "dommages finaux autour"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte à PO infinie"
     }
    ]

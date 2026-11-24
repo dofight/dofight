@@ -79,7 +79,7 @@
      "param": "soin ou dégâts x2 si frappé"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte",
      "source": "spells"
     }

@@ -37,7 +37,7 @@
      "source": "spells"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte (Chocomatose)"
     }
    ]
@@ -50,7 +50,7 @@
      "source": "spells"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte (Chocomatose)"
     }
    ]
@@ -62,7 +62,7 @@
      "param": "Puissance"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte (Chocomatose)"
     }
    ]
@@ -76,7 +76,11 @@
     },
     {
      "id": "moves",
-     "param": "attire, s'attire, se téléporte"
+     "param": "attire"
+    },
+    {
+     "id": "moves_self",
+     "param": "s'attire, se téléporte"
     }
    ]
   },
@@ -93,7 +97,7 @@
      "source": "spells"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte (Chocomatose)"
     }
    ]

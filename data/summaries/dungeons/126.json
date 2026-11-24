@@ -29,7 +29,12 @@
     },
     {
      "id": "moves",
-     "param": "pousse, se téléporte",
+     "param": "pousse",
+     "source": "spells"
+    },
+    {
+     "id": "moves_self",
+     "param": "se téléporte",
      "source": "spells"
     },
     {
@@ -60,7 +65,11 @@
     },
     {
      "id": "moves",
-     "param": "échange de place, se téléporte"
+     "param": "échange de place"
+    },
+    {
+     "id": "moves_self",
+     "param": "se téléporte"
     },
     {
      "id": "buffs_allies",
@@ -106,8 +115,13 @@
      "param": "autour de lui"
     },
     {
+     "id": "moves_self",
+     "param": "avance",
+     "source": "spells"
+    },
+    {
      "id": "moves",
-     "param": "avance, pousse",
+     "param": "pousse",
      "source": "spells"
     },
     {
@@ -124,7 +138,7 @@
      "source": "spells"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte, crée des doubles"
     }
    ]

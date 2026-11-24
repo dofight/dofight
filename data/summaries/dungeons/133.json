@@ -38,7 +38,7 @@
      "param": "à 75, 50 et 25 % PV"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte",
      "source": "spells"
     }
@@ -72,7 +72,12 @@
     },
     {
      "id": "moves",
-     "param": "attire, se téléporte",
+     "param": "attire",
+     "source": "spells"
+    },
+    {
+     "id": "moves_self",
+     "param": "se téléporte",
      "source": "spells"
     },
     {
@@ -113,8 +118,12 @@
      "param": "sacrifie ses alliés proches"
     },
     {
+     "id": "moves_self",
+     "param": "bondit"
+    },
+    {
      "id": "moves",
-     "param": "bondit et attire"
+     "param": "attire"
     }
    ],
    "detail": "Son sacrifice sur le Roi au tour 2 gêne beaucoup : l'en éloigner."
@@ -130,7 +139,7 @@
      "param": "soins reçus de moitié"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "fonce sur sa cible en ligne"
     }
    ]

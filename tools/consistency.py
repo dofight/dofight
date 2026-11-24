@@ -17,7 +17,7 @@ from pathlib import Path
 
 # the badges derive.py can give; the others (one_shot, invulnerable, tips…) come from guides only
 DERIVABLE = {"revives", "inflicts", "poison_ap", "poison_mp", "no_summon", "summons", "heals", "removes", "steals",
-             "reflect", "dispels_you", "buffs_allies", "moves", "erodes", "invisible", "glyphs"}
+             "reflect", "dispels_you", "buffs_allies", "moves", "moves_self", "erodes", "invisible", "glyphs"}
 
 
 def fingerprint(monster: dict, spells: dict) -> str:

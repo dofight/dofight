@@ -2487,7 +2487,17 @@
   "3 PM à qui soigne sa cible": "3 MP from whoever heals its target",
   "Poison pétrifiant (2 tours, désenvoûtable) : dégâts Eau en fin de tour selon tes PA/PM utilisés, et te téléporte au CaC du monstre le plus proche. En Cible lunaire, utiliser des PA ou PM l'évite.": "Petrifying Poison (2 turns, dispellable): Water damage at the end of your turn according to the AP/MP you used, and it teleports you next to the nearest monster. Under Lunar Target, using AP or MP avoids it.",
   "Chaque personnage pose en début de tour un glyphe qui tue qui y commence ou finit son tour. Dès que la Sporakne finit son tour sur l'un d'eux, le Korriandre devient vulnérable jusqu'à la fin du combat, avec 1 PM et 200 Puissance en plus.": "Each character lays a glyph at turn start that kills whoever starts or ends a turn in it. As soon as the Sporachnee ends its turn on one, the Korriander becomes vulnerable until the end of the fight, with 1 extra MP and 200 extra Power.",
-  "Perd 1 PM par coup reçu (3 max) : la frapper ou lui retirer ses PM, puis la pousser ou l'attirer sur un glyphe où elle finira son tour. Poussée ou attirée, elle repousse d'une case ce qui est dans sa ligne. Tuée, elle revient en 3 tours.": "Loses 1 MP per hit taken (3 max): hit her or remove her MP, then push or pull her onto a glyph where she will end her turn. Pushed or pulled, she pushes back by one cell whatever is in her line. Killed, she comes back in 3 turns."
+  "Perd 1 PM par coup reçu (3 max) : la frapper ou lui retirer ses PM, puis la pousser ou l'attirer sur un glyphe où elle finira son tour. Poussée ou attirée, elle repousse d'une case ce qui est dans sa ligne. Tuée, elle revient en 3 tours.": "Loses 1 MP per hit taken (3 max): hit her or remove her MP, then push or pull her onto a glyph where she will end her turn. Pushed or pulled, she pushes back by one cell whatever is in her line. Killed, she comes back in 3 turns.",
+  "avance vers la cible": "advances on the target",
+  "avance": "advances",
+  "bondit": "leaps",
+  "fonce": "charges",
+  "pousse, échange": "pushes, swaps",
+  "repousse": "pushes back",
+  "s'attire et recule": "dashes in and backs off",
+  "s'attire": "dashes in",
+  "s'attire, se téléporte": "dashes in, teleports",
+  "se téléporte au contact": "teleports next to you"
  },
  "token": {
   "-résistances": "-resistances",

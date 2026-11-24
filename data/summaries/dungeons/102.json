@@ -64,7 +64,7 @@
      "param": "Tacle, Résist. critiques, soins"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "fonce et passe derrière sa cible"
     }
    ],
@@ -85,7 +85,7 @@
      "param": "Esquive PA et PM"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte"
     }
    ],

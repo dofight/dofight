@@ -21,7 +21,7 @@
      "param": "Krokille Juvénile au hasard"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "fonce sur sa cible"
     }
    ],
@@ -109,7 +109,7 @@
      "source": "spells"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte",
      "source": "spells"
     }

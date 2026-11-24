@@ -25,7 +25,12 @@
     },
     {
      "id": "moves",
-     "param": "attire, se téléporte",
+     "param": "attire",
+     "source": "spells"
+    },
+    {
+     "id": "moves_self",
+     "param": "se téléporte",
      "source": "spells"
     },
     {
@@ -66,8 +71,12 @@
      "param": "sacrifie ses alliés proches"
     },
     {
+     "id": "moves_self",
+     "param": "bondit"
+    },
+    {
      "id": "moves",
-     "param": "bondit et attire"
+     "param": "attire"
     }
    ],
    "detail": "Gagne un bouclier à chaque tour : 50 % de sa vitalité au tour 1, puis 10 % de moins par tour, jusqu'à 10 %."
@@ -83,7 +92,7 @@
      "param": "soins reçus de moitié"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "fonce sur sa cible en ligne"
     }
    ]

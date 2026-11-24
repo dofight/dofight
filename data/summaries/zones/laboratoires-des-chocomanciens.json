@@ -70,8 +70,12 @@
      "param": "Insoignable au CaC"
     },
     {
+     "id": "moves_self",
+     "param": "s'attire"
+    },
+    {
      "id": "moves",
-     "param": "s'attire et repousse"
+     "param": "repousse"
     }
    ]
   }

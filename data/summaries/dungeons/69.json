@@ -111,8 +111,13 @@
      "source": "spells"
     },
     {
+     "id": "moves_self",
+     "param": "avance",
+     "source": "spells"
+    },
+    {
      "id": "moves",
-     "param": "avance, échange de place",
+     "param": "échange de place",
      "source": "spells"
     }
    ]

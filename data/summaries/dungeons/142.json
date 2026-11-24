@@ -23,7 +23,7 @@
      "param": "bouclier à un allié"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte au CaC d'un allié"
     }
    ]
@@ -47,7 +47,7 @@
   "7194": {
    "tags": [
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "s'attire sur sa cible"
     }
    ]

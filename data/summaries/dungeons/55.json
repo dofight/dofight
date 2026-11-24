@@ -41,7 +41,12 @@
     },
     {
      "id": "moves",
-     "param": "échange de place, se téléporte",
+     "param": "échange de place",
+     "source": "spells"
+    },
+    {
+     "id": "moves_self",
+     "param": "se téléporte",
      "source": "spells"
     }
    ]

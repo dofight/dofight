@@ -41,7 +41,12 @@
    "tags": [
     {
      "id": "moves",
-     "param": "pousse, avance",
+     "param": "pousse",
+     "source": "spells"
+    },
+    {
+     "id": "moves_self",
+     "param": "avance",
      "source": "spells"
     },
     {

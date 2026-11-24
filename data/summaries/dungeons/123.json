@@ -35,8 +35,12 @@
      "param": "Bombombre (glyphe qui frappe)"
     },
     {
+     "id": "moves_self",
+     "param": "avance vers la cible"
+    },
+    {
      "id": "moves",
-     "param": "avance vers la cible, pousse"
+     "param": "pousse"
     }
    ],
    "detail": "Salle 3 : les monstres sont invulnérables à distance tant qu'il vit. Salle 4 : il double les PV de tous les monstres."
@@ -61,7 +65,7 @@
      "param": "Bombombre (glyphe qui frappe)"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte derrière la cible"
     }
    ]

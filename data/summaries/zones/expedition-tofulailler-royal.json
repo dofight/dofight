@@ -108,7 +108,7 @@
      "source": "spells"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte",
      "source": "spells"
     }
@@ -123,7 +123,12 @@
     },
     {
      "id": "moves",
-     "param": "pousse, avance",
+     "param": "pousse",
+     "source": "spells"
+    },
+    {
+     "id": "moves_self",
+     "param": "avance",
      "source": "spells"
     }
    ]

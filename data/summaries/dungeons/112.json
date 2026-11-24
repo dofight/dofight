@@ -123,7 +123,7 @@
      "source": "spells"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "saute au CaC d'un ennemi"
     }
    ]

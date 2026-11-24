@@ -73,7 +73,7 @@
      "source": "spells"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte, s'attire en ligne"
     }
    ]

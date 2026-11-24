@@ -29,8 +29,12 @@
      "param": "le taper à plus de 2 PO"
     },
     {
+     "id": "moves_self",
+     "param": "fonce sur sa cible"
+    },
+    {
      "id": "moves",
-     "param": "fonce sur sa cible, attire"
+     "param": "attire"
     },
     {
      "id": "state",

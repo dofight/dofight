@@ -69,7 +69,7 @@
      "param": "si Affaibli, en ligne à 2 PO"
     },
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "s'attire sur sa cible"
     },
     {
@@ -81,7 +81,7 @@
   "4441": {
    "tags": [
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte derrière sa cible"
     },
     {

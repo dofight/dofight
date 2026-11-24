@@ -33,7 +33,7 @@
   "3619": {
    "tags": [
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "avance",
      "source": "spells"
     }

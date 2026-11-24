@@ -56,7 +56,7 @@
   "6900": {
    "tags": [
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "s'attire sur sa cible"
     }
    ]
@@ -73,7 +73,7 @@
   "62": {
    "tags": [
     {
-     "id": "moves",
+     "id": "moves_self",
      "param": "se téléporte",
      "source": "spells"
     }

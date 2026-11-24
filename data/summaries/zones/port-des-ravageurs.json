@@ -33,7 +33,11 @@
     },
     {
      "id": "moves",
-     "param": "pousse, s'attire et recule"
+     "param": "pousse"
+    },
+    {
+     "id": "moves_self",
+     "param": "s'attire et recule"
     }
    ]
   },
@@ -69,8 +73,13 @@
      "source": "spells"
     },
     {
+     "id": "moves_self",
+     "param": "se téléporte",
+     "source": "spells"
+    },
+    {
      "id": "moves",
-     "param": "se téléporte, attire, pousse",
+     "param": "attire, pousse",
      "source": "spells"
     }
    ]
