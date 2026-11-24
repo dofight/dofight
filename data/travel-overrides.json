@@ -553,15 +553,15 @@
   "22": {
    "name": "Temple du Grand Ougah",
    "route": [
-    "/zaap 5 -18 ; /travel -9 31 | avec la diligence (quête [Shushu et Lulu](https://www.dofuspourlesnoobs.com/shushu-et-lulu.html))",
-    "/zaap -26 37 | sinon : Brâkmar, puis le zaapi **Atelier des alchimistes** et [-9,31]",
-    "Descendre d'1 carte",
+    "Avec la diligence (quête [Shushu et Lulu](https://www.dofuspourlesnoobs.com/shushu-et-lulu.html)) : {/zaap 5 -18 ; /travel -9 31}",
+    "Sinon : {/zaap -26 37}, puis le zaapi **Atelier des alchimistes** et [-9,31]",
+    "Descendre dans la caverne en bas",
     "/travel -9 29"
    ],
    "routeEn": [
-    "/zaap 5 -18 ; /travel -9 31 | with the stagecoach (quest [Shushu Shack](https://www.dofuspourlesnoobs.com/shushu-et-lulu.html))",
-    "/zaap -26 37 | otherwise: Brakmar, then the **Alchemists' Workshop** zaapi and [-9,31]",
-    "Go 1 map down",
+    "With the stagecoach (quest [Shushu Shack](https://www.dofuspourlesnoobs.com/shushu-et-lulu.html)): {/zaap 5 -18 ; /travel -9 31}",
+    "Otherwise: {/zaap -26 37}, then the **Alchemists' Workshop** zaapi and [-9,31]",
+    "Go down into the cave below",
     "/travel -9 29"
    ]
   },
@@ -863,6 +863,19 @@
    ],
    "routeEn": [
     "/zaap 7 -4 ; /travel -52 -45 | Madrestam Harbour"
+   ]
+  },
+  "135": {
+   "name": "Rituel de Kabahal",
+   "route": [
+    "/zaap 40 -44 ; /travel 41 -56",
+    "Monter les escaliers avec le **Signe des Possédés**",
+    "/travel 43 -57"
+   ],
+   "routeEn": [
+    "/zaap 40 -44 ; /travel 41 -56",
+    "Climb the stairs with the **Sign of the Possessed**",
+    "/travel 43 -57"
    ]
   }
  },
@@ -1466,10 +1479,6 @@
    "routeEn": [
     "Started from your guild hall"
    ]
-  },
-  "Gelaxième dimension": {
-   "x": null,
-   "y": null
   },
   "Invasion de l'Éveil - Forêt d'Amakna": {
    "x": null,
