@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it, vi } from "vitest";
 import { renderRoute, renderTrip, showCopied, travelCommand, withPositions, tripTo, zaapCommand, type Travel } from "../src/travel";
 
@@ -209,5 +210,11 @@ describe("how to get there", () => {
       const trip = tripTo(travel, 1, "x");
       expect(renderTrip(trip, {})).toBe(renderTrip(trip));
     });
+  });
+
+  it("a copy button's text sits on the line of the text around it (owner review, 2026-11-23)", () => {
+    const css = readFileSync("src/styles.css", "utf8");
+    expect(css).toMatch(/\.travel\{[^}]*vertical-align:baseline/);
+    expect(css).toContain(".travel .lbl{align-self:baseline}");
   });
 });

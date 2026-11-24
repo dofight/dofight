@@ -91,9 +91,12 @@ button:not(:disabled),a[href],[role=button],[role=radio],[role=option],select,in
 .trip .go{color:var(--muted)}
 /* like Ganymède: the coordinates in brackets and the zaap are links that copy their command */
 /* a command to copy (/travel, /zaap): gold like the footprints, so it never looks like a link (blue) */
-.travel{display:inline-flex;align-items:center;vertical-align:middle;gap:4px;padding:1px 4px;border:0;border-radius:5px;background:transparent;color:var(--gold);font:inherit;cursor:pointer}
+.travel{display:inline-flex;align-items:center;vertical-align:baseline;gap:4px;padding:1px 4px;border:0;border-radius:5px;background:transparent;color:var(--gold);font:inherit;cursor:pointer}
 .travel:hover{background:var(--gold-soft)}
 .travel img{width:16px;height:16px}
+/* the label carries the button's baseline: its text sits on the line of the text around, whatever the font (owner
+   review 2026-11-23: « En [3,-17] » sat higher than « En »); the icons stay centred on it */
+.travel .lbl{align-self:baseline}
 .travel:not(.zaap) .lbl{font-weight:700} /* the [x,y] position, bold like Ganymède */
 .travel.zaap .lbl{color:var(--fg)}
 .travel.copied,.travel.copied .lbl{color:var(--yellow)}
