@@ -499,40 +499,28 @@
   "36": {
    "name": "Donjon de Nowel",
    "route": [
-    "/zaap 7 -4 ; /travel 8 -6 | Port de Madrestam",
-    "Prendre le bateau",
-    "/travel -32 -89"
+    "/zaap 7 -4 ; /travel -32 -89 | Port de Madrestam"
    ],
    "routeEn": [
-    "/zaap 7 -4 ; /travel 8 -6 | Madrestam Harbour",
-    "Take the boat",
-    "/travel -32 -89"
+    "/zaap 7 -4 ; /travel -32 -89 | Madrestam Harbour"
    ]
   },
   "37": {
    "name": "Caverne de Nowel",
    "route": [
-    "/zaap 7 -4 ; /travel 8 -6 | Port de Madrestam",
-    "Prendre le bateau",
-    "/travel -36 -89"
+    "/zaap 7 -4 ; /travel -36 -89 | Port de Madrestam"
    ],
    "routeEn": [
-    "/zaap 7 -4 ; /travel 8 -6 | Madrestam Harbour",
-    "Take the boat",
-    "/travel -36 -89"
+    "/zaap 7 -4 ; /travel -36 -89 | Madrestam Harbour"
    ]
   },
   "38": {
    "name": "Maison du Papa Nowel",
    "route": [
-    "/zaap 7 -4 ; /travel 8 -6 | Port de Madrestam",
-    "Prendre le bateau",
-    "/travel -34 -89"
+    "/zaap 7 -4 ; /travel -34 -89 | Port de Madrestam"
    ],
    "routeEn": [
-    "/zaap 7 -4 ; /travel 8 -6 | Madrestam Harbour",
-    "Take the boat",
-    "/travel -34 -89"
+    "/zaap 7 -4 ; /travel -34 -89 | Madrestam Harbour"
    ]
   },
   "4": {
@@ -871,10 +859,10 @@
   "62": {
    "name": "Donjon de la mine de Sakaï",
    "route": [
-    "/zaap 7 -4 ; /travel -52 -45 | Port de Madrestam : l'autopilote prend le bateau"
+    "/zaap 7 -4 ; /travel -52 -45 | Port de Madrestam"
    ],
    "routeEn": [
-    "/zaap 7 -4 ; /travel -52 -45 | Madrestam Harbour: the autopilot takes the boat"
+    "/zaap 7 -4 ; /travel -52 -45 | Madrestam Harbour"
    ]
   }
  },
