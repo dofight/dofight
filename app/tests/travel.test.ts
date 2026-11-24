@@ -36,9 +36,8 @@ describe("how to get there", () => {
     expect(go.dataset.copy).toBe("/travel -20 -34");
     expect(zaap.textContent).toBe("Plaines de Cania");
     expect(zaap.dataset.copy).toBe("/zaap -27 -36 ; /travel -20 -34");
-    // a small copy icon after each, and a line that tells where to paste once copied
-    expect(go.querySelector("svg.ic-copy")).not.toBeNull();
-    expect(zaap.querySelector("svg.ic-copy")).not.toBeNull();
+    // no copy icon: the gold text, the hover and « Copié » say it (owner review, 2026-11-23)
+    expect(box.querySelector("svg.ic-copy")).toBeNull();
     expect(box.querySelector(".travel .lbl")!.getAttribute("aria-live")).toBe("polite"); // « Copié » is read out
     // no zaap on that world map: only the coordinates
     box.innerHTML = renderTrip({ to: { x: 1, y: 2, world: 9 }, zaap: null });

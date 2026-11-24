@@ -3,7 +3,6 @@
  * the game chat himself (Dofight never types in the game). Positions: data/travel.json (from the game client's own
  * data files): each dungeon's entrance, a map in the middle of each zone, the zaaps. */
 import { t, getLang } from "./i18n";
-import { icon } from "./render/icons";
 import { normalize } from "./search";
 
 export interface Spot {
@@ -89,8 +88,8 @@ export interface TripOptions {
   special?: boolean;
 }
 
-/** The trip line of a room's header: « Aller en [x,y] », then the zaap to take. Each button copies its command (a
- * copy icon after it); once copied, the button says « Copié » in place of its text for 1 s (`showCopied`). */
+/** The trip line of a room's header: « Aller en [x,y] », then the zaap to take. Each button copies its command;
+ * once copied, the button says « Copié » in place of its text for 1 s (`showCopied`). */
 export function renderTrip(trip: Trip | null, opts: TripOptions = {}): string {
   // no known position (a dungeon the client does not place): the button alone, when there is something to know
   if (!trip) return opts.special ? `<div class="trip">${accessButton()}</div>` : "";
@@ -119,15 +118,16 @@ const MARKS: Record<string, string> = {
   skis: mark("skis"), skis_sombres: mark("skis-sombres"), montre_avance: mark("montre-avance"), montre_retard: mark("montre-retard"),
 };
 const zaapName = (z: Zaap): string => z.zone[getLang()] || z.zone.fr;
-/** The footprints and « [x,y] »: copies « /travel x y ». */
+/** The footprints and « [x,y] »: copies « /travel x y ». No copy icon after it (owner review 2026-11-23: three
+ * icons on a zaap button was a lot; the gold text, the hover and « Copié » say it copies). */
 const travelButton = (to: { x: number; y: number }): string => {
   const command = `/travel ${to.x} ${to.y}`;
-  return `<button type="button" class="travel" data-copy="${command}" title="${command}">${STEPS}<span class="lbl" aria-live="polite">[${to.x},${to.y}]</span>${icon("copy")}</button>`;
+  return `<button type="button" class="travel" data-copy="${command}" title="${command}">${STEPS}<span class="lbl" aria-live="polite">[${to.x},${to.y}]</span></button>`;
 };
 /** The zaap and its name: copies the whole command (« /zaap 5 -18 ; /travel 3 -21 »); the footprints after the zaap
  * when the command goes on with a /travel (owner review 2026-11-23: zaap, footprints, name, in one button). */
 const zaapButton = (command: string, name: string): string =>
-  `<button type="button" class="travel zaap" data-copy="${esc(command)}" title="${esc(command)}">${ZAAP}${command.includes("/travel") ? STEPS : ""}<span class="lbl" aria-live="polite">${esc(name)}</span>${icon("copy")}</button>`;
+  `<button type="button" class="travel zaap" data-copy="${esc(command)}" title="${esc(command)}">${ZAAP}${command.includes("/travel") ? STEPS : ""}<span class="lbl" aria-live="polite">${esc(name)}</span></button>`;
 
 /** A position written in an escaped text, « [15,-31] », as a button that copies « /travel 15 -31 » (owner, 2026-11-20:
  * every position a player reads can be copied). */
@@ -164,7 +164,7 @@ const COMMAND = /^\/zaap -?\d+ -?\d+(?: ; \/travel -?\d+ -?\d+)?$|^\/travel -?\d
  * zaap's name too, so text after « | » that only repeats it is left out. */
 function commandButtons(command: string, zaaps: Zaap[]): { html: string; name: string | null } {
   const m = /^\/zaap (-?\d+) (-?\d+)(?: ; \/travel (-?\d+) (-?\d+))?$/.exec(command) ?? /^\/travel (-?\d+) (-?\d+)$/.exec(command);
-  if (!m) return { html: `<button type="button" class="travel" data-copy="${esc(command)}" title="${esc(command)}">${STEPS}<span class="lbl" aria-live="polite">${esc(command)}</span>${icon("copy")}</button>`, name: null };
+  if (!m) return { html: `<button type="button" class="travel" data-copy="${esc(command)}" title="${esc(command)}">${STEPS}<span class="lbl" aria-live="polite">${esc(command)}</span></button>`, name: null };
   if (command.startsWith("/travel")) return { html: travelButton({ x: Number(m[1]), y: Number(m[2]) }), name: null };
   const z = zaaps.find((z) => z.x === Number(m[1]) && z.y === Number(m[2]));
   const name = z ? zaapName(z) : null;

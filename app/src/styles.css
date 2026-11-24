@@ -100,8 +100,6 @@ button:not(:disabled),a[href],[role=button],[role=radio],[role=option],select,in
 .travel:not(.zaap) .lbl{font-weight:700} /* the [x,y] position, bold like Ganymède */
 .travel.zaap .lbl{color:var(--fg)}
 .travel.copied,.travel.copied .lbl{color:var(--yellow)}
-.travel .ic-copy{width:12px;height:12px;opacity:.75;vertical-align:0}
-.travel:hover .ic-copy,.travel.copied .ic-copy{opacity:1}
 .travel.failed,.travel.failed .lbl{color:var(--danger-fg)}
 /* a written route (data/travel-overrides.json): its steps in order, one per line */
 .trip.route{align-items:flex-start;flex-direction:column}
