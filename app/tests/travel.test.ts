@@ -10,13 +10,13 @@ const travel: Travel = {
 
 describe("how to get there", () => {
   it("goes to a dungeon's entrance, from the nearest zaap counted in maps walked", () => {
-    expect(tripTo(travel, 1, "Cour du Bouftou Royal")).toEqual({ to: { x: 2, y: -34, world: 1 }, zaap: travel.zaaps[1] });
+    expect(tripTo(travel, 1, "Cour du Bouftou Royal")).toEqual({ to: { x: 2, y: -34, world: 1 }, zaap: travel.zaaps[1], zaaps: travel.zaaps });
   });
 
   it("goes to a zone's middle; a zaap of another world map does not count", () => {
     expect(tripTo(travel, null, "Routes Rocailleuses")!.zaap!.zone.fr).toBe("Plaines de Cania");
     expect(tripTo(travel, null, "Lac d'Incarnam")!.zaap!.zone.fr).toBe("Incarnam");
-    expect(tripTo({ ...travel, zaaps: [] }, null, "Routes Rocailleuses")).toEqual({ to: travel.zones["Routes Rocailleuses"], zaap: null });
+    expect(tripTo({ ...travel, zaaps: [] }, null, "Routes Rocailleuses")).toEqual({ to: travel.zones["Routes Rocailleuses"], zaap: null, zaaps: [] });
   });
 
   it("knows nothing of an unknown place, or without the data", () => {
@@ -48,10 +48,26 @@ describe("how to get there", () => {
   it("shows a written route instead of the nearest zaap: its steps in order, commands to copy", () => {
     const box = document.createElement("div");
     const route = ["/zaap -78 -41", "Transporteur frigostien → Larmes d'Ouronigride", "/travel -69 -87"];
-    box.innerHTML = renderTrip({ to: { x: -69, y: -87, world: 1, route }, zaap: zaap(-50, -50, "Somewhere") });
-    expect([...box.querySelectorAll(".step")].map((li) => li.textContent)).toEqual(route);
+    const zaaps = [zaap(-78, -41, "La Bourgade")];
+    box.innerHTML = renderTrip({ to: { x: -69, y: -87, world: 1, route }, zaap: zaap(-50, -50, "Somewhere"), zaaps });
+    expect([...box.querySelectorAll(".step")].map((li) => li.textContent)).toEqual(["La Bourgade", route[1], "[-69,-87]"]);
     expect([...box.querySelectorAll(".travel")].map((b) => (b as HTMLElement).dataset.copy)).toEqual(["/zaap -78 -41", "/travel -69 -87"]);
-    expect(box.querySelector(".zaap")).toBeNull(); // no computed zaap beside a written route
+    expect(box.textContent).not.toContain("Somewhere"); // no computed zaap beside a written route
+  });
+
+  it("a route's command steps look like the header's trip line: [x,y] with footprints, the zaap by its name (owner, 2026-11-23)", () => {
+    const box = document.createElement("div");
+    const zaaps = [zaap(-20, -20, "Routes Rocailleuses"), zaap(7, -4, "Port de Madrestam")];
+    box.innerHTML = renderRoute(["/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs", "/zaap 7 -4 ; /travel -32 -89 | Port de Madrestam", "/zaap 9 9"], false, zaaps);
+    const [first, second, third] = [...box.querySelectorAll(".step")];
+    const buttons = (li: Element) => [...li.querySelectorAll<HTMLElement>(".travel")].map((b) => [b.querySelector("img")!.getAttribute("src"), b.textContent, b.dataset.copy]);
+    expect(buttons(first)).toEqual([
+      ["/icons/hud/steps.png", "[-22,-24]", "/travel -22 -24"],
+      ["/icons/hud/zaap.png", "Routes Rocailleuses", "/zaap -20 -20 ; /travel -22 -24"],
+    ]);
+    expect(first.textContent).toBe("[-22,-24]Routes Rocailleuses Tour des Voyageurs"); // the text after « | » stays
+    expect(second.textContent).toBe("[-32,-89]Port de Madrestam"); // not twice the zaap's name
+    expect(buttons(third)).toEqual([["/icons/hud/zaap.png", "/zaap 9 9", "/zaap 9 9"]]); // an unknown zaap: its command
   });
 
   it("a route step can link a quest to its page: [name](https://…)", () => {
@@ -70,7 +86,7 @@ describe("how to get there", () => {
   it("game icons: the zaap on a /zaap command, footprints on a /travel one, the skis where a step says {skis}", () => {
     const box = document.createElement("div");
     box.innerHTML = renderRoute(["/zaap -78 -41 ; /travel -68 -34", "Prendre le Transporteur (ou une {skis} Paire de skis rustiques jetables)", "/travel -71 -83", "{autre}"]);
-    const [zaapStep, travelStep] = box.querySelectorAll<HTMLElement>(".travel");
+    const [, zaapStep, travelStep] = box.querySelectorAll<HTMLElement>(".travel"); // « [-68,-34] », its zaap, « [-71,-83] »
     expect(zaapStep.querySelector("img")!.getAttribute("src")).toBe("/icons/hud/zaap.png");
     expect(travelStep.querySelector("img")!.getAttribute("src")).toBe("/icons/hud/steps.png");
     const steps = box.querySelectorAll(".step");
@@ -91,11 +107,11 @@ describe("how to get there", () => {
     box.innerHTML = renderRoute(["/travel -68 -34 | ou {skis} Paire de skis rustiques jetables ([Star ski et Dutch](https://www.dofuspourlesnoobs.com/star-ski-et-dutch.html))"]);
     const button = box.querySelector<HTMLElement>(".travel")!;
     expect(button.dataset.copy).toBe("/travel -68 -34");
-    expect(button.textContent).toBe("/travel -68 -34");
+    expect(button.textContent).toBe("[-68,-34]");
     const step = box.querySelector(".step")!;
     expect(step.querySelector("img[src='/icons/hud/skis.png']")).not.toBeNull();
     expect(step.querySelector("a.quest")!.textContent).toBe("Star ski et Dutch");
-    expect(step.textContent).toBe("/travel -68 -34 ou  Paire de skis rustiques jetables (Star ski et Dutch)");
+    expect(step.textContent).toBe("[-68,-34] ou  Paire de skis rustiques jetables (Star ski et Dutch)");
   });
 
   it("once copied, the button says « Copié » in place of its text for 1 s, then its text again", () => {
@@ -130,7 +146,7 @@ describe("how to get there", () => {
   it("a copy button's tooltip is the command, nothing more (owner, 2026-11-20)", () => {
     const box = document.createElement("div");
     box.innerHTML = renderTrip(tripTo(travel, null, "Routes Rocailleuses")) + renderRoute(["/zaap -78 -41 ; /travel -68 -34"]);
-    expect([...box.querySelectorAll<HTMLElement>(".travel")].map((b) => b.title)).toEqual(["/travel -20 -34", "/zaap -27 -36 ; /travel -20 -34", "/zaap -78 -41 ; /travel -68 -34"]);
+    expect([...box.querySelectorAll<HTMLElement>(".travel")].map((b) => b.title)).toEqual(["/travel -20 -34", "/zaap -27 -36 ; /travel -20 -34", "/travel -68 -34", "/zaap -78 -41 ; /travel -68 -34"]);
   });
 
   it("a position in a text, [x,y], is a /travel button (owner, 2026-11-20)", () => {

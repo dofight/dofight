@@ -71,7 +71,7 @@ describe("the « Comment y aller » sheet", () => {
     const { box, all } = sheet(baleine, trip);
     expect(all).toContain("Transporteur frigostien → Larmes d'Ouronigride");
     expect(box.querySelectorAll(".route .travel")).toHaveLength(2);
-    expect(box.querySelector(".zaap")).toBeNull();
+    expect(all).not.toContain("Port de Madrestam"); // the nearest zaap is not the way in
   });
 
   it("no level, and the key only when it is off the keyring (owner, 2026-11-20)", () => {

@@ -739,12 +739,12 @@
   "42": {
    "name": "Garde-manger du Rat Blanc",
    "route": [
-    "/zaap -31 -56 ; /travel -32 -58 | Bonta (Cœur immaculé)",
+    "/zaap -31 -56 ; /travel -32 -58",
     "Entrer dans les égouts",
     "/travel -34 -59"
    ],
    "routeEn": [
-    "/zaap -31 -56 ; /travel -32 -58 | Bonta (Immaculate Heart)",
+    "/zaap -31 -56 ; /travel -32 -58",
     "Go into the sewers",
     "/travel -34 -59"
    ]
@@ -752,12 +752,12 @@
   "43": {
    "name": "Sousouricière du Rat Noir",
    "route": [
-    "/zaap -26 37 ; /travel -25 39 | Brâkmar (La Cuirasse)",
+    "/zaap -26 37 ; /travel -25 39",
     "Entrer dans les égouts",
     "/travel -28 37"
    ],
    "routeEn": [
-    "/zaap -26 37 ; /travel -25 39 | Brakmar (The Breastplate)",
+    "/zaap -26 37 ; /travel -25 39",
     "Go into the sewers",
     "/travel -28 37"
    ]

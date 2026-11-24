@@ -41,7 +41,7 @@ export function renderAccessSheet(title: string, pa: PlaceAccess | null, trip: T
     if (body) needs = `<section class="needs"><h3>${line(t("access.needs"))}</h3>${body}</section>`;
   }
   const route = trip ? routeOf(trip.to) : [];
-  const way = trip ? `<section class="way"><h3>${line(t("access.route"))}</h3>${route.length ? renderRoute(route, false) : renderTrip(trip)}</section>` : "";
+  const way = trip ? `<section class="way"><h3>${line(t("access.route"))}</h3>${route.length ? renderRoute(route, false, trip.zaaps) : renderTrip(trip)}</section>` : "";
   const guide = pa?.guide && /^https:\/\//.test(pa.guide)
     ? `<a class="guide" href="${esc(pa.guide)}" target="_blank" rel="noopener">${esc(t("access.guide"))}${icon("external")}</a>`
     : "";
