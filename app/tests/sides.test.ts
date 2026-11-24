@@ -1,5 +1,5 @@
 import { expect, it } from "vitest";
-import { attachedSides, sidesAfterReload } from "../src/sides";
+import { attachedSides, sidesAfterReload, resizedByPlayer } from "../src/sides";
 
 it("keeps « peek » when no sheet was detached, or before its page answers", () => {
   expect(sidesAfterReload([])).toEqual({ side: "peek", detached: [] });
@@ -23,4 +23,12 @@ it("does not send the sheets to « peek » once the player closed it (detached t
 it("lists the side windows still beside the panel after a reload, to hide them (a pinned sheet left on screen, Fable)", () => {
   expect(attachedSides([{ label: "peek", detached: true }, { label: "peek-2", detached: false }, { label: "peek-1", detached: false }])).toEqual(["peek-1", "peek-2"]);
   expect(attachedSides([])).toEqual([]);
+});
+
+it("takes a pinned sheet's new size for the player's resize only past rounding (resized beside the panel = detached, owner 2026-11-24)", () => {
+  const base = { width: 640, height: 400 };
+  expect(resizedByPlayer(base, { width: 640, height: 400 })).toBe(false); // the panel's own size, arriving late
+  expect(resizedByPlayer(base, { width: 641, height: 398 })).toBe(false); // scaling rounds a pixel or two
+  expect(resizedByPlayer(base, { width: 650, height: 400 })).toBe(true); // an edge pulled
+  expect(resizedByPlayer(base, { width: 640, height: 380 })).toBe(true);
 });

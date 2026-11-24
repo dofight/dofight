@@ -23,3 +23,10 @@ export function sidesAfterReload(states: SideState[], peekExists = true): { side
 export function attachedSides(states: SideState[]): string[] {
   return states.filter((s) => !s.detached).map((s) => s.label).sort();
 }
+
+/** True when a pinned sheet beside the panel has a size the panel did not give it: the player pulled an edge, and the
+ * sheet comes off the panel as a drag takes it off (owner, 2026-11-24). `base` is its size once the panel placed it;
+ * the panel's own size can still arrive after that, and scaling rounds a pixel or two, hence the margin. */
+export function resizedByPlayer(base: { width: number; height: number }, now: { width: number; height: number }): boolean {
+  return Math.abs(now.width - base.width) > 2 || Math.abs(now.height - base.height) > 2;
+}

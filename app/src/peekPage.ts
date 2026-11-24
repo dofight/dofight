@@ -8,6 +8,7 @@ import { showToast } from "./render/toast";
 import { sheetCopied, sheetCopy } from "./render/accessSheet";
 import { KEY, loadSettings } from "./settings";
 import { applyTextSize, applyTheme } from "./theme";
+import { resizedByPlayer } from "./sides";
 
 // The side window beside the panel: a folded monster's badges and summary (see renderPeek), or a sheet the player
 // pinned. It only shows what the panel sends, then tells the panel its height so the panel can size and place it. A
@@ -61,21 +62,40 @@ document.addEventListener("pointerup", () => (press = null));
 document.addEventListener("pointermove", (e) => {
   if (!press || !(e.buttons & 1) || Math.hypot(e.screenX - press.x, e.screenY - press.y) < DRAG_MIN) return;
   press = null;
-  if (!detached) {
-    detached = true;
-    void emit("peek:detach", { label });
-    // the player's own window now: a click on it gives it the focus (owner, 2026-11-20), so Escape closes it. On
-    // macOS the panel conversion also has to be told, or it keeps refusing the keyboard (platform::detached_side).
-    void getCurrentWindow().setFocusable(true);
-    void invoke("side_detached", { label }); // resizable from here on (and at least big enough to read)
-    // the sheet fills the window the player sizes, by its edges, and scrolls inside
-    document.getElementById("peek")!.classList.add("detached");
-    const close = document.querySelector<HTMLElement>(".peek-close");
-    close?.setAttribute("title", t("peek.closeDetached"));
-    close?.setAttribute("aria-label", t("peek.closeDetached"));
-  }
+  detach();
   void getCurrentWindow().startDragging();
 });
+
+// a pinned sheet beside the panel, resized by an edge: it comes off the panel as a drag takes it off, and the resize
+// goes on in the same gesture (owner, 2026-11-24). Its size once the panel placed it is the reference: until then the
+// panel is still sizing it.
+let placedSize: { width: number; height: number } | null = null;
+void listen<{ token: number; to: string }>("peek:placed", async ({ payload }) => {
+  if (payload.to !== label || detached || !document.getElementById("peek")!.classList.contains("pinned")) return;
+  placedSize = await getCurrentWindow().innerSize();
+});
+void getCurrentWindow().onResized(({ payload: size }) => {
+  if (!placedSize || detached || !resizedByPlayer(placedSize, size)) return;
+  placedSize = null;
+  detach();
+});
+
+/** The sheet is the player's own window from now on (dragged or resized away from the panel). */
+function detach(): void {
+  if (detached) return;
+  detached = true;
+  void emit("peek:detach", { label });
+  // the player's own window now: a click on it gives it the focus (owner, 2026-11-20), so Escape closes it. On
+  // macOS the panel conversion also has to be told, or it keeps refusing the keyboard (platform::detached_side).
+  void getCurrentWindow().setFocusable(true);
+  void invoke("side_detached", { label }); // resizable from here on (and at least big enough to read)
+  // the sheet fills the window the player sizes, by its edges, and scrolls inside
+  document.getElementById("peek")!.classList.add("detached");
+  const close = document.querySelector<HTMLElement>(".peek-close");
+  close?.setAttribute("title", t("peek.closeDetached"));
+  close?.setAttribute("aria-label", t("peek.closeDetached"));
+  document.querySelector(".peek-bar")?.removeAttribute("title"); // detached: nothing left to detach
+}
 
 // a detached sheet with the focus: Escape closes it, as its ✕ does
 document.addEventListener("keydown", (e) => {
@@ -89,6 +109,7 @@ void listen<{ command: string; ok: boolean; to: string }>("peek:copied", ({ payl
 
 void listen<{ token: number; html: string; pinned?: boolean; to: string }>("peek:render", ({ payload }) => {
   if (payload.to !== label || detached) return;
+  placedSize = null; // the panel sizes it again: not the player
   const box = document.getElementById("peek")!;
   // a pinned sheet (clicked, or « Comment y aller ») has its bar: moved and closed from there; a hover preview goes
   // with the pointer

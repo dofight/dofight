@@ -861,7 +861,9 @@ let sideReady = true;
 const readySides = new Set<string>(); // pages that said they are ready (before or after their label came back)
 let sideWaiting: { token: number; html: string; pinned?: boolean } | null = null;
 const detachedSheets = new Set<string>();
+let sidePinned = false; // the sheet last sent is pinned: shown resizable, its edges detach it (owner, 2026-11-24)
 function toSide(payload: { token: number; html: string; pinned?: boolean }): void {
+  sidePinned = !!payload.pinned;
   if (!sideReady) {
     sideWaiting = payload;
     return;
@@ -958,7 +960,11 @@ void listen<{ token: number; height: number; label: string }>("peek:size", async
   await peek.setSize(new PhysicalSize(side.width, height));
   await peek.setPosition(new PhysicalPosition(side.x, y));
   if (payload.token !== peekToken) return; // hidden meanwhile (the pointer left, the list was drawn again)
-  await invoke("side_show", { label: sideLabel }); // never Tauri's show(): it would make the sheet the key window
+  // never Tauri's show(): it would make the sheet the key window. A pinned sheet can be resized by its edges, which
+  // detaches it (owner, 2026-11-24); a hover preview cannot (the pointer only passes over it)
+  await invoke("side_show", { label: sideLabel, resizable: sidePinned });
+  // placed: from now on a new size is the player's (the sheet watches for it)
+  void emit("peek:placed", { token: payload.token, to: sideLabel });
 });
 
 // a mechanic's chip (room header or a monster's card): its sheet in the side preview, after `delay` ms; pinned by a

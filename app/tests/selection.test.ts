@@ -127,6 +127,9 @@ it("gives a pinned sheet a bar with a grip and ✕, and a hover preview none", (
   expect(bar.classList.contains("peek-bar")).toBe(true);
   expect(bar.querySelector(".grip")).not.toBeNull();
   expect(bar.querySelector("button.peek-close")).not.toBeNull();
+  // the ✕ closes; the bar says how to detach the sheet (owner, 2026-11-24: not tacked on after « Fermer »)
+  expect(bar.querySelector(".peek-close")!.getAttribute("title")).toBe("Fermer (Échap)");
+  expect(bar.getAttribute("title")).toBe("Fais glisser la fiche ou tire un de ses bords pour la détacher");
   expect(sheetBar(false)).toBe("");
 });
 

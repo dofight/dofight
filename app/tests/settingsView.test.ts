@@ -694,6 +694,10 @@ it("a pinned sheet dragged away stays, and the next sheet goes to a new side win
   const render = await vi.waitFor(() => emitted.find((e) => e.event === "peek:render")!);
   expect(render.payload).toMatchObject({ pinned: true, to: "peek" });
   await handler("peek:size")({ payload: { token: render.payload.token, height: 300, label: "peek" } });
+  // a pinned sheet is shown resizable (its edges detach it, owner 2026-11-24), then told it is placed: from then on a
+  // new size is the player's
+  expect(invoke).toHaveBeenCalledWith("side_show", { label: "peek", resizable: true });
+  expect(emitted.find((e) => e.event === "peek:placed")?.payload).toEqual({ token: render.payload.token, to: "peek" });
   const hide = (await (await import("@tauri-apps/api/window")).Window.getByLabel("peek"))!.hide as unknown as { mock: { calls: unknown[] } };
   const before = hide.mock.calls.length;
   // the player drags it away: a new side window is made for the next sheet (Rust names it)

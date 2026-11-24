@@ -47,10 +47,12 @@ fn side_detached(app: tauri::AppHandle, label: String) -> Result<(), String> {
     Ok(())
 }
 
-/// Shows the side window the page names, without taking the focus (platform::show_side).
+/// Shows the side window the page names, without taking the focus (platform::show_side). `resizable`: a pinned sheet,
+/// whose edges the player may pull, which detaches it (owner, 2026-11-24); a hover preview is not.
 #[tauri::command]
-fn side_show(app: tauri::AppHandle, label: String) -> Result<(), String> {
+fn side_show(app: tauri::AppHandle, label: String, resizable: Option<bool>) -> Result<(), String> {
     let side = app.get_webview_window(&label).ok_or("no such window")?;
+    side.set_resizable(resizable.unwrap_or(false)).map_err(|e| e.to_string())?;
     platform::show_side(&side);
     Ok(())
 }
