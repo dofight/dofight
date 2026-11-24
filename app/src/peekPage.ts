@@ -5,6 +5,7 @@ import { setLang, t } from "./i18n";
 import { takeSelection } from "./selection";
 import { sheetBar, sheetHeight, startsSheetDrag } from "./render/sheetBar";
 import { showToast } from "./render/toast";
+import { watchTagPops } from "./render/monster";
 import { sheetCopied, sheetCopy } from "./render/accessSheet";
 import { KEY, loadSettings } from "./settings";
 import { applyTextSize, applyTheme } from "./theme";
@@ -26,6 +27,7 @@ const syncTheme = () => {
   setLang(settings.lang); // the « copied » line of a sheet, in the interface language
 };
 syncTheme();
+watchTagPops(); // a card's « +N autres » badges, in a sheet too
 window.addEventListener("storage", (e) => e.key === KEY && syncTheme());
 
 // a pinned mechanic's sheet links to its guide: the panel opens it (this window only sends events)

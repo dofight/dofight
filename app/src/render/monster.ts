@@ -6,7 +6,8 @@ import { CATEGORY_ICON, categoryName, esc, escText, img, prose, type IconUrl } f
 import { icon as navIcon } from "./icons";
 import { rangeCaption, rangeMarks, sortByReach, touchesYou } from "../reach";
 
-const TAG_ORDER: TagKind[] = ["danger", "tip", "mechanic"];
+// danger, then mechanics, then tips (owner, 2026-11-24)
+const TAG_ORDER: TagKind[] = ["danger", "mechanic", "tip"];
 const TAG_SHOWN: Record<TagKind, keyof Display> = { danger: "tagsDanger", tip: "tagsTip", mechanic: "tagsMechanic" };
 const TAG_KIND_LABEL: Record<TagKind, Key> = { danger: "opt.tagsDanger", tip: "opt.tagsTip", mechanic: "opt.tagsMechanic" };
 const ELEMENTS: [Element, string][] = [["n", "neutral"], ["e", "earth"], ["f", "fire"], ["w", "water"], ["a", "air"]];
@@ -156,33 +157,70 @@ function dangerCue(summary: MonsterSummary | undefined, vocab: Vocabulary, show:
 
 /** Badges shown before « +N » on a card that has more than one over this. */
 export const TAGS_SHOWN = 5;
+let popCount = 0;
+
+/** A « +N autres » chip about to show its bubble: above the badges when there is no room under them in the
+ * scrolling list or the detached sheet (the last card of a list). */
+export function placeTagPop(chip: HTMLElement): void {
+  const row = chip.closest(".tags.folded");
+  const pop = row?.querySelector<HTMLElement>(".tagpop");
+  if (!row || !pop) return;
+  const box = row.closest(".view, .pagebody, #peek > *") ?? document.documentElement;
+  const limit = box === document.documentElement ? window.innerHeight : box.getBoundingClientRect().bottom;
+  row.classList.remove("up");
+  const room = limit - row.getBoundingClientRect().bottom;
+  const need = pop.scrollHeight || 60;
+  if (room < need + 4) row.classList.add("up");
+}
+
+/** The « +N autres » bubbles of a page (the panel, a detached sheet): placed when the chip is hovered or focused;
+ * Escape closes one until the pointer or the focus moves on, as the settings' bubbles do. */
+export function watchTagPops(doc: Document = document): void {
+  const chipOf = (e: Event) => (e.target as HTMLElement | null)?.closest?.<HTMLElement>(".tag.more") ?? null;
+  doc.addEventListener("pointerover", (e) => {
+    const chip = chipOf(e);
+    if (chip) placeTagPop(chip);
+    else if (!(e.target as HTMLElement | null)?.closest?.(".tagpop")) doc.querySelectorAll(".tags.tip-closed").forEach((r) => r.classList.remove("tip-closed"));
+  });
+  doc.addEventListener("focusin", (e) => {
+    const chip = chipOf(e);
+    doc.querySelectorAll(".tags.tip-closed").forEach((r) => r.classList.remove("tip-closed"));
+    if (chip) placeTagPop(chip);
+  });
+  doc.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    const row = (doc.activeElement as HTMLElement | null)?.closest(".tags.folded") ?? doc.querySelector(".tags.folded:has(.more:hover)");
+    row?.classList.add("tip-closed");
+  });
+}
 
 export function renderTags(list: Tag[], vocab: Vocabulary, show: Display, icon: IconUrl, cls = "tags"): string {
   const known = list.filter((tag) => vocab.tags[tag.id]);
   const tags = TAG_ORDER.flatMap((k) => (show[TAG_SHOWN[k]] ? known.filter((tag) => vocab.tags[tag.id].category === k) : []));
   if (!tags.length) return "";
-  // more than 6 badges (owner, 2026-11-24): the first 5, then « +N »; hovering the badges shows the others (the
-  // dangers come first, so what folds away is a tip or a mechanic)
+  // more than 6 badges (owner, 2026-11-24): the first 5, then « +N autres », which shows the others (the dangers come
+  // first, then the mechanics: what folds away is a tip, or a mechanic)
   const fold = tags.length > TAGS_SHOWN + 1;
-  const more = fold
-    ? `<span class="tag more" tabindex="0" aria-label="${esc(t("monster.moreBadges", { n: tags.length - TAGS_SHOWN }))}">+${tags.length - TAGS_SHOWN}</span>`
-    : "";
-  return `<div class="${cls}${fold ? " folded" : ""}">${tags
-    .map((tag, i) => {
-      const spec = vocab.tags[tag.id];
-      // no icon (or a missing file): a small dot in the badge's colour keeps the labels aligned
-      const path = tagIcon(tag, spec, vocab);
-      const ic = (path ? img(icon, path) : "") || '<i class="dot" aria-hidden="true"></i>';
-      const param = tag.param?.trim() ? ` · ${escText(frenchSpaces(tag.param.trim()))}` : "";
-      // the category is told by colour on screen, and in words to screen readers
-      const kind = `<span class="sr-only">${esc(t(TAG_KIND_LABEL[spec.category]))}, </span>`;
-      // a phase badge with HP thresholds says just them: « Change de phase · 70 % | 30 % » (owner, 2026-11-19)
-      const steps = tag.id === "phase" ? phaseThresholds([tag.param ?? ""]) : [];
-      const shown = steps.length ? ` · ${escText(frenchSpaces(steps.map((p) => `${p} %`).join(" | ")))}` : param;
-      const extra = fold && i >= TAGS_SHOWN ? " extra" : "";
-      return `<span class="tag ${spec.category}${extra}">${kind}${ic}${escText(frenchSpaces(tagLabel(spec)))}${shown}</span>`;
-    })
-    .join("")}${more}</div>`;
+  const badge = (tag: Tag) => {
+    const spec = vocab.tags[tag.id];
+    // no icon (or a missing file): a small dot in the badge's colour keeps the labels aligned
+    const path = tagIcon(tag, spec, vocab);
+    const ic = (path ? img(icon, path) : "") || '<i class="dot" aria-hidden="true"></i>';
+    const param = tag.param?.trim() ? ` · ${escText(frenchSpaces(tag.param.trim()))}` : "";
+    // the category is told by colour on screen, and in words to screen readers
+    const kind = `<span class="sr-only">${esc(t(TAG_KIND_LABEL[spec.category]))}, </span>`;
+    // a phase badge with HP thresholds says just them: « Change de phase · 70 % | 30 % » (owner, 2026-11-19)
+    const steps = tag.id === "phase" ? phaseThresholds([tag.param ?? ""]) : [];
+    const shown = steps.length ? ` · ${escText(frenchSpaces(steps.map((p) => `${p} %`).join(" | ")))}` : param;
+    return `<span class="tag ${spec.category}">${kind}${ic}${escText(frenchSpaces(tagLabel(spec)))}${shown}</span>`;
+  };
+  if (!fold) return `<div class="${cls}">${tags.map(badge).join("")}</div>`;
+  // « +N autres » opens a bubble with the others over the card, taking no room (owner, 2026-11-24: the row grew on
+  // hover and the card jumped); the settings' « i » bubbles work the same way
+  const id = `tagpop-${++popCount}`;
+  const chip = `<button type="button" class="tag more" aria-describedby="${id}">${esc(t("monster.moreBadgesChip", { n: tags.length - TAGS_SHOWN }))}</button>`;
+  const pop = `<span class="tagpop" role="tooltip" id="${id}">${tags.slice(TAGS_SHOWN).map(badge).join("")}</span>`;
+  return `<div class="${cls} folded">${tags.slice(0, TAGS_SHOWN).map(badge).join("")}${chip}${pop}</div>`;
 }
 
 /** The HP percentages at which a monster changes phase, read off its « Change de phase » badges: only those after

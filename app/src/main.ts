@@ -33,7 +33,7 @@ import { englishReading, englishView, frenchRoom, loadEnglish, zoneName, type En
 import { esc } from "./render/html";
 import { applyIcons, icon } from "./render/icons";
 import { highlight, matches, monsterText, spellsMatching } from "./findInList";
-import { renderPeek } from "./render/monster";
+import { renderPeek, watchTagPops } from "./render/monster";
 import { renderRoom } from "./render/panel";
 import { renderSpellSheet } from "./render/spellSheet";
 import { renderMechanicSheet } from "./render/mechanic";
@@ -59,7 +59,7 @@ const DISPLAY: Flag[] = ["roomSummary", "expandAll", "hoverPeek"];
 const KINDS_SHOWN: Flag[] = ["showArch", "showWanted", "showSpecial", "showEvent"];
 const CARD: Flag[] = ["thumbnails", "details", "resistances"];
 const CARD_AFTER_BADGES: Flag[] = ["spells", "spellBadges"];
-const BADGES: Flag[] = ["tagsDanger", "tagsTip", "tagsMechanic"];
+const BADGES: Flag[] = ["tagsDanger", "tagsMechanic", "tagsTip"]; // danger, mechanic, tip (owner, 2026-11-24)
 const BADGE_COLOUR: Partial<Record<Flag, string>> = { tagsDanger: "danger", tagsTip: "tip", tagsMechanic: "mechanic" };
 const PREVIEW_DUNGEON = "Tertre du long sommeil"; // the preview always shows this one dungeon as its example
 const TOUR_DUNGEON = 114; // the guide's tour: Sanctuaire de Torkélonia, a boss with badges and a mechanic chip
@@ -586,6 +586,8 @@ function switches(container: string, flags: Flag[]): void {
     })
     .join("");
 }
+
+watchTagPops(); // a card's « +N autres » badges
 
 // Escape closes an option's explanation (until the pointer or the focus leaves its « i »)
 document.addEventListener("keydown", (e) => {

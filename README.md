@@ -66,7 +66,7 @@ glisse Dofight d'Applications à la Corbeille.
 ## Ce que fait Dofight
 
 - **Les monstres autour de toi** : ceux de ta sous-zone ou de ton donjon, affichés dès que tu y entres.
-- **Ce qui est dangereux** : des badges (danger, conseil, mécanique) et un court résumé rédigé à
+- **Ce qui est dangereux** : des badges (danger, mécanique, conseil) et un court résumé rédigé à
   partir des guides. La fiche du boss est dépliée ; pour les autres monstres, les dangers apparaissent directement
   sur leur ligne.
 - **Résistances et sorts** de chaque monstre, avec le détail de chaque sort.
@@ -160,7 +160,7 @@ Applications to the Trash.
 ### What it does
 
 - **The monsters around you**: your subarea's or dungeon's monsters, shown as soon as you walk in.
-- **What is dangerous**: badges (danger, tip, mechanic) and a short summary written from the guides.
+- **What is dangerous**: badges (danger, mechanic, tip) and a short summary written from the guides.
   The boss is expanded; the others show their dangers on their line.
 - **Resistances and spells** of each monster, with a detailed sheet for each spell.
 - **The big mechanics explained** (lunar cycle, monster waves, dimension modifiers…): hover over the “ⓘ” chip for a

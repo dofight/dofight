@@ -120,10 +120,10 @@ describe("renderMonster", () => {
     expect(folded.querySelector(".mdanger img")?.getAttribute("src")).toBe("icons/states/stateImmobilization.webp");
   });
 
-  it("orders tags danger, tip, mechanic and skips unknown ids", () => {
+  it("orders tags danger, mechanic, tip and skips unknown ids (owner, 2026-11-24)", () => {
     // (without the stats line, the phase stays a badge)
     const card = dom(renderMonster(m, s.spells, { tags }, { ...ALL, details: false }, everyIcon, true, VOCAB));
-    expect([...card.querySelectorAll(".tag")].map((t) => t.className.split(" ")[1])).toEqual(["danger", "tip", "mechanic"]);
+    expect([...card.querySelectorAll(".tag")].map((t) => t.className.split(" ")[1])).toEqual(["danger", "mechanic", "tip"]);
   });
 
   it("reads the HP thresholds of the phases, not other percentages", () => {
@@ -484,23 +484,27 @@ describe("written summaries as bullets", () => {
 describe("more than 6 badges (owner, 2026-11-24)", () => {
   const many = (n: number) =>
     [{ id: "one_shot", param: "x" }, ...Array.from({ length: n - 1 }, (_, i) => ({ id: "phase", param: `à ${90 - i * 10} % PV` }))];
-  it("shows the first 5, then « +N », the others folded until hovered", () => {
+  it("shows the first 5, then « +N autres », the others in a bubble that takes no room", () => {
     const room = document.createElement("div");
     room.innerHTML = renderTags(many(8), VOCAB, ALL, () => null);
-    const box = room.querySelector(".tags")!;
-    expect(box.classList.contains("folded")).toBe(true);
-    expect(room.querySelectorAll(".tag:not(.extra):not(.more)")).toHaveLength(5);
-    expect(room.querySelectorAll(".tag.extra")).toHaveLength(3);
-    expect(room.querySelector(".tag.more")!.textContent).toBe("+3");
-    expect(room.querySelector(".tag.danger")!.classList.contains("extra")).toBe(false); // the danger comes first
+    const box = room.querySelector(".tags.folded")!;
+    expect([...box.children].filter((c) => c.matches(".tag:not(.more)"))).toHaveLength(5);
+    const chip = box.querySelector<HTMLButtonElement>("button.tag.more")!;
+    expect(chip.textContent).toBe("+3 autres");
+    const pop = box.querySelector(".tagpop")!;
+    expect(pop.querySelectorAll(".tag")).toHaveLength(3);
+    expect(chip.getAttribute("aria-describedby")).toBe(pop.id);
+    expect(box.querySelector(".tag.danger")!.closest(".tagpop")).toBeNull(); // the danger comes first
+    // shown on the chip's hover only, floating (owner: the card jumped when the whole row was hovered)
     const css = readFileSync("src/styles.css", "utf8");
-    expect(css).toContain(".tags.folded .tag.extra{display:none}");
-    expect(css).toContain(".tags.folded:is(:hover,:focus-within) .tag.extra{display:inline-flex}");
+    expect(css).toContain(".tags:has(.more:hover) .tagpop");
+    expect(css).toMatch(/\.tagpop\{display:none;position:absolute/);
+    expect(css).not.toContain(".tags.folded:is(:hover");
   });
   it("6 badges or fewer: all shown, no « +N »", () => {
     const room = document.createElement("div");
     room.innerHTML = renderTags(many(6), VOCAB, ALL, () => null);
-    expect(room.querySelector(".folded, .tag.more, .tag.extra")).toBeNull();
+    expect(room.querySelector(".folded, .tag.more, .tagpop")).toBeNull();
     expect(room.querySelectorAll(".tag")).toHaveLength(6);
   });
 });

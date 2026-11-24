@@ -169,7 +169,7 @@ it("sets the text size (90 to 110 %) on the panel, remembered for the other wind
 
 it("lists the three badges under one card", () => {
   const labels = [...document.querySelectorAll("#opts-badges .switch .optname")].map((s) => s.textContent);
-  expect(labels).toEqual(["Danger", "Conseil", "Mécanique"]);
+  expect(labels).toEqual(["Danger", "Mécanique", "Conseil"]);
 });
 
 it("opens a monster row on click", async () => {
@@ -227,7 +227,7 @@ it("switches the whole interface to English and back from the settings", () => {
   expect(document.querySelector("#view-settings .back b")!.textContent).toBe("Settings");
   expect(document.getElementById("q")!.getAttribute("placeholder")).toBe("Monster, subarea or dungeon…");
   const badges = [...document.querySelectorAll("#opts-badges .switch .optname")].map((s) => s.textContent);
-  expect(badges).toEqual(["Danger", "Tip", "Mechanic"]);
+  expect(badges).toEqual(["Danger", "Mechanic", "Tip"]);
   // the switches keep their state when they are written again
   const spells = document.querySelector<HTMLInputElement>('#view-settings input[data-key="spells"]')!;
   expect(spells.checked).toBe(JSON.parse(localStorage.getItem("dofight.settings")!).spells);

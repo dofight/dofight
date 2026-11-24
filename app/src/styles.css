@@ -230,11 +230,16 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .tag img,.cats img{background:rgba(255,255,255,.88);border-radius:50%;padding:1px;box-sizing:border-box;object-fit:contain}
 .tag img{width:16px;height:16px}
 .tag .dot{flex:none;width:8px;height:8px;margin:0 4px;border-radius:50%;background:currentColor;opacity:.8}
-/* more than 6 badges: the first 5 and « +N »; hovering the badges (or focusing « +N ») shows the others, in place */
-.tags.folded .tag.extra{display:none}
-.tags.folded:is(:hover,:focus-within) .tag.extra{display:inline-flex}
-.tags.folded:is(:hover,:focus-within) .tag.more{display:none}
-.tag.more{background:var(--card);color:var(--muted);border:1px solid var(--line);cursor:default}
+/* more than 6 badges: the first 5 and « +N autres »; hovering or focusing it opens the others in a bubble over the
+   card, taking no room (owner, 2026-11-24: the row grew on hover and the card jumped), like the settings' bubbles */
+.tags.folded{position:relative}
+button.tag.more{font:inherit;font-size:12.5px;font-weight:600;background:var(--card);color:var(--muted);border:1px solid var(--line);cursor:default}
+.tagpop{display:none;position:absolute;z-index:5;left:0;right:0;top:100%;margin-top:2px;padding:6px;gap:4px;flex-wrap:wrap;border-radius:8px;border:1px solid var(--line);background:rgb(var(--win));box-shadow:0 6px 18px rgba(0,0,0,.45)}
+.tagpop::before{content:"";position:absolute;left:0;right:0;top:-4px;height:4px} /* the gap the pointer crosses */
+.tags:has(.more:hover) .tagpop,.tags:has(.more:focus-visible) .tagpop,.tagpop:hover{display:flex}
+.tags.up .tagpop{top:auto;bottom:100%;margin:0 0 2px} /* no room under it (the last card): above */
+.tags.up .tagpop::before{top:auto;bottom:-4px}
+.tags.tip-closed .tagpop{display:none!important}
 /* a folded monster's danger badges, as icons before the arrow */
 .mdanger{margin-left:auto;display:inline-flex;align-items:center;gap:3px;flex:none;color:var(--danger-fg);font-size:11px;font-weight:700}
 .mdanger+.chev{margin-left:2px}
