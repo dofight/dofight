@@ -112,8 +112,11 @@ export function renderTrip(trip: Trip | null, opts: TripOptions = {}): string {
 const hud = (name: string) => `<img src="/icons/hud/${name}.png" alt="">`;
 const ZAAP = hud("zaap");
 const STEPS = hud("steps");
+// an item's picture is 64 px: class « mark » sizes it as a line of text, in a route step and in a requirement line
+// alike (owner review 2026-11-23: the watches showed full size in Xélorium's requirements)
+const mark = (name: string) => `<img class="mark" src="/icons/hud/${name}.png" alt="">`;
 const MARKS: Record<string, string> = {
-  skis: hud("skis"), skis_sombres: hud("skis-sombres"), montre_avance: hud("montre-avance"), montre_retard: hud("montre-retard"),
+  skis: mark("skis"), skis_sombres: mark("skis-sombres"), montre_avance: mark("montre-avance"), montre_retard: mark("montre-retard"),
 };
 /** A position written in an escaped text, « [15,-31] », as a button that copies « /travel 15 -31 » (owner, 2026-11-20:
  * every position a player reads can be copied). */

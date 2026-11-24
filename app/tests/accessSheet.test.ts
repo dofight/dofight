@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { afterEach, describe, expect, it } from "vitest";
 import type { PlaceAccess } from "../src/access";
 import { setLang } from "../src/i18n";
@@ -29,6 +30,10 @@ describe("the « Comment y aller » sheet", () => {
     const line = box.querySelector(".needs li")!;
     expect([...line.querySelectorAll("img")].map((i) => i.getAttribute("src"))).toEqual(["/icons/hud/montre-avance.png", "/icons/hud/montre-retard.png"]);
     expect(text(line)).toBe(" Montre en avance et  Montre en retard");
+    // sized as a line of text, not the picture's own 64 px (owner review 2026-11-23)
+    expect([...line.querySelectorAll("img")].every((i) => i.classList.contains("mark"))).toBe(true);
+    const css = readFileSync("src/styles.css", "utf8");
+    expect(css).toMatch(/img\.mark\{width:16px;height:16px/);
   });
 
   it("lists the requirements, then the route, then the guide", () => {
