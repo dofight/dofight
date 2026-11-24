@@ -350,6 +350,21 @@
    "en": "Osavora",
    "dimension": true
   },
+  "Dimensions des Cavaliers": {
+   "reqs": [
+    {
+     "quest": {
+      "id": 2120,
+      "fr": "Rêves translucides",
+      "en": "Translucent Dreams",
+      "level": 50,
+      "start": null,
+      "url": "https://www.dofuspourlesnoobs.com/reves-translucides.html"
+     }
+    }
+   ],
+   "en": "The Horsemen's Dimension"
+  },
   "Enutrosor": {
    "reqs": [
     {
@@ -1313,7 +1328,14 @@
     "fr": "Clef de l'Aquadôme de Merkator",
     "en": "Merkator's Aquadome Key"
    },
-   "reqs": [],
+   "reqs": [
+    {
+     "other": {
+      "fr": "Sans les ascenseurs (quête « Relevez les niveaux ») : 12 Piles Steamer, et être au moins deux pour le chemin.",
+      "en": "Without the lifts (quest “Raising the Grade”): 12 Foggernaut Batteries, and at least two players for the way."
+     }
+    }
+   ],
    "guide": "https://www.dofuspourlesnoobs.com/aquadocircme-de-merkator.html"
   },
   "74": {
@@ -1924,6 +1946,16 @@
     "en": "Eliocalypse Storm Key"
    },
    "reqs": [
+    {
+     "quest": {
+      "id": 2120,
+      "fr": "Rêves translucides",
+      "en": "Translucent Dreams",
+      "level": 50,
+      "start": null,
+      "url": "https://www.dofuspourlesnoobs.com/reves-translucides.html"
+     }
+    },
     {
      "beat": {
       "id": 117,
