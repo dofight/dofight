@@ -31,6 +31,9 @@ export interface Travel {
   /** Each zone's area, French and English (« Île de Frigost », « Frigost Island »), in the order of zoneNames. */
   zoneAreas?: [string, string][];
   places?: Record<string, number[]>;
+  /** The zones made only of a dungeon's rooms (French name → dungeon id): the dungeon is the way in, they have no
+   * place of their own (owner review 2026-11-23, « la zone est le donjon »). */
+  dungeonZones?: Record<string, number>;
   /** The sub-areas without monsters: [French, English] names, and the coordinates of their maps (« x,y » → indexes). */
   emptyZones?: [string, string][];
   emptyPlaces?: Record<string, number[]>;
@@ -65,7 +68,9 @@ export interface Trip {
 const distance = (a: Spot, b: Spot) => Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 
 export function tripTo(travel: Travel | undefined, dungeonId: number | null, zone: string): Trip | null {
-  const to = travel && (dungeonId !== null ? travel.dungeons[String(dungeonId)] : travel.zones[zone]);
+  // a zone that is a dungeon's rooms: that dungeon's way in
+  const inside = dungeonId === null ? travel?.dungeonZones?.[zone] : undefined;
+  const to = travel && (dungeonId !== null ? travel.dungeons[String(dungeonId)] : inside !== undefined ? travel.dungeons[String(inside)] : travel.zones[zone]);
   if (!to) return null;
   let zaap: Zaap | null = null;
   for (const z of travel.zaaps) if (z.world === to.world && (!zaap || distance(z, to) < distance(zaap, to))) zaap = z;
@@ -95,7 +100,10 @@ export function renderTrip(trip: Trip | null, opts: TripOptions = {}): string {
   if (!trip) return opts.special ? `<div class="trip">${accessButton()}</div>` : "";
   const route = routeOf(trip.to);
   if (route.length && !opts.special) return renderRoute(route, true, trip.zaaps);
-  const go = `<span class="go">${esc(t("trip.go"))}</span>${travelButton(trip.to)}`;
+  // a written route with no command in it (« Se lance depuis le hall de ta guilde »): its position is not a way in, no
+  // « Aller en » (a guild expedition's position is its dungeon's, which is not where it starts)
+  const placeless = route.length > 0 && !route.some((step) => step.startsWith("/") || /\{\/|\[\s*-?\d+\s*,\s*-?\d+\s*\]/.test(step));
+  const go = placeless ? "" : `<span class="go">${esc(t("trip.go"))}</span>${travelButton(trip.to)}`;
   const msg = "";
   // « Comment y aller »: the sheet has the route and what to do first
   const extra = opts.special ? accessButton() : "";

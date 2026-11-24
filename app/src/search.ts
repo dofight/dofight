@@ -106,6 +106,7 @@ export function search(s: Snapshot, query: string, limit = SEARCH_LIMIT): (Resul
   const dungeonNames = new Set([...s.dungeons.values()].map((d) => normalize(d.name)));
   for (const a of subareas) {
     if (dungeonNames.has(normalize(a))) continue; // a dungeon's sub-area has the dungeon's name
+    if (s.travel?.dungeonZones?.[a] !== undefined) continue; // made of a dungeon's rooms: the dungeon is the result
     const sc = score(a, query);
     // its area (« Amakna », « Île de Frigost »), which tells two zones apart better than « sous-zone »
     if (sc >= MIN_FUZZY) scored.push({ kind: "subarea", label: a, info: s.areas?.get(a) ?? "", subarea: a, score: sc + 10 + exact(a) });

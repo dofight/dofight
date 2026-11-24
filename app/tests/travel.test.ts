@@ -20,6 +20,11 @@ describe("how to get there", () => {
     expect(tripTo({ ...travel, zaaps: [] }, null, "Routes Rocailleuses")).toEqual({ to: travel.zones["Routes Rocailleuses"], zaap: null, zaaps: [] });
   });
 
+  it("a zone made of a dungeon's rooms goes to that dungeon (review, 2026-11-23)", () => {
+    const t: Travel = { ...travel, dungeonZones: { "Gelaxième dimension": 1 } };
+    expect(tripTo(t, null, "Gelaxième dimension")!.to).toEqual(travel.dungeons["1"]);
+  });
+
   it("knows nothing of an unknown place, or without the data", () => {
     expect(tripTo(travel, 999, "x")).toBeNull();
     expect(tripTo(travel, null, "Nulle part")).toBeNull();
@@ -185,6 +190,17 @@ describe("how to get there", () => {
       expect(box.querySelector(".zaap")).toBeNull();
       expect(box.querySelector(".step")).toBeNull();
       expect(box.querySelector("button.access")!.getAttribute("aria-expanded")).toBe("false");
+    });
+
+    it("special with a route that has no command (a guild expedition): no « Aller en », the button (review, 2026-11-23)", () => {
+      // the expedition's position is its dungeon's, which is not where it starts
+      const hall = ["Se lance depuis le hall de ta guilde"];
+      box.innerHTML = renderTrip({ to: { x: -2, y: 25, world: 36, route: hall }, zaap: null }, { special: true });
+      expect(box.querySelector(".travel")).toBeNull();
+      expect(box.querySelector("button.access")).not.toBeNull();
+      // a command or a position in the route keeps it
+      box.innerHTML = renderTrip({ to: { x: -2, y: 25, world: 1, route: ["Parler à Daoh en [15,-31]"] }, zaap: null }, { special: true });
+      expect(box.querySelector(".travel")!.textContent).toBe("[-2,25]");
     });
 
     it("special without a route: the zaap stays, then the button", () => {

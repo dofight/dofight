@@ -56,6 +56,11 @@ describe("search", () => {
     expect(search(withAreas, "coin des bouftous")[0]).toMatchObject({ kind: "subarea", info: "Amakna" });
   });
 
+  it("never offers a zone made of a dungeon's rooms: the dungeon is the result (review, 2026-11-23)", () => {
+    const inside = { ...s, travel: { zaaps: [], dungeons: {}, zones: {}, dungeonZones: { "Coin des Bouftous": 1 } } };
+    expect(search(inside, "coin des bouftous").some((r) => r.kind === "subarea")).toBe(false);
+  });
+
   it("returns nothing for an empty or unknown query", () => {
     expect(search(s, "")).toEqual([]);
     expect(search(s, "   ")).toEqual([]);
