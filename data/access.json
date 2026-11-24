@@ -140,14 +140,8 @@
       "en": "Sign of the Possessed"
      },
      "how": {
-      "fr": "il ouvre le Pandamonium, la partie de l'Atoll où se trouve le donjon.",
-      "en": "it opens the Pandamonium, the part of the Atoll where the dungeon is."
-     }
-    },
-    {
-     "other": {
-      "fr": "Il se loote sur les Possédés du Port des Ravageurs (15 % de base).",
-      "en": "It drops from the Possessed of the Destroyers' Port (15% base rate)."
+      "fr": "il ouvre le Pandamonium, la partie de l'Atoll où se trouve le donjon. Il se loote sur les Possédés du Port des Ravageurs (15 % de base).",
+      "en": "it opens the Pandamonium, the part of the Atoll where the dungeon is. It drops from the Possessed of the Destroyers' Port (15% base rate)."
      }
     }
    ],
@@ -174,14 +168,8 @@
       "en": "Sign of the Possessed"
      },
      "how": {
-      "fr": "il ouvre le Pandamonium.",
-      "en": "it opens the Pandamonium."
-     }
-    },
-    {
-     "other": {
-      "fr": "Il se loote sur les Possédés du Port des Ravageurs (15 % de base).",
-      "en": "It drops from the Possessed of the Destroyers' Port (15% base rate)."
+      "fr": "il ouvre le Pandamonium. Il se loote sur les Possédés du Port des Ravageurs (15 % de base).",
+      "en": "it opens the Pandamonium. It drops from the Possessed of the Destroyers' Port (15% base rate)."
      }
     },
     {
