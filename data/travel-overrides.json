@@ -245,14 +245,14 @@
   "76": {
    "name": "Palais du roi Nidas",
    "route": [
-    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
-    "Aller à la salle du portail dimensionnel",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Entrer dans la Tour des Voyageurs, puis aller à la salle du portail dimensionnel",
     "Ouvrir le portail vers **Enutrosor** avec la console de portail",
     "/travel -5 -5"
    ],
    "routeEn": [
-    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
-    "Go to the dimensional portal room",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Go into the Voyagers' Tower, then to the dimensional portal room",
     "Open the portal to **Enurado** with the portal console",
     "/travel -5 -5"
    ]
@@ -260,14 +260,14 @@
   "77": {
    "name": "Fabrique de Malléfisk",
    "route": [
-    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
-    "Aller à la salle du portail dimensionnel",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Entrer dans la Tour des Voyageurs, puis aller à la salle du portail dimensionnel",
     "Ouvrir le portail vers **Enutrosor** avec la console de portail",
     "/travel -6 -2"
    ],
    "routeEn": [
-    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
-    "Go to the dimensional portal room",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Go into the Voyagers' Tower, then to the dimensional portal room",
     "Open the portal to **Enurado** with the portal console",
     "/travel -6 -2"
    ]
@@ -275,14 +275,14 @@
   "79": {
    "name": "Galerie du Phossile",
    "route": [
-    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
-    "Aller à la salle du portail dimensionnel",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Entrer dans la Tour des Voyageurs, puis aller à la salle du portail dimensionnel",
     "Ouvrir le portail vers **Enutrosor** avec la console de portail",
     "/travel -2 -3"
    ],
    "routeEn": [
-    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
-    "Go to the dimensional portal room",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Go into the Voyagers' Tower, then to the dimensional portal room",
     "Open the portal to **Enurado** with the portal console",
     "/travel -2 -3"
    ]
@@ -290,14 +290,14 @@
   "81": {
    "name": "Ring du Capitaine Ekarlatte",
    "route": [
-    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
-    "Aller à la salle du portail dimensionnel",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Entrer dans la Tour des Voyageurs, puis aller à la salle du portail dimensionnel",
     "Ouvrir le portail vers **Srambad** avec la console de portail",
     "/travel 6 3"
    ],
    "routeEn": [
-    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
-    "Go to the dimensional portal room",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Go into the Voyagers' Tower, then to the dimensional portal room",
     "Open the portal to **Srambad** with the portal console",
     "/travel 6 3"
    ]
@@ -305,14 +305,14 @@
   "82": {
    "name": "Cave du Toxoliath",
    "route": [
-    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
-    "Aller à la salle du portail dimensionnel",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Entrer dans la Tour des Voyageurs, puis aller à la salle du portail dimensionnel",
     "Ouvrir le portail vers **Srambad** avec la console de portail",
     "/travel 8 8"
    ],
    "routeEn": [
-    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
-    "Go to the dimensional portal room",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Go into the Voyagers' Tower, then to the dimensional portal room",
     "Open the portal to **Srambad** with the portal console",
     "/travel 8 8"
    ]
@@ -320,14 +320,14 @@
   "83": {
    "name": "Trône de la Cour Sombre",
    "route": [
-    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
-    "Aller à la salle du portail dimensionnel",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Entrer dans la Tour des Voyageurs, puis aller à la salle du portail dimensionnel",
     "Ouvrir le portail vers **Srambad** avec la console de portail",
     "/travel 8 -4"
    ],
    "routeEn": [
-    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
-    "Go to the dimensional portal room",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Go into the Voyagers' Tower, then to the dimensional portal room",
     "Open the portal to **Srambad** with the portal console",
     "/travel 8 -4"
    ]
@@ -335,14 +335,14 @@
   "85": {
    "name": "Mégalithe de Fraktale",
    "route": [
-    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
-    "Aller à la salle du portail dimensionnel",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Entrer dans la Tour des Voyageurs, puis aller à la salle du portail dimensionnel",
     "Ouvrir le portail vers **Xélorium** avec la console de portail",
     "/travel 7 3"
    ],
    "routeEn": [
-    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
-    "Go to the dimensional portal room",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Go into the Voyagers' Tower, then to the dimensional portal room",
     "Open the portal to **Xelorium** with the portal console",
     "/travel 7 3"
    ]
@@ -350,14 +350,14 @@
   "86": {
    "name": "Horologium de XLII",
    "route": [
-    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
-    "Aller à la salle du portail dimensionnel",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Entrer dans la Tour des Voyageurs, puis aller à la salle du portail dimensionnel",
     "Ouvrir le portail vers **Xélorium** avec la console de portail",
     "/travel 7 -2"
    ],
    "routeEn": [
-    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
-    "Go to the dimensional portal room",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Go into the Voyagers' Tower, then to the dimensional portal room",
     "Open the portal to **Xelorium** with the portal console",
     "/travel 7 -2"
    ]
@@ -365,14 +365,14 @@
   "87": {
    "name": "Œil de Vortex",
    "route": [
-    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
-    "Aller à la salle du portail dimensionnel",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Entrer dans la Tour des Voyageurs, puis aller à la salle du portail dimensionnel",
     "Ouvrir le portail vers **Xélorium** avec la console de portail",
     "/travel 7 -7"
    ],
    "routeEn": [
-    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
-    "Go to the dimensional portal room",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Go into the Voyagers' Tower, then to the dimensional portal room",
     "Open the portal to **Xelorium** with the portal console",
     "/travel 7 -7"
    ]
@@ -380,14 +380,14 @@
   "93": {
    "name": "Miausolée du Pounicheur",
    "route": [
-    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
-    "Aller à la salle du portail dimensionnel",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Entrer dans la Tour des Voyageurs, puis aller à la salle du portail dimensionnel",
     "Ouvrir le portail vers **Ecaflipus** avec la console de portail",
     "/travel 3 -9"
    ],
    "routeEn": [
-    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
-    "Go to the dimensional portal room",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Go into the Voyagers' Tower, then to the dimensional portal room",
     "Open the portal to **Ecaflipus** with the portal console",
     "/travel 3 -9"
    ]
@@ -395,14 +395,14 @@
   "94": {
    "name": "Plateau de Ush",
    "route": [
-    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
-    "Aller à la salle du portail dimensionnel",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Entrer dans la Tour des Voyageurs, puis aller à la salle du portail dimensionnel",
     "Ouvrir le portail vers **Ecaflipus** avec la console de portail",
     "/travel 7 -3"
    ],
    "routeEn": [
-    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
-    "Go to the dimensional portal room",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Go into the Voyagers' Tower, then to the dimensional portal room",
     "Open the portal to **Ecaflipus** with the portal console",
     "/travel 7 -3"
    ]
@@ -410,14 +410,14 @@
   "95": {
    "name": "Défi du Chalœil",
    "route": [
-    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
-    "Aller à la salle du portail dimensionnel",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Entrer dans la Tour des Voyageurs, puis aller à la salle du portail dimensionnel",
     "Ouvrir le portail vers **Ecaflipus** avec la console de portail",
     "/travel -9 -22"
    ],
    "routeEn": [
-    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
-    "Go to the dimensional portal room",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Go into the Voyagers' Tower, then to the dimensional portal room",
     "Open the portal to **Ecaflipus** with the portal console",
     "/travel -9 -22"
    ]
@@ -425,14 +425,14 @@
   "163": {
    "name": "Poste de contrôle du Supervizœuf",
    "route": [
-    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
-    "Aller à la salle du portail dimensionnel",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Entrer dans la Tour des Voyageurs, puis aller à la salle du portail dimensionnel",
     "Ouvrir le portail vers **Osavora** avec la console de portail",
     "/travel 24 23"
    ],
    "routeEn": [
-    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
-    "Go to the dimensional portal room",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Go into the Voyagers' Tower, then to the dimensional portal room",
     "Open the portal to **Osavora** with the portal console",
     "/travel 24 23"
    ]
@@ -440,14 +440,14 @@
   "164": {
    "name": "Breuil du Vénérable",
    "route": [
-    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
-    "Aller à la salle du portail dimensionnel",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Entrer dans la Tour des Voyageurs, puis aller à la salle du portail dimensionnel",
     "Ouvrir le portail vers **Osavora** avec la console de portail",
     "/travel 6 9"
    ],
    "routeEn": [
-    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
-    "Go to the dimensional portal room",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Go into the Voyagers' Tower, then to the dimensional portal room",
     "Open the portal to **Osavora** with the portal console",
     "/travel 6 9"
    ]
@@ -455,14 +455,14 @@
   "165": {
    "name": "Autel de la Déchireuse",
    "route": [
-    "/zaap -20 -20 ; /travel -22 -24 | Tour des Voyageurs",
-    "Aller à la salle du portail dimensionnel",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Entrer dans la Tour des Voyageurs, puis aller à la salle du portail dimensionnel",
     "Ouvrir le portail vers **Osavora** avec la console de portail",
     "/travel 12 2"
    ],
    "routeEn": [
-    "/zaap -20 -20 ; /travel -22 -24 | Voyagers' Tower",
-    "Go to the dimensional portal room",
+    "/zaap -20 -20 ; /travel -22 -24",
+    "Go into the Voyagers' Tower, then to the dimensional portal room",
     "Open the portal to **Osavora** with the portal console",
     "/travel 12 2"
    ]
