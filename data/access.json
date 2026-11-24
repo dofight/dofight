@@ -135,12 +135,6 @@
      }
     },
     {
-     "other": {
-      "fr": "Aller sur l'Atoll : sur Grobe en [41,-45], parle au bateau-démon Voh'Râss' et choisis « Embarquer pour l'Atoll ».",
-      "en": "Getting to the Atoll: on Nolifis at [41,-45], talk to the demon ship Vor'Eshis' and pick “Set out for the Atoll”."
-     }
-    },
-    {
      "item": {
       "fr": "Signe des Possédés",
       "en": "Sign of the Possessed"
@@ -154,12 +148,6 @@
      "other": {
       "fr": "Il se loote sur les Possédés du Port des Ravageurs (15 % de base).",
       "en": "It drops from the Possessed of the Destroyers' Port (15% base rate)."
-     }
-    },
-    {
-     "other": {
-      "fr": "Avec le signe, monte les escaliers en [41,-56], gardés par le Gardien du Pandamonium.",
-      "en": "With the sign, climb the stairs at [41,-56], guarded by the Pandamonium Guardian."
      }
     }
    ],
@@ -178,12 +166,6 @@
        "y": -21
       },
       "url": "https://www.dofuspourlesnoobs.com/le-reveil-de-pandala.html"
-     }
-    },
-    {
-     "other": {
-      "fr": "Aller sur l'Atoll : sur Grobe en [41,-45], parle au bateau-démon Voh'Râss' et choisis « Embarquer pour l'Atoll ».",
-      "en": "Getting to the Atoll: on Nolifis at [41,-45], talk to the demon ship Vor'Eshis' and pick “Set out for the Atoll”."
      }
     },
     {
@@ -348,8 +330,8 @@
     },
     {
      "other": {
-      "fr": "Faire une fois la chasse d'Osavora : Tour des Voyageurs [-22,-24], Salle de localisation.",
-      "en": "Do the Osavora hunt once: Voyagers' Tower [-22,-24], Tracking Room."
+      "fr": "Faire une fois la chasse d'Osavora : en [-22,-24], entrer dans la Tour des Voyageurs, puis aller à la Salle de localisation.",
+      "en": "Do the Osavora hunt once: at [-22,-24], go into the Voyagers' Tower, then to the Tracking Room."
      }
     },
     {
@@ -372,8 +354,8 @@
    "reqs": [
     {
      "other": {
-      "fr": "Faire une fois la chasse d'Enutrosor : Tour des Voyageurs [-22,-24], Salle de localisation.",
-      "en": "Do the Enurado hunt once: Voyagers' Tower [-22,-24], Tracking Room."
+      "fr": "Faire une fois la chasse d'Enutrosor : en [-22,-24], entrer dans la Tour des Voyageurs, puis aller à la Salle de localisation.",
+      "en": "Do the Enurado hunt once: at [-22,-24], go into the Voyagers' Tower, then to the Tracking Room."
      }
     },
     {
@@ -396,8 +378,8 @@
    "reqs": [
     {
      "other": {
-      "fr": "Faire une fois la chasse de Srambad : Tour des Voyageurs [-22,-24], Salle de localisation.",
-      "en": "Do the Srambad hunt once: Voyagers' Tower [-22,-24], Tracking Room."
+      "fr": "Faire une fois la chasse de Srambad : en [-22,-24], entrer dans la Tour des Voyageurs, puis aller à la Salle de localisation.",
+      "en": "Do the Srambad hunt once: at [-22,-24], go into the Voyagers' Tower, then to the Tracking Room."
      }
     },
     {
@@ -420,8 +402,8 @@
    "reqs": [
     {
      "other": {
-      "fr": "Faire une fois la chasse de Xélorium : Tour des Voyageurs [-22,-24], Salle de localisation.",
-      "en": "Do the Xelorium hunt once: Voyagers' Tower [-22,-24], Tracking Room."
+      "fr": "Faire une fois la chasse de Xélorium : en [-22,-24], entrer dans la Tour des Voyageurs, puis aller à la Salle de localisation.",
+      "en": "Do the Xelorium hunt once: at [-22,-24], go into the Voyagers' Tower, then to the Tracking Room."
      }
     },
     {
@@ -444,8 +426,8 @@
    "reqs": [
     {
      "other": {
-      "fr": "Faire une fois la chasse d'Ecaflipus : Tour des Voyageurs [-22,-24], Salle de localisation.",
-      "en": "Do the Ecaflipus hunt once: Voyagers' Tower [-22,-24], Tracking Room."
+      "fr": "Faire une fois la chasse d'Ecaflipus : en [-22,-24], entrer dans la Tour des Voyageurs, puis aller à la Salle de localisation.",
+      "en": "Do the Ecaflipus hunt once: at [-22,-24], go into the Voyagers' Tower, then to the Tracking Room."
      }
     },
     {
