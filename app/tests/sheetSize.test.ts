@@ -37,3 +37,9 @@ it("gives a spell's sheet the colour of the other sheets (« Comment y aller »,
   const css = readFileSync("src/styles.css", "utf8");
   expect(css).toMatch(/\.pop\{background:var\(--card\);/);
 });
+
+it("puts the zaap and its footprints close together, the name keeping its gap (owner, 2026-11-24)", () => {
+  const css = readFileSync("src/styles.css", "utf8");
+  expect(css).toMatch(/\.travel\{[^}]*gap:4px/);
+  expect(css).toMatch(/\.travel img\+img\{margin-left:-3px\}/);
+});

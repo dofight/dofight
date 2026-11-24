@@ -94,6 +94,7 @@ button:not(:disabled),a[href],[role=button],[role=radio],[role=option],select,in
 .travel{display:inline-flex;align-items:center;vertical-align:baseline;gap:4px;padding:1px 4px;border:0;border-radius:5px;background:transparent;color:var(--gold);font:inherit;cursor:pointer}
 .travel:hover{background:var(--gold-soft)}
 .travel img{width:16px;height:16px}
+.travel img+img{margin-left:-3px} /* the zaap and its footprints read as one icon (owner, 2026-11-24); the name keeps its gap */
 /* the label carries the button's baseline: its text sits on the line of the text around, whatever the font (owner
    review 2026-11-23: « En [3,-17] » sat higher than « En »); the icons stay centred on it */
 .travel .lbl{align-self:baseline}
