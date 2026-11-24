@@ -136,8 +136,8 @@
     },
     {
      "other": {
-      "fr": "Aller sur l'Atoll : sur Grobe en [41,-45], parle au bateau-démon Voh'Râss' et choisis « Embarquer pour l'Atoll ». C'est gratuit.",
-      "en": "Getting to the Atoll: on Nolifis at [41,-45], talk to the demon ship Vor'Eshis' and pick “Set out for the Atoll”. It is free."
+      "fr": "Aller sur l'Atoll : sur Grobe en [41,-45], parle au bateau-démon Voh'Râss' et choisis « Embarquer pour l'Atoll ».",
+      "en": "Getting to the Atoll: on Nolifis at [41,-45], talk to the demon ship Vor'Eshis' and pick “Set out for the Atoll”."
      }
     },
     {
@@ -182,8 +182,8 @@
     },
     {
      "other": {
-      "fr": "Aller sur l'Atoll : sur Grobe en [41,-45], parle au bateau-démon Voh'Râss' et choisis « Embarquer pour l'Atoll ». C'est gratuit.",
-      "en": "Getting to the Atoll: on Nolifis at [41,-45], talk to the demon ship Vor'Eshis' and pick “Set out for the Atoll”. It is free."
+      "fr": "Aller sur l'Atoll : sur Grobe en [41,-45], parle au bateau-démon Voh'Râss' et choisis « Embarquer pour l'Atoll ».",
+      "en": "Getting to the Atoll: on Nolifis at [41,-45], talk to the demon ship Vor'Eshis' and pick “Set out for the Atoll”."
      }
     },
     {
@@ -192,20 +192,14 @@
       "en": "Sign of the Possessed"
      },
      "how": {
-      "fr": "il ouvre le Pandamonium, que la quête « Le poids de son regard » demande.",
-      "en": "it opens the Pandamonium, which the quest “The Weight of Its Gaze” needs."
+      "fr": "il ouvre le Pandamonium.",
+      "en": "it opens the Pandamonium."
      }
     },
     {
      "other": {
       "fr": "Il se loote sur les Possédés du Port des Ravageurs (15 % de base).",
       "en": "It drops from the Possessed of the Destroyers' Port (15% base rate)."
-     }
-    },
-    {
-     "other": {
-      "fr": "Avec le signe, monte les escaliers en [41,-56], gardés par le Gardien du Pandamonium.",
-      "en": "With the sign, climb the stairs at [41,-56], guarded by the Pandamonium Guardian."
      }
     },
     {
