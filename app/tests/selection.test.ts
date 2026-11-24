@@ -5,6 +5,7 @@ import { copyableSelection, SELECTABLE, selectionTouches, takeSelection } from "
 import { showToast } from "../src/render/toast";
 import { sheetBar, startsSheetDrag } from "../src/render/sheetBar";
 import { setLang } from "../src/i18n";
+import { renderRoute } from "../src/travel";
 
 function mount(html: string): HTMLElement {
   document.body.innerHTML = html;
@@ -34,6 +35,22 @@ it("copies a selection of two characters or more inside the results, trimmed", (
   expect(copyableSelection(select(name, 0, 8), room)).toBe("Bouftou");
   expect(copyableSelection(select(name, 0, 1), room)).toBe("");
   expect(copyableSelection(select(document.getElementById("out")!.firstChild!, 0, 8), room)).toBe("");
+});
+
+it("copies the commands of the buttons in a selection, one line per step (owner review, 2026-11-23)", () => {
+  const zaap = { x: 5, y: -18, world: 1, zone: { fr: "Cité d'Astrub", en: "Astrub City" } };
+  const room = mount(`<div id="room">${renderRoute(["{/zaap 5 -18 ; /travel -9 31} avec la diligence", "Parler à Daoh en [15,-31]", "/travel -9 29"], true, [zaap])}</div>`);
+  const steps = room.querySelectorAll("li");
+  const sel = window.getSelection()!;
+  const range = document.createRange();
+  range.setStartBefore(steps[0]);
+  range.setEndAfter(steps[2]);
+  sel.removeAllRanges();
+  sel.addRange(range);
+  expect(copyableSelection(sel, room)).toBe("/zaap 5 -18 ; /travel -9 31 avec la diligence\nParler à Daoh en /travel 15 -31\n/travel -9 29");
+  // a button only partly selected (its label's first letters): its whole command
+  const label = steps[2].querySelector(".lbl")!.firstChild!;
+  expect(copyableSelection(select(label, 0, 3), room)).toBe("/travel -9 29");
 });
 
 it("unselects what it copied, and leaves a selection it does not copy alone (owner, 2026-11-22)", () => {
