@@ -43,8 +43,13 @@
      "param": "Monture, booste les monstres"
     },
     {
+     "id": "moves_self",
+     "param": "se téléporte",
+     "source": "spells"
+    },
+    {
      "id": "moves",
-     "param": "se téléporte, pousse, attire",
+     "param": "pousse, attire",
      "source": "spells"
     }
    ],

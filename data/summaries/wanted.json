@@ -403,7 +403,12 @@
         },
         {
           "id": "moves",
-          "param": "pousse, se téléporte",
+          "param": "pousse",
+          "source": "spells"
+        },
+        {
+          "id": "moves_self",
+          "param": "se téléporte",
           "source": "spells"
         },
         {
@@ -701,7 +706,12 @@
         },
         {
           "id": "moves",
-          "param": "échange de place, se téléporte",
+          "param": "échange de place",
+          "source": "spells"
+        },
+        {
+          "id": "moves_self",
+          "param": "se téléporte",
           "source": "spells"
         }
       ],
@@ -903,7 +913,12 @@
         },
         {
           "id": "moves",
-          "param": "attire, pousse, se téléporte",
+          "param": "attire, pousse",
+          "source": "spells"
+        },
+        {
+          "id": "moves_self",
+          "param": "se téléporte",
           "source": "spells"
         }
       ],
@@ -1109,8 +1124,13 @@
           "source": "spells"
         },
         {
+          "id": "moves_self",
+          "param": "se téléporte",
+          "source": "spells"
+        },
+        {
           "id": "moves",
-          "param": "se téléporte, attire",
+          "param": "attire",
           "source": "spells"
         }
       ],
@@ -1800,8 +1820,13 @@
           "param": "à 70 % et 40 % PV, début de tour"
         },
         {
+          "id": "moves_self",
+          "param": "se téléporte",
+          "source": "spells"
+        },
+        {
           "id": "moves",
-          "param": "se téléporte, attire, pousse",
+          "param": "attire, pousse",
           "source": "spells"
         }
       ],

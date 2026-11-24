@@ -40,8 +40,12 @@
      "param": "Kabombz, puis un clone"
     },
     {
+     "id": "moves_self",
+     "param": "se téléporte"
+    },
+    {
      "id": "moves",
-     "param": "se téléporte, attire, pousse"
+     "param": "attire, pousse"
     }
    ],
    "detail": "Vulnérable, il se téléporte chaque tour sur le personnage le plus proche et invoque un clone qui explose au bout de 2 tours. Il fait aussi éclore les Zoeufs."

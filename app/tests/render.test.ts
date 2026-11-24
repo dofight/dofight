@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { phaseThresholds, renderMonster, renderPeek, renderTags } from "../src/render/monster";
 import { renderRoom } from "../src/render/panel";
@@ -477,6 +478,30 @@ describe("written summaries as bullets", () => {
     const room = document.createElement("div");
     room.innerHTML = renderTags([{ id: "one_shot", param: "au 3e tour" }], VOCAB, ALL, () => null);
     expect(room.querySelector(".tag sup")?.textContent).toBe("e");
+  });
+});
+
+describe("more than 6 badges (owner, 2026-11-24)", () => {
+  const many = (n: number) =>
+    [{ id: "one_shot", param: "x" }, ...Array.from({ length: n - 1 }, (_, i) => ({ id: "phase", param: `à ${90 - i * 10} % PV` }))];
+  it("shows the first 5, then « +N », the others folded until hovered", () => {
+    const room = document.createElement("div");
+    room.innerHTML = renderTags(many(8), VOCAB, ALL, () => null);
+    const box = room.querySelector(".tags")!;
+    expect(box.classList.contains("folded")).toBe(true);
+    expect(room.querySelectorAll(".tag:not(.extra):not(.more)")).toHaveLength(5);
+    expect(room.querySelectorAll(".tag.extra")).toHaveLength(3);
+    expect(room.querySelector(".tag.more")!.textContent).toBe("+3");
+    expect(room.querySelector(".tag.danger")!.classList.contains("extra")).toBe(false); // the danger comes first
+    const css = readFileSync("src/styles.css", "utf8");
+    expect(css).toContain(".tags.folded .tag.extra{display:none}");
+    expect(css).toContain(".tags.folded:is(:hover,:focus-within) .tag.extra{display:inline-flex}");
+  });
+  it("6 badges or fewer: all shown, no « +N »", () => {
+    const room = document.createElement("div");
+    room.innerHTML = renderTags(many(6), VOCAB, ALL, () => null);
+    expect(room.querySelector(".folded, .tag.more, .tag.extra")).toBeNull();
+    expect(room.querySelectorAll(".tag")).toHaveLength(6);
   });
 });
 

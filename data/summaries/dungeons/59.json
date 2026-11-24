@@ -30,7 +30,11 @@
     },
     {
      "id": "moves",
-     "param": "attire, se téléporte"
+     "param": "attire"
+    },
+    {
+     "id": "moves_self",
+     "param": "se téléporte"
     }
    ],
    "detail": "Chaque personnage pose en début de tour un glyphe qui tue qui y commence ou finit son tour. Dès que la Sporakne finit son tour sur l'un d'eux, le Korriandre devient vulnérable jusqu'à la fin du combat, avec 1 PM et 200 Puissance en plus."

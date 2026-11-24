@@ -39,7 +39,11 @@
     },
     {
      "id": "moves",
-     "param": "pousse en cône, recule"
+     "param": "pousse en cône"
+    },
+    {
+     "id": "moves_self",
+     "param": "recule"
     }
    ],
    "detail": "À chaque seuil : invulnérable 5 tours et revient à 100 % PV ; le Roi Imagami t'aide pendant ces 5 tours. Son glyphe tue les monstres de papier restés dedans à son réveil. Rester hors de sa ligne et de sa diagonale."

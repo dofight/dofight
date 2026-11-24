@@ -230,6 +230,11 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .tag img,.cats img{background:rgba(255,255,255,.88);border-radius:50%;padding:1px;box-sizing:border-box;object-fit:contain}
 .tag img{width:16px;height:16px}
 .tag .dot{flex:none;width:8px;height:8px;margin:0 4px;border-radius:50%;background:currentColor;opacity:.8}
+/* more than 6 badges: the first 5 and « +N »; hovering the badges (or focusing « +N ») shows the others, in place */
+.tags.folded .tag.extra{display:none}
+.tags.folded:is(:hover,:focus-within) .tag.extra{display:inline-flex}
+.tags.folded:is(:hover,:focus-within) .tag.more{display:none}
+.tag.more{background:var(--card);color:var(--muted);border:1px solid var(--line);cursor:default}
 /* a folded monster's danger badges, as icons before the arrow */
 .mdanger{margin-left:auto;display:inline-flex;align-items:center;gap:3px;flex:none;color:var(--danger-fg);font-size:11px;font-weight:700}
 .mdanger+.chev{margin-left:2px}

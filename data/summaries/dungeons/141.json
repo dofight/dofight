@@ -32,8 +32,12 @@
      "param": "la garder à distance"
     },
     {
+     "id": "moves_self",
+     "param": "se téléporte"
+    },
+    {
      "id": "moves",
-     "param": "se téléporte, échange de place"
+     "param": "échange de place"
     },
     {
      "id": "state",

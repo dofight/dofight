@@ -26,8 +26,12 @@
      "param": "la garder à distance"
     },
     {
+     "id": "moves_self",
+     "param": "s'attire"
+    },
+    {
      "id": "moves",
-     "param": "s'attire, échange de place"
+     "param": "échange de place"
     },
     {
      "id": "invisible",

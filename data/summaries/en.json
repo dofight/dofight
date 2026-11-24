@@ -2497,7 +2497,11 @@
   "s'attire et recule": "dashes in and backs off",
   "s'attire": "dashes in",
   "s'attire, se téléporte": "dashes in, teleports",
-  "se téléporte au contact": "teleports next to you"
+  "se téléporte au contact": "teleports next to you",
+  "attire, pousse": "pulls, pushes",
+  "bondit à 3 PO": "leaps 3 cells away",
+  "pousse en cône": "pushes in a cone",
+  "recule": "backs off"
  },
  "token": {
   "-résistances": "-resistances",

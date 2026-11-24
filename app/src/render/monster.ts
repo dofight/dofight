@@ -154,12 +154,21 @@ function dangerCue(summary: MonsterSummary | undefined, vocab: Vocabulary, show:
   return `<span class="mdanger" title="${all}" aria-label="${all}">${icons.join("")}${more}</span>`;
 }
 
+/** Badges shown before « +N » on a card that has more than one over this. */
+export const TAGS_SHOWN = 5;
+
 export function renderTags(list: Tag[], vocab: Vocabulary, show: Display, icon: IconUrl, cls = "tags"): string {
   const known = list.filter((tag) => vocab.tags[tag.id]);
   const tags = TAG_ORDER.flatMap((k) => (show[TAG_SHOWN[k]] ? known.filter((tag) => vocab.tags[tag.id].category === k) : []));
   if (!tags.length) return "";
-  return `<div class="${cls}">${tags
-    .map((tag) => {
+  // more than 6 badges (owner, 2026-11-24): the first 5, then « +N »; hovering the badges shows the others (the
+  // dangers come first, so what folds away is a tip or a mechanic)
+  const fold = tags.length > TAGS_SHOWN + 1;
+  const more = fold
+    ? `<span class="tag more" tabindex="0" aria-label="${esc(t("monster.moreBadges", { n: tags.length - TAGS_SHOWN }))}">+${tags.length - TAGS_SHOWN}</span>`
+    : "";
+  return `<div class="${cls}${fold ? " folded" : ""}">${tags
+    .map((tag, i) => {
       const spec = vocab.tags[tag.id];
       // no icon (or a missing file): a small dot in the badge's colour keeps the labels aligned
       const path = tagIcon(tag, spec, vocab);
@@ -170,9 +179,10 @@ export function renderTags(list: Tag[], vocab: Vocabulary, show: Display, icon: 
       // a phase badge with HP thresholds says just them: « Change de phase · 70 % | 30 % » (owner, 2026-11-19)
       const steps = tag.id === "phase" ? phaseThresholds([tag.param ?? ""]) : [];
       const shown = steps.length ? ` · ${escText(frenchSpaces(steps.map((p) => `${p} %`).join(" | ")))}` : param;
-      return `<span class="tag ${spec.category}">${kind}${ic}${escText(frenchSpaces(tagLabel(spec)))}${shown}</span>`;
+      const extra = fold && i >= TAGS_SHOWN ? " extra" : "";
+      return `<span class="tag ${spec.category}${extra}">${kind}${ic}${escText(frenchSpaces(tagLabel(spec)))}${shown}</span>`;
     })
-    .join("")}</div>`;
+    .join("")}${more}</div>`;
 }
 
 /** The HP percentages at which a monster changes phase, read off its « Change de phase » badges: only those after

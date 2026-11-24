@@ -41,7 +41,11 @@
     },
     {
      "id": "moves",
-     "param": "pousse, attire, bondit à 3 PO"
+     "param": "pousse, attire"
+    },
+    {
+     "id": "moves_self",
+     "param": "bondit à 3 PO"
     }
    ],
    "detail": "Frapper Bonraphin à distance et Brâklotin au CaC monte Colère et Haine ; à 10 les deux, état X : vulnérable 2 tours, gros bouclier et gros dégâts. Bonraphin tué : vulnérable à distance ; Brâklotin tué : au CaC."

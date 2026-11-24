@@ -118,7 +118,11 @@
     },
     {
      "id": "moves",
-     "param": "pousse et recule"
+     "param": "pousse"
+    },
+    {
+     "id": "moves_self",
+     "param": "recule"
     }
    ],
    "detail": "Taclé et dos à un mur, il ne peut plus reculer ni taper (il tape de 3 PO minimum)."
