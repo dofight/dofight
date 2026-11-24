@@ -209,11 +209,15 @@
    "name": "Tempête de l'Eliocalypse",
    "route": [
     "/zaap 15 -20 | Arche de Vili",
-    "Cliquer sur le zaap et choisir « Voyager dans le temps »"
+    "Cliquer sur le zaap et choisir « Voyager dans le temps »",
+    "Aller 2 cartes à droite",
+    "Aller 1 carte à gauche, puis cliquer sur la console"
    ],
    "routeEn": [
     "/zaap 15 -20 | Arch of Vili",
-    "Click the zaap and pick \"Travel through time\""
+    "Click the zaap and pick \"Travel through time\"",
+    "Go 2 maps right",
+    "Go 1 map left, then click the console"
    ]
   },
   "30": {
@@ -876,6 +880,176 @@
     "/zaap 40 -44 ; /travel 41 -56",
     "Climb the stairs with the **Sign of the Possessed**",
     "/travel 43 -57"
+   ]
+  },
+  "117": {
+   "name": "Arbre de Mort",
+   "route": [
+    "/zaap 15 -20 | Arche de Vili",
+    "Cliquer sur le zaap et choisir « Voyager dans le temps »",
+    "Aller 2 cartes à droite",
+    "Aller 1 carte en haut, puis prendre le portail vers **Royaume Corrompu**",
+    "/travel 4 0"
+   ],
+   "routeEn": [
+    "/zaap 15 -20 | Arch of Vili",
+    "Click the zaap and pick \"Travel through time\"",
+    "Go 2 maps right",
+    "Go 1 map up, then take the portal to **Corruption's Kingdom**",
+    "/travel 4 0"
+   ]
+  },
+  "118": {
+   "name": "Fers de la Tyrannie",
+   "route": [
+    "/zaap 15 -20 | Arche de Vili",
+    "Cliquer sur le zaap et choisir « Voyager dans le temps »",
+    "Aller 2 cartes à droite",
+    "Aller 1 carte en haut, puis prendre le portail vers **Galère de Servitude**",
+    "/travel 4 -3"
+   ],
+   "routeEn": [
+    "/zaap 15 -20 | Arch of Vili",
+    "Click the zaap and pick \"Travel through time\"",
+    "Go 2 maps right",
+    "Go 1 map up, then take the portal to **Servitude's Galley**",
+    "/travel 4 -3"
+   ]
+  },
+  "119": {
+   "name": "Sentence de la Balance",
+   "route": [
+    "/zaap 15 -20 | Arche de Vili",
+    "Cliquer sur le zaap et choisir « Voyager dans le temps »",
+    "Aller 2 cartes à droite",
+    "Aller 1 carte en haut, puis prendre le portail vers **Désert de Misère**",
+    "/travel 1 0"
+   ],
+   "routeEn": [
+    "/zaap 15 -20 | Arch of Vili",
+    "Click the zaap and pick \"Travel through time\"",
+    "Go 2 maps right",
+    "Go 1 map up, then take the portal to **Misery's Desert**",
+    "/travel 1 0"
+   ]
+  },
+  "120": {
+   "name": "Trône de Sang",
+   "route": [
+    "/zaap 15 -20 | Arche de Vili",
+    "Cliquer sur le zaap et choisir « Voyager dans le temps »",
+    "Aller 2 cartes à droite",
+    "Aller 1 carte en haut, puis prendre le portail vers **Blessures de Guerre**",
+    "/travel 4 -3"
+   ],
+   "routeEn": [
+    "/zaap 15 -20 | Arch of Vili",
+    "Click the zaap and pick \"Travel through time\"",
+    "Go 2 maps right",
+    "Go 1 map up, then take the portal to **War's Wounds**",
+    "/travel 4 -3"
+   ]
+  },
+  "74": {
+   "name": "Pyramide d'Ombre",
+   "route": [
+    "/zaap -1 13 ; /travel 6 13 | Bord de la forêt maléfique",
+    "Cliquer sur la faille, puis sur le portail",
+    "3 cartes à gauche, 1 carte à droite, le portail en bas à droite, 1 carte en bas, le portail, 2 cartes à droite, 2 cartes en bas, 1 carte à droite"
+   ],
+   "routeEn": [
+    "/zaap -1 13 ; /travel 6 13 | Edge of the Evil Forest",
+    "Click the rift, then the portal",
+    "3 maps left, 1 map right, the bottom-right portal, 1 map down, the portal, 2 maps right, 2 maps down, 1 map right"
+   ]
+  },
+  "140": {
+   "name": "Chambre des maléfices",
+   "route": [
+    "/zaap 39 -82 ; /travel 38 -76",
+    "Prendre le bateau vers **Ephedrya**",
+    "/travel 29 -88"
+   ],
+   "routeEn": [
+    "/zaap 39 -82 ; /travel 38 -76",
+    "Take the boat to **Ephedrya**",
+    "/travel 29 -88"
+   ]
+  },
+  "73": {
+   "name": "Aquadôme de Merkator",
+   "route": [
+    "/zaap 13 26",
+    "Prendre le zaapi **Quai de la voie du temple**",
+    "Aller 1 carte en haut et cliquer sur la porte",
+    "/travel 23 18",
+    "Ascenseurs débloqués (quête [Relevez les niveaux](https://www.dofuspourlesnoobs.com/relevez-les-niveaux.html)) : 1 carte à gauche, puis cliquer sur la console",
+    "Sinon : suivre [le chemin vers l'Aquadôme](https://www.dofuspourlesnoobs.com/chemin-vers-le-donjon-aquadome-de-merkator.html)"
+   ],
+   "routeEn": [
+    "/zaap 13 26",
+    "Take the **Temple Way Quay** zaapi",
+    "Go 1 map up and click the door",
+    "/travel 23 18",
+    "Lifts unlocked (quest [Raising the Grade](https://www.dofuspourlesnoobs.com/relevez-les-niveaux.html)): 1 map left, then click the console",
+    "Otherwise: follow [the way to the Aquadome](https://www.dofuspourlesnoobs.com/chemin-vers-le-donjon-aquadome-de-merkator.html)"
+   ]
+  },
+  "97": {
+   "name": "Vaisseau du Capitaine Meno",
+   "route": [
+    "/zaap 13 26",
+    "Prendre le zaapi **Quai de la voie du temple**",
+    "/travel 23 24",
+    "Entrer dans le palais, puis prendre la porte à gauche",
+    "Cliquer sur le bassin",
+    "/travel 24 27"
+   ],
+   "routeEn": [
+    "/zaap 13 26",
+    "Take the **Temple Way Quay** zaapi",
+    "/travel 23 24",
+    "Go into the palace, then through the door on the left",
+    "Click the basin",
+    "/travel 24 27"
+   ]
+  },
+  "98": {
+   "name": "Temple de Koutoulou",
+   "route": [
+    "/zaap 13 26",
+    "Prendre le zaapi **Quai de la voie du temple**",
+    "/travel 23 24",
+    "Entrer dans le palais, puis prendre la porte à gauche",
+    "Cliquer sur le bassin",
+    "/travel 27 26"
+   ],
+   "routeEn": [
+    "/zaap 13 26",
+    "Take the **Temple Way Quay** zaapi",
+    "/travel 23 24",
+    "Go into the palace, then through the door on the left",
+    "Click the basin",
+    "/travel 27 26"
+   ]
+  },
+  "99": {
+   "name": "Palais de Dantinéa",
+   "route": [
+    "/zaap 13 26",
+    "Prendre le zaapi **Quai de la voie du temple**",
+    "/travel 23 24",
+    "Entrer dans le palais, puis prendre la porte à gauche",
+    "Cliquer sur le bassin",
+    "/travel 19 26"
+   ],
+   "routeEn": [
+    "/zaap 13 26",
+    "Take the **Temple Way Quay** zaapi",
+    "/travel 23 24",
+    "Go into the palace, then through the door on the left",
+    "Click the basin",
+    "/travel 19 26"
    ]
   }
  },
@@ -1610,6 +1784,286 @@
    "routeEn": [
     "/zaap -67 -77 ; /travel -73 -84",
     "Take the carrier to **Winter Gardens**"
+   ]
+  },
+  "Royaume Corrompu": {
+   "route": [
+    "/zaap 15 -20 | Arche de Vili",
+    "Cliquer sur le zaap et choisir « Voyager dans le temps »",
+    "Aller 2 cartes à droite",
+    "Aller 1 carte en haut, puis prendre le portail vers **Royaume Corrompu**",
+    "/travel 2 1"
+   ],
+   "routeEn": [
+    "/zaap 15 -20 | Arch of Vili",
+    "Click the zaap and pick \"Travel through time\"",
+    "Go 2 maps right",
+    "Go 1 map up, then take the portal to **Corruption's Kingdom**",
+    "/travel 2 1"
+   ]
+  },
+  "Galère de Servitude": {
+   "route": [
+    "/zaap 15 -20 | Arche de Vili",
+    "Cliquer sur le zaap et choisir « Voyager dans le temps »",
+    "Aller 2 cartes à droite",
+    "Aller 1 carte en haut, puis prendre le portail vers **Galère de Servitude**",
+    "/travel 2 -2"
+   ],
+   "routeEn": [
+    "/zaap 15 -20 | Arch of Vili",
+    "Click the zaap and pick \"Travel through time\"",
+    "Go 2 maps right",
+    "Go 1 map up, then take the portal to **Servitude's Galley**",
+    "/travel 2 -2"
+   ]
+  },
+  "Désert de Misère": {
+   "route": [
+    "/zaap 15 -20 | Arche de Vili",
+    "Cliquer sur le zaap et choisir « Voyager dans le temps »",
+    "Aller 2 cartes à droite",
+    "Aller 1 carte en haut, puis prendre le portail vers **Désert de Misère**",
+    "/travel 2 1"
+   ],
+   "routeEn": [
+    "/zaap 15 -20 | Arch of Vili",
+    "Click the zaap and pick \"Travel through time\"",
+    "Go 2 maps right",
+    "Go 1 map up, then take the portal to **Misery's Desert**",
+    "/travel 2 1"
+   ]
+  },
+  "Blessures de Guerre": {
+   "route": [
+    "/zaap 15 -20 | Arche de Vili",
+    "Cliquer sur le zaap et choisir « Voyager dans le temps »",
+    "Aller 2 cartes à droite",
+    "Aller 1 carte en haut, puis prendre le portail vers **Blessures de Guerre**",
+    "/travel 3 -1"
+   ],
+   "routeEn": [
+    "/zaap 15 -20 | Arch of Vili",
+    "Click the zaap and pick \"Travel through time\"",
+    "Go 2 maps right",
+    "Go 1 map up, then take the portal to **War's Wounds**",
+    "/travel 3 -1"
+   ]
+  },
+  "Abîme de R'lyugluglu": {
+   "route": [
+    "/zaap 13 26",
+    "Prendre le zaapi **Quai de la voie du temple**",
+    "/travel 23 24",
+    "Entrer dans le palais, puis prendre la porte à gauche",
+    "Cliquer sur le bassin",
+    "/travel 26 32"
+   ],
+   "routeEn": [
+    "/zaap 13 26",
+    "Take the **Temple Way Quay** zaapi",
+    "/travel 23 24",
+    "Go into the palace, then through the door on the left",
+    "Click the basin",
+    "/travel 26 32"
+   ]
+  },
+  "Ancienne Sufokia": {
+   "route": [
+    "/zaap 13 26",
+    "Prendre le zaapi **Quai de la voie du temple**",
+    "/travel 23 24",
+    "Entrer dans le palais, puis prendre la porte à gauche",
+    "Cliquer sur le bassin",
+    "/travel 23 30"
+   ],
+   "routeEn": [
+    "/zaap 13 26",
+    "Take the **Temple Way Quay** zaapi",
+    "/travel 23 24",
+    "Go into the palace, then through the door on the left",
+    "Click the basin",
+    "/travel 23 30"
+   ]
+  },
+  "Domaine des Trithons": {
+   "route": [
+    "/zaap 13 26",
+    "Prendre le zaapi **Quai de la voie du temple**",
+    "/travel 23 24",
+    "Entrer dans le palais, puis prendre la porte à gauche",
+    "Cliquer sur le bassin",
+    "/travel 20 27"
+   ],
+   "routeEn": [
+    "/zaap 13 26",
+    "Take the **Temple Way Quay** zaapi",
+    "/travel 23 24",
+    "Go into the palace, then through the door on the left",
+    "Click the basin",
+    "/travel 20 27"
+   ]
+  },
+  "Faille des Trithons": {
+   "route": [
+    "/zaap 13 26",
+    "Prendre le zaapi **Quai de la voie du temple**",
+    "/travel 23 24",
+    "Entrer dans le palais, puis prendre la porte à gauche",
+    "Cliquer sur le bassin",
+    "/travel 20 30"
+   ],
+   "routeEn": [
+    "/zaap 13 26",
+    "Take the **Temple Way Quay** zaapi",
+    "/travel 23 24",
+    "Go into the palace, then through the door on the left",
+    "Click the basin",
+    "/travel 20 30"
+   ]
+  },
+  "Fosse de R'lyugluglu": {
+   "route": [
+    "/zaap 13 26",
+    "Prendre le zaapi **Quai de la voie du temple**",
+    "/travel 23 24",
+    "Entrer dans le palais, puis prendre la porte à gauche",
+    "Cliquer sur le bassin",
+    "/travel 26 30"
+   ],
+   "routeEn": [
+    "/zaap 13 26",
+    "Take the **Temple Way Quay** zaapi",
+    "/travel 23 24",
+    "Go into the palace, then through the door on the left",
+    "Click the basin",
+    "/travel 26 30"
+   ]
+  },
+  "Palais de Dantinéa": {
+   "route": [
+    "/zaap 13 26",
+    "Prendre le zaapi **Quai de la voie du temple**",
+    "/travel 23 24",
+    "Entrer dans le palais, puis prendre la porte à gauche",
+    "Cliquer sur le bassin",
+    "/travel 19 26"
+   ],
+   "routeEn": [
+    "/zaap 13 26",
+    "Take the **Temple Way Quay** zaapi",
+    "/travel 23 24",
+    "Go into the palace, then through the door on the left",
+    "Click the basin",
+    "/travel 19 26"
+   ]
+  },
+  "Plateau de R'lyugluglu": {
+   "route": [
+    "/zaap 13 26",
+    "Prendre le zaapi **Quai de la voie du temple**",
+    "/travel 23 24",
+    "Entrer dans le palais, puis prendre la porte à gauche",
+    "Cliquer sur le bassin",
+    "/travel 26 27"
+   ],
+   "routeEn": [
+    "/zaap 13 26",
+    "Take the **Temple Way Quay** zaapi",
+    "/travel 23 24",
+    "Go into the palace, then through the door on the left",
+    "Click the basin",
+    "/travel 26 27"
+   ]
+  },
+  "Temple de Koutoulou": {
+   "route": [
+    "/zaap 13 26",
+    "Prendre le zaapi **Quai de la voie du temple**",
+    "/travel 23 24",
+    "Entrer dans le palais, puis prendre la porte à gauche",
+    "Cliquer sur le bassin",
+    "/travel 27 26"
+   ],
+   "routeEn": [
+    "/zaap 13 26",
+    "Take the **Temple Way Quay** zaapi",
+    "/travel 23 24",
+    "Go into the palace, then through the door on the left",
+    "Click the basin",
+    "/travel 27 26"
+   ]
+  },
+  "Tréfonds des Trithons": {
+   "route": [
+    "/zaap 13 26",
+    "Prendre le zaapi **Quai de la voie du temple**",
+    "/travel 23 24",
+    "Entrer dans le palais, puis prendre la porte à gauche",
+    "Cliquer sur le bassin",
+    "/travel 20 33"
+   ],
+   "routeEn": [
+    "/zaap 13 26",
+    "Take the **Temple Way Quay** zaapi",
+    "/travel 23 24",
+    "Go into the palace, then through the door on the left",
+    "Click the basin",
+    "/travel 20 33"
+   ]
+  },
+  "Vaisseau du Capitaine Meno": {
+   "route": [
+    "/zaap 13 26",
+    "Prendre le zaapi **Quai de la voie du temple**",
+    "/travel 23 24",
+    "Entrer dans le palais, puis prendre la porte à gauche",
+    "Cliquer sur le bassin",
+    "/travel 24 27"
+   ],
+   "routeEn": [
+    "/zaap 13 26",
+    "Take the **Temple Way Quay** zaapi",
+    "/travel 23 24",
+    "Go into the palace, then through the door on the left",
+    "Click the basin",
+    "/travel 24 27"
+   ]
+  },
+  "Vestiges engloutis": {
+   "route": [
+    "/zaap 13 26",
+    "Prendre le zaapi **Quai de la voie du temple**",
+    "/travel 23 24",
+    "Entrer dans le palais, puis prendre la porte à gauche",
+    "Cliquer sur le bassin",
+    "/travel 23 33"
+   ],
+   "routeEn": [
+    "/zaap 13 26",
+    "Take the **Temple Way Quay** zaapi",
+    "/travel 23 24",
+    "Go into the palace, then through the door on the left",
+    "Click the basin",
+    "/travel 23 33"
+   ]
+  },
+  "Ville submergée": {
+   "route": [
+    "/zaap 13 26",
+    "Prendre le zaapi **Quai de la voie du temple**",
+    "/travel 23 24",
+    "Entrer dans le palais, puis prendre la porte à gauche",
+    "Cliquer sur le bassin",
+    "/travel 23 27"
+   ],
+   "routeEn": [
+    "/zaap 13 26",
+    "Take the **Temple Way Quay** zaapi",
+    "/travel 23 24",
+    "Go into the palace, then through the door on the left",
+    "Click the basin",
+    "/travel 23 27"
    ]
   }
  }
