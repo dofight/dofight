@@ -1045,6 +1045,32 @@
     "Go into the palace, through the door on the left, then click the basin",
     "/travel 19 26"
    ]
+  },
+  "133": {
+   "name": "Mémoire d'Orukam",
+   "route": [
+    "/zaap 20 -29 ; /travel 15 -31",
+    "Entrer dans le sanctuaire, prendre la porte à droite, entrer dans le temple, puis prendre la porte en bas à gauche",
+    "/travel -3 -1"
+   ],
+   "routeEn": [
+    "/zaap 20 -29 ; /travel 15 -31",
+    "Go into the sanctuary, take the door on the right, go into the temple, then take the door at the bottom left",
+    "/travel -3 -1"
+   ]
+  },
+  "134": {
+   "name": "Souvenir d'Imagiro",
+   "route": [
+    "/zaap 20 -29 ; /travel 15 -31",
+    "Entrer dans le sanctuaire, prendre la porte à droite, entrer dans le temple, puis prendre la porte en bas à gauche",
+    "/travel 2 0"
+   ],
+   "routeEn": [
+    "/zaap 20 -29 ; /travel 15 -31",
+    "Go into the sanctuary, take the door on the right, go into the temple, then take the door at the bottom left",
+    "/travel 2 0"
+   ]
   }
  },
  "zones": {
@@ -2034,6 +2060,28 @@
     "/travel 23 24",
     "Go into the palace, through the door on the left, then click the basin",
     "/travel 23 27"
+   ]
+  },
+  "Royaume d'encre": {
+   "route": [
+    "/zaap 20 -29 ; /travel 15 -31",
+    "Entrer dans le sanctuaire, prendre la porte à droite, entrer dans le temple, puis prendre la porte en bas à gauche",
+    "/travel -3 2"
+   ],
+   "routeEn": [
+    "/zaap 20 -29 ; /travel 15 -31",
+    "Go into the sanctuary, take the door on the right, go into the temple, then take the door at the bottom left",
+    "/travel -3 2"
+   ]
+  },
+  "Royaume de papier": {
+   "route": [
+    "/zaap 20 -29 ; /travel 15 -31",
+    "Entrer dans le sanctuaire, prendre la porte à droite, entrer dans le temple, puis prendre la porte en bas à gauche"
+   ],
+   "routeEn": [
+    "/zaap 20 -29 ; /travel 15 -31",
+    "Go into the sanctuary, take the door on the right, go into the temple, then take the door at the bottom left"
    ]
   }
  }
