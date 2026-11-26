@@ -93,9 +93,14 @@ fn centred(icon: &[u8]) -> (Vec<f32>, f32) {
 /// captures, a hair under the 0.90 a match needs. The looks are walked together at each place rather than one after
 /// the other, so the patch and its mean are worked out once however many there are (owner, 2026-11-21).
 fn best(area: &[f32], looks: &[&[u8]], w: u32, h: u32) -> f32 {
+    best_at(area, looks, w, h).0
+}
+
+/// `best`, and where in the corner it was found (the icon's top left).
+fn best_at(area: &[f32], looks: &[&[u8]], w: u32, h: u32) -> (f32, u32, u32) {
     let centred: Vec<(Vec<f32>, f32)> = looks.iter().map(|icon| centred(icon)).collect();
     let n = (w * h) as f32;
-    let mut top = 0f32;
+    let mut top = (0f32, 0u32, 0u32);
     let mut patch = vec![0f32; (w * h) as usize];
     for y0 in 0..=AREA_H - h {
         for x0 in 0..=AREA_W - w {
@@ -118,7 +123,10 @@ fn best(area: &[f32], looks: &[&[u8]], w: u32, h: u32) -> f32 {
             let spread = var.sqrt();
             for (t, t_norm) in &centred {
                 let num: f32 = patch.iter().zip(t).map(|(d, v)| d * v).sum();
-                top = top.max(num / (spread * t_norm));
+                let score = num / (spread * t_norm);
+                if score > top.0 {
+                    top = (score, x0, y0);
+                }
             }
         }
     }
@@ -147,6 +155,40 @@ pub fn plus_in(bgra: &[u8], width: u32, height: u32, window_h: u32) -> f32 {
     corner(bgra, width, height, window_h).map_or(0.0, |area| best(&area, &[&PLUS], PLUS_W, PLUS_H))
 }
 
+/// Whether the button after the « + » is there, its eye hidden or not.
+///
+/// A folded calm bar is the « + » and the eye's button next to it; in a fight the bar's panel stops right after the
+/// « + », and what follows is the game. The eye alone cannot tell them apart: hiding only its last quarter drops it
+/// from 0.99 to 0.62, as low as a fight's 0.51 to 0.59 (review, 2026-11-26). The button's body above and below the
+/// eye can: a flat grey, 72 to 82, where a fight frame shows the map. Taken from the « + »'s own place (its template
+/// starts 30 frame pixels before that button's body, 3 rows under its top), and only the first 6 columns, so a window
+/// covering the eye from the right still leaves them.
+fn eye_button(area: &[f32], plus_x: u32, plus_y: u32) -> bool {
+    let at = |dx: u32, y: i64| -> Option<f32> {
+        let (x, y) = (plus_x + dx, plus_y as i64 + y);
+        (x < AREA_W && (0..AREA_H as i64).contains(&y)).then(|| area[(y as u32 * AREA_W + x) as usize])
+    };
+    let mut seen = Vec::new();
+    for dx in 30..36 {
+        for dy in (-3..2).chain(16..22) {
+            match at(dx, dy) {
+                Some(v) => seen.push(v),
+                None => return false,
+            }
+        }
+    }
+    let (lo, hi) = seen.iter().fold((f32::MAX, f32::MIN), |(lo, hi), &v| (lo.min(v), hi.max(v)));
+    let mean = seen.iter().sum::<f32>() / seen.len() as f32;
+    (45.0..=120.0).contains(&mean) && hi - lo <= 25.0
+}
+
+/// A folded bar in a fight: the « + », and no button after it.
+fn folded_fight(bgra: &[u8], width: u32, height: u32, window_h: u32) -> bool {
+    let Some(area) = corner(bgra, width, height, window_h) else { return false };
+    let (plus, x, y) = best_at(&area, &[&PLUS], PLUS_W, PLUS_H);
+    plus >= PLUS_MATCH && !eye_button(&area, x, y)
+}
+
 pub fn read_bar(bgra: &[u8], width: u32, height: u32) -> Bar {
     read_bar_in(bgra, width, height, height)
 }
@@ -157,8 +199,9 @@ pub fn read_bar_in(bgra: &[u8], width: u32, height: u32, window_h: u32) -> Bar {
     match (eye >= MATCH || info >= MATCH, heart >= MATCH) {
         (true, false) => Bar::Calm,
         (false, true) => Bar::Fight,
-        // folded away: the « + » alone is a fight (with the eye, it was calm above)
-        (false, false) if plus_in(bgra, width, height, window_h) >= PLUS_MATCH => Bar::Fight,
+        // folded away: the « + » alone is a fight (with the eye, it was calm above; with the eye's button but the
+        // eye hidden, it stays unknown and the texts decide, as before)
+        (false, false) if folded_fight(bgra, width, height, window_h) => Bar::Fight,
         _ => Bar::Unknown,
     }
 }
@@ -193,6 +236,10 @@ mod tests {
             };
             let (px, w, h) = frame(&name);
             assert_eq!(read_bar(&px, w, h), expected, "{name}: eye, info, heart {:?}", scores(&px, w, h));
+            // the « − » of an unfolded bar and the covered ones sit at 0.31 to 0.75: keep them clear of PLUS_MATCH
+            if !name.contains("folded") {
+                assert!(plus_in(&px, w, h, h) < 0.8, "{name}: + {:.2}", plus_in(&px, w, h, h));
+            }
             checked += 1;
         }
         assert!(checked >= 10);
@@ -232,13 +279,43 @@ mod tests {
             let expected = match name.split('_').next().unwrap() {
                 "fight" => Bar::Fight,
                 "calm" => Bar::Calm,
-                _ => continue, // a covered or folded bar: nothing to find at any size
+                _ => continue, // a covered bar: nothing to find at any size
             };
             let (px, w, h) = frame(&name);
             for nh in [950, 847, 800] {
                 let (small, sw, sh) = smaller(&px, w, h, nh);
                 assert_eq!(read_bar(&small, sw, sh), expected, "{name} at {nh} high: eye, info, heart {:?}", scores(&small, sw, sh));
             }
+        }
+    }
+
+    /// A folded calm bar whose eye is partly hidden (a tooltip, a window's edge) still shows its « + »: that must not
+    /// make it a fight, since a fight holds the header's zone until the bar is calm again (review, 2026-11-26).
+    #[test]
+    fn a_folded_calm_bar_with_its_eye_partly_hidden_is_not_a_fight() {
+        let (px, w, h) = frame("calm_folded.png");
+        let paint = |px: &mut Vec<u8>, xs: std::ops::Range<u32>, ys: std::ops::Range<u32>, grey: u8| {
+            for y in ys {
+                for x in xs.clone() {
+                    let i = ((y * w + x) * 4) as usize;
+                    px[i..i + 4].copy_from_slice(&[grey, grey, grey, 255]);
+                }
+            }
+        };
+        // a dark window over the eye from the right, down to the last quarter of it and over most of it
+        for from in [48u32, 44, 45] {
+            let mut hidden = px.clone();
+            paint(&mut hidden, from..120, 0..34, 24);
+            assert_ne!(read_bar(&hidden, w, h), Bar::Fight, "window from x {from}: {:?}", scores(&hidden, w, h));
+        }
+        // a tooltip over the eye itself, the button's body showing above and below it
+        let mut hidden = px.clone();
+        paint(&mut hidden, 34..60, 9..23, 200);
+        assert_ne!(read_bar(&hidden, w, h), Bar::Fight, "tooltip on the eye: {:?}", scores(&hidden, w, h));
+        // and the real fight frames are still fights once the eye's place is checked
+        for name in ["fight_folded_prep.png"] {
+            let (px, w, h) = frame(name);
+            assert_eq!(read_bar(&px, w, h), Bar::Fight, "{name}");
         }
     }
 
