@@ -675,7 +675,9 @@ window.setInterval(() => {
       const inside =
         pointer.x >= origin.x && pointer.x < origin.x + size.width && pointer.y >= origin.y && pointer.y < origin.y + size.height;
       if (!inside) {
-        if (peekShown && !pinned) hidePeek();
+        // a preview from the settings' example window is that window's: the pointer is on it, not on the panel, and
+        // it says itself when the pointer leaves (owner, 2026-11-25: it closed the instant it showed)
+        if (peekShown && !pinned && !exampleShown) hidePeek();
         return;
       }
       // the page's own coordinates: physical pixels from the content's corner, back to CSS ones
@@ -900,12 +902,15 @@ function sideIsReady(): void {
 /** « Comment y aller » is open: it stays until the player does something in Dofight (owner, 2026-11-20), so a zone
  * read while travelling (the list drawn again, its scroll) never takes the next commands away. */
 let accessOpen = false;
+/** The side sheet shows a row hovered in the settings' example window (not the panel's list). */
+let exampleShown = false;
 
 /** Closes the side window. `force`: the player did something (a click in the panel, Escape, the settings…); without
  * it (the list drawn again, a scroll) an open « Comment y aller » stays. */
 function hidePeek(force = false): void {
   if (accessOpen && !force) return;
   accessOpen = false;
+  exampleShown = false;
   if (pinned) setPinned(null);
   window.clearTimeout(peekTimer);
   peekRow = null;
@@ -941,6 +946,7 @@ void listen<{ id?: number; spell?: number; mechanic?: string; top: number } | nu
   if (!base) return;
   const d = [...snap.dungeons.values()].find((x) => x.name === PREVIEW_DUNGEON);
   peekAnchor = { base, top: payload.top };
+  exampleShown = true;
   const sheet = payload.mechanic !== undefined ? (view ?? snap).mechanics?.get(payload.mechanic) : undefined;
   const spell = payload.spell !== undefined ? (view ?? snap).spells.get(payload.spell) : undefined;
   if (sheet) void toSide({ token: ++peekToken, html: renderMechanicSheet(sheet) });

@@ -717,6 +717,23 @@ it("search and filter shortcuts work inside Dofight, set in Fenêtre, never regi
   if (!document.getElementById("view-settings")!.hidden) (document.getElementById("back") as HTMLButtonElement).click();
 });
 
+it("a preview from the settings' example window stays while the pointer is on that window (owner, 2026-11-25)", async () => {
+  // the pointer is outside the panel (the mock puts it far away): over the example window, not the panel
+  emitted.length = 0;
+  await handler("preview:peek")({ payload: { mechanic: "bonbombs", top: 10 } });
+  const render = await vi.waitFor(() => {
+    const r = emitted.find((e) => e.event === "peek:render");
+    expect(r).toBeDefined();
+    return r!;
+  });
+  await handler("peek:size")({ payload: { token: (render.payload as { token: number }).token, height: 200, label: "peek" } });
+  const hide = (await (await import("@tauri-apps/api/window")).Window.getByLabel("peek"))!.hide as unknown as { mock: { calls: unknown[] } };
+  const before = hide.mock.calls.length;
+  await new Promise((r) => setTimeout(r, 400)); // several of the panel's pointer looks (every 120 ms)
+  expect(hide.mock.calls.length).toBe(before);
+  await handler("preview:peek")({ payload: null }); // the pointer leaves the example: it goes
+});
+
 it("« Comment y aller » previews on hover, unpinned (owner, 2026-11-25)", async () => {
   if (!document.getElementById("view-settings")!.hidden) (document.getElementById("back") as HTMLButtonElement).click();
   const q = document.getElementById("q") as HTMLInputElement;
