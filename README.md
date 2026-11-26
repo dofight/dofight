@@ -76,10 +76,10 @@ glisse Dofight d'Applications à la Corbeille.
   Spécial…) avec l'icône et la règle du jeu.
 - **Mode Songes** : il s'active tout seul quand tu entres dans les Songes ; survole un groupe de monstres sur la carte,
   ou affiche-les tous avec la touche du jeu, et Dofight les affiche avant le combat.
-- **Recherche** d'un donjon, d'une sous-zone ou d'un monstre ; **Ctrl+Maj+F** ouvre Dofight le curseur dans la
-  recherche, même depuis le jeu. Pour un donjon, « Aller en [x,y] » copie la commande de voyage à coller dans le tchat.
+- **Recherche** d'un donjon, d'une sous-zone ou d'un monstre (Ctrl+F dans Dofight) ; pour un donjon, « Aller en
+  [x,y] » copie la commande de voyage à coller dans le tchat.
 - **Filtrer les résultats** : tape un sort, un badge ou un effet (« pousse », « PA »…) pour ne garder que les
-  monstres concernés (Ctrl+F, Cmd+F sur Mac).
+  monstres concernés (Ctrl+Maj+F, Cmd+Maj+F sur Mac).
 - **Ouverture automatique** : il s'ouvre au début du combat et se ferme à la fin ; Ctrl+Maj+D l'affiche ou le cache.
 - **Réglages** : thèmes assortis à ceux de Dofus, taille du texte, opacité, interface en français ou en anglais ;
   un cadenas fige la position et la taille du panneau.
@@ -171,10 +171,10 @@ Applications to the Trash.
   Special…) with the game's icon and rule.
 - **Dreams mode**: it turns on by itself when you enter the Dreams; hover over a monster group on the map, or show
   them all with the game's own key, and Dofight shows them before the fight.
-- **Search** for a dungeon, a subarea or a monster; **Ctrl+Shift+F** opens Dofight with the cursor in the search,
-  even from the game. For a dungeon, “Go to [x,y]” copies the travel command to paste in the chat.
+- **Search** for a dungeon, a subarea or a monster (Ctrl+F in Dofight); for a dungeon, “Go to [x,y]” copies the
+  travel command to paste in the chat.
 - **Filter the results**: type a spell, a badge or an effect (“push”, “AP”…) to keep only the monsters concerned
-  (Ctrl+F, Cmd+F on a Mac).
+  (Ctrl+Shift+F, Cmd+Shift+F on a Mac).
 - **Opens by itself**: it opens when a fight starts and closes when it ends; Ctrl+Shift+D shows or hides it.
 - **Settings**: themes matching Dofus's, text size, opacity, French or English interface; a padlock fixes the
   panel's position and size.

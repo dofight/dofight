@@ -306,16 +306,6 @@ pub fn show_panel(panel: &tauri::WebviewWindow, mode: &str) -> Result<(), String
     Ok(())
 }
 
-/// The panel in front with the keyboard (the search shortcut: the player asked to type). Windows lets Dofight take
-/// the foreground here: its process just received the player's hotkey.
-pub fn focus_panel(panel: &tauri::WebviewWindow) -> Result<(), String> {
-    let hwnd = panel.hwnd().map_err(|e| e.to_string())?;
-    unsafe {
-        let _ = SetForegroundWindow(HWND(hwnd.0 as _));
-    }
-    Ok(())
-}
-
 /// Whether the panel is on screen (the page asks `isMinimized` itself on Windows: kept for the same command).
 pub fn panel_shown(panel: &tauri::WebviewWindow) -> bool {
     panel.is_visible().unwrap_or(false) && !panel.is_minimized().unwrap_or(false)

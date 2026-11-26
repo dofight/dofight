@@ -10,7 +10,7 @@ export type Settings = Display & {
   autoSonge: boolean;
   /** Global shortcut that shows or hides the overlay (see shortcut.ts). */
   shortcut: string;
-  /** Global shortcut that opens Dofight with the cursor in the search box ("" = off). */
+  /** Shortcut inside Dofight that puts the cursor in the search box ("" = off). */
   searchShortcut: string;
   /** Shortcut inside Dofight that opens the filter bar over the list ("" = off). */
   filterShortcut: string;
@@ -69,8 +69,8 @@ export const DEFAULTS: Settings = {
   showEvent: false,
   autoSonge: true,
   shortcut: "Ctrl+Shift+KeyD",
-  searchShortcut: "Ctrl+Shift+KeyF",
-  filterShortcut: "Ctrl+KeyF",
+  searchShortcut: "Ctrl+KeyF",
+  filterShortcut: "Ctrl+Shift+KeyF",
   songe: false,
   opacity: 1,
   textSize: 100,

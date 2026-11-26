@@ -119,8 +119,8 @@ it("groups the window options in their own card; Apparence keeps language, theme
   expect(names(win)).toEqual(["Verrouiller la position et la taille"]);
   expect(win.querySelector("#shortcut")).not.toBeNull();
   // the search shortcut (global) and the filter one (inside Dofight) next to it (owner, 2026-11-25)
-  expect(plain(win.querySelector("#search-shortcut")?.textContent)).toBe("Ctrl + Maj + F");
-  expect(plain(win.querySelector("#filter-shortcut")?.textContent)).toBe("Ctrl + F");
+  expect(plain(win.querySelector("#search-shortcut")?.textContent)).toBe("Ctrl + F");
+  expect(plain(win.querySelector("#filter-shortcut")?.textContent)).toBe("Ctrl + Maj + F");
   expect(win.querySelector("#opacity")).not.toBeNull();
   // everything that looks at the game sits under the screen reading's own switch (owner, 2026-11-18)
   const reading = card("Lecture de l'écran");
@@ -684,34 +684,37 @@ it("« Comment y aller » stays open through a redraw and a scroll, and closes o
   await vi.waitFor(() => expect(hide.mock.calls.length).toBeGreaterThan(before));
 });
 
-it("the search and filter shortcuts are set in Fenêtre: search re-registers both globals, Backspace turns filter off", async () => {
+it("search and filter shortcuts work inside Dofight, set in Fenêtre, never registered globally (owner, 2026-11-25)", async () => {
   const { invoke } = await import("@tauri-apps/api/core");
-  vi.mocked(invoke).mockClear();
+  if (!document.getElementById("view-settings")!.hidden) (document.getElementById("back") as HTMLButtonElement).click();
   const press = (code: string, mods: KeyboardEventInit = {}) =>
-    document.dispatchEvent(new KeyboardEvent("keydown", { code, key: code === "Backspace" ? "Backspace" : code.replace("Key", "").toLowerCase(), bubbles: true, ...mods }));
+    document.dispatchEvent(new KeyboardEvent("keydown", { code, key: code === "Backspace" ? "Backspace" : code.replace("Key", "").toLowerCase(), bubbles: true, cancelable: true, ...mods }));
+  // Ctrl+F: the cursor in the search box
+  (document.activeElement as HTMLElement | null)?.blur();
+  press("KeyF", { ctrlKey: true });
+  expect(document.activeElement).toBe(document.getElementById("q"));
+  // changing one in the settings registers nothing global
+  vi.mocked(invoke).mockClear();
+  document.getElementById("gear")?.click();
   (document.getElementById("search-shortcut") as HTMLButtonElement).click();
-  press("KeyG", { ctrlKey: true, shiftKey: true });
-  await vi.waitFor(() => expect(invoke).toHaveBeenCalledWith("set_shortcuts", { toggle: "Ctrl+Shift+KeyD", search: "Ctrl+Shift+KeyG" }));
-  await vi.waitFor(() => expect(plain(document.getElementById("search-shortcut")!.textContent)).toBe("Ctrl + Maj + G"));
+  press("KeyG", { ctrlKey: true });
+  await vi.waitFor(() => expect(plain(document.getElementById("search-shortcut")!.textContent)).toBe("Ctrl + G"));
+  expect(vi.mocked(invoke).mock.calls.some(([cmd]) => String(cmd).startsWith("set_shortcut"))).toBe(false);
+  // Backspace turns one off, a combination another Dofight shortcut uses is refused
   (document.getElementById("filter-shortcut") as HTMLButtonElement).click();
   press("Backspace");
   await vi.waitFor(() => expect(JSON.parse(localStorage.getItem("dofight.settings") ?? "{}").filterShortcut).toBe(""));
-  // put the defaults back for the next tests
-  (document.getElementById("search-shortcut") as HTMLButtonElement).click();
-  press("KeyF", { ctrlKey: true, shiftKey: true });
-  await vi.waitFor(() => expect(plain(document.getElementById("search-shortcut")!.textContent)).toBe("Ctrl + Maj + F"));
   (document.getElementById("filter-shortcut") as HTMLButtonElement).click();
+  press("KeyG", { ctrlKey: true });
+  await vi.waitFor(() => expect(plain(document.getElementById("filter-shortcut-hint")!.textContent)).toContain("Ctrl + G"));
+  // the defaults back
+  (document.getElementById("search-shortcut") as HTMLButtonElement).click();
   press("KeyF", { ctrlKey: true });
-  await vi.waitFor(() => expect(plain(document.getElementById("filter-shortcut")!.textContent)).toBe("Ctrl + F"));
-});
-
-it("the search shortcut opens Dofight with the cursor in the search box (owner, 2026-11-25)", async () => {
-  const { invoke } = await import("@tauri-apps/api/core");
+  await vi.waitFor(() => expect(plain(document.getElementById("search-shortcut")!.textContent)).toBe("Ctrl + F"));
+  (document.getElementById("filter-shortcut") as HTMLButtonElement).click();
+  press("KeyF", { ctrlKey: true, shiftKey: true });
+  await vi.waitFor(() => expect(plain(document.getElementById("filter-shortcut")!.textContent)).toBe("Ctrl + Maj + F"));
   if (!document.getElementById("view-settings")!.hidden) (document.getElementById("back") as HTMLButtonElement).click();
-  (document.activeElement as HTMLElement | null)?.blur();
-  await handler("panel:search")({ payload: null });
-  await vi.waitFor(() => expect(document.activeElement).toBe(document.getElementById("q")));
-  expect(invoke).toHaveBeenCalledWith("panel_focus");
 });
 
 it("« Comment y aller » previews on hover, unpinned (owner, 2026-11-25)", async () => {

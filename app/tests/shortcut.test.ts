@@ -33,9 +33,9 @@ it("on a Mac, the modifiers are named as on its keyboard: Control, Option", asyn
 });
 
 describe("search and filter shortcuts (owner, 2026-11-25)", () => {
-  it("defaults: Ctrl+Shift+F searches (global), Ctrl+F filters (inside Dofight)", () => {
-    expect(DEFAULT_SEARCH_SHORTCUT).toBe("Ctrl+Shift+KeyF");
-    expect(DEFAULT_FILTER_SHORTCUT).toBe("Ctrl+KeyF");
+  it("defaults, both inside Dofight: Ctrl+F searches, Ctrl+Shift+F filters (owner, 2026-11-25)", () => {
+    expect(DEFAULT_SEARCH_SHORTCUT).toBe("Ctrl+KeyF");
+    expect(DEFAULT_FILTER_SHORTCUT).toBe("Ctrl+Shift+KeyF");
   });
   it("a key press matches its combination exactly", () => {
     expect(matchesShortcut(key("KeyF", { ctrlKey: true }), "Ctrl+KeyF")).toBe(true);

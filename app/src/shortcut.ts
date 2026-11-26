@@ -4,12 +4,11 @@
 import { getPlatform, t } from "./i18n";
 
 export const DEFAULT_SHORTCUT = "Ctrl+Shift+KeyD"; // D for Dofight
-/** Global: opens Dofight with the cursor in the search box, from anywhere (owner, 2026-11-25). The one shortcut that
- * takes the keyboard from the game: pressing it means the player wants to type. Not Ctrl+F: a global shortcut is taken
- * from every app (a browser's find would stop working). */
-export const DEFAULT_SEARCH_SHORTCUT = "Ctrl+Shift+KeyF";
-/** Inside Dofight only (not global): the filter bar over the monster list, the « find in page » players expect. */
-export const DEFAULT_FILTER_SHORTCUT = "Ctrl+KeyF";
+/** Inside Dofight only, never global (owner, 2026-11-25: nothing opens Dofight but the show-or-hide shortcut, so
+ * Dofight never takes the keyboard from the game): the cursor in the search box... */
+export const DEFAULT_SEARCH_SHORTCUT = "Ctrl+KeyF";
+/** ...and the filter bar over the monster list. */
+export const DEFAULT_FILTER_SHORTCUT = "Ctrl+Shift+KeyF";
 
 type KeyLike = Pick<KeyboardEvent, "code" | "ctrlKey" | "altKey" | "shiftKey" | "metaKey">;
 

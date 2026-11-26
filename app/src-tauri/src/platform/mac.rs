@@ -503,17 +503,6 @@ pub fn show_panel(panel: &tauri::WebviewWindow, mode: &str) -> Result<(), String
     Ok(())
 }
 
-/// The panel in front with the keyboard (the search shortcut: the player asked to type). The panel is a
-/// non-activating NSPanel: it can be the key window without Dofight becoming the active app, as a click in its search
-/// box already makes it.
-pub fn focus_panel(panel: &tauri::WebviewWindow) -> Result<(), String> {
-    with_ns_window(panel, |ns| {
-        ns.orderFrontRegardless();
-        ns.makeKeyWindow();
-    });
-    Ok(())
-}
-
 /// A sheet the player dragged away is their own window from then on: a click on it may make it the key window, so
 /// Escape closes it. The others never take the keyboard, so the game keeps it (owner, 2026-11-20).
 pub fn detached_side(side: &tauri::WebviewWindow) {

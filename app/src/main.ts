@@ -531,10 +531,17 @@ $("find-q").addEventListener("keydown", (e) => {
     else (e.target as HTMLInputElement).blur();
   }
 });
-// the filter shortcut (Ctrl+F by default, Paramètres → Fenêtre) on the monster list, the panel having the focus once
-// clicked: into the bar, not the webview's own find
+// inside Dofight (the panel has the keyboard once clicked; nothing global, owner 2026-11-25), set in Paramètres →
+// Fenêtre: the search shortcut (Ctrl+F) puts the cursor in the search box, the filter one (Ctrl+Shift+F) opens the bar
+// over the list; never the webview's own find
 document.addEventListener("keydown", (e) => {
-  if (!capturing && matchesShortcut(e, settings.filterShortcut) && !$("view-main").hidden) {
+  if (capturing || $("view-main").hidden) return;
+  if (matchesShortcut(e, settings.searchShortcut)) {
+    e.preventDefault();
+    const q = $<HTMLInputElement>("q");
+    q.focus();
+    q.select();
+  } else if (matchesShortcut(e, settings.filterShortcut)) {
     e.preventDefault();
     openFind();
   }
@@ -632,12 +639,11 @@ $("settings-import").addEventListener("click", async () => {
     return;
   }
   const next = out.settings;
-  const { lang, shortcut, searchShortcut, ...rest } = next;
-  // the global shortcuts are registered first: taken ones keep the current shortcuts
-  const same = shortcut === settings.shortcut && searchShortcut === settings.searchShortcut;
-  const shortcutOk = same || (await applyShortcuts(shortcut, searchShortcut));
-  if (!shortcutOk) await applyShortcuts(settings.shortcut, settings.searchShortcut); // keep the current ones
-  update({ ...rest, ...(shortcutOk ? { shortcut, searchShortcut } : {}) });
+  const { lang, shortcut, ...rest } = next;
+  // the shortcut is registered first: a taken one keeps the current shortcut
+  const shortcutOk = shortcut === settings.shortcut || (await applyShortcut(shortcut));
+  if (!shortcutOk) await applyShortcut(settings.shortcut); // keep the current one
+  update({ ...rest, ...(shortcutOk ? { shortcut } : {}) });
   if (lang !== settings.lang) changeLang(lang);
   buildControls();
   syncSettingsView();
@@ -1636,21 +1642,21 @@ $("hide").addEventListener("click", () => void hidePanel(true));
 
 /* ---------- global shortcut (shows or hides the overlay, even from the game) ---------- */
 
-// three shortcuts (owner, 2026-11-25): show or hide and search are global (Rust registers both), filter works inside
-// Dofight only
+// three shortcuts: show or hide is global (Rust registers it); search and filter work inside Dofight only (owner,
+// 2026-11-25)
 type ShortcutKey = "shortcut" | "searchShortcut" | "filterShortcut";
 const SHORTCUT_BUTTONS: [string, ShortcutKey][] = [["shortcut", "shortcut"], ["search-shortcut", "searchShortcut"], ["filter-shortcut", "filterShortcut"]];
 const SHORTCUT_HOWTO: Record<ShortcutKey, Key> = { shortcut: "settings.shortcutHowTo", searchShortcut: "settings.searchShortcutHowTo", filterShortcut: "settings.filterShortcutHowTo" };
 let capturing: ShortcutKey | null = null;
-async function applyShortcuts(toggle: string, search: string): Promise<boolean> {
+async function applyShortcut(keys: string): Promise<boolean> {
   try {
-    await invoke("set_shortcuts", { toggle, search });
+    await invoke("set_shortcut", { keys });
     return true;
   } catch {
     return false;
   }
 }
-void applyShortcuts(settings.shortcut, settings.searchShortcut).then((ok) => {
+void applyShortcut(settings.shortcut).then((ok) => {
   shortcutTaken = !ok;
   showGuideTexts();
 });
@@ -1675,25 +1681,23 @@ document.addEventListener("keydown", async (e) => {
   if (e.key === "Escape") return done("");
   // search and filter can be turned off; show or hide is how the player gets the panel back, it stays
   if (e.key === "Backspace" && key !== "shortcut") {
-    if (key === "searchShortcut") await applyShortcuts(settings.shortcut, "");
     update({ [key]: "" });
     return done("");
   }
-  const keys = fromKeyEvent(key === "filterShortcut" ? cmdAsCtrl(e) : e);
+  const keys = fromKeyEvent(key === "shortcut" ? e : cmdAsCtrl(e));
   if (!keys) return; // still waiting for a full combination
   if (SHORTCUT_BUTTONS.some(([, other]) => other !== key && settings[other] === keys)) return done(t("settings.shortcutSame", { keys: shortcutLabel(keys) }));
-  if (key === "filterShortcut") {
-    update({ filterShortcut: keys });
+  if (key !== "shortcut") {
+    update({ [key]: keys });
     return done("");
   }
-  const next = { shortcut: settings.shortcut, searchShortcut: settings.searchShortcut, [key]: keys };
-  if (await applyShortcuts(next.shortcut, next.searchShortcut)) {
+  if (await applyShortcut(keys)) {
     shortcutTaken = false;
-    update({ [key]: keys });
+    update({ shortcut: keys });
     showGuideTexts();
     done("");
   } else {
-    await applyShortcuts(settings.shortcut, settings.searchShortcut); // keep the previous ones
+    await applyShortcut(settings.shortcut); // keep the previous one
     done(t("settings.shortcutTaken", { keys: shortcutLabel(keys) }));
   }
 }, true);
@@ -1996,16 +2000,6 @@ document.addEventListener("keydown", (e) => {
 // the floating icon: a click shows or hides the overlay, its menu can show it
 void listen("panel:toggle", async () => ((await panelOpen()) ? hidePanel(true) : openByPlayer()));
 void listen("panel:show", () => openByPlayer());
-// the search shortcut: Dofight opened, given the keyboard, the cursor in the search box. The one place Dofight takes
-// the focus from the game: the player asked to type (owner, 2026-11-25)
-void listen("panel:search", async () => {
-  if (!$("view-settings").hidden) closeSettings();
-  await openByPlayer();
-  await invoke("panel_focus").catch(() => {});
-  const q = $<HTMLInputElement>("q");
-  q.focus();
-  q.select();
-});
 
 /* ---------- screen reading (from the Rust side, see screen.rs: on change, at most every 0.3 s) ---------- */
 
