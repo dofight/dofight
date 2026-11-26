@@ -187,8 +187,10 @@ vulnerable, a per-season table) gets a sheet, keyed by an English id, and the ro
   - The player is « tu », as in the interface (owner, 2026-11-18): « tu perds », « tes personnages »; instructions
     stay in the infinitive (« rester à distance »).
   - No kill order anywhere, sheets included: it depends on the player's strategy and challenge.
-  - States players know (Lourd: a Pandawa cannot carry it; Pesanteur...) and class spells (Raulebaque) are named,
-    not explained.
+  - States players know (Lourd, Pesanteur...) are named, not explained.
+  - Never a class or a class spell (owner, 2026-11-25): no effect belongs to one class, and any team must be able to
+    follow the text. Say the effect instead: « un sort qui pousse », « qui attire », « qui téléporte », « qui porte »,
+    « met en Pesanteur », « rend insoignable »… (examples, not a closed list).
 - 2026-11-08 (owner): every summary text has its English in `data/summaries/en.json` (`text`: the whole French
   text → English; `token`: the pieces of the badge parameters derived from spells). `validate` fails on a text with
   no English: a new or changed summary gets its English in the same change. Game names (monsters, dungeons, zones,
