@@ -91,6 +91,7 @@ function detach(): void {
   void invoke("side_detached", { label }); // resizable from here on (and at least big enough to read)
   // the sheet fills the window the player sizes, by its edges, and scrolls inside
   document.getElementById("peek")!.classList.add("detached");
+  document.getElementById("peek")!.style.width = ""; // a sheet with its own width fills the window the player sizes
   const close = document.querySelector<HTMLElement>(".peek-close");
   close?.setAttribute("title", t("peek.closeDetached"));
   close?.setAttribute("aria-label", t("peek.closeDetached"));
@@ -107,13 +108,16 @@ void listen<{ command: string; ok: boolean; to: string }>("peek:copied", ({ payl
   if (payload.to === label) sheetCopied(document, payload.command, payload.ok);
 });
 
-void listen<{ token: number; html: string; pinned?: boolean; to: string }>("peek:render", ({ payload }) => {
+void listen<{ token: number; html: string; pinned?: boolean; width?: number; to: string }>("peek:render", ({ payload }) => {
   if (payload.to !== label || detached) return;
   placedSize = null; // the panel sizes it again: not the player
   const box = document.getElementById("peek")!;
   // a pinned sheet (clicked, or « Comment y aller ») has its bar: moved and closed from there; a hover preview goes
   // with the pointer
   box.innerHTML = payload.html;
+  // a sheet with its own width (narrower than the panel): laid out at that width now, so the height measured below is
+  // the one it will have once the panel narrows this window
+  box.style.width = payload.width ? `${payload.width}px` : "";
   // inside the sheet's own box (its border), above its title
   (box.firstElementChild ?? box).insertAdjacentHTML("afterbegin", sheetBar(!!payload.pinned));
   box.classList.toggle("pinned", !!payload.pinned);
@@ -124,7 +128,8 @@ void listen<{ token: number; html: string; pinned?: boolean; to: string }>("peek
   // the size of a shorter sheet
   const card = box.firstElementChild as HTMLElement | null;
   const height = card ? sheetHeight(card) : box.getBoundingClientRect().height;
-  void emit("peek:size", { token: payload.token, height: Math.ceil(height), label });
+  const width = payload.width ? Math.ceil(box.getBoundingClientRect().width) : undefined;
+  void emit("peek:size", { token: payload.token, height: Math.ceil(height), width, label });
 });
 
 // the panel (re)started: it learns which side windows the player has dragged away

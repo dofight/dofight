@@ -7,8 +7,8 @@ export function achievementsOf(s: Snapshot, dungeonId: number | null): Achieveme
   return dungeonId === null ? [] : (s.achievements?.get(dungeonId) ?? []);
 }
 
-/** One achievement, a row of the sheet's table: the challenge's game icon, the kind in bold (« Spécial » alone: the
- * challenge's own name made the column too wide, owner 2026-11-25), the game's rule. */
+/** One achievement: the challenge's game icon on the left, the kind in bold above the rule (« Spécial » alone: the
+ * challenge's own name made the title too long, owner 2026-11-25). */
 function row(a: Achievement): string {
   return `<li><img class="challenge" src="/icons/challenges/${a.icon}.png" alt=""><b>${escText(a.kind)}</b><span class="rule">${escText(a.rule)}</span></li>`;
 }

@@ -18,7 +18,7 @@ import { inDream } from "./screen/dream";
 import { initialStatus, statusText, statusWarns, steadyStatus, type StatusKind } from "./screen/status";
 import type { OcrLine } from "./screen/ocr";
 import { currentMonitor, cursorPosition, getCurrentWindow, LogicalPosition, LogicalSize, PhysicalPosition, PhysicalSize, Window } from "@tauri-apps/api/window";
-import { GAP, previewRect, sideHeight } from "./previewSide";
+import { GAP, narrowed, previewRect, sideHeight } from "./previewSide";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import logo from "./assets/icon-app.png";
 import { enableDragAnywhere } from "./drag";
@@ -867,10 +867,10 @@ function setPinned(el: HTMLElement | null): void {
 let sideLabel = "peek";
 let sideReady = true;
 const readySides = new Set<string>(); // pages that said they are ready (before or after their label came back)
-let sideWaiting: { token: number; html: string; pinned?: boolean } | null = null;
+let sideWaiting: { token: number; html: string; pinned?: boolean; width?: number } | null = null;
 const detachedSheets = new Set<string>();
 let sidePinned = false; // the sheet last sent is pinned: shown resizable, its edges detach it (owner, 2026-11-24)
-function toSide(payload: { token: number; html: string; pinned?: boolean }): void {
+function toSide(payload: { token: number; html: string; pinned?: boolean; width?: number }): void {
   sidePinned = !!payload.pinned;
   if (!sideReady) {
     sideWaiting = payload;
@@ -942,7 +942,7 @@ void listen<{ id?: number; spell?: number; mechanic?: string; top: number } | nu
 });
 
 // the preview window measured itself: size it and place it beside the panel, level with the hovered row
-void listen<{ token: number; height: number; label: string }>("peek:size", async ({ payload }) => {
+void listen<{ token: number; height: number; width?: number; label: string }>("peek:size", async ({ payload }) => {
   const anchor = peekAnchor;
   if (payload.token !== peekToken || payload.label !== sideLabel || !anchor) return;
   const peek = await Window.getByLabel(sideLabel);
@@ -960,6 +960,8 @@ void listen<{ token: number; height: number; label: string }>("peek:size", async
     const x = panel.x < pos.x ? pos.x + size.width + gap : pos.x - size.width - gap;
     side = { ...side, x: Math.min(Math.max(x, screen.x), screen.x + screen.width - size.width) };
   }
+  // a sheet with its own width (« Succès »): as the sheet measured itself, text size included
+  if (payload.width) side = narrowed(side, pos.x, Math.ceil(payload.width * scale));
   const height = sideHeight(payload.height, scale, monitor.size.height);
   const top = pos.y + Math.round(anchor.top * scale);
   const y = Math.max(screen.y, Math.min(top, screen.y + screen.height - height));
@@ -989,6 +991,9 @@ function showMechanic(mech: HTMLElement, delay: number, pin = false): void {
   }, delay);
 }
 
+/** The « Succès » sheet's width in CSS px: narrower than the panel (owner, 2026-11-25); the rules wrap. */
+const ACHIEVEMENTS_WIDTH = 280;
+
 // « Succès » (the header's button): the dungeon's challenge achievements in the side preview, after `delay` ms, as a
 // mechanic's chip; pinned by a click
 function showAchievements(btn: HTMLElement, delay: number, pin = false): void {
@@ -998,7 +1003,7 @@ function showAchievements(btn: HTMLElement, delay: number, pin = false): void {
   peekTimer = window.setTimeout(() => {
     if (!achievementsShown.length) return;
     peekAnchor = { base: win, top: btn.getBoundingClientRect().top };
-    void toSide({ token: ++peekToken, html: renderAchievementsSheet(achievementsShown), pinned: pin });
+    void toSide({ token: ++peekToken, html: renderAchievementsSheet(achievementsShown), pinned: pin, width: ACHIEVEMENTS_WIDTH });
   }, delay);
 }
 
