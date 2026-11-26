@@ -12,8 +12,10 @@ const PATHS = {
   close: "M18 6 6 18M6 6l12 12",
   // « ↺ »: back to a previous state (the zone the player is in, the hovered group cleared)
   undo: "M3 3v5h5M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8",
-  // « ⓘ »: a mechanic's sheet (hover it); its stem and dot are added by `icon` (thicker, so they show at 18 px)
-  info: "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z",
+  // « ⓘ »: a mechanic's sheet (hover it). A solid disc with the « i » cut out (Fable's design, owner 2026-11-25): a
+  // thin ring could not look smooth at 14 px; the stem and dot sit on whole pixels at that size. Filled, not stroked
+  // (see `icon`).
+  info: "M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24ZM12 5.143a1.714 1.714 0 1 1 0 3.428 1.714 1.714 0 0 1 0-3.428ZM11.286 10.286h1.428a1 1 0 0 1 1 1v6.571a1 1 0 0 1-1 1h-1.428a1 1 0 0 1-1-1v-6.571a1 1 0 0 1 1-1Z",
   // « ↗ »: opens outside the panel (the browser)
   external: "M7 7h10v10M7 17 17 7",
   // two sheets: copies a command (to paste in the game chat)
@@ -41,11 +43,11 @@ const PATHS = {
 
 export type IconName = keyof typeof PATHS;
 
-/** Drawn on top of the « ⓘ » ring: a thick stem and a filled dot (the stroked dot of one path was barely visible). */
-const INFO_MARK = `<path d="M12 11v6" stroke-width="2.4"/><circle cx="12" cy="7.4" r="1.5" fill="currentColor" stroke="none"/>`;
+/** The « ⓘ » is one filled shape (its « i » a hole, even-odd), the others are strokes. */
+const FILLED = 'fill="currentColor" stroke="none" fill-rule="evenodd"';
 
 export const icon = (name: IconName): string =>
-  `<svg class="ic ic-${name}" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="${PATHS[name]}"/>${name === "info" ? INFO_MARK : ""}</svg>`;
+  `<svg class="ic ic-${name}" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="${PATHS[name]}"${name === "info" ? ` ${FILLED}` : ""}/></svg>`;
 
 /** Draws the icon named by `data-icon` inside each element of the page that asks for one. */
 export function applyIcons(root: ParentNode): void {

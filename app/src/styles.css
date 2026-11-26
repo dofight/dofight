@@ -224,7 +224,7 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .mh:focus-visible{border-radius:6px}
 /* navigation icons (render/icons.ts): one stroke in the text colour, sized here */
 .ic{display:inline-block;width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-3px}
-.ic-info{stroke-width:1.6;shape-rendering:geometricPrecision} /* the « i »: a finer, smoother ring wherever it shows */
+
 .tb .ic{width:16px;height:16px}
 /* the chevron of a folding row or picker: it points right when folded and turns down when open */
 .chev{margin-left:auto;display:inline-flex;align-items:center;flex:none;color:var(--muted)}
@@ -317,6 +317,7 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 /* the name, then its kind (« Avis de recherche »…) stacked under it */
 .mtitle{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0}
 .mline{display:flex;align-items:baseline;min-width:0}
+.mline .achv{margin-left:8px;align-self:center;font-size:12.5px;white-space:nowrap} /* an anomaly boss's « Succès », next to its name */
 .mkind{flex:none;font-size:11px;font-weight:400;line-height:1.4;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0 6px}
 .backzone{justify-self:start;display:flex;gap:4px;align-items:center;max-width:100%;min-height:28px;box-sizing:border-box;white-space:nowrap;background:var(--card);border:1px solid var(--line);border-radius:999px;color:var(--fg);font-size:12.5px;line-height:1.3;padding:4px 10px;cursor:pointer}
 .backzone[hidden]{display:none}

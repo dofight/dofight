@@ -1892,6 +1892,8 @@ document.addEventListener("click", async (e) => {
     openReport(roomSubject());
     return;
   }
+  // « Succès » next to an anomaly boss's name: its sheet (the room's click handler), not a fold of the card
+  if (target.closest("#room .achv")) return;
   const head = target.closest<HTMLElement>("#room .mh");
   // a press and drag over the name selected it (copied on release): that is not a click to fold the card
   if (head && selectionTouches(head)) return;

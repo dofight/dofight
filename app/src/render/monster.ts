@@ -48,7 +48,9 @@ export function renderMonster(
   const thumb = show.thumbnails ? img(icon, `monsters/${m.id}.webp`, 'class="thumb"') : "";
   // folded: its danger badges as icons on the line (at most 3, then « +N »), so the list warns without opening
   const cue = open ? "" : dangerCue(summary, vocab, show, icon);
-  parts.push(`<div class="mh" role="button" tabindex="0" aria-expanded="${open}">${thumb}<span class="mtitle"><span class="mline"><span class="mname">${esc(m.name)}</span>${count && count > 1 ? `<small class="mcount">×${count}</small>` : ""}</span>${kind ? `<small class="mkind"${kindTitle}>${esc(kind)}</small>` : ""}</span>${cue}<span class="chev" aria-hidden="true">${navIcon("chevron")}</span></div>`);
+  // an anomaly boss's own achievements: « Succès » next to its name (owner, 2026-11-25), folded or open
+  const achv = achievements?.length ? achievementsButton(m.id) : "";
+  parts.push(`<div class="mh" role="button" tabindex="0" aria-expanded="${open}">${thumb}<span class="mtitle"><span class="mline"><span class="mname">${esc(m.name)}</span>${count && count > 1 ? `<small class="mcount">×${count}</small>` : ""}${achv}</span>${kind ? `<small class="mkind"${kindTitle}>${esc(kind)}</small>` : ""}</span>${cue}<span class="chev" aria-hidden="true">${navIcon("chevron")}</span></div>`);
   if (!open) return `<div class="${cls}" data-monster="${m.id}"${more} data-open="false">${parts.join("")}</div>`;
   // its phases: HP thresholds only (a « Change de phase » badge with percentages), beside its HP with the yellow heart,
   // « P1 75 % - P2 50 % - P3 25 % » on hover (owner, 2026-11-19: a phase is an HP threshold; a change on an event
@@ -86,7 +88,6 @@ export function renderMonster(
   if (summary?.detail) parts.push(prose(frenchSpaces(summary.detail), "detail"));
   const chips = renderMechanicChips(summary?.mechanics, mechanics);
   if (chips) parts.push(chips);
-  if (achievements?.length) parts.push(`<div class="mechs">${achievementsButton(m.id)}</div>`);
   // a monster with its own guide (a wanted poster's « On recherche » page on DPLN)
   if (summary?.guide && /^https:\/\//.test(summary.guide)) {
     parts.push(`<a class="guide" href="${esc(summary.guide)}" target="_blank" rel="noopener">${t("room.guide")}${navIcon("external")}</a>`);
