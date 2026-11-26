@@ -1,7 +1,8 @@
 import { frenchSpaces, getLang, kindName, t, type Key } from "../i18n";
 import { levelRange } from "../search";
-import type { Display, Element, Mechanic, Monster, MonsterSummary, Spell, Tag, TagKind, TagSpec, Vocabulary } from "../types";
+import type { Achievement, Display, Element, Mechanic, Monster, MonsterSummary, Spell, Tag, TagKind, TagSpec, Vocabulary } from "../types";
 import { renderMechanicChips } from "./mechanic";
+import { achievementsButton } from "../travel";
 import { CATEGORY_ICON, categoryName, esc, escText, img, prose, type IconUrl } from "./html";
 import { icon as navIcon } from "./icons";
 import { rangeCaption, rangeMarks, sortByReach, touchesYou } from "../reach";
@@ -36,6 +37,8 @@ export function renderMonster(
   summons?: number[],
   /** The mechanic sheets, for the chips of the monster's own sheets. */
   mechanics?: Map<string, Mechanic>,
+  /** Its own challenge achievements (an anomaly boss: no dungeon to hold them): the « Succès » button on its card. */
+  achievements?: Achievement[],
 ): string {
   const parts: string[] = [];
   const kind = summon ? t("monster.summonOf") : kindTag(m.kind ?? "normal");
@@ -83,6 +86,7 @@ export function renderMonster(
   if (summary?.detail) parts.push(prose(frenchSpaces(summary.detail), "detail"));
   const chips = renderMechanicChips(summary?.mechanics, mechanics);
   if (chips) parts.push(chips);
+  if (achievements?.length) parts.push(`<div class="mechs">${achievementsButton(m.id)}</div>`);
   // a monster with its own guide (a wanted poster's « On recherche » page on DPLN)
   if (summary?.guide && /^https:\/\//.test(summary.guide)) {
     parts.push(`<a class="guide" href="${esc(summary.guide)}" target="_blank" rel="noopener">${t("room.guide")}${navIcon("external")}</a>`);

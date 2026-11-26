@@ -80,6 +80,11 @@ describe("loading the achievements", () => {
     expect(s.achievements?.get(83)?.length).toBe(4);
   });
 
+  it("reads the anomaly bosses' achievements keyed by monster id", async () => {
+    const s = await loadSnapshot(from({ ...base, "snapshot/boss-achievements.json": { "5663": [reine[0]] } }));
+    expect(s.bossAchievements?.get(5663)?.length).toBe(1);
+  });
+
   it("does without it", async () => {
     const s = await loadSnapshot(from(base));
     expect(s.achievements?.size).toBe(0);

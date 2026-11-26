@@ -7,7 +7,7 @@ export type FetchJson = (path: string) => Promise<unknown>;
 /** Reads data/ (served as the app's static files) into a Snapshot. Missing summaries or icon index are fine. */
 export async function loadSnapshot(fetchJson: FetchJson): Promise<Snapshot> {
   const optional = (path: string) => fetchJson(path).catch(() => null);
-  const [dungeons, monsters, spells, summaries, vocabulary, icons, perMonster, zones, travel, mechanics, access, achievements] = await Promise.all([
+  const [dungeons, monsters, spells, summaries, vocabulary, icons, perMonster, zones, travel, mechanics, access, achievements, bossAchievements] = await Promise.all([
     fetchJson("snapshot/dungeons.json") as Promise<Dungeon[]>,
     fetchJson("snapshot/monsters.json") as Promise<Monster[]>,
     fetchJson("snapshot/spells.json") as Promise<Spell[]>,
@@ -20,6 +20,7 @@ export async function loadSnapshot(fetchJson: FetchJson): Promise<Snapshot> {
     optional("summaries/mechanics.json") as Promise<Record<string, Mechanic> | null>,
     optional("access.json") as Promise<Access | null>,
     optional("snapshot/achievements.json") as Promise<Record<string, Achievement[]> | null>,
+    optional("snapshot/boss-achievements.json") as Promise<Record<string, Achievement[]> | null>,
   ]);
   return {
     dungeons: new Map(dungeons.map((d) => [d.id, d])),
@@ -31,6 +32,7 @@ export async function loadSnapshot(fetchJson: FetchJson): Promise<Snapshot> {
     zoneSummaries: new Map(Object.entries(zones ?? {})),
     mechanics: new Map(Object.entries(mechanics ?? {})),
     achievements: new Map(Object.entries(achievements ?? {}).map(([id, list]) => [Number(id), list])),
+    bossAchievements: new Map(Object.entries(bossAchievements ?? {}).map(([id, list]) => [Number(id), list])),
     monsterSummaries: new Map(Object.entries(perMonster ?? {}).map(([id, m]) => [Number(id), m])),
     ...(access ? { access } : {}),
     ...(travel ? { travel, places: placesOf(travel), areas: areasOf(travel), emptyAt: emptyPlacesOf(travel) } : {}),

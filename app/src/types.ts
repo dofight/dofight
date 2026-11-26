@@ -161,6 +161,8 @@ export interface Snapshot {
   monsterSummaries?: Map<number, MonsterSummary>;
   /** Each dungeon's challenge achievements, by dungeon id (data/snapshot/achievements.json). */
   achievements?: Map<number, Achievement[]>;
+  /** The anomaly bosses' own challenge achievements, by monster id (data/snapshot/boss-achievements.json). */
+  bossAchievements?: Map<number, Achievement[]>;
   /** Mechanic sheets by id (data/summaries/mechanics.json). */
   mechanics?: Map<string, Mechanic>;
   /** Written summaries of zones (guild expeditions), keyed by the zone name. */

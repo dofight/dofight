@@ -196,6 +196,21 @@ describe("renderMonster", () => {
   });
 });
 
+describe("an anomaly boss's achievements (owner, 2026-11-25: on its card, it has no dungeon)", () => {
+  const s = makeSnapshot();
+  const boss = [...s.monsters.values()][0];
+  const rows = [{ id: 5742, kind: "Élémentaire", boss: "Julith", challenge: "Élémentaire", rule: "Un seul élément.", icon: 20 }];
+  it("a « Succès » button on its card names it", () => {
+    const card = dom(renderMonster(boss, s.spells, undefined, ALL, noIcon, true, VOCAB, undefined, undefined, undefined, undefined, rows));
+    const btn = card.querySelector(".achv")!;
+    expect(btn.getAttribute("data-boss")).toBe(String(boss.id));
+    expect(btn.textContent).toContain("Succès");
+  });
+  it("none without achievements", () => {
+    expect(dom(renderMonster(boss, s.spells, undefined, ALL, noIcon, true, VOCAB)).querySelector(".achv")).toBeNull();
+  });
+});
+
 describe("renderRoom", () => {
   const s = makeSnapshot();
   const autel = s.dungeons.get(165)!;

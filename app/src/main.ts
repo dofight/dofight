@@ -1000,9 +1000,11 @@ function showAchievements(btn: HTMLElement, delay: number, pin = false): void {
   peekRow = btn;
   if (pin) setPinned(btn);
   peekTimer = window.setTimeout(() => {
-    if (!achievementsShown.length) return;
+    // a boss card's button (an anomaly boss): that boss's own; the title line's: the dungeon's
+    const list = btn.dataset.boss ? ((view ?? snap)?.bossAchievements?.get(Number(btn.dataset.boss)) ?? []) : achievementsShown;
+    if (!list.length) return;
     peekAnchor = { base: win, top: btn.getBoundingClientRect().top };
-    void toSide({ token: ++peekToken, html: renderAchievementsSheet(achievementsShown), pinned: pin, width: ACHIEVEMENTS_WIDTH });
+    void toSide({ token: ++peekToken, html: renderAchievementsSheet(list), pinned: pin, width: ACHIEVEMENTS_WIDTH });
   }, delay);
 }
 

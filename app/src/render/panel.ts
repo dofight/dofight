@@ -82,7 +82,7 @@ export function renderRoom(
   const shown = monsters.filter((m) => !hidden(m) || m.id === pinned);
   const ordered = [...shown].sort((a, b) => Number(b.boss) - Number(a.boss) || KIND_RANK[a.kind ?? "normal"] - KIND_RANK[b.kind ?? "normal"]);
   const card = (m: Monster, summon?: { of: string }, summons?: number[]) =>
-    renderMonster(m, s.spells, summary?.monsters[String(m.id)] ?? s.monsterSummaries?.get(m.id), show, icon, isOpen(m.id), s.vocabulary, counts?.get(m.id), summon, summons, s.mechanics);
+    renderMonster(m, s.spells, summary?.monsters[String(m.id)] ?? s.monsterSummaries?.get(m.id), show, icon, isOpen(m.id), s.vocabulary, counts?.get(m.id), summon, summons, s.mechanics, s.bossAchievements?.get(m.id));
   // a boss's key summons (« bossSummons ») come right under it, as part of its fight
   const listed = new Set(ordered.map((m) => m.id));
   const summonsOf = (m: Monster) =>
