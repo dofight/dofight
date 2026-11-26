@@ -86,7 +86,7 @@ export const zaapCommand = (z: Spot, to: Spot): string => `/zaap ${z.x} ${z.y} ;
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
 
 const accessButton = (): string =>
-  `<button type="button" class="access" aria-expanded="false" title="${esc(t("access.buttonTitle"))}">${esc(t("access.button"))} ›</button>`;
+  `<button type="button" class="access" aria-expanded="false" title="${esc(t("access.buttonTitle"))}">${esc(t("access.button"))}</button>`;
 
 // « Succès »: the game's gold cup (its « Succès » tab), then the label; opens the dungeon's achievements sheet
 const achievementsButton = (): string =>

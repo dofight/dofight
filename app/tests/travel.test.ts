@@ -250,3 +250,9 @@ describe("how to get there", () => {
     expect(css).toContain(".travel .lbl{align-self:baseline}");
   });
 });
+
+it("« Comment y aller » has no chevron (owner, 2026-11-25)", () => {
+  const box = document.createElement("div");
+  box.innerHTML = renderTrip(null, { special: true });
+  expect(box.querySelector(".access")?.textContent).toBe("Comment y aller");
+});
