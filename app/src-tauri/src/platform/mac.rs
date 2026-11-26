@@ -2,7 +2,7 @@
 //! without taking the focus from the game. The Dofus window is found with CoreGraphics' window list, captured with
 //! ScreenCaptureKit and read with Vision. Nothing is ever sent to the game.
 
-use super::{CaptureError, DofusWindow, Frame, WindowEntry, WindowId, dofus_entries};
+use super::{CaptureError, Display, DofusWindow, Frame, WindowEntry, WindowId, display_scale, dofus_entries, window_scale};
 use core_foundation::base::{CFType, TCFType};
 use core_foundation::boolean::CFBoolean;
 use core_foundation::dictionary::CFDictionary;
@@ -149,14 +149,19 @@ fn forget_content() {
     }
 }
 
-/// How many captured pixels go to one point of the window: 2 on a Retina screen, 1 elsewhere. Read once, at setup.
+/// How many captured pixels go to one point of the window: 2 on a Retina screen, 1 elsewhere. The main display's at
+/// setup, then the game's own display's, read again before each capture.
 static CAPTURE_SCALE: std::sync::atomic::AtomicU32 = std::sync::atomic::AtomicU32::new(1);
 
-/// Captured pixels per point of the window.
+/// Captured pixels per point of the window, on the display the game was last captured on.
 ///
 /// The window used to be asked for at its size in points, which on a Retina screen is half of what the screen
 /// draws: the game's text came back at eleven pixels a line when twenty-two were there, and the icon bar's eye
 /// scored 0.89 against the 0.94 the same eye scores on a screenshot of the same window (owner, 2026-11-21).
+///
+/// It was the main display's scale for every capture: a MacBook set as the main display with the game on an
+/// external monitor beside it captured that game at twice its own pixels, and no zone was ever read there (a
+/// player's report, Discord, 2026-11-26). See `window_scale`.
 pub fn capture_scale() -> u32 {
     CAPTURE_SCALE.load(std::sync::atomic::Ordering::Relaxed)
 }
@@ -189,7 +194,13 @@ fn capture_rect(id: WindowId, size: Option<(f64, f64)>) -> Result<Frame, Capture
     let (inner_x, inner_y) = (cx - frame.0, cy - frame.1); // the content inside the window (the title bar above)
     let (tx, rx) = mpsc::channel::<Result<Frame, CaptureError>>();
     let window_id = id as u32;
-    let shot = Shot { window_id, inner_x, inner_y, w, h, scale: capture_scale() };
+    // the scale of the display the game is on now (it may have been dragged to another one): the reading reads it
+    // back through `capture_scale` for this frame
+    let scale = window_scale(frame, &displays(), capture_scale());
+    if CAPTURE_SCALE.swap(scale, std::sync::atomic::Ordering::Relaxed) != scale {
+        crate::diag::log("screen", &format!("captures at {scale} pixels per point (the game's display)"));
+    }
+    let shot = Shot { window_id, inner_x, inner_y, w, h, scale };
     // the list of shareable windows from the last few seconds, when it still has the game's window: asking macOS
     // for a fresh one costs about 100 ms every time (owner, 2026-11-20)
     let mut asked = false;
@@ -215,6 +226,22 @@ fn capture_rect(id: WindowId, size: Option<(f64, f64)>) -> Result<Frame, Capture
         unsafe { SCShareableContent::getShareableContentExcludingDesktopWindows_onScreenWindowsOnly_completionHandler(true, true, &handler) };
     }
     rx.recv_timeout(CAPTURE_TIMEOUT).unwrap_or(Err(CaptureError::Failed))
+}
+
+/// The active displays, their bounds in the window list's points and their pixels per point (CoreGraphics only:
+/// NSScreen would need the main thread, and the reader has its own).
+fn displays() -> Vec<Display> {
+    use core_graphics::display::CGDisplay;
+    CGDisplay::active_displays()
+        .unwrap_or_default()
+        .into_iter()
+        .map(|id| {
+            let display = CGDisplay::new(id);
+            let b = display.bounds();
+            let scale = display.display_mode().map_or(1, |m| display_scale(m.pixel_width(), m.width()));
+            ((b.origin.x, b.origin.y, b.size.width, b.size.height), scale)
+        })
+        .collect()
 }
 
 /// What one capture asks for: the window and the part of it to take.

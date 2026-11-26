@@ -33,6 +33,34 @@ pub fn frame_size_in_points(pixel_w: u32, pixel_h: u32, scale: f64) -> (u32, u32
     ((pixel_w as f64 / scale).round() as u32, (pixel_h as f64 / scale).round() as u32)
 }
 
+/// A display: its bounds (x, y, width, height in points, origin at the top left of the main display, as the window
+/// list gives a window's frame) and how many pixels it draws per point (2 on a Retina screen, 1 elsewhere).
+pub type Display = ((f64, f64, f64, f64), u32);
+
+/// A display's pixels per point, from its mode: pixel width over width in points.
+pub fn display_scale(pixel_width: u64, width: u64) -> u32 {
+    if width == 0 { 1 } else { ((pixel_width as f64 / width as f64).round() as u32).max(1) }
+}
+
+/// The scale of the display holding most of `frame` (points), `fallback` when it is on none of `displays`. A Mac
+/// may have a Retina screen beside one that is not: a window is captured at its own display's pixels, not at the
+/// main display's. Asked for twice its own pixels, a 1x screen comes back interpolated, and the header text the
+/// reading looks for (pure white cores in a dark outline) is blurred out of it (Discord, 2026-11-26).
+pub fn window_scale(frame: (f64, f64, f64, f64), displays: &[Display], fallback: u32) -> u32 {
+    let (x, y, w, h) = frame;
+    let overlap = |(dx, dy, dw, dh): (f64, f64, f64, f64)| {
+        let ow = (x + w).min(dx + dw) - x.max(dx);
+        let oh = (y + h).min(dy + dh) - y.max(dy);
+        if ow > 0.0 && oh > 0.0 { ow * oh } else { 0.0 }
+    };
+    displays
+        .iter()
+        .map(|&(bounds, scale)| (overlap(bounds), scale))
+        .filter(|&(area, _)| area > 0.0)
+        .max_by(|a, b| a.0.total_cmp(&b.0))
+        .map_or(fallback, |(_, scale)| scale.max(1))
+}
+
 /// A Vision box (x, y, width, height, normalised, origin at the bottom left) in frame pixels (x, y, w, h, origin at
 /// the top left).
 pub fn vision_box_to_frame(b: (f64, f64, f64, f64), width: u32, height: u32) -> (i32, i32, i32, i32) {
@@ -70,6 +98,39 @@ mod tests {
     fn retina_frames_are_sized_in_points() {
         assert_eq!(frame_size_in_points(2880, 1800, 2.0), (1440, 900));
         assert_eq!(frame_size_in_points(1440, 900, 1.0), (1440, 900));
+    }
+
+    // a player's MacBook (Retina, 2 pixels a point) set as the main display, with Dofus on an external 2560×1440
+    // monitor beside it (1 pixel a point): the main display's scale was used for every capture, so that game was
+    // captured at twice its own pixels and its header was never read (Discord, 2026-11-26)
+    const BUILT_IN: Display = ((0.0, 0.0, 1512.0, 982.0), 2);
+    const EXTERNAL: Display = ((1512.0, -200.0, 2560.0, 1440.0), 1);
+
+    #[test]
+    fn a_window_is_captured_at_its_own_display_scale() {
+        let displays = [BUILT_IN, EXTERNAL];
+        assert_eq!(window_scale((1512.0, -170.0, 2560.0, 1410.0), &displays, 2), 1);
+        assert_eq!(window_scale((100.0, 30.0, 1200.0, 800.0), &displays, 1), 2);
+    }
+
+    #[test]
+    fn a_window_across_two_displays_takes_the_one_holding_most_of_it() {
+        let displays = [BUILT_IN, EXTERNAL];
+        // 412 points on the built-in display, 1100 on the external one
+        assert_eq!(window_scale((1100.0, 100.0, 1512.0, 800.0), &displays, 2), 1);
+    }
+
+    #[test]
+    fn a_window_on_no_known_display_keeps_the_fallback() {
+        assert_eq!(window_scale((5000.0, 5000.0, 800.0, 600.0), &[BUILT_IN, EXTERNAL], 2), 2);
+        assert_eq!(window_scale((0.0, 0.0, 800.0, 600.0), &[], 1), 1);
+    }
+
+    #[test]
+    fn a_display_scale_is_its_pixels_per_point() {
+        assert_eq!(display_scale(3024, 1512), 2);
+        assert_eq!(display_scale(2560, 2560), 1);
+        assert_eq!(display_scale(0, 0), 1);
     }
 
     #[test]
