@@ -35,10 +35,10 @@ describe("the achievements sheet", () => {
     expect(box.querySelectorAll("ul")[0].querySelectorAll("li").length).toBe(2);
   });
 
-  it("names the boss above its list, a single boss too (owner, 2026-11-25)", () => {
+  it("has no boss name for a single boss (owner, 2026-11-25)", () => {
     const box = document.createElement("div");
     box.innerHTML = renderAchievementsSheet(reine);
-    expect([...box.querySelectorAll("h3")].map((h) => h.textContent)).toEqual(["Reine des Voleurs"]);
+    expect(box.querySelectorAll("h3").length).toBe(0);
   });
 
   it("has no heading for rows with no boss name", () => {
