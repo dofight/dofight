@@ -54,8 +54,9 @@ mécanique), ses résistances et ses sorts.
    système » sur macOS 15 et plus récent), puis quitte et rouvre-le.
 3. Dans Dofus, active **« Afficher les coordonnées de la carte »** dans les options (Interface → Cartes) : Dofight lit le nom de la
    sous-zone juste au-dessus des coordonnées.
-4. Laisse dépliée la barre d'icônes en haut à gauche du jeu (l'œil hors combat, le cœur en combat) : c'est elle
-   qui indique à Dofight qu'un combat commence.
+4. Garde visible la barre d'icônes en haut à gauche du jeu, dépliée ou repliée (l'œil hors combat, le cœur en
+   combat) : c'est elle qui indique à Dofight qu'un combat commence. Rien du jeu ne doit couvrir ce coin ni les
+   coordonnées ; les autres fenêtres, Dofight compris, ne gênent pas.
 
 Lance Dofus : Dofight affiche les monstres de ta sous-zone et s'ouvre tout seul en combat. **Ctrl+Maj+D**
 (Control+Maj+D sur Mac) l'affiche ou le cache (raccourci modifiable dans les paramètres). Les mises à jour se font toutes seules.
@@ -88,7 +89,7 @@ glisse Dofight d'Applications à la Corbeille.
 
 **C'est autorisé ?** Dofight n'est ni un bot ni un mod : il ne clique pas, n'envoie rien au jeu et ne modifie rien.
 Il capture la fenêtre Dofus, seulement quand elle est au premier plan, et en lit le coin en haut à gauche (le nom
-de la sous-zone, les coordonnées de la carte et la barre d'icônes). En combat, il surveille surtout la barre
+de la sous-zone, les coordonnées de la carte et la barre d'icônes). En combat, il lit surtout la barre
 d'icônes ; s'il ne connaît pas encore ta sous-zone (Dofight ouvert en plein combat), il relit le nom de la
 sous-zone plus souvent, jusqu'à la trouver. En mode Songes, hors combat, quand ta souris s'arrête, il cherche les
 infobulles de groupes de monstres dans toute la fenêtre du jeu : elles s'affichent où se trouve le groupe, et le
@@ -149,8 +150,9 @@ memory, files or network traffic.
    “Open Anyway”. Then allow Dofight in System Settings → Privacy & Security → Screen Recording (“Screen & System
    Audio Recording” on macOS 15 and later), and quit and reopen it.
 3. In Dofus, turn on **“Show map coordinates”** in the options: Dofight reads the subarea name just above them.
-4. Keep the icon bar in the game's top-left corner expanded (the eye out of combat, the heart in combat): it tells
-   Dofight when a fight starts.
+4. Keep the icon bar in the game's top-left corner in sight, expanded or collapsed (the eye out of combat, the
+   heart in combat): it tells Dofight when a fight starts. Nothing in the game should cover that corner or the
+   coordinates; other windows, Dofight included, don't get in the way.
 
 Start Dofus: Dofight shows your subarea's monsters and opens by itself in fights.
 **Ctrl+Shift+D** (Control+Shift+D on a Mac) shows or hides it (you can change it in the settings). Updates install themselves.
@@ -185,7 +187,7 @@ Summaries are available in English; the linked guides are in French.
 
 **Is it allowed?** Dofight is neither a bot nor a mod: it does not click, sends nothing to the game and changes
 nothing. It captures the Dofus window, only while it's in the foreground, and reads its top-left corner (the
-subarea name, the map coordinates and the icon bar). In a fight it mostly watches the icon bar; if it doesn't know
+subarea name, the map coordinates and the icon bar). In a fight it mostly reads the icon bar; if it doesn't know
 your subarea yet (Dofight opened mid-fight), it re-reads the subarea name more often until it finds it. In Dreams
 mode, out of a fight, when your mouse stops, it looks for monster group tooltips anywhere in the game window: they
 appear where the group is, and the game can show them all at once. It keeps only their text, and nothing else on

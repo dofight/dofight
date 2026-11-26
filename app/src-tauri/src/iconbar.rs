@@ -161,8 +161,8 @@ pub fn plus_in(bgra: &[u8], width: u32, height: u32, window_h: u32) -> f32 {
 /// « + », and what follows is the game. The eye alone cannot tell them apart: hiding only its last quarter drops it
 /// from 0.99 to 0.62, as low as a fight's 0.51 to 0.59 (review, 2026-11-26). The button's body above and below the
 /// eye can: a flat grey, 72 to 82, where a fight frame shows the map. Taken from the « + »'s own place (its template
-/// starts 30 frame pixels before that button's body, 3 rows under its top), and only the first 6 columns, so a window
-/// covering the eye from the right still leaves them.
+/// starts 30 frame pixels before that button's body, 3 rows under its top), and only the first 6 columns, so a game
+/// panel covering the eye from the right still leaves them.
 fn eye_button(area: &[f32], plus_x: u32, plus_y: u32) -> bool {
     let at = |dx: u32, y: i64| -> Option<f32> {
         let (x, y) = (plus_x + dx, plus_y as i64 + y);
@@ -289,8 +289,10 @@ mod tests {
         }
     }
 
-    /// A folded calm bar whose eye is partly hidden (a tooltip, a window's edge) still shows its « + »: that must not
-    /// make it a fight, since a fight holds the header's zone until the bar is calm again (review, 2026-11-26).
+    /// A folded calm bar whose eye is partly hidden by the game itself (a tooltip, a menu, a Dofus window) still shows
+    /// its « + »: that must not make it a fight, since a fight holds the header's zone until the bar is calm again
+    /// (review, 2026-11-26). Other windows do not count: the capture is the game's own drawing (PrintWindow, the Mac's
+    /// window capture), which they never cover — only the Windows fallback to the screen's pixels sees them.
     #[test]
     fn a_folded_calm_bar_with_its_eye_partly_hidden_is_not_a_fight() {
         let (px, w, h) = frame("calm_folded.png");
@@ -302,13 +304,13 @@ mod tests {
                 }
             }
         };
-        // a dark window over the eye from the right, down to the last quarter of it and over most of it
+        // a dark game panel over the eye from the right, down to the last quarter of it and over most of it
         for from in [48u32, 44, 45] {
             let mut hidden = px.clone();
             paint(&mut hidden, from..120, 0..34, 24);
             assert_ne!(read_bar(&hidden, w, h), Bar::Fight, "window from x {from}: {:?}", scores(&hidden, w, h));
         }
-        // a tooltip over the eye itself, the button's body showing above and below it
+        // a game tooltip over the eye itself, the button's body showing above and below it
         let mut hidden = px.clone();
         paint(&mut hidden, 34..60, 9..23, 200);
         assert_ne!(read_bar(&hidden, w, h), Bar::Fight, "tooltip on the eye: {:?}", scores(&hidden, w, h));
