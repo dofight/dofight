@@ -201,10 +201,11 @@ describe("how to get there", () => {
     const box = document.createElement("div");
     const plain = (html: string) => { box.innerHTML = html; return (box.textContent ?? "").replace(/[  ]/g, " "); };
 
-    it("special with a written route: « Aller en », no zaap, no steps, the button", () => {
+    // the sheet has the way in: no « Aller en [x,y] » before the button (owner, 2026-11-26)
+    it("special with a written route: no « Aller en », no zaap, no steps, the button alone", () => {
       box.innerHTML = renderTrip({ to: { x: -69, y: -87, world: 1, route }, zaap: zaap(-50, -50, "Somewhere") }, { special: true });
-      expect(box.querySelector(".travel")!.textContent).toBe("[-69,-87]");
-      expect(box.querySelector(".zaap")).toBeNull();
+      expect(box.querySelector(".travel")).toBeNull();
+      expect(box.querySelector(".go")).toBeNull();
       expect(box.querySelector(".step")).toBeNull();
       expect(box.querySelector("button.access")!.getAttribute("aria-expanded")).toBe("false");
     });
@@ -215,14 +216,13 @@ describe("how to get there", () => {
       box.innerHTML = renderTrip({ to: { x: -2, y: 25, world: 36, route: hall }, zaap: null }, { special: true });
       expect(box.querySelector(".travel")).toBeNull();
       expect(box.querySelector("button.access")).not.toBeNull();
-      // a command or a position in the route keeps it
-      box.innerHTML = renderTrip({ to: { x: -2, y: 25, world: 1, route: ["Parler à Daoh en [15,-31]"] }, zaap: null }, { special: true });
-      expect(box.querySelector(".travel")!.textContent).toBe("[-2,25]");
     });
 
-    it("special without a route: the zaap stays, then the button", () => {
+    it("special without a route: the zaap stays, then the button, no « Aller en »", () => {
       box.innerHTML = renderTrip(tripTo(travel, 1, "x"), { special: true });
       expect(box.querySelector(".zaap")).not.toBeNull();
+      expect(box.querySelector(".travel:not(.zaap)")).toBeNull();
+      expect(box.querySelector(".go")).toBeNull();
       expect(box.querySelector("button.access")).not.toBeNull();
     });
 

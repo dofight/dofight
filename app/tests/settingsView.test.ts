@@ -360,7 +360,7 @@ it("copies the travel command; the button says « Copié » for 1 s", async () =
   // the panel never takes the focus on macOS (main.ts)
   clipboard = "";
   const q = document.getElementById("q") as HTMLInputElement;
-  q.value = "Antre du Korriandre";
+  q.value = "Cour du Bouftou Royal";
   q.dispatchEvent(new Event("input", { bubbles: true }));
   document.querySelector<HTMLElement>("#results .res-item")!.click();
   vi.useFakeTimers();

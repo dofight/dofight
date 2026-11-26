@@ -116,7 +116,8 @@ export function renderTrip(trip: Trip | null, opts: TripOptions = {}): string {
   // a written route with no command in it (« Se lance depuis le hall de ta guilde »): its position is not a way in, no
   // « Aller en » (a guild expedition's position is its dungeon's, which is not where it starts)
   const placeless = route.length > 0 && !route.some((step) => step.startsWith("/") || /\{\/|\[\s*-?\d+\s*,\s*-?\d+\s*\]/.test(step));
-  const go = placeless ? "" : `<span class="go">${esc(t("trip.go"))}</span>${travelButton(trip.to)}`;
+  // with « Comment y aller » there is no « Aller en [x,y] » before it: the sheet has the way in (owner, 2026-11-26)
+  const go = placeless || opts.special ? "" : `<span class="go">${esc(t("trip.go"))}</span>${travelButton(trip.to)}`;
   const msg = "";
   // « Comment y aller »: the sheet has the route and what to do first
   const extra = opts.special ? accessButton() : "";
