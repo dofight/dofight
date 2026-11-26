@@ -1,5 +1,5 @@
 import { expect, it } from "vitest";
-import { previewRect } from "../src/previewSide";
+import { narrowed, previewRect } from "../src/previewSide";
 
 const screen = { x: 0, y: 0, width: 1920, height: 1080 };
 
@@ -19,4 +19,17 @@ it("stays on the screen when space is short", () => {
 
 it("works on a second monitor", () => {
   expect(previewRect({ x: 3500, y: 40, width: 320, height: 1000 }, { x: 1920, y: 0, width: 1920, height: 1080 }).x).toBe(3180);
+});
+
+it("narrows a sheet that asks for less width, against the panel on its left", () => {
+  // the sheet is left of the panel (panel at x 1590): it keeps its edge next to the panel
+  expect(narrowed({ x: 1266, y: 40, width: 320, height: 500 }, 1590, 260)).toEqual({ x: 1326, y: 40, width: 260, height: 500 });
+});
+
+it("narrows a sheet on the panel's right from its far edge", () => {
+  expect(narrowed({ x: 334, y: 40, width: 320, height: 500 }, 10, 260)).toEqual({ x: 334, y: 40, width: 260, height: 500 });
+});
+
+it("never widens a sheet past the panel's width", () => {
+  expect(narrowed({ x: 334, y: 40, width: 220, height: 500 }, 10, 260)).toEqual({ x: 334, y: 40, width: 220, height: 500 });
 });
