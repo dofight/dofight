@@ -258,6 +258,10 @@ mod tests {
         // reads it: a calm bar's eye 0.975 and « i » 0.924, the Havre-Sac's « i » 0.926 (no eye there), a fight's
         // heart 0.989; nothing else reaches 0.82. An « i » cut from them lifts these to 1.00 but the covered menu
         // to 0.920 as well, so it still stays out (owner, 2026-11-22).
+        //
+        // `calm_folded_1379` is a player's Mac, a 2560×1440 screen at 1x, the bar folded out of a fight (« + », eye
+        // and an exit icon): eye 0.96, « + » 0.98, cut to the bar alone, colour profile dropped. No folded bar in a fight from a Mac yet; a
+        // Windows one shown at twice its size, as a Retina screen would, reads « + » 0.98 (2026-11-26).
         let dir = format!("{}/tests/fixtures/iconbar-mac", env!("CARGO_MANIFEST_DIR"));
         let mut checked = 0;
         for entry in std::fs::read_dir(dir).unwrap() {
@@ -281,7 +285,7 @@ mod tests {
             );
             checked += 1;
         }
-        assert_eq!(checked, 5);
+        assert_eq!(checked, 6);
     }
 
     #[test]
@@ -301,4 +305,3 @@ mod tests {
         }
     }
 }
-
