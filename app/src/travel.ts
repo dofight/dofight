@@ -90,7 +90,7 @@ const accessButton = (): string =>
 
 // « Succès »: the game's gold cup (its « Succès » tab), then the label; opens the dungeon's achievements sheet
 const achievementsButton = (): string =>
-  `<button type="button" class="achv" aria-expanded="false" title="${esc(t("achv.buttonTitle"))}"><img src="/icons/hud/achievements.png" alt="">${esc(t("achv.button"))}</button>`;
+  `<button type="button" class="achv" aria-expanded="false" title="${esc(t("achv.buttonTitle"))}"><img src="/icons/hud/achievements.png" alt=""><span>${esc(t("achv.button"))}</span></button>`;
 
 export interface TripOptions {
   /** Something to know before going (access.ts `isSpecial`): the « Comment y aller » button. */
