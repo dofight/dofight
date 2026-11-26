@@ -67,6 +67,13 @@ export interface Trip {
 /** Maps are walked one step at a time, up, down or sideways: the distance is in maps. */
 const distance = (a: Spot, b: Spot) => Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 
+/** Whether a place gets its route line and « Comment y aller »: a dungeon, or a dungeon's rooms searched as a zone
+ * (its dungeon's way in). Ordinary zones get neither for now (owner, 2026-11-25: their routes and requirements are
+ * not all there yet; the dungeons' are). */
+export function isDungeonPlace(travel: Travel | undefined, dungeonId: number | null, zone: string): boolean {
+  return dungeonId !== null || travel?.dungeonZones?.[zone] !== undefined;
+}
+
 export function tripTo(travel: Travel | undefined, dungeonId: number | null, zone: string): Trip | null {
   // a zone that is a dungeon's rooms: that dungeon's way in
   const inside = dungeonId === null ? travel?.dungeonZones?.[zone] : undefined;

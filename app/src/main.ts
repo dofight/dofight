@@ -26,7 +26,7 @@ import { selectionTouches, takeSelection } from "./selection";
 import { attachedSides, sidesAfterReload, type SideState } from "./sides";
 import { showToast } from "./render/toast";
 import { fetchFromApp, loadSnapshot } from "./load";
-import { renderTrip, showCopied, tripTo, type Trip } from "./travel";
+import { isDungeonPlace, renderTrip, showCopied, tripTo, type Trip } from "./travel";
 import { accessOf, isSpecial, type PlaceAccess } from "./access";
 import { renderAccessSheet } from "./render/accessSheet";
 import { englishReading, englishView, frenchRoom, loadEnglish, zoneName, type English } from "./english";
@@ -234,7 +234,8 @@ function roomHtml(r: Room): string {
   achievementsShown = achievementsOf(view, r.dungeon?.id ?? null);
   const achievements = achievementsShown.length > 0;
   let trip = "";
-  if (r !== zoneRoom && !r.counts) {
+  // (dungeons only for now: a zone's route and requirements are not all written, owner 2026-11-25)
+  if (r !== zoneRoom && !r.counts && isDungeonPlace(snap.travel, r.dungeon?.id ?? null, r.title)) {
     const to = tripTo(snap.travel, r.dungeon?.id ?? null, r.title);
     const pa = accessOf(snap.access, snap.areas, r.dungeon?.id ?? null, r.title);
     const special = isSpecial(pa, to?.to ?? null);

@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it, vi } from "vitest";
-import { renderRoute, renderTrip, showCopied, travelCommand, withPositions, tripTo, zaapCommand, type Travel } from "../src/travel";
+import { isDungeonPlace, renderRoute, renderTrip, showCopied, travelCommand, withPositions, tripTo, zaapCommand, type Travel } from "../src/travel";
 
 const zaap = (x: number, y: number, fr: string, world = 1) => ({ x, y, world, zone: { fr, en: `${fr} EN` } });
 const travel: Travel = {
@@ -255,4 +255,15 @@ it("« Comment y aller » has no chevron (owner, 2026-11-25)", () => {
   const box = document.createElement("div");
   box.innerHTML = renderTrip(null, { special: true });
   expect(box.querySelector(".access")?.textContent).toBe("Comment y aller");
+});
+
+describe("which places show a route and « Comment y aller » (owner, 2026-11-25: dungeons only for now)", () => {
+  const travel = { zaaps: [], dungeons: {}, zones: {}, dungeonZones: { "Antre du Dragon Cochon": 5 } } as unknown as Travel;
+  it("a dungeon does", () => expect(isDungeonPlace(travel, 83, "Trône de la Cour Sombre")).toBe(true));
+  it("a dungeon's rooms searched as a zone do (its dungeon's way in)", () => expect(isDungeonPlace(travel, null, "Antre du Dragon Cochon")).toBe(true));
+  it("an ordinary zone does not", () => expect(isDungeonPlace(travel, null, "Plaines de Cania")).toBe(false));
+  it("no travel data: only a dungeon", () => {
+    expect(isDungeonPlace(undefined, 83, "x")).toBe(true);
+    expect(isDungeonPlace(undefined, null, "x")).toBe(false);
+  });
 });
