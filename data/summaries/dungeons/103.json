@@ -11,7 +11,7 @@
    "tags": [
     {
      "id": "invulnerable",
-     "param": "la placer sur 3 glyphes de morts"
+     "param": "le placer sur 3 glyphes de morts"
     },
     {
      "id": "big_damage",
@@ -66,7 +66,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "résistances s'il a les 4 états"
+     "param": "Résistances s'il a les 4 états"
     },
     {
      "id": "inflicts",
@@ -85,11 +85,11 @@
    "tags": [
     {
      "id": "erodes",
-     "param": "et empoisonne si on le pousse"
+     "param": "si on le pousse, et empoisonne"
     },
     {
      "id": "steals",
-     "param": "Puissance, autour de lui"
+     "param": "Puissance, autour de soi"
     },
     {
      "id": "moves_self",

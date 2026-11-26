@@ -10,7 +10,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui-même et ses alliés"
+     "param": "soi-même et ses alliés"
     },
     {
      "id": "removes",
@@ -35,7 +35,7 @@
     },
     {
      "id": "invisible",
-     "param": "lui et ses alliés, dès le tour 2"
+     "param": "soi et ses alliés, dès le tour 2"
     }
    ]
   },
@@ -103,7 +103,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui-même et ses alliés"
+     "param": "soi-même et ses alliés"
     },
     {
      "id": "phase",

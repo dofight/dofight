@@ -10,7 +10,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui-même, dès le tour 4"
+     "param": "soi-même, dès le tour 4"
     },
     {
      "id": "removes",
@@ -90,7 +90,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui-même",
+     "param": "soi-même",
      "source": "spells"
     },
     {

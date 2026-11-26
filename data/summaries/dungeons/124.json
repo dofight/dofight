@@ -23,7 +23,7 @@
     },
     {
      "id": "glyphs",
-     "param": "bleu : y marcher, puis un feu"
+     "param": "bleu : permet d'éteindre un feu"
     },
     {
      "id": "summons",
@@ -86,7 +86,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {

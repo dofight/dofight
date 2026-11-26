@@ -19,7 +19,7 @@
     },
     {
      "id": "removes",
-     "param": "Résistances autour de lui",
+     "param": "Résistances autour de soi",
      "source": "spells"
     },
     {
@@ -99,7 +99,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {

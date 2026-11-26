@@ -17,7 +17,7 @@
     },
     {
      "id": "buffs_allies",
-     "param": "Invulnérable, Puissance"
+     "param": "Invulnérabilité, Puissance"
     },
     {
      "id": "flees"
@@ -76,7 +76,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {

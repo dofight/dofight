@@ -19,7 +19,7 @@
     },
     {
      "id": "removes",
-     "param": "Critique autour de lui",
+     "param": "Critique autour de soi",
      "source": "spells"
     },
     {
@@ -32,7 +32,7 @@
     },
     {
      "id": "moves",
-     "param": "attire en croix autour de lui"
+     "param": "attire en croix autour de soi"
     }
    ],
    "detail": "Ne pas taper la Poupée : ses dégâts subis vont au personnage Maudit, et il la réinvoque dès sa mort. Elle tape à 2 cases en fin de tour, de plus en plus fort. Elle échange de place et retire de la PO (tour 1, puis tous les 4 tours).",

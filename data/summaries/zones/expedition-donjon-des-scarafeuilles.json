@@ -50,7 +50,7 @@
     },
     {
      "id": "state",
-     "param": "sa mort : boss perd rés. Feu"
+     "param": "sa mort : boss perd Rés. Feu"
     }
    ]
   },
@@ -63,7 +63,7 @@
     },
     {
      "id": "state",
-     "param": "sa mort : boss perd rés. Eau"
+     "param": "sa mort : boss perd Rés. Eau"
     }
    ]
   },
@@ -76,7 +76,7 @@
     },
     {
      "id": "state",
-     "param": "sa mort : boss perd rés. Terre"
+     "param": "sa mort : boss perd Rés. Terre"
     }
    ]
   },
@@ -89,7 +89,7 @@
     },
     {
      "id": "state",
-     "param": "sa mort : boss perd rés. Air"
+     "param": "sa mort : boss perd Rés. Air"
     }
    ]
   },
@@ -112,7 +112,7 @@
     },
     {
      "id": "invisible",
-     "param": "lui et ses alliés proches",
+     "param": "soi et ses alliés proches",
      "source": "spells"
     }
    ],
@@ -122,7 +122,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {
@@ -220,7 +220,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui-même et ses alliés"
+     "param": "soi-même et ses alliés"
     },
     {
      "id": "phase",

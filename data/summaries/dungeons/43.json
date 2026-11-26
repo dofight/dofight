@@ -39,7 +39,7 @@
     },
     {
      "id": "glyphs",
-     "param": "augmente les dommages mêlée",
+     "param": "augmente les Dommages mêlée",
      "source": "spells"
     }
    ]
@@ -53,7 +53,7 @@
     },
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     }
    ]

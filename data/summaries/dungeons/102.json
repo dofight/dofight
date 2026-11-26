@@ -48,7 +48,7 @@
     },
     {
      "id": "glyphs",
-     "param": "autour de lui, tous les 4 tours"
+     "param": "autour de soi, tous les 4 tours"
     },
     {
      "id": "moves",
@@ -61,7 +61,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "Tacle, Résist. critiques, soins"
+     "param": "Tacle, Rés. Critiques, Soins"
     },
     {
      "id": "moves_self",
@@ -74,7 +74,7 @@
    "tags": [
     {
      "id": "invisible",
-     "param": "invulnérable, 100 % critique"
+     "param": "invulnérable, 100 % Critique"
     },
     {
      "id": "removes",

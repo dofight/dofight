@@ -27,7 +27,7 @@ def test_a_spell_with_no_badge_and_a_badge_with_no_spell_are_reported(tmp_path):
     found = {(d["tag"], d["kind"]) for d in result["open"]}
     # one_shot comes from guides only: never compared
     assert found == {("heals", "no badge"), ("reflect", "no spell")}
-    assert "Bouftou (1): spells show `heals` « lui-même », no badge" in report(result)
+    assert "Bouftou (1): spells show `heals` « soi-même », no badge" in report(result)
 
 
 def test_a_reviewed_difference_is_not_asked_again_until_the_spells_change(tmp_path):

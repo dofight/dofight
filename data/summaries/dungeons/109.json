@@ -32,7 +32,7 @@
     },
     {
      "id": "heals",
-     "param": "lui et ses alliés (Aurore)"
+     "param": "soi et ses alliés (Aurore)"
     },
     {
      "id": "removes",
@@ -67,7 +67,7 @@
     },
     {
      "id": "buffs_allies",
-     "param": "bouclier autour de lui"
+     "param": "bouclier autour de soi"
     }
    ]
   },
@@ -75,7 +75,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "PO, Puissance, soins reçus"
+     "param": "PO, Puissance, Soins reçus"
     }
    ]
   },

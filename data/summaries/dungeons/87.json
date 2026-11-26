@@ -72,7 +72,7 @@
    "tags": [
     {
      "id": "team_damage",
-     "param": "poison sur toute l'équipe"
+     "param": "poison"
     },
     {
      "id": "removes",
@@ -94,7 +94,7 @@
     },
     {
      "id": "no_melee_end",
-     "param": "la garder à distance"
+     "param": "le garder à distance"
     },
     {
      "id": "moves",

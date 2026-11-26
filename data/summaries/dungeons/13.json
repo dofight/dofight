@@ -33,7 +33,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui-même",
+     "param": "soi-même",
      "source": "spells"
     },
     {
@@ -47,7 +47,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "elle-même et ses alliés"
+     "param": "soi-même et ses alliés"
     },
     {
      "id": "area_damage",

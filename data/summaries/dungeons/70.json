@@ -10,11 +10,11 @@
    "tags": [
     {
      "id": "reflect",
-     "param": "à 2 PO autour de lui"
+     "param": "à 2 PO autour de soi"
     },
     {
      "id": "heals",
-     "param": "lui-même, si frappé au CaC"
+     "param": "soi-même, si frappé au CaC"
     },
     {
      "id": "big_damage",
@@ -112,7 +112,7 @@
    "tags": [
     {
      "id": "reflect",
-     "param": "lui et ses alliés au contact"
+     "param": "soi et ses alliés au contact"
     },
     {
      "id": "moves",

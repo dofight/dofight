@@ -36,11 +36,11 @@
    "tags": [
     {
      "id": "removes",
-     "param": "100 % résistances, 2 tours"
+     "param": "100 % Résistances, 2 tours"
     },
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {
@@ -53,11 +53,11 @@
    "tags": [
     {
      "id": "removes",
-     "param": "100 % résistances, 2 tours"
+     "param": "100 % Résistances, 2 tours"
     },
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {
@@ -70,11 +70,11 @@
    "tags": [
     {
      "id": "removes",
-     "param": "100 % résistances, 2 tours"
+     "param": "100 % Résistances, 2 tours"
     },
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {
@@ -87,11 +87,11 @@
    "tags": [
     {
      "id": "removes",
-     "param": "100 % résistances, 2 tours"
+     "param": "100 % Résistances, 2 tours"
     },
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {
@@ -104,7 +104,7 @@
    "tags": [
     {
      "id": "buffs_allies",
-     "param": "dommages, résistance Air"
+     "param": "Dommages, Résistance Air"
     }
    ]
   },
@@ -112,7 +112,7 @@
    "tags": [
     {
      "id": "buffs_allies",
-     "param": "dommages, résistance Feu"
+     "param": "Dommages, Résistance Feu"
     }
    ]
   },
@@ -120,7 +120,7 @@
    "tags": [
     {
      "id": "buffs_allies",
-     "param": "dommages, résistance Terre"
+     "param": "Dommages, Résistance Terre"
     }
    ]
   },
@@ -128,7 +128,7 @@
    "tags": [
     {
      "id": "buffs_allies",
-     "param": "dommages, résistance Eau"
+     "param": "Dommages, Résistance Eau"
     }
    ]
   }

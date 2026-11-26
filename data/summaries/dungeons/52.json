@@ -10,11 +10,11 @@
    "tags": [
     {
      "id": "removes",
-     "param": "puissance à toute l'équipe"
+     "param": "Puissance à toute l'équipe"
     },
     {
      "id": "dispel",
-     "param": "malus de puissance"
+     "param": "malus de Puissance"
     },
     {
      "id": "flees"
@@ -52,7 +52,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés autour de lui",
+     "param": "soi et ses alliés autour de soi",
      "source": "spells"
     },
     {

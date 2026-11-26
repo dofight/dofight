@@ -18,12 +18,12 @@
     },
     {
      "id": "removes",
-     "param": "PM autour de lui",
+     "param": "PM autour de soi",
      "source": "spells"
     },
     {
      "id": "moves",
-     "param": "attire autour de lui"
+     "param": "attire autour de soi"
     },
     {
      "id": "summons",
@@ -36,7 +36,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {
@@ -69,7 +69,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "50 % de résistances"
+     "param": "50 % de Résistances"
     },
     {
      "id": "steals",

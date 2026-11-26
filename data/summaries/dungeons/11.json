@@ -19,7 +19,7 @@
     },
     {
      "id": "buffs_allies",
-     "param": "résistance Terre"
+     "param": "Résistance Terre"
     }
    ]
   },
@@ -36,7 +36,7 @@
     },
     {
      "id": "buffs_allies",
-     "param": "résistance Eau"
+     "param": "Résistance Eau"
     }
    ]
   },
@@ -53,7 +53,7 @@
     },
     {
      "id": "buffs_allies",
-     "param": "résistance Feu"
+     "param": "Résistance Feu"
     }
    ]
   },
@@ -70,7 +70,7 @@
     },
     {
      "id": "buffs_allies",
-     "param": "résistance Air"
+     "param": "Résistance Air"
     }
    ]
   },
@@ -78,7 +78,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés autour de lui",
+     "param": "soi et ses alliés autour de soi",
      "source": "spells"
     },
     {

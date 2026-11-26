@@ -10,7 +10,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui-même, sur un perso en Sursis"
+     "param": "soi-même, sur un perso en Sursis"
     },
     {
      "id": "inflicts",
@@ -121,7 +121,7 @@
     },
     {
      "id": "glyphs",
-     "param": "retire vitalité et PM"
+     "param": "retire Vitalité et PM"
     }
    ]
   }

@@ -14,7 +14,7 @@
     },
     {
      "id": "heals",
-     "param": "lui-même, entièrement"
+     "param": "soi-même, entièrement"
     },
     {
      "id": "poison_ap",
@@ -104,7 +104,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "soins reçus autour de lui"
+     "param": "Soins reçus autour de soi"
     }
    ]
   },

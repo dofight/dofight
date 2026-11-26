@@ -11,7 +11,7 @@
    "tags": [
     {
      "id": "invulnerable",
-     "param": "le taper en ligne : -10 % rés."
+     "param": "le taper en ligne : -10 % Rés."
     },
     {
      "id": "big_damage",
@@ -47,7 +47,7 @@
     },
     {
      "id": "heals",
-     "param": "lui-même, 20 % de ses PV"
+     "param": "soi-même, 20 % de ses PV"
     },
     {
      "id": "removes",
@@ -87,7 +87,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "PO autour de lui",
+     "param": "PO autour de soi",
      "source": "spells"
     },
     {

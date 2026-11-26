@@ -13,7 +13,7 @@
     },
     {
      "id": "dispel",
-     "param": "Rascasse (résistances)"
+     "param": "Rascasse (Résistances)"
     }
    ],
    "detail": "Rascasse (2 tours) : chaque coup lui donne 50 % de résistance dans l'élément utilisé. Le désenvoûter remet ses résistances à zéro. Un personnage sous Peste Blanche perd tous ses envoûtements s'il est soigné."
@@ -22,7 +22,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés"
+     "param": "soi et ses alliés"
     },
     {
      "id": "removes",

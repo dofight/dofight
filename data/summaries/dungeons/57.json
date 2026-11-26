@@ -76,7 +76,7 @@
     },
     {
      "id": "buffs_allies",
-     "param": "soin ou dégâts x2 si frappé"
+     "param": "dégâts subis x2, ou soin (50 %)"
     },
     {
      "id": "moves_self",
@@ -112,7 +112,7 @@
     },
     {
      "id": "removes",
-     "param": "PA autour de lui"
+     "param": "PA autour de soi"
     },
     {
      "id": "buffs_allies",
@@ -128,7 +128,7 @@
    "tags": [
     {
      "id": "one_shot",
-     "param": "à plus de 7 PO d'elle (tour 5)"
+     "param": "à plus de 7 PO de lui (tour 5)"
     }
    ],
    "detail": "Se placer à 1-7 PO d'elle, ou la tuer avant son 5e tour."

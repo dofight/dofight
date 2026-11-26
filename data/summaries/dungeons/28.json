@@ -49,7 +49,7 @@
     },
     {
      "id": "glyphs",
-     "param": "distance paire ou impaire"
+     "param": "début de tour, avant de bouger"
     },
     {
      "id": "moves",
@@ -87,7 +87,7 @@
     },
     {
      "id": "removes",
-     "param": "PM et Fuite autour de lui"
+     "param": "PM et Fuite autour de soi"
     },
     {
      "id": "moves",

@@ -21,7 +21,7 @@
     },
     {
      "id": "buffs_allies",
-     "param": "dommages et PM aux Blops royaux"
+     "param": "Dommages et PM aux Blops royaux"
     }
    ],
    "detail": "Rend toute l'équipe Insoignable 1 tour (tous les 3 tours) : ne pas compter sur les soins. Frappe jusqu'à 4 PO dans les 4 éléments en volant vie et PM."
@@ -98,7 +98,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés autour de lui",
+     "param": "soi et ses alliés autour de soi",
      "source": "spells"
     },
     {

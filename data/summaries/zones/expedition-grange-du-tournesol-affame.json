@@ -19,7 +19,7 @@
     },
     {
      "id": "heals",
-     "param": "lui et ses alliés autour de lui",
+     "param": "soi et ses alliés autour de soi",
      "source": "spells"
     },
     {
@@ -62,7 +62,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "Puissance autour de lui",
+     "param": "Puissance autour de soi",
      "source": "spells"
     },
     {
@@ -76,7 +76,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés autour de lui",
+     "param": "soi et ses alliés autour de soi",
      "source": "spells"
     },
     {

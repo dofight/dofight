@@ -77,12 +77,12 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {
      "id": "buffs_allies",
-     "param": "PM et puissance, tous"
+     "param": "PM et Puissance, tous"
     },
     {
      "id": "phase",
@@ -95,7 +95,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "PO autour de lui",
+     "param": "PO autour de soi",
      "source": "spells"
     },
     {

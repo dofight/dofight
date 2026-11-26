@@ -45,7 +45,7 @@
     },
     {
      "id": "buffs_allies",
-     "param": "dommages finaux autour"
+     "param": "Dommages finaux autour"
     },
     {
      "id": "moves_self",
@@ -80,11 +80,11 @@
    "tags": [
     {
      "id": "removes",
-     "param": "résistances au CaC"
+     "param": "Résistances au CaC"
     },
     {
      "id": "buffs_allies",
-     "param": "PA autour de lui"
+     "param": "PA autour de soi"
     },
     {
      "id": "moves",
@@ -100,7 +100,7 @@
     },
     {
      "id": "steals",
-     "param": "fuite"
+     "param": "Fuite"
     }
    ],
    "detail": "Chaque coup reçu réduit la relance de Frappe Cardinale, qui touche les 4 personnages les plus proches."

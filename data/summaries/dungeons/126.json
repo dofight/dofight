@@ -16,7 +16,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui-même, entre deux phases"
+     "param": "soi-même, entre deux phases"
     },
     {
      "id": "removes",
@@ -112,7 +112,7 @@
     },
     {
      "id": "erodes",
-     "param": "autour de lui"
+     "param": "autour de soi"
     },
     {
      "id": "moves_self",
@@ -126,7 +126,7 @@
     },
     {
      "id": "summons",
-     "param": "pierres (bouclier pour lui)"
+     "param": "pierres (bouclier pour soi)"
     }
    ]
   },

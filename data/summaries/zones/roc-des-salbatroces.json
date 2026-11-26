@@ -49,7 +49,7 @@
     },
     {
      "id": "moves",
-     "param": "attire autour de lui"
+     "param": "attire autour de soi"
     }
    ],
    "detail": "Le personnage doit être à son contact au début du tour du Verminocule ; une invocation ne compte pas. Ce personnage peut changer d'un tour à l'autre."
@@ -58,7 +58,7 @@
    "tags": [
     {
      "id": "dispels_you",
-     "param": "-1 tour de bonus au-delà de 5 PO"
+     "param": "1 tour, de 6 à 10 PO"
     },
     {
      "id": "removes",
@@ -93,7 +93,7 @@
     },
     {
      "id": "kill_condition",
-     "param": "3 tours ni bougée ni -PM"
+     "param": "3 tours ni bougé ni -PM"
     }
    ],
    "detail": "La pousser contre un obstacle lui retire 1 PM pour le combat sans casser sa condition ; à 0 PM elle passe ses tours. Un échange de place du Tabacille remet sa condition à zéro et lui rend ses PM."
@@ -102,7 +102,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui-même",
+     "param": "soi-même",
      "source": "spells"
     },
     {
@@ -116,7 +116,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui-même",
+     "param": "soi-même",
      "source": "spells"
     },
     {

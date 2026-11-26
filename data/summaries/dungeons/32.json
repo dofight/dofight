@@ -8,7 +8,7 @@
  "roomTags": [
   {
    "id": "state",
-   "param": "poussés, perdent 10 % de rés."
+   "param": "poussés, perdent 10 % de Rés."
   }
  ],
  "monsters": {
@@ -32,7 +32,7 @@
     },
     {
      "id": "state",
-     "param": "-40 % rés. par monstre tué"
+     "param": "-40 % Rés. par monstre tué"
     },
     {
      "id": "buffs_allies",

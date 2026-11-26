@@ -14,7 +14,7 @@
     },
     {
      "id": "heals",
-     "param": "elle et ses alliés autour d'elle"
+     "param": "soi et ses alliés autour de soi"
     },
     {
      "id": "erodes"
@@ -38,7 +38,7 @@
     },
     {
      "id": "erodes",
-     "param": "tous, en Floutage seul"
+     "param": "tous, s'il n'a que Floutage"
     },
     {
      "id": "summons",
@@ -82,7 +82,7 @@
     },
     {
      "id": "buffs_allies",
-     "param": "soin ou dégâts x2 si frappé"
+     "param": "dégâts subis x2, ou soin (50 %)"
     }
    ]
   },

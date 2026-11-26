@@ -45,7 +45,7 @@ def test_heals_removes_steals_erodes_invisible():
         spell("Ombre", 0, [], ["Rend la cible invisible (2 tours)"]),
     ])
     ids = {t["id"]: t.get("param") for t in out["tags"]}
-    assert ids["heals"] == "lui ou ses alliés"
+    assert ids["heals"] == "soi ou ses alliés"
     assert ids["removes"] == "PA, PM, PO"
     assert ids["steals"] == "PM"
     assert "erodes" in ids and "invisible" in ids
@@ -78,8 +78,8 @@ def test_mob_l_eponge_heals_himself_and_allies_around_him_and_dispels_you():
         sp("Régénération Spontanée", 0, 0, [eff("51 à 75 soins Feu", "allies", "cercle 2")], ["heal"]),
     ])
     ids = {t["id"]: t.get("param") for t in out["tags"]}
-    assert ids["heals"] == "lui et ses alliés autour de lui"
-    assert ids["dispels_you"] == "autour de lui"
+    assert ids["heals"] == "soi et ses alliés autour de soi"
+    assert ids["dispels_you"] == "autour de soi"
     assert ids["removes"] == "PO"
 
 
@@ -91,13 +91,13 @@ def test_pichon_kloune_reflects_damage():
 def test_pichon_vert_removes_force_and_boosts_allies():
     out = derive([sp("Onde Enrageante", 0, 0, [eff("-50 Force (2 tours)", "enemies", "cercle 2"), eff("50 Puissance (2 tours)", "allies", "cercle 2")])])
     ids = {t["id"]: t.get("param") for t in out["tags"]}
-    assert ids["removes"] == "Force autour de lui"
+    assert ids["removes"] == "Force autour de soi"
     assert ids["buffs_allies"] == "Puissance"
 
 
 def test_a_heal_on_himself_only():
     out = derive([sp("Soin", 0, 0, [eff("Soin : 20% des PV max", "self")], ["heal"])])
-    assert {t["id"]: t.get("param") for t in out["tags"]}["heals"] == "lui-même"
+    assert {t["id"]: t.get("param") for t in out["tags"]}["heals"] == "soi-même"
 
 
 def test_heal_maluses_and_lifesteal_are_not_heals():
@@ -114,7 +114,7 @@ def test_heal_on_attacker_aimed_at_players_heals_whoever_hits_the_target():
 def test_a_real_heal_wins_over_the_heal_on_attacker():
     out = derive([sp("Soin", 0, 0, [eff("Soin : 20% des PV max", "self")], ["heal"]),
                   sp("Hure", 1, 8, [eff("Soin sur l'attaquant : 0% des dommages", "enemies")])])
-    assert [t.get("param") for t in out["tags"] if t["id"] == "heals"] == ["lui-même"]
+    assert [t.get("param") for t in out["tags"] if t["id"] == "heals"] == ["soi-même"]
 
 
 def test_damage_received_is_not_a_removal():
@@ -209,7 +209,7 @@ def test_a_removal_list_keeps_whole_items_within_32_characters():
     out = tags_of(sp("Coup", 1, 5, [eff(t) for t in ("-2 PA", "-2 PM", "-100 Puissance", "-20 Résistances Poussée")]))
     assert out["removes"] == "PA, PM, Puissance"
     around = tags_of(sp("Onde", 0, 0, [eff("-20 Résistances Poussée", zone="cercle 2")]))
-    assert around["removes"] == "Rés. Poussée autour de lui"
+    assert around["removes"] == "Rés. Poussée autour de soi"
 
 
 def test_stealing_the_four_characteristics_is_said_in_short():

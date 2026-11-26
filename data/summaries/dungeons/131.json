@@ -52,7 +52,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés"
+     "param": "soi et ses alliés"
     },
     {
      "id": "removes",
@@ -60,7 +60,7 @@
     },
     {
      "id": "out_of_sight",
-     "param": "il se boost par perso en vue"
+     "param": "il se booste par perso en vue"
     },
     {
      "id": "buffs_allies",
@@ -133,7 +133,7 @@
    "tags": [
     {
      "id": "reflect",
-     "param": "lui et sa cible de Negai"
+     "param": "soi et sa cible de Negai"
     },
     {
      "id": "heals",

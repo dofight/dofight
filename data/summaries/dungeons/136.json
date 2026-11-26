@@ -33,7 +33,7 @@
     },
     {
      "id": "phase",
-     "param": "état X : Colère et Haine à 10"
+     "param": "état X à 10 de Colère et Haine"
     },
     {
      "id": "summons",
@@ -72,7 +72,7 @@
     },
     {
      "id": "glyphs",
-     "param": "-2 PA et fuite si on entre"
+     "param": "-2 PA et Fuite si on entre"
     }
    ]
   },
@@ -84,11 +84,11 @@
     },
     {
      "id": "summons",
-     "param": "copies de lui-même"
+     "param": "copies de soi-même"
     },
     {
      "id": "buffs_allies",
-     "param": "bouclier et critique"
+     "param": "bouclier et Critique"
     }
    ]
   },

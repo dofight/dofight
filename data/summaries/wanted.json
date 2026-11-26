@@ -6,7 +6,7 @@
       "tags": [
         {
           "id": "heals",
-          "param": "lui et ses alliés",
+          "param": "soi et ses alliés",
           "source": "spells"
         },
         {
@@ -50,11 +50,11 @@
         },
         {
           "id": "removes",
-          "param": "2 PA tant qu'elle vit"
+          "param": "2 PA tant qu'il vit"
         },
         {
           "id": "dispels_you",
-          "param": "à 7 PO ou plus d'elle"
+          "param": "à 7 PO ou plus de lui"
         },
         {
           "id": "steals",
@@ -114,7 +114,7 @@
       "tags": [
         {
           "id": "heals",
-          "param": "lui et ses alliés",
+          "param": "soi et ses alliés",
           "source": "spells"
         },
         {
@@ -286,7 +286,7 @@
         },
         {
           "id": "heals",
-          "param": "lui et ses alliés",
+          "param": "soi et ses alliés",
           "source": "spells"
         },
         {
@@ -367,11 +367,11 @@
         },
         {
           "id": "no_melee_end",
-          "param": "la garder à distance"
+          "param": "le garder à distance"
         },
         {
           "id": "dispel",
-          "param": "ses boosts (PM, dommages)"
+          "param": "ses boosts (PM, Dommages)"
         },
         {
           "id": "buffs_allies",
@@ -445,7 +445,7 @@
         },
         {
           "id": "heals",
-          "param": "lui-même",
+          "param": "soi-même",
           "source": "spells"
         }
       ],
@@ -456,7 +456,7 @@
       "tags": [
         {
           "id": "heals",
-          "param": "lui-même en entier au tour 7"
+          "param": "soi-même en entier au tour 7"
         },
         {
           "id": "dispels_you",
@@ -464,7 +464,7 @@
         },
         {
           "id": "removes",
-          "param": "PO, Fuite, résistances"
+          "param": "PO, Fuite, Résistances"
         },
         {
           "id": "moves",
@@ -483,7 +483,7 @@
         },
         {
           "id": "heals",
-          "param": "lui et ses alliés",
+          "param": "soi et ses alliés",
           "source": "spells"
         },
         {
@@ -511,11 +511,11 @@
       "tags": [
         {
           "id": "one_shot",
-          "param": "au CaC, remplacé par un monstre"
+          "param": "au CaC : te change en monstre"
         },
         {
           "id": "heals",
-          "param": "lui et ses alliés autour de lui",
+          "param": "soi et ses alliés autour de soi",
           "source": "spells"
         },
         {
@@ -578,7 +578,7 @@
         },
         {
           "id": "removes",
-          "param": "Puissance, résistances par coup"
+          "param": "Puissance, Résistances par coup"
         },
         {
           "id": "dispels_you",
@@ -613,7 +613,7 @@
         },
         {
           "id": "buffs_allies",
-          "param": "Invulnérable, Puissance"
+          "param": "Invulnérabilité, Puissance"
         }
       ],
       "detail": "L'Œuf de la Mort attire ceux en ligne avec lui puis explose à son 2e tour et tue tout personnage à 4 cases ou moins : ne pas rester en ligne avec lui ni à 4 cases.",
@@ -640,11 +640,11 @@
         },
         {
           "id": "lock",
-          "param": "coin + invocations statiques"
+          "param": "le bloquer dans un coin"
         },
         {
           "id": "glyphs",
-          "param": "soin, -rés., Pesanteur, érosion"
+          "param": "soin, -Rés., Pesanteur, érosion"
         }
       ],
       "detail": "Invulnérable sauf le tour après avoir fini son tour dans sa croix bleue (Surtension). Bloqué dans un coin, il pose ses glyphes sur les invocations. -2 PA et poison par PM utilisé tout le combat.",
@@ -666,7 +666,7 @@
         },
         {
           "id": "removes",
-          "param": "PM, Puissance autour de lui",
+          "param": "PM, Puissance autour de soi",
           "source": "spells"
         },
         {
@@ -836,7 +836,7 @@
         },
         {
           "id": "inflicts",
-          "param": "Affaibli, puis tour passé"
+          "param": "Affaibli, puis saute ton tour"
         },
         {
           "id": "removes",
@@ -882,7 +882,7 @@
         },
         {
           "id": "heals",
-          "param": "elle-même si on l'empoisonne"
+          "param": "soi-même si on l'empoisonne"
         }
       ],
       "detail": "Chaque tour, un perso Empathique prend 50 % des dégâts faits à Amy. Ne pas lui retirer PA ou PM (bouclier). Un perso mort devient un Abrakleur Sombre qui joue contre toi.",
@@ -904,7 +904,7 @@
         },
         {
           "id": "removes",
-          "param": "PM autour de lui",
+          "param": "PM autour de soi",
           "source": "spells"
         },
         {
@@ -995,7 +995,7 @@
         },
         {
           "id": "remove_mp",
-          "param": "plutôt que la pousser"
+          "param": "plutôt que le pousser"
         },
         {
           "id": "state",
@@ -1063,7 +1063,7 @@
       "tags": [
         {
           "id": "invulnerable",
-          "param": "à distance : la frapper au CaC"
+          "param": "à distance : le frapper au CaC"
         },
         {
           "id": "big_damage",
@@ -1111,7 +1111,7 @@
         },
         {
           "id": "heals",
-          "param": "lui-même",
+          "param": "soi-même",
           "source": "spells"
         },
         {
@@ -1149,7 +1149,7 @@
         },
         {
           "id": "removes",
-          "param": "PM autour de lui",
+          "param": "PM autour de soi",
           "source": "spells"
         },
         {
@@ -1235,7 +1235,7 @@
         },
         {
           "id": "invisible",
-          "param": "lui et ses alliés (glyphe)"
+          "param": "soi et ses alliés (glyphe)"
         },
         {
           "id": "moves",
@@ -1311,7 +1311,7 @@
         },
         {
           "id": "heals",
-          "param": "elle-même"
+          "param": "soi-même"
         },
         {
           "id": "erodes",
@@ -1389,7 +1389,7 @@
         },
         {
           "id": "heals",
-          "param": "lui-même"
+          "param": "soi-même"
         },
         {
           "id": "erodes",
@@ -1560,7 +1560,7 @@
         },
         {
           "id": "heals",
-          "param": "lui et ses alliés",
+          "param": "soi et ses alliés",
           "source": "spells"
         },
         {
@@ -1573,8 +1573,10 @@
           "source": "spells"
         },
         {
-          "id": "lock",
-          "param": "elle fuit loin"
+          "id": "flees"
+        },
+        {
+          "id": "lock"
         },
         {
           "id": "moves",
@@ -1617,7 +1619,7 @@
         },
         {
           "id": "removes",
-          "param": "résistances si invulnérable"
+          "param": "Résistances si invulnérable"
         },
         {
           "id": "steals",
@@ -1716,11 +1718,11 @@
       "tags": [
         {
           "id": "inflicts",
-          "param": "Pacifiste à 2 PO d'elle"
+          "param": "Pacifiste à 2 PO de lui"
         },
         {
           "id": "removes",
-          "param": "résistances de 6 à 8 PO"
+          "param": "Résistances de 6 à 8 PO"
         },
         {
           "id": "steals",
@@ -1729,7 +1731,7 @@
         },
         {
           "id": "spread_out",
-          "param": "pas à plusieurs à 5 PO d'elle"
+          "param": "pas à plusieurs à 5 PO de lui"
         },
         {
           "id": "moves",
@@ -1805,11 +1807,11 @@
         },
         {
           "id": "removes",
-          "param": "PA, PM, PO, résistances"
+          "param": "PA, PM, PO, Résistances"
         },
         {
           "id": "heals",
-          "param": "lui-même, 2 fois par tour"
+          "param": "soi-même, 2 fois par tour"
         },
         {
           "id": "spread_out",
@@ -1851,7 +1853,7 @@
       "tags": [
         {
           "id": "big_damage",
-          "param": "Piégé comme un Mulou, en ligne"
+          "param": "s'attire sur le perso piégé"
         },
         {
           "id": "glyphs",
@@ -1883,7 +1885,7 @@
         },
         {
           "id": "heals",
-          "param": "lui-même en entier à 20 PA"
+          "param": "soi-même en entier à 20 PA"
         },
         {
           "id": "steals",
@@ -1941,7 +1943,7 @@
         },
         {
           "id": "heals",
-          "param": "lui et ses alliés",
+          "param": "soi et ses alliés",
           "source": "spells"
         },
         {
@@ -2025,7 +2027,7 @@
         },
         {
           "id": "dispel",
-          "param": "Laitage sur elle-même"
+          "param": "Laitage sur lui-même"
         },
         {
           "id": "summons",
@@ -2106,7 +2108,7 @@
       "tags": [
         {
           "id": "area_damage",
-          "param": "autour de lui et de ses alliés"
+          "param": "autour de soi et de ses alliés"
         },
         {
           "id": "removes",
@@ -2127,7 +2129,7 @@
         },
         {
           "id": "buffs_allies",
-          "param": "PM autour de lui"
+          "param": "PM autour de soi"
         }
       ],
       "guide": "https://www.dofuspourlesnoobs.com/on-recherche-glandaf-l-aigri.html"
@@ -2203,7 +2205,7 @@
         },
         {
           "id": "heals",
-          "param": "lui-même",
+          "param": "soi-même",
           "source": "spells"
         },
         {

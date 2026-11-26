@@ -9,7 +9,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés autour de lui",
+     "param": "soi et ses alliés autour de soi",
      "source": "spells"
     },
     {
@@ -19,7 +19,7 @@
     },
     {
      "id": "dispels_you",
-     "param": "autour de lui",
+     "param": "autour de soi",
      "source": "spells"
     }
    ],
@@ -37,7 +37,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "Force autour de lui",
+     "param": "Force autour de soi",
      "source": "spells"
     },
     {
@@ -56,7 +56,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "Agilité autour de lui",
+     "param": "Agilité autour de soi",
      "source": "spells"
     },
     {
@@ -84,12 +84,12 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés autour de lui",
+     "param": "soi et ses alliés autour de soi",
      "source": "spells"
     },
     {
      "id": "removes",
-     "param": "Intelligence autour de lui",
+     "param": "Intelligence autour de soi",
      "source": "spells"
     }
    ]

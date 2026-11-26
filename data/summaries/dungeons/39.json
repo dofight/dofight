@@ -15,7 +15,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "Résistance autour de lui",
+     "param": "Résistance autour de soi",
      "source": "spells"
     },
     {
@@ -84,11 +84,11 @@
    "tags": [
     {
      "id": "removes",
-     "param": "200 % rés. à ce qui le touche"
+     "param": "200 % Rés. à ce qui le touche"
     },
     {
      "id": "heals",
-     "param": "lui et ses alliés autour de lui",
+     "param": "soi et ses alliés autour de soi",
      "source": "spells"
     },
     {
@@ -120,7 +120,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "Puissance autour de lui",
+     "param": "Puissance autour de soi",
      "source": "spells"
     },
     {

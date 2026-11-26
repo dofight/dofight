@@ -27,7 +27,7 @@
     },
     {
      "id": "lock",
-     "param": "~200 tacle, obstacle derrière"
+     "param": "200 Tacle, dos à un obstacle"
     },
     {
      "id": "phase",
@@ -61,7 +61,7 @@
     },
     {
      "id": "buffs_allies",
-     "param": "PM, PO, dommages distance"
+     "param": "PM, PO, Dommages distance"
     },
     {
      "id": "moves",
@@ -91,7 +91,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {
@@ -112,11 +112,11 @@
    "tags": [
     {
      "id": "removes",
-     "param": "dommages"
+     "param": "Dommages"
     },
     {
      "id": "buffs_allies",
-     "param": "bouclier et fuite"
+     "param": "bouclier et Fuite"
     },
     {
      "id": "glyphs",

@@ -23,7 +23,7 @@
     },
     {
      "id": "moves",
-     "param": "renvoie à la case de début"
+     "param": "renvoie à la case de départ"
     },
     {
      "id": "state",
@@ -60,7 +60,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui-même",
+     "param": "soi-même",
      "source": "spells"
     },
     {
@@ -145,7 +145,7 @@
     },
     {
      "id": "invisible",
-     "param": "tous autour de lui, si frappé"
+     "param": "tous autour de soi, si frappé"
     },
     {
      "id": "flees"
@@ -175,7 +175,7 @@
     },
     {
      "id": "removes",
-     "param": "Fuite autour de lui",
+     "param": "Fuite autour de soi",
      "source": "spells"
     },
     {

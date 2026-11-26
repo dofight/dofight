@@ -28,7 +28,7 @@
     },
     {
      "id": "dispel",
-     "param": "poison, Puissance, résistances"
+     "param": "poison, Puissance, Résistances"
     },
     {
      "id": "buffs_allies",
@@ -58,7 +58,7 @@
     },
     {
      "id": "buffs_allies",
-     "param": "100 % rés. de son élément"
+     "param": "100 % Rés. de son élément"
     }
    ],
    "detail": "Il tape jusqu'à 6 PO : rester hors de sa portée. Son Blop invoqué pose un glyphe blanc qui retire 2 PM et tue le personnage qui finit son tour dedans."
@@ -84,7 +84,7 @@
     },
     {
      "id": "buffs_allies",
-     "param": "100 % rés. de son élément"
+     "param": "100 % Rés. de son élément"
     }
    ],
    "detail": "Il tape jusqu'à 6 PO : rester hors de sa portée. Son Blop invoqué pose un glyphe blanc qui retire 2 PM et tue le personnage qui finit son tour dedans."
@@ -110,7 +110,7 @@
     },
     {
      "id": "buffs_allies",
-     "param": "100 % rés. de son élément"
+     "param": "100 % Rés. de son élément"
     }
    ],
    "detail": "Il tape jusqu'à 6 PO : rester hors de sa portée. Son Blop invoqué pose un glyphe blanc qui retire 2 PM et tue le personnage qui finit son tour dedans."
@@ -136,7 +136,7 @@
     },
     {
      "id": "buffs_allies",
-     "param": "100 % rés. de son élément"
+     "param": "100 % Rés. de son élément"
     }
    ],
    "detail": "Il tape jusqu'à 6 PO : rester hors de sa portée. Son Blop invoqué pose un glyphe blanc qui retire 2 PM et tue le personnage qui finit son tour dedans."
@@ -159,7 +159,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés autour de lui",
+     "param": "soi et ses alliés autour de soi",
      "source": "spells"
     },
     {

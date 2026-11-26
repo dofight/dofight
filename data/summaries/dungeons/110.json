@@ -20,7 +20,7 @@
     },
     {
      "id": "big_damage",
-     "param": "CaC, retire des résistances"
+     "param": "CaC, retire des Résistances"
     },
     {
      "id": "erodes",
@@ -46,7 +46,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "PO, et tous les PM (Nimpat. 3)"
+     "param": "PO, tous les PM (Nimpatience 3)"
     },
     {
      "id": "inflicts",
@@ -60,7 +60,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "PA autour de lui, et critique"
+     "param": "PA autour de soi, et Critique"
     },
     {
      "id": "moves",
@@ -140,7 +140,7 @@
     },
     {
      "id": "moves",
-     "param": "4 persos à son CaC (Nimp. 3)"
+     "param": "4 persos au CaC (Nimpatience 3)"
     }
    ],
    "detail": "Chaque Nimpatience réduit ses dégâts subis."

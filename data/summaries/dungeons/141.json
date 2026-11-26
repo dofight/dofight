@@ -16,7 +16,7 @@
    "tags": [
     {
      "id": "one_shot",
-     "param": "au CaC dès Nimpatience III"
+     "param": "au CaC dès Nimpatience 3"
     },
     {
      "id": "steals",
@@ -29,7 +29,7 @@
     },
     {
      "id": "no_melee_end",
-     "param": "la garder à distance"
+     "param": "le garder à distance"
     },
     {
      "id": "moves_self",
@@ -41,7 +41,7 @@
     },
     {
      "id": "state",
-     "param": "+20 % rés. si on la pousse"
+     "param": "+20 % Rés. si on le pousse"
     }
    ],
    "detail": "Le premier personnage touché dans le tour prend l'état Clochecuivre : elle échange de place avec lui et lui retire tous ses PM. La taper au CaC retire l'état ; Pesanteur bloque l'échange."
@@ -59,7 +59,7 @@
     },
     {
      "id": "buffs_allies",
-     "param": "bouclier dès Nimpatience III"
+     "param": "bouclier dès Nimpatience 3"
     },
     {
      "id": "redirects",
@@ -89,7 +89,7 @@
     },
     {
      "id": "out_of_sight",
-     "param": "dès Nimpatience III"
+     "param": "dès Nimpatience 3"
     },
     {
      "id": "moves",
@@ -102,7 +102,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés autour"
+     "param": "soi et ses alliés autour"
     }
    ],
    "detail": "Ninsipide touche toute une ligne, même de loin : le bloquer ou le repousser hors de tes lignes."

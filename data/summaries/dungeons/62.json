@@ -14,7 +14,7 @@
     },
     {
      "id": "heals",
-     "param": "lui-même (Banquise)"
+     "param": "soi-même (Banquise)"
     },
     {
      "id": "removes",
@@ -26,7 +26,7 @@
     },
     {
      "id": "no_ap_mp_removal",
-     "param": "retrait PM : énormes résistances"
+     "param": "retrait PM : énormes Résistances"
     },
     {
      "id": "moves",
@@ -80,7 +80,7 @@
     },
     {
      "id": "dodges_melee",
-     "param": "lui et ses voisins"
+     "param": "soi et ses voisins"
     },
     {
      "id": "buffs_allies",

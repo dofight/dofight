@@ -16,7 +16,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "PA et puissance"
+     "param": "PA et Puissance"
     },
     {
      "id": "dispels_you",
@@ -24,11 +24,11 @@
     },
     {
      "id": "glyphs",
-     "param": "maladie aléatoire (monté)"
+     "param": "maladie au hasard s'il est monté"
     },
     {
      "id": "phase",
-     "param": "soin d'un allié à son CaC"
+     "param": "démonte si on soigne à son CaC"
     },
     {
      "id": "moves",
@@ -49,7 +49,7 @@
    "tags": [
     {
      "id": "invulnerable",
-     "param": "tant qu'elle n'est pas seule"
+     "param": "tant qu'il n'est pas seul"
     },
     {
      "id": "big_damage",
@@ -135,15 +135,15 @@
    "tags": [
     {
      "id": "removes",
-     "param": "PV, puissance, critique, tacle"
+     "param": "PV, Puissance, Critique, Tacle"
     },
     {
      "id": "redirects",
-     "param": "ses alliés autour de lui"
+     "param": "ses alliés autour de soi"
     },
     {
      "id": "buffs_allies",
-     "param": "PM et vitalité"
+     "param": "PM et Vitalité"
     }
    ]
   },
@@ -169,11 +169,11 @@
     },
     {
      "id": "steals",
-     "param": "Vitalité et dommages"
+     "param": "Vitalité et Dommages"
     },
     {
      "id": "buffs_allies",
-     "param": "bouclier autour de lui"
+     "param": "bouclier autour de soi"
     },
     {
      "id": "moves",
@@ -185,7 +185,7 @@
    "tags": [
     {
      "id": "summons",
-     "param": "Iopprimé si pas tapée"
+     "param": "Iopprimé si pas tapé"
     },
     {
      "id": "moves",

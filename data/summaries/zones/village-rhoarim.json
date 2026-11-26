@@ -53,11 +53,11 @@
     },
     {
      "id": "dispel",
-     "param": "résistances données"
+     "param": "Résistances données"
     },
     {
      "id": "buffs_allies",
-     "param": "résistances"
+     "param": "Résistances"
     }
    ],
    "detail": "Ne pas placer d'invocation près de lui : son coup au CaC touche aussi l'entité la plus proche de la cible."

@@ -28,7 +28,7 @@
     },
     {
      "id": "team_damage",
-     "param": "et attire de 4 cases"
+     "param": "puis attire de 4 cases"
     },
     {
      "id": "removes",
@@ -82,7 +82,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "critique et dommages critiques"
+     "param": "Critique et Dommages Critiques"
     },
     {
      "id": "summons",
@@ -158,7 +158,7 @@
     },
     {
      "id": "removes",
-     "param": "PO et critique"
+     "param": "PO et Critique"
     },
     {
      "id": "reduce_range"

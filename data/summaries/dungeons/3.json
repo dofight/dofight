@@ -35,7 +35,7 @@
    "tags": [
     {
      "id": "dodges_melee",
-     "param": "lui et alliés à 5 PO, 1 tour"
+     "param": "soi et alliés à 5 PO, 1 tour"
     },
     {
      "id": "removes",
@@ -67,16 +67,16 @@
     },
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {
      "id": "dispel",
-     "param": "Buvette (résistances)"
+     "param": "Buvette (Résistances)"
     },
     {
      "id": "buffs_allies",
-     "param": "résistances au contact"
+     "param": "Résistances au contact"
     },
     {
      "id": "moves",
@@ -105,7 +105,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "100 % résistance d'un élément"
+     "param": "100 % Résistance d'un élément"
     },
     {
      "id": "steals",
@@ -151,16 +151,16 @@
     },
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {
      "id": "dispel",
-     "param": "Buvette (résistances)"
+     "param": "Buvette (Résistances)"
     },
     {
      "id": "buffs_allies",
-     "param": "résistances au contact"
+     "param": "Résistances au contact"
     },
     {
      "id": "moves",

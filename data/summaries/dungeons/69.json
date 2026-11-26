@@ -14,7 +14,7 @@
     },
     {
      "id": "spread_out",
-     "param": "aucun allié aligné avec elle"
+     "param": "aucun allié aligné avec lui"
     },
     {
      "id": "no_ap_mp_removal",
@@ -22,7 +22,7 @@
     },
     {
      "id": "moves",
-     "param": "attire les alignés si frappée"
+     "param": "attire les alignés si frappé"
     },
     {
      "id": "buffs_allies",
@@ -99,11 +99,11 @@
    "tags": [
     {
      "id": "reflect",
-     "param": "à distance, autour de lui"
+     "param": "à distance, autour de soi"
     },
     {
      "id": "erodes",
-     "param": "autour de lui"
+     "param": "autour de soi"
     },
     {
      "id": "buffs_allies",
@@ -126,7 +126,7 @@
    "tags": [
     {
      "id": "reflect",
-     "param": "à distance, croix autour de lui"
+     "param": "à distance, croix autour de soi"
     },
     {
      "id": "removes",

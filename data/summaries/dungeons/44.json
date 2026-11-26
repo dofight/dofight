@@ -44,11 +44,11 @@
    "tags": [
     {
      "id": "removes",
-     "param": "200 % rés. à son contact"
+     "param": "200 % Rés. à son contact"
     },
     {
      "id": "remove_mp",
-     "param": "la garder collée au Cell"
+     "param": "le garder collé au Cell"
     }
    ]
   },
@@ -56,11 +56,11 @@
    "tags": [
     {
      "id": "removes",
-     "param": "200 % rés. à son contact"
+     "param": "200 % Rés. à son contact"
     },
     {
      "id": "remove_mp",
-     "param": "la garder collée au Cell"
+     "param": "le garder collé au Cell"
     }
    ]
   },
@@ -68,11 +68,11 @@
    "tags": [
     {
      "id": "removes",
-     "param": "200 % rés. à son contact"
+     "param": "200 % Rés. à son contact"
     },
     {
      "id": "remove_mp",
-     "param": "la garder collée au Cell"
+     "param": "le garder collé au Cell"
     }
    ]
   },
@@ -80,11 +80,11 @@
    "tags": [
     {
      "id": "removes",
-     "param": "200 % rés. à son contact"
+     "param": "200 % Rés. à son contact"
     },
     {
      "id": "remove_mp",
-     "param": "la garder collée au Cell"
+     "param": "le garder collé au Cell"
     }
    ]
   },
@@ -161,7 +161,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés autour de lui",
+     "param": "soi et ses alliés autour de soi",
      "source": "spells"
     },
     {
@@ -178,7 +178,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {
@@ -204,7 +204,7 @@
     },
     {
      "id": "state",
-     "param": "50 % rés. à l'élément reçu"
+     "param": "50 % Rés. à l'élément reçu"
     }
    ],
    "detail": "Sous Rascasse (2 tours), chaque coup lui donne 50 % de résistance dans l'élément reçu : le désenvoûter. Soigner une cible sous Peste Blanche la désenvoûte."
@@ -221,7 +221,7 @@
     },
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     }
    ],

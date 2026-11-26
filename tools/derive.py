@@ -1,7 +1,7 @@
 """Badges proposed from a monster's spells (game data) (the user validates them; they carry "source": "spells").
 
 Each effect knows whom it hits ("target": enemies / allies / self / all) and where ("zone": "cercle 2"…); a spell with
-range 0 and an area is centred on the monster ("autour de lui"). A monster whose spells all hit at melee range,
+range 0 and an area is centred on the monster ("autour de soi"). A monster whose spells all hit at melee range,
 without moving, summoning, healing, hindering or glyphs, is harmless.
 """
 
@@ -127,13 +127,13 @@ def derive(spells: list) -> dict:
     if heals:
         targets = {e.get("target") for _, e in heals}
         if targets == {None}:
-            who = "lui ou ses alliés"  # the data does not say which
+            who = "soi ou ses alliés"  # the data does not say which
         elif targets <= {"self"}:
-            who = "lui-même"
+            who = "soi-même"
         else:
-            who = "lui et ses alliés"
-        if who != "lui ou ses alliés" and all(_around(s, e) for s, e in heals):
-            who += " autour de lui"
+            who = "soi et ses alliés"
+        if who != "soi ou ses alliés" and all(_around(s, e) for s, e in heals):
+            who += " autour de soi"
         add("heals", who)
     # « Soin sur l'attaquant » aimed at the players: a debuff on a character, whoever hits it heals (its monsters,
     # DPLN: Harpirate, Toxoliath, Kabahal…). Capitaine Ekarlatte's is the other way round (hitting him heals you,
@@ -153,13 +153,13 @@ def derive(spells: list) -> dict:
             removal_pairs.append((s, e))
     if removed:
         stats = _sorted_stats(removed)
-        around = " autour de lui" if all(_around(s, e) for s, e in removal_pairs) else ""
+        around = " autour de soi" if all(_around(s, e) for s, e in removal_pairs) else ""
         # as many whole characteristics as fit in 32 characters, most important first (never cut in a word)
         n = len(stats)
         while n > 1 and len(", ".join(stats[:n]) + around) > 32:
             n -= 1
         param = ", ".join(stats[:n]) + around
-        if len(param) > 32:  # one long characteristic: « Résistances Poussée autour de lui »
+        if len(param) > 32:  # one long characteristic: « Résistances Poussée autour de soi »
             param = param.replace("Résistances", "Rés.", 1)
         add("removes", param)
 
@@ -181,7 +181,7 @@ def derive(spells: list) -> dict:
     dispel = [(s, e) for s, e in pairs if e.get("target") in ("enemies", "all")
               and (e["text"].startswith("Durée des effets : -") or e["text"].startswith("Enlève les envoûtements"))]
     if dispel:
-        add("dispels_you", "autour de lui" if all(_around(s, e) for s, e in dispel) else None)
+        add("dispels_you", "autour de soi" if all(_around(s, e) for s, e in dispel) else None)
 
     boosts = []
     for s, e in pairs:

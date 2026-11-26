@@ -13,7 +13,7 @@
   },
   {
    "id": "state",
-   "param": "Rocailleuse : rés. et esquive"
+   "param": "Rocailleuse : Rés. et Esquive"
   }
  ],
  "monsters": {
@@ -29,7 +29,7 @@
     },
     {
      "id": "no_ap_mp_removal",
-     "param": "inutile, 500 esquive PA"
+     "param": "inutile, 500 Esquive PA"
     },
     {
      "id": "summons",
@@ -62,7 +62,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés autour de lui",
+     "param": "soi et ses alliés autour de soi",
      "source": "spells"
     },
     {
@@ -76,7 +76,7 @@
    "tags": [
     {
      "id": "reflect",
-     "param": "autour de lui (Manteau)",
+     "param": "autour de soi (Manteau)",
      "source": "spells"
     },
     {

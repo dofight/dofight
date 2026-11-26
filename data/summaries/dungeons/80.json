@@ -11,7 +11,7 @@
    "tags": [
     {
      "id": "invulnerable",
-     "param": "2 tours si frappée à l'arme CaC"
+     "param": "2 tours si frappé à l'arme CaC"
     },
     {
      "id": "removes",
@@ -61,7 +61,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "Rés. Poussée autour de lui",
+     "param": "Rés. Poussée autour de soi",
      "source": "spells"
     },
     {
@@ -80,7 +80,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {

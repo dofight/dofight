@@ -14,7 +14,7 @@
     },
     {
      "id": "buffs_allies",
-     "param": "résistances, moins de dégâts"
+     "param": "Résistances, moins de dégâts"
     },
     {
      "id": "summons",
@@ -49,7 +49,7 @@
     },
     {
      "id": "reflect",
-     "param": "autour de lui (Manteau)",
+     "param": "autour de soi (Manteau)",
      "source": "spells"
     }
    ]

@@ -18,7 +18,7 @@
     },
     {
      "id": "heals",
-     "param": "lui-même sous 80 % PV"
+     "param": "soi-même sous 80 % PV"
     },
     {
      "id": "summons",
@@ -49,7 +49,7 @@
    "tags": [
     {
      "id": "buffs_allies",
-     "param": "PA et puissance"
+     "param": "PA et Puissance"
     }
    ]
   },

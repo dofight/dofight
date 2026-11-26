@@ -96,7 +96,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui-même par coup reçu"
+     "param": "soi-même par coup reçu"
     },
     {
      "id": "moves",
@@ -108,7 +108,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui-même si on rate sa fuite"
+     "param": "soi-même si on rate sa fuite"
     },
     {
      "id": "inflicts",

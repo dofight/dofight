@@ -20,7 +20,7 @@
    "tags": [
     {
      "id": "invulnerable",
-     "param": "6 attaques des éléments de Rage"
+     "param": "jusqu'à 6 de Rage"
     },
     {
      "id": "big_damage",
@@ -112,7 +112,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {

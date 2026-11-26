@@ -9,7 +9,7 @@
  "roomTags": [
   {
    "id": "state",
-   "param": "Durakuir : + fort en perdant PV"
+   "param": "Durakuir : plus fort à bas PV"
   },
   {
    "id": "state",
@@ -25,7 +25,7 @@
     },
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {

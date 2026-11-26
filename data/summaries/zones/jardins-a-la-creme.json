@@ -17,7 +17,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui-même en mangeant une Pépite"
+     "param": "soi-même en mangeant une Pépite"
     },
     {
      "id": "steals",
@@ -40,7 +40,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {
@@ -62,11 +62,11 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui-même en mangeant une Pépite"
+     "param": "soi-même en mangeant une Pépite"
     },
     {
      "id": "removes",
-     "param": "Fuite autour de lui",
+     "param": "Fuite autour de soi",
      "source": "spells"
     },
     {
@@ -85,7 +85,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui-même en mangeant une Pépite"
+     "param": "soi-même en mangeant une Pépite"
     },
     {
      "id": "removes",

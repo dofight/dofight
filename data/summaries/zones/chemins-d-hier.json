@@ -22,7 +22,7 @@
     },
     {
      "id": "heals",
-     "param": "lui-même",
+     "param": "soi-même",
      "source": "spells"
     },
     {
@@ -70,7 +70,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {

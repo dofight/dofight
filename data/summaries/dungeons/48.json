@@ -22,7 +22,7 @@
    "tags": [
     {
      "id": "invisible",
-     "param": "lui et ses alliés, dès le tour 2"
+     "param": "soi et ses alliés, dès le tour 2"
     }
    ]
   },
@@ -30,7 +30,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {
@@ -49,7 +49,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {
@@ -76,7 +76,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui-même",
+     "param": "soi-même",
      "source": "spells"
     },
     {
@@ -100,7 +100,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui-même",
+     "param": "soi-même",
      "source": "spells"
     },
     {
@@ -124,7 +124,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui-même",
+     "param": "soi-même",
      "source": "spells"
     },
     {

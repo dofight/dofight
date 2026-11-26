@@ -45,6 +45,24 @@ def test_param_too_long():
     assert any("32" in e for e in errors)
 
 
+@pytest.mark.parametrize("param", ["si frappée", "Iopprimé si pas tapée", "3 tours ni bougée ni -PM", "PM autour d'elle",
+                                   "elle-même et ses alliés", "tant qu'elle vit", "Elle fuit",
+                                   "la garder à distance", "qui la tue", "si on la pousse", "Si frappée"])
+def test_param_agreeing_with_a_female_monster(param):
+    # a badge is written in the indefinite form, whatever the monster's gender (owner, 2026-11-26)
+    errors = validate(summary(monsters={"147": {"tags": [{"id": "big_damage", "param": param}]}, "101": {"tags": []}}), VOCAB, SNAPSHOT)
+    assert any("indefinite" in e for e in errors), param
+
+
+@pytest.mark.parametrize("param", ["si frappé", "PA si sa cible est déplacée", "Rip au CaC si poussée bloquée",
+                                   "attire (4 cases si Chocolathée)", "Résistances Poussée", "Gelée Fraise",
+                                   "sauf tortue collée (-200 %)", "la Poupée, sur le perso Maudit",
+                                   "tant que la Marionnette vit", "si portée réduite", "si poussées", "si mêlée"])
+def test_param_in_the_indefinite_form(param):
+    errors = validate(summary(monsters={"147": {"tags": [{"id": "big_damage", "param": param}]}, "101": {"tags": []}}), VOCAB, SNAPSHOT)
+    assert errors == [], param
+
+
 def test_no_limit_on_tags():
     # a card holds as many badges as it needs (owner, 2026-11-24)
     tags = [{"id": t} for t in ("flees", "buffs_allies", "lock", "spread_out", "no_melee_end", "out_of_sight", "moves",

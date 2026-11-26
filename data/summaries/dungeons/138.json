@@ -8,7 +8,7 @@
  "roomTags": [
   {
    "id": "buffs_allies",
-   "param": "gobelins groupés, + de dommages"
+   "param": "plus forts si gobelins groupés"
   }
  ],
  "monsters": {

@@ -19,7 +19,7 @@
     },
     {
      "id": "heals",
-     "param": "lui-même",
+     "param": "soi-même",
      "source": "spells"
     },
     {
@@ -86,7 +86,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "Agilité autour de lui",
+     "param": "Agilité autour de soi",
      "source": "spells"
     },
     {

@@ -56,11 +56,11 @@
    "tags": [
     {
      "id": "steals",
-     "param": "résistances au CaC"
+     "param": "Résistances au CaC"
     },
     {
      "id": "buffs_allies",
-     "param": "100 % résistances à un allié"
+     "param": "100 % Résistances à un allié"
     },
     {
      "id": "removes",
@@ -77,7 +77,7 @@
     },
     {
      "id": "buffs_allies",
-     "param": "tacle et fuite",
+     "param": "Tacle et Fuite",
      "source": "spells"
     }
    ]
@@ -86,7 +86,7 @@
    "tags": [
     {
      "id": "summons",
-     "param": "Iopprimé si pas tapée"
+     "param": "Iopprimé si pas tapé"
     },
     {
      "id": "moves",
@@ -103,7 +103,7 @@
     },
     {
      "id": "removes",
-     "param": "PO et critique"
+     "param": "PO et Critique"
     }
    ]
   }

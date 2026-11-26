@@ -72,7 +72,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "Résistance autour de lui",
+     "param": "Résistance autour de soi",
      "source": "spells"
     },
     {
@@ -110,7 +110,7 @@
     },
     {
      "id": "invisible",
-     "param": "lui et ses alliés proches"
+     "param": "soi et ses alliés proches"
     },
     {
      "id": "flees"

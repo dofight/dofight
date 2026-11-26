@@ -105,7 +105,7 @@
     },
     {
      "id": "invisible",
-     "param": "lui et ses alliés proches"
+     "param": "soi et ses alliés proches"
     }
    ]
   },
@@ -113,11 +113,11 @@
    "tags": [
     {
      "id": "heals",
-     "param": "ses alliés autour de lui"
+     "param": "ses alliés autour de soi"
     },
     {
      "id": "erodes",
-     "param": "autour de lui"
+     "param": "autour de soi"
     },
     {
      "id": "steals",
@@ -165,7 +165,7 @@
     },
     {
      "id": "glyphs",
-     "param": "+20 % dommages finaux dedans"
+     "param": "+20 % Dommages finaux dedans"
     },
     {
      "id": "moves",

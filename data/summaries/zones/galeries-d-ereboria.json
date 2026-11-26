@@ -17,7 +17,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {
@@ -54,7 +54,7 @@
     },
     {
      "id": "out_of_sight",
-     "param": "dès Nimpatience III"
+     "param": "dès Nimpatience 3"
     },
     {
      "id": "moves",
@@ -67,7 +67,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés autour"
+     "param": "soi et ses alliés autour"
     }
    ],
    "detail": "Ninsipide touche toute une ligne, même de loin : le bloquer ou le repousser hors de tes lignes."

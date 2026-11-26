@@ -28,7 +28,7 @@
     },
     {
      "id": "out_of_sight",
-     "param": "quand elle est sur son îlot"
+     "param": "quand il est sur son îlot"
     },
     {
      "id": "phase",
@@ -107,7 +107,7 @@
     },
     {
      "id": "inflicts",
-     "param": "Enraciné (casse le tacle)"
+     "param": "Enraciné (casse le Tacle)"
     },
     {
      "id": "out_of_sight",

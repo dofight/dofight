@@ -38,7 +38,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {
@@ -63,11 +63,11 @@
    "tags": [
     {
      "id": "removes",
-     "param": "dommages"
+     "param": "Dommages"
     },
     {
      "id": "buffs_allies",
-     "param": "bouclier et fuite"
+     "param": "bouclier et Fuite"
     },
     {
      "id": "glyphs",

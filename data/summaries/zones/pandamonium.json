@@ -29,7 +29,7 @@
     },
     {
      "id": "buffs_allies",
-     "param": "bouclier et dommages poussée"
+     "param": "bouclier et Dommages Poussée"
     },
     {
      "id": "moves",
@@ -54,11 +54,11 @@
     },
     {
      "id": "state",
-     "param": "Pesanteur autour de lui"
+     "param": "Pesanteur autour de soi"
     },
     {
      "id": "buffs_allies",
-     "param": "tacle et dommages mêlée"
+     "param": "Tacle et Dommages mêlée"
     },
     {
      "id": "moves",
@@ -88,7 +88,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "PM et dommages"
+     "param": "PM et Dommages"
     },
     {
      "id": "moves",
@@ -104,7 +104,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {

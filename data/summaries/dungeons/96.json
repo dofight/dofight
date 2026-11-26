@@ -10,7 +10,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui-même",
+     "param": "soi-même",
      "source": "spells"
     },
     {
@@ -56,7 +56,7 @@
     },
     {
      "id": "reflect",
-     "param": "lui et ses alliés autour de lui",
+     "param": "soi et ses alliés autour de soi",
      "source": "spells"
     },
     {
@@ -84,7 +84,7 @@
     },
     {
      "id": "removes",
-     "param": "Fuite autour de lui",
+     "param": "Fuite autour de soi",
      "source": "spells"
     },
     {

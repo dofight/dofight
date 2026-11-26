@@ -8,7 +8,7 @@
  "roomTags": [
   {
    "id": "invulnerable",
-   "param": "meurent seuls en 4 tours"
+   "param": "meurent seuls, -25 % PV par tour"
   },
   {
    "id": "state",
@@ -20,7 +20,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui-même, des dégâts infligés"
+     "param": "soi-même, des dégâts infligés"
     },
     {
      "id": "spread_out",

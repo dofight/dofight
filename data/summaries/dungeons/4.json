@@ -10,7 +10,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "PA autour de lui",
+     "param": "PA autour de soi",
      "source": "spells"
     },
     {
@@ -20,12 +20,12 @@
     },
     {
      "id": "dispels_you",
-     "param": "autour de lui",
+     "param": "autour de soi",
      "source": "spells"
     },
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {
@@ -44,7 +44,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {
@@ -88,7 +88,7 @@
    "tags": [
     {
      "id": "reflect",
-     "param": "lui et ses alliés proches"
+     "param": "soi et ses alliés proches"
     },
     {
      "id": "removes",
@@ -97,7 +97,7 @@
     },
     {
      "id": "heals",
-     "param": "lui et ses alliés autour de lui",
+     "param": "soi et ses alliés autour de soi",
      "source": "spells"
     },
     {

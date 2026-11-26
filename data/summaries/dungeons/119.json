@@ -12,7 +12,7 @@
   },
   {
    "id": "state",
-   "param": "retrait : +esquive au monstre"
+   "param": "retrait : +Esquive au monstre"
   }
  ],
  "monsters": {
@@ -46,7 +46,7 @@
    "tags": [
     {
      "id": "steals",
-     "param": "critique et Force"
+     "param": "Critique et Force"
     },
     {
      "id": "inflicts",
@@ -63,7 +63,7 @@
    "tags": [
     {
      "id": "big_damage",
-     "param": "distance, se boost en volant"
+     "param": "distance, se booste en volant"
     },
     {
      "id": "steals",
@@ -109,11 +109,11 @@
     },
     {
      "id": "steals",
-     "param": "Vitalité et dommages"
+     "param": "Vitalité et Dommages"
     },
     {
      "id": "buffs_allies",
-     "param": "bouclier autour de lui"
+     "param": "bouclier autour de soi"
     },
     {
      "id": "moves",

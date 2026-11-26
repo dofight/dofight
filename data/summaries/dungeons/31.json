@@ -22,7 +22,7 @@
     },
     {
      "id": "one_shot",
-     "param": "quand il perd ses résistances"
+     "param": "quand il perd ses Résistances"
     },
     {
      "id": "inflicts",
@@ -109,7 +109,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés autour de lui",
+     "param": "soi et ses alliés autour de soi",
      "source": "spells"
     },
     {
@@ -142,7 +142,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {

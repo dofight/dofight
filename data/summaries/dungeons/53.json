@@ -10,11 +10,11 @@
    "tags": [
     {
      "id": "removes",
-     "param": "100 PA autour de lui (Destinos)"
+     "param": "100 PA autour de soi (Destinos)"
     },
     {
      "id": "heals",
-     "param": "lui et ses alliés (à 15 PA)"
+     "param": "soi et ses alliés (à 15 PA)"
     },
     {
      "id": "steals",
@@ -22,7 +22,7 @@
     },
     {
      "id": "dispels_you",
-     "param": "autour de lui",
+     "param": "autour de soi",
      "source": "spells"
     },
     {
@@ -41,7 +41,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {
@@ -59,7 +59,7 @@
     },
     {
      "id": "buffs_allies",
-     "param": "Dommages, PM autour de lui"
+     "param": "Dommages, PM autour de soi"
     }
    ]
   },
@@ -83,11 +83,11 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés autour de lui"
+     "param": "soi et ses alliés autour de soi"
     },
     {
      "id": "reflect",
-     "param": "lui et ses alliés autour de lui"
+     "param": "soi et ses alliés autour de soi"
     },
     {
      "id": "removes",
@@ -124,7 +124,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "PM autour de lui",
+     "param": "PM autour de soi",
      "source": "spells"
     },
     {

@@ -36,7 +36,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "critique et dommages critiques"
+     "param": "Critique et Dommages Critiques"
     },
     {
      "id": "summons",
@@ -112,7 +112,7 @@
     },
     {
      "id": "removes",
-     "param": "PO et critique"
+     "param": "PO et Critique"
     },
     {
      "id": "reduce_range"
@@ -172,11 +172,11 @@
     },
     {
      "id": "dispel",
-     "param": "résistances données"
+     "param": "Résistances données"
     },
     {
      "id": "buffs_allies",
-     "param": "résistances"
+     "param": "Résistances"
     }
    ],
    "detail": "Ne pas placer d'invocation près de lui : son coup au CaC touche aussi l'entité la plus proche de la cible."
@@ -190,7 +190,7 @@
     },
     {
      "id": "heals",
-     "param": "lui-même",
+     "param": "soi-même",
      "source": "spells"
     },
     {

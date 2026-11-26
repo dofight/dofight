@@ -10,7 +10,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés autour de lui",
+     "param": "soi et ses alliés autour de soi",
      "source": "spells"
     },
     {
@@ -38,7 +38,7 @@
     },
     {
      "id": "glyphs",
-     "param": "retire PM et fuite, tape Terre"
+     "param": "retire PM et Fuite, tape Terre"
     }
    ]
   },
@@ -73,7 +73,7 @@
     },
     {
      "id": "buffs_allies",
-     "param": "PM et puissance, tous"
+     "param": "PM et Puissance, tous"
     }
    ]
   },

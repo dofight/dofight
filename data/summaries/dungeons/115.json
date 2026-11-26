@@ -8,7 +8,7 @@
  "roomTags": [
   {
    "id": "buffs_allies",
-   "param": "en mourant : résistances"
+   "param": "en mourant : Résistances"
   }
  ],
  "monsters": {
@@ -16,7 +16,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "PA autour de lui",
+     "param": "PA autour de soi",
      "source": "spells"
     },
     {
@@ -38,7 +38,7 @@
     },
     {
      "id": "state",
-     "param": "il est Indéplaçable"
+     "param": "Indéplaçable"
     }
    ],
    "detail": "Le taper à 2 PO ou moins attire au CaC et déclenche Mort sûre à chaque coup. Son Cri déchirant (7 PO autour de lui) te rend Assourdi : Mort sûre met alors Insoignable et Pesanteur. Gagne Vitalité et dommages à chaque mort de monstre."

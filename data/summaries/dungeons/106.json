@@ -16,7 +16,7 @@
    "tags": [
     {
      "id": "invulnerable",
-     "param": "sauf à 3 Goules ou si érodée"
+     "param": "sauf à 3 Goules ou si érodé"
     },
     {
      "id": "state",
@@ -24,7 +24,7 @@
     },
     {
      "id": "buffs_allies",
-     "param": "PM et dommages finaux"
+     "param": "PM et Dommages finaux"
     },
     {
      "id": "moves_self",
@@ -88,7 +88,7 @@
     },
     {
      "id": "steals",
-     "param": "PM autour d'elle"
+     "param": "PM autour de soi"
     },
     {
      "id": "moves",
@@ -105,7 +105,7 @@
     },
     {
      "id": "removes",
-     "param": "dommages finaux",
+     "param": "Dommages finaux",
      "source": "spells"
     },
     {

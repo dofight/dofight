@@ -16,6 +16,7 @@ python -m tools.summaries changes [gitRef]    # monsters added, removed or chang
 """
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -23,6 +24,11 @@ ROOT = Path(__file__).resolve().parent.parent
 SUMMARIES = ROOT / "data" / "summaries"
 STATUSES = ("draft", "reviewed")
 PARAM_FREE = ("none", "optional")
+# a badge speaks of the monster in the indefinite form, whatever its gender (owner, 2026-11-26): « si frappé », « autour
+# de soi », never « si frappée » or « autour d'elle ». « elle », and a feminine participle after si / pas / ni, give it
+# away, as does « la » as an object (« la garder », « qui la frappe »); a feminine noun after « si » (« si poussée »,
+# « si portée réduite ») is not one, and a capitalised word is a name (« si Chocolathée »)
+AGREES = re.compile(r"\b[Ee]lles?\b|\b(?:[Ss]i|pas|ni)\s+(?!(?:poussées?|portées?|mêlées?|durées?|entrées?|fumées?|armées?|journées?)\b)[a-zàâçéèêëîïôûù]+ées?\b|\b(?:qui|on)\s+la\b|\bla\s+[a-zàâçéèêëîïôûù]+(?:er|ir)\b")
 
 
 def load_json(path: Path):
@@ -86,6 +92,8 @@ def validate(summary: dict, vocab: dict, snapshot: dict, mechanics: dict | None 
                 errors.append(f"{where}: {mid}: tag {tid} takes no param")
             if len(param) > limits["paramMaxChars"]:
                 errors.append(f"{where}: {mid}: tag {tid} param longer than {limits['paramMaxChars']} characters")
+            if AGREES.search(param):
+                errors.append(f"{where}: {mid}: tag {tid} param « {param} » agrees with the monster: use the indefinite form")
     for mid, entry in (summary.get("monsters") or {}).items():
         if len(entry.get("detail") or "") > limits["detailMaxChars"]:
             errors.append(f"{where}: monster {mid}: detail longer than {limits['detailMaxChars']} characters")

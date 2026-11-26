@@ -23,7 +23,7 @@
     },
     {
      "id": "dispel",
-     "param": "ses dommages gagnés sur glyphe"
+     "param": "ses Dommages gagnés sur glyphe"
     },
     {
      "id": "moves_self",
@@ -54,7 +54,7 @@
     },
     {
      "id": "heals",
-     "param": "lui-même",
+     "param": "soi-même",
      "source": "spells"
     },
     {
@@ -111,7 +111,7 @@
     },
     {
      "id": "inflicts",
-     "param": "Affaibli autour de lui"
+     "param": "Affaibli autour de soi"
     }
    ]
   },

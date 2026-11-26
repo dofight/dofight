@@ -10,7 +10,7 @@
    "tags": [
     {
      "id": "area_damage",
-     "param": "autour d'elle, selon ses PV"
+     "param": "autour de soi, selon ses PV"
     },
     {
      "id": "removes",
@@ -38,7 +38,7 @@
     },
     {
      "id": "removes",
-     "param": "PM autour de lui"
+     "param": "PM autour de soi"
     },
     {
      "id": "moves_self",

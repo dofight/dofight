@@ -42,7 +42,7 @@
     },
     {
      "id": "moves",
-     "param": "pousse autour de lui"
+     "param": "pousse autour de soi"
     }
    ],
    "detail": "Taper le Pantin jusqu'à 10 % PV : le personnage le plus proche le contrôle et lance Dénouement sur le Dramak (2 PO) pour le rendre vulnérable 2 tours."
@@ -67,7 +67,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {

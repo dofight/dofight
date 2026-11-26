@@ -29,7 +29,7 @@
     },
     {
      "id": "buffs_allies",
-     "param": "50 % rés. à ses alliés"
+     "param": "50 % Rés. à ses alliés"
     },
     {
      "id": "summons",
@@ -43,7 +43,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "100 % rés. d'un élément"
+     "param": "100 % Rés. d'un élément"
     },
     {
      "id": "steals",
@@ -52,7 +52,7 @@
     },
     {
      "id": "dispel",
-     "param": "le perso qui a perdu 100 % rés."
+     "param": "le perso qui a perdu 100 % Rés."
     },
     {
      "id": "buffs_allies",
@@ -89,7 +89,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {
@@ -99,7 +99,7 @@
     },
     {
      "id": "dispel",
-     "param": "Buvette (75 % rés.)"
+     "param": "Buvette (75 % Rés.)"
     },
     {
      "id": "buffs_allies",

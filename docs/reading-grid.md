@@ -68,6 +68,13 @@ le taper te soigne »).
   avoid (never the boss: see the 2026-11-08 ruling below).
 - A harmless monster gets `"tags": []`; the app shows « Rien de dangereux à signaler ».
 - Monster names in parameters as written in the game (accents kept).
+- Parameters in the indefinite form, whatever the monster's gender (owner, 2026-11-26): a badge is a label, so the
+  same state reads the same on every monster. « Indéplaçable si déplacé », « si frappé », « le garder à distance »,
+  never « déplacée », « elle » or « la garder »; in English « it », « itself ». When the monster acts on itself or
+  around itself, « soi »: « Soigne · soi-même », « Retire · PA autour de soi », « soi et ses alliés ». When the player
+  is the subject, or the monster is where the player stands from, « lui »: « rester loin de lui », « pas en ligne
+  avec lui », « à 2 PO de lui ». The `detail` is a sentence about one monster and keeps its gender. `validate`
+  refuses « elle », « la » as an object and a feminine participle after « si », « pas » or « ni ».
 
 ## Mechanic sheets (`data/summaries/mechanics.json`)
 

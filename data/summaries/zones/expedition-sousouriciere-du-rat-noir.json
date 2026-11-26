@@ -43,7 +43,7 @@
     },
     {
      "id": "buffs_allies",
-     "param": "dommages finaux, -résistances",
+     "param": "Dommages finaux, -Résistances",
      "source": "spells"
     }
    ]
@@ -71,7 +71,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {
@@ -103,7 +103,7 @@
     },
     {
      "id": "glyphs",
-     "param": "augmente les dommages mêlée",
+     "param": "augmente les Dommages mêlée",
      "source": "spells"
     }
    ]
@@ -131,7 +131,7 @@
     },
     {
      "id": "glyphs",
-     "param": "augmente les dommages mêlée",
+     "param": "augmente les Dommages mêlée",
      "source": "spells"
     }
    ]
@@ -145,7 +145,7 @@
     },
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     }
    ]

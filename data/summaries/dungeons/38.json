@@ -22,7 +22,7 @@
     },
     {
      "id": "heals",
-     "param": "lui-même, vers 30 % PV"
+     "param": "soi-même, vers 30 % PV"
     },
     {
      "id": "summons",
@@ -125,7 +125,7 @@
     },
     {
      "id": "dispels_you",
-     "param": "autour de lui",
+     "param": "autour de soi",
      "source": "spells"
     }
    ]

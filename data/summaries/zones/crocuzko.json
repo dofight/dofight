@@ -29,7 +29,7 @@
     },
     {
      "id": "glyphs",
-     "param": "-20 % résistances autour de toi"
+     "param": "-20 % Résistances autour de toi"
     }
    ]
   },
@@ -46,7 +46,7 @@
     },
     {
      "id": "buffs_allies",
-     "param": "critique"
+     "param": "Critique"
     }
    ]
   },

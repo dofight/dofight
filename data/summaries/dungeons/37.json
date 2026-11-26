@@ -14,7 +14,7 @@
     },
     {
      "id": "heals",
-     "param": "lui-même, à bas PV"
+     "param": "soi-même, à bas PV"
     },
     {
      "id": "removes",
@@ -67,7 +67,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés autour de lui",
+     "param": "soi et ses alliés autour de soi",
      "source": "spells"
     }
    ]
@@ -88,7 +88,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "PM autour de lui",
+     "param": "PM autour de soi",
      "source": "spells"
     }
    ]

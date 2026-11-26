@@ -14,7 +14,7 @@
     },
     {
      "id": "steals",
-     "param": "PA, PM, PO, Vitalité, caracs"
+     "param": "PA, PM, PO, Vitalité, caract."
     },
     {
      "id": "spread_out",
@@ -97,7 +97,7 @@
    "tags": [
     {
      "id": "removes",
-     "param": "retrait PA et PM, Puissance"
+     "param": "Retrait PA/PM, Puissance"
     },
     {
      "id": "inflicts",

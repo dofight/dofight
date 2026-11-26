@@ -14,7 +14,7 @@
     },
     {
      "id": "big_damage",
-     "param": "Hairpay"
+     "param": "450 Air par coup reçu (Hairpay)"
     },
     {
      "id": "removes",
@@ -91,7 +91,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui-même"
+     "param": "soi-même"
     },
     {
      "id": "steals",

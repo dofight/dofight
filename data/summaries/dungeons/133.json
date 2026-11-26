@@ -31,7 +31,7 @@
     },
     {
      "id": "removes",
-     "param": "PM et fuite"
+     "param": "PM et Fuite"
     },
     {
      "id": "phase",
@@ -49,7 +49,7 @@
    "tags": [
     {
      "id": "buffs_allies",
-     "param": "dommages, selon ses PV"
+     "param": "Dommages, selon ses PV"
     },
     {
      "id": "removes",
@@ -136,7 +136,7 @@
     },
     {
      "id": "removes",
-     "param": "soins reçus de moitié"
+     "param": "Soins reçus de moitié"
     },
     {
      "id": "moves_self",

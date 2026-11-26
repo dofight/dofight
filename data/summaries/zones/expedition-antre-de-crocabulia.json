@@ -11,7 +11,7 @@
    "tags": [
     {
      "id": "invulnerable",
-     "param": "sauf si elle tue 3 Coquilles"
+     "param": "sauf s'il tue 3 Coquilles"
     },
     {
      "id": "one_shot",
@@ -38,7 +38,7 @@
    "tags": [
     {
      "id": "heals",
-     "param": "lui et ses alliés",
+     "param": "soi et ses alliés",
      "source": "spells"
     },
     {

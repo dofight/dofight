@@ -67,11 +67,11 @@
     },
     {
      "id": "removes",
-     "param": "20 % de dommages à sa mort"
+     "param": "20 % de Dommages à sa mort"
     },
     {
      "id": "buffs_allies",
-     "param": "+10 % de dommages finaux"
+     "param": "+10 % de Dommages finaux"
     }
    ],
    "detail": "Tuée avant ses 4 tours : frappe Terre et réduit tes dommages de 20 % à 8 PO."
