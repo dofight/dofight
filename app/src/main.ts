@@ -1008,16 +1008,25 @@ function showAchievements(btn: HTMLElement, delay: number, pin = false): void {
   }, delay);
 }
 
-// « Comment y aller » (the header's button): the place's requirements and route, pinned beside the panel at once (no
-// hover preview: it is read, not glanced at); a second click closes it
-function showAccess(btn: HTMLElement): void {
-  hidePeek(true);
+// « Comment y aller » (the header's button): the place's requirements and route beside the panel. Hovering previews
+// it after `delay` ms, as the other sheets (owner, 2026-11-25); a click pins it, and pinned it stays until the player
+// does something in Dofight (`accessOpen`); a second click closes it
+function showAccess(btn: HTMLElement, delay = 0, pin = true): void {
+  hidePeek(pin);
   if (!accessShown) return;
   peekRow = btn;
-  setPinned(btn);
-  accessOpen = true;
-  peekAnchor = { base: win, top: btn.getBoundingClientRect().top };
-  void toSide({ token: ++peekToken, html: renderAccessSheet(accessShown.title, accessShown.pa, accessShown.trip), pinned: true });
+  if (pin) {
+    setPinned(btn);
+    accessOpen = true;
+  }
+  const shown = accessShown;
+  const show = () => {
+    peekAnchor = { base: win, top: btn.getBoundingClientRect().top };
+    void toSide({ token: ++peekToken, html: renderAccessSheet(shown.title, shown.pa, shown.trip), pinned: pin });
+  };
+  // a click shows it at once; a hover after the preview's delay
+  if (delay) peekTimer = window.setTimeout(show, delay);
+  else show();
 }
 
 // a spell (an open card's spell button): its sheet in the side preview, after `delay` ms; pinned by a click (owner,
@@ -1041,6 +1050,13 @@ function hoverOver(target: HTMLElement | null): void {
   if (mech) {
     if (mech === peekRow) return;
     if (settings.hoverPeek) showMechanic(mech, PEEK_DELAY);
+    else hidePeek();
+    return;
+  }
+  const access = target?.closest<HTMLElement>(".access") ?? null;
+  if (access) {
+    if (access === peekRow) return;
+    if (settings.hoverPeek) showAccess(access, PEEK_DELAY, false);
     else hidePeek();
     return;
   }

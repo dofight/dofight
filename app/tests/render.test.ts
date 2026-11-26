@@ -204,6 +204,10 @@ describe("an anomaly boss's achievements (owner, 2026-11-25: on its card, it has
     const card = dom(renderMonster(boss, s.spells, undefined, ALL, noIcon, true, VOCAB, undefined, undefined, undefined, undefined, rows));
     const btn = card.querySelector(".achv")!;
     expect(btn.getAttribute("data-boss")).toBe(String(boss.id));
+    // next to its name (owner, 2026-11-25), folded or not
+    expect(btn.closest(".mline")).not.toBeNull();
+    const folded = dom(renderMonster(boss, s.spells, undefined, ALL, noIcon, false, VOCAB, undefined, undefined, undefined, undefined, rows));
+    expect(folded.querySelector(".mline .achv")).not.toBeNull();
     expect(btn.textContent).toContain("Succès");
   });
   it("none without achievements", () => {

@@ -681,6 +681,19 @@ it("« Comment y aller » stays open through a redraw and a scroll, and closes o
   await vi.waitFor(() => expect(hide.mock.calls.length).toBeGreaterThan(before));
 });
 
+it("« Comment y aller » previews on hover, unpinned (owner, 2026-11-25)", async () => {
+  if (!document.getElementById("view-settings")!.hidden) (document.getElementById("back") as HTMLButtonElement).click();
+  const q = document.getElementById("q") as HTMLInputElement;
+  q.value = "Antre du Korriandre";
+  q.dispatchEvent(new Event("input", { bubbles: true }));
+  document.querySelector<HTMLElement>("#results .res-item")!.click();
+  const access = await vi.waitFor(() => document.querySelector<HTMLElement>("#room .access")!);
+  emitted.length = 0;
+  access.dispatchEvent(new Event("pointerover", { bubbles: true }));
+  await vi.waitFor(() => expect(emitted.find((e) => e.event === "peek:render")?.payload).toMatchObject({ pinned: false, to: "peek" }), { timeout: 1000 });
+  document.getElementById("room")!.dispatchEvent(new Event("pointerleave"));
+});
+
 it("a pinned sheet dragged away stays, and the next sheet goes to a new side window (owner, 2026-11-20)", async () => {
   const { invoke } = await import("@tauri-apps/api/core");
   if (!document.getElementById("view-settings")!.hidden) (document.getElementById("back") as HTMLButtonElement).click();
