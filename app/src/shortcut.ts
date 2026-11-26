@@ -4,6 +4,12 @@
 import { getPlatform, t } from "./i18n";
 
 export const DEFAULT_SHORTCUT = "Ctrl+Shift+KeyD"; // D for Dofight
+/** Global: opens Dofight with the cursor in the search box, from anywhere (owner, 2026-11-25). The one shortcut that
+ * takes the keyboard from the game: pressing it means the player wants to type. Not Ctrl+F: a global shortcut is taken
+ * from every app (a browser's find would stop working). */
+export const DEFAULT_SEARCH_SHORTCUT = "Ctrl+Shift+KeyF";
+/** Inside Dofight only (not global): the filter bar over the monster list, the « find in page » players expect. */
+export const DEFAULT_FILTER_SHORTCUT = "Ctrl+KeyF";
 
 type KeyLike = Pick<KeyboardEvent, "code" | "ctrlKey" | "altKey" | "shiftKey" | "metaKey">;
 
@@ -17,6 +23,18 @@ export function fromKeyEvent(e: KeyLike): string | null {
   if (!fkey && !e.ctrlKey && !e.altKey) return null;
   const parts = [e.ctrlKey && "Ctrl", e.altKey && "Alt", e.shiftKey && "Shift", e.code].filter(Boolean);
   return parts.join("+");
+}
+
+/** Whether a key press is exactly this combination ("" never matches: the shortcut is off). Cmd on a Mac stands for
+ * Ctrl, as Cmd+F is the Mac's find. */
+export function matchesShortcut(e: KeyLike, keys: string): boolean {
+  return !!keys && fromKeyEvent(cmdAsCtrl(e)) === keys;
+}
+
+/** The key press with Cmd read as Ctrl. Its fields copied one by one: a KeyboardEvent's are getters on its
+ * prototype, which `{ ...e }` leaves behind. */
+export function cmdAsCtrl(e: KeyLike): KeyLike {
+  return { code: e.code, ctrlKey: e.ctrlKey || e.metaKey, altKey: e.altKey, shiftKey: e.shiftKey, metaKey: e.metaKey };
 }
 
 const KEY_NAME = (code: string) =>

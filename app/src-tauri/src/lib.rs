@@ -7,20 +7,41 @@ pub mod report;
 pub mod screen;
 pub mod selfupdate;
 
+use std::sync::Mutex;
 use tauri::{Emitter, Manager};
-use tauri_plugin_global_shortcut::{GlobalShortcutExt, ShortcutState};
+use tauri_plugin_global_shortcut::{GlobalShortcutExt, Shortcut, ShortcutState};
 use tauri_plugin_window_state::StateFlags;
 
-/// The player's shortcut (default Ctrl+Shift+D) shows or hides the overlay from anywhere. Dofight only listens to
-/// it: nothing is sent to the game. The front end sets it at launch and whenever the player changes it.
+/// The search shortcut once registered: the global handler tells it from the show-or-hide one.
+#[derive(Default)]
+struct SearchShortcut(Mutex<Option<Shortcut>>);
+
+/// The player's global shortcuts, from anywhere: `toggle` (default Ctrl+Shift+D) shows or hides the overlay,
+/// `search` (default Ctrl+Shift+F, "" = off) opens it with the cursor in the search box (owner, 2026-11-25). Dofight
+/// only listens to them: nothing is sent to the game. The front end sets both at launch and whenever the player
+/// changes one; either one taken by another app fails the whole call (the page then puts the previous ones back).
 #[tauri::command]
-fn set_shortcut(app: tauri::AppHandle, keys: String) -> Result<(), String> {
+fn set_shortcuts(app: tauri::AppHandle, toggle: String, search: String) -> Result<(), String> {
     let shortcuts = app.global_shortcut();
     shortcuts.unregister_all().map_err(|e| e.to_string())?;
-    if keys.trim().is_empty() {
-        return Ok(());
+    *app.state::<SearchShortcut>().0.lock().unwrap() = None;
+    if !toggle.trim().is_empty() {
+        shortcuts.register(toggle.as_str()).map_err(|e| e.to_string())?;
     }
-    shortcuts.register(keys.as_str()).map_err(|e| e.to_string())
+    if !search.trim().is_empty() {
+        let parsed: Shortcut = search.parse().map_err(|e| format!("{e:?}"))?;
+        shortcuts.register(parsed).map_err(|e| e.to_string())?;
+        *app.state::<SearchShortcut>().0.lock().unwrap() = Some(parsed);
+    }
+    Ok(())
+}
+
+/// The search shortcut was pressed: the panel takes the keyboard so the player can type in its search box. The one
+/// place Dofight takes the focus from the game, because the player asked to type.
+#[tauri::command]
+fn panel_focus(app: tauri::AppHandle) -> Result<(), String> {
+    let panel = app.get_webview_window("panel").ok_or("no panel")?;
+    platform::focus_panel(&panel)
 }
 
 /// A new side window, made from `peek`'s config, for the next sheet once the current one was detached (dragged away,
@@ -297,9 +318,10 @@ pub fn run() {
     builder
         .plugin(
             tauri_plugin_global_shortcut::Builder::new()
-                .with_handler(|app, _shortcut, event| {
+                .with_handler(|app, shortcut, event| {
                     if event.state() == ShortcutState::Pressed {
-                        let _ = app.emit("panel:toggle", ());
+                        let search = *app.state::<SearchShortcut>().0.lock().unwrap() == Some(*shortcut);
+                        let _ = app.emit(if search { "panel:search" } else { "panel:toggle" }, ());
                     }
                 })
                 .build(),
@@ -314,6 +336,7 @@ pub fn run() {
                 .build(),
         )
         .plugin(tauri_plugin_opener::init())
+        .manage(SearchShortcut::default())
         .manage(screen::Reference::default())
         .manage(DebugAreasOn::default())
         .manage(screen::Songe::default())
@@ -397,7 +420,8 @@ pub fn run() {
             side_show,
             side_detached,
             save_geometry,
-            set_shortcut,
+            set_shortcuts,
+            panel_focus,
             set_songe,
             set_in_fight,
             scan_now,

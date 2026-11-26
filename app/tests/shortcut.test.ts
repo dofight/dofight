@@ -1,5 +1,5 @@
-import { expect, it } from "vitest";
-import { DEFAULT_SHORTCUT, fromKeyEvent, shortcutLabel } from "../src/shortcut";
+import { describe, expect, it } from "vitest";
+import { DEFAULT_FILTER_SHORTCUT, DEFAULT_SEARCH_SHORTCUT, DEFAULT_SHORTCUT, fromKeyEvent, matchesShortcut, shortcutLabel } from "../src/shortcut";
 
 const key = (code: string, mods: Partial<{ ctrlKey: boolean; altKey: boolean; shiftKey: boolean }> = {}) => ({
   code, ctrlKey: false, altKey: false, shiftKey: false, metaKey: false, ...mods,
@@ -30,4 +30,24 @@ it("on a Mac, the modifiers are named as on its keyboard: Control, Option", asyn
   expect(shortcutLabel("Ctrl+Alt+KeyD")).toBe("Control + Option + D");
   setPlatform("windows");
   expect(shortcutLabel("Ctrl+Alt+KeyD")).toBe("Ctrl + Alt + D");
+});
+
+describe("search and filter shortcuts (owner, 2026-11-25)", () => {
+  it("defaults: Ctrl+Shift+F searches (global), Ctrl+F filters (inside Dofight)", () => {
+    expect(DEFAULT_SEARCH_SHORTCUT).toBe("Ctrl+Shift+KeyF");
+    expect(DEFAULT_FILTER_SHORTCUT).toBe("Ctrl+KeyF");
+  });
+  it("a key press matches its combination exactly", () => {
+    expect(matchesShortcut(key("KeyF", { ctrlKey: true }), "Ctrl+KeyF")).toBe(true);
+    expect(matchesShortcut(key("KeyF", { ctrlKey: true, shiftKey: true }), "Ctrl+KeyF")).toBe(false);
+    expect(matchesShortcut(key("KeyG", { ctrlKey: true }), "Ctrl+KeyF")).toBe(false);
+    expect(matchesShortcut(key("KeyF", { ctrlKey: true }), "")).toBe(false); // turned off
+  });
+  it("Cmd on a Mac stands for Ctrl", () => {
+    expect(matchesShortcut({ ...key("KeyF"), metaKey: true }, "Ctrl+KeyF")).toBe(true);
+  });
+});
+
+it("matches a real KeyboardEvent, whose fields are getters (owner's Ctrl+F, 2026-11-25)", () => {
+  expect(matchesShortcut(new KeyboardEvent("keydown", { code: "KeyF", ctrlKey: true }), "Ctrl+KeyF")).toBe(true);
 });

@@ -10,6 +10,10 @@ export type Settings = Display & {
   autoSonge: boolean;
   /** Global shortcut that shows or hides the overlay (see shortcut.ts). */
   shortcut: string;
+  /** Global shortcut that opens Dofight with the cursor in the search box ("" = off). */
+  searchShortcut: string;
+  /** Shortcut inside Dofight that opens the filter bar over the list ("" = off). */
+  filterShortcut: string;
   /** « Songe » mode: show the monster groups hovered on the map (toggle next to the search bar). */
   songe: boolean;
   /** Open the overlay when a fight starts and close it at its end (on by default). */
@@ -65,6 +69,8 @@ export const DEFAULTS: Settings = {
   showEvent: false,
   autoSonge: true,
   shortcut: "Ctrl+Shift+KeyD",
+  searchShortcut: "Ctrl+Shift+KeyF",
+  filterShortcut: "Ctrl+KeyF",
   songe: false,
   opacity: 1,
   textSize: 100,
