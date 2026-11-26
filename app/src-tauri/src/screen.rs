@@ -2,7 +2,7 @@
 //! never hide it), light text is kept, and the platform's OCR reads it (platform/: Windows OCR, Vision on macOS). Nothing is ever sent to the game.
 
 use crate::diag;
-use crate::iconbar::{Bar, read_bar_in, scores_in};
+use crate::iconbar::{Bar, plus_in, read_bar_in, scores_in};
 use crate::ocr::OcrLine;
 use crate::platform::{self, CaptureError, DofusWindow, Frame, OcrEngine, WindowId};
 use serde::Serialize;
@@ -1195,9 +1195,10 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                     r.bar_said = true;
                     r.bar_at = Some(Instant::now());
                     let (eye, info, heart) = scores_in(px, *w, *h, *wh * platform::capture_scale());
+                    let plus = plus_in(px, *w, *h, *wh * platform::capture_scale());
                     diag::log(
                         "fight",
-                        &format!("icon bar: {bar:?} (eye {eye:.2}, i {info:.2}, heart {heart:.2}), window {ww}×{wh}"),
+                        &format!("icon bar: {bar:?} (eye {eye:.2}, i {info:.2}, heart {heart:.2}, + {plus:.2}), window {ww}×{wh}"),
                     );
                 }
                 if bar != Bar::Unknown {

@@ -1,14 +1,16 @@
 //! In a fight or not, from Dofus's top-left icon bar: the eye and the « i » show only out of a fight (the Havre-Sac
 //! bar has the « i » but no eye), the heart only in a fight (see iconbar_refs.rs). No text is read, so it works whatever the game's language, and it costs a few milliseconds.
-//! When neither icon is there (a window covers the bar, or it is folded away), the answer is « unknown » and the
-//! texts decide, as before.
+//! Folded away, the bar shows a « + » alone in a fight and the « + » and the eye out of one; the unfolded bar has a
+//! « − » there instead. So the « + » with no eye is a fight. When none of this is there (a window covers the bar),
+//! the answer is « unknown » and the texts decide, as before.
 //!
 //! The icons are compared by normalised correlation of grey levels (a lit, a greyed or an orange icon of the same
 //! shape match alike), anywhere in the top-left corner (the bar may sit a little elsewhere). On ~220 saved frames
 //! the real icons score 0.95 or more and everything else under 0.8.
 
 use crate::iconbar_refs::{
-    EYE, EYE_B, EYE_H, EYE_W, HEART, HEART_B, HEART_H, HEART_W, ICON_FRAME_H, INFO, INFO_H, INFO_W,
+    EYE, EYE_B, EYE_H, EYE_W, HEART, HEART_B, HEART_H, HEART_W, ICON_FRAME_H, INFO, INFO_H, INFO_W, PLUS, PLUS_H,
+    PLUS_W,
 };
 use serde::Serialize;
 
@@ -25,6 +27,11 @@ const AREA_W: u32 = 260;
 const AREA_H: u32 = 44;
 /// A correlation at least this high is the icon.
 const MATCH: f32 = 0.9;
+/// The « + » of a folded bar scores 0.90 to 1.00 from a 1009- down to an 800-pixel-high window (0.902 at 847), and
+/// the « − » of an unfolded bar, the closest thing to it, 0.71 to 0.75 on Windows and 0.67 to 0.69 on the Mac;
+/// covered bars 0.31 to 0.57. Halfway between, rather than the 0.90 of the other icons, which the « + » only just
+/// reaches at 847 (owner's frames, 2026-11-26).
+const PLUS_MATCH: f32 = 0.85;
 
 /// The top-left corner in grey levels, scaled to the icons' frame height. `bgra` is `width` × `height` from the
 /// window's top left (the whole window, or only its header corner); `window_h` is the window's height.
@@ -135,6 +142,11 @@ pub fn scores_in(bgra: &[u8], width: u32, height: u32, window_h: u32) -> (f32, f
     }
 }
 
+/// How much the « + » of a folded bar is seen (0..1), on the window's top-left piece, the window being `window_h` high.
+pub fn plus_in(bgra: &[u8], width: u32, height: u32, window_h: u32) -> f32 {
+    corner(bgra, width, height, window_h).map_or(0.0, |area| best(&area, &[&PLUS], PLUS_W, PLUS_H))
+}
+
 pub fn read_bar(bgra: &[u8], width: u32, height: u32) -> Bar {
     read_bar_in(bgra, width, height, height)
 }
@@ -145,6 +157,8 @@ pub fn read_bar_in(bgra: &[u8], width: u32, height: u32, window_h: u32) -> Bar {
     match (eye >= MATCH || info >= MATCH, heart >= MATCH) {
         (true, false) => Bar::Calm,
         (false, true) => Bar::Fight,
+        // folded away: the « + » alone is a fight (with the eye, it was calm above)
+        (false, false) if plus_in(bgra, width, height, window_h) >= PLUS_MATCH => Bar::Fight,
         _ => Bar::Unknown,
     }
 }
@@ -175,7 +189,7 @@ mod tests {
             let expected = match name.split('_').next().unwrap() {
                 "fight" => Bar::Fight,
                 "calm" => Bar::Calm,
-                _ => Bar::Unknown, // covered or folded bar
+                _ => Bar::Unknown, // covered or hidden bar
             };
             let (px, w, h) = frame(&name);
             assert_eq!(read_bar(&px, w, h), expected, "{name}: eye, info, heart {:?}", scores(&px, w, h));
