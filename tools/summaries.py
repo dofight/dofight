@@ -27,8 +27,9 @@ PARAM_FREE = ("none", "optional")
 # a badge speaks of the monster in the indefinite form, whatever its gender (owner, 2026-11-26): « si frappé », « autour
 # de soi », never « si frappée » or « autour d'elle ». « elle », and a feminine participle after si / pas / ni, give it
 # away, as does « la » as an object (« la garder », « qui la frappe »); a feminine noun after « si » (« si poussée »,
+# « elles » is left alone: a badge says it of other monsters (« tant qu'elles vivent »)
 # « si portée réduite ») is not one, and a capitalised word is a name (« si Chocolathée »)
-AGREES = re.compile(r"\b[Ee]lles?\b|\b(?:[Ss]i|pas|ni)\s+(?!(?:poussées?|portées?|mêlées?|durées?|entrées?|fumées?|armées?|journées?)\b)[a-zàâçéèêëîïôûù]+ées?\b|\b(?:qui|on)\s+la\b|\bla\s+[a-zàâçéèêëîïôûù]+(?:er|ir)\b")
+AGREES = re.compile(r"\b[Ee]lle\b|\b(?:[Ss]i|pas|ni)\s+(?!(?:poussées?|portées?|mêlées?|durées?|entrées?|fumées?|armées?|journées?)\b)[a-zàâçéèêëîïôûù]+ées?\b|\b(?:qui|on)\s+la\b|\bla\s+[a-zàâçéèêëîïôûù]+(?:er|ir)\b")
 
 
 def load_json(path: Path):
@@ -180,6 +181,18 @@ def untranslated(summary: dict, english: dict) -> list:
     return [t for t in texts if t and t not in english]
 
 
+# the English of a badge speaks of the monster as « it », like the French's indefinite form (owner, 2026-11-26)
+GENDERED = re.compile(r"\b(he|him|his|she|her|hers|himself|herself)\b", re.IGNORECASE)
+
+
+def gendered_english(summary: dict, english: dict) -> list:
+    """The badge parameters of a summary whose English says he / she rather than it."""
+    params = [t.get("param") for t in summary.get("roomTags") or []]
+    for entry in (summary.get("monsters") or {}).values():
+        params += [t.get("param") for t in entry.get("tags") or []]
+    return [f"« {p} » → « {english[p]} »" for p in params if p in english and GENDERED.search(english[p])]
+
+
 def build_index(folder: Path, out: Path) -> int:
     """Merges dungeons/*.json into one file keyed by dungeon id; returns how many dungeons."""
     index = {}
@@ -265,11 +278,13 @@ def main(argv=None) -> int:
             errors += validate(summary, vocab, snapshot, mechanics)
             # every written text has its English (official Ankama names only, see docs/reading-grid.md)
             errors += [f"{file.name}: no English in en.json for « {t} »" for t in untranslated(summary, english)]
+            errors += [f"{file.name}: English badge with a gender, use it/its: {t}" for t in gendered_english(summary, english)]
         if (SUMMARIES / "wanted.json").exists():
             files.append(SUMMARIES / "wanted.json")
             wanted = load_json(SUMMARIES / "wanted.json")
             errors += validate_wanted(wanted, vocab, snapshot)
             errors += [f"wanted.json: no English in en.json for « {t} »" for t in untranslated(wanted, english)]
+            errors += [f"wanted.json: English badge with a gender, use it/its: {t}" for t in gendered_english(wanted, english)]
         if (SUMMARIES / "monsters-written.json").exists():
             files.append(SUMMARIES / "monsters-written.json")
             written = load_json(SUMMARIES / "monsters-written.json")
@@ -278,6 +293,8 @@ def main(argv=None) -> int:
             texts = [t.get("param") for e in (written.get("monsters") or {}).values() for t in e.get("tags") or []]
             texts += [e.get("detail") for e in (written.get("monsters") or {}).values()]
             errors += [f"monsters-written.json: no English in en.json for « {t} »" for t in texts if t and t not in english]
+            errors += [f"monsters-written.json: English badge with a gender, use it/its: {t}"
+                       for t in gendered_english(written, english)]
         print("\n".join(errors) if errors else f"{len(files)} files valid")
         return 1 if errors else 0
     if command == "index":

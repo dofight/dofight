@@ -3,7 +3,8 @@ from pathlib import Path
 
 import pytest
 
-from tools.summaries import build_index, untranslated, untranslated_mechanics, validate, validate_mechanics
+from tools.summaries import (build_index, gendered_english, untranslated, untranslated_mechanics, validate,
+                             validate_mechanics)
 
 ROOT = Path(__file__).resolve().parents[2]
 VOCAB = json.loads((ROOT / "data" / "summaries" / "vocabulary.json").read_text(encoding="utf-8"))
@@ -57,7 +58,8 @@ def test_param_agreeing_with_a_female_monster(param):
 @pytest.mark.parametrize("param", ["si frappé", "PA si sa cible est déplacée", "Rip au CaC si poussée bloquée",
                                    "attire (4 cases si Chocolathée)", "Résistances Poussée", "Gelée Fraise",
                                    "sauf tortue collée (-200 %)", "la Poupée, sur le perso Maudit",
-                                   "tant que la Marionnette vit", "si portée réduite", "si poussées", "si mêlée"])
+                                   "tant que la Marionnette vit", "si portée réduite", "si poussées", "si mêlée",
+                                   "tant qu'elles vivent"])
 def test_param_in_the_indefinite_form(param):
     errors = validate(summary(monsters={"147": {"tags": [{"id": "big_damage", "param": param}]}, "101": {"tags": []}}), VOCAB, SNAPSHOT)
     assert errors == [], param
@@ -229,3 +231,13 @@ def test_monster_names_unknown_mechanic():
 def test_mechanic_texts_need_english():
     english = {"Cycle lunaire": "Lunar cycle", "Une phase par tour.": "One phase per turn."}
     assert untranslated_mechanics({"lunar-cycle": SHEET}, english) == ["Pleine lune : renvoie 200 dommages."]
+
+
+def test_english_badges_say_it_not_he_or_she():
+    english = {"soi-même": "itself", "lui-même": "himself", "autour de soi": "around her", "le garder à distance": "keep it at range",
+               "Il frappe fort.": "He hits hard."}
+    s = summary(monsters={"147": {"tags": [{"id": "heals", "param": "soi-même"}, {"id": "heals", "param": "lui-même"},
+                                            {"id": "removes", "param": "autour de soi"}], "detail": "Il frappe fort."},
+                          "101": {"tags": [{"id": "lock", "param": "le garder à distance"}]}})
+    found = gendered_english(s, english)
+    assert len(found) == 2 and any("himself" in f for f in found) and any("around her" in f for f in found)
