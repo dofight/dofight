@@ -13,13 +13,12 @@ function row(a: Achievement): string {
   return `<li><img class="challenge" src="/icons/challenges/${a.icon}.png" alt=""><b>${escText(a.kind)}</b><span class="rule">${escText(a.rule)}</span></li>`;
 }
 
-/** The « Succès » sheet beside the panel: the dungeon's challenge achievements in the game's order; a dungeon with
- * several bosses (Tempête de l'Eliocalypse) gets one list per boss, under its name. */
+/** The « Succès » sheet beside the panel: the dungeon's challenge achievements in the game's order, one list per boss
+ * under its name (a single boss too, owner 2026-11-25; Tempête de l'Eliocalypse has four). */
 export function renderAchievementsSheet(list: Achievement[]): string {
   const bosses = [...new Set(list.map((a) => a.boss))];
-  const body =
-    bosses.length > 1
-      ? bosses.map((b) => `<h3>${esc(b)}</h3><ul class="achvs">${list.filter((a) => a.boss === b).map(row).join("")}</ul>`).join("")
-      : `<ul class="achvs">${list.map(row).join("")}</ul>`;
+  const body = bosses
+    .map((b) => `${b ? `<h3>${esc(b)}</h3>` : ""}<ul class="achvs">${list.filter((a) => a.boss === b).map(row).join("")}</ul>`)
+    .join("");
   return `<div class="mob peek achv-sheet"><b>${esc(t("achv.button"))}</b>${body}</div>`;
 }
