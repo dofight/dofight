@@ -95,32 +95,30 @@ const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&l
 const accessButton = (): string =>
   `<button type="button" class="access" aria-expanded="false" title="${esc(t("access.buttonTitle"))}">${esc(t("access.button"))}</button>`;
 
-// « Succès »: the game's gold cup (its « Succès » tab), then the label; opens the dungeon's achievements sheet
-const achievementsButton = (): string =>
+// « Succès »: the game's gold cup (its « Succès » tab), then the label; opens the dungeon's achievements sheet. In
+// the room's title line, left of the level (owner, 2026-11-25; render/panel.ts)
+export const achievementsButton = (): string =>
   `<button type="button" class="achv" aria-expanded="false" title="${esc(t("achv.buttonTitle"))}"><img src="/icons/hud/achievements.png" alt=""><span>${esc(t("achv.button"))}</span></button>`;
 
 export interface TripOptions {
   /** Something to know before going (access.ts `isSpecial`): the « Comment y aller » button. */
   special?: boolean;
-  /** The dungeon has challenge achievements: the « Succès » button, after « Comment y aller ». */
-  achievements?: boolean;
 }
 
 /** The trip line of a room's header: « Aller en [x,y] », then the zaap to take. Each button copies its command;
  * once copied, the button says « Copié » in place of its text for 1 s (`showCopied`). */
 export function renderTrip(trip: Trip | null, opts: TripOptions = {}): string {
-  const achv = opts.achievements ? achievementsButton() : "";
-  // no known position (a dungeon the client does not place): the buttons alone, when there is something behind them
-  if (!trip) return opts.special || achv ? `<div class="trip">${opts.special ? accessButton() : ""}${achv}</div>` : "";
+  // no known position (a dungeon the client does not place): the button alone, when there is something to know
+  if (!trip) return opts.special ? `<div class="trip">${accessButton()}</div>` : "";
   const route = routeOf(trip.to);
-  if (route.length && !opts.special) return renderRoute(route, true, trip.zaaps) + (achv ? `<div class="trip">${achv}</div>` : "");
+  if (route.length && !opts.special) return renderRoute(route, true, trip.zaaps);
   // a written route with no command in it (« Se lance depuis le hall de ta guilde »): its position is not a way in, no
   // « Aller en » (a guild expedition's position is its dungeon's, which is not where it starts)
   const placeless = route.length > 0 && !route.some((step) => step.startsWith("/") || /\{\/|\[\s*-?\d+\s*,\s*-?\d+\s*\]/.test(step));
   const go = placeless ? "" : `<span class="go">${esc(t("trip.go"))}</span>${travelButton(trip.to)}`;
   const msg = "";
   // « Comment y aller »: the sheet has the route and what to do first
-  const extra = (opts.special ? accessButton() : "") + achv;
+  const extra = opts.special ? accessButton() : "";
   // a written route: the nearest zaap is the wrong way in, the sheet has the right one
   if (!trip.zaap || route.length) return `<div class="trip">${go}${extra}${msg}</div>`;
   const zaap = zaapButton(zaapCommand(trip.zaap, trip.to), zaapName(trip.zaap));

@@ -50,22 +50,8 @@ describe("the achievements sheet", () => {
 });
 
 describe("the « Succès » button", () => {
-  it("comes in the trip line, after « Comment y aller »", () => {
-    const html = renderTrip(null, { special: true, achievements: true });
-    expect(html.indexOf('class="access"')).toBeGreaterThan(-1);
-    expect(html.indexOf('class="achv"')).toBeGreaterThan(html.indexOf('class="access"'));
-    expect(html).toContain("/icons/hud/achievements.png");
-    expect(html).toContain("Succès");
-  });
-
-  it("is there with no known position and nothing special", () => {
-    expect(renderTrip(null, { achievements: true })).toContain('class="achv"');
-    expect(renderTrip({ to: { x: 1, y: 2, world: 9 }, zaap: null }, { achievements: true })).toContain('class="achv"');
-  });
-
-  it("is absent without achievements", () => {
-    expect(renderTrip(null, {})).not.toContain("achv");
-    expect(renderTrip({ to: { x: 1, y: 2, world: 9 }, zaap: null })).not.toContain("achv");
+  it("is no longer in the trip line (owner, 2026-11-25: it sits by the level)", () => {
+    expect(renderTrip(null, { special: true })).not.toContain("achv");
   });
 
   it("is decided by the dungeon's list: none for a dungeon without one, or no dungeon", () => {

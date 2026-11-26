@@ -1,3 +1,4 @@
+import { achievementsButton } from "../travel";
 import type { Display, Dungeon, Monster, RoomSummary, Snapshot } from "../types";
 import { frenchSpaces, t } from "../i18n";
 import { esc, escText, prose, type IconUrl } from "./html";
@@ -58,9 +59,12 @@ export function renderRoom(
   trip = "",
   /** A sub-area the game has no monsters in (a village): says so, with no list. */
   empty = false,
+  /** The dungeon has challenge achievements: the « Succès » button, left of the level. */
+  achievements = false,
 ): string {
+  const achv = achievements ? achievementsButton() : "";
   const head = d
-    ? `<div class="dj"><b>${esc(d.name)}</b><small>${t("monster.level", { level: d.level })}</small></div>`
+    ? `<div class="dj"><b>${esc(d.name)}</b><span class="dj-end">${achv}<small>${t("monster.level", { level: d.level })}</small></span></div>`
     : `<div class="dj"><b>${esc(title ?? "")}</b></div>`;
   const written = summary?.strategy ?? "";
   const strategy = empty ? `<div class="strat">${esc(t("room.noMonsters"))}</div>` : !show.roomSummary ? "" : summary?.strategy !== undefined || d ? (written ? prose(frenchSpaces(written), "strat") : "") : zoneSummaryHtml(monsters, s);

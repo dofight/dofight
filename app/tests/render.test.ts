@@ -201,6 +201,17 @@ describe("renderRoom", () => {
   const autel = s.dungeons.get(165)!;
   const monsters = autel.monsterIds.map((id) => s.monsters.get(id)!).reverse(); // boss last on purpose
 
+  it("puts « Succès » in the title line, left of the level (owner, 2026-11-25)", () => {
+    const room = dom(renderRoom(autel, monsters, undefined, s, ALL, noIcon, undefined, undefined, undefined, undefined, "", false, true));
+    const line = room.querySelector(".roomhead .dj")!;
+    const achv = line.querySelector(".achv")!;
+    expect(achv.textContent).toContain("Succès");
+    expect(achv.querySelector("img")?.getAttribute("src")).toBe("/icons/hud/achievements.png");
+    // the button comes right before the level, both at the end of the line
+    expect(achv.nextElementSibling?.tagName).toBe("SMALL");
+    expect(dom(renderRoom(autel, monsters, undefined, s, ALL, noIcon)).querySelector(".achv")).toBeNull();
+  });
+
   it("puts the boss first and says nothing when there is no summary", () => {
     const room = dom(renderRoom(autel, monsters, undefined, s, ALL, noIcon));
     expect(room.querySelector(".mob")?.classList.contains("boss")).toBe(true);
