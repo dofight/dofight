@@ -10,7 +10,7 @@
    "tags": [
     {
      "id": "invulnerable",
-     "param": "sauf Silhouette au glyphe blanc"
+     "param": "Silhouette dans glyphe"
     },
     {
      "id": "removes",
@@ -25,15 +25,19 @@
      "param": "se téléporte"
     },
     {
+     "id": "area_damage",
+     "param": "à plus de 6 cases du Globilum"
+    },
+    {
      "id": "summons",
-     "param": "Globilum et Silhouette"
+     "param": "Globilum"
     },
     {
      "id": "state",
      "param": "Indéplaçable si déplacé"
     }
    ],
-   "detail": "Vulnérable si la Silhouette est dans le glyphe blanc du Globilum et lui dehors. Un seul déplacement par tour sur lui et sur la Silhouette, qui fuit après avoir frappé. Le Globilum, invulnérable, bouge d'une case par tour."
+   "detail": "Vulnérable si la Silhouette est dans le glyphe blanc du Globilum et lui en dehors. Le garder loin du Globilum et lui retirer des PM."
   },
   "3570": {
    "tags": [
@@ -126,6 +130,60 @@
      "source": "spells"
     }
    ]
+  },
+  "3565": {
+   "tags": [
+    {
+     "id": "flees"
+    },
+    {
+     "id": "state",
+     "param": "Indéplaçable si déplacé"
+    },
+    {
+     "id": "removes",
+     "param": "PM",
+     "source": "spells"
+    },
+    {
+     "id": "erodes",
+     "param": "20 %",
+     "source": "spells"
+    }
+   ],
+   "detail": "Fuit après avoir frappé : elle doit finir dans le glyphe blanc du Globilum, ce qui rend Ombre vulnérable s'il est en dehors. Frappe Feu selon les PV érodés de sa cible (40 %)."
+  },
+  "3563": {
+   "tags": [
+    {
+     "id": "invulnerable",
+     "param": "tout le combat"
+    },
+    {
+     "id": "state",
+     "param": "Indéplaçable"
+    },
+    {
+     "id": "glyphs",
+     "param": "+20 % dommages finaux dedans"
+    },
+    {
+     "id": "moves",
+     "param": "pousse au contact"
+    },
+    {
+     "id": "summons",
+     "param": "Silhouette",
+     "source": "spells"
+    }
+   ],
+   "detail": "Bouge d'une case par tour. Placer la Silhouette dans son glyphe blanc (cercle de rayon 3) et garder Ombre en dehors. Repousse d'une case ceux à son contact. Rester à 6 cases de lui ou moins : Ombre frappe au-delà."
   }
+ },
+ "bossSummons": {
+  "3564": [
+   3563,
+   3565
+  ]
  }
 }

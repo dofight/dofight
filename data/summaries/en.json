@@ -2500,7 +2500,16 @@
   "attire, pousse": "pulls, pushes",
   "bondit à 3 PO": "leaps 3 cells away",
   "pousse en cône": "pushes in a cone",
-  "recule": "backs off"
+  "recule": "backs off",
+  "Silhouette dans glyphe": "Silhouette in glyph",
+  "Globilum": "Globilum",
+  "tout le combat": "the whole fight",
+  "+20 % dommages finaux dedans": "+20% final damage inside",
+  "à plus de 6 cases du Globilum": "further than 6 cells from the Globilum",
+  "pousse au contact": "pushes in contact",
+  "Bouge d'une case par tour. Placer la Silhouette dans son glyphe blanc (cercle de rayon 3) et garder Ombre en dehors. Repousse d'une case ceux à son contact. Rester à 6 cases de lui ou moins : Ombre frappe au-delà.": "Moves one cell per turn. Put the Silhouette in its white glyph (radius 3 circle) and keep Shadow outside it. Pushes back one cell whoever is next to it. Stay within 6 cells of it: Shadow hits further out.",
+  "Vulnérable si la Silhouette est dans le glyphe blanc du Globilum et lui en dehors. Le garder loin du Globilum et lui retirer des PM.": "Vulnerable when the Silhouette is in the Globilum's white glyph and he is outside it. Keep him away from the Globilum and take his MP.",
+  "Fuit après avoir frappé : elle doit finir dans le glyphe blanc du Globilum, ce qui rend Ombre vulnérable s'il est en dehors. Frappe Feu selon les PV érodés de sa cible (40 %).": "Flees after hitting: it must end in the Globilum's white glyph, which makes Shadow vulnerable if he is outside it. Hits Fire for 40 % of its target's eroded HP."
  },
  "token": {
   "-résistances": "-resistances",
