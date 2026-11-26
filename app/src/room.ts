@@ -11,6 +11,9 @@ export interface Room {
   counts?: Map<number, number>;
   /** A sub-area the game has no monsters in (a village, a port): its name and coordinates were read for sure. */
   empty?: true;
+  /** A monster with no sub-zone and no dungeon (« Sans sous-zone »), alone: no header card, there is no place to
+   * describe (owner, 2026-11-26: « Rien de spécial dans cette sous-zone » under the monster's own name). */
+  placeless?: true;
 }
 
 function inSubarea(s: Snapshot, area: string): Monster[] {
@@ -41,7 +44,7 @@ export function roomFor(s: Snapshot, r: Result): Room {
   const od = owner ? s.dungeons.get(owner.dungeonId) : undefined;
   if (od) return { ...ofDungeon(s, od), pinned: m.id };
   if (m.subareas.length) return { dungeon: null, title: m.subareas[0], monsters: inSubarea(s, m.subareas[0]), pinned: m.id };
-  return { dungeon: null, title: m.name, monsters: [m] };
+  return { dungeon: null, title: m.name, monsters: [m], placeless: true };
 }
 
 /** The zone shown, as text kept across a reload of the page (Ctrl+R): its title, dungeon and monsters. */
@@ -57,7 +60,9 @@ export function restoreRoom(s: Snapshot, saved: string | null): Room | null {
     const dungeon = dungeonId === null ? null : s.dungeons.get(dungeonId) ?? null;
     const monsters = monsterIds.map((id) => s.monsters.get(id)).filter((m): m is Monster => !!m);
     if (typeof title !== "string" || !monsters.length || (dungeonId !== null && !dungeon)) return null;
-    return { dungeon, title, monsters };
+    // a monster with no place, shown alone (roomFor): nothing else is saved, its data says so
+    const alone = !dungeon && monsters.length === 1 && monsters[0].name === title && !monsters[0].subareas.length && !monsters[0].dungeonIds.length;
+    return alone ? { dungeon, title, monsters, placeless: true } : { dungeon, title, monsters };
   } catch {
     return null;
   }

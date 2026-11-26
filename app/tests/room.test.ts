@@ -27,6 +27,10 @@ it("a monster with neither shows alone", () => {
   const r = roomFor(s, { kind: "monster", label: "Bouftou", info: "", monsterId: 3332 });
   expect(r.monsters.map((m) => m.id)).toEqual([3332]);
   expect(r.title).toBe("Bouftou");
+  // no sub-zone to show (owner, 2026-11-26): the panel leaves out the header card, a reload too
+  expect(r.placeless).toBe(true);
+  expect(restoreRoom(s, saveRoom(r))?.placeless).toBe(true);
+  expect(roomFor(s, { kind: "monster", label: "Bouftou", info: "", monsterId: 36 }).placeless).toBeUndefined();
 });
 
 it("a sub-area result lists its monsters", () => {

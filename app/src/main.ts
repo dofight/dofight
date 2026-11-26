@@ -242,7 +242,7 @@ function roomHtml(r: Room): string {
     if (special) accessShown = { title: v.title, pa, trip: to };
     trip = renderTrip(to, { special });
   }
-  return renderRoom(v.dungeon, v.monsters, summaryOf(r), view, show, iconResolver(view), v.title, isOpen, v.pinned, v.counts, trip, !!r.empty, achievements);
+  return renderRoom(v.dungeon, v.monsters, summaryOf(r), view, show, iconResolver(view), v.title, isOpen, v.pinned, v.counts, trip, !!r.empty, achievements, !!r.placeless);
 }
 
 /* ---------- « Songe » mode: the monster groups hovered on the map ---------- */

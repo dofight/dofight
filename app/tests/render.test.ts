@@ -231,6 +231,16 @@ describe("renderRoom", () => {
     expect(dom(renderRoom(autel, monsters, undefined, s, ALL, noIcon)).querySelector(".achv")).toBeNull();
   });
 
+  // a monster with no sub-zone and no dungeon (« Sans sous-zone »): its card alone, no header card saying « Rien de
+  // spécial dans cette sous-zone » under its own name (owner, 2026-11-26)
+  it("a monster with no place: its card alone, no header card", () => {
+    const m = s.monsters.get(3332)!;
+    const room = dom(renderRoom(null, [m], undefined, s, ALL, noIcon, m.name, undefined, undefined, undefined, "", false, false, true));
+    expect(room.querySelector(".roomhead")).toBeNull();
+    expect(room.querySelectorAll(".mob")).toHaveLength(1);
+    expect(dom(renderRoom(null, [m], undefined, s, ALL, noIcon, m.name)).querySelector(".roomhead")).not.toBeNull();
+  });
+
   it("puts the boss first and says nothing when there is no summary", () => {
     const room = dom(renderRoom(autel, monsters, undefined, s, ALL, noIcon));
     expect(room.querySelector(".mob")?.classList.contains("boss")).toBe(true);

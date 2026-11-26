@@ -61,6 +61,8 @@ export function renderRoom(
   empty = false,
   /** The dungeon has challenge achievements: the « Succès » button, left of the level. */
   achievements = false,
+  /** A monster with no sub-zone and no dungeon, alone (room.ts `placeless`): its card, no header card. */
+  placeless = false,
 ): string {
   const achv = achievements ? achievementsButton() : "";
   const head = d
@@ -106,6 +108,6 @@ export function renderRoom(
   // (readable over any map)
   // one « Suggestion » button, at the very bottom of the results (the settings' example has none)
   const suggest = show.suggest !== false ? `<button class="suggest" data-suggest-room>${navIcon("edit")}${esc(t("room.suggest"))}</button>` : "";
-  const roomhead = `<div class="roomhead">${head}${trip}${strategy}${roomTags}${mechanics}${guide}</div>`;
+  const roomhead = placeless ? "" : `<div class="roomhead">${head}${trip}${strategy}${roomTags}${mechanics}${guide}</div>`;
   return `<div class="room">${top}${sep}${roomhead}${cards}${suggest}</div>`;
 }
