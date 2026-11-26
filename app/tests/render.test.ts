@@ -225,6 +225,7 @@ describe("renderRoom", () => {
     const line = room.querySelector(".roomhead .dj")!;
     const achv = line.querySelector(".achv")!;
     expect(achv.textContent).toContain("Succès");
+    expect(achv.hasAttribute("title")).toBe(false); // no tooltip: the label says it (owner, 2026-11-26)
     expect(achv.querySelector("img")?.getAttribute("src")).toBe("/icons/hud/achievements.png");
     // the button comes right before the level, both at the end of the line
     expect(achv.nextElementSibling?.tagName).toBe("SMALL");

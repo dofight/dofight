@@ -99,7 +99,7 @@ const accessButton = (): string =>
 // the room's title line, left of the level (owner, 2026-11-25; render/panel.ts)
 // `boss`: on an anomaly boss's card (its own achievements, it has no dungeon)
 export const achievementsButton = (boss?: number): string =>
-  `<button type="button" class="achv"${boss !== undefined ? ` data-boss="${boss}"` : ""} aria-expanded="false" title="${esc(t("achv.buttonTitle"))}"><img src="/icons/hud/achievements.png" alt=""><span>${esc(t("achv.button"))}</span></button>`;
+  `<button type="button" class="achv"${boss !== undefined ? ` data-boss="${boss}"` : ""} aria-expanded="false"><img src="/icons/hud/achievements.png" alt=""><span>${esc(t("achv.button"))}</span></button>`;
 
 export interface TripOptions {
   /** Something to know before going (access.ts `isSpecial`): the « Comment y aller » button. */
