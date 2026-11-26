@@ -70,6 +70,8 @@ button:not(:disabled),a[href],[role=button],[role=radio],[role=option],select,in
 .subject-list{display:grid;gap:4px;margin-top:4px}
 .res-item .kind{color:var(--gold);font-size:11px;text-transform:uppercase;letter-spacing:.06em;margin-right:6px}
 .status,.hint{font-size:12.5px;color:var(--muted);margin:0}
+.hint:empty{display:none} /* an empty hint (a shortcut not being set) takes no gap in the card */
+.theme-row .scope{display:block;font-size:12px;color:var(--muted)} /* where a shortcut works: from the game too, or once in Dofight */
 /* a message that blocks the reading (no zone header, no French OCR): a warning line the player sees */
 #main-body>.status.warn:not(:empty){font-size:13px;padding:6px 10px;border-radius:8px;background:var(--warn-bg);color:var(--warn-fg);text-shadow:none}
 .empty{font-size:13px;color:var(--muted);font-style:italic}
