@@ -18,7 +18,10 @@ describe("the achievements sheet", () => {
     const box = document.createElement("div");
     box.innerHTML = renderAchievementsSheet(reine);
     const rows = [...box.querySelectorAll("li")];
-    expect(rows.map((li) => li.querySelector("b")?.textContent)).toEqual(["Premier", "Collant", "Trio", "Spécial · La vie est une chausse-trappe"]);
+    // the kind alone: the challenge's own name (« La vie est une chausse-trappe ») made the column too wide (owner)
+    expect(rows.map((li) => li.querySelector("b")?.textContent)).toEqual(["Premier", "Collant", "Trio", "Spécial"]);
+    // a table: icon, kind, rule, each a cell of the row
+    expect([...rows[0].children].map((c) => c.tagName)).toEqual(["IMG", "B", "SPAN"]);
     expect(rows[0].querySelector("img")?.getAttribute("src")).toBe("/icons/challenges/3.png");
     expect(rows[3].textContent).toContain("Bonbombes <bleues>."); // escaped, shown as text
     expect(box.querySelector(".achv-sheet > b")?.textContent).toBe("Succès");

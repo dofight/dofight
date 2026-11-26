@@ -7,11 +7,10 @@ export function achievementsOf(s: Snapshot, dungeonId: number | null): Achieveme
   return dungeonId === null ? [] : (s.achievements?.get(dungeonId) ?? []);
 }
 
-/** One achievement: the challenge's game icon, the kind in bold (then the challenge's own name when it differs), the
- * game's rule under it. */
+/** One achievement, a row of the sheet's table: the challenge's game icon, the kind in bold (« Spécial » alone: the
+ * challenge's own name made the column too wide, owner 2026-11-25), the game's rule. */
 function row(a: Achievement): string {
-  const name = a.challenge && a.challenge !== a.kind ? `${a.kind} · ${a.challenge}` : a.kind;
-  return `<li><img class="challenge" src="/icons/challenges/${a.icon}.png" alt=""><div><b>${escText(name)}</b><div class="rule">${escText(a.rule)}</div></div></li>`;
+  return `<li><img class="challenge" src="/icons/challenges/${a.icon}.png" alt=""><b>${escText(a.kind)}</b><span class="rule">${escText(a.rule)}</span></li>`;
 }
 
 /** The « Succès » sheet beside the panel: the dungeon's challenge achievements in the game's order; a dungeon with
