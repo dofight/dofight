@@ -1,5 +1,6 @@
-// Adds platforms to a published latest.json (what every installed Dofight's updater reads), keeping the rest: the Mac
-// build runs after the Windows one and adds its darwin entries to the same release.
+// Adds platforms to a latest.json (what every installed Dofight's updater reads), keeping the rest: the release
+// workflow's « publish » job adds the Mac build's darwin entries to the Windows ones, or to a published latest.json
+// when only the Mac files are rebuilt (« only_macos »).
 //   node tools/merge_latest.mjs latest.json mac-platforms.json   (rewrites latest.json)
 import fs from "node:fs";
 import { fileURLToPath } from "node:url";
