@@ -292,6 +292,8 @@ const fr = {
   // « Comment y aller » (render/accessSheet.ts)
   "access.button": "Comment y aller",
   "access.buttonTitle": "Prérequis et trajet pour y aller",
+  "achv.button": "Succès",
+  "achv.buttonTitle": "Les succès de challenge du donjon",
   "access.title": "Comment y aller : {place}",
   "access.needs": "Prérequis",
   "access.levelMin": "Niveau {level} minimum",
@@ -640,6 +642,8 @@ const en: Record<Key, string> = {
   "monster.phasesTitle": "Changes phase:",
   "access.button": "How to get there",
   "access.buttonTitle": "Requirements and the way there",
+  "achv.button": "Achievements",
+  "achv.buttonTitle": "The dungeon's challenge achievements",
   "access.title": "How to get there: {place}",
   "access.needs": "Requirements",
   "access.levelMin": "Level {level} minimum",

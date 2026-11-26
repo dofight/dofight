@@ -37,6 +37,7 @@ import { renderPeek } from "./render/monster";
 import { renderRoom } from "./render/panel";
 import { renderSpellSheet } from "./render/spellSheet";
 import { renderMechanicSheet } from "./render/mechanic";
+import { achievementsOf, renderAchievementsSheet } from "./render/achievements";
 import { iconResolver, restoreRoom, roomFor, saveRoom, type Room } from "./room";
 import { SEARCH_EVERY_MS, searchState, type SearchState } from "./screen/fightSearch";
 import { scanOutcome } from "./screen/scan";
@@ -45,7 +46,7 @@ import { DEFAULTS, loadSettings, TEXT_SIZES, updateSettings, type Settings } fro
 import { capturing as capturingGame, READING, readingPatch } from "./reading";
 import { exportSettings, importSettings } from "./settingsTransfer";
 import { readText, writeText } from "@tauri-apps/plugin-clipboard-manager";
-import type { Monster, RoomSummary, Snapshot } from "./types";
+import type { Achievement, Monster, RoomSummary, Snapshot } from "./types";
 
 type Flag = { [K in keyof Settings]-?: Settings[K] extends boolean ? K : never }[keyof Settings];
 
@@ -213,6 +214,8 @@ const summaryOf = (r: Room) => (r.dungeon ? (view ?? snap)!.summaries.get(r.dung
 
 /** The place whose « Comment y aller » button is in the header (set by roomHtml), for its sheet. */
 let accessShown: { title: string; pa: PlaceAccess | null; trip: Trip | null } | null = null;
+/** The challenge achievements of the room's dungeon, for its « Succès » sheet ([]: no button). */
+let achievementsShown: Achievement[] = [];
 
 function roomHtml(r: Room): string {
   if (!snap || !view) return "";
@@ -227,13 +230,18 @@ function roomHtml(r: Room): string {
   // how to get there: for a searched dungeon, zone or monster (not where the player stands, nor a hovered group)
   // and « Comment y aller » when there is something to know first (the sheet beside the panel, main.ts showAccess)
   accessShown = null;
+  // « Succès »: in any dungeon that has challenge achievements, the one the player is in included
+  achievementsShown = achievementsOf(view, r.dungeon?.id ?? null);
+  const achievements = achievementsShown.length > 0;
   let trip = "";
   if (r !== zoneRoom && !r.counts) {
     const to = tripTo(snap.travel, r.dungeon?.id ?? null, r.title);
     const pa = accessOf(snap.access, snap.areas, r.dungeon?.id ?? null, r.title);
     const special = isSpecial(pa, to?.to ?? null);
     if (special) accessShown = { title: v.title, pa, trip: to };
-    trip = renderTrip(to, { special });
+    trip = renderTrip(to, { special, achievements });
+  } else if (achievements) {
+    trip = renderTrip(null, { achievements });
   }
   return renderRoom(v.dungeon, v.monsters, summaryOf(r), view, show, iconResolver(view), v.title, isOpen, v.pinned, v.counts, trip, !!r.empty);
 }
@@ -981,6 +989,19 @@ function showMechanic(mech: HTMLElement, delay: number, pin = false): void {
   }, delay);
 }
 
+// « Succès » (the header's button): the dungeon's challenge achievements in the side preview, after `delay` ms, as a
+// mechanic's chip; pinned by a click
+function showAchievements(btn: HTMLElement, delay: number, pin = false): void {
+  hidePeek(pin);
+  peekRow = btn;
+  if (pin) setPinned(btn);
+  peekTimer = window.setTimeout(() => {
+    if (!achievementsShown.length) return;
+    peekAnchor = { base: win, top: btn.getBoundingClientRect().top };
+    void toSide({ token: ++peekToken, html: renderAchievementsSheet(achievementsShown), pinned: pin });
+  }, delay);
+}
+
 // « Comment y aller » (the header's button): the place's requirements and route, pinned beside the panel at once (no
 // hover preview: it is read, not glanced at); a second click closes it
 function showAccess(btn: HTMLElement): void {
@@ -1017,6 +1038,13 @@ function hoverOver(target: HTMLElement | null): void {
     else hidePeek();
     return;
   }
+  const achv = target?.closest<HTMLElement>(".achv") ?? null;
+  if (achv) {
+    if (achv === peekRow) return;
+    if (settings.hoverPeek) showAchievements(achv, PEEK_DELAY);
+    else hidePeek();
+    return;
+  }
   // a spell of an open card: its sheet in the side preview (a click pins it there)
   const sp = target?.closest<HTMLElement>(".sp") ?? null;
   if (sp) {
@@ -1038,7 +1066,7 @@ $("room").addEventListener("pointerleave", () => {
   if (!pinned) hidePeek(); // a pinned sheet can be reached with the pointer (its « Guide » link)
 });
 $("room").addEventListener("pointerdown", (e) => {
-  if ((e.target as HTMLElement).closest(".mech, .sp, .access")) return; // the click below pins or unpins
+  if ((e.target as HTMLElement).closest(".mech, .sp, .access, .achv")) return; // the click below pins or unpins
   hidePeek(true); // a click unfolds the row: the preview goes (a pinned sheet too)
 });
 // a click (or Enter) on a mechanic's chip or a spell pins its sheet beside the panel, even with the hover preview
@@ -1048,6 +1076,12 @@ $("room").addEventListener("click", (e) => {
   if (access) {
     if (accessOpen) hidePeek(true);
     else showAccess(access);
+    return;
+  }
+  const achv = (e.target as HTMLElement).closest<HTMLElement>("#room .achv");
+  if (achv) {
+    if (pinned === achv) hidePeek(true);
+    else showAchievements(achv, 0, true);
     return;
   }
   const mech = (e.target as HTMLElement).closest<HTMLElement>(".mech");

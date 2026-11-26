@@ -82,6 +82,20 @@ export interface Tag {
   param?: string;
 }
 
+/** A dungeon's challenge achievement (data/snapshot/achievements.json), its texts as the game writes them. */
+export interface Achievement {
+  id: number;
+  /** The part in brackets of its name: « Premier », « Spécial ». */
+  kind: string;
+  /** Whose it is (the name before the brackets): a dungeon with several bosses groups its rows by boss. */
+  boss: string;
+  /** The challenge's own name (« La vie est une chausse-trappe »), shown after the kind when it differs. */
+  challenge: string;
+  rule: string;
+  /** data/icons/challenges/<icon>.png */
+  icon: number;
+}
+
 /** A mechanic too big for a badge (data/summaries/mechanics.json): its sheet, shown on hovering its chip. */
 export interface Mechanic {
   title: string;
@@ -145,6 +159,8 @@ export interface Snapshot {
   icons: Set<string>;
   /** Badges of every monster wherever it is met: its dungeon summary entry, else derived from its spells. */
   monsterSummaries?: Map<number, MonsterSummary>;
+  /** Each dungeon's challenge achievements, by dungeon id (data/snapshot/achievements.json). */
+  achievements?: Map<number, Achievement[]>;
   /** Mechanic sheets by id (data/summaries/mechanics.json). */
   mechanics?: Map<string, Mechanic>;
   /** Written summaries of zones (guild expeditions), keyed by the zone name. */

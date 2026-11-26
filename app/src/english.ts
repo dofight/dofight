@@ -5,7 +5,7 @@
  * dungeon, zone and spell names from data/snapshot/en (same ids), and our summaries through a translation table
  * (data/summaries/en.json: whole texts, plus the pieces of the badge parameters derived from spells). */
 import type { FetchJson } from "./load";
-import type { Dungeon, Mechanic, Monster, MonsterSummary, RoomSummary, Snapshot, Spell, Tag } from "./types";
+import type { Achievement, Dungeon, Mechanic, Monster, MonsterSummary, RoomSummary, Snapshot, Spell, Tag } from "./types";
 
 export interface Translations {
   /** A French summary text (strategy, detail, written badge parameter) → its English. */
@@ -19,6 +19,8 @@ export interface English {
   dungeons: Map<number, Dungeon>;
   spells: Map<number, Spell>;
   translations: Translations;
+  /** The dungeons' achievements in the English client's words (data/snapshot/en/achievements.json). */
+  achievements: Map<number, Achievement[]>;
   /** French zone (sub-area) name → English, and back. */
   zoneEn: Map<string, string>;
   zoneFr: Map<string, string>;
@@ -28,17 +30,19 @@ const PARAM_MAX = 32; // a badge parameter's length limit (vocabulary.json)
 
 export async function loadEnglish(fetchJson: FetchJson, fr: Snapshot): Promise<English> {
   const optional = (path: string) => fetchJson(path).catch(() => null);
-  const [monsters, dungeons, spells, translations] = await Promise.all([
+  const [monsters, dungeons, spells, translations, achievements] = await Promise.all([
     fetchJson("snapshot/en/monsters.json") as Promise<Monster[]>,
     fetchJson("snapshot/en/dungeons.json") as Promise<Dungeon[]>,
     fetchJson("snapshot/en/spells.json") as Promise<Spell[]>,
     optional("summaries/en.json") as Promise<Translations | null>,
+    optional("snapshot/en/achievements.json") as Promise<Record<string, Achievement[]> | null>,
   ]);
   const en: English = {
     monsters: new Map(monsters.map((m) => [m.id, m])),
     dungeons: new Map(dungeons.map((d) => [d.id, d])),
     spells: new Map(spells.map((s) => [s.id, s])),
     translations: translations ?? { text: {}, token: {} },
+    achievements: new Map(Object.entries(achievements ?? {}).map(([id, list]) => [Number(id), list])),
     zoneEn: new Map(),
     zoneFr: new Map(),
   };
@@ -117,7 +121,10 @@ export function englishView(fr: Snapshot, en: English): Snapshot {
   for (const [id, m] of fr.mechanics ?? []) {
     mechanics.set(id, { ...m, title: translateText(t, m.title), gist: translateText(t, m.gist), points: m.points.map((p) => translateText(t, p)) });
   }
-  return { ...fr, monsters, dungeons, spells, summaries, zoneSummaries, monsterSummaries, mechanics };
+  // the game's own English for the achievements; a dungeon the English file lacks keeps its French list
+  const achievements = new Map<number, Achievement[]>();
+  for (const [id, list] of fr.achievements ?? []) achievements.set(id, en.achievements.get(id) ?? list);
+  return { ...fr, monsters, dungeons, spells, summaries, zoneSummaries, monsterSummaries, mechanics, achievements };
 }
 
 /** A zone's name in English (the French one when unknown). */

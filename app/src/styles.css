@@ -113,6 +113,10 @@ img.mark{width:16px;height:16px;vertical-align:-3px} /* an item named in a text,
 /* « Comment y aller › »: an underlined text button that pins the sheet beside the panel */
 .trip .access{padding:1px 2px;border:0;background:none;color:var(--gold);font:inherit;font-weight:600;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
 .trip .access:hover,.trip .access[aria-expanded="true"]{color:var(--yellow)}
+/* « Succès »: the game's gold cup, then the label, styled as « Comment y aller » */
+.trip .achv{display:inline-flex;align-items:center;gap:3px;padding:1px 2px;border:0;background:none;color:var(--gold);font:inherit;font-weight:600;cursor:pointer}
+.trip .achv img{width:16px;height:16px}
+.trip .achv:hover,.trip .achv[aria-expanded="true"]{color:var(--yellow)}
 .guide:hover .ic{transform:translate(1px,-1px)}
 .mob{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px;display:grid;gap:6px;min-width:0}
 .mob.boss{border-color:var(--gold)}
@@ -497,6 +501,16 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .access-sheet a.quest{color:var(--blue);text-decoration:underline;text-underline-offset:2px}
 /* a button just copied in the sheet: « Copié » in place of its text (travel.ts showCopied) */
 .access-sheet .travel.copied{background:var(--gold-soft)}
+/* the achievements sheet: the challenge's game icon (dark, drawn for the game's light buttons: a light disc under it),
+   its kind in bold, the game's rule */
+.achv-sheet{display:grid;gap:6px;font-size:13px}
+.achv-sheet > b{color:var(--yellow);font-size:14px}
+.achv-sheet h3{margin:4px 0 0;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.achv-sheet .achvs{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.achv-sheet li{display:flex;gap:8px;align-items:flex-start}
+.achv-sheet img.challenge{flex:none;width:28px;height:28px;padding:3px;border-radius:50%;background:#d9cfb8}
+.achv-sheet li b{color:var(--fg)}
+.achv-sheet .rule{color:var(--muted)}
 /* the ☰ menu (like Ganymède's): under the title bar, on the left */
 .menu{position:absolute;z-index:6;top:34px;left:6px;min-width:220px;display:grid;gap:2px;padding:5px;border-radius:9px;border:1px solid var(--line);background:var(--card);box-shadow:0 8px 22px rgba(0,0,0,.5)}
 .menu[hidden]{display:none}
