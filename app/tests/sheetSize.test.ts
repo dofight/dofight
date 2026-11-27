@@ -22,7 +22,7 @@ it("keeps a sheet no taller than the screen (it scrolls inside), and never a fra
 
 it("lets a sheet scroll inside its window, and a detached one fill the window the player sized", () => {
   const css = readFileSync("src/styles.css", "utf8");
-  expect(css).toContain("#peek>:not(.toast){max-height:calc(100vh / var(--zoom,1));overflow-y:auto;box-sizing:border-box}");
+  expect(css).toContain("#peek>:not(.toast){max-height:calc(100vh / var(--zoom,1));overflow-y:auto;overflow-x:hidden;box-sizing:border-box}");
   // the page is zoomed (html{zoom}): a bare 100vh is the window's height times the zoom, taller than the window
   // a detached sheet is held by the window's edges, not sized from vh: the Mac cut its bottom border (owner, 2026-11-26)
   expect(css).toMatch(/#peek\.detached>:not\(\.toast\)\{position:fixed;inset:0;max-height:none;/);
