@@ -85,6 +85,20 @@ export function applyTextSize(root: HTMLElement, size: number): void {
   root.style.setProperty("--zoom", String(size / 100));
 }
 
+/** What a getBoundingClientRect length is multiplied by to be in the window's own pixels, under that zoom. The two
+ * engines disagree: WebView2 (Windows) counts the zoom, WebKit (the Mac) gives the unzoomed length, so at 90 % a
+ * spell's sheet said 420 where 378 was drawn and its window stood 42 px off the panel (owner, 2026-11-26). Asked of
+ * an element 100 px wide rather than of the platform. */
+export function drawnScale(doc: Document): number {
+  const zoom = Number(doc.documentElement.style.getPropertyValue("--zoom")) || 1;
+  const probe = doc.createElement("div");
+  probe.style.cssText = "position:absolute;visibility:hidden;width:100px;height:0";
+  doc.body.append(probe);
+  const width = probe.getBoundingClientRect().width;
+  probe.remove();
+  return width > 0 ? (zoom * 100) / width : 1;
+}
+
 export function applyTheme(root: HTMLElement, id: string): void {
   for (const [k, v] of Object.entries(themeVars(id))) root.style.setProperty(k, v);
   root.dataset.theme = themeById(id).id;

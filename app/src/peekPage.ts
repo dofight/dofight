@@ -7,9 +7,8 @@ import { sheetBar, sheetHeight, startsSheetDrag } from "./render/sheetBar";
 import { showToast } from "./render/toast";
 import { sheetCopied, sheetCopy } from "./render/accessSheet";
 import { KEY, loadSettings } from "./settings";
-import { applyTextSize, applyTheme } from "./theme";
+import { applyTextSize, applyTheme, drawnScale } from "./theme";
 import { resizedByPlayer } from "./sides";
-import { diag } from "./diag";
 import { scrollbarsWhileScrolling } from "./scrollbars";
 
 // The side window beside the panel: a folded monster's whole card (see renderPeek), or a sheet the player
@@ -77,15 +76,6 @@ void listen<{ token: number; to: string }>("peek:placed", async ({ payload }) =>
   if (payload.to !== label || detached || !document.getElementById("peek")!.classList.contains("pinned")) return;
   placedSize = await getCurrentWindow().innerSize();
 });
-// a sheet with its own width: the box it was laid out in should fill this window (the Mac showed a gap, owner
-// 2026-11-26); said in the log when it does not
-void listen<{ token: number; to: string }>("peek:placed", ({ payload }) => {
-  const box = document.getElementById("peek")!;
-  if (payload.to !== label || !box.style.width) return;
-  const drawn = box.getBoundingClientRect().width;
-  if (Math.abs(drawn - window.innerWidth) > 1)
-    diag("side", `sheet ${Math.round(drawn)} css px in a window ${window.innerWidth} wide (ratio ${window.devicePixelRatio}, zoom ${getComputedStyle(document.documentElement).getPropertyValue("--zoom") || 1})`);
-});
 void getCurrentWindow().onResized(({ payload: size }) => {
   if (!placedSize || detached || !resizedByPlayer(placedSize, size)) return;
   placedSize = null;
@@ -139,8 +129,10 @@ void listen<{ token: number; html: string; pinned?: boolean; width?: number; to:
   // the sheet's whole height, not what shows: it is capped to this window (styles.css) and this window may still be
   // the size of a shorter sheet
   const card = box.firstElementChild as HTMLElement | null;
-  const height = card ? sheetHeight(card) : box.getBoundingClientRect().height;
-  const width = payload.width ? Math.ceil(box.getBoundingClientRect().width) : undefined;
+  // in this window's own pixels, whichever way the engine counts the text size's zoom
+  const k = drawnScale(document);
+  const height = (card ? sheetHeight(card) : box.getBoundingClientRect().height) * k;
+  const width = payload.width ? Math.ceil(box.getBoundingClientRect().width * k) : undefined;
   void emit("peek:size", { token: payload.token, height: Math.ceil(height), width, label });
 });
 

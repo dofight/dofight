@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { expect, it } from "vitest";
 import { sheetHeight } from "../src/render/sheetBar";
 import { sideHeight } from "../src/previewSide";
+import { drawnScale } from "../src/theme";
 
 it("measures a sheet's whole height as drawn, zoomed by « Taille du texte », with its cap lifted (Fable, 2026-11-22)", () => {
   const card = document.createElement("div");
@@ -55,4 +56,22 @@ it("puts the zaap and its footprints close together, the name keeping its gap (o
   const css = readFileSync("src/styles.css", "utf8");
   expect(css).toMatch(/\.travel\{[^}]*gap:4px/);
   expect(css).toMatch(/\.travel img\+img\{margin-left:-3px\}/);
+});
+
+it("turns a measured length into the window's pixels whichever way the engine counts the text size's zoom (owner, 2026-11-26)", () => {
+  const measure = HTMLElement.prototype.getBoundingClientRect;
+  const root = document.documentElement;
+  root.style.setProperty("--zoom", "0.9");
+  try {
+    // WebKit (the Mac): the unzoomed length, so a spell's 420 drawn 378 wide must become 378
+    HTMLElement.prototype.getBoundingClientRect = function () { return { width: parseFloat(this.style.width) || 0 } as DOMRect; };
+    expect(420 * drawnScale(document)).toBeCloseTo(378);
+    // WebView2 (Windows): already the drawn length
+    HTMLElement.prototype.getBoundingClientRect = function () { return { width: (parseFloat(this.style.width) || 0) * 0.9 } as DOMRect; };
+    expect(drawnScale(document)).toBeCloseTo(1);
+    expect(document.body.children).toHaveLength(0); // the probe is gone
+  } finally {
+    HTMLElement.prototype.getBoundingClientRect = measure;
+    root.style.removeProperty("--zoom");
+  }
 });
