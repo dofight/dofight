@@ -24,3 +24,12 @@ export function sheetHeight(card: HTMLElement): number {
   card.style.maxHeight = cap;
   return height;
 }
+
+/** True when the scrollbar takes no room of its own: the Mac's overlay scrollbars (« Afficher les barres de
+ * défilement : automatiquement »), where `scrollbar-gutter:stable` reserves nothing. A sheet that can scroll keeps
+ * 2 px on its right and counts on the 8 px gutter for the rest; with none its bar's ✕ stuck out and the sheet slid
+ * 4 px sideways, its grip and text against the left edge (owner, 2026-11-26: inner 418 of 420, borders alone). */
+export function overlayScrollbar(el: HTMLElement): boolean {
+  const s = getComputedStyle(el);
+  return el.offsetWidth - el.clientWidth - parseFloat(s.borderLeftWidth || "0") - parseFloat(s.borderRightWidth || "0") < 1;
+}

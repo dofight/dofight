@@ -530,6 +530,7 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 /* a pinned or resized sheet that scrolls: the panel's own bar, thin, rounded, shown while scrolling (owner, 2026-11-26) */
 #peek>:not(.toast){--sb:0;transition:--sb .35s ease}
 #peek.pinned>:not(.toast),#peek.detached>:not(.toast){scrollbar-gutter:stable;padding-right:2px} /* only where it can scroll: a hover preview keeps its width; 2 px + the 8 px gutter = the 10 px on the left */
+#peek.pinned>.sb-overlay,#peek.detached>.sb-overlay{padding-right:10px} /* no gutter (the Mac's overlay scrollbars, sheetBar.ts overlayScrollbar): the 10 px are padding */
 #peek>:not(.toast).scrolling{--sb:1;transition-duration:.15s}
 #peek>:not(.toast)::-webkit-scrollbar{width:8px}
 #peek>:not(.toast)::-webkit-scrollbar-track{background:transparent;margin:8px 0}

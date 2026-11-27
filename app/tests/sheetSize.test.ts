@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { expect, it } from "vitest";
-import { sheetHeight } from "../src/render/sheetBar";
+import { overlayScrollbar, sheetHeight } from "../src/render/sheetBar";
 import { sideHeight } from "../src/previewSide";
 import { drawnScale } from "../src/theme";
 
@@ -74,4 +74,20 @@ it("turns a measured length into the window's pixels whichever way the engine co
     HTMLElement.prototype.getBoundingClientRect = measure;
     root.style.removeProperty("--zoom");
   }
+});
+
+it("pads a sheet itself when its scrollbar takes no room, as the Mac's overlay scrollbars do (owner, 2026-11-26)", () => {
+  const sheet = (offset: number, client: number) => {
+    const el = document.createElement("div");
+    el.style.border = "1px solid";
+    Object.defineProperty(el, "offsetWidth", { value: offset });
+    Object.defineProperty(el, "clientWidth", { value: client });
+    return el;
+  };
+  expect(overlayScrollbar(sheet(420, 418))).toBe(true); // the Mac: borders only
+  expect(overlayScrollbar(sheet(420, 410))).toBe(false); // Windows: the 8 px gutter
+  const css = readFileSync("src/styles.css", "utf8");
+  expect(css).toMatch(/#peek\.pinned>\.sb-overlay,#peek\.detached>\.sb-overlay\{padding-right:10px\}/);
+  // after the 2 px rule, so it wins at the same specificity
+  expect(css.indexOf("#peek.pinned>.sb-overlay")).toBeGreaterThan(css.indexOf("#peek.pinned>:not(.toast),#peek.detached>:not(.toast){scrollbar-gutter:stable;padding-right:2px}"));
 });

@@ -3,7 +3,7 @@ import { emit, listen } from "@tauri-apps/api/event";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { setLang, t } from "./i18n";
 import { takeSelection } from "./selection";
-import { sheetBar, sheetHeight, startsSheetDrag } from "./render/sheetBar";
+import { overlayScrollbar, sheetBar, sheetHeight, startsSheetDrag } from "./render/sheetBar";
 import { showToast } from "./render/toast";
 import { sheetCopied, sheetCopy } from "./render/accessSheet";
 import { KEY, loadSettings } from "./settings";
@@ -123,6 +123,8 @@ void listen<{ token: number; html: string; pinned?: boolean; width?: number; to:
   // inside the sheet's own box (its border), above its title
   (box.firstElementChild ?? box).insertAdjacentHTML("afterbegin", sheetBar(!!payload.pinned));
   box.classList.toggle("pinned", !!payload.pinned);
+  // the gutter the right padding counts on: none with the Mac's overlay scrollbars, so the sheet pads itself
+  if (box.firstElementChild instanceof HTMLElement) box.firstElementChild.classList.toggle("sb-overlay", overlayScrollbar(box.firstElementChild));
   // measured here and not in a requestAnimationFrame: this window is still hidden, and a hidden window runs no
   // frames on macOS, so the panel never got the height and never showed the sheet. getBoundingClientRect forces
   // the layout on its own, and the badge icons have a fixed size, so nothing is left to wait for.
