@@ -31,6 +31,8 @@ export interface Monster {
   mp: number;
   res: Record<Element, number>;
   spellIds: number[];
+  /** The spell it casts as the fight begins (a key in the spells, like spellIds): its states and passive effects. */
+  startSpellId?: number;
   dungeonIds: number[];
   subareas: string[];
   /** Why a creature has several entries: normal (lives somewhere), expedition, wanted (avis de recherche), summon
@@ -46,6 +48,11 @@ export interface SpellEffect {
   target?: "enemies" | "allies" | "self" | "all";
   /** Its area ("cercle 2", "ligne 8"…), null for a single cell. */
   zone?: string | null;
+  /** When it fires, if not at once: « Si dommages subis en mêlée », « En début de tour »… (the game's trigger,
+   * private/tools/client_triggers.py; absent when the trigger is not known for sure). */
+  trigger?: string;
+  /** The effects of the spell this one casts or places (« Braise » → « Brûlis » → « 26 à 35 vol Feu »). */
+  then?: SpellEffect[];
 }
 
 export interface Spell {

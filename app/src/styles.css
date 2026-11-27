@@ -656,3 +656,6 @@ mark.hit{background:var(--gold-soft);color:inherit;border-radius:3px;box-shadow:
 /* last, to win over the paddings above: where the scrollbar's gutter cannot be kept (WebKit before Safari 18.2,
    macOS 14's), the right padding keeps its 6 px */
 @supports not (scrollbar-gutter:stable){.view,.view.paged>.pagebody{padding-right:6px}}
+/* a triggered effect: when it fires, before the text; the spell it casts, indented under it */
+.eff .when{font-weight:600;color:var(--muted)}
+.eff.sub{margin-inline-start:12px;padding-inline-start:6px;border-inline-start:2px solid var(--line)}

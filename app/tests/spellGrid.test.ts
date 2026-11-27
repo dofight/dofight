@@ -218,6 +218,19 @@ describe("zone thumbnails on the effect rows", () => {
     expect(sheet(buffed).querySelector(".zthumb")).toBeNull();
   });
 
+  it("says when a triggered effect fires, and shows the spell it casts under it", () => {
+    // the Fleuro's Braise: hit in melee, it casts Brûlis, a fire steal in a cross of 6 (client data, 2026-11-27)
+    const braise = spell({ id: 2311, name: "Braise", rangeMin: 0, rangeMax: 0, effects: [
+      { ...e("Brûlis (exécuté par la cible)", null, "self"), trigger: "Si dommages subis en mêlée",
+        then: [e("26 à 35 vol Feu", "croix 6", "all")] }] });
+    const rows = [...sheet(braise).querySelectorAll(".eff")];
+    expect(rows.map((r) => r.classList.contains("sub"))).toEqual([false, true]);
+    expect(rows[0].querySelector(".when")?.textContent).toBe("Si dommages subis en mêlée :");
+    expect(rows[0].textContent).toContain("Brûlis (exécuté par la cible)");
+    expect(rows[1].textContent).toContain("26 à 35 vol Feu");
+    expect(rows[1].querySelectorAll(".zthumb .ar").length).toBeGreaterThan(1); // the cross, drawn on its row
+  });
+
   it("labels a zone past the thumbnail's edge with its real size, ∞ when endless", () => {
     const leuko = spell({ id: 4144, name: "Hyperleukocytine", rangeMin: 0, rangeMax: 0, effects: [
       e("Durée des effets : -4", "cercle-inversé 63 7"), e("État Pacifiste (1 tour)", "cercle 6")] });
