@@ -26,7 +26,7 @@ button{font:inherit}
    gear went under the name, 6 px at 100 %, 19 at 110 % (owner, 2026-11-26). The logo alone stays in the middle; the
    name needs 266 px with the two sides even */
 .topbar{container-type:inline-size}
-@container (max-width:269px){.title{font-size:0;gap:0}}
+@container (max-width:269px){.brand~.title{font-size:0;gap:0}} /* the panel's bar only: the example window's title is the word « Aperçu », no logo (review, 2026-11-27) */
 #preview-hide svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .touring #preview-hide{display:none} /* the guide's tour needs the example window */
 .devtag{margin-left:2px;padding:0 4px;border:1px solid var(--yellow);border-radius:4px;color:var(--yellow);font-size:10px;font-weight:700;letter-spacing:.04em}
@@ -224,7 +224,7 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .eye[aria-pressed="true"] .off,.eye[aria-pressed="false"] .on{display:none}
 /* a narrow card (240 px panel at 110 %) has no room for « Affichage », the pill and the chevron: the eye alone, its
    title still says what it does; the card no longer grows with its header (owner, 2026-11-26) */
-#view-settings .card{container-type:inline-size}
+#view-settings .cardhead:has(>.eye){container-type:inline-size} /* the header row, not the card: a container is a stacking context, a card's last info bubble would go under the next card (review, 2026-11-27) */
 @container (max-width:199px){.eye span{display:none}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:grid;gap:8px}
 .card h2{margin:0;font-size:15px;font-weight:700}

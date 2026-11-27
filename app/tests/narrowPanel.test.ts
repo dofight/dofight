@@ -17,14 +17,15 @@ it("keeps a dungeon's level beside its name, the name wrapping, and never stairs
 });
 
 it("keeps the settings' « Aperçu » pill to its eye in a narrow card, the card no wider than the panel", () => {
-  expect(css).toContain("#view-settings .card{container-type:inline-size}");
+  expect(css).toContain("#view-settings .cardhead:has(>.eye){container-type:inline-size}");
+  expect(css).not.toMatch(/\.card\{container-type/); // a card as a container buries its info bubbles under the next card
   expect(css).toMatch(/@container \(max-width:199px\)\{\.eye span\{display:none\}\}/);
 });
 
 it("never puts the title bar's buttons under its title: even sides no narrower than their buttons, the logo alone when narrow", () => {
   expect(css).toMatch(/\.topbar\{[^}]*grid-template-columns:minmax\(min-content,1fr\) auto minmax\(min-content,1fr\)/);
   expect(css).not.toMatch(/\.topbar\{[^}]*minmax\(0,1fr\)/);
-  expect(css).toMatch(/@container \(max-width:269px\)\{\.title\{font-size:0;gap:0\}\}/);
+  expect(css).toMatch(/@container \(max-width:269px\)\{\.brand~\.title\{font-size:0;gap:0\}\}/); // not the example window's « Aperçu »
 });
 
 it("ends a placeholder too long for the field in « … »", () => {
