@@ -20,8 +20,13 @@ html,body{margin:0;height:100%;background:transparent;color:var(--fg);font:14px/
 button{font:inherit}
 
 /* title bar */
-.topbar{z-index:3;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center /* minmax(0,…): without it a 1fr track is at least as wide as its buttons, and the wider side (3 of them) pushes the title off centre */;gap:8px;padding:3px 6px;background:rgb(var(--bar)); /* always opaque, like Ganymède: the opacity is for the area below */ border-bottom:1px solid var(--line);border-radius:9px 9px 0 0} /* 9 = the frame's 10 minus its 1 px border: no double edge in the corners */
+.topbar{z-index:3;display:grid;grid-template-columns:minmax(min-content,1fr) auto minmax(min-content,1fr);align-items:center /* even sides, so the title is centred, but never narrower than their buttons: at minmax(0,…) a narrow panel put the gear under the title (owner, 2026-11-26); only when there is no room for both does the title leave the centre */;gap:8px;padding:3px 6px;background:rgb(var(--bar)); /* always opaque, like Ganymède: the opacity is for the area below */ border-bottom:1px solid var(--line);border-radius:9px 9px 0 0} /* 9 = the frame's 10 minus its 1 px border: no double edge in the corners */
 .title{display:flex;align-items:center;gap:6px;font-weight:700;font-size:14px;letter-spacing:.01em}
+/* a narrow panel (240 px wide, the least it can be) has no room for « Dofight » between its buttons, centred: its
+   gear went under the name, 6 px at 100 %, 19 at 110 % (owner, 2026-11-26). The logo alone stays in the middle; the
+   name needs 266 px with the two sides even */
+.topbar{container-type:inline-size}
+@container (max-width:269px){.title{font-size:0;gap:0}}
 .devtag{margin-left:2px;padding:0 4px;border:1px solid var(--yellow);border-radius:4px;color:var(--yellow);font-size:10px;font-weight:700;letter-spacing:.04em}
 .actions{justify-self:end;display:flex;gap:4px} /* a little air between the title bar buttons */
 .brand{justify-self:start;display:flex;align-items:center;gap:4px} /* like Ganymède: the logo on the left, the name in the middle, settings, hide and quit on the right, a compact bar */
@@ -37,7 +42,9 @@ button:not(:disabled),a[href],[role=button],[role=radio],[role=option],select,in
 .logo #logo{inset:0;width:20px;height:20px}
 
 /* views */
-.view{display:grid;gap:8px;padding:10px 2px 10px 10px;align-content:start;min-width:0;overflow-y:auto;overflow-x:hidden;scrollbar-gutter:stable}
+.view{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;padding:10px 2px 10px 10px;align-content:start;min-width:0;overflow-y:auto;overflow-x:hidden;scrollbar-gutter:stable} /* minmax(0,1fr): the column is the panel's width, whatever is in it. An auto column grew to its widest child (a
+   text field counts its default 20 characters, min-width:0 or not): typing in the filter, its count and ✕ widened the
+   whole page at 110 % in a narrow panel, « Songes » and the cards cut (owner, 2026-11-26) */
 /* scrollbar inside the overlay, thin and rounded like Ganymède; its 8 px gutter is kept, so the right padding is 2 px:
    10 on each side once the bar is hidden (owner, 2026-11-26) */
 .view::-webkit-scrollbar{width:8px}
@@ -55,9 +62,10 @@ button:not(:disabled),a[href],[role=button],[role=radio],[role=option],select,in
 #q{width:100%;box-sizing:border-box;background:var(--card);border:1px solid var(--line);color:var(--fg);padding:8px 11px;border-radius:8px;font:inherit;user-select:text}
 #q:focus-visible{outline-offset:0}
 #q::placeholder,.text::placeholder{color:var(--muted)}
+#q,#find-q{text-overflow:ellipsis} /* a placeholder too long for a narrow panel ends in « … », not mid-word */
 .results{display:grid;gap:4px;max-height:calc(8 * 38px);overflow-y:auto;overscroll-behavior:contain}
 /* the main view's head: search and filter, always in view over the list (#main-body scrolls on its own) */
-.mainhead{display:grid;gap:8px;padding:10px 14px 8px 10px;min-width:0}
+.mainhead{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;padding:10px 14px 8px 10px;min-width:0} /* the panel's width too (see .view): the filter field and its count widened it past the edge */
 .mainhead .find[hidden]{display:none}
 .searchbox{position:relative;min-width:0}
 /* the list starts 8 px under the filter, as everywhere else: an empty status line takes no gap */
@@ -87,12 +95,12 @@ button:not(:disabled),a[href],[role=button],[role=radio],[role=option],select,in
 #room>.empty.intro{margin:4px 0;font-style:normal;line-height:1.5} /* the first screen: what shows here, and the search */
 
 /* room and monster cards */
-.room{display:grid;gap:8px}
+.room{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
 /* between the monster searched for and the rest of its zone (owner, 2026-11-22) */
 .room-sep{margin:6px 2px -4px;color:var(--muted);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
 /* the title line on one baseline (Fable, owner 2026-11-25): « Succès » and the level at the same 13 px, the cup
    centred on the x-height; a long name wraps, « Succès » and the level stay on its first line, at the right */
-.dj{display:flex;flex-wrap:nowrap;justify-content:space-between;align-items:baseline;gap:8px}
+.dj{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:0 8px} /* « Succès · Niv. 180 » goes under the name when the panel is narrow: on one line it held the whole list 2 px too wide at 100 %, 24 at 110 %, cut on the right (owner, 2026-11-26) */
 .dj b{flex:1 1 auto;min-width:0;overflow-wrap:break-word;font-size:16px;color:var(--yellow)}
 .dj small{color:var(--muted);font-size:13px}
 .dj-end{display:inline-flex;flex:none;align-items:baseline;gap:8px;margin-left:auto;white-space:nowrap;font-size:13px}
@@ -135,7 +143,7 @@ img.mark{width:16px;height:16px;vertical-align:-3px} /* an item named in a text,
 .achv img{width:16px;height:16px}
 .achv:hover,.achv[aria-expanded="true"]{color:var(--yellow)}
 .guide:hover .ic{transform:translate(1px,-1px)}
-.mob{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px;display:grid;gap:6px;min-width:0}
+.mob{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px;display:grid;grid-template-columns:minmax(0,1fr);gap:6px;min-width:0} /* the card's width, not its widest line: « Disciple du Kimbo » + « Invocation » put the chevron into its border at 110 % (owner, 2026-11-26) */
 .mob.boss{border-color:var(--gold)}
 .mob.summon{margin-left:8px;border-style:dashed} /* a boss's key summon, right under it: part of its fight */
 .mh{display:flex;align-items:center;justify-content:flex-start;gap:8px;font-weight:700}
@@ -200,13 +208,17 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 /* settings and suggestion: the back bar spans the whole width; only the page below it scrolls (its scrollbar too) */
 .view.paged{display:grid;grid-template-rows:auto minmax(0,1fr);gap:0;padding:0;overflow:hidden;scrollbar-gutter:auto}
 .view.paged[hidden]{display:none}
-.view.paged>.pagebody{display:grid;gap:8px;padding:10px 2px 10px 10px;align-content:start;min-width:0;overflow-y:auto;overflow-x:hidden;scrollbar-gutter:stable}
+.view.paged>.pagebody{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;padding:10px 2px 10px 10px;align-content:start;min-width:0;overflow-y:auto;overflow-x:hidden;scrollbar-gutter:stable}
 .view.paged>.pagebody::-webkit-scrollbar{width:8px}.view.paged>.pagebody::-webkit-scrollbar-track{background:transparent;margin:6px 0}.view.paged>.pagebody::-webkit-scrollbar-thumb{background:color-mix(in srgb,color-mix(in srgb,var(--muted) 45%,var(--card)) calc(var(--sb) * 100%),transparent);border-radius:8px;border:2px solid transparent;background-clip:padding-box}.view.paged>.pagebody::-webkit-scrollbar-button{display:none}
-.eye{margin-left:auto;display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:12.5px;font-weight:600;padding:2px 9px;cursor:pointer}
+.eye{margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:12.5px;font-weight:600;padding:2px 9px;cursor:pointer}
 .eye:hover,.eye:focus-visible{border-color:var(--gold);outline:none}
 .eye svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .eye[aria-pressed="true"]{color:var(--gold);border-color:var(--gold)}
 .eye[aria-pressed="true"] .off,.eye[aria-pressed="false"] .on{display:none}
+/* a narrow card (240 px panel at 110 %) has no room for « Affichage », the pill and the chevron: the eye alone, its
+   title still says what it does; the card no longer grows with its header (owner, 2026-11-26) */
+#view-settings .card{container-type:inline-size}
+@container (max-width:199px){.eye span{display:none}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:grid;gap:8px}
 .card h2{margin:0;font-size:15px;font-weight:700}
 .switch.cardtitle{justify-content:flex-start;gap:6px} /* a card title with its « i » */
@@ -365,13 +377,15 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .mline{display:flex;align-items:baseline;min-width:0}
 .mline .achv{margin-left:8px;align-self:center;font-size:12.5px;white-space:nowrap} /* an anomaly boss's « Succès », next to its name */
 .mkind{flex:none;font-size:11px;font-weight:400;line-height:1.4;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0 6px}
-.backzone{justify-self:start;display:flex;gap:4px;align-items:center;max-width:100%;min-height:28px;box-sizing:border-box;white-space:nowrap;background:var(--card);border:1px solid var(--line);border-radius:999px;color:var(--fg);font-size:12.5px;line-height:1.3;padding:4px 10px;cursor:pointer}
+.backzone{justify-self:start;display:flex;gap:4px;align-items:center;max-width:100%;min-width:0;min-height:28px;box-sizing:border-box;white-space:nowrap;background:var(--card);border:1px solid var(--line);border-radius:999px;color:var(--fg);font-size:12.5px;line-height:1.3;padding:4px 10px;cursor:pointer}
 .backzone[hidden]{display:none}
 .backzone:hover{border-color:var(--gold)}
 .backzone:active{background:var(--gold-soft)}
 .backzone .bz-icon{display:inline-flex;color:var(--gold)}
 .backzone .ic{width:14px;height:14px}
 .backzone .bz-name{color:var(--yellow);min-width:0;overflow:hidden;text-overflow:ellipsis} /* only the zone name is cut when too long */
+/* min-width:0 on the button: on one line, its whole width was the least the list's column could take, so in a narrow
+   panel it widened the list and every card was cut on the right instead of the name ending in « … » (owner, 2026-11-26) */
 .theme-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 10px;font-size:13.5px} /* narrow panel: the control goes under its label */
 .theme-row>span{flex:1 1 150px}
 .theme-row>button{flex:1 1 110px;max-width:100%}
