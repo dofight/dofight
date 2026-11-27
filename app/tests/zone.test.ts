@@ -1,10 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { renderZone, zoneLabel } from "../src/render/zone";
+import { parseZone, SHAPES, zoneLabel } from "../src/render/zone";
 
+/** How many cells of a grid 4 around its anchor the zone covers. */
 const lit = (zone: string) => {
-  const div = document.createElement("div");
-  div.innerHTML = renderZone(zone, false);
-  return div.querySelectorAll("rect.on").length;
+  const z = parseZone(zone)!;
+  let n = 0;
+  for (let y = -4; y <= 4; y++) for (let x = -4; x <= 4; x++) if (SHAPES[z.shape](x, y, z.size, z.second)) n++;
+  return n;
 };
 
 describe("zone", () => {
@@ -28,10 +30,14 @@ describe("zone", () => {
     expect(zoneLabel(null, true)).toBe("Sur lui");
   });
 
-  it("draws an inverted circle with its spared middle", () => {
-    const div = document.createElement("div");
-    div.innerHTML = renderZone("cercle-inversé 63 2", true);
-    expect(div.querySelector("rect.caster")!.classList.contains("on")).toBe(false);
+  it("spares an inverted circle's middle", () => {
+    expect(lit("cercle-inversé 63 2")).toBe(81 - 5); // all but the 5 cells within 1
+  });
+
+  it("draws a line from the caster from its first number out to its second", () => {
+    // « ligne-lanceur 1 10 » on a spell of range 1 to 10: cells 1 to 10 on the target's side (4 fit here)
+    expect(lit("ligne-lanceur 1 10")).toBe(4);
+    expect(zoneLabel("ligne-lanceur 1 10", false)).toBe("Ligne 10 partant de lui");
   });
 });
 

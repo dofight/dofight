@@ -5,7 +5,7 @@ import { renderMechanicChips } from "./mechanic";
 import { achievementsButton } from "../travel";
 import { CATEGORY_ICON, categoryName, esc, escText, img, prose, type IconUrl } from "./html";
 import { icon as navIcon } from "./icons";
-import { rangeCaption, rangeMarks, sortByReach, touchesYou } from "../reach";
+import { rangeCaption, rangeMarks, spellOrder } from "../reach";
 
 // danger, then mechanics, then tips (owner, 2026-11-24)
 const TAG_ORDER: TagKind[] = ["danger", "mechanic", "tip"];
@@ -21,6 +21,11 @@ const kindTag = (kind: NonNullable<Monster["kind"]>) => kindName(kind);
 export const tagLabel = (spec: TagSpec): string => (getLang() === "en" && spec.labelEn ? spec.labelEn : spec.label);
 
 const range = (a: number, b: number) => (a === b ? `${a}` : `${a} – ${b}`).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+/** Rows shown before « + N autres sorts », the furthest reaching first (owner, 2026-11-26). */
+const SPELL_ROWS = 6;
+/** Badges on a spell's row: past it, the last place says « +N ». */
+const SPELL_BADGES = 3;
 
 export function renderMonster(
   m: Monster,
@@ -92,27 +97,41 @@ export function renderMonster(
   if (summary?.guide && /^https:\/\//.test(summary.guide)) {
     parts.push(`<a class="guide" href="${esc(summary.guide)}" target="_blank" rel="noopener">${t("room.guide")}${navIcon("external")}</a>`);
   }
-  const own = sortByReach(m.spellIds.map((id) => spells.get(id)).filter((s): s is Spell => !!s), m.mp);
+  const own = m.spellIds.map((id) => spells.get(id)).filter((s): s is Spell => !!s);
   if (show.spells && own.length) {
-    parts.push(
-      `<div class="spells">${own
-        .map((s) => {
-          const badges = show.spellBadges
-            ? `<span class="cats">${s.categories.map((c) => img(icon, `spell/effect/${CATEGORY_ICON[c]}.webp`, `class="c-${c.split("_")[0]}" title="${esc(categoryName(c))}"`)).join("")}</span>`
-            : "";
-          const face = img(icon, `spells/${s.spellId ?? s.id}.webp`) || `<span class="abbr">${esc(s.name.slice(0, 4))}</span>`;
-          // its range and how it is shaped (in a line, a diagonal, without line of sight), read at a glance
-          const marks = rangeMarks(s);
-          const shape = marks.map((k) => `<span class="mk" title="${esc(k.label)}">${navIcon(k.icon)}</span>`).join("");
-          const rng = `<span class="rng">${esc(rangeCaption(s))}${shape}</span>`;
-          const label = [s.name, rangeCaption(s), ...marks.map((k) => k.label)].join(" · ");
-          const off = touchesYou(s) ? "" : " off";
-          // with the hover preview on, its sheet shows beside the panel: a native tooltip would cover it
-          const title = show.hoverPeek ? "" : ` title="${esc(label)}"`;
-          return `<button class="sp${off}" aria-pressed="false"${title} aria-label="${esc(label)}" data-spell="${s.id}">${face}${rng}${badges}</button>`;
-        })
-        .join("")}</div>`,
-    );
+    // one row per spell, in reach.ts spellOrder's order (the damage, then the moves, then the rest, each the furthest
+    // reaching first): its icon, its name, its badges (the damage elements first, SPELL_BADGES at most), its range in
+    // a column of its own (owner, 2026-11-26). The ones that cannot touch you nor move anyone (a buff, a summon) come
+    // last, greyed; past SPELL_ROWS, the rest folds under « + N autres sorts ». Each is still a `.sp` with its `data-spell`: hovering shows its sheet, a click pins it
+    const label = (s: Spell) => [s.name, rangeCaption(s), ...rangeMarks(s).map((k) => k.label)].join(" · ");
+    // with the hover preview on, its sheet shows beside the panel: a native tooltip would cover it
+    const title = (s: Spell) => (show.hoverPeek ? "" : ` title="${esc(label(s))}"`);
+    const face = (s: Spell) => img(icon, `spells/${s.spellId ?? s.id}.webp`) || `<span class="abbr">${esc(s.name.slice(0, 4))}</span>`;
+    const badges = (s: Spell) => {
+      if (!show.spellBadges) return `<span class="cats"></span>`;
+      const cats = [...s.categories].sort((a, b) => Number(!a.startsWith("dmg")) - Number(!b.startsWith("dmg")));
+      const fits = cats.length > SPELL_BADGES ? SPELL_BADGES - 1 : SPELL_BADGES;
+      const shown = cats.slice(0, fits).map((c) => img(icon, `spell/effect/${CATEGORY_ICON[c]}.webp`, `class="c-${c.split("_")[0]}" title="${esc(categoryName(c))}"`));
+      const rest = cats.slice(fits);
+      const more = rest.length ? `<span class="more" title="${esc(rest.map(categoryName).join(", "))}">+${rest.length}</span>` : "";
+      return `<span class="cats">${shown.join("")}${more}</span>`;
+    };
+    const { listed, calm } = spellOrder(own, m.mp);
+    const hits = [...listed, ...calm]; // the ones that cannot touch you last (owner, 2026-11-26: no line apart)
+    const row = (s: Spell) => {
+      // its range and how it is shaped (in a line, a diagonal, without line of sight), read at a glance
+      const shape = rangeMarks(s).map((k) => `<span class="mk" title="${esc(k.label)}">${navIcon(k.icon)}</span>`).join("");
+      // the range and its marks in two columns of their own, so every range lines up (owner, 2026-11-26)
+      const rng = `<span class="rng">${esc(rangeCaption(s))}</span><span class="mks">${shape}</span>`;
+      // one that cannot touch you (a buff, a summon) is greyed, but kept: a summon or a state can be the fight
+      const off = calm.includes(s) ? " off" : "";
+      return `<button class="sp${off}" aria-pressed="false"${title(s)} aria-label="${esc(label(s))}" data-spell="${s.id}">${face(s)}<span class="spn">${esc(s.name)}</span>${badges(s)}${rng}</button>`;
+    };
+    const rest = hits.slice(SPELL_ROWS);
+    const folded = rest.length
+      ? `<details class="spmore" data-monster="${m.id}"><summary>${esc(t(rest.length > 1 ? "spells.more" : "spells.moreOne", { count: rest.length }))}</summary><div class="spells">${rest.map(row).join("")}</div></details>`
+      : "";
+    parts.push(`<div class="spells">${hits.slice(0, SPELL_ROWS).map(row).join("")}</div>${folded}`);
   }
   return `<div class="${cls}" data-monster="${m.id}"${more} data-open="true">${parts.join("")}</div>`;
 }

@@ -36,18 +36,37 @@ export function spellReach(sp: Spell, mp: number): number | null {
   return mp + sp.rangeMax + area;
 }
 
-/** The spells that can touch you first, the furthest reaching first; then the others, in their own order. */
-export function sortByReach(spells: Spell[], mp: number): Spell[] {
-  const reach = new Map(spells.map((s) => [s, spellReach(s, mp)]));
-  const hits = spells.filter((s) => reach.get(s) !== null).sort((a, b) => reach.get(b)! - reach.get(a)!);
-  return [...hits, ...spells.filter((s) => reach.get(s) === null)];
+/** A monster's spells in the order its card lists them (owner, 2026-11-26): the damage first, then the moves (push,
+ * pull, teleport, swap — the monster's own as well: it changes where it can hit from next), then the rest that can
+ * touch you; each group the furthest reaching first. `calm`: what cannot touch you nor move anyone (a buff, a summon),
+ * in the game's own order. */
+export function spellOrder(spells: Spell[], mp: number): { listed: Spell[]; calm: Spell[] } {
+  const damage = (s: Spell) => s.categories.some((c) => c.startsWith("dmg_")) && touchesYou(s);
+  const move = (s: Spell) => s.categories.includes("move");
+  // a move on itself has no reach on you: how far it can go, its PM and its range
+  const reach = (s: Spell) => spellReach(s, mp) ?? mp + s.rangeMax;
+  const byReach = (list: Spell[]) => [...list].sort((a, b) => reach(b) - reach(a));
+  const dmg = spells.filter(damage);
+  const moves = spells.filter((s) => !damage(s) && move(s));
+  const other = spells.filter((s) => !damage(s) && !move(s) && touchesYou(s));
+  const calm = spells.filter((s) => !damage(s) && !move(s) && !touchesYou(s));
+  return { listed: [...byReach(dmg), ...byReach(moves), ...byReach(other)], calm };
 }
 
-/** The range under a spell's icon: « 1–8 », « CaC », « soi » (cast on itself). */
+/** 63 in the game's data is the whole map (a historical value): shown « ∞ » (owner, 2026-11-26). */
+const ENDLESS_RANGE = 60;
+
+/** The range as numbers: « 1–8 », « 6–∞ », « 3 ». */
+export function rangeSpan(sp: Spell): string {
+  // the whole map: « ∞ » alone, its minimum only when it is more than melee (« 6–∞ »), on the row and the sheet alike
+  if (sp.rangeMax >= ENDLESS_RANGE) return sp.rangeMin > 1 ? `${sp.rangeMin}–∞` : "∞";
+  return sp.rangeMin === sp.rangeMax ? String(sp.rangeMax) : `${sp.rangeMin}–${sp.rangeMax}`;
+}
+
+/** A spell's range on its row: numbers only, « 1–8 », « 1 » for melee, « 0 » on itself (owner, 2026-11-26: not « CaC »
+ * or « soi »), « ∞ » for the whole map. */
 export function rangeCaption(sp: Spell): string {
-  if (sp.rangeMax === 0) return t("reach.self");
-  if (sp.rangeMax === 1) return t("reach.melee");
-  return sp.rangeMin === sp.rangeMax ? `${sp.rangeMax}` : `${sp.rangeMin}–${sp.rangeMax}`;
+  return rangeSpan(sp);
 }
 
 /** How the range is shaped, for spells beyond melee: in a line, in a diagonal, without line of sight. */

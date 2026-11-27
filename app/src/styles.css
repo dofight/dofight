@@ -8,6 +8,8 @@
   --tip-bg:rgba(99,173,242,.16); --tip-fg:#8cc4f7;
   --mech-bg:rgba(170,130,255,.16); --mech-fg:#c9a7ff; /* « Mécanique » badges: their own violet in every theme */
   --warn-bg:rgba(242,213,75,.14); --warn-fg:#f2d54b; /* warnings: a reading that is blocked, a spell shape to watch */
+  /* a spell drawn on the grid: the game's own colours in every theme (render/spellGrid.ts) */
+  --grid-range:#3f6fd8; --grid-plane:#465564; --grid-plane-alt:#4e5e6e; --grid-area:#e0574a; --grid-caster:#f0b53a;
   --n:#c4c4c4; --e:#d39a58; --f:#ff7a5c; --w:#5cb8ff; --a:#7fd67f; --neg:#ff8f8f;
   --body:"Segoe UI Variable Text","Segoe UI",system-ui,sans-serif;
   color-scheme:dark;
@@ -159,11 +161,11 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .sp[aria-pressed="true"],.sp:focus-visible{border-color:var(--gold);background:var(--gold-soft)} /* the keyboard keeps the gold focus ring too */
 .sp>img{width:32px;height:32px;border-radius:5px;display:block}
 .abbr{padding-top:9px}
-.cats{display:flex;gap:1px;height:15px}
+.cats{display:flex;gap:1px}
 .cats img{width:15px;height:15px;border-radius:50%}
-/* the range under a spell's icon (« 1–8 », « CaC », « soi ») and how it is shaped: in a line, in a diagonal, no line of sight */
+/* a spell's range (« 1–8 », « 1 », « 0 », « ∞ ») and how it is shaped: in a line, in a diagonal, no line of sight */
 .rng{display:flex;align-items:center;gap:1px;color:var(--fg);font-size:11px;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
-.rng .mk{display:inline-flex;color:var(--warn-fg);margin-left:2px}.rng .ic{width:12px;height:12px;vertical-align:0}
+.mk{display:inline-flex}.mks .ic{width:12px;height:12px;vertical-align:0}
 .shape .ic{width:14px;height:14px;vertical-align:0}
 .sp.off>img,.sp.off .abbr{opacity:.5}.sp.off .rng{color:var(--muted);font-weight:600} /* cannot touch you: a buff, a summon */
 .prange{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
@@ -171,7 +173,6 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .pshape{display:flex;gap:4px;flex-wrap:wrap}
 .shape{display:inline-flex;align-items:center;gap:4px;font-size:12px;border-radius:5px;padding:1px 7px;background:color-mix(in srgb,var(--line) 70%,transparent)}
 .shape.warn{background:var(--warn-bg);color:var(--warn-fg)}
-.shape .zone{flex:none}
 .pop{background:var(--card);border:1px solid var(--gold);border-radius:10px;padding:8px 10px;font-size:13px;display:grid;gap:4px;user-select:text}
 .pop .k{color:var(--muted)}
 .pname{font-size:14px;color:var(--yellow)}
@@ -257,13 +258,38 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .who.allies{background:rgba(127,214,127,.16);color:var(--a)}
 .who.self{background:var(--gold-soft);color:var(--gold)}
 .who.all{background:var(--bg);color:var(--muted);border:1px solid var(--line)}
-.zone{flex:none}
-.zone rect.off{fill:color-mix(in srgb,var(--line) 85%,var(--fg))}
-.zone rect.on{fill:var(--gold)}
-.zone rect.caster{fill:var(--danger-fg)}
-.zone rect.target{fill:var(--yellow);stroke:var(--fg);stroke-width:.5}
-.zone rect.caster:not(.on),.zone rect.target:not(.on){fill:color-mix(in srgb,var(--line) 85%,var(--fg));stroke-width:.7}
-.zone rect.caster:not(.on){stroke:var(--danger-fg)}
+/* a spell on the game's grid (render/spellGrid.ts): the plain cells a faint checkerboard, the coloured ones parted by a
+   thin line of the plane's own grey (owner, 2026-11-26: neutral, not white) */
+.pgrid{display:grid;place-items:center;padding:4px 0}
+.sgrid{display:block;width:100%;height:auto}
+.sgrid .c{fill:var(--grid-plane);stroke:var(--grid-plane);stroke-width:.6}
+.sgrid .c.alt{fill:var(--grid-plane-alt);stroke:var(--grid-plane-alt)} /* a faint checkerboard: each cell can be counted */
+.sgrid .c.rg{fill:var(--grid-range);stroke:var(--grid-plane);stroke-width:var(--edge)}
+.sgrid .c.ar{fill:var(--grid-area);stroke:var(--grid-plane);stroke-width:var(--edge)}
+.sgrid .c.me{fill:var(--grid-caster);stroke:var(--grid-plane);stroke-width:var(--edge)}
+/* the target: its own colour, lighter (owner, 2026-11-26) */
+.sgrid .c.t.ar{fill:color-mix(in srgb,var(--grid-area) 45%,var(--fg))}
+.sgrid .c.t.me{fill:color-mix(in srgb,var(--grid-caster) 50%,var(--fg))}
+.sgrid .c.t.rg:not(.ar){fill:color-mix(in srgb,var(--grid-range) 45%,var(--fg))}
+.sgrid text{font-weight:800;dominant-baseline:middle;font-family:var(--body)}
+.sgrid .lrg{fill:var(--grid-range)}.sgrid .lar{fill:var(--grid-area)}
+/* an effect's own zone, on spells whose effects have different zones (render/spellGrid.ts zoneThumb) */
+.zthumb{flex:none;display:block;width:clamp(76px,19%,150px);height:auto} /* grows with a widened sheet */
+.zthumb .p{fill:var(--grid-plane)}
+.zthumb .ar{fill:var(--grid-area);stroke:var(--grid-plane);stroke-width:.5}
+.zthumb .ar.t{fill:color-mix(in srgb,var(--grid-area) 45%,var(--fg))}
+.zthumb .me{fill:var(--grid-caster)}.zthumb .me.lit{fill:color-mix(in srgb,var(--grid-caster) 50%,var(--fg))}
+.zthumb .an{fill:color-mix(in srgb,var(--grid-plane) 60%,var(--fg))}
+.zthumb text{font-size:12px;font-weight:800;fill:var(--grid-area);dominant-baseline:middle;font-family:var(--body)}
+.effs.zoned{gap:4px}.effs.zoned .eff{min-height:28px}
+.plegend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11.5px;color:var(--muted)}
+.plegend span{display:inline-flex;align-items:center;gap:5px}
+.plegend .sw{width:9px;height:9px;transform:rotate(45deg);display:inline-block}
+.plegend .sw.me{background:var(--grid-caster)}.plegend .sw.rg{background:var(--grid-range)}
+.plegend .sw.ar{background:var(--grid-area)}.plegend .sw.tg{background:color-mix(in srgb,var(--grid-area) 45%,var(--fg))}.plegend .sw.tg.self{background:color-mix(in srgb,var(--grid-caster) 50%,var(--fg))}
+.shape.zonep{background:color-mix(in srgb,var(--grid-area) 22%,transparent);color:var(--fg)}
+.shape.zonep.whole{background:var(--grid-area);color:#fff}
+
 
 .suggest{justify-self:start;min-height:24px;background:none;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:12px;padding:3px 10px;cursor:pointer}
 .suggest:hover{color:var(--fg);border-color:var(--gold)}
@@ -554,6 +580,22 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .find-count{flex:none;color:var(--muted);font-size:12px}
 mark.hit{background:var(--gold-soft);color:inherit;border-radius:3px;box-shadow:0 0 0 1px var(--gold)}
 .sp.hit{box-shadow:0 0 0 2px var(--gold)}
+/* a monster's spells as a list (render/monster.ts, owner 2026-11-26): icon, name, badges, then the range in a column
+   of its own so every range lines up */
+.spells{display:grid;gap:3px}
+.spells .sp{display:grid;grid-template-columns:24px minmax(0,1fr) auto 3.3em 2.1em;align-items:center;gap:7px;min-width:0;padding:2px 6px 2px 2px;border-radius:6px;text-align:left;color:var(--fg);font-size:12.5px;font-weight:600}
+.spells .sp>img,.spells .sp>.abbr{width:24px;height:24px;border-radius:4px}
+.spells .sp>.abbr{display:grid;place-items:center;font-size:9px;background:var(--line)}
+.spn{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.spells .cats{display:flex;align-items:center;gap:2px;height:auto}.spells .cats img{width:15px;height:15px}
+.cats .more{font-size:10.5px;font-weight:700;color:var(--muted);margin-left:1px}
+.spells .rng{justify-self:end;font-size:12.5px}.mks{display:flex;align-items:center;gap:1px;color:var(--warn-fg)}.mks .mk{margin-left:0}
+.spmore>summary{cursor:pointer;list-style:none;color:var(--muted);font-size:12px;padding:1px 4px;border-radius:5px}
+.spmore>summary::-webkit-details-marker{display:none}
+.spmore>summary::after{content:"›";display:inline-block;margin-left:5px;transition:transform .15s ease}.spmore[open]>summary::after{transform:rotate(90deg)} /* open or folded, at a glance */
+.spmore>summary:hover{color:var(--fg);background:var(--bg)}
+.spmore[open]>summary{margin-bottom:3px}
+.spells .sp.off>.spn,.spells .sp.off>.rng{color:var(--muted)} /* cannot touch you: greyed, last */
 
 /* a boss's phases, beside its HP: the game's yellow « seuil » heart; its thresholds on hover */
 .stats .phase{color:var(--yellow)}

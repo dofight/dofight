@@ -453,6 +453,19 @@ function emptyHtml(): string {
   return `<p class="empty intro">${esc(first)} ${esc(t("main.emptySearch"))}</p>`;
 }
 
+// the monsters whose « + N autres sorts » the player unfolded: they stay unfolded when the list is drawn again
+const spellsOpen = new Set<string>();
+$("room").addEventListener(
+  "toggle",
+  (e) => {
+    const more = e.target as HTMLDetailsElement;
+    if (!more.classList?.contains("spmore") || !more.dataset.monster) return;
+    if (more.open) spellsOpen.add(more.dataset.monster);
+    else spellsOpen.delete(more.dataset.monster);
+  },
+  true, // « toggle » does not bubble
+);
+
 function showRoom(): void {
   showScan();
   hidePeek(); // the rows are drawn again
@@ -460,6 +473,9 @@ function showRoom(): void {
   const reset = $("songe-reset");
   resetHome.after(reset);
   $("room").innerHTML = room ? roomHtml(room) : emptyHtml();
+  for (const more of document.querySelectorAll<HTMLDetailsElement>("#room details.spmore")) {
+    if (spellsOpen.has(more.dataset.monster ?? "")) more.open = true;
+  }
   showFind();
   if (turned !== null) {
     document.querySelector(`#room .mob[data-monster="${turned}"] .chev`)?.classList.add("turn");
@@ -493,6 +509,8 @@ function showFind(): void {
     highlight(row, q);
     const m = view.monsters.get(Number(row.dataset.monster));
     if (m) for (const id of spellsMatching(m, view.spells, q)) row.querySelector(`.sp[data-spell="${id}"]`)?.classList.add("hit");
+    // a match folded under « + N autres sorts » is shown: the card was kept for it
+    for (const more of row.querySelectorAll<HTMLDetailsElement>("details.spmore")) if (more.querySelector(".hit, mark")) more.open = true;
   }
 }
 function openFind(): void {

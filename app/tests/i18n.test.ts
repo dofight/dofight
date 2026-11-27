@@ -106,7 +106,7 @@ describe("English interface", () => {
     expect(sheet).toContain("Cooldown: 2 turns");
     expect(sheet).toContain("Range 1–4");
     expect(sheet).toContain("3 AP");
-    expect(sheet).toContain("Line of sight");
+    expect(sheet).not.toContain("Line of sight"); // only its absence is said
     expect(zoneLabel("cercle 2", true)).toBe("Circle 2 around the caster");
     expect(zoneLabel("ligne 60", false)).toBe("Line unlimited on the target cell");
     const card = renderMonster(monster({ id: 7, name: "Bouftou", boss: true, levelMin: 5, levelMax: 7 }), new Map(), { tags: [{ id: "revives" }] }, ALL, noIcon, true, vocab);

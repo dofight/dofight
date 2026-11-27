@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { rangeCaption, rangeMarks, sortByReach, spellReach, touchesYou } from "../src/reach";
+import { rangeCaption, rangeMarks, spellOrder, spellReach, touchesYou } from "../src/reach";
 import { renderMonster } from "../src/render/monster";
 import { renderSpellSheet } from "../src/render/spellSheet";
 import type { Display, SpellEffect } from "../src/types";
@@ -34,15 +34,10 @@ describe("reach", () => {
     expect(spellReach(quake, 3)).toBe(Infinity);
   });
 
-  it("orders the spells by reach, the ones that cannot touch you last", () => {
-    expect(sortByReach([nez, buff, petaclier, pistirage], 5).map((s) => s.name))
-      .toEqual(["Pistirage", "Pétaclier", "Nez Bulleux", "Racines"]);
-  });
-
   it("captions the range and marks its shape beyond melee only", () => {
     expect(rangeCaption(pistirage)).toBe("1–8");
-    expect(rangeCaption(nez)).toBe("CaC");
-    expect(rangeCaption(buff)).toBe("soi");
+    expect(rangeCaption(nez)).toBe("1"); // melee: a number like any other range (owner, 2026-11-26)
+    expect(rangeCaption(buff)).toBe("0"); // on itself
     expect(rangeMarks(pistirage).map((m) => m.icon)).toEqual(["inLine"]);
     expect(rangeMarks(nez)).toEqual([]); // melee: line and sight do not matter
     const diag = spell({ id: 8, name: "Biais", rangeMin: 2, rangeMax: 6, inDiagonal: true, lineOfSight: false });
@@ -60,9 +55,9 @@ describe("reach on screen", () => {
     expect(html).not.toContain("Touche");
     const order = [...html.matchAll(/data-spell="(\d+)"/g)].map((m) => Number(m[1]));
     expect(order).toEqual([1, 2, 3, 4]);
-    expect(html).toContain('<span class="rng">1–8<span class="mk" title="En ligne"><svg class="ic ic-inLine"');
-    expect(html).toContain('<span class="rng">CaC</span>'); // melee: the word, no shape
-    expect(html).toContain('class="sp off"'); // the buff on himself
+    expect(html).toContain('<span class="rng">1–8</span><span class="mks"><span class="mk" title="En ligne"><svg class="ic ic-inLine"');
+    expect(html).toContain('<span class="rng">1</span><span class="mks"></span>'); // melee: 1, no shape
+    expect(html).toContain('class="sp off"'); // the buff on himself, last and greyed
   });
 
   it("puts the range and the shape at the top of the sheet", () => {
@@ -73,5 +68,24 @@ describe("reach on screen", () => {
     expect(sheet).not.toContain("vous touche");
     const blind = renderSpellSheet(spell({ id: 9, name: "Biais", rangeMin: 2, rangeMax: 6, lineOfSight: false }), () => null);
     expect(blind).toMatch(/ic-noSight[^]*?Sans ligne de vue/);
+  });
+});
+
+describe("the order of a monster's spells on its card (owner, 2026-11-26)", () => {
+  const sp = (id: number, rangeMax: number, categories: string[], target: SpellEffect["target"] = "enemies") =>
+    spell({ id, name: `S${id}`, rangeMin: 1, rangeMax, categories, effects: [{ ...hit(), target }] });
+
+  it("puts the damage first, then the moves, then the rest, each by reach; what cannot touch you apart", () => {
+    const list = [
+      sp(1, 9, ["hinder"]), // far, but no damage
+      sp(2, 3, ["dmg_f"]),
+      sp(3, 6, ["dmg_e", "move"]), // damage and a push: a damage spell
+      sp(4, 5, ["move"]),
+      sp(5, 4, ["move"], "self"), // it teleports itself: a move, though it cannot touch you
+      sp(6, 0, ["boost"], "self"),
+    ];
+    const { listed, calm } = spellOrder(list, 3);
+    expect(listed.map((s) => s.id)).toEqual([3, 2, 4, 5, 1]);
+    expect(calm.map((s) => s.id)).toEqual([6]);
   });
 });

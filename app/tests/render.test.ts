@@ -45,7 +45,7 @@ describe("renderSpellSheet", () => {
     expect(text).toContain("46 à 54 dommages Feu");
     expect(text).toContain("Lancers par tour : 2");
     expect(text).toContain("Lancers par cible : 1");
-    expect(text).toContain("Ligne de vue");
+    expect(text).not.toContain("Ligne de vue"); // the rule: only « Sans ligne de vue » is said
     expect(text).toContain("Ne pas posséder l'état Barbarisme");
   });
 
@@ -71,11 +71,12 @@ describe("effect target and area", () => {
     expect(effects[0].querySelector(".who")!.className).toContain("enemies");
   });
 
-  it("draws the area as a small grid, described on hover", () => {
-    const zone = effects[0].querySelector(".zone")!;
-    expect(zone.querySelector("title")!.textContent).toBe("Cercle 2 autour de lui");
-    expect(zone.querySelectorAll("rect.on").length).toBe(13); // a circle of radius 2 covers 13 cells
-    expect(effects[2].querySelector(".zone")).toBeNull(); // a single cell: no drawing
+  it("draws its one area in the big drawing, none on the rows (owner, 2026-11-26)", () => {
+    // a single zone (the self effect on its own cell does not count): the rows get no thumbnail
+    expect(sheet.querySelector(".zthumb, .eff .zone")).toBeNull();
+    const grid = sheet.querySelector(".pgrid svg")!;
+    expect(grid.getAttribute("aria-label")).toContain("Cercle 2 autour de lui");
+    expect(grid.querySelectorAll("polygon.ar").length).toBe(12); // a circle of radius 2, the caster's cell aside
   });
 });
 
@@ -164,7 +165,9 @@ describe("renderMonster", () => {
     const zero = dom(renderMonster({ ...m, res: { ...m.res, n: 0 } }, s.spells, { tags }, ALL, everyIcon, true, VOCAB));
     expect(zero.querySelectorAll(".r.zero")).toHaveLength(1);
     expect(zero.querySelectorAll(".r:not(.neg):not(.zero)")).toHaveLength(3);
-    expect(card.querySelectorAll(".sp .cats img").length).toBe(4);
+    // four categories on a row of three places: two badges, the damage element first, then « +2 » (owner, 2026-11-26)
+    expect(card.querySelectorAll(".sp .cats img").length).toBe(2);
+    expect(card.querySelector(".sp .cats .more")?.textContent).toBe("+2");
     // the hover preview shows a spell's sheet: no native tooltip over it then (the name stays for screen readers)
     const sp = card.querySelector(".sp")!;
     expect(sp.getAttribute("aria-label")).toBeTruthy();
