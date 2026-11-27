@@ -462,6 +462,10 @@ $("room").addEventListener(
   (e) => {
     const more = e.target as HTMLDetailsElement;
     if (!more.classList?.contains("spmore") || !more.dataset.monster) return;
+    // opened by the filter for a match (showFind): not the player's, it folds back with the filter cleared. « toggle »
+    // comes later, as a task of its own, so the mark set when it was opened tells (review, 2026-11-27)
+    if (more.open && more.dataset.found) return;
+    delete more.dataset.found; // closed: the next opening is the player's
     if (more.open) spellsOpen.add(more.dataset.monster);
     else spellsOpen.delete(more.dataset.monster);
   },
@@ -512,7 +516,11 @@ function showFind(): void {
     const m = view.monsters.get(Number(row.dataset.monster));
     if (m) for (const id of spellsMatching(m, view.spells, q)) row.querySelector(`.sp[data-spell="${id}"]`)?.classList.add("hit");
     // a match folded under « + N autres sorts » is shown: the card was kept for it
-    for (const more of row.querySelectorAll<HTMLDetailsElement>("details.spmore")) if (more.querySelector(".hit, mark")) more.open = true;
+    for (const more of row.querySelectorAll<HTMLDetailsElement>("details.spmore")) {
+      if (more.open || !more.querySelector(".hit, mark")) continue;
+      more.dataset.found = "1"; // not remembered as the player's (the « toggle » listener above)
+      more.open = true;
+    }
   }
 }
 function openFind(): void {

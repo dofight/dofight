@@ -284,6 +284,50 @@ it("a monster searched for stays unfolded after « Filtrer les résultats » is 
   expect(open().dataset.open).toBe("true");
 });
 
+it("folds « + N autres sorts » back once the filter that opened it is cleared; one the player opened stays (review, 2026-11-27)", async () => {
+  // the spells shown (a test before may have turned them off)
+  const spellsOpt = document.getElementById("opt-spells") as HTMLInputElement;
+  const spellsWere = spellsOpt.checked;
+  if (!spellsWere) spellsOpt.click();
+  if (!document.getElementById("view-settings")!.hidden) (document.getElementById("back") as HTMLButtonElement).click();
+  const q = document.getElementById("q") as HTMLInputElement;
+  q.value = "Repaire de Skeunk";
+  q.dispatchEvent(new Event("input", { bubbles: true }));
+  [...document.querySelectorAll<HTMLElement>("#results .res-item")].find((r) => r.textContent?.includes("Repaire de Skeunk"))!.click();
+  // Rubise's card unfolded (a folded card draws no spells); the list is drawn again each time
+  const unfold = () => {
+    const rubise = [...document.querySelectorAll<HTMLElement>("#room .mob")].find((m) => plain(m.querySelector(".mname")?.textContent) === "Rubise")!;
+    if (rubise.dataset.open !== "true") rubise.querySelector<HTMLElement>(".mh")!.click();
+  };
+  unfold();
+  const more = () => document.querySelector<HTMLDetailsElement>("#room details.spmore")!;
+  expect(more()).not.toBeNull(); // Rubise has more than 6 spells
+  const monster = more().dataset.monster!;
+  const folded = more().querySelector(".spn")!.textContent!;
+  const find = document.getElementById("find-q") as HTMLInputElement;
+  const filter = async (text: string) => {
+    find.value = text;
+    find.dispatchEvent(new Event("input", { bubbles: true }));
+    await new Promise((r) => setTimeout(r, 0)); // « toggle » comes as a task of its own
+  };
+  await filter(folded);
+  const mine = () => document.querySelector<HTMLDetailsElement>(`#room details.spmore[data-monster="${monster}"]`)!;
+  expect(mine().open).toBe(true); // the match is shown
+  await filter("");
+  unfold();
+  expect(mine().open).toBe(false); // the filter opened it, not the player
+  // opened by the player: kept across a redraw
+  mine().open = true;
+  await new Promise((r) => setTimeout(r, 0));
+  await filter("x");
+  await filter("");
+  unfold();
+  expect(mine().open).toBe(true);
+  mine().open = false;
+  await new Promise((r) => setTimeout(r, 0));
+  if (!spellsWere) spellsOpt.click();
+});
+
 it("opens the suggestion from the bottom of the results, about the room shown; the subject can be searched", () => {
   if (!document.getElementById("view-settings")!.hidden) (document.getElementById("back") as HTMLButtonElement).click();
   const q = document.getElementById("q") as HTMLInputElement;
