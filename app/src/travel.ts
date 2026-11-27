@@ -93,10 +93,10 @@ export const zaapCommand = (z: Spot, to: Spot): string => `/zaap ${z.x} ${z.y} ;
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
 
 const accessButton = (): string =>
-  `<button type="button" class="access" aria-expanded="false" title="${esc(t("access.buttonTitle"))}">${esc(t("access.button"))}</button>`;
+  `<button type="button" class="access" aria-expanded="false" title="${esc(t("access.buttonTitle"))}">${STEPS}<span>${esc(t("access.button"))}</span></button>`;
 
-// « Succès »: the game's gold cup (its « Succès » tab), then the label; opens the dungeon's achievements sheet. In
-// the room's title line, left of the level (owner, 2026-11-25; render/panel.ts)
+// « Succès »: the game's gold cup (its « Succès » tab), then the label; opens the dungeon's achievements sheet. On
+// the line under the room's name, left of the way there (owner, 2026-11-26; render/panel.ts)
 // `boss`: on an anomaly boss's card (its own achievements, it has no dungeon)
 export const achievementsButton = (boss?: number): string =>
   `<button type="button" class="achv"${boss !== undefined ? ` data-boss="${boss}"` : ""} aria-expanded="false"><img src="/icons/hud/achievements.png" alt=""><span>${esc(t("achv.button"))}</span></button>`;

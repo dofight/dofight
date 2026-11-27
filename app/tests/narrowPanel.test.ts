@@ -8,8 +8,12 @@ import { expect, it } from "vitest";
 // settings, the guide and the report form, at the three sizes.
 const css = readFileSync("src/styles.css", "utf8");
 
-it("lets « Succès · Niv. » go under a dungeon's name instead of widening the list", () => {
-  expect(css).toMatch(/\.dj\{display:flex;flex-wrap:wrap;/);
+it("keeps a dungeon's level beside its name, the name wrapping, and never stairs its actions down (owner, 2026-11-26)", () => {
+  expect(css).toMatch(/\.dj\{display:flex;justify-content:space-between;/);
+  expect(css).toMatch(/\.dj small\{flex:none;/);
+  // space-between and no margin: wrapped, the way there starts its own line on the left
+  expect(css).toMatch(/\.dj-acts\{display:flex;flex-wrap:wrap;justify-content:space-between;/);
+  expect(css).not.toContain(".dj-acts>.achv+.trip{margin-left:auto}");
 });
 
 it("keeps the settings' « Aperçu » pill to its eye in a narrow card, the card no wider than the panel", () => {

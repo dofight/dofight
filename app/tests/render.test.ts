@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { phaseThresholds, renderMonster, renderPeek, renderTags } from "../src/render/monster";
 import { renderRoom } from "../src/render/panel";
+import { renderTrip } from "../src/travel";
 import { renderSpellSheet } from "../src/render/spellSheet";
 import { prose, sentences } from "../src/render/html";
 import { renderMechanicSheet } from "../src/render/mechanic";
@@ -223,16 +224,29 @@ describe("renderRoom", () => {
   const autel = s.dungeons.get(165)!;
   const monsters = autel.monsterIds.map((id) => s.monsters.get(id)!).reverse(); // boss last on purpose
 
-  it("puts « Succès » in the title line, left of the level (owner, 2026-11-25)", () => {
-    const room = dom(renderRoom(autel, monsters, undefined, s, ALL, noIcon, undefined, undefined, undefined, undefined, "", false, true));
+  it("puts the level beside the name, « Succès » and the way there on a line of their own (owner, 2026-11-26)", () => {
+    const trip = renderTrip(null, { special: true }); // « Comment y aller » alone
+    const room = dom(renderRoom(autel, monsters, undefined, s, ALL, noIcon, undefined, undefined, undefined, undefined, trip, false, true));
+    // the title line: the name, then the level, nothing between
     const line = room.querySelector(".roomhead .dj")!;
-    const achv = line.querySelector(".achv")!;
+    expect(line.querySelector(".achv")).toBeNull();
+    expect(line.lastElementChild?.tagName).toBe("SMALL");
+    // the actions line: « Succès » first (left), then the trip (right)
+    const acts = room.querySelector(".roomhead .dj-acts")!;
+    expect(acts.previousElementSibling).toBe(line);
+    const achv = acts.firstElementChild!;
+    expect(achv.classList.contains("achv")).toBe(true);
     expect(achv.textContent).toContain("Succès");
     expect(achv.hasAttribute("title")).toBe(false); // no tooltip: the label says it (owner, 2026-11-26)
     expect(achv.querySelector("img")?.getAttribute("src")).toBe("/icons/hud/achievements.png");
-    // the button comes right before the level, both at the end of the line
-    expect(achv.nextElementSibling?.tagName).toBe("SMALL");
-    expect(dom(renderRoom(autel, monsters, undefined, s, ALL, noIcon)).querySelector(".achv")).toBeNull();
+    expect(achv.nextElementSibling?.classList.contains("trip")).toBe(true);
+    // « Comment y aller » behind the game's footprints, as a /travel is
+    expect(acts.querySelector(".access img")?.getAttribute("src")).toBe("/icons/hud/steps.png");
+    // no « Succès »: the trip alone on the line; neither: no line
+    const noAchv = dom(renderRoom(autel, monsters, undefined, s, ALL, noIcon, undefined, undefined, undefined, undefined, trip));
+    expect(noAchv.querySelector(".achv")).toBeNull();
+    expect(noAchv.querySelector(".dj-acts")!.firstElementChild?.classList.contains("trip")).toBe(true);
+    expect(dom(renderRoom(autel, monsters, undefined, s, ALL, noIcon)).querySelector(".dj-acts")).toBeNull();
   });
 
   // a monster with no sub-zone and no dungeon (« Sans sous-zone »): its card alone, no header card saying « Rien de

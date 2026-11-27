@@ -59,15 +59,18 @@ export function renderRoom(
   trip = "",
   /** A sub-area the game has no monsters in (a village): says so, with no list. */
   empty = false,
-  /** The dungeon has challenge achievements: the « Succès » button, left of the level. */
+  /** The dungeon has challenge achievements: the « Succès » button, on the actions line under the name. */
   achievements = false,
   /** A monster with no sub-zone and no dungeon, alone (room.ts `placeless`): its card, no header card. */
   placeless = false,
 ): string {
   const achv = achievements ? achievementsButton() : "";
+  // the name and its level on one line; « Succès » (left) and the way there (right) on the next, the way there on
+  // the left when there is no « Succès » (owner, 2026-11-26: the level beside the name, as on a monster's card)
   const head = d
-    ? `<div class="dj"><b>${esc(d.name)}</b><span class="dj-end">${achv}<small>${t("monster.level", { level: d.level })}</small></span></div>`
+    ? `<div class="dj"><b>${esc(d.name)}</b><small>${t("monster.level", { level: d.level })}</small></div>`
     : `<div class="dj"><b>${esc(title ?? "")}</b></div>`;
+  const acts = achv || trip ? `<div class="dj-acts">${achv}${trip}</div>` : "";
   const written = summary?.strategy ?? "";
   const strategy = empty ? `<div class="strat">${esc(t("room.noMonsters"))}</div>` : !show.roomSummary ? "" : summary?.strategy !== undefined || d ? (written ? prose(frenchSpaces(written), "strat") : "") : zoneSummaryHtml(monsters, s);
   const roomTags = show.roomSummary ? renderTags(summary?.roomTags ?? [], s.vocabulary, show, icon, "tags roomtags") : "";
@@ -108,6 +111,6 @@ export function renderRoom(
   // (readable over any map)
   // one « Suggestion » button, at the very bottom of the results (the settings' example has none)
   const suggest = show.suggest !== false ? `<button class="suggest" data-suggest-room>${navIcon("edit")}${esc(t("room.suggest"))}</button>` : "";
-  const roomhead = placeless ? "" : `<div class="roomhead">${head}${trip}${strategy}${roomTags}${mechanics}${guide}</div>`;
+  const roomhead = placeless ? "" : `<div class="roomhead">${head}${acts}${strategy}${roomTags}${mechanics}${guide}</div>`;
   return `<div class="room">${top}${sep}${roomhead}${cards}${suggest}</div>`;
 }
