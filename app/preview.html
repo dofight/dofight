@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title data-i18n="preview.windowTitle">Dofight – Aperçu</title>
     <link rel="stylesheet" href="/src/styles.css" />
-    <style>#preview a { pointer-events: none; } /* the title bar as tall as the panel's (its buttons are 26 px) */ .topbar > span { min-height: 26px; display: flex; align-items: center; justify-content: center; }</style>
+    <style>#preview a { pointer-events: none; } /* the title bar as tall as the panel's (its buttons are 26 px) */ .topbar > span { min-height: 26px; display: flex; align-items: center; justify-content: center; } .topbar > span:last-child { justify-content: flex-end; } /* its eye at the right end, where the panel has its ✕ */</style>
     <script type="module" src="/src/previewPage.ts" defer></script>
   </head>
   <body>
     <div id="app">
-      <header class="topbar"><span></span><span class="title" data-i18n="settings.preview">Aperçu</span><span></span></header>
+      <header class="topbar"><span></span><span class="title" data-i18n="settings.preview">Aperçu</span><span><!-- hides the example, as the « Affichage » card's eye does (owner, 2026-11-26) --><button id="preview-hide" class="tb" type="button" title="Masquer l'aperçu" aria-label="Masquer l'aperçu" data-i18n-title="preview.hide" data-i18n-aria="preview.hide"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.6 5.1A10 10 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-2.6 3.4M6.6 6.6A17 17 0 0 0 2 12s3.6 7 10 7a9.7 9.7 0 0 0 5.4-1.6"></path><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"></path><path d="M2 2l20 20"></path></svg></button></span></header>
       <main class="view">
         <p id="label" class="hint"></p>
         <div id="preview"></div>

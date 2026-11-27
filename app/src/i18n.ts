@@ -372,6 +372,7 @@ const fr = {
   "grid.target": "Case visée",
   // floating icon and preview window
   "preview.windowTitle": "Dofight – Aperçu",
+  "preview.hide": "Masquer l'aperçu",
 };
 
 export type Key = keyof typeof fr;
@@ -728,6 +729,7 @@ const en: Record<Key, string> = {
   "grid.area": "Area hit",
   "grid.target": "Target cell",
   "preview.windowTitle": "Dofight – Preview",
+  "preview.hide": "Hide the preview",
 };
 
 export const DICTIONARIES: Record<Lang, Record<Key, string>> = { fr, en };

@@ -19,8 +19,12 @@ const syncTheme = () => {
 syncTheme();
 window.addEventListener("storage", (e) => e.key === KEY && syncTheme());
 
+// its own bar's eye hides it, as the « Affichage » card's eye does; not during the guide's tour, which needs it
+document.getElementById("preview-hide")!.addEventListener("click", () => void emit("preview:hide"));
+
 // the overlay sends the rendered room each time a setting changes
 void listen<{ label: string; html: string }>("preview:render", ({ payload }) => {
+  document.body.classList.remove("touring");
   document.getElementById("label")!.textContent = payload.label;
   const box = document.getElementById("preview")!;
   box.classList.remove("touring");
@@ -31,6 +35,7 @@ void listen<{ label: string; html: string }>("preview:render", ({ payload }) => 
 // the guide's tour: the sample once, then one element ringed in gold at a time, its bubble pointing at it
 let tourHtml = "";
 void listen<{ label: string; html: string; sel: string; text: string }>("preview:tour", async ({ payload }) => {
+  document.body.classList.add("touring");
   document.getElementById("label")!.textContent = payload.label;
   const box = document.getElementById("preview")!;
   if (payload.html !== tourHtml) {

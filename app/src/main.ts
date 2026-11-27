@@ -1399,6 +1399,12 @@ $("eye").addEventListener("click", () => {
   update({ preview: !settings.preview });
   void placePreview();
 });
+// the example window's own eye (its title bar): hidden as by the card's, which then says so (owner, 2026-11-26)
+void listen("preview:hide", () => {
+  if (!settings.preview) return;
+  update({ preview: false });
+  void placePreview();
+});
 $("view-settings").addEventListener("change", (e) => {
   const input = e.target as HTMLInputElement;
   if (input.id === "opt-reading") {

@@ -27,6 +27,8 @@ button{font:inherit}
    name needs 266 px with the two sides even */
 .topbar{container-type:inline-size}
 @container (max-width:269px){.title{font-size:0;gap:0}}
+#preview-hide svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.touring #preview-hide{display:none} /* the guide's tour needs the example window */
 .devtag{margin-left:2px;padding:0 4px;border:1px solid var(--yellow);border-radius:4px;color:var(--yellow);font-size:10px;font-weight:700;letter-spacing:.04em}
 .actions{justify-self:end;display:flex;gap:4px} /* a little air between the title bar buttons */
 .brand{justify-self:start;display:flex;align-items:center;gap:4px} /* like Ganymède: the logo on the left, the name in the middle, settings, hide and quit on the right, a compact bar */

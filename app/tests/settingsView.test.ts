@@ -717,6 +717,19 @@ it("search and filter shortcuts work inside Dofight, set in Fenêtre, never regi
   if (!document.getElementById("view-settings")!.hidden) (document.getElementById("back") as HTMLButtonElement).click();
 });
 
+it("hides the settings' example from its own title bar, as the card's eye does (owner, 2026-11-26)", async () => {
+  if (document.getElementById("view-settings")!.hidden) (document.getElementById("gear") as HTMLButtonElement).click();
+  expect(JSON.parse(localStorage.getItem("dofight.settings")!).preview).toBe(true);
+  await handler("preview:hide")({ payload: null });
+  await vi.waitFor(() => expect(JSON.parse(localStorage.getItem("dofight.settings")!).preview).toBe(false));
+  expect(document.getElementById("eye")!.getAttribute("aria-pressed")).toBe("false"); // the card says it too
+  (document.getElementById("eye") as HTMLButtonElement).click(); // back with the card's eye, as before
+  expect(JSON.parse(localStorage.getItem("dofight.settings")!).preview).toBe(true);
+  // the button itself, in the example window's bar, named in both languages
+  const page = readFileSync("preview.html", "utf8");
+  expect(page).toMatch(/<button id="preview-hide" class="tb"[^>]*data-i18n-title="preview.hide"/);
+});
+
 it("a preview from the settings' example window stays while the pointer is on that window (owner, 2026-11-25)", async () => {
   // the pointer is outside the panel (the mock puts it far away): over the example window, not the panel
   emitted.length = 0;
