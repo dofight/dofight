@@ -9,6 +9,7 @@ import { sheetCopied, sheetCopy } from "./render/accessSheet";
 import { KEY, loadSettings } from "./settings";
 import { applyTextSize, applyTheme } from "./theme";
 import { resizedByPlayer } from "./sides";
+import { diag } from "./diag";
 import { scrollbarsWhileScrolling } from "./scrollbars";
 
 // The side window beside the panel: a folded monster's whole card (see renderPeek), or a sheet the player
@@ -75,6 +76,15 @@ let placedSize: { width: number; height: number } | null = null;
 void listen<{ token: number; to: string }>("peek:placed", async ({ payload }) => {
   if (payload.to !== label || detached || !document.getElementById("peek")!.classList.contains("pinned")) return;
   placedSize = await getCurrentWindow().innerSize();
+});
+// a sheet with its own width: the box it was laid out in should fill this window (the Mac showed a gap, owner
+// 2026-11-26); said in the log when it does not
+void listen<{ token: number; to: string }>("peek:placed", ({ payload }) => {
+  const box = document.getElementById("peek")!;
+  if (payload.to !== label || !box.style.width) return;
+  const drawn = box.getBoundingClientRect().width;
+  if (Math.abs(drawn - window.innerWidth) > 1)
+    diag("side", `sheet ${Math.round(drawn)} css px in a window ${window.innerWidth} wide (ratio ${window.devicePixelRatio}, zoom ${getComputedStyle(document.documentElement).getPropertyValue("--zoom") || 1})`);
 });
 void getCurrentWindow().onResized(({ payload: size }) => {
   if (!placedSize || detached || !resizedByPlayer(placedSize, size)) return;

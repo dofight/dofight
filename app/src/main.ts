@@ -1014,6 +1014,13 @@ void listen<{ token: number; height: number; width?: number; label: string }>("p
   // never Tauri's show(): it would make the sheet the key window. A pinned sheet can be resized by its edges, which
   // detaches it (owner, 2026-11-24); a hover preview cannot (the pointer only passes over it)
   await invoke("side_show", { label: sideLabel, resizable: sidePinned });
+  // a sheet with its own width stood apart from the panel on the Mac (owner, 2026-11-26): what was asked, what the
+  // window became, in physical pixels, when the two differ
+  if (payload.width) {
+    const [got, at] = await Promise.all([peek.innerSize(), peek.outerPosition()]);
+    if (got.width !== side.width || at.x !== side.x)
+      diag("side", `asked x ${side.x} w ${side.width}, got x ${at.x} w ${got.width} (panel x ${pos.x} w ${size.width}, scale ${scale}, css ${payload.width})`);
+  }
   // placed: from now on a new size is the player's (the sheet watches for it)
   void emit("peek:placed", { token: payload.token, to: sideLabel });
 });
