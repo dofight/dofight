@@ -545,6 +545,7 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 #peek>:not(.toast){--sb:0;transition:--sb .35s ease}
 #peek.pinned>:not(.toast),#peek.detached>:not(.toast){scrollbar-gutter:stable;padding-right:2px} /* only where it can scroll: a hover preview keeps its width; 2 px + the 8 px gutter = the 10 px on the left */
 #peek.pinned>.sb-overlay,#peek.detached>.sb-overlay{padding-right:10px} /* no gutter (the Mac's overlay scrollbars, sheetBar.ts overlayScrollbar): the 10 px are padding */
+#peek.pinned>:not(.sb-overlay) .peek-bar,#peek.detached>:not(.sb-overlay) .peek-bar{margin-right:-2px} /* with a gutter (Windows) only 2 px of padding are left: at -6 px the ✕ went 4 px into the gutter, under the scrollbar (owner, 2026-11-26); the Mac keeps -6 */
 #peek>:not(.toast).scrolling{--sb:1;transition-duration:.15s}
 #peek>:not(.toast)::-webkit-scrollbar{width:8px}
 #peek>:not(.toast)::-webkit-scrollbar-track{background:transparent;margin:8px 0}
@@ -553,8 +554,8 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 #peek>:not(.toast)::-webkit-scrollbar-button{display:none}
 #peek:not(.pinned):not(.detached)>:not(.toast){overflow:hidden} /* a hover preview cannot be scrolled (the pointer only passes over it): no scrollbar; a pinned sheet keeps one (owner, 2026-11-26) */
 /* a detached sheet fills the window the player sized, its bar stays at the top while the text scrolls */
-#peek.detached>:not(.toast){position:fixed;inset:0;max-height:none;align-content:start} /* on the window's four edges whatever the engine makes of vh under html{zoom}: on the Mac a resized sheet went past the bottom, its border cut (owner, 2026-11-26) */ /* the sheet, never the « Copié » placed in #peek */
-#peek.detached .peek-bar{position:sticky;top:-8px;z-index:1;background:inherit} /* its sheet's own colour, a spell's as well as a monster's */
+#peek.detached>:not(.toast){position:fixed;inset:0;max-height:none;padding-top:0;align-content:start} /* on the window's four edges whatever the engine makes of vh under html{zoom}: on the Mac a resized sheet went past the bottom, its border cut (owner, 2026-11-26) */ /* the sheet, never the « Copié » placed in #peek */
+#peek.detached .peek-bar{position:sticky;top:0;margin-top:0;padding-top:4px;z-index:1;background:inherit} /* its sheet's own colour, a spell's as well as a monster's; from the sheet's very top, where it sticks (the sheet has no top padding, below): at top:-8px it went up 12 px at the first scroll, and with the padding it stuck 8 px down, the text showing above it (owner, 2026-11-26) */
 .mob.peek{border-radius:10px} /* no shadow: the window is exactly the card's size */
 .mob.peek .chev{display:none} /* the whole card as a preview: nothing to fold there */
 /* a mechanic's chip in the room header (hover: its sheet in the preview window) */
