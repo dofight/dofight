@@ -156,7 +156,7 @@ img.mark{width:16px;height:16px;vertical-align:-3px} /* an item named in a text,
 .bullets li::marker{color:var(--muted)}
 sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised without moving the line */
 .resrow{display:flex;gap:2px 7px;font-size:12px;font-variant-numeric:tabular-nums;flex-wrap:wrap} /* the 5 elements on one line */
-.r{display:inline-flex;align-items:center;gap:1px;font-weight:600;white-space:nowrap}
+.r{display:inline-flex;align-items:center;gap:1px;white-space:nowrap} /* the same weight as the level line above (owner, 2026-11-26): bold made it look bigger */
 .r img{width:16px;height:16px}
 .r.neg{color:var(--neg)}
 .r.zero{color:var(--muted)}
@@ -235,6 +235,18 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .ic{display:inline-block;width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-3px}
 
 .tb .ic{width:16px;height:16px}
+/* the menu's three bars drawn with borders, which the browser puts on whole pixels: drawn as an SVG they were 1.33 px
+   and fell across two rows, each bar blurred on a different side, and WebView2 ignores shape-rendering there (owner,
+   2026-11-26) */
+#menu-btn>svg{display:none} /* its bars are drawn below; the guide's tour still draws the SVG one */
+#menu-btn{display:inline-grid;place-items:center}
+/* the three bars at their own size whatever the text size (the panel's zoom put them between pixels), from one origin:
+   the top and bottom bars are ::before's borders, the middle one ::after's, 4 px down; same margin box, same place */
+#menu-btn::before,#menu-btn::after{content:"";grid-area:1/1;width:11px;box-sizing:border-box;zoom:calc(1 / var(--zoom,1))}
+#menu-btn::before{height:9px;border-block:1px solid currentColor}
+#menu-btn::after{height:5px;margin-top:4px;border-top:1px solid currentColor} /* 1 px bars 4 px apart, 11 wide: the size
+   of the other title bar icons (16 units long in a 24-unit box at 16 px), their 1.33 px strokes rounded down to a whole
+   pixel so each bar is sharp */
 /* the chevron of a folding row or picker: it points right when folded and turns down when open */
 .chev{margin-left:auto;display:inline-flex;align-items:center;flex:none;color:var(--muted)}
 .chev .ic{transition:transform .18s ease}
