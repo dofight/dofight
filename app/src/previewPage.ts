@@ -2,9 +2,12 @@ import { emit, listen } from "@tauri-apps/api/event";
 import { applyI18n, setLang } from "./i18n";
 import { KEY, loadSettings } from "./settings";
 import { applyTextSize, applyTheme } from "./theme";
+import { scrollbarsWhileScrolling } from "./scrollbars";
 
 // same theme as the overlay; follows it when the player picks another one (settings live in the shared storage)
 // same look as the overlay: theme and background opacity
+scrollbarsWhileScrolling(); // its .view scrolls too: the panel's bar, shown while scrolling (review, 2026-11-26)
+
 const syncTheme = () => {
   const settings = loadSettings(localStorage);
   applyTheme(document.documentElement, settings.theme);

@@ -36,6 +36,7 @@ import { highlight, matches, monsterText, spellsMatching } from "./findInList";
 import { renderPeek } from "./render/monster";
 import { renderRoom } from "./render/panel";
 import { renderSpellSheet } from "./render/spellSheet";
+import { scrollbarsWhileScrolling } from "./scrollbars";
 import { renderMechanicSheet } from "./render/mechanic";
 import { achievementsOf, renderAchievementsSheet } from "./render/achievements";
 import { iconResolver, restoreRoom, roomFor, saveRoom, type Room } from "./room";
@@ -78,6 +79,7 @@ let dataFailed = false;
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 const win = getCurrentWindow();
+scrollbarsWhileScrolling(); // the panel's scrollbars show only while scrolling (owner, 2026-11-26)
 let settings: Settings = loadSettings(localStorage);
 setLang(settings.lang);
 applyI18n(document);

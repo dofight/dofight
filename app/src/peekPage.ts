@@ -9,6 +9,7 @@ import { sheetCopied, sheetCopy } from "./render/accessSheet";
 import { KEY, loadSettings } from "./settings";
 import { applyTextSize, applyTheme } from "./theme";
 import { resizedByPlayer } from "./sides";
+import { scrollbarsWhileScrolling } from "./scrollbars";
 
 // The side window beside the panel: a folded monster's badges and summary (see renderPeek), or a sheet the player
 // pinned. It only shows what the panel sends, then tells the panel its height so the panel can size and place it. A
@@ -17,6 +18,7 @@ import { resizedByPlayer } from "./sides";
 // every event says which one it is from or for.
 
 const label = getCurrentWindow().label;
+scrollbarsWhileScrolling(); // a pinned sheet that scrolls: the panel's thin bar, shown while scrolling (owner, 2026-11-26)
 let detached = false;
 
 // the same theme and text size as the panel

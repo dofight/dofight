@@ -37,12 +37,19 @@ button:not(:disabled),a[href],[role=button],[role=radio],[role=option],select,in
 .logo #logo{inset:0;width:20px;height:20px}
 
 /* views */
-.view{display:grid;gap:8px;padding:10px 6px 10px 10px;align-content:start;min-width:0;overflow-y:auto;overflow-x:hidden;scrollbar-gutter:stable}
-/* scrollbar inside the overlay, thin and rounded like Ganymède */
+.view{display:grid;gap:8px;padding:10px 2px 10px 10px;align-content:start;min-width:0;overflow-y:auto;overflow-x:hidden;scrollbar-gutter:stable}
+/* scrollbar inside the overlay, thin and rounded like Ganymède; its 8 px gutter is kept, so the right padding is 2 px:
+   10 on each side once the bar is hidden (owner, 2026-11-26) */
 .view::-webkit-scrollbar{width:8px}
 .view::-webkit-scrollbar-track{background:transparent;margin:6px 0}
-.view::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--muted) 45%,var(--card));border-radius:8px;border:2px solid transparent;background-clip:padding-box}
+.view::-webkit-scrollbar-thumb{background:color-mix(in srgb,color-mix(in srgb,var(--muted) 45%,var(--card)) calc(var(--sb) * 100%),transparent);border-radius:8px;border:2px solid transparent;background-clip:padding-box}
+/* the thumb fades in while scrolling and out after (scrollbars.ts), and shows under the pointer: a scrollbar cannot
+   be animated itself, so it takes its opacity from --sb, a registered property its element animates (owner, 2026-11-26) */
+@property --sb{syntax:"<number>";inherits:true;initial-value:0}
+.view,.view.paged>.pagebody,.results{--sb:0;transition:--sb .35s ease}
+.view.scrolling,.view.paged>.pagebody.scrolling,.results.scrolling{--sb:1;transition-duration:.15s}
 .view::-webkit-scrollbar-thumb:hover{background:var(--muted)}
+.view.paged>.pagebody::-webkit-scrollbar-thumb:hover,.results::-webkit-scrollbar-thumb:hover{background:var(--muted)}
 .view::-webkit-scrollbar-button{display:none}
 .view[hidden]{display:none}
 #q{width:100%;box-sizing:border-box;background:var(--card);border:1px solid var(--line);color:var(--fg);padding:8px 11px;border-radius:8px;font:inherit;user-select:text}
@@ -60,7 +67,7 @@ button:not(:disabled),a[href],[role=button],[role=radio],[role=option],select,in
 .searchbox .results{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:8;max-height:min(calc(8 * 38px), calc(60vh / var(--zoom,1)));padding:4px;border-radius:10px;background:rgb(var(--win));border:1px solid var(--line);box-shadow:0 6px 18px rgba(0,0,0,.35)}
 .searchbox .results:empty,.searchbox .results[hidden]{display:none}
 .results::-webkit-scrollbar{width:8px}
-.results::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--muted) 45%,var(--card));border-radius:8px;border:2px solid transparent;background-clip:padding-box}
+.results::-webkit-scrollbar-thumb{background:color-mix(in srgb,color-mix(in srgb,var(--muted) 45%,var(--card)) calc(var(--sb) * 100%),transparent);border-radius:8px;border:2px solid transparent;background-clip:padding-box}
 .results::-webkit-scrollbar-button{display:none}
 .res-item{display:flex;justify-content:space-between;gap:8px;align-items:baseline;text-align:left;width:100%;box-sizing:border-box;min-width:0;background:var(--card);border:1px solid var(--line);border-radius:8px;color:var(--fg);padding:7px 10px;cursor:pointer}
 .res-item:hover,.res-item:focus-visible,.res-item[aria-selected="true"]{border-color:var(--gold);outline:none}
@@ -193,8 +200,8 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 /* settings and suggestion: the back bar spans the whole width; only the page below it scrolls (its scrollbar too) */
 .view.paged{display:grid;grid-template-rows:auto minmax(0,1fr);gap:0;padding:0;overflow:hidden;scrollbar-gutter:auto}
 .view.paged[hidden]{display:none}
-.view.paged>.pagebody{display:grid;gap:8px;padding:10px 6px 10px 10px;align-content:start;min-width:0;overflow-y:auto;overflow-x:hidden;scrollbar-gutter:stable}
-.view.paged>.pagebody::-webkit-scrollbar{width:8px}.view.paged>.pagebody::-webkit-scrollbar-track{background:transparent;margin:6px 0}.view.paged>.pagebody::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--muted) 45%,var(--card));border-radius:8px;border:2px solid transparent;background-clip:padding-box}.view.paged>.pagebody::-webkit-scrollbar-button{display:none}
+.view.paged>.pagebody{display:grid;gap:8px;padding:10px 2px 10px 10px;align-content:start;min-width:0;overflow-y:auto;overflow-x:hidden;scrollbar-gutter:stable}
+.view.paged>.pagebody::-webkit-scrollbar{width:8px}.view.paged>.pagebody::-webkit-scrollbar-track{background:transparent;margin:6px 0}.view.paged>.pagebody::-webkit-scrollbar-thumb{background:color-mix(in srgb,color-mix(in srgb,var(--muted) 45%,var(--card)) calc(var(--sb) * 100%),transparent);border-radius:8px;border:2px solid transparent;background-clip:padding-box}.view.paged>.pagebody::-webkit-scrollbar-button{display:none}
 .eye{margin-left:auto;display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:12.5px;font-weight:600;padding:2px 9px;cursor:pointer}
 .eye:hover,.eye:focus-visible{border-color:var(--gold);outline:none}
 .eye svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -508,6 +515,16 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .toast.in-box{position:absolute}
 /* a sheet never outgrows its window: taller than the screen, or a detached one made smaller, it scrolls inside */
 #peek>:not(.toast){max-height:calc(100vh / var(--zoom,1));overflow-y:auto;box-sizing:border-box}
+/* a pinned or resized sheet that scrolls: the panel's own bar, thin, rounded, shown while scrolling (owner, 2026-11-26) */
+#peek>:not(.toast){--sb:0;transition:--sb .35s ease}
+#peek.pinned>:not(.toast),#peek.detached>:not(.toast){scrollbar-gutter:stable;padding-right:2px} /* only where it can scroll: a hover preview keeps its width; 2 px + the 8 px gutter = the 10 px on the left */
+#peek>:not(.toast).scrolling{--sb:1;transition-duration:.15s}
+#peek>:not(.toast)::-webkit-scrollbar{width:8px}
+#peek>:not(.toast)::-webkit-scrollbar-track{background:transparent;margin:8px 0}
+#peek>:not(.toast)::-webkit-scrollbar-thumb{background:color-mix(in srgb,color-mix(in srgb,var(--muted) 45%,var(--card)) calc(var(--sb) * 100%),transparent);border-radius:8px;border:2px solid transparent;background-clip:padding-box}
+#peek>:not(.toast)::-webkit-scrollbar-thumb:hover{background:var(--muted)}
+#peek>:not(.toast)::-webkit-scrollbar-button{display:none}
+#peek:not(.pinned):not(.detached)>:not(.toast){overflow:hidden} /* a hover preview cannot be scrolled (the pointer only passes over it): no scrollbar; a pinned sheet keeps one (owner, 2026-11-26) */
 /* a detached sheet fills the window the player sized, its bar stays at the top while the text scrolls */
 #peek.detached>:not(.toast){height:calc(100vh / var(--zoom,1));align-content:start} /* the sheet, never the « Copié » placed in #peek */
 #peek.detached .peek-bar{position:sticky;top:-8px;z-index:1;background:inherit} /* its sheet's own colour, a spell's as well as a monster's */
@@ -599,3 +616,7 @@ mark.hit{background:var(--gold-soft);color:inherit;border-radius:3px;box-shadow:
 
 /* a boss's phases, beside its HP: the game's yellow « seuil » heart; its thresholds on hover */
 .stats .phase{color:var(--yellow)}
+
+/* last, to win over the paddings above: where the scrollbar's gutter cannot be kept (WebKit before Safari 18.2,
+   macOS 14's), the right padding keeps its 6 px */
+@supports not (scrollbar-gutter:stable){.view,.view.paged>.pagebody{padding-right:6px}}
