@@ -22,8 +22,10 @@ it("keeps a sheet no taller than the screen (it scrolls inside), and never a fra
 it("lets a sheet scroll inside its window, and a detached one fill the window the player sized", () => {
   const css = readFileSync("src/styles.css", "utf8");
   expect(css).toContain("#peek>:not(.toast){max-height:calc(100vh / var(--zoom,1));overflow-y:auto;box-sizing:border-box}");
-  expect(css).toContain("#peek.detached>:not(.toast){height:calc(100vh / var(--zoom,1));align-content:start}");
   // the page is zoomed (html{zoom}): a bare 100vh is the window's height times the zoom, taller than the window
+  // a detached sheet is held by the window's edges, not sized from vh: the Mac cut its bottom border (owner, 2026-11-26)
+  expect(css).toMatch(/#peek\.detached>:not\(\.toast\)\{position:fixed;inset:0;max-height:none;/);
+  expect(css).not.toMatch(/#peek\.detached>:not\(\.toast\)\{[^}]*height:calc/);
   // « Copié » goes inside #peek (toast.ts): a rule for every child stretched it to the window's height
   expect(css).not.toMatch(/#peek(\.detached)?>\*\{/);
 });
@@ -36,6 +38,17 @@ it("gives a detached sheet's bar its own sheet's colour, a spell's as well as a 
 it("gives a spell's sheet the colour of the other sheets (« Comment y aller », a monster's), not the lighter grey of the pills (owner, 2026-11-24)", () => {
   const css = readFileSync("src/styles.css", "utf8");
   expect(css).toMatch(/\.pop\{background:var\(--card\);/);
+});
+
+it("borders the sheets as the panel and the cards are, not in gold (owner, 2026-11-26)", () => {
+  const css = readFileSync("src/styles.css", "utf8");
+  expect(css).toMatch(/\.pop\{[^}]*border:1px solid var\(--line\)/);
+});
+
+it("draws the sheet's grip instead of a font's « ⠿ », so it takes the same room on Windows and the Mac (owner, 2026-11-26)", () => {
+  const css = readFileSync("src/styles.css", "utf8");
+  expect(css).toMatch(/\.peek-bar \.grip\{width:8px;height:12px;/);
+  expect(readFileSync("src/render/sheetBar.ts", "utf8")).not.toContain("⠿");
 });
 
 it("puts the zaap and its footprints close together, the name keeping its gap (owner, 2026-11-24)", () => {
