@@ -30,6 +30,13 @@ describe("zone", () => {
     expect(zoneLabel(null, true)).toBe("Sur lui");
   });
 
+  it("lights a checkerboard's cells by the parity of its size: even for « 60 », odd for « 61 » (Kimbo's glyphs)", () => {
+    // 9 × 9 around the caster: 41 cells at an even distance, the caster's among them, 40 at an odd one
+    expect(lit("damier 60")).toBe(41); // Glyphe pair
+    expect(lit("damier 61")).toBe(40); // Glyphe impair: never the caster's own cell
+    expect(lit("damier 2")).toBe(9); // the caster and the 8 cells 2 away
+  });
+
   it("spares an inverted circle's middle", () => {
     expect(lit("cercle-inversé 63 2")).toBe(81 - 5); // all but the 5 cells within 1
   });

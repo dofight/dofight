@@ -29,7 +29,9 @@ export const SHAPES: Record<string, Hit> = {
   "demi-cercle": (dx, dy, n) => dx <= 0 && ax(dy) === -dx && -dx <= n,
   fourche: (dx, dy, n) => dx >= 0 && dx <= n && (dy === 0 || ax(dy) === dx),
   boomerang: (dx, dy, n) => (dx === 0 && ax(dy) <= n - 1) || (dx === -1 && ax(dy) === n), // as the game draws it
-  damier: (dx, dy, n) => d1(dx, dy) <= n && (dx + dy) % 2 === 0,
+  // the cells at a distance of the size's parity: « damier 60 » the even ones (Glyphe pair), « damier 61 » the odd
+  // ones (Glyphe impair), which the even rule drew on the same cells (owner, 2026-11-26)
+  damier: (dx, dy, n) => d1(dx, dy) <= n && (d1(dx, dy) - n) % 2 === 0,
 };
 
 const UNLIMITED = 60;
