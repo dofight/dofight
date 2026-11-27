@@ -18,7 +18,7 @@ import { inDream } from "./screen/dream";
 import { initialStatus, statusText, statusWarns, steadyStatus, type StatusKind } from "./screen/status";
 import type { OcrLine } from "./screen/ocr";
 import { currentMonitor, cursorPosition, getCurrentWindow, LogicalPosition, LogicalSize, PhysicalPosition, PhysicalSize, Window } from "@tauri-apps/api/window";
-import { GAP, narrowed, previewRect, sideHeight } from "./previewSide";
+import { GAP, narrowed, previewRect, sideHeight, sideTop, widened } from "./previewSide";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import logo from "./assets/icon-app.png";
 import { enableDragAnywhere } from "./drag";
@@ -874,7 +874,7 @@ async function placePreview(render = true): Promise<void> {
   }
 }
 
-/* ---------- hover preview: a folded monster's badges and summary beside the panel ---------- */
+/* ---------- hover preview: a folded monster's whole card beside the panel ---------- */
 
 
 // where the preview goes: beside which window (the panel, or the settings' example window), level with which row
@@ -952,7 +952,7 @@ function renderPeekOf(id: number, roomSummary: RoomSummary | undefined): void {
   const v = view ?? snap;
   const m = v.monsters.get(id);
   const summary = roomSummary?.monsters[String(id)] ?? v.monsterSummaries?.get(id);
-  const html = m ? renderPeek(m, summary, settings, iconResolver(v), v.vocabulary) : "";
+  const html = m ? renderPeek(m, v.spells, summary, settings, iconResolver(v), v.vocabulary) : "";
   if (!html) return hidePeek();
   void toSide({ token: ++peekToken, html });
 }
@@ -970,7 +970,7 @@ void listen<{ id?: number; spell?: number; mechanic?: string; top: number } | nu
   const sheet = payload.mechanic !== undefined ? (view ?? snap).mechanics?.get(payload.mechanic) : undefined;
   const spell = payload.spell !== undefined ? (view ?? snap).spells.get(payload.spell) : undefined;
   if (sheet) void toSide({ token: ++peekToken, html: renderMechanicSheet(sheet) });
-  else if (spell) void toSide({ token: ++peekToken, html: renderSpellSheet(spell, iconResolver(snap)) });
+  else if (spell) void toSide({ token: ++peekToken, html: renderSpellSheet(spell, iconResolver(snap)), width: SPELL_WIDTH });
   else if (payload.id !== undefined) renderPeekOf(payload.id, d ? (view ?? snap).summaries.get(d.id) : undefined);
 });
 
@@ -984,7 +984,10 @@ void listen<{ token: number; height: number; width?: number; label: string }>("p
   const scale = await anchor.base.scaleFactor();
   const pos = await anchor.base.innerPosition();
   const size = await anchor.base.innerSize();
-  const screen = { x: monitor.position.x, y: monitor.position.y, width: monitor.size.width, height: monitor.size.height };
+  // the screen without its taskbar or dock (Tauri's work area): a tall card placed against the screen's edge ended
+  // under the taskbar (review, 2026-11-26)
+  const area = monitor.workArea ?? { position: monitor.position, size: monitor.size };
+  const screen = { x: area.position.x, y: area.position.y, width: area.size.width, height: area.size.height };
   const gap = Math.round(GAP * scale);
   let side = previewRect({ x: pos.x, y: pos.y, width: size.width, height: size.height }, screen, gap);
   if (anchor.base !== win) {
@@ -993,11 +996,16 @@ void listen<{ token: number; height: number; width?: number; label: string }>("p
     const x = panel.x < pos.x ? pos.x + size.width + gap : pos.x - size.width - gap;
     side = { ...side, x: Math.min(Math.max(x, screen.x), screen.x + screen.width - size.width) };
   }
-  // a sheet with its own width (« Succès »): as the sheet measured itself, text size included
-  if (payload.width) side = narrowed(side, pos.x, Math.ceil(payload.width * scale));
-  const height = sideHeight(payload.height, scale, monitor.size.height);
+  // a sheet with its own width, as it measured itself, text size included: « Succès » narrower than the panel, a
+  // spell's sheet (its drawing) wider
+  if (payload.width) {
+    const w = Math.ceil(payload.width * scale);
+    side = w > side.width ? widened(side, pos.x, w, screen) : narrowed(side, pos.x, w);
+  }
+  const height = sideHeight(payload.height, scale, screen.height);
   const top = pos.y + Math.round(anchor.top * scale);
-  const y = Math.max(screen.y, Math.min(top, screen.y + screen.height - height));
+  // between the panel's top and bottom (or the example window's), level with the row when it fits
+  const y = sideTop(top, height, { y: pos.y, height: size.height }, screen);
   if (payload.token !== peekToken) return;
   peekShown = true; // from here a hidePeek() hides it, even while it is being placed
   await peek.setSize(new PhysicalSize(side.width, height));
@@ -1063,6 +1071,9 @@ function showAccess(btn: HTMLElement, delay = 0, pin = true): void {
   else show();
 }
 
+// a spell's sheet is wider than the panel, so its drawing reads as on the mockup (420 px, owner 2026-11-26)
+const SPELL_WIDTH = 420;
+
 // a spell (an open card's spell button): its sheet in the side preview, after `delay` ms; pinned by a click (owner,
 // 2026-11-19: the sheet sits beside the panel, as the hover preview does, not inside the card)
 function showSpellAside(sp: HTMLElement, delay: number, pin = false): void {
@@ -1073,7 +1084,7 @@ function showSpellAside(sp: HTMLElement, delay: number, pin = false): void {
     const spell = (view ?? snap)?.spells.get(Number(sp.dataset.spell));
     if (!spell || !snap) return;
     peekAnchor = { base: win, top: sp.getBoundingClientRect().top };
-    void toSide({ token: ++peekToken, html: renderSpellSheet(spell, iconResolver(snap)), pinned: pin });
+    void toSide({ token: ++peekToken, html: renderSpellSheet(spell, iconResolver(snap)), pinned: pin, width: SPELL_WIDTH });
   }, delay);
 }
 

@@ -136,17 +136,13 @@ export function renderMonster(
   return `<div class="${cls}" data-monster="${m.id}"${more} data-open="true">${parts.join("")}</div>`;
 }
 
-/** The preview shown beside the panel when a folded monster is hovered: only its badges (the kinds the player shows)
- * and its written summary, never its name, numbers or spells (the row already names it). "" when there is nothing to
- * show, or when every kind of badge is hidden (the player turned the badges off: no preview either). */
-export function renderPeek(m: Monster, summary: MonsterSummary | undefined, show: Display, icon: IconUrl, vocab: Vocabulary): string {
-  if (!TAG_ORDER.some((k) => show[TAG_SHOWN[k]])) return "";
-  const parts: string[] = [];
-  const tags = renderTags(summary?.tags ?? [], vocab, show, icon);
-  if (tags) parts.push(tags);
-  else if (summary && summary.tags.length === 0) parts.push(`<div class="empty">${t("monster.harmless")}</div>`);
-  if (summary?.detail) parts.push(prose(frenchSpaces(summary.detail), "detail"));
-  return parts.length ? `<div class="mob peek${m.boss ? " boss" : ""}">${parts.join("")}</div>` : "";
+/** The preview shown beside the panel when a folded monster is hovered: its whole card, as it reads unfolded (its
+ * numbers, resistances, badges, summary and spells; owner, 2026-11-26: the badges alone left the spells out). The
+ * chevron is hidden there (styles.css `.mob.peek`). */
+export function renderPeek(m: Monster, spells: Map<number, Spell>, summary: MonsterSummary | undefined, show: Display, icon: IconUrl, vocab: Vocabulary): string {
+  const card = renderMonster(m, spells, summary, show, icon, true, vocab);
+  // a preview cannot be clicked (the pointer never reaches it): « + N autres sorts » comes unfolded
+  return card.replace(/^<div class="mob\b/, '<div class="mob peek').replace(/<details class="spmore"/g, '<details class="spmore" open');
 }
 
 /** Tags from the vocabulary as badges: danger, then tip, then mechanic; unknown ids skipped; "" when none shown. */

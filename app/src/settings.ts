@@ -24,7 +24,7 @@ export type Settings = Display & {
   fromHeader: boolean;
   preview: boolean;
   expandAll: boolean;
-  /** Hovering a folded monster shows its badges and summary beside the panel. */
+  /** Hovering a folded monster shows its whole card beside the panel. */
   hoverPeek: boolean;
   opacity: number;
   /** Text size in %, one of TEXT_SIZES: the whole panel and its side windows are zoomed. */

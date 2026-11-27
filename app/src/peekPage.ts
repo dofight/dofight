@@ -11,7 +11,7 @@ import { applyTextSize, applyTheme } from "./theme";
 import { resizedByPlayer } from "./sides";
 import { scrollbarsWhileScrolling } from "./scrollbars";
 
-// The side window beside the panel: a folded monster's badges and summary (see renderPeek), or a sheet the player
+// The side window beside the panel: a folded monster's whole card (see renderPeek), or a sheet the player
 // pinned. It only shows what the panel sends, then tells the panel its height so the panel can size and place it. A
 // pinned sheet dragged away is detached (owner, 2026-11-20): this window stays where it is dropped, until its ✕, and
 // the panel makes another side window for the next sheet. There are several of these windows (« peek », « peek-1 »…):
@@ -117,7 +117,7 @@ void listen<{ token: number; html: string; pinned?: boolean; width?: number; to:
   // a pinned sheet (clicked, or « Comment y aller ») has its bar: moved and closed from there; a hover preview goes
   // with the pointer
   box.innerHTML = payload.html;
-  // a sheet with its own width (narrower than the panel): laid out at that width now, so the height measured below is
+  // a sheet with its own width (« Succès » narrower than the panel, a spell's wider): laid out at that width now, so the height measured below is
   // the one it will have once the panel narrows this window
   box.style.width = payload.width ? `${payload.width}px` : "";
   // inside the sheet's own box (its border), above its title

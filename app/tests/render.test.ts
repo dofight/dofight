@@ -412,29 +412,32 @@ describe("wanted-poster monsters", () => {
 });
 
 describe("hover preview", () => {
-  const m = monster({ id: 1, name: "Bouftou", boss: true, spellIds: [] });
+  const bite = spell({ id: 77, name: "Morsure", rangeMin: 1, rangeMax: 1, categories: ["dmg_n"], effects: [{ text: "10 dommages Neutre", icon: 1, dispellable: false, target: "enemies", zone: null }] });
+  const m = monster({ id: 1, name: "Bouftou", boss: true, spellIds: [77] });
+  const spells = new Map([[77, bite]]);
   const summary = { tags: [{ id: "one_shot", param: "au CaC" }, { id: "phase", param: "à 50 %" }], detail: "Le garder loin." };
 
-  it("shows only the badges and the summary, never the name, numbers or spells", () => {
-    const el = dom(renderPeek(m, summary, ALL, everyIcon, VOCAB));
+  it("shows the whole card, its spells too, as it reads unfolded (owner, 2026-11-26)", () => {
+    const el = dom(renderPeek(m, spells, summary, ALL, everyIcon, VOCAB));
+    expect(el.querySelector(".mob.peek.boss")).not.toBeNull();
     expect(el.querySelectorAll(".tag")).toHaveLength(2);
     expect(plain(el.querySelector(".detail")?.textContent)).toBe("Le garder loin.");
-    expect(el.querySelector(".mname, .stats, .spells, .resrow, .thumb")).toBeNull();
-    expect(el.querySelector(".peek.boss")).not.toBeNull();
+    expect(el.querySelector(".stats")).not.toBeNull();
+    expect(el.querySelector('.spells .sp[data-spell="77"] .spn')?.textContent).toBe("Morsure");
   });
 
-  it("follows the badge kinds the player shows", () => {
-    const el = dom(renderPeek(m, summary, { ...ALL, tagsDanger: false }, everyIcon, VOCAB));
+  it("marks an ordinary monster's card as a preview too, and lists every spell (it cannot be clicked)", () => {
+    const many = Array.from({ length: 8 }, (_, i) => spell({ id: 200 + i, name: `Sort ${i}`, rangeMin: 1, rangeMax: 8 - i, categories: ["dmg_n"], effects: bite.effects }));
+    const plain = monster({ id: 2, name: "Bouftou", spellIds: many.map((s) => s.id) });
+    const el = dom(renderPeek(plain, new Map(many.map((s) => [s.id, s])), summary, ALL, everyIcon, VOCAB));
+    expect(el.querySelector(".mob.peek:not(.boss)")).not.toBeNull();
+    expect(el.querySelector<HTMLDetailsElement>("details.spmore")!.open).toBe(true);
+  });
+
+  it("follows the display settings, as the card does", () => {
+    const el = dom(renderPeek(m, spells, summary, { ...ALL, tagsDanger: false, spells: false }, everyIcon, VOCAB));
     expect([...el.querySelectorAll(".tag")].map((t) => t.classList.contains("mechanic"))).toEqual([true]);
-  });
-
-  it("shows nothing when every badge kind is hidden, or when there is nothing to say", () => {
-    expect(renderPeek(m, summary, { ...ALL, tagsDanger: false, tagsTip: false, tagsMechanic: false }, everyIcon, VOCAB)).toBe("");
-    expect(renderPeek(m, undefined, ALL, everyIcon, VOCAB)).toBe("");
-  });
-
-  it("says a monster is harmless when its summary has no badge", () => {
-    expect(dom(renderPeek(m, { tags: [] }, ALL, everyIcon, VOCAB)).querySelector(".empty")).not.toBeNull();
+    expect(el.querySelector(".spells")).toBeNull();
   });
 });
 

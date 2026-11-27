@@ -1,5 +1,5 @@
 import { expect, it } from "vitest";
-import { narrowed, previewRect } from "../src/previewSide";
+import { narrowed, previewRect, sideTop, widened } from "../src/previewSide";
 
 const screen = { x: 0, y: 0, width: 1920, height: 1080 };
 
@@ -32,4 +32,22 @@ it("narrows a sheet on the panel's right from its far edge", () => {
 
 it("never widens a sheet past the panel's width", () => {
   expect(narrowed({ x: 334, y: 40, width: 220, height: 500 }, 10, 260)).toEqual({ x: 334, y: 40, width: 220, height: 500 });
+});
+
+it("widens a sheet wider than the panel against the panel, and keeps it on screen", () => {
+  const screen = { x: 0, y: 0, width: 1920, height: 1080 };
+  // on the panel's left: it grows away from the panel
+  expect(widened({ x: 1266, y: 40, width: 320, height: 500 }, 1590, 420, screen)).toEqual({ x: 1166, y: 40, width: 420, height: 500 });
+  // on the right: from the panel's edge on
+  expect(widened({ x: 334, y: 40, width: 320, height: 500 }, 10, 420, screen)).toEqual({ x: 334, y: 40, width: 420, height: 500 });
+  // never off the screen
+  expect(widened({ x: 1700, y: 40, width: 220, height: 500 }, 10, 420, screen)).toEqual({ x: 1500, y: 40, width: 420, height: 500 });
+});
+
+it("keeps a preview between the panel's top and bottom, level with the row when it fits (owner, 2026-11-26)", () => {
+  const panel = { y: 100, height: 800 }, screen = { y: 0, height: 1040 };
+  expect(sideTop(400, 200, panel, screen)).toBe(400); // fits under the row
+  expect(sideTop(850, 300, panel, screen)).toBe(600); // its bottom on the panel's bottom
+  expect(sideTop(60, 200, panel, screen)).toBe(100); // its top on the panel's top
+  expect(sideTop(500, 950, panel, screen)).toBe(90); // taller than the panel: from its top, kept on screen
 });
