@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest";
 import { rangeCaption, rangeSpan } from "../src/reach";
 import { renderMonster } from "../src/render/monster";
 import { renderSpellSheet } from "../src/render/spellSheet";
-import { GRID_CAP, spellGrid } from "../src/render/spellGrid";
+import { GRID_CAP, spellGrid, zoneThumb } from "../src/render/spellGrid";
+import { zoneLabel } from "../src/render/zone";
 import type { Display, SpellEffect } from "../src/types";
 import { monster, spell } from "./fixtures";
 
@@ -123,6 +124,15 @@ describe("spell grid", () => {
     const g = read(spellGrid(frappe, "big"));
     expect(g.area).toBeGreaterThan(3);
     expect(g.labels).toEqual(["→ ∞"]);
+  });
+
+  it("says « ∞ » for an endless line from the caster, never « 63 » (review, 2026-11-27)", () => {
+    const loin = spell({ id: 17, name: "Loin", rangeMin: 1, rangeMax: 63, effects: [hit("ligne-lanceur 1 63")] });
+    expect(read(spellGrid(loin, "big")).labels).toEqual(["→ ∞", "→ ∞"]); // the range, then the line
+    expect(zoneLabel("ligne-lanceur 1 63", false)).not.toContain("63");
+    const thumb = zoneThumb("ligne-lanceur 0 63", false, 3);
+    expect(thumb).toContain(">∞</text>");
+    expect(thumb).not.toContain("Infinity");
   });
 
   it("draws a line from the caster out to its length (Souffle Incendiaire)", () => {

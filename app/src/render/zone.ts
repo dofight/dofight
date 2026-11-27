@@ -50,7 +50,11 @@ function sizeText(z: { shape: string; size: number; second: number }): string {
   if (z.shape === "cercle-inversé" || z.shape === "carré-inversé") return t("zone.from", { count: z.second || z.size });
   if (z.shape === "rectangle") return `${z.size * 2 + 1} × ${(z.second || 1) + 1}`;
   if ((z.shape === "cercle" || z.shape === "croix" || z.shape === "croix-diag") && z.second) return t("zone.between", { min: z.second, max: n });
-  if (z.shape === "ligne-lanceur") return String(Math.max(z.size, z.second));
+  // its far end, endless from 60 on as any zone (« ligne-lanceur 1 63 »: « 63 » read as a real length, review 2026-11-27)
+  if (z.shape === "ligne-lanceur") {
+    const end = Math.max(z.size, z.second);
+    return end >= UNLIMITED ? t(feminine ? "zone.unlimitedFeminine" : "zone.unlimited") : String(end);
+  }
   return n;
 }
 

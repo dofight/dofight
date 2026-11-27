@@ -113,7 +113,7 @@ export function spellGrid(sp: Spell, size: keyof typeof SIZES): string {
     label("lrg", low > R || (sp.rangeMax >= ENDLESS && low > 1) ? `${low}–${far}` : far);
   }
   if (zoneCut) label("lar", String(z!.size));
-  if (fromCaster && lineEnd > R) label("lar", String(lineEnd));
+  if (fromCaster && lineEnd > R) label("lar", lineEnd >= ENDLESS ? "∞" : String(lineEnd));
   if (whole || inverse || endlessZone) label("lar", "∞");
   const name = `${zoneLabel(zone, self)} · ${t("spell.range", { range: rangeSpan(sp) })}`;
   return `<svg class="sgrid" viewBox="${-w} ${-h} ${2 * w} ${2 * h}" width="${px}" preserveAspectRatio="xMidYMid meet" style="--edge:${Math.max(0.4, s * 0.04).toFixed(2)}px" role="img" aria-label="${esc(name)}">${plane.join("")}${cells.join("")}${labels.join("")}</svg>`;
@@ -126,7 +126,7 @@ function thumbReach(zone: string | null | undefined): number {
   const z = parseZone(zone);
   if (!z) return 0;
   if (z.shape.endsWith("-inversé")) return z.second || (z.size < ENDLESS ? z.size : 0);
-  if (z.shape === "ligne-lanceur") return Math.max(z.size, z.second);
+  if (z.shape === "ligne-lanceur") return Math.max(z.size, z.second) >= ENDLESS ? Infinity : Math.max(z.size, z.second);
   if (z.size >= ENDLESS) return Infinity;
   return z.shape === "rectangle" ? Math.max(z.size, z.second || 1) : z.size;
 }
@@ -171,7 +171,7 @@ export function zoneThumb(zone: string | null | undefined, onCaster: boolean, R:
     }
   }
   const reach = thumbReach(zone);
-  const corner = whole || endless ? "∞" : inverse ? `≥${threshold}` : reach > R ? String(reach) : "";
+  const corner = whole || endless || reach === Infinity ? "∞" : inverse ? `≥${threshold}` : reach > R ? String(reach) : "";
   const text = corner ? `<text x="${D + 3}" y="${oy}">${corner}</text>` : "";
   const plane = `<polygon class="p" points="${ox},${oy - R * s - s / 2} ${ox + 2 * R * s + s},${oy} ${ox},${oy + R * s + s / 2} ${ox - 2 * R * s - s},${oy}"/>`;
   const label = esc(zoneLabel(zone, onCaster));
