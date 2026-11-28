@@ -47,6 +47,13 @@ pub fn hidden_title_bar(game: &WindowEntry, frame: Rect, list: &[(WindowEntry, R
         .map_or(0.0, |(_, strip)| strip.3)
 }
 
+/// Whether any of `frame` is on one of `displays`. The hidden title bar of a full-screen Dofus sits just above its
+/// screen (1920×44 at y -44): transparent, except for an instant when the game takes the focus, and that instant was
+/// enough for it to be read as the game once more (owner's Mac, 2026-11-28).
+pub fn shows_on_a_display(frame: Rect, displays: &[Display]) -> bool {
+    window_scale(frame, displays, 0) != 0
+}
+
 /// Where a saved window goes back to (points): its place when enough of it would show on one of `displays` to grab it
 /// again (40 × 40 points, or all of it when smaller), otherwise none and macOS places it (a screen unplugged since).
 pub fn restored_position(saved: Rect, displays: &[Display]) -> Option<(f64, f64)> {
@@ -154,6 +161,14 @@ mod tests {
         ]);
         let got: Vec<(isize, &str)> = list.iter().map(|w| (w.id, w.title.as_str())).collect();
         assert_eq!(got, vec![(1, "Perso - Iop - 3.4 - Release"), (5, "Dofus")]);
+    }
+
+    #[test]
+    fn the_strip_above_a_full_screen_game_is_on_no_display() {
+        let displays = [MAIN_1X, LEFT_RETINA];
+        assert!(!shows_on_a_display((0.0, -44.0, 1920.0, 44.0), &displays));
+        assert!(shows_on_a_display((0.0, 0.0, 1920.0, 1080.0), &displays));
+        assert!(shows_on_a_display((-1440.0, 25.0, 1440.0, 875.0), &displays));
     }
 
     #[test]

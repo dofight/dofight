@@ -31,8 +31,9 @@ windows = { version = "0.62", features = ["Foundation", "Foundation_Collections"
 
 # macOS: AppKit (the panel, the menu bar), and later CoreGraphics, ScreenCaptureKit and Vision for the reading
 [target.'cfg(target_os = "macos")'.dependencies]
-# the overlay windows become non-activating NSPanels (platform/mac.rs): not on crates.io, so a git commit (of branch v2)
-tauri-nspanel = { git = "https://github.com/ahkohd/tauri-nspanel", rev = "18ffb9a201fbf6fedfaa382fd4b92315ea30ab1a" }
+# the overlay windows become non-activating NSPanels (platform/mac.rs); 2.1 retains the window it converts and gives
+# it back before it closes (the first one crashed on both)
+tauri-nspanel = "2.1.1"
 objc2 = "0.6"
 objc2-foundation = "0.3"
 objc2-app-kit = "0.3"
@@ -60,6 +61,7 @@ strip = true
 tauri-plugin-updater = "2"
 reqwest = { version = "0.13", default-features = false, features = ["json", "multipart"] }
 rustls = { version = "0.23", default-features = false, features = ["ring"] }
+# on macOS only its permission is used: the windows are kept in points there (platform::geometry_plugin)
 tauri-plugin-window-state = "2"
 tauri-plugin-global-shortcut = "2"
 
