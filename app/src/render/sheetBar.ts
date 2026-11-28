@@ -3,9 +3,20 @@ import { icon } from "./icons";
 
 /** The bar at the top of a pinned sheet: the only part that moves or detaches it, so everything under it, the title
  * too, can be selected and copied (owner, 2026-11-22). A hover preview is never clicked: no bar. */
-export function sheetBar(pinned: boolean): string {
+export function sheetBar(pinned: boolean, head = ""): string {
   if (!pinned) return "";
-  return `<div class="peek-bar" title="${t("peek.detach")}"><span class="grip" aria-hidden="true"></span><button type="button" class="peek-close" title="${t("peek.close")}" aria-label="${t("peek.close")}">${icon("close")}</button></div>`;
+  return `<div class="peek-bar" title="${t("peek.detach")}"><span class="grip" aria-hidden="true"></span>${head ? `<span class="bar-head">${head}</span>` : ""}<button type="button" class="peek-close" title="${t("peek.close")}" aria-label="${t("peek.close")}">${icon("close")}</button></div>`;
+}
+
+/** A pinned spell sheet's name and range, taken out of its body for its bar (owner, 2026-11-27): the sheet starts
+ * with what matters, and the bar is no longer an empty strip. In the bar they cannot be selected and copied, which
+ * the owner accepts. Any other sheet keeps its title: "". */
+export function barHead(card: Element): string {
+  if (!card.classList.contains("pop")) return "";
+  const parts = [card.querySelector(":scope > .pname"), card.querySelector(":scope > .prange")].filter((e): e is Element => !!e);
+  const html = parts.map((e) => e.outerHTML).join("");
+  parts.forEach((e) => e.remove());
+  return html;
 }
 
 /** True when a press on `target` may move the sheet: on its bar, not on its ✕. */

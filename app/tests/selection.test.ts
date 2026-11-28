@@ -3,7 +3,9 @@ import { afterEach, expect, it, vi } from "vitest";
 import { startsDrag } from "../src/drag";
 import { copyableSelection, SELECTABLE, selectionTouches, takeSelection } from "../src/selection";
 import { showToast } from "../src/render/toast";
-import { sheetBar, startsSheetDrag } from "../src/render/sheetBar";
+import { barHead, sheetBar, startsSheetDrag } from "../src/render/sheetBar";
+import { renderSpellSheet } from "../src/render/spellSheet";
+import { spell } from "./fixtures";
 import { setLang } from "../src/i18n";
 import { renderRoute } from "../src/travel";
 
@@ -131,6 +133,24 @@ it("gives a pinned sheet a bar with a grip and ✕, and a hover preview none", (
   expect(bar.querySelector(".peek-close")!.getAttribute("title")).toBe("Fermer (Échap)");
   expect(bar.getAttribute("title")).toBe("Fais glisser la fiche ou tire un de ses bords pour la détacher");
   expect(sheetBar(false)).toBe("");
+});
+
+it("puts a pinned spell sheet's name and range in its bar (owner, 2026-11-27: not copied, fine)", () => {
+    const box = mount(`<div id="peek" class="pinned">${renderSpellSheet(spell({ id: 1, name: "Braise", rangeMin: 1, rangeMax: 6 }), () => null)}</div>`);
+    const card = box.firstElementChild!;
+    const head = barHead(card);
+    card.insertAdjacentHTML("afterbegin", sheetBar(true, head));
+    const bar = card.querySelector(".peek-bar")!;
+    expect(bar.querySelector(".pname")?.textContent).toBe("Braise");
+    expect(bar.querySelector(".po")?.textContent).toBe("1–6 PO");
+    // once only: no longer under the bar
+    expect(card.querySelectorAll(".pname, .prange").length).toBe(2);
+    expect(card.querySelector(":scope > .pname, :scope > .prange")).toBeNull();
+    // the title moves the sheet like the rest of the bar; the ✕ still closes it
+    expect(startsSheetDrag(bar.querySelector(".pname")!)).toBe(true);
+    expect(bar.lastElementChild?.classList.contains("peek-close")).toBe(true);
+    // a sheet that is not a spell's keeps its title
+    expect(barHead(mount(`<div class="mob"><div class="mh">Bouftou</div></div>`))).toBe("");
 });
 
 it("moves a sheet only from its bar, never from its text or its ✕", () => {
