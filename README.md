@@ -54,9 +54,10 @@ mécanique), ses résistances et ses sorts.
    système » sur macOS 15 et plus récent), puis quitte et rouvre-le.
 3. Dans Dofus, active **« Afficher les coordonnées de la carte »** dans les options (Interface → Cartes) : Dofight lit le nom de la
    sous-zone juste au-dessus des coordonnées.
-4. Garde visible la barre d'icônes en haut à gauche du jeu, dépliée ou repliée (l'œil hors combat, le cœur en
-   combat) : c'est elle qui indique à Dofight qu'un combat commence. Rien du jeu ne doit couvrir ce coin ni les
-   coordonnées ; les autres fenêtres, Dofight compris, ne gênent pas.
+4. Garde visible la barre d'icônes en haut à gauche du jeu, dépliée ou repliée (l'œil hors combat ;
+   en combat, le cœur, ou le « + » seul si elle est repliée) : c'est elle qui indique à Dofight qu'un combat
+   commence. Rien du jeu ne doit couvrir ce coin ni les coordonnées ; les autres fenêtres, Dofight compris, ne
+   gênent pas.
 
 Lance Dofus : Dofight affiche les monstres de ta sous-zone et s'ouvre tout seul en combat. **Ctrl+Maj+D**
 (Control+Maj+D sur Mac) l'affiche ou le cache (raccourci modifiable dans les paramètres). Les mises à jour se font toutes seules.
@@ -150,9 +151,9 @@ memory, files or network traffic.
    “Open Anyway”. Then allow Dofight in System Settings → Privacy & Security → Screen Recording (“Screen & System
    Audio Recording” on macOS 15 and later), and quit and reopen it.
 3. In Dofus, turn on **“Show map coordinates”** in the options: Dofight reads the subarea name just above them.
-4. Keep the icon bar in the game's top-left corner in sight, expanded or collapsed (the eye out of combat, the
-   heart in combat): it tells Dofight when a fight starts. Nothing in the game should cover that corner or the
-   coordinates; other windows, Dofight included, don't get in the way.
+4. Keep the icon bar in the game's top-left corner in sight, expanded or collapsed (the eye out of a fight; in a
+   fight, the heart, or the + alone when collapsed): it tells Dofight when a fight starts. Nothing in the game
+   should cover that corner or the coordinates; other windows, Dofight included, don't get in the way.
 
 Start Dofus: Dofight shows your subarea's monsters and opens by itself in fights.
 **Ctrl+Shift+D** (Control+Shift+D on a Mac) shows or hides it (you can change it in the settings). Updates install themselves.
