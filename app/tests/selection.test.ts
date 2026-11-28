@@ -176,6 +176,9 @@ it("gives a pinned sheet's bar a fold button (shown once detached) before its âœ
   const css = readFileSync("src/styles.css", "utf8");
   expect(css).toContain("#peek:not(.detached) .peek-fold{display:none}");
   expect(css).toContain("#peek.folded>:not(.toast)>:not(.peek-bar){display:none}");
+  // folded, as much room above the bar as below it (owner, 2026-11-27)
+  expect(css).toContain("#peek.folded>:not(.toast){padding-block:4px}");
+  expect(css).toContain("#peek.folded .peek-bar{padding-top:0}");
 });
 
 it("moves a sheet only from its bar, never from its text or its âœ•", () => {

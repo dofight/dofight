@@ -36,12 +36,16 @@ async fn side_window(app: tauri::AppHandle) -> Result<String, String> {
     Ok(label)
 }
 
+/// The smallest a detached sheet is made by its edges: its bar and about a line of text (owner, 2026-11-27: 120 kept
+/// it far taller than its bar, now that a sheet folds to that bar).
+const DETACHED_MIN: (f64, f64) = (200.0, 64.0);
+
 /// The sheet the page names was dragged away: it may take the keyboard from now on (Escape closes it), and the
-/// player may resize it (owner, 2026-11-22), down to a size still worth reading. Beside the panel the panel sizes it.
+/// player may resize it (owner, 2026-11-22), down to DETACHED_MIN. Beside the panel the panel sizes it.
 #[tauri::command]
 fn side_detached(app: tauri::AppHandle, label: String) -> Result<(), String> {
     let side = app.get_webview_window(&label).ok_or("no such window")?;
-    side.set_min_size(Some(tauri::LogicalSize::new(200.0, 120.0))).map_err(|e| e.to_string())?;
+    side.set_min_size(Some(tauri::LogicalSize::new(DETACHED_MIN.0, DETACHED_MIN.1))).map_err(|e| e.to_string())?;
     side.set_resizable(true).map_err(|e| e.to_string())?;
     platform::detached_side(&side);
     Ok(())
@@ -54,7 +58,7 @@ fn side_fold(app: tauri::AppHandle, label: String, folded: bool, height: f64) ->
     let side = app.get_webview_window(&label).ok_or("no such window")?;
     let scale = side.scale_factor().map_err(|e| e.to_string())?;
     let width = side.inner_size().map_err(|e| e.to_string())?.to_logical::<f64>(scale).width;
-    side.set_min_size(Some(tauri::LogicalSize::new(200.0, if folded { height } else { 120.0 }))).map_err(|e| e.to_string())?;
+    side.set_min_size(Some(tauri::LogicalSize::new(DETACHED_MIN.0, if folded { height } else { DETACHED_MIN.1 }))).map_err(|e| e.to_string())?;
     side.set_max_size(if folded { Some(tauri::LogicalSize::new(10_000.0, height)) } else { None }).map_err(|e| e.to_string())?;
     side.set_size(tauri::LogicalSize::new(width, height)).map_err(|e| e.to_string())?;
     Ok(())

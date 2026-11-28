@@ -680,3 +680,7 @@ mark.hit{background:var(--gold-soft);color:inherit;border-radius:3px;box-shadow:
 #peek.folded>:not(.toast){overflow:hidden}
 /* a sheet's title in its bar (barHead): a mechanic's, « Comment y aller »'s, « Succès »'s, cut with « … » if narrow */
 .peek-bar .bar-head>b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* folded, the bar sits in the middle: as much room above as below (owner, 2026-11-27: the sheet's own bottom padding
+   left twice the room under it); peekPage.ts measures the window's height with these */
+#peek.folded>:not(.toast){padding-block:4px}
+#peek.folded .peek-bar{padding-top:0}
