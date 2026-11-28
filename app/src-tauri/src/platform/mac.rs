@@ -2,7 +2,7 @@
 //! without taking the focus from the game. The Dofus window is found with CoreGraphics' window list, captured with
 //! ScreenCaptureKit and read with Vision. Nothing is ever sent to the game.
 
-use super::{CaptureError, Display, DofusWindow, Frame, WindowEntry, WindowId, display_scale, dofus_entries, window_scale};
+use super::{CaptureError, Display, DofusWindow, Frame, WindowEntry, WindowId, display_scale, dofus_entries, hidden_title_bar, window_scale};
 use core_foundation::base::{CFType, TCFType};
 use core_foundation::boolean::CFBoolean;
 use core_foundation::dictionary::CFDictionary;
@@ -12,7 +12,7 @@ use core_graphics::event::CGEvent;
 use core_graphics::event_source::{CGEventSource, CGEventSourceStateID};
 use core_graphics::geometry::CGRect;
 use core_graphics::window::{
-    copy_window_info, kCGNullWindowID, kCGWindowBounds, kCGWindowIsOnscreen, kCGWindowLayer,
+    copy_window_info, kCGNullWindowID, kCGWindowAlpha, kCGWindowBounds, kCGWindowIsOnscreen, kCGWindowLayer,
     kCGWindowListExcludeDesktopElements, kCGWindowListOptionOnScreenOnly, kCGWindowName, kCGWindowNumber,
     kCGWindowOwnerName, kCGWindowOwnerPID,
 };
@@ -39,6 +39,7 @@ fn window_list() -> Vec<(WindowEntry, (f64, f64, f64, f64))> {
         let get = |key| dict.find(unsafe { CFString::wrap_under_get_rule(key) });
         let text = |key| get(key).and_then(|v| v.downcast::<CFString>()).map(|s| s.to_string()).unwrap_or_default();
         let int = |key| get(key).and_then(|v| v.downcast::<CFNumber>()).and_then(|n| n.to_i64()).unwrap_or(0);
+        let alpha = get(unsafe { kCGWindowAlpha }).and_then(|v| v.downcast::<CFNumber>()).and_then(|n| n.to_f64()).unwrap_or(1.0);
         let on_screen = get(unsafe { kCGWindowIsOnscreen }).and_then(|v| v.downcast::<CFBoolean>()).map(bool::from).unwrap_or(false);
         let bounds = get(unsafe { kCGWindowBounds })
             .and_then(|v| v.downcast::<CFDictionary>())
@@ -53,6 +54,7 @@ fn window_list() -> Vec<(WindowEntry, (f64, f64, f64, f64))> {
                 title: text(unsafe { kCGWindowName }),
                 layer: int(unsafe { kCGWindowLayer }) as i32,
                 on_screen,
+                alpha,
             },
             bounds,
         ));
@@ -75,10 +77,11 @@ fn frontmost_pid() -> Option<i32> {
     Some(app.processIdentifier())
 }
 
-/// The front application's front window (its first one in the list).
+/// The front application's front window (its first visible one in the list: a full-screen Dofus lists a transparent
+/// one before the game, see `dofus_entries`).
 pub fn front_window() -> Option<WindowId> {
     let pid = frontmost_pid()?;
-    window_list().into_iter().find(|(e, _)| e.pid == pid && e.layer == 0).map(|(e, _)| e.id as WindowId)
+    window_list().into_iter().find(|(e, _)| e.pid == pid && e.layer == 0 && e.alpha > 0.0).map(|(e, _)| e.id as WindowId)
 }
 
 /// Dofight itself is the front application (the player is using the panel).
@@ -185,13 +188,15 @@ fn capture_rect(id: WindowId, size: Option<(f64, f64)>) -> Result<Frame, Capture
         }
         return Err(CaptureError::Permission);
     }
-    let Some((_, frame)) = entry(id) else { return Err(CaptureError::Gone) };
+    let list = window_list();
+    let Some((game, frame)) = list.iter().find(|(e, _)| e.id as WindowId == id).cloned() else { return Err(CaptureError::Gone) };
     let (cx, cy, w, h) = content(frame);
     let (w, h) = size.map_or((w, h), |(sw, sh)| (sw.min(w), sh.min(h)));
     if w < 1.0 || h < 1.0 {
         return Err(CaptureError::Minimized);
     }
-    let (inner_x, inner_y) = (cx - frame.0, cy - frame.1); // the content inside the window (the title bar above)
+    // the content inside the window: below the title bar when windowed, below the hidden one in full screen
+    let (inner_x, inner_y) = (cx - frame.0, cy - frame.1 + hidden_title_bar(&game, frame, &list));
     let (tx, rx) = mpsc::channel::<Result<Frame, CaptureError>>();
     let window_id = id as u32;
     // the scale of the display the game is on now (it may have been dragged to another one): the reading reads it

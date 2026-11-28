@@ -12,19 +12,39 @@ pub struct WindowEntry {
     pub title: String,
     pub layer: i32,
     pub on_screen: bool,
+    /// 0 for a window that draws nothing
+    pub alpha: f64,
 }
 
 /// The game's windows among `entries` (front first, as listed): owner « Dofus », normal layer (0: not its menus or
-/// tooltips), on screen. Without the screen-recording permission macOS gives no titles: « Dofus » then.
+/// tooltips), on screen and not transparent (full screen adds one in front of the game, see the tests). Without the
+/// screen-recording permission macOS gives no titles: « Dofus » then.
 pub fn dofus_entries(entries: &[WindowEntry]) -> Vec<DofusWindow> {
     entries
         .iter()
-        .filter(|e| e.owner.eq_ignore_ascii_case("dofus") && e.layer == 0 && e.on_screen)
+        .filter(|e| e.owner.eq_ignore_ascii_case("dofus") && e.layer == 0 && e.on_screen && e.alpha > 0.0)
         .map(|e| DofusWindow {
             id: e.id as WindowId,
             title: if e.title.is_empty() { "Dofus".into() } else { e.title.clone() },
         })
         .collect()
+}
+
+/// A window's frame as the window list gives it: x, y, width, height in points, origin at the top left of the main
+/// display.
+pub type Rect = (f64, f64, f64, f64);
+
+/// How far above `frame` ScreenCaptureKit's picture of a full-screen `game` starts (points). macOS keeps the title
+/// bar of a full-screen window in a transparent window of the same app, right above the screen, and ScreenCaptureKit
+/// draws the game's window from the top of that strip: asked for the frame at (0, 0), it gave 44 black rows and the
+/// game 44 points too low, the icon bar out of the corner (owner's Mac, 1920×1080 at 1x, 2026-11-28). The strip's
+/// height, 0 without one.
+pub fn hidden_title_bar(game: &WindowEntry, frame: Rect, list: &[(WindowEntry, Rect)]) -> f64 {
+    list.iter()
+        .find(|(e, (x, y, w, h))| {
+            e.pid == game.pid && e.id != game.id && e.alpha == 0.0 && *x == frame.0 && *w == frame.2 && (y + h - frame.1).abs() < 0.5
+        })
+        .map_or(0.0, |(_, strip)| strip.3)
 }
 
 /// A frame of `pixel_w` × `pixel_h` pixels on a screen of backing `scale`, in points (one pixel per point).
@@ -78,7 +98,18 @@ mod tests {
     use super::*;
 
     fn entry(id: u32, owner: &str, title: &str, layer: i32, on_screen: bool) -> WindowEntry {
-        WindowEntry { id, pid: 7, owner: owner.into(), title: title.into(), layer, on_screen }
+        WindowEntry { id, pid: 7, owner: owner.into(), title: title.into(), layer, on_screen, alpha: 1.0 }
+    }
+
+    // Dofus in full screen on a Mac's main display lists, in front of the game, an untitled window of its own: the
+    // strip the title bar slides down from, 1920×44 above the screen (y -44) and fully transparent. It was taken
+    // for the game, its corner came back black and no zone was ever read (owner's Mac, 1x main display, 2026-11-28)
+    #[test]
+    fn an_invisible_dofus_window_is_not_the_game() {
+        let strip = WindowEntry { alpha: 0.0, ..entry(191, "Dofus", "", 0, true) };
+        let list = dofus_entries(&[strip, entry(179, "Dofus", "Perso - Forgelance - 3.7 - Release", 0, true)]);
+        let got: Vec<isize> = list.iter().map(|w| w.id).collect();
+        assert_eq!(got, vec![179]);
     }
 
     #[test]
@@ -92,6 +123,20 @@ mod tests {
         ]);
         let got: Vec<(isize, &str)> = list.iter().map(|w| (w.id, w.title.as_str())).collect();
         assert_eq!(got, vec![(1, "Perso - Iop - 3.4 - Release"), (5, "Dofus")]);
+    }
+
+    #[test]
+    fn a_full_screen_game_is_captured_from_the_top_of_its_hidden_title_bar() {
+        let game = entry(179, "Dofus", "Perso - Forgelance - 3.7 - Release", 0, true);
+        let strip = WindowEntry { alpha: 0.0, ..entry(191, "Dofus", "", 0, true) };
+        let frame = (0.0, 0.0, 1920.0, 1080.0);
+        let list = [(strip.clone(), (0.0, -44.0, 1920.0, 44.0)), (game.clone(), frame)];
+        assert_eq!(hidden_title_bar(&game, frame, &list), 44.0);
+        // windowed, or another app's strip, or a strip that is not above it: nothing
+        assert_eq!(hidden_title_bar(&game, frame, &[(game.clone(), frame)]), 0.0);
+        let other = WindowEntry { pid: 8, ..strip.clone() };
+        assert_eq!(hidden_title_bar(&game, frame, &[(other, (0.0, -44.0, 1920.0, 44.0))]), 0.0);
+        assert_eq!(hidden_title_bar(&game, frame, &[(strip, (1920.0, -44.0, 1440.0, 44.0))]), 0.0);
     }
 
     #[test]
