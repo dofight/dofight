@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_FILTER_SHORTCUT, DEFAULT_SEARCH_SHORTCUT, DEFAULT_SHORTCUT, fromKeyEvent, matchesShortcut, shortcutLabel } from "../src/shortcut";
 
-const key = (code: string, mods: Partial<{ ctrlKey: boolean; altKey: boolean; shiftKey: boolean }> = {}) => ({
+const key = (code: string, mods: Partial<{ ctrlKey: boolean; altKey: boolean; shiftKey: boolean; metaKey: boolean }> = {}) => ({
   code, ctrlKey: false, altKey: false, shiftKey: false, metaKey: false, ...mods,
 });
 
@@ -50,4 +50,38 @@ describe("search and filter shortcuts (owner, 2026-11-25)", () => {
 
 it("matches a real KeyboardEvent, whose fields are getters (owner's Ctrl+F, 2026-11-25)", () => {
   expect(matchesShortcut(new KeyboardEvent("keydown", { code: "KeyF", ctrlKey: true }), "Ctrl+KeyF")).toBe(true);
+});
+
+// Cmd was never written down: a Mac player could not choose a shortcut with Cmd, and Cmd with a key alone was refused
+// as plain typing (owner, 2026-11-28). It is « Super », the global shortcut's name for it; Ctrl+Shift+D stays the
+// default (owner, 2026-11-28).
+describe("Cmd on a Mac", () => {
+  it("is recorded, alone or with others, and named Cmd", async () => {
+    const { setPlatform } = await import("../src/i18n");
+    setPlatform("macos");
+    try {
+      expect(fromKeyEvent(key("KeyD", { metaKey: true, shiftKey: true }))).toBe("Super+Shift+KeyD");
+      expect(fromKeyEvent(key("KeyD", { metaKey: true }))).toBe("Super+KeyD");
+      expect(fromKeyEvent(key("KeyD", { metaKey: true, ctrlKey: true }))).toBe("Super+Ctrl+KeyD");
+      expect(shortcutLabel("Super+Shift+KeyD")).toBe("Cmd + Maj + D");
+      expect(DEFAULT_SHORTCUT).toBe("Ctrl+Shift+KeyD");
+    } finally {
+      setPlatform("windows");
+    }
+  });
+  it("matches a shortcut recorded with it, and still stands for Ctrl", async () => {
+    const { setPlatform } = await import("../src/i18n");
+    setPlatform("macos");
+    try {
+      expect(matchesShortcut(key("KeyK", { metaKey: true }), "Super+KeyK")).toBe(true);
+      expect(matchesShortcut(key("KeyF", { metaKey: true }), "Ctrl+KeyF")).toBe(true);
+      expect(matchesShortcut(key("KeyF", { ctrlKey: true }), "Super+KeyF")).toBe(false);
+    } finally {
+      setPlatform("windows");
+    }
+  });
+  it("leaves the Windows key out on Windows, as before", () => {
+    expect(fromKeyEvent(key("KeyD", { metaKey: true }))).toBeNull();
+    expect(fromKeyEvent(key("KeyD", { metaKey: true, ctrlKey: true }))).toBe("Ctrl+KeyD");
+  });
 });
