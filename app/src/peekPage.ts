@@ -7,7 +7,7 @@ import { barHead, measureBarWidth, overlayScrollbar, sheetBar, sheetHeight, star
 import { showToast } from "./render/toast";
 import { sheetCopied, sheetCopy } from "./render/accessSheet";
 import { KEY, loadSettings } from "./settings";
-import { applyTextSize, applyTheme, applyViewHeight, drawnScale } from "./theme";
+import { applyTextSize, applyTheme, applyViewHeight, drawnScale, pagePx } from "./theme";
 import { resizedByPlayer } from "./sides";
 import { scrollbarsWhileScrolling } from "./scrollbars";
 
@@ -31,7 +31,7 @@ const syncTheme = () => {
 };
 syncTheme();
 window.addEventListener("storage", (e) => e.key === KEY && syncTheme());
-// the most a sheet may take, in the zoomed page's pixels, follows the window (theme.ts viewHeight)
+// the most a sheet may take, in the zoomed page's pixels, follows the window (theme.ts pagePx)
 window.addEventListener("resize", () => applyViewHeight(document.documentElement, innerHeight));
 
 // a pinned mechanic's sheet links to its guide: the panel opens it (this window only sends events)
@@ -155,7 +155,7 @@ void listen<{ command: string; ok: boolean; to: string }>("peek:copied", ({ payl
   if (payload.to === label) sheetCopied(document, payload.command, payload.ok);
 });
 
-void listen<{ token: number; html: string; pinned?: boolean; width?: number; to: string }>("peek:render", ({ payload }) => {
+void listen<{ token: number; html: string; pinned?: boolean; width?: number; fit?: number; to: string }>("peek:render", ({ payload }) => {
   if (payload.to !== label || detached) return;
   placedSize = null; // the panel sizes it again: not the player
   const box = document.getElementById("peek")!;
@@ -164,7 +164,10 @@ void listen<{ token: number; html: string; pinned?: boolean; width?: number; to:
   box.innerHTML = payload.html;
   // a sheet with its own width (« Succès » narrower than the panel, a spell's wider): laid out at that width now, so the height measured below is
   // the one it will have once the panel narrows this window
-  box.style.width = payload.width ? `${payload.width}px` : "";
+  // any other sheet at the width the panel will give its window (`fit`, logical pixels, over the zoom like --view-h):
+  // laid out at the width the last sheet left, it was measured too short (owner, 2026-11-28)
+  const fit = payload.fit ? pagePx(payload.fit, Number(document.documentElement.style.getPropertyValue("--zoom")) || 1) : 0;
+  box.style.width = payload.width ? `${payload.width}px` : fit ? `${fit}px` : "";
   // inside the sheet's own box (its border), above its title; a spell's name and range go in the bar itself
   const head = payload.pinned && box.firstElementChild ? barHead(box.firstElementChild) : "";
   (box.firstElementChild ?? box).insertAdjacentHTML("afterbegin", sheetBar(!!payload.pinned, head));

@@ -443,7 +443,7 @@ it("quits at once on the × of the title bar, with no confirmation", async () =>
   expect(document.getElementById("quit-confirm")).toBeNull();
 });
 
-it("pins a mechanic's sheet on a click, with its guide link; a second click or Escape closes it", () => {
+it("pins a mechanic's sheet on a click, with its guide link; a second click or Escape closes it", async () => {
   if (!document.getElementById("view-settings")!.hidden) (document.getElementById("back") as HTMLButtonElement).click();
   const q = document.getElementById("q") as HTMLInputElement;
   q.value = "Torkélonia";
@@ -456,8 +456,14 @@ it("pins a mechanic's sheet on a click, with its guide link; a second click or E
   vi.runAllTimers();
   vi.useRealTimers();
   expect(chip.getAttribute("aria-expanded")).toBe("true");
-  const sheet = emitted.filter((e) => e.event === "peek:render").at(-1)!;
+  // sent once the width of the window it goes beside is known (the sheet is laid out at it)
+  const sheet = await vi.waitFor(() => {
+    const r = emitted.filter((e) => e.event === "peek:render").at(-1);
+    expect(r).toBeDefined();
+    return r!;
+  });
   expect(sheet.payload.html).toContain('class="guide"');
+  expect(sheet.payload.fit).toBe(320);
   chip.click();
   expect(chip.getAttribute("aria-expanded")).toBe("false");
   chip.click();
@@ -818,7 +824,11 @@ it("a pinned sheet dragged away stays, and the next sheet goes to a new side win
   const access = await vi.waitFor(() => document.querySelector<HTMLElement>("#room .access")!);
   emitted.length = 0;
   access.click();
-  const render = await vi.waitFor(() => emitted.find((e) => e.event === "peek:render")!);
+  const render = await vi.waitFor(() => {
+    const r = emitted.find((e) => e.event === "peek:render");
+    expect(r).toBeDefined();
+    return r!;
+  });
   expect(render.payload).toMatchObject({ pinned: true, to: "peek" });
   await handler("peek:size")({ payload: { token: render.payload.token, height: 300, label: "peek" } });
   // a pinned sheet is shown resizable (its edges detach it, owner 2026-11-24), then told it is placed: from then on a

@@ -85,19 +85,20 @@ export function applyTextSize(root: HTMLElement, size: number): void {
   root.style.setProperty("--zoom", String(size / 100));
 }
 
-/** The window's height in the zoomed page's own CSS pixels: the most a sheet may take before it scrolls inside
- * (styles.css `--view-h`). `100vh / zoom` held on Windows only: WebKit's `100vh` is already in the zoomed page's
+/** A length of the window (logical pixels) in the zoomed page's own CSS pixels: its height is the most a sheet may
+ * take before it scrolls inside (styles.css `--view-h`), its width the one a sheet is laid out at (peekPage.ts).
+ * `100vh / zoom` held on Windows only: WebKit's `100vh` is already in the zoomed page's
  * pixels, so the Mac divided by the zoom twice, and at 110 % a pinned sheet was capped 34 px short of its window, its
  * last line scrolled away (owner's Mac, 2026-11-28: a 408-point window, its sheet capped at 337 × 1.1). The window's
  * `innerHeight` is the same in both engines. */
-export function viewHeight(windowHeight: number, zoom: number): number {
-  return windowHeight / (zoom > 0 ? zoom : 1);
+export function pagePx(windowPx: number, zoom: number): number {
+  return windowPx / (zoom > 0 ? zoom : 1);
 }
 
 /** Sets `--view-h` on `root` for the window it is in now; again after a resize or a text size change. */
 export function applyViewHeight(root: HTMLElement, windowHeight: number): void {
   const zoom = Number(root.style.getPropertyValue("--zoom")) || 1;
-  root.style.setProperty("--view-h", `${viewHeight(windowHeight, zoom)}px`);
+  root.style.setProperty("--view-h", `${pagePx(windowHeight, zoom)}px`);
 }
 
 /** What a getBoundingClientRect length is multiplied by to be in the window's own pixels, under that zoom. The two

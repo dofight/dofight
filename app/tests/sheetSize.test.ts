@@ -22,7 +22,7 @@ it("keeps a sheet no taller than the screen (it scrolls inside), and never a fra
 
 it("lets a sheet scroll inside its window, and a detached one fill the window the player sized", () => {
   const css = readFileSync("src/styles.css", "utf8");
-  // the window's height in the zoomed page's pixels, set by the page (theme.ts viewHeight); 100vh / zoom until then
+  // the window's height in the zoomed page's pixels, set by the page (theme.ts pagePx); 100vh / zoom until then
   expect(css).toContain("#peek>:not(.toast){max-height:var(--view-h,calc(100vh / var(--zoom,1)));overflow-y:auto;overflow-x:hidden;box-sizing:border-box}");
   // a detached sheet is held by the window's edges, not sized from vh: the Mac cut its bottom border (owner, 2026-11-26)
   expect(css).toMatch(/#peek\.detached>:not\(\.toast\)\{position:fixed;inset:0;max-height:none;/);
@@ -111,10 +111,10 @@ it("starts a detached sheet's bar at its top, where it sticks, so it never moves
 // 110 % a pinned sheet in a 408-point window was capped at 337 px (371 drawn), its last line scrolled away (owner's
 // Mac, 2026-11-28). The cap is the window's height over the zoom, from the window itself.
 it("caps a sheet at its window's height in the zoomed page's pixels, whatever the engine", async () => {
-  const { viewHeight, applyViewHeight } = await import("../src/theme");
-  expect(viewHeight(408, 1.1)).toBeCloseTo(370.909, 3);
-  expect(viewHeight(408, 1)).toBe(408);
-  expect(viewHeight(408, 0)).toBe(408);
+  const { pagePx, applyViewHeight } = await import("../src/theme");
+  expect(pagePx(408, 1.1)).toBeCloseTo(370.909, 3);
+  expect(pagePx(408, 1)).toBe(408);
+  expect(pagePx(408, 0)).toBe(408);
   const root = document.createElement("html");
   root.style.setProperty("--zoom", "1.1");
   applyViewHeight(root, 408);

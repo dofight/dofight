@@ -913,7 +913,15 @@ function toSide(payload: { token: number; html: string; pinned?: boolean; width?
     sideWaiting = payload;
     return;
   }
-  void emit("peek:render", { ...payload, to: sideLabel });
+  // the width its window will be given, the window it sits beside's (logical pixels): a sheet without a width of its
+  // own was laid out at the window's width left from the last sheet, a spell's wider one, measured too short, and cut
+  // once the window narrowed (owner, 2026-11-28: Rage d'Hell Mina, hovered after a spell, the first time only)
+  const base = peekAnchor?.base ?? win;
+  const to = sideLabel;
+  void Promise.all([base.innerSize(), base.scaleFactor()])
+    .then(([size, scale]) => size.width / scale)
+    .catch(() => undefined)
+    .then((fit) => emit("peek:render", { ...payload, fit, to }));
 }
 void listen<{ label: string }>("peek:ready", ({ payload }) => {
   readySides.add(payload.label);
