@@ -2,7 +2,10 @@
 //! without taking the focus from the game. The Dofus window is found with CoreGraphics' window list, captured with
 //! ScreenCaptureKit and read with Vision. Nothing is ever sent to the game.
 
-use super::{CaptureError, Display, DofusWindow, Frame, WindowEntry, WindowId, display_scale, dofus_entries, hidden_title_bar, window_scale};
+use super::{
+    CaptureError, Display, DofusWindow, Frame, Rect, WindowEntry, WindowId, display_scale, dofus_entries, hidden_title_bar,
+    migrated, restored_position, window_scale,
+};
 use core_foundation::base::{CFType, TCFType};
 use core_foundation::boolean::CFBoolean;
 use core_foundation::dictionary::CFDictionary;
@@ -405,6 +408,119 @@ pub fn recognize(_engine: &OcrEngine, bgra: &[u8], width: u32, height: u32) -> R
         out.push(OcrLine { text: best.string().to_string(), x, y, w, h });
     }
     Ok(out)
+}
+
+/// Each window's place and size, kept in points. tauri-plugin-window-state keeps pixels, each at the scale of the
+/// screen the window was on, and gives them back at the scale of the screen macOS makes the window on (the one holding
+/// the active window at launch): with a Retina screen beside a 1x one, the panel came back at half its size and below
+/// its minimum width, its page cut (owner's Mac, 2026-11-28). Points are the Mac's one space for every screen.
+#[derive(serde::Serialize, serde::Deserialize, Clone, Copy)]
+struct Placed {
+    x: f64,
+    y: f64,
+    width: f64,
+    height: f64,
+}
+
+const GEOMETRY_FILE: &str = ".window-geometry.json";
+/// What the plugin wrote: read once, to keep the places players had.
+const OLD_GEOMETRY_FILE: &str = ".window-state.json";
+/// Never put back: the dev builds' overlay covers its screen, sized at each launch.
+const NOT_KEPT: &[&str] = &["debug"];
+
+static GEOMETRY: std::sync::Mutex<Option<std::collections::HashMap<String, Placed>>> = std::sync::Mutex::new(None);
+
+fn load_geometry(app: &tauri::AppHandle) -> std::collections::HashMap<String, Placed> {
+    let Ok(dir) = app.path().app_config_dir() else { return Default::default() };
+    if let Some(kept) = std::fs::read_to_string(dir.join(GEOMETRY_FILE)).ok().and_then(|t| serde_json::from_str(&t).ok()) {
+        return kept;
+    }
+    // the plugin's pixels, each back in points at the scale that puts it on a screen
+    let Some(old) = std::fs::read_to_string(dir.join(OLD_GEOMETRY_FILE))
+        .ok()
+        .and_then(|t| serde_json::from_str::<std::collections::HashMap<String, serde_json::Value>>(&t).ok())
+    else {
+        return Default::default();
+    };
+    let screens = displays();
+    let field = |v: &serde_json::Value, k: &str| v.get(k).and_then(serde_json::Value::as_f64);
+    old.into_iter()
+        .filter(|(label, _)| !NOT_KEPT.contains(&label.as_str()))
+        .filter_map(|(label, v)| {
+            let saved = (field(&v, "x")?, field(&v, "y")?, field(&v, "width")?, field(&v, "height")?);
+            let (x, y, width, height) = migrated(saved, &screens)?;
+            Some((label, Placed { x, y, width, height }))
+        })
+        .collect()
+}
+
+/// The window's outer top left and inner size, in points: each read at the window's own scale, so exact.
+fn placed(window: &tauri::Window) -> Option<Placed> {
+    if NOT_KEPT.contains(&window.label()) || window.is_minimized().unwrap_or(false) {
+        return None;
+    }
+    let scale = window.scale_factor().ok()?;
+    let at = window.outer_position().ok()?.to_logical::<f64>(scale);
+    let size = window.inner_size().ok()?.to_logical::<f64>(scale);
+    (size.width > 0.0 && size.height > 0.0).then_some(Placed { x: at.x, y: at.y, width: size.width, height: size.height })
+}
+
+fn remember(window: &tauri::Window) {
+    let Some(p) = placed(window) else { return };
+    if let Ok(mut kept) = GEOMETRY.lock() {
+        kept.get_or_insert_default().insert(window.label().to_string(), p);
+    }
+}
+
+/// Every window's place now, written to disk (the page asks after a move or a resize, a killed Dofight never exits).
+pub fn save_geometry(app: &tauri::AppHandle) {
+    for window in app.webview_windows().values() {
+        remember(&window.as_ref().window());
+    }
+    let Some(kept) = GEOMETRY.lock().ok().and_then(|k| k.clone()) else { return };
+    let Ok(dir) = app.path().app_config_dir() else { return };
+    let _ = std::fs::create_dir_all(&dir);
+    if let Ok(json) = serde_json::to_vec_pretty(&kept) {
+        let _ = std::fs::write(dir.join(GEOMETRY_FILE), json);
+    }
+}
+
+/// Puts each window back where it was, in points, as it is made; keeps up with its moves and resizes, and writes them
+/// at exit. Its place only while enough of it would show on a screen (`restored_position`).
+pub fn geometry_plugin() -> tauri::plugin::TauriPlugin<tauri::Wry> {
+    tauri::plugin::Builder::new("geometry")
+        .setup(|app, _| {
+            let kept = load_geometry(app);
+            if let Ok(mut g) = GEOMETRY.lock() {
+                *g = Some(kept);
+            }
+            Ok(())
+        })
+        .on_window_ready(|window| {
+            if NOT_KEPT.contains(&window.label()) {
+                return;
+            }
+            let saved = GEOMETRY.lock().ok().and_then(|k| k.as_ref()?.get(window.label()).copied());
+            if let Some(p) = saved {
+                let _ = window.set_size(tauri::LogicalSize::new(p.width, p.height));
+                let rect: Rect = (p.x, p.y, p.width, p.height);
+                if let Some((x, y)) = restored_position(rect, &displays()) {
+                    let _ = window.set_position(tauri::LogicalPosition::new(x, y));
+                }
+            }
+            let w = window.clone();
+            window.on_window_event(move |e| {
+                if matches!(e, tauri::WindowEvent::Moved(_) | tauri::WindowEvent::Resized(_) | tauri::WindowEvent::CloseRequested { .. }) {
+                    remember(&w);
+                }
+            });
+        })
+        .on_event(|app, e| {
+            if let tauri::RunEvent::Exit = e {
+                save_geometry(app);
+            }
+        })
+        .build()
 }
 
 /// The panel's AppKit window, on the main thread only.

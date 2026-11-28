@@ -215,7 +215,7 @@ it("asks for the width at which a pinned sheet's title shows whole", async () =>
   // a short title: under the sheet's width, the panel keeps its own (it only widens)
   expect(barWidthNeeded(300, 220, 120)).toBe(200);
   const main = readFileSync("src/main.ts", "utf8");
-  expect(main).toContain("if (w > side.width) side = widened(side, pos.x, w, screen);");
+  expect(main).toContain("if (w > side.width) side = widened(side, base.x, w, screen);");
 });
 
 it("draws every sheet's title in its bar alike: yellow, 14 px, bold", () => {

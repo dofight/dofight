@@ -32,6 +32,7 @@ vi.mock("@tauri-apps/api/window", () => {
     getCurrentWindow: () => win, currentMonitor: vi.fn(async () => monitor), LogicalSize: class {}, LogicalPosition: class {}, PhysicalSize: class {}, PhysicalPosition: class {},
     // the panel asks where the pointer is, macOS telling an unfocused window nothing (main.ts): far away, so no preview
     cursorPosition: vi.fn(async () => ({ x: -1, y: -1 })),
+    primaryMonitor: vi.fn(async () => null),
     Window: { getByLabel: vi.fn(async () => win) },
   };
 });

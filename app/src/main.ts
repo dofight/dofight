@@ -17,7 +17,8 @@ import { lineName, nameIndex, readGroups } from "./screen/songe";
 import { inDream } from "./screen/dream";
 import { initialStatus, statusText, statusWarns, steadyStatus, type StatusKind } from "./screen/status";
 import type { OcrLine } from "./screen/ocr";
-import { currentMonitor, cursorPosition, getCurrentWindow, LogicalPosition, LogicalSize, PhysicalPosition, PhysicalSize, Window } from "@tauri-apps/api/window";
+import { currentMonitor, cursorPosition, getCurrentWindow, LogicalPosition, LogicalSize, primaryMonitor, Window } from "@tauri-apps/api/window";
+import { pointerInPage, rectInUnits, toUnits, unitPosition, unitSize, unitsPerPx } from "./screenUnits";
 import { GAP, narrowed, previewRect, sideHeight, sideTop, widened } from "./previewSide";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import logo from "./assets/icon-app.png";
@@ -698,19 +699,17 @@ window.addEventListener("blur", () => {
 const POINTER_WATCH = 120; // ms between two looks
 window.setInterval(() => {
   if (pinned || (!settings.hoverPeek && !peekShown)) return;
-  void Promise.all([cursorPosition(), win.innerPosition(), win.innerSize(), win.scaleFactor()])
-    .then(([pointer, origin, size, scale]) => {
-      const inside =
-        pointer.x >= origin.x && pointer.x < origin.x + size.width && pointer.y >= origin.y && pointer.y < origin.y + size.height;
-      if (!inside) {
+  void Promise.all([cursorPosition(), primaryMonitor(), win.innerPosition(), win.innerSize(), win.scaleFactor()])
+    .then(([pointer, main, origin, size, scale]) => {
+      // the pointer is measured at the main display's scale, the panel at its own screen's (screenUnits.ts)
+      const at = pointerInPage(pointer, main?.scaleFactor ?? scale, origin, size, scale);
+      if (!at) {
         // a preview from the settings' example window is that window's: the pointer is on it, not on the panel, and
         // it says itself when the pointer leaves (owner, 2026-11-25: it closed the instant it showed)
         if (peekShown && !pinned && !exampleShown) hidePeek();
         return;
       }
-      // the page's own coordinates: physical pixels from the content's corner, back to CSS ones
-      const x = (pointer.x - origin.x) / scale;
-      const y = (pointer.y - origin.y) / scale;
+      const { x, y } = at;
       const under = document.elementFromPoint(x, y);
       // only ever used to show something: were the two coordinate systems ever to disagree, the real pointer events
       // keep working as they always did instead of this hiding what they just opened (owner, 2026-11-20)
@@ -859,22 +858,23 @@ async function placePreview(render = true): Promise<void> {
   // invisible resize border Windows gives it, which made the example wider than the panel
   const pos = await win.innerPosition();
   const size = await win.innerSize();
-  const r = previewRect(
-    { x: pos.x, y: pos.y, width: size.width, height: size.height },
+  // the panel and its monitor in the same screen units (pixels on Windows, points on a Mac: see screenUnits.ts)
+  const panel = rectInUnits({ x: pos.x, y: pos.y, width: size.width, height: size.height }, await win.scaleFactor());
+  const screen = rectInUnits(
     { x: monitor.position.x, y: monitor.position.y, width: monitor.size.width, height: monitor.size.height },
-    Math.round(GAP * monitor.scaleFactor),
+    monitor.scaleFactor,
   );
+  const gap = Math.round(GAP * unitsPerPx(monitor.scaleFactor));
+  const r = previewRect(panel, screen, gap);
   if (touring) {
     // the guide's window never covers the panel (its « Suivant »): as wide as the room beside it, 240 at least
-    const gap = Math.round(GAP * monitor.scaleFactor);
-    const room = Math.max(pos.x - monitor.position.x, monitor.position.x + monitor.size.width - (pos.x + size.width)) - gap;
-    r.width = Math.min(r.width, Math.max(Math.round(240 * monitor.scaleFactor), room));
-    if (r.x > pos.x) r.x = pos.x + size.width + gap;
-    else r.x = pos.x - gap - r.width;
+    const room = Math.max(panel.x - screen.x, screen.x + screen.width - (panel.x + panel.width)) - gap;
+    r.width = Math.min(r.width, Math.max(Math.round(240 * unitsPerPx(monitor.scaleFactor)), room));
+    if (r.x > panel.x) r.x = panel.x + panel.width + gap;
+    else r.x = panel.x - gap - r.width;
   }
-  // positions, sizes and the monitor are physical pixels: stay in physical units (mixed-DPI setups)
-  await preview.setSize(new PhysicalSize(r.width, r.height));
-  await preview.setPosition(new PhysicalPosition(r.x, r.y));
+  await preview.setSize(unitSize(r.width, r.height));
+  await preview.setPosition(unitPosition(r.x, r.y));
   await preview.show(); // no focus
   if (render) {
     if (touring) showGuideStep();
@@ -989,41 +989,48 @@ void listen<{ token: number; height: number; width?: number; minWidth?: number; 
   const peek = await Window.getByLabel(sideLabel);
   const monitor = await currentMonitor();
   if (!peek || !monitor) return;
+  // everything in the same screen units (pixels on Windows, points on a Mac: see screenUnits.ts); the sheet's own
+  // measures are CSS pixels of the window it sits beside
   const scale = await anchor.base.scaleFactor();
-  const pos = await anchor.base.innerPosition();
-  const size = await anchor.base.innerSize();
+  const at = await anchor.base.innerPosition();
+  const inner = await anchor.base.innerSize();
+  const base = rectInUnits({ x: at.x, y: at.y, width: inner.width, height: inner.height }, scale);
+  const px = unitsPerPx(scale);
   // the screen without its taskbar or dock (Tauri's work area): a tall card placed against the screen's edge ended
   // under the taskbar (review, 2026-11-26)
   const area = monitor.workArea ?? { position: monitor.position, size: monitor.size };
-  const screen = { x: area.position.x, y: area.position.y, width: area.size.width, height: area.size.height };
-  const gap = Math.round(GAP * scale);
-  let side = previewRect({ x: pos.x, y: pos.y, width: size.width, height: size.height }, screen, gap);
+  const screen = rectInUnits(
+    { x: area.position.x, y: area.position.y, width: area.size.width, height: area.size.height },
+    monitor.scaleFactor,
+  );
+  const gap = Math.round(GAP * px);
+  let side = previewRect(base, screen, gap);
   if (anchor.base !== win) {
     // beside the example window, on the side away from the panel (kept on screen)
-    const panel = await win.innerPosition();
-    const x = panel.x < pos.x ? pos.x + size.width + gap : pos.x - size.width - gap;
-    side = { ...side, x: Math.min(Math.max(x, screen.x), screen.x + screen.width - size.width) };
+    const panelX = toUnits((await win.innerPosition()).x, await win.scaleFactor());
+    const x = panelX < base.x ? base.x + base.width + gap : base.x - base.width - gap;
+    side = { ...side, x: Math.min(Math.max(x, screen.x), screen.x + screen.width - base.width) };
   }
   // a sheet with its own width, as it measured itself, text size included: « Succès » narrower than the panel, a
   // spell's sheet (its drawing) wider
   if (payload.width) {
-    const w = Math.ceil(payload.width * scale);
-    side = w > side.width ? widened(side, pos.x, w, screen) : narrowed(side, pos.x, w);
+    const w = Math.ceil(payload.width * px);
+    side = w > side.width ? widened(side, base.x, w, screen) : narrowed(side, base.x, w);
   }
   // a pinned sheet's bar shows its whole title beside the grip and the ✕: wider if it needs, never narrower
   // (owner, 2026-11-27)
   if (payload.minWidth) {
-    const w = Math.ceil(payload.minWidth * scale);
-    if (w > side.width) side = widened(side, pos.x, w, screen);
+    const w = Math.ceil(payload.minWidth * px);
+    if (w > side.width) side = widened(side, base.x, w, screen);
   }
-  const height = sideHeight(payload.height, scale, screen.height);
-  const top = pos.y + Math.round(anchor.top * drawnScale(document) * scale); // the row's top, in this window's pixels
+  const height = sideHeight(payload.height, px, screen.height);
+  const top = base.y + Math.round(anchor.top * drawnScale(document) * px); // the row's top, in screen units
   // between the panel's top and bottom (or the example window's), level with the row when it fits
-  const y = sideTop(top, height, { y: pos.y, height: size.height }, screen);
+  const y = sideTop(top, height, base, screen);
   if (payload.token !== peekToken) return;
   peekShown = true; // from here a hidePeek() hides it, even while it is being placed
-  await peek.setSize(new PhysicalSize(side.width, height));
-  await peek.setPosition(new PhysicalPosition(side.x, y));
+  await peek.setSize(unitSize(side.width, height));
+  await peek.setPosition(unitPosition(side.x, y));
   if (payload.token !== peekToken) return; // hidden meanwhile (the pointer left, the list was drawn again)
   // never Tauri's show(): it would make the sheet the key window. A pinned sheet can be resized by its edges, which
   // detaches it (owner, 2026-11-24); a hover preview cannot (the pointer only passes over it)

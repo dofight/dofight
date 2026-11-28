@@ -47,6 +47,37 @@ pub fn hidden_title_bar(game: &WindowEntry, frame: Rect, list: &[(WindowEntry, R
         .map_or(0.0, |(_, strip)| strip.3)
 }
 
+/// Where a saved window goes back to (points): its place when enough of it would show on one of `displays` to grab it
+/// again (40 × 40 points, or all of it when smaller), otherwise none and macOS places it (a screen unplugged since).
+pub fn restored_position(saved: Rect, displays: &[Display]) -> Option<(f64, f64)> {
+    let (x, y, w, h) = saved;
+    let need = (w.min(40.0), h.min(40.0));
+    displays
+        .iter()
+        .any(|&((dx, dy, dw, dh), _)| {
+            let ow = (x + w).min(dx + dw) - x.max(dx);
+            let oh = (y + h).min(dy + dh) - y.max(dy);
+            ow >= need.0 && oh >= need.1
+        })
+        .then_some((x, y))
+}
+
+/// A window saved by tauri-plugin-window-state (pixels, `(x, y, width, height)`), in points. The plugin wrote each
+/// value at the scale of the screen the window was on, which the file does not say: the scale kept is the one whose
+/// display holds the window once divided by it (a Retina-only Mac: 2, the window lands on its own screen; a 1x
+/// screen: 1). None when no scale fits.
+pub fn migrated(saved: Rect, displays: &[Display]) -> Option<Rect> {
+    let (x, y, w, h) = saved;
+    let mut scales: Vec<u32> = displays.iter().map(|&(_, s)| s).collect();
+    scales.sort_unstable_by(|a, b| b.cmp(a));
+    scales.dedup();
+    scales.into_iter().find_map(|s| {
+        let f = s as f64;
+        let rect = (x / f, y / f, w / f, h / f);
+        (window_scale(rect, displays, 0) == s).then_some(rect)
+    })
+}
+
 /// A frame of `pixel_w` × `pixel_h` pixels on a screen of backing `scale`, in points (one pixel per point).
 pub fn frame_size_in_points(pixel_w: u32, pixel_h: u32, scale: f64) -> (u32, u32) {
     let scale = if scale > 0.0 { scale } else { 1.0 };
@@ -137,6 +168,37 @@ mod tests {
         let other = WindowEntry { pid: 8, ..strip.clone() };
         assert_eq!(hidden_title_bar(&game, frame, &[(other, (0.0, -44.0, 1920.0, 44.0))]), 0.0);
         assert_eq!(hidden_title_bar(&game, frame, &[(strip, (1920.0, -44.0, 1440.0, 44.0))]), 0.0);
+    }
+
+    // the owner's Mac: a 1x VG248 as main display, the MacBook's Retina screen on its left
+    const MAIN_1X: Display = ((0.0, 0.0, 1920.0, 1080.0), 1);
+    const LEFT_RETINA: Display = ((-1440.0, 0.0, 1440.0, 900.0), 2);
+
+    #[test]
+    fn a_window_comes_back_where_it_was_while_its_screen_is_there() {
+        let displays = [MAIN_1X, LEFT_RETINA];
+        assert_eq!(restored_position((839.0, 79.0, 240.0, 348.0), &displays), Some((839.0, 79.0)));
+        assert_eq!(restored_position((-1300.0, 50.0, 240.0, 600.0), &displays), Some((-1300.0, 50.0)));
+        // its screen unplugged: macOS places it
+        assert_eq!(restored_position((-1300.0, 50.0, 240.0, 600.0), &[MAIN_1X]), None);
+        // a sliver left on screen is not enough to grab it again
+        assert_eq!(restored_position((1900.0, 79.0, 240.0, 348.0), &[MAIN_1X]), None);
+    }
+
+    // tauri-plugin-window-state saved pixels at the scale of the screen the window was on, and restored them at the
+    // scale of the screen macOS made it on: the panel saved as 307×814 at (1609, 109) on the 1x screen came back at
+    // 154×407 at (804, 55), made on the Retina one (owner's Mac, 2026-11-28)
+    #[test]
+    fn an_old_saved_place_is_read_back_in_points() {
+        // a Retina-only Mac: everything was saved at 2
+        let built_in = ((0.0, 0.0, 1512.0, 982.0), 2);
+        assert_eq!(migrated((2400.0, 80.0, 680.0, 1800.0), &[built_in]), Some((1200.0, 40.0, 340.0, 900.0)));
+        // a 1x screen only: as saved
+        assert_eq!(migrated((839.0, 79.0, 240.0, 348.0), &[MAIN_1X]), Some((839.0, 79.0, 240.0, 348.0)));
+        // on the Retina screen of a mixed Mac
+        assert_eq!(migrated((-2600.0, 100.0, 480.0, 1200.0), &[MAIN_1X, LEFT_RETINA]), Some((-1300.0, 50.0, 240.0, 600.0)));
+        // on no screen at any scale
+        assert_eq!(migrated((90000.0, 0.0, 240.0, 348.0), &[MAIN_1X, LEFT_RETINA]), None);
     }
 
     #[test]

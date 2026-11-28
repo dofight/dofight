@@ -9,6 +9,7 @@ pub mod selfupdate;
 
 use tauri::{Emitter, Manager};
 use tauri_plugin_global_shortcut::{GlobalShortcutExt, ShortcutState};
+#[cfg(not(target_os = "macos"))]
 use tauri_plugin_window_state::StateFlags;
 
 /// The player's shortcut (default Ctrl+Shift+D) shows or hides the overlay from anywhere. Dofight only listens to
@@ -147,9 +148,14 @@ fn open_log_folder(app: tauri::AppHandle) -> Result<(), String> {
 /// was moved or resized (owner, 2026-11-20).
 #[tauri::command]
 fn save_geometry(app: tauri::AppHandle) {
+    #[cfg(not(target_os = "macos"))]
     use tauri_plugin_window_state::AppHandleExt;
     let handle = app.clone();
     let _ = app.run_on_main_thread(move || {
+        // macOS keeps points, not the plugin's pixels (platform::geometry_plugin)
+        #[cfg(target_os = "macos")]
+        platform::save_geometry(&handle);
+        #[cfg(not(target_os = "macos"))]
         let _ = handle.save_window_state(StateFlags::all() & !StateFlags::VISIBLE);
     });
 }
@@ -311,6 +317,16 @@ pub fn run() {
     // macOS: lets platform/mac.rs turn the overlay windows into non-activating NSPanels
     #[cfg(target_os = "macos")]
     let builder = builder.plugin(tauri_nspanel::init());
+    // remembers each window's size and position across restarts; the panel stays hidden at start. In points on a Mac,
+    // where the plugin's pixels came back at another screen's scale (platform::geometry_plugin)
+    #[cfg(target_os = "macos")]
+    let builder = builder.plugin(platform::geometry_plugin());
+    #[cfg(not(target_os = "macos"))]
+    let builder = builder.plugin(
+        tauri_plugin_window_state::Builder::new()
+            .with_state_flags(StateFlags::all() & !StateFlags::VISIBLE)
+            .build(),
+    );
     builder
         .plugin(
             tauri_plugin_global_shortcut::Builder::new()
@@ -324,12 +340,6 @@ pub fn run() {
         .plugin(tauri_plugin_process::init())
         .plugin(tauri_plugin_clipboard_manager::init())
         .plugin(tauri_plugin_updater::Builder::new().build())
-        // remembers each window's size and position across restarts; the panel stays hidden at start
-        .plugin(
-            tauri_plugin_window_state::Builder::new()
-                .with_state_flags(StateFlags::all() & !StateFlags::VISIBLE)
-                .build(),
-        )
         .plugin(tauri_plugin_opener::init())
         .manage(screen::Reference::default())
         .manage(DebugAreasOn::default())

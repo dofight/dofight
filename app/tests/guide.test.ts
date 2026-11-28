@@ -24,6 +24,7 @@ vi.mock("@tauri-apps/api/window", () => {
     getCurrentWindow: () => win, currentMonitor: vi.fn(async () => monitor), LogicalSize: class {}, LogicalPosition: class {}, PhysicalSize: class {}, PhysicalPosition: class {},
     // the panel asks where the pointer is (main.ts): far away, so the guide's own steps are what is tested
     cursorPosition: vi.fn(async () => ({ x: -1, y: -1 })),
+    primaryMonitor: vi.fn(async () => null),
     Window: { getByLabel: vi.fn(async () => win) },
   };
 });

@@ -75,9 +75,18 @@ document.addEventListener("pointermove", (e) => {
 let placedSize: { width: number; height: number } | null = null;
 void listen<{ token: number; to: string }>("peek:placed", async ({ payload }) => {
   if (payload.to !== label || detached || !document.getElementById("peek")!.classList.contains("pinned")) return;
-  placedSize = await getCurrentWindow().innerSize();
+  placedSize = await logicalSize();
 });
-void getCurrentWindow().onResized(({ payload: size }) => {
+// in logical pixels: a sheet moved to a screen of another scale changes its size in pixels, and on a Mac with a
+// Retina screen beside a 1x one that read as the player pulling an edge (owner's Mac, 2026-11-28)
+async function logicalSize(): Promise<{ width: number; height: number }> {
+  const win = getCurrentWindow();
+  const [size, scale] = await Promise.all([win.innerSize(), win.scaleFactor()]);
+  return { width: size.width / scale, height: size.height / scale };
+}
+void getCurrentWindow().onResized(async () => {
+  if (!placedSize || detached) return;
+  const size = await logicalSize();
   if (!placedSize || detached || !resizedByPlayer(placedSize, size)) return;
   placedSize = null;
   detach();
