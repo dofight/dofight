@@ -1546,6 +1546,8 @@ document.addEventListener("keydown", (e) => {
 /** Each step: what to light up in the sample, and what the bubble says. A step whose element is missing is skipped. */
 const TOUR: { sel: string; key: Key }[] = [
   { sel: ".tour-search", key: "guide.tour.search" },
+  // the filter right after the search, just under it (owner, 2026-11-28)
+  { sel: ".tour-filter", key: "guide.tour.filter" },
   { sel: ".tour-songe", key: "guide.tour.songe" },
   { sel: ".roomhead .dj", key: "guide.tour.head" },
   { sel: ".roomhead .mech", key: "guide.tour.mech" },
@@ -1556,8 +1558,6 @@ const TOUR: { sel: string; key: Key }[] = [
   { sel: '.mob.boss[data-open="true"] .tags', key: "guide.tour.badges" },
   { sel: '.mob.boss[data-open="true"] .spells', key: "guide.tour.spells" },
   { sel: '.mob[data-open="false"] .mh', key: "guide.tour.folded" },
-  // the filter above the list (« Filtrer les résultats »)
-  { sel: ".tour-filter", key: "guide.tour.filter" },
   // then the gear (the settings), the padlock, and last where to find the guide again: the menu
   { sel: ".tour-gear", key: "guide.tour.gear" },
   { sel: ".tour-lock", key: "guide.tour.lock" },

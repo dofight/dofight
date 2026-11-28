@@ -103,8 +103,10 @@ it("goes step by step: the setup in the game's corner, then the panel's tour, «
   click("tour-next");
   expect(card()).toBe("tour");
   expect(last().sel).toBe(".tour-search");
+  click("tour-next");
+  expect(last().sel).toBe(".tour-filter"); // right after the search, just under it (owner, 2026-11-28)
   for (let i = 0; i < 3; i++) click("tour-next");
-  expect(count()).toBe("Étape 8 / 16");
+  expect(count()).toBe("Étape 9 / 16");
   expect(last().sel).toBe(".roomhead .mech");
   expect(last().html).toContain('class="mech"');
   expect(plain(document.getElementById("tour-text")!.textContent)).toBe(plain(last().text)); // the same text in the panel
@@ -129,7 +131,7 @@ it("goes step by step: the setup in the game's corner, then the panel's tour, «
   click("tour-prev");
   expect(last().sel).toBe(".tour-gear"); // and before it the gear, the settings
   click("tour-prev");
-  expect(last().sel).toBe(".tour-filter"); // and the filter above the list
+  expect(last().sel).toBe('.mob[data-open="false"] .mh'); // and the folded monsters before them
   click("tour-next");
   click("tour-next");
   expect(plain(document.getElementById("tour-next")!.textContent)).toBe("Suivant");
