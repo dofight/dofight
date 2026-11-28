@@ -95,6 +95,13 @@ def validate(summary: dict, vocab: dict, snapshot: dict, mechanics: dict | None 
                 errors.append(f"{where}: {mid}: tag {tid} param longer than {limits['paramMaxChars']} characters")
             if AGREES.search(param):
                 errors.append(f"{where}: {mid}: tag {tid} param « {param} » agrees with the monster: use the indefinite form")
+    # the card shows the states a monster keeps the whole fight, from the game data (owner, 2026-11-27): a « state »
+    # badge saying just one of them is a double (Kharnozor's « Indéplaçable »); « Indéplaçable si déplacé » says more
+    lasting = {str(m["id"]): {s["name"].lower() for s in m.get("states") or []} for m in snapshot["monsters"]}
+    for mid, entry in (summary.get("monsters") or {}).items():
+        for tag in entry.get("tags") or []:
+            if tag.get("id") == "state" and (tag.get("param") or "").strip().lower() in lasting.get(mid, set()):
+                errors.append(f"{where}: monster {mid}: tag state « {tag['param']} » is on the states line already: drop it")
     for mid, entry in (summary.get("monsters") or {}).items():
         if len(entry.get("detail") or "") > limits["detailMaxChars"]:
             errors.append(f"{where}: monster {mid}: detail longer than {limits['detailMaxChars']} characters")

@@ -241,3 +241,14 @@ def test_english_badges_say_it_not_he_or_she():
                           "101": {"tags": [{"id": "lock", "param": "le garder à distance"}]}})
     found = gendered_english(s, english)
     assert len(found) == 2 and any("himself" in f for f in found) and any("around her" in f for f in found)
+
+
+def test_a_state_badge_the_states_line_already_shows_is_refused():
+    # the card shows the states a monster keeps the whole fight, from the game data (owner, 2026-11-27): a badge
+    # saying the same is a double (Kharnozor's « Indéplaçable »); one saying more (« si déplacé ») is not
+    snap = {**SNAPSHOT, "monsters": [{"id": 147, "name": "Bouftou Royal", "states": [{"name": "Indéplaçable", "text": "", "icon": "stateUnshift"}]},
+                                     {"id": 101, "name": "Bouftou"}]}
+    double = summary(monsters={"147": {"tags": [{"id": "state", "param": "Indéplaçable"}]}, "101": {"tags": []}})
+    assert any("states line" in e for e in validate(double, VOCAB, snap))
+    more = summary(monsters={"147": {"tags": [{"id": "state", "param": "Indéplaçable si déplacé"}]}, "101": {"tags": []}})
+    assert validate(more, VOCAB, snap) == []

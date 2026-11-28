@@ -35,10 +35,6 @@
     {
      "id": "moves",
      "param": "attire"
-    },
-    {
-     "id": "state",
-     "param": "Indéplaçable"
     }
    ],
    "detail": "Le taper à 2 PO ou moins attire au CaC et déclenche Mort sûre à chaque coup. Son Cri déchirant (7 PO autour de lui) te rend Assourdi : Mort sûre met alors Insoignable et Pesanteur. Gagne Vitalité et dommages à chaque mort de monstre."
