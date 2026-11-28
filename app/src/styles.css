@@ -154,7 +154,7 @@ img.mark{width:16px;height:16px;vertical-align:-3px} /* an item named in a text,
 .mob.boss{border-color:var(--gold)}
 .mob.summon{margin-left:8px;border-style:dashed} /* a boss's key summon, right under it: part of its fight */
 .mh{display:flex;align-items:center;justify-content:flex-start;gap:8px;font-weight:700}
-.mname{min-width:0;overflow-wrap:anywhere}
+.mname{min-width:0;overflow-wrap:anywhere;hyphens:auto} /* cut between syllables first: « Tendancieux » fell to « Tendancieu » / « x » in the narrow panel at 110 % (owner, 2026-11-28) */
 .mob.boss .mname{color:var(--yellow)}
 .thumb{width:36px;height:36px;object-fit:contain;flex:none}
 .stats{display:flex;gap:10px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
@@ -523,7 +523,7 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .songe-icon{flex:none;color:var(--gold);opacity:.75}
 .songe[aria-pressed="true"] .songe-icon{opacity:1}
 /* language picker: two buttons with a small flag */
-.langs{display:flex;gap:6px}
+.langs{display:flex;flex-wrap:wrap;gap:6px} /* two lines rather than past the card's edge: « English » was cut in the narrow panel at 110 %, on Windows too (owner, 2026-11-28) */
 .theme-row>.langs{flex:1 1 150px}
 .sizes .lang{padding:6px 4px;font-size:12.5px;font-variant-numeric:tabular-nums}
 .langs[hidden]{display:none}
@@ -704,3 +704,14 @@ mark.hit{background:var(--gold-soft);color:inherit;border-radius:3px;box-shadow:
 /* a shortcut's keys in the settings, each drawn as a key on Windows (owner, 2026-11-28): « Ctrl » « Maj » « D » */
 .shortcut:has(kbd){gap:4px}
 .shortcut kbd{display:inline-block;min-width:1.1em;padding:0 5px;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;font:inherit;font-size:12px;line-height:18px;text-align:center}
+/* a monster's kind on a line of its own, under its name and its danger icons, as wide as both: squeezed beside them in
+   a narrow panel, « Avis de recherche » broke on two lines (owner, 2026-11-28). The row's own markup is unchanged:
+   the title's two lines become the grid's cells */
+.mh:has(.mkind){display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;column-gap:0;row-gap:2px}
+.mh:has(.mkind)>.mtitle{display:contents}
+.mh:has(.mkind)>.thumb{grid-row:1/3;margin-right:8px}
+.mh:has(.mkind) .mline{grid-column:2;grid-row:1}
+.mh:has(.mkind) .mkind{grid-column:2/4;grid-row:2;justify-self:start;white-space:nowrap}
+.mh:has(.mkind)>.mdanger{grid-column:3;grid-row:1;margin-left:8px}
+.mh:has(.mkind)>.chev{grid-column:4;grid-row:1/3;margin-left:8px}
+.mh:has(.mkind)>.mdanger+.chev{margin-left:2px}

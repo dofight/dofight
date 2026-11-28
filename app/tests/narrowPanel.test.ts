@@ -44,3 +44,11 @@ it("holds each column that the list sits in to its box, so no line ever widens t
     expect(css.slice(i, css.indexOf("}", i)), rule).toContain("grid-template-columns:minmax(0,1fr)");
   }
 });
+
+// the narrow panel at 90 and 110 % (owner's Mac, 2026-11-28; the language buttons on Windows too): a monster's « Avis de
+// recherche » broke after « de », « English » went past the card's edge, « Tendancieux » fell to « Tendancieu » / « x »
+it("puts a monster's kind on its own line, wraps the language buttons, and cuts a monster's name between syllables", () => {
+  expect(css).toContain(".mh:has(.mkind) .mkind{grid-column:2/4;grid-row:2;justify-self:start;white-space:nowrap}");
+  expect(css).toMatch(/\.langs\{display:flex;flex-wrap:wrap;/);
+  expect(css).toMatch(/\.mname\{[^}]*hyphens:auto/);
+});
