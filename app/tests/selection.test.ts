@@ -217,3 +217,8 @@ it("asks for the width at which a pinned sheet's title shows whole", async () =>
   const main = readFileSync("src/main.ts", "utf8");
   expect(main).toContain("if (w > side.width) side = widened(side, pos.x, w, screen);");
 });
+
+it("draws every sheet's title in its bar alike: yellow, 14 px, bold", () => {
+  const css = readFileSync("src/styles.css", "utf8");
+  expect(css).toContain(".peek-bar .bar-head>b{color:var(--yellow);font-size:14px;font-weight:700}");
+});
