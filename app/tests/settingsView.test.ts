@@ -710,6 +710,22 @@ it("pins a spell's sheet beside the panel on a click, not inside the card; a sec
   expect(sp.getAttribute("aria-pressed")).toBe("false");
 });
 
+it("a pinned sheet stays when the list scrolls; only a click closes it (owner, 2026-11-28)", async () => {
+  if (!document.getElementById("view-settings")!.hidden) (document.getElementById("back") as HTMLButtonElement).click();
+  const q = document.getElementById("q") as HTMLInputElement;
+  q.value = "Bouftou Royal";
+  q.dispatchEvent(new Event("input", { bubbles: true }));
+  document.querySelector<HTMLElement>("#results .res-item")!.click();
+  if (!document.querySelector("#room .sp")) document.querySelector<HTMLElement>("#room .mob .mh")!.click(); // unfold one
+  const sp = document.querySelector<HTMLElement>("#room .sp")!;
+  sp.click();
+  expect(sp.getAttribute("aria-pressed")).toBe("true");
+  document.getElementById("main-body")!.dispatchEvent(new Event("scroll"));
+  expect(document.querySelector<HTMLElement>(`#room .sp[data-spell="${sp.dataset.spell}"]`)!.getAttribute("aria-pressed")).toBe("true");
+  document.querySelector<HTMLElement>(`#room .sp[data-spell="${sp.dataset.spell}"]`)!.click();
+  expect(document.querySelector<HTMLElement>(`#room .sp[data-spell="${sp.dataset.spell}"]`)!.getAttribute("aria-pressed")).toBe("false");
+});
+
 it("« Comment y aller » stays open through a redraw and a scroll, and closes on the player's next action (owner, 2026-11-20)", async () => {
   if (!document.getElementById("view-settings")!.hidden) (document.getElementById("back") as HTMLButtonElement).click();
   const q = document.getElementById("q") as HTMLInputElement;

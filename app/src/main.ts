@@ -1275,7 +1275,11 @@ void listen<string>("peek:open", ({ payload }) => {
   if (/^https:\/\//.test(payload)) void openUrl(payload);
   hidePeek();
 });
-$("main-body").addEventListener("scroll", () => hidePeek()); // not an open « Comment y aller » (a redraw scrolls too)
+// a scroll moves the hovered row away: its preview goes. Not an open « Comment y aller » (a redraw scrolls too), and not
+// a pinned sheet: only a click closes that (owner, 2026-11-28)
+$("main-body").addEventListener("scroll", () => {
+  if (!pinned) hidePeek();
+});
 // any click in the panel is the player's: an open « Comment y aller » closes (its own button toggles it)
 document.addEventListener("pointerdown", (e) => {
   if (accessOpen && !(e.target as HTMLElement).closest?.("#room .access")) hidePeek(true);
