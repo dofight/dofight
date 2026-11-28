@@ -713,5 +713,5 @@ mark.hit{background:var(--gold-soft);color:inherit;border-radius:3px;box-shadow:
 .mh:has(.mkind) .mline{grid-column:2;grid-row:1}
 .mh:has(.mkind) .mkind{grid-column:2/4;grid-row:2;justify-self:start;white-space:nowrap}
 .mh:has(.mkind)>.mdanger{grid-column:3;grid-row:1;margin-left:8px}
-.mh:has(.mkind)>.chev{grid-column:4;grid-row:1/3;margin-left:8px}
+.mh:has(.mkind)>.chev{grid-column:4;grid-row:1;align-self:center;margin-left:8px} /* on the name's line, with the danger icons: centred on name and kind, it sat under them (owner, 2026-11-28) */
 .mh:has(.mkind)>.mdanger+.chev{margin-left:2px}

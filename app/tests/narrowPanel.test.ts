@@ -52,3 +52,10 @@ it("puts a monster's kind on its own line, wraps the language buttons, and cuts 
   expect(css).toMatch(/\.langs\{display:flex;flex-wrap:wrap;/);
   expect(css).toMatch(/\.mname\{[^}]*hyphens:auto/);
 });
+
+// the chevron sat in the middle of the name and the kind, under the danger icons that sit on the name's line: the
+// icons and the chevron now share that line (owner's screenshot, 2026-11-28); the kind keeps its own line, as wide
+it("lines the chevron up with the danger icons on the name's line when the kind has a line of its own", () => {
+  expect(css).toMatch(/\.mh:has\(\.mkind\)>\.chev\{grid-column:4;grid-row:1;align-self:center;/);
+  expect(css).toContain(".mh:has(.mkind) .mkind{grid-column:2/4;grid-row:2;");
+});
