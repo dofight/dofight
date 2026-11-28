@@ -701,3 +701,6 @@ mark.hit{background:var(--gold-soft);color:inherit;border-radius:3px;box-shadow:
 /* an effect whose area only reaches what the caster sees (owner, 2026-11-27): said after its text, quietly */
 .eff .insight{display:inline-flex;align-items:center;gap:3px;color:var(--muted);font-weight:600;white-space:nowrap}
 .eff .insight .ic{width:12px;height:12px}
+/* a shortcut's keys in the settings, each drawn as a key on Windows (owner, 2026-11-28): « Ctrl » « Maj » « D » */
+.shortcut:has(kbd){gap:4px}
+.shortcut kbd{display:inline-block;min-width:1.1em;padding:0 5px;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;font:inherit;font-size:12px;line-height:18px;text-align:center}

@@ -92,3 +92,19 @@ describe("Cmd on a Mac", () => {
     expect(fromKeyEvent(key("KeyD", { metaKey: true, ctrlKey: true }))).toBe("Ctrl+KeyD");
   });
 });
+
+// each key drawn as a key in the settings on Windows (owner, 2026-11-28); the Mac keeps its signs
+it("gives a shortcut's keys one by one on Windows, for the settings to draw them as keys", async () => {
+  const { shortcutCaps } = await import("../src/shortcut");
+  const { setPlatform } = await import("../src/i18n");
+  expect(shortcutCaps("Ctrl+Shift+KeyD")).toEqual(["Ctrl", "Maj", "D"]);
+  expect(shortcutCaps("Alt+Digit5")).toEqual(["Alt", "5"]);
+  expect(shortcutCaps("F9")).toEqual(["F9"]);
+  expect(shortcutCaps("")).toBeNull();
+  setPlatform("macos");
+  try {
+    expect(shortcutCaps("Ctrl+Shift+KeyD")).toBeNull();
+  } finally {
+    setPlatform("windows");
+  }
+});

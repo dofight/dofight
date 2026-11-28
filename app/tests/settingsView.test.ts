@@ -3,6 +3,9 @@ import { resolve } from "node:path";
 import { beforeAll, expect, it, vi } from "vitest";
 import { plain } from "./fixtures";
 
+/** A shortcut button's keys, drawn one by one as keys on Windows (owner, 2026-11-28), read « Ctrl + Maj + F ». */
+const caps = (button: Element | null) => [...(button?.querySelectorAll("kbd") ?? [])].map((k) => k.textContent).join(" + ");
+
 // the real overlay page, its real data, and Tauri replaced by inert stubs
 const emitted: { event: string; payload: any }[] = [];
 const listeners = new Map<string, (e: { payload: unknown }) => unknown>();
@@ -120,8 +123,8 @@ it("groups the window options in their own card; Apparence keeps language, theme
   expect(names(win)).toEqual(["Verrouiller la position et la taille"]);
   expect(win.querySelector("#shortcut")).not.toBeNull();
   // the search shortcut (global) and the filter one (inside Dofight) next to it (owner, 2026-11-25)
-  expect(plain(win.querySelector("#search-shortcut")?.textContent)).toBe("Ctrl + F");
-  expect(plain(win.querySelector("#filter-shortcut")?.textContent)).toBe("Ctrl + Maj + F");
+  expect(caps(win.querySelector("#search-shortcut"))).toBe("Ctrl + F");
+  expect(caps(win.querySelector("#filter-shortcut"))).toBe("Ctrl + Maj + F");
   expect(win.querySelector("#opacity")).not.toBeNull();
   // everything that looks at the game sits under the screen reading's own switch (owner, 2026-11-18)
   const reading = card("Lecture de l'écran");
@@ -743,7 +746,7 @@ it("search and filter shortcuts work inside Dofight, set in Fenêtre, never regi
   document.getElementById("gear")?.click();
   (document.getElementById("search-shortcut") as HTMLButtonElement).click();
   press("KeyG", { ctrlKey: true });
-  await vi.waitFor(() => expect(plain(document.getElementById("search-shortcut")!.textContent)).toBe("Ctrl + G"));
+  await vi.waitFor(() => expect(caps(document.getElementById("search-shortcut"))).toBe("Ctrl + G"));
   expect(vi.mocked(invoke).mock.calls.some(([cmd]) => String(cmd).startsWith("set_shortcut"))).toBe(false);
   // Backspace turns one off, a combination another Dofight shortcut uses is refused
   (document.getElementById("filter-shortcut") as HTMLButtonElement).click();
@@ -755,10 +758,10 @@ it("search and filter shortcuts work inside Dofight, set in Fenêtre, never regi
   // the defaults back
   (document.getElementById("search-shortcut") as HTMLButtonElement).click();
   press("KeyF", { ctrlKey: true });
-  await vi.waitFor(() => expect(plain(document.getElementById("search-shortcut")!.textContent)).toBe("Ctrl + F"));
+  await vi.waitFor(() => expect(caps(document.getElementById("search-shortcut"))).toBe("Ctrl + F"));
   (document.getElementById("filter-shortcut") as HTMLButtonElement).click();
   press("KeyF", { ctrlKey: true, shiftKey: true });
-  await vi.waitFor(() => expect(plain(document.getElementById("filter-shortcut")!.textContent)).toBe("Ctrl + Maj + F"));
+  await vi.waitFor(() => expect(caps(document.getElementById("filter-shortcut"))).toBe("Ctrl + Maj + F"));
   if (!document.getElementById("view-settings")!.hidden) (document.getElementById("back") as HTMLButtonElement).click();
 });
 

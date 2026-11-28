@@ -8,7 +8,7 @@ import { relaunch } from "@tauri-apps/plugin-process";
 import { autoUpdate, portableCheck, type DownloadEvent } from "./update";
 import { diag, diagOnChange, loggableSettings, withRead } from "./diag";
 import { applyTextSize, applyTheme, drawnScale, THEMES, themeById, themeName } from "./theme";
-import { cmdAsCtrl, fromKeyEvent, matchesShortcut, shortcutLabel } from "./shortcut";
+import { cmdAsCtrl, fromKeyEvent, matchesShortcut, shortcutCaps, shortcutLabel } from "./shortcut";
 import { initialState, step, type Action, type DirectorState } from "./screen/director";
 import { readFight, type BarState } from "./screen/fight";
 import { parseHeader } from "./screen/header";
@@ -810,7 +810,7 @@ function syncSettingsView(): void {
     btn.setAttribute("aria-checked", String(chosen));
     btn.tabIndex = chosen ? 0 : -1;
   });
-  for (const [id, key] of SHORTCUT_BUTTONS) if (capturing !== key) $(id).textContent = shortcutLabel(settings[key], key !== "shortcut");
+  for (const [id, key] of SHORTCUT_BUTTONS) if (capturing !== key) showShortcut($(id), key);
   // a radio group: only the chosen theme is in the Tab order, the arrows move between themes
   document.querySelectorAll<HTMLElement>("#themes .theme").forEach((b) => {
     const chosen = b.dataset.theme === settings.theme;
@@ -1709,6 +1709,23 @@ $("hide").addEventListener("click", () => void hidePanel(true));
 // three shortcuts: show or hide is global (Rust registers it); search and filter work inside Dofight only (owner,
 // 2026-11-25)
 type ShortcutKey = "shortcut" | "searchShortcut" | "filterShortcut";
+/** A settings button's shortcut: each key drawn as a key on Windows (« Ctrl » « Maj » « D », owner 2026-11-28), the
+ * Mac's signs on a Mac. A space between the keys, for a screen reader. */
+function showShortcut(button: HTMLElement, key: ShortcutKey): void {
+  const caps = shortcutCaps(settings[key]);
+  if (!caps) {
+    button.textContent = shortcutLabel(settings[key], key !== "shortcut");
+    return;
+  }
+  button.replaceChildren(
+    ...caps.flatMap((k, i) => {
+      const cap = document.createElement("kbd");
+      cap.textContent = k;
+      return i ? [" ", cap] : [cap];
+    }),
+  );
+}
+
 const SHORTCUT_BUTTONS: [string, ShortcutKey][] = [["shortcut", "shortcut"], ["search-shortcut", "searchShortcut"], ["filter-shortcut", "filterShortcut"]];
 const SHORTCUT_HOWTO: Record<ShortcutKey, Key> = { shortcut: "settings.shortcutHowTo", searchShortcut: "settings.searchShortcutHowTo", filterShortcut: "settings.filterShortcutHowTo" };
 let capturing: ShortcutKey | null = null;
@@ -1739,7 +1756,7 @@ document.addEventListener("keydown", async (e) => {
   const id = SHORTCUT_BUTTONS.find(([, k]) => k === key)![0];
   const done = (hint: string) => {
     capturing = null;
-    $(id).textContent = shortcutLabel(settings[key], key !== "shortcut");
+    showShortcut($(id), key);
     $(`${id}-hint`).textContent = hint;
   };
   if (e.key === "Escape") return done("");

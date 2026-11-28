@@ -55,7 +55,14 @@ export function shortcutLabel(s: string, inDofight = false): string {
     const held = new Set(parts.slice(0, -1).map((p) => (inDofight && p === "Ctrl" ? "Super" : p)));
     return MAC_SIGNS.filter(([p]) => held.has(p)).map(([, sign]) => sign).join("") + KEY_NAME(parts[parts.length - 1]);
   }
-  return parts
-    .map((p) => (p === "Super" ? "Win" : p === "Ctrl" ? "Ctrl" : p === "Shift" ? t("key.shift") : p === "Alt" ? "Alt" : KEY_NAME(p)))
-    .join(" + ");
+  return windowsKeys(parts).join(" + ");
+}
+
+const windowsKeys = (parts: string[]) =>
+  parts.map((p) => (p === "Super" ? "Win" : p === "Shift" ? t("key.shift") : p === "Ctrl" || p === "Alt" ? p : KEY_NAME(p)));
+
+/** On Windows, a shortcut's keys one by one (« Ctrl », « Maj », « D »), each drawn as a key in the settings (owner,
+ * 2026-11-28); null on a Mac, which writes its signs (shortcutLabel), and for no shortcut. */
+export function shortcutCaps(s: string): string[] | null {
+  return !s || getPlatform() === "macos" ? null : windowsKeys(s.split("+"));
 }
