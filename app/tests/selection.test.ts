@@ -204,6 +204,13 @@ it("centres the bar's title on its capitals, level with the grip and the ✕", (
   expect(css).toContain(".peek-bar .bar-head>*{text-box:trim-both cap alphabetic}");
 });
 
+// the trim cut the box at the baseline, and the name's « … » clips to that box: « Disruption » lost the leg of its
+// « p » (owner's Mac, 2026-11-28). Room given back above and below, the centring kept.
+it("keeps a bar title's descenders and accents while it centres on its capitals", () => {
+  const css = readFileSync("src/styles.css", "utf8");
+  expect(css).toContain(".peek-bar .bar-head>b,.peek-bar .bar-head .pname{padding-block:.35em;margin-block:-.35em}");
+});
+
 // « Comment y aller : Antre du Korriandre » was cut once pinned: the grip and the ✕ took its room (owner,
 // 2026-11-27). The sheet asks for the width at which its title shows whole, whatever the width it was measured at.
 it("asks for the width at which a pinned sheet's title shows whole", async () => {

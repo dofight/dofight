@@ -547,7 +547,7 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 /* a sheet's: at the bottom of the sheet itself, which can be shorter than its window on macOS */
 .toast.in-box{position:absolute}
 /* a sheet never outgrows its window: taller than the screen, or a detached one made smaller, it scrolls inside */
-#peek>:not(.toast){max-height:calc(100vh / var(--zoom,1));overflow-y:auto;overflow-x:hidden;box-sizing:border-box} /* never sideways: the text reflows to the width; while the edge was dragged the Mac showed its own grey bar at the bottom (owner, 2026-11-26) */
+#peek>:not(.toast){max-height:var(--view-h,calc(100vh / var(--zoom,1)));overflow-y:auto;overflow-x:hidden;box-sizing:border-box} /* never sideways: the text reflows to the width; while the edge was dragged the Mac showed its own grey bar at the bottom (owner, 2026-11-26) */
 /* a pinned or resized sheet that scrolls: the panel's own bar, thin, rounded, shown while scrolling (owner, 2026-11-26) */
 #peek>:not(.toast){--sb:0;transition:--sb .35s ease}
 #peek.pinned>:not(.toast),#peek.detached>:not(.toast){scrollbar-gutter:stable;padding-right:2px} /* only where it can scroll: a hover preview keeps its width; 2 px + the 8 px gutter = the 10 px on the left */
@@ -691,6 +691,10 @@ mark.hit{background:var(--gold-soft);color:inherit;border-radius:3px;box-shadow:
    without text-box keeps the old line box */
 .peek-bar .bar-head{align-items:center}
 .peek-bar .bar-head>*{text-box:trim-both cap alphabetic}
+/* trimmed to its capitals and its baseline, a title that cuts itself with « … » (overflow) lost what goes past them:
+   the leg of a « p », an accent on a capital (owner's Mac, 2026-11-28: « Disruption »). The room given back as
+   padding, taken back as margin: what is centred stays the trimmed box */
+.peek-bar .bar-head>b,.peek-bar .bar-head .pname{padding-block:.35em;margin-block:-.35em}
 /* every sheet's title in its bar looks the same, whatever sheet it came from (owner, 2026-11-27: « Succès » lost its
    yellow there, its own rule `.achv-sheet > b` only reaching the sheet's direct children) */
 .peek-bar .bar-head>b{color:var(--yellow);font-size:14px;font-weight:700}

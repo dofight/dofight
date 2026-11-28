@@ -7,7 +7,7 @@ import { barHead, measureBarWidth, overlayScrollbar, sheetBar, sheetHeight, star
 import { showToast } from "./render/toast";
 import { sheetCopied, sheetCopy } from "./render/accessSheet";
 import { KEY, loadSettings } from "./settings";
-import { applyTextSize, applyTheme, drawnScale } from "./theme";
+import { applyTextSize, applyTheme, applyViewHeight, drawnScale } from "./theme";
 import { resizedByPlayer } from "./sides";
 import { scrollbarsWhileScrolling } from "./scrollbars";
 
@@ -26,10 +26,13 @@ const syncTheme = () => {
   const settings = loadSettings(localStorage);
   applyTheme(document.documentElement, settings.theme);
   applyTextSize(document.documentElement, settings.textSize);
+  applyViewHeight(document.documentElement, innerHeight);
   setLang(settings.lang); // the « copied » line of a sheet, in the interface language
 };
 syncTheme();
 window.addEventListener("storage", (e) => e.key === KEY && syncTheme());
+// the most a sheet may take, in the zoomed page's pixels, follows the window (theme.ts viewHeight)
+window.addEventListener("resize", () => applyViewHeight(document.documentElement, innerHeight));
 
 // a pinned mechanic's sheet links to its guide: the panel opens it (this window only sends events)
 document.addEventListener("click", (e) => {
