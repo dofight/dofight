@@ -94,6 +94,22 @@ describe("renderMonster", () => {
     expect(card.querySelector(".lvl")?.nextElementSibling?.className).toBe("resrow");
   });
 
+  it("shows the states it keeps the whole fight on a line of their own, before the badges", () => {
+    // Boostache, from the game data: Enraciné and Lourd from its start-of-fight spell (owner, 2026-11-27)
+    const boostache = monster({ id: 1, name: "Boostache", states: [
+      { name: "Enraciné", text: "Empêche la cible d'être déplacée, d'être taclée et de tacler.", icon: "stateRooted" },
+      { name: "Lourd", text: "Empêche la cible d'être portée", icon: "stateImmovable" }] });
+    const card = dom(renderMonster(boostache, s.spells, { tags }, ALL, everyIcon, true, VOCAB));
+    const order = [...card.querySelectorAll(".resrow, .states, .tags")].map((c) => c.className.split(" ")[0]);
+    expect(order).toEqual(["resrow", "states", "tags"]);
+    const chips = [...card.querySelectorAll(".states .st")];
+    expect(chips.map((c) => c.textContent)).toEqual(["Enraciné", "Lourd"]);
+    expect(chips[0].querySelector("img")?.getAttribute("src")).toBe("icons/states/stateRooted.webp");
+    expect(chips[1].getAttribute("title")).toBe("Empêche la cible d'être portée");
+    // none: no line
+    expect(dom(renderMonster(m, s.spells, { tags }, ALL, everyIcon, true, VOCAB)).querySelector(".states")).toBeNull();
+  });
+
   it("shows a folded monster's danger badges as icons on its line (at most 3, then a count)", () => {
     const vocab = { tags: { ...VOCAB.tags, big: { category: "danger" as const, label: "Gros dégâts", param: "optional" as const, icon: null },
       inv: { category: "danger" as const, label: "Invulnérable", param: "optional" as const, icon: null }, heal: { category: "danger" as const, label: "Soigne", param: "optional" as const, icon: null } } };

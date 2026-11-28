@@ -33,11 +33,23 @@ export interface Monster {
   spellIds: number[];
   /** The spell it casts as the fight begins (a key in the spells, like spellIds): its states and passive effects. */
   startSpellId?: number;
+  /** The states it keeps the whole fight, from that spell (Indéplaçable, Lourd…): drawn before the badges.
+   * private/tools/client_snapshot.py lasting_states says which are kept. */
+  states?: GameState[];
   dungeonIds: number[];
   subareas: string[];
   /** Why a creature has several entries: normal (lives somewhere), expedition, wanted (avis de recherche), summon
    * (by a monster), player_summon (class or Dopeul), special (not met by chance: quest creatures, raid or mini-dungeon bosses, chests), nowhere. Non-normal ones are labelled and listed after. */
   kind?: "normal" | "archmonster" | "expedition" | "wanted" | "summon" | "player_summon" | "special" | "event" | "nowhere";
+}
+
+/** A state of the game as the client names and explains it. */
+export interface GameState {
+  name: string;
+  /** The game's description, else its rules one per line. */
+  text: string;
+  /** Its picture: data/icons/states/<icon>.webp. */
+  icon: string;
 }
 
 export interface SpellEffect {

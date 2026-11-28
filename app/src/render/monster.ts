@@ -83,8 +83,13 @@ export function renderMonster(
       }).join("")}</div>`,
     );
   }
+  // the states it keeps the whole fight (Indéplaçable, Lourd…), from the game data: a line of their own before the
+  // badges, the game's icon and name, its description on hover (owner, 2026-11-27)
+  if (m.states?.length) {
+    parts.push(`<div class="states">${m.states.map((s) => `<span class="st" title="${esc(s.text)}">${img(icon, `states/${s.icon}.webp`)}${esc(s.name)}</span>`).join("")}</div>`);
+  }
   // (the « Change de phase » badge stays as well: owner, 2026-11-19)
-  const tags = renderTags(summary?.tags ?? [], vocab, show, icon);
+  const tags =renderTags(summary?.tags ?? [], vocab, show, icon);
   if (tags) {
     parts.push(tags);
   } else if (summary && summary.tags.length === 0) {

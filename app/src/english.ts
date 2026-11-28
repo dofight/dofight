@@ -109,7 +109,11 @@ function translateRoom(t: Translations, r: RoomSummary): RoomSummary {
 export function englishView(fr: Snapshot, en: English): Snapshot {
   const t = en.translations;
   const monsters = new Map<number, Monster>();
-  for (const [id, m] of fr.monsters) monsters.set(id, { ...m, name: en.monsters.get(id)?.name ?? m.name });
+  for (const [id, m] of fr.monsters) {
+    const other = en.monsters.get(id);
+    // its states in the English client's words (Rooted, Heavy)
+    monsters.set(id, { ...m, name: other?.name ?? m.name, ...(other?.states ? { states: other.states } : {}) });
+  }
   const dungeons = new Map<number, Dungeon>();
   for (const [id, d] of fr.dungeons) dungeons.set(id, { ...d, name: en.dungeons.get(id)?.name ?? d.name });
   const spells = new Map<number, Spell>();
