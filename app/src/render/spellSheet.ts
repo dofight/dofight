@@ -41,7 +41,9 @@ export function renderSpellSheet(sp: Spell, icon: IconUrl): string {
       const who = e.target ? `<span class="who ${e.target}" title="${esc(zoneLabel(e.zone, around))}">${t(`who.${e.target}` as Key)}</span>` : "";
       const thumb = thumbs || (sub && e.zone) ? zoneThumb(e.zone, around || e.target === "self", radius) : "";
       const when = e.trigger ? `<b class="when">${esc(t("spell.trigger", { when: e.trigger }))}</b> ` : "";
-      return `<div class="eff${sub ? " sub" : ""}">${img(icon, `spell/effect/${e.icon}.webp`) || "<i></i>"}<span>${when}${esc(e.text)}</span>${disp}${who}${thumb}</div>`;
+      // its area only reaches what the caster sees (the Ravalame's Frappe Cardinale, over the whole map)
+      const sight = e.inSight ? ` <small class="insight" title="${esc(t("spell.inSightTip"))}">${navIcon("sight")}${esc(t("spell.inSight"))}</small>` : "";
+      return `<div class="eff${sub ? " sub" : ""}">${img(icon, `spell/effect/${e.icon}.webp`) || "<i></i>"}<span>${when}${esc(e.text)}${sight}</span>${disp}${who}${thumb}</div>`;
     })
     .join("");
   const limits: string[] = [];

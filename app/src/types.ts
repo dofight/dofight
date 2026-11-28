@@ -65,6 +65,8 @@ export interface SpellEffect {
   trigger?: string;
   /** The effects of the spell this one casts or places (« Braise » → « Brûlis » → « 26 à 35 vol Feu »). */
   then?: SpellEffect[];
+  /** Its area only reaches the targets the caster sees (the Ravalame's Frappe Cardinale, over the whole map). */
+  inSight?: boolean;
 }
 
 export interface Spell {

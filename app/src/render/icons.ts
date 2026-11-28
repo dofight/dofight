@@ -38,7 +38,9 @@ const PATHS = {
   // « × » with four arrows, cast in a diagonal
   inDiagonal: "m5 5 14 14M19 5 5 19M5 5h3.5M5 5v3.5M19 19h-3.5M19 19v-3.5M19 5h-3.5M19 5v3.5M5 19h3.5M5 19v-3.5",
   // a crossed eye: cast without line of sight
-  noSight: "M10.7 5.1A10.7 10.7 0 0 1 22 11.7a1 1 0 0 1 0 .7 10.7 10.7 0 0 1-1.4 2.5M14.1 14.2a3 3 0 0 1-4.2-4.2M17.5 17.5A10.7 10.7 0 0 1 2.1 12.3a1 1 0 0 1 0-.7 10.7 10.7 0 0 1 4.4-5.1M2 2l20 20",
+  // an open eye: an area that only reaches what the caster sees (« en ligne de vue »)
+  sight: "M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12ZM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z",
+  noSight:"M10.7 5.1A10.7 10.7 0 0 1 22 11.7a1 1 0 0 1 0 .7 10.7 10.7 0 0 1-1.4 2.5M14.1 14.2a3 3 0 0 1-4.2-4.2M17.5 17.5A10.7 10.7 0 0 1 2.1 12.3a1 1 0 0 1 0-.7 10.7 10.7 0 0 1 4.4-5.1M2 2l20 20",
 } as const;
 
 export type IconName = keyof typeof PATHS;

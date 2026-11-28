@@ -694,3 +694,6 @@ mark.hit{background:var(--gold-soft);color:inherit;border-radius:3px;box-shadow:
 /* every sheet's title in its bar looks the same, whatever sheet it came from (owner, 2026-11-27: « Succès » lost its
    yellow there, its own rule `.achv-sheet > b` only reaching the sheet's direct children) */
 .peek-bar .bar-head>b{color:var(--yellow);font-size:14px;font-weight:700}
+/* an effect whose area only reaches what the caster sees (owner, 2026-11-27): said after its text, quietly */
+.eff .insight{display:inline-flex;align-items:center;gap:3px;color:var(--muted);font-weight:600;white-space:nowrap}
+.eff .insight .ic{width:12px;height:12px}

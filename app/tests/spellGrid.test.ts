@@ -231,6 +231,16 @@ describe("zone thumbnails on the effect rows", () => {
     expect(rows[1].querySelectorAll(".zthumb .ar").length).toBeGreaterThan(1); // the cross, drawn on its row
   });
 
+  it("says when an effect only reaches the targets the caster sees", () => {
+    // the Ravalame's Frappe Cardinale: the whole map, but only an enemy in sight (owner, 2026-11-27)
+    const frappe = spell({ id: 15342, name: "Frappe Cardinale", rangeMin: 0, rangeMax: 0, effects: [
+      { ...e("Frappe Cardinale Déclenché (exécuté par le lanceur)", "cercle 63"), inSight: true },
+      e("61 à 70 dommages Feu", null)] });
+    const rows = [...sheet(frappe).querySelectorAll(".eff")];
+    expect(rows[0].querySelector(".insight")?.textContent).toBe("en ligne de vue");
+    expect(rows[1].querySelector(".insight")).toBeNull();
+  });
+
   it("labels a zone past the thumbnail's edge with its real size, ∞ when endless", () => {
     const leuko = spell({ id: 4144, name: "Hyperleukocytine", rangeMin: 0, rangeMax: 0, effects: [
       e("Durée des effets : -4", "cercle-inversé 63 7"), e("État Pacifiste (1 tour)", "cercle 6")] });
