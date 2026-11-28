@@ -88,14 +88,15 @@ it("goes step by step: the setup in the game's corner, then the panel's tour, «
   expect(last().sel).toBe('.corner-part[data-part="all"]');
   expect(last().html).toContain("/guide/corner-fr.png");
   const corner = last().html;
-  click("tour-next");
-  expect(card()).toBe("coords");
-  expect(document.getElementById("guide-top")!.hidden).toBe(true);
-  expect(last().sel).toBe('.corner-part[data-part="coords"]');
-  expect(last().html).toBe(corner); // the same picture: it loads once
+  // the icon bar, then the coordinates: the corner from its top down (owner, 2026-11-28)
   click("tour-next");
   expect(card()).toBe("bar");
+  expect(document.getElementById("guide-top")!.hidden).toBe(true);
   expect(last().sel).toBe('.corner-part[data-part="bar"]');
+  expect(last().html).toBe(corner); // the same picture: it loads once
+  click("tour-next");
+  expect(card()).toBe("coords");
+  expect(last().sel).toBe('.corner-part[data-part="coords"]');
   click("tour-next");
   expect(card()).toBe("shortcut");
   expect(last().sel).toBe(".tour-bar");

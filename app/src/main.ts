@@ -1565,11 +1565,12 @@ const TOUR: { sel: string; key: Key }[] = [
 ];
 /** A guide step: its card here, and what the window beside shows (the game's corner, or the sample panel), ringed. */
 type GuideStep = { card: "reads" | "coords" | "bar" | "shortcut" | "tour"; tip: Key; text?: Key; corner?: "all" | "coords" | "bar"; sel?: string };
-/** The setup first, in the game's corner: what Dofight reads, the coordinates, the icon bar; then the shortcut. */
+/** The setup first, in the game's corner: what Dofight reads, the icon bar, then the coordinates (owner, 2026-11-28:
+ * the corner read from its top down); then the shortcut. */
 const SETUP: GuideStep[] = [
   { card: "reads", tip: "guide.tip.reads", corner: "all" },
-  { card: "coords", tip: "guide.tip.coords", corner: "coords" },
   { card: "bar", tip: "guide.tip.bar", corner: "bar" },
+  { card: "coords", tip: "guide.tip.coords", corner: "coords" },
   { card: "shortcut", tip: "guide.tip.shortcut", sel: ".tour-bar" },
 ];
 let guideSteps: GuideStep[] = SETUP;
