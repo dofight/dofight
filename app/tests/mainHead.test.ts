@@ -28,3 +28,11 @@ it("keeps the usual 8 px between the filter and the list: no empty status line, 
   expect(css).toMatch(/#view-main>\.pagebody\{[^}]*padding-top:0/);
   expect(css).not.toContain("#view-main>.status"); // the status lines are in #main-body now
 });
+
+// a search result chosen with the list scrolled down showed the new list from that depth (owner, 2026-11-27)
+it("shows a chosen search result's list from its top", () => {
+  const main = readFileSync("src/main.ts", "utf8");
+  const pick = main.slice(main.indexOf('closest<HTMLElement>("#results .res-item")'));
+  const block = pick.slice(0, pick.indexOf("return;"));
+  expect(block).toContain('$("main-body").scrollTop = 0;');
+});

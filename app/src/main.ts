@@ -1966,9 +1966,11 @@ document.addEventListener("click", async (e) => {
     $<HTMLInputElement>("q").value = "";
     $("results").innerHTML = "";
     showRoom();
+    // a new list from its top, not where the last one was scrolled to (owner, 2026-11-27)
+    $("main-body").scrollTop = 0;
     return;
   }
-  const guide = target.closest<HTMLAnchorElement>("a.guide");
+  const guide =target.closest<HTMLAnchorElement>("a.guide");
   if (guide) {
     e.preventDefault();
     await openUrl(guide.href);

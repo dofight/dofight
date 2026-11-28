@@ -1,7 +1,7 @@
 {
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "peek",
-  "description": "The side windows (hover preview, pinned or detached sheets) only talk to the panel, a detached sheet can be dragged, and a pinned one knows its size (pulling its edges detaches it)",
+  "description": "The side windows (hover preview, pinned or detached sheets) only talk to the panel, a detached sheet can be dragged, and a pinned one knows its size (pulling its edges detaches it), and a detached one folds to its bar",
   "windows": [
     "peek",
     "peek-*"
@@ -10,6 +10,7 @@
     "core:event:default",
     "core:window:allow-start-dragging",
     "core:window:allow-set-focusable",
-    "core:window:allow-inner-size"
+    "core:window:allow-inner-size",
+    "core:window:allow-scale-factor"
   ]
 }
