@@ -149,8 +149,33 @@ it("puts a pinned spell sheet's name and range in its bar (owner, 2026-11-27: no
     // the title moves the sheet like the rest of the bar; the ✕ still closes it
     expect(startsSheetDrag(bar.querySelector(".pname")!)).toBe(true);
     expect(bar.lastElementChild?.classList.contains("peek-close")).toBe(true);
-    // a sheet that is not a spell's keeps its title
-    expect(barHead(mount(`<div class="mob"><div class="mh">Bouftou</div></div>`))).toBe("");
+    // a monster's card keeps its own header
+    expect(barHead(mount(`<div class="mob peek"><div class="mh">Bouftou</div></div>`))).toBe("");
+});
+
+it("puts every pinned sheet's title in its bar: a mechanic's, « Comment y aller »'s, « Succès »'s", () => {
+  for (const [html, title] of [
+    [`<div class="mob peek mech-sheet"><b>Kirbili</b><div class="gist">Un tour sur deux</div></div>`, "Kirbili"],
+    [`<div class="mob peek access-sheet"><b class="title">Comment y aller : Bworker</b><div>…</div></div>`, "Comment y aller : Bworker"],
+    [`<div class="mob peek achv-sheet"><b>Succès</b><ul></ul></div>`, "Succès"],
+  ]) {
+    const card = mount(html);
+    const head = barHead(card);
+    expect(card.querySelector(":scope > b")).toBeNull();
+    card.insertAdjacentHTML("afterbegin", sheetBar(true, head));
+    expect(card.querySelector(".peek-bar .bar-head b")?.textContent).toBe(title);
+  }
+});
+
+it("gives a pinned sheet's bar a fold button (shown once detached) before its ✕", () => {
+  const bar = mount(sheetBar(true));
+  const fold = bar.querySelector(".peek-fold")!;
+  expect(fold.getAttribute("title")).toBe("Réduire à la barre");
+  expect(fold.nextElementSibling?.classList.contains("peek-close")).toBe(true);
+  expect(startsSheetDrag(fold)).toBe(false); // a button: a click, never a drag
+  const css = readFileSync("src/styles.css", "utf8");
+  expect(css).toContain("#peek:not(.detached) .peek-fold{display:none}");
+  expect(css).toContain("#peek.folded>:not(.toast)>:not(.peek-bar){display:none}");
 });
 
 it("moves a sheet only from its bar, never from its text or its ✕", () => {

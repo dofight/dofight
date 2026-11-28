@@ -47,6 +47,19 @@ fn side_detached(app: tauri::AppHandle, label: String) -> Result<(), String> {
     Ok(())
 }
 
+/// A detached sheet folded to its bar, or unfolded (owner, 2026-11-27): the window takes `height` (logical px, the
+/// page measured it). Folded, it is held at that height (its edges still widen it); unfolded, the usual minimum is back.
+#[tauri::command]
+fn side_fold(app: tauri::AppHandle, label: String, folded: bool, height: f64) -> Result<(), String> {
+    let side = app.get_webview_window(&label).ok_or("no such window")?;
+    let scale = side.scale_factor().map_err(|e| e.to_string())?;
+    let width = side.inner_size().map_err(|e| e.to_string())?.to_logical::<f64>(scale).width;
+    side.set_min_size(Some(tauri::LogicalSize::new(200.0, if folded { height } else { 120.0 }))).map_err(|e| e.to_string())?;
+    side.set_max_size(if folded { Some(tauri::LogicalSize::new(10_000.0, height)) } else { None }).map_err(|e| e.to_string())?;
+    side.set_size(tauri::LogicalSize::new(width, height)).map_err(|e| e.to_string())?;
+    Ok(())
+}
+
 /// Shows the side window the page names, without taking the focus (platform::show_side). `resizable`: a pinned sheet,
 /// whose edges the player may pull, which detaches it (owner, 2026-11-24); a hover preview is not.
 #[tauri::command]
@@ -396,6 +409,7 @@ pub fn run() {
             panel_show,
             side_show,
             side_detached,
+            side_fold,
             save_geometry,
             set_shortcut,
             set_songe,

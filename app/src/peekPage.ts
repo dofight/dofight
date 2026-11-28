@@ -34,6 +34,7 @@ window.addEventListener("storage", (e) => e.key === KEY && syncTheme());
 // a pinned mechanic's sheet links to its guide: the panel opens it (this window only sends events)
 document.addEventListener("click", (e) => {
   if ((e.target as Element).closest(".peek-close")) return void emit("peek:close", { label });
+  if ((e.target as Element).closest(".peek-fold")) return void toggleFold();
   // « Comment y aller »: a command to copy goes to the panel, which owns the clipboard
   if (sheetCopy(e.target as Element, (command) => void emit("peek:copy", { command, label }))) return;
   const link = (e.target as HTMLElement).closest<HTMLAnchorElement>("a.guide, a.quest");
@@ -99,6 +100,38 @@ function detach(): void {
   close?.setAttribute("aria-label", t("peek.closeDetached"));
   document.querySelector(".peek-bar")?.removeAttribute("title"); // detached: nothing left to detach
 }
+
+// a detached sheet folded to its bar, its title still read, and unfolded to the height it had (owner, 2026-11-27);
+// its button, or a double click on the bar
+let unfoldedHeight = 0;
+async function toggleFold(): Promise<void> {
+  const box = document.getElementById("peek")!;
+  if (!detached) return;
+  const win = getCurrentWindow();
+  const folding = !box.classList.contains("folded");
+  let height: number;
+  if (folding) {
+    unfoldedHeight = (await win.innerSize()).height / (await win.scaleFactor());
+    box.classList.add("folded");
+    // the bar, and the sheet's padding and border under it, in this window's logical pixels
+    const card = box.firstElementChild as HTMLElement;
+    const s = getComputedStyle(card);
+    const bottom = document.querySelector(".peek-bar")!.getBoundingClientRect().bottom + parseFloat(s.paddingBottom) + parseFloat(s.borderBottomWidth);
+    height = Math.ceil(bottom * drawnScale(document));
+  } else {
+    box.classList.remove("folded");
+    height = unfoldedHeight || 240;
+  }
+  const button = document.querySelector(".peek-fold");
+  const word = t(folding ? "peek.unfold" : "peek.fold");
+  button?.setAttribute("title", word);
+  button?.setAttribute("aria-label", word);
+  button?.setAttribute("aria-expanded", String(!folding));
+  await invoke("side_fold", { label, folded: folding, height });
+}
+document.addEventListener("dblclick", (e) => {
+  if (detached && startsSheetDrag(e.target as Element)) void toggleFold();
+});
 
 // a detached sheet with the focus: Escape closes it, as its ✕ does
 document.addEventListener("keydown", (e) => {

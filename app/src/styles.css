@@ -670,3 +670,13 @@ mark.hit{background:var(--gold-soft);color:inherit;border-radius:3px;box-shadow:
 .peek-bar .bar-head .pname{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .peek-bar .bar-head .prange{flex:none;flex-wrap:nowrap}
 .peek-bar .bar-head .po{font-size:15px}
+/* « Réduire »: a detached sheet folded to its bar (owner, 2026-11-27), the ✕'s look; a chevron up to fold, down to unfold */
+.peek-fold{display:grid;place-items:center;width:22px;height:22px;padding:0;border:0;border-radius:6px;background:none;color:var(--muted);cursor:pointer;margin-left:auto}
+.peek-fold:hover{background:var(--line);color:var(--fg)}
+.peek-fold .ic{width:14px;height:14px;transform:rotate(-90deg)}
+#peek.folded .peek-fold .ic{transform:rotate(90deg)}
+#peek:not(.detached) .peek-fold{display:none}
+#peek.folded>:not(.toast)>:not(.peek-bar){display:none}
+#peek.folded>:not(.toast){overflow:hidden}
+/* a sheet's title in its bar (barHead): a mechanic's, « Comment y aller »'s, « Succès »'s, cut with « … » if narrow */
+.peek-bar .bar-head>b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}

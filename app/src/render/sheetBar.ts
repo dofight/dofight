@@ -1,19 +1,26 @@
 import { t } from "../i18n";
 import { icon } from "./icons";
 
-/** The bar at the top of a pinned sheet: the only part that moves or detaches it, so everything under it, the title
- * too, can be selected and copied (owner, 2026-11-22). A hover preview is never clicked: no bar. */
+/** The bar at the top of a pinned sheet: the only part that moves or detaches it, so everything under it can be
+ * selected and copied (owner, 2026-11-22). It holds the sheet's title (barHead), which is not copied (owner,
+ * 2026-11-27). A hover preview is never clicked: no bar. */
 export function sheetBar(pinned: boolean, head = ""): string {
   if (!pinned) return "";
-  return `<div class="peek-bar" title="${t("peek.detach")}"><span class="grip" aria-hidden="true"></span>${head ? `<span class="bar-head">${head}</span>` : ""}<button type="button" class="peek-close" title="${t("peek.close")}" aria-label="${t("peek.close")}">${icon("close")}</button></div>`;
+  // « Réduire »: a detached sheet folds to this bar alone (owner, 2026-11-27); shown once detached (styles.css)
+  const fold = `<button type="button" class="peek-fold" title="${t("peek.fold")}" aria-label="${t("peek.fold")}" aria-expanded="true">${icon("chevron")}</button>`;
+  return `<div class="peek-bar" title="${t("peek.detach")}"><span class="grip" aria-hidden="true"></span>${head ? `<span class="bar-head">${head}</span>` : ""}${fold}<button type="button" class="peek-close" title="${t("peek.close")}" aria-label="${t("peek.close")}">${icon("close")}</button></div>`;
 }
 
-/** A pinned spell sheet's name and range, taken out of its body for its bar (owner, 2026-11-27): the sheet starts
- * with what matters, and the bar is no longer an empty strip. In the bar they cannot be selected and copied, which
- * the owner accepts. Any other sheet keeps its title: "". */
+/** A pinned sheet's title, taken out of its body for its bar (owner, 2026-11-27): the sheet starts with what
+ * matters, the bar is no longer an empty strip, and a folded or scrolled sheet still says what it is. A spell's name
+ * and range; a mechanic's, « Comment y aller »'s or « Succès »'s title (its first bold line). In the bar they cannot
+ * be selected and copied, which the owner accepts. A monster's card keeps its own header: "". */
 export function barHead(card: Element): string {
-  if (!card.classList.contains("pop")) return "";
-  const parts = [card.querySelector(":scope > .pname"), card.querySelector(":scope > .prange")].filter((e): e is Element => !!e);
+  const sheet = card.classList.contains("peek") && !card.querySelector(":scope > .mh");
+  const found = card.classList.contains("pop")
+    ? [card.querySelector(":scope > .pname"), card.querySelector(":scope > .prange")]
+    : sheet ? [card.querySelector(":scope > b:first-child")] : [];
+  const parts = found.filter((e): e is Element => !!e);
   const html = parts.map((e) => e.outerHTML).join("");
   parts.forEach((e) => e.remove());
   return html;
