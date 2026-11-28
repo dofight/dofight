@@ -810,7 +810,7 @@ function syncSettingsView(): void {
     btn.setAttribute("aria-checked", String(chosen));
     btn.tabIndex = chosen ? 0 : -1;
   });
-  for (const [id, key] of SHORTCUT_BUTTONS) if (capturing !== key) $(id).textContent = shortcutLabel(settings[key]);
+  for (const [id, key] of SHORTCUT_BUTTONS) if (capturing !== key) $(id).textContent = shortcutLabel(settings[key], key !== "shortcut");
   // a radio group: only the chosen theme is in the Tab order, the arrows move between themes
   document.querySelectorAll<HTMLElement>("#themes .theme").forEach((b) => {
     const chosen = b.dataset.theme === settings.theme;
@@ -1739,7 +1739,7 @@ document.addEventListener("keydown", async (e) => {
   const id = SHORTCUT_BUTTONS.find(([, k]) => k === key)![0];
   const done = (hint: string) => {
     capturing = null;
-    $(id).textContent = shortcutLabel(settings[key]);
+    $(id).textContent = shortcutLabel(settings[key], key !== "shortcut");
     $(`${id}-hint`).textContent = hint;
   };
   if (e.key === "Escape") return done("");
@@ -1750,7 +1750,7 @@ document.addEventListener("keydown", async (e) => {
   }
   const keys = fromKeyEvent(key === "shortcut" ? e : cmdAsCtrl(e));
   if (!keys) return; // still waiting for a full combination
-  if (SHORTCUT_BUTTONS.some(([, other]) => other !== key && settings[other] === keys)) return done(t("settings.shortcutSame", { keys: shortcutLabel(keys) }));
+  if (SHORTCUT_BUTTONS.some(([, other]) => other !== key && settings[other] === keys)) return done(t("settings.shortcutSame", { keys: shortcutLabel(keys, key !== "shortcut") }));
   if (key !== "shortcut") {
     update({ [key]: keys });
     return done("");

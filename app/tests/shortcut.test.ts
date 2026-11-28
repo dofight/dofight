@@ -23,11 +23,18 @@ it("shows the shortcut in French", () => {
   expect(shortcutLabel("")).toBe("Aucun");
 });
 
-it("on a Mac, the modifiers are named as on its keyboard: Control, Option", async () => {
+// the Mac's own signs, in its menus' order, nothing between (owner, 2026-11-28: icons rather than words)
+it("on a Mac, a shortcut is written with the Mac's signs: ⌃⌥⇧⌘", async () => {
   const { setPlatform } = await import("../src/i18n");
   const { shortcutLabel } = await import("../src/shortcut");
   setPlatform("macos");
-  expect(shortcutLabel("Ctrl+Alt+KeyD")).toBe("Control + Option + D");
+  expect(shortcutLabel("Ctrl+Alt+KeyD")).toBe("⌃⌥D");
+  expect(shortcutLabel("Ctrl+Shift+KeyD")).toBe("⌃⇧D");
+  expect(shortcutLabel("Super+Ctrl+Alt+Shift+F9")).toBe("⌃⌥⇧⌘F9");
+  expect(shortcutLabel("")).toBe("Aucun");
+  // inside Dofight, Cmd is recorded as Ctrl and both work: the Mac's own ⌘
+  expect(shortcutLabel("Ctrl+Shift+KeyF", true)).toBe("⇧⌘F");
+  expect(shortcutLabel("Alt+KeyF", true)).toBe("⌥F");
   setPlatform("windows");
   expect(shortcutLabel("Ctrl+Alt+KeyD")).toBe("Ctrl + Alt + D");
 });
@@ -56,14 +63,14 @@ it("matches a real KeyboardEvent, whose fields are getters (owner's Ctrl+F, 2026
 // as plain typing (owner, 2026-11-28). It is « Super », the global shortcut's name for it; Ctrl+Shift+D stays the
 // default (owner, 2026-11-28).
 describe("Cmd on a Mac", () => {
-  it("is recorded, alone or with others, and named Cmd", async () => {
+  it("is recorded, alone or with others, and written ⌘", async () => {
     const { setPlatform } = await import("../src/i18n");
     setPlatform("macos");
     try {
       expect(fromKeyEvent(key("KeyD", { metaKey: true, shiftKey: true }))).toBe("Super+Shift+KeyD");
       expect(fromKeyEvent(key("KeyD", { metaKey: true }))).toBe("Super+KeyD");
       expect(fromKeyEvent(key("KeyD", { metaKey: true, ctrlKey: true }))).toBe("Super+Ctrl+KeyD");
-      expect(shortcutLabel("Super+Shift+KeyD")).toBe("Cmd + Maj + D");
+      expect(shortcutLabel("Super+Shift+KeyD")).toBe("⇧⌘D");
       expect(DEFAULT_SHORTCUT).toBe("Ctrl+Shift+KeyD");
     } finally {
       setPlatform("windows");

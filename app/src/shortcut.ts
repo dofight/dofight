@@ -42,12 +42,20 @@ export function cmdAsCtrl(e: KeyLike): KeyLike {
 const KEY_NAME = (code: string) =>
   code.replace(/^Key/, "").replace(/^Digit/, "").replace(/^Numpad/, t("key.numpad"));
 
-export function shortcutLabel(s: string): string {
+/** The Mac's own signs, in the order its menus write them (⌃⌥⇧⌘, then the key, nothing between): « ⌃⇧D » as macOS
+ * shows it, rather than words (owner, 2026-11-28). */
+const MAC_SIGNS: [string, string][] = [["Ctrl", "⌃"], ["Alt", "⌥"], ["Shift", "⇧"], ["Super", "⌘"]];
+
+/** A shortcut as the player reads it: « Ctrl + Maj + D » on Windows, « ⌃⇧D » on a Mac. `inDofight`: a shortcut
+ * inside Dofight (search, filter), where Cmd is recorded as Ctrl and both keys work: shown with ⌘, the Mac's own. */
+export function shortcutLabel(s: string, inDofight = false): string {
   if (!s) return t("key.none");
-  const mac = getPlatform() === "macos";
-  return s
-    .split("+")
-    // a Mac keyboard says Control and Option
-    .map((p) => (p === "Super" ? (mac ? "Cmd" : "Win") : p === "Ctrl" ? (mac ? "Control" : "Ctrl") : p === "Shift" ? t("key.shift") : p === "Alt" ? (mac ? "Option" : "Alt") : KEY_NAME(p)))
+  const parts = s.split("+");
+  if (getPlatform() === "macos") {
+    const held = new Set(parts.slice(0, -1).map((p) => (inDofight && p === "Ctrl" ? "Super" : p)));
+    return MAC_SIGNS.filter(([p]) => held.has(p)).map(([, sign]) => sign).join("") + KEY_NAME(parts[parts.length - 1]);
+  }
+  return parts
+    .map((p) => (p === "Super" ? "Win" : p === "Ctrl" ? "Ctrl" : p === "Shift" ? t("key.shift") : p === "Alt" ? "Alt" : KEY_NAME(p)))
     .join(" + ");
 }
