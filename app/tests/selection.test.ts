@@ -198,3 +198,8 @@ it("keeps a narrow sheet's ✕ and cuts its title instead", () => {
   expect(css).toMatch(/\.peek-bar \.bar-head\{[^}]*flex:1;min-width:0/);
   expect(css).toMatch(/\.peek-bar \.bar-head \.pname\{[^}]*text-overflow:ellipsis/);
 });
+
+it("centres the bar's title on its capitals, level with the grip and the ✕", () => {
+  const css = readFileSync("src/styles.css", "utf8");
+  expect(css).toContain(".peek-bar .bar-head>*{text-box:trim-both cap alphabetic}");
+});

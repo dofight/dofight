@@ -686,3 +686,8 @@ mark.hit{background:var(--gold-soft);color:inherit;border-radius:3px;box-shadow:
 #peek.folded .peek-bar{padding-top:0}
 /* the bar's grip and buttons keep their size: a narrow sheet cuts its title, never its ✕ (owner, 2026-11-27) */
 .peek-bar .grip,.peek-fold,.peek-close{flex:none}
+/* the title centred on its capitals, not on its line box with room for descenders: it sat 1 px under the grip and
+   the buttons (owner's screenshot, 2026-11-27: grip and ✕ centred on row 11, the capitals on row 12). An engine
+   without text-box keeps the old line box */
+.peek-bar .bar-head{align-items:center}
+.peek-bar .bar-head>*{text-box:trim-both cap alphabetic}
