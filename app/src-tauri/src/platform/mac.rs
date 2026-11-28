@@ -196,9 +196,16 @@ fn capture_rect(id: WindowId, size: Option<(f64, f64)>) -> Result<Frame, Capture
     let window_id = id as u32;
     // the scale of the display the game is on now (it may have been dragged to another one): the reading reads it
     // back through `capture_scale` for this frame
-    let scale = window_scale(frame, &displays(), capture_scale());
+    let screens = displays();
+    let scale = window_scale(frame, &screens, capture_scale());
     if CAPTURE_SCALE.swap(scale, std::sync::atomic::Ordering::Relaxed) != scale {
-        crate::diag::log("screen", &format!("captures at {scale} pixels per point (the game's display)"));
+        // the window and every display as macOS gives them (points, origin at the main display's top left): a game on
+        // a non-Retina second screen was never read, and nothing in the log said where it was (Discord, 2026-11-28)
+        let list: Vec<String> = screens.iter().map(|((x, y, w, h), s)| format!("{w}×{h} at ({x}, {y}) {s}×")).collect();
+        crate::diag::log(
+            "screen",
+            &format!("captures at {scale} pixels per point (the game's display); window {:?}, displays {}", frame, list.join(", ")),
+        );
     }
     let shot = Shot { window_id, inner_x, inner_y, w, h, scale };
     // the list of shareable windows from the last few seconds, when it still has the game's window: asking macOS

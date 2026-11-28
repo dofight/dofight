@@ -761,6 +761,8 @@ struct Reader {
     bar: Option<Bar>,
     /// What was last written to the diagnostic log about the window (errors, size), to log changes only.
     logged_state: String,
+    /// The last corner reading gave no line at all (blank_corner_note).
+    corner_blank: bool,
     stats: Stats,
 }
 
@@ -1059,6 +1061,7 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
             empty: Vec::new(),
             bar: None,
             logged_state: String::new(),
+            corner_blank: false,
             stats: Stats::default(),
         };
         let emit = |tick: Tick| {
@@ -1233,13 +1236,19 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
                     r.last_read = Some(Instant::now());
                     let started = Instant::now();
                     let tick = match read_corner_piece(engine, px, *w, *h) {
-                        Ok(lines) => Tick {
-                            front: true,
-                            lines,
-                            error: None,
-                            // a covered bar (the end-of-fight window, a menu) keeps the last state seen
-                            bar: Some(r.bar.unwrap_or(Bar::Unknown)),
-                        },
+                        Ok(lines) => {
+                            if let Some(say) = blank_corner_note(r.corner_blank, lines.len(), *w, *h, platform::capture_scale(), average_grey(px)) {
+                                diag::log("screen", &say);
+                            }
+                            r.corner_blank = lines.is_empty();
+                            Tick {
+                                front: true,
+                                lines,
+                                error: None,
+                                // a covered bar (the end-of-fight window, a menu) keeps the last state seen
+                                bar: Some(r.bar.unwrap_or(Bar::Unknown)),
+                            }
+                        }
                         Err(e) => {
                             diag::log("screen", &format!("OCR error: {e}"));
                             fail(&e)
@@ -1360,9 +1369,36 @@ fn run(app: AppHandle, reference: Reference, songe: Songe, in_fight: InFight, re
     }
 }
 
+/// The average grey of a BGRA image (0 black, 255 white), every 7th pixel: a capture that came back black reads 0.
+fn average_grey(px: &[u8]) -> u32 {
+    let samples: Vec<u32> = px.chunks_exact(4).step_by(7).map(|p| (p[0] as u32 + p[1] as u32 + p[2] as u32) / 3).collect();
+    if samples.is_empty() { 0 } else { samples.iter().sum::<u32>() / samples.len() as u32 }
+}
+
+/// What to write when the corner's reading turns empty or reads again, once each way (a player on a Mac with Dofus
+/// on a non-Retina second screen: the zone never changed and the log said nothing, the page logs a header only from
+/// lines read; Discord, 2026-11-28). None when nothing changed.
+fn blank_corner_note(was_blank: bool, lines: usize, w: u32, h: u32, scale: u32, grey: u32) -> Option<String> {
+    match (was_blank, lines == 0) {
+        (false, true) => Some(format!("the corner read nothing: {w}×{h} px at {scale} px a point, average grey {grey}")),
+        (true, false) => Some(format!("the corner reads again ({lines} lines)")),
+        _ => None,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn an_empty_corner_is_said_once_and_its_end_too() {
+        assert_eq!(blank_corner_note(false, 0, 600, 300, 1, 0).as_deref(), Some("the corner read nothing: 600×300 px at 1 px a point, average grey 0"));
+        assert_eq!(blank_corner_note(true, 0, 600, 300, 1, 0), None);
+        assert_eq!(blank_corner_note(true, 4, 600, 300, 1, 90).as_deref(), Some("the corner reads again (4 lines)"));
+        assert_eq!(blank_corner_note(false, 4, 600, 300, 1, 90), None);
+        assert_eq!(average_grey(&[0, 0, 0, 255].repeat(70)), 0);
+        assert_eq!(average_grey(&[255, 255, 255, 255].repeat(70)), 255);
+    }
 
     fn load(name: &str) -> (Vec<u8>, u32, u32) {
         let path = format!("{}/tests/fixtures/{name}", env!("CARGO_MANIFEST_DIR"));
