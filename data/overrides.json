@@ -1,4 +1,5 @@
 {
+  "_note": "Every correction Dofight makes to the game's data, each with why and when (owner, 2026-11-27: all in one place, so one can be removed by deleting its entry and rebuilding the snapshot, `python -m private.tools.client_snapshot`). `--overrides` lists them. Routes and positions the game does not give are not corrections: data/travel-overrides.json. Fights Dofight lists as dungeons: data/extra-dungeons.json.",
   "dungeons": {
     "47": {
       "addMonsters": [
@@ -24,5 +25,41 @@
       ],
       "why": "Centre du Labyrinthe du Minotoror: the labyrinth's monsters are met in the centre too (the DPLN summary and the Minotot summoned by the Minotoror); the client lists them under the Labyrinthe (dungeon 53) only (2026-11-19)"
     }
+  },
+  "subareas": {
+    "480": {
+      "zone": "Montagne basse des Craqueleurs",
+      "removeMonsters": [
+        232
+      ],
+      "why": "Meulou: the client lists the Tanière du Meulou's boss in Montagne basse des Craqueleurs too, both ways (the monster's sub-areas and the sub-area's monsters), the only dungeon boss in an open zone outside the « Invasion de l'Éveil » events; never met there (owner, 2026-11-27)"
+    }
+  },
+  "notZones": {
+    "750": "Arènes Goultard: a Poutch Ingball, no place to go (owner review, 2026-11-23)",
+    "1021": "a test map (owner review, 2026-11-23)"
+  },
+  "events": {
+    "families": [
+      "créatures de nowel",
+      "créatures de pwâk"
+    ],
+    "monsters": [
+      7859,
+      7886,
+      7887,
+      7888,
+      7889,
+      7890,
+      7891,
+      7892,
+      7893,
+      7894,
+      7895,
+      793,
+      794,
+      1232
+    ],
+    "why": "event creatures; the monsters (Leprechaun, Bouftou and Tofu d'Halouine, Ballotin le Bouftou) are filed under an ordinary family and met in ordinary zones (owner, 2026-11-09)"
   }
 }

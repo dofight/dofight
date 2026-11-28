@@ -15,3 +15,13 @@ def test_committed_snapshot_has_no_raw_ids_or_templates():
     texts = [e["text"] for e in effects] + [e["trigger"] for e in effects if "trigger" in e] + [c for s in spells for c in s["conditions"]]
     bad = [t for t in texts if re.search(r"^(Invoque : |État )\d+( \(\d+ tours?\))?$|^\d{3,} \(|Dommagess|[#{}|~]", t)]
     assert bad == []
+
+
+def test_the_committed_snapshot_has_the_corrections_applied():
+    # data/overrides.json: a monster removed from a sub-area is not listed there (the Meulou, owner 2026-11-27)
+    root = Path(__file__).resolve().parents[2]
+    overrides = json.loads((root / "data" / "overrides.json").read_text(encoding="utf-8"))
+    monsters = {m["id"]: m for m in json.loads((root / "data" / "snapshot" / "monsters.json").read_text(encoding="utf-8"))}
+    for entry in overrides.get("subareas", {}).values():
+        for mid in entry.get("removeMonsters", []):
+            assert entry["zone"] not in monsters[mid]["subareas"], (mid, entry["zone"])
