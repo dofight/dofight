@@ -380,9 +380,11 @@ describe("suggest button", () => {
     const buttons = room.querySelectorAll("button.suggest");
     expect(buttons).toHaveLength(1);
     expect(room.querySelector(".room")!.lastElementChild).toBe(buttons[0]);
-    // the pencil of the menu's « Envoyer une suggestion », and the same words
+    // the pencil of the menu's « Envoyer une suggestion »; one word, the sentence on hover (owner, 2026-11-28: it took
+    // two lines in a narrow panel)
     expect(buttons[0].querySelector("svg.ic-edit")).not.toBeNull();
-    expect(buttons[0].textContent).toContain("Envoyer une suggestion");
+    expect(buttons[0].textContent).toBe("Suggestion");
+    expect(plain(buttons[0].getAttribute("title"))).toBe("Une erreur, un oubli ? Envoyer une suggestion");
     // the settings' example has none
     expect(dom(renderRoom(null, [m], undefined, s, { ...ALL, suggest: false }, () => null, "Zone")).querySelector(".suggest")).toBeNull();
   });

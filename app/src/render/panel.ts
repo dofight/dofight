@@ -110,7 +110,9 @@ export function renderRoom(
   // the room's name, how to get there (`trip`, see travel.ts), summary, badges and guide link in one header card
   // (readable over any map)
   // one « Suggestion » button, at the very bottom of the results (the settings' example has none)
-  const suggest = show.suggest !== false ? `<button class="suggest" data-suggest-room>${navIcon("edit")}${esc(t("room.suggest"))}</button>` : "";
+  // one word, the whole sentence on hover: « Une erreur, un oubli ? Envoyer une suggestion » took two lines in a narrow
+  // panel (owner, 2026-11-28)
+  const suggest = show.suggest !== false ? `<button class="suggest" data-suggest-room title="${esc(t("room.suggest"))}">${navIcon("edit")}${esc(t("room.suggestShort"))}</button>` : "";
   const roomhead = placeless ? "" : `<div class="roomhead">${head}${acts}${strategy}${roomTags}${mechanics}${guide}</div>`;
   return `<div class="room">${top}${sep}${roomhead}${cards}${suggest}</div>`;
 }
