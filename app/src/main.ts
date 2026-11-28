@@ -1549,9 +1549,11 @@ const TOUR: { sel: string; key: Key }[] = [
   { sel: ".tour-songe", key: "guide.tour.songe" },
   { sel: ".roomhead .dj", key: "guide.tour.head" },
   { sel: ".roomhead .mech", key: "guide.tour.mech" },
-  { sel: '.mob.boss[data-open="true"] .tags', key: "guide.tour.badges" },
-  // the open card: its level, HP, AP, MP and resistances ringed together (owner, 2026-11-18), then its spells
+  // the open card from its top down, as it is drawn (owner, 2026-11-28): its level, HP, AP, MP and resistances ringed
+  // together (owner, 2026-11-18), the states it keeps the whole fight, its badges, then its spells, its passive first
   { sel: '.mob.boss[data-open="true"] .stats, .mob.boss[data-open="true"] .resrow', key: "guide.tour.stats" },
+  { sel: '.mob.boss[data-open="true"] .states', key: "guide.tour.states" },
+  { sel: '.mob.boss[data-open="true"] .tags', key: "guide.tour.badges" },
   { sel: '.mob.boss[data-open="true"] .spells', key: "guide.tour.spells" },
   { sel: '.mob[data-open="false"] .mh', key: "guide.tour.folded" },
   // the filter above the list (« Filtrer les résultats »)

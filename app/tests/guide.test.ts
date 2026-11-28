@@ -108,12 +108,15 @@ it("goes step by step: the setup in the game's corner, then the panel's tour, «
   expect(last().sel).toBe(".roomhead .mech");
   expect(last().html).toContain('class="mech"');
   expect(plain(document.getElementById("tour-text")!.textContent)).toBe(plain(last().text)); // the same text in the panel
+  // the open card from its top down, as it is drawn (owner, 2026-11-28): level, HP, AP, MP and resistances together,
+  // its states (none on the sample's boss: no step), its badges, then its spells
   click("tour-next");
-  click("tour-next");
-  expect(last().sel).toContain(".stats"); // the open card: level, HP, AP, MP and resistances together
+  expect(last().sel).toContain(".stats");
   expect(last().sel).toContain(".resrow");
   click("tour-next");
-  expect(last().sel).toContain(".spells"); // then its spells
+  expect(last().sel).toContain(".tags");
+  click("tour-next");
+  expect(last().sel).toContain(".spells");
   expect(document.getElementById("guide-skip")!.hidden).toBe(false);
   toLast();
   expect(count()).toBe("Étape 16 / 16");
