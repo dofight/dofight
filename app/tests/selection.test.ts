@@ -203,3 +203,17 @@ it("centres the bar's title on its capitals, level with the grip and the ✕", (
   const css = readFileSync("src/styles.css", "utf8");
   expect(css).toContain(".peek-bar .bar-head>*{text-box:trim-both cap alphabetic}");
 });
+
+// « Comment y aller : Antre du Korriandre » was cut once pinned: the grip and the ✕ took its room (owner,
+// 2026-11-27). The sheet asks for the width at which its title shows whole, whatever the width it was measured at.
+it("asks for the width at which a pinned sheet's title shows whole", async () => {
+  const { barWidthNeeded } = await import("../src/render/sheetBar");
+  // a 300 px sheet whose title has 220 px of room and needs 260: 340
+  expect(barWidthNeeded(300, 220, 260)).toBe(340);
+  // measured in a window still 420 wide (a spell's): the same 340, so the panel's 300 is widened all the same
+  expect(barWidthNeeded(420, 340, 260)).toBe(340);
+  // a short title: under the sheet's width, the panel keeps its own (it only widens)
+  expect(barWidthNeeded(300, 220, 120)).toBe(200);
+  const main = readFileSync("src/main.ts", "utf8");
+  expect(main).toContain("if (w > side.width) side = widened(side, pos.x, w, screen);");
+});

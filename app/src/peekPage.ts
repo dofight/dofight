@@ -3,7 +3,7 @@ import { emit, listen } from "@tauri-apps/api/event";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { setLang, t } from "./i18n";
 import { takeSelection } from "./selection";
-import { barHead, overlayScrollbar, sheetBar, sheetHeight, startsSheetDrag } from "./render/sheetBar";
+import { barHead, measureBarWidth, overlayScrollbar, sheetBar, sheetHeight, startsSheetDrag } from "./render/sheetBar";
 import { showToast } from "./render/toast";
 import { sheetCopied, sheetCopy } from "./render/accessSheet";
 import { KEY, loadSettings } from "./settings";
@@ -167,9 +167,14 @@ void listen<{ token: number; html: string; pinned?: boolean; width?: number; to:
   const card = box.firstElementChild as HTMLElement | null;
   // in this window's own pixels, whichever way the engine counts the text size's zoom
   const k = drawnScale(document);
+  // a pinned sheet is at least wide enough for its bar's title beside the grip and the ✕ (owner, 2026-11-27): laid
+  // out at that width before its height is measured, and the panel widens the window to it, never narrows it
+  const need = payload.pinned && card ? measureBarWidth(card) : 0;
+  if (card && need > card.getBoundingClientRect().width) box.style.width = `${need}px`;
+  const minWidth = need ? Math.ceil(need * k) : undefined;
   const height = (card ? sheetHeight(card) : box.getBoundingClientRect().height) * k;
   const width = payload.width ? Math.ceil(box.getBoundingClientRect().width * k) : undefined;
-  void emit("peek:size", { token: payload.token, height: Math.ceil(height), width, label });
+  void emit("peek:size", { token: payload.token, height: Math.ceil(height), width, minWidth, label });
 });
 
 // the panel (re)started: it learns which side windows the player has dragged away

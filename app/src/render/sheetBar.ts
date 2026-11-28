@@ -26,6 +26,26 @@ export function barHead(card: Element): string {
   return html;
 }
 
+/** The width at which a pinned sheet's bar shows its title whole, beside the grip and the ✕ (owner, 2026-11-27:
+ * « Comment y aller : Antre du Korriandre » was cut when pinned): the sheet's width now, plus what the title lacks
+ * (or minus what it has to spare). The title's room follows the sheet's width one for one, so this holds whatever
+ * the width it was measured at, a window still the size of a wider sheet too. */
+export function barWidthNeeded(sheetWidth: number, titleRoom: number, titleWidth: number): number {
+  return Math.ceil(sheetWidth + titleWidth - titleRoom);
+}
+
+/** barWidthNeeded, measured on a drawn sheet: its title's room in the bar and its whole width. */
+export function measureBarWidth(card: HTMLElement): number {
+  const head = card.querySelector<HTMLElement>(".peek-bar .bar-head");
+  if (!head) return 0;
+  const room = head.getBoundingClientRect().width;
+  const flex = head.style.flex;
+  head.style.flex = "none"; // its whole width, nothing cut
+  const whole = head.scrollWidth;
+  head.style.flex = flex;
+  return barWidthNeeded(card.getBoundingClientRect().width, room, whole);
+}
+
 /** True when a press on `target` may move the sheet: on its bar, not on its ✕. */
 export function startsSheetDrag(target: Element): boolean {
   return !!target.closest(".peek-bar") && !target.closest("button, a");

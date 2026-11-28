@@ -983,7 +983,7 @@ void listen<{ id?: number; spell?: number; mechanic?: string; top: number } | nu
 });
 
 // the preview window measured itself: size it and place it beside the panel, level with the hovered row
-void listen<{ token: number; height: number; width?: number; label: string }>("peek:size", async ({ payload }) => {
+void listen<{ token: number; height: number; width?: number; minWidth?: number; label: string }>("peek:size", async ({ payload }) => {
   const anchor = peekAnchor;
   if (payload.token !== peekToken || payload.label !== sideLabel || !anchor) return;
   const peek = await Window.getByLabel(sideLabel);
@@ -1009,6 +1009,12 @@ void listen<{ token: number; height: number; width?: number; label: string }>("p
   if (payload.width) {
     const w = Math.ceil(payload.width * scale);
     side = w > side.width ? widened(side, pos.x, w, screen) : narrowed(side, pos.x, w);
+  }
+  // a pinned sheet's bar shows its whole title beside the grip and the ✕: wider if it needs, never narrower
+  // (owner, 2026-11-27)
+  if (payload.minWidth) {
+    const w = Math.ceil(payload.minWidth * scale);
+    if (w > side.width) side = widened(side, pos.x, w, screen);
   }
   const height = sideHeight(payload.height, scale, screen.height);
   const top = pos.y + Math.round(anchor.top * drawnScale(document) * scale); // the row's top, in this window's pixels
