@@ -1,0 +1,3 @@
+# Line endings: LF in the repository, whatever writes the file (owner, 2026-11-28: files edited on Windows had been
+# committed with CRLF, every line of them shown as changed)
+* text=auto eol=lf
