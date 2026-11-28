@@ -103,7 +103,8 @@ export function renderMonster(
     parts.push(`<a class="guide" href="${esc(summary.guide)}" target="_blank" rel="noopener">${t("room.guide")}${navIcon("external")}</a>`);
   }
   const own = m.spellIds.map((id) => spells.get(id)).filter((s): s is Spell => !!s);
-  if (show.spells && own.length) {
+  const passive = passiveSpell(m, spells);
+  if (show.spells && (own.length || passive)) {
     // one row per spell, in reach.ts spellOrder's order (the damage, then the moves, then the rest, each the furthest
     // reaching first): its icon, its name, its badges (the damage elements first, SPELL_BADGES at most), its range in
     // a column of its own (owner, 2026-11-26). The ones that cannot touch you nor move anyone (a buff, a summon) come
@@ -132,13 +133,29 @@ export function renderMonster(
       const off = calm.includes(s) ? " off" : "";
       return `<button class="sp${off}" aria-pressed="false"${title(s)} aria-label="${esc(label(s))}" data-spell="${s.id}">${face(s)}<span class="spn">${esc(s.name)}</span>${badges(s)}${rng}</button>`;
     };
+    // what it does from the start of the fight, first (owner, 2026-11-27: the Ravalame's Fanatisme, hit by an enemy
+    // it takes 1 turn off Frappe Cardinale): « Passif » in the range's column, its sheet on hover like the others
+    const passiveRow = passive
+      ? `<button class="sp passive" aria-pressed="false"${show.hoverPeek ? "" : ` title="${esc(`${t("spells.passive")} · ${passive.name}`)}"`} aria-label="${esc(`${t("spells.passive")} · ${passive.name}`)}" data-spell="${passive.id}">${face(passive)}<span class="spn">${esc(passive.name)}</span>${badges(passive)}<span class="rng">${esc(t("spells.passive"))}</span><span class="mks"></span></button>`
+      : "";
     const rest = hits.slice(SPELL_ROWS);
     const folded = rest.length
       ? `<details class="spmore" data-monster="${m.id}"><summary>${esc(t(rest.length > 1 ? "spells.more" : "spells.moreOne", { count: rest.length }))}</summary><div class="spells">${rest.map(row).join("")}</div></details>`
       : "";
-    parts.push(`<div class="spells">${hits.slice(0, SPELL_ROWS).map(row).join("")}</div>${folded}`);
+    parts.push(`<div class="spells">${passiveRow}${hits.slice(0, SPELL_ROWS).map(row).join("")}</div>${folded}`);
   }
   return `<div class="${cls}" data-monster="${m.id}"${more} data-open="true">${parts.join("")}</div>`;
+}
+
+/** The spell a monster casts as the fight begins (Monster.startSpellId), when it says more than the states already on
+ * their line: Boostache's only puts Enraciné and Lourd, the Ravalame's Fanatisme reacts to every enemy hit. */
+export function passiveSpell(m: Monster, spells: Map<number, Spell>): Spell | null {
+  const sp = m.startSpellId === undefined ? undefined : spells.get(m.startSpellId);
+  if (!sp?.effects.length) return null;
+  const onLine = new Set((m.states ?? []).map((st) => st.name));
+  // « État Lourd », « Rooted state »: a state put on for good, already on the states line
+  const said = (text: string) => [...onLine].some((n) => text === `État ${n}` || text === `${n} state`);
+  return sp.effects.some((e) => e.trigger || e.then?.length || !said(e.text)) ? sp : null;
 }
 
 /** The preview shown beside the panel when a folded monster is hovered: its whole card, as it reads unfolded (its

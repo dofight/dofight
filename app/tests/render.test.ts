@@ -110,6 +110,28 @@ describe("renderMonster", () => {
     expect(dom(renderMonster(m, s.spells, { tags }, ALL, everyIcon, true, VOCAB)).querySelector(".states")).toBeNull();
   });
 
+  it("lists the spell it casts as the fight begins first, as « Passif », when it says more than its states", () => {
+    // the Ravalame's Fanatisme (owner, 2026-11-27: the player should understand it from the card)
+    const fanatisme = spell({ id: 15341, name: "Fanatisme", rangeMin: 0, rangeMax: 0, effects: [
+      { text: "Fanatisme", icon: 0, dispellable: false, target: "self", trigger: "Si dommages ennemis subis",
+        then: [{ text: "Frappe Cardinale : -1 de relance", icon: 0, dispellable: false, target: "all" }] }] });
+    s.spells.set(fanatisme.id, fanatisme);
+    const ravalame = monster({ id: 6021, name: "Ravalame", spellIds: [30921], startSpellId: 15341 });
+    const rows = [...dom(renderMonster(ravalame, s.spells, { tags }, ALL, everyIcon, true, VOCAB)).querySelectorAll(".spells .sp")];
+    expect(rows[0].getAttribute("data-spell")).toBe("15341");
+    expect(rows[0].classList.contains("passive")).toBe(true);
+    expect(rows[0].querySelector(".rng")?.textContent).toBe("Passif");
+    expect(rows.length).toBe(2);
+    // a start spell that only puts the states already on their line (Boostache's): no row
+    const nuit = spell({ id: 2443, name: "Une nuit en enfer", rangeMin: 0, rangeMax: 0, effects: [
+      { text: "État Enraciné", icon: 54, dispellable: false, target: "self" }, { text: "État Lourd", icon: 54, dispellable: false, target: "self" }] });
+    s.spells.set(nuit.id, nuit);
+    const boostache = monster({ id: 1, name: "Boostache", spellIds: [30921], startSpellId: 2443, states: [
+      { name: "Enraciné", text: "", icon: "stateRooted" }, { name: "Lourd", text: "", icon: "stateImmovable" }] });
+    const card = dom(renderMonster(boostache, s.spells, { tags }, ALL, everyIcon, true, VOCAB));
+    expect(card.querySelector(".sp.passive")).toBeNull();
+  });
+
   it("shows a folded monster's danger badges as icons on its line (at most 3, then a count)", () => {
     const vocab = { tags: { ...VOCAB.tags, big: { category: "danger" as const, label: "Gros dégâts", param: "optional" as const, icon: null },
       inv: { category: "danger" as const, label: "Invulnérable", param: "optional" as const, icon: null }, heal: { category: "danger" as const, label: "Soigne", param: "optional" as const, icon: null } } };
