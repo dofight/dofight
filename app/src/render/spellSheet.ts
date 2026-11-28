@@ -42,7 +42,11 @@ export function renderSpellSheet(sp: Spell, icon: IconUrl): string {
       const thumb = thumbs || (sub && e.zone) ? zoneThumb(e.zone, around || e.target === "self", radius) : "";
       const when = e.trigger ? `<b class="when">${esc(t("spell.trigger", { when: e.trigger }))}</b> ` : "";
       // its area only reaches what the caster sees (the Ravalame's Frappe Cardinale, over the whole map)
-      const sight = e.inSight ? ` <small class="insight" title="${esc(t("spell.inSightTip"))}">${navIcon("sight")}${esc(t("spell.inSight"))}</small>` : "";
+      const sight = e.inSight
+        ? ` <small class="insight" title="${esc(t("spell.inSightTip"))}">${navIcon("sight")}${esc(t("spell.inSight"))}</small>`
+        : e.outOfSight // its twin needs sight, this one does not (Frappe Cardinale's second branch)
+          ? ` <small class="insight out" title="${esc(t("spell.outOfSightTip"))}">${navIcon("noSight")}${esc(t("spell.outOfSight"))}</small>`
+          : "";
       return `<div class="eff${sub ? " sub" : ""}">${img(icon, `spell/effect/${e.icon}.webp`) || "<i></i>"}<span>${when}${esc(e.text)}${sight}</span>${disp}${who}${thumb}</div>`;
     })
     .join("");

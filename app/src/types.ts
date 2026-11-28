@@ -67,6 +67,8 @@ export interface SpellEffect {
   then?: SpellEffect[];
   /** Its area only reaches the targets the caster sees (the Ravalame's Frappe Cardinale, over the whole map). */
   inSight?: boolean;
+  /** The same line as an `inSight` one beside it, but needing no line of sight (Frappe Cardinale's second branch). */
+  outOfSight?: boolean;
 }
 
 export interface Spell {
