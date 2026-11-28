@@ -188,3 +188,13 @@ it("moves a sheet only from its bar, never from its text or its ✕", () => {
   expect(startsSheetDrag(box.querySelector(".peek-close")!)).toBe(false);
   expect(startsSheetDrag(box.querySelector(".detail")!)).toBe(false);
 });
+
+// a narrow detached spell sheet lost its ✕: the sheet's grid column grew to the title's whole width, the bar went
+// past the sheet's right edge (owner's screenshot, 2026-11-27). The title is the part that gives way.
+it("keeps a narrow sheet's ✕ and cuts its title instead", () => {
+  const css = readFileSync("src/styles.css", "utf8");
+  expect(css).toMatch(/\.pop\{[^}]*grid-template-columns:minmax\(0,1fr\)/);
+  expect(css).toContain(".peek-bar .grip,.peek-fold,.peek-close{flex:none}");
+  expect(css).toMatch(/\.peek-bar \.bar-head\{[^}]*flex:1;min-width:0/);
+  expect(css).toMatch(/\.peek-bar \.bar-head \.pname\{[^}]*text-overflow:ellipsis/);
+});

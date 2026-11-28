@@ -195,7 +195,7 @@ sup{font-size:.7em;line-height:0} /* « 1er », « 2e »: the suffix raised with
 .pshape{display:flex;gap:4px;flex-wrap:wrap}
 .shape{display:inline-flex;align-items:center;gap:4px;font-size:12px;border-radius:5px;padding:1px 7px;background:color-mix(in srgb,var(--line) 70%,transparent)}
 .shape.warn{background:var(--warn-bg);color:var(--warn-fg)}
-.pop{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:13px;display:grid;gap:4px;user-select:text}
+.pop{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:13px;display:grid;grid-template-columns:minmax(0,1fr);min-width:0;gap:4px;user-select:text} /* the sheet's width, not its widest line: a long name in the bar pushed the ✕ out of a narrow detached sheet (owner, 2026-11-27), as .mob did on 2026-11-26 */
 .pop .k{color:var(--muted)}
 .pname{font-size:14px;color:var(--yellow)}
 .pstats{display:flex;gap:12px;flex-wrap:wrap;font-weight:600;font-size:12.5px}
@@ -684,3 +684,5 @@ mark.hit{background:var(--gold-soft);color:inherit;border-radius:3px;box-shadow:
    left twice the room under it); peekPage.ts measures the window's height with these */
 #peek.folded>:not(.toast){padding-block:4px}
 #peek.folded .peek-bar{padding-top:0}
+/* the bar's grip and buttons keep their size: a narrow sheet cuts its title, never its ✕ (owner, 2026-11-27) */
+.peek-bar .grip,.peek-fold,.peek-close{flex:none}
